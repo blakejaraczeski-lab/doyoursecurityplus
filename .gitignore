@@ -1,0 +1,15 @@
+# CompTIA's objectives document and the text extracted from it.
+# Free to download, copyright CompTIA, "reproduction or dissemination
+# prohibited". Fine to keep locally as a study reference, not something to
+# push anywhere. The taxonomy built FROM it (content/objectives.json) is
+# committed; the source document is not.
+reference/
+
+# Study progress lives in ~/.doyoursecurityplus, deliberately outside the repo,
+# but never commit a stray export either.
+doyoursecurityplus-*.json
+
+.DS_Store
+__pycache__/
+*.pyc
+.gstack/

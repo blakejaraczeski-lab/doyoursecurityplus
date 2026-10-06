@@ -1,0 +1,97 @@
+{
+  "id": "pbq-acl-002",
+  "kind": "acl-table",
+  "objective": "4.5",
+  "topics": ["firewall-rules", "access-lists", "segmentation", "least-privilege", "compensating"],
+  "difficulty": 5,
+  "title": "Internal segmentation for a clinical network",
+  "targetSeconds": 660,
+  "scenario": "St Brendan's Hospital segments its internal network at a stateful firewall. The medical devices on MED-NET run an operating system the manufacturer will not patch, so network isolation is the compensating control protecting them. Build the rule set. Rules are evaluated top to bottom, first match wins, and anything not permitted is denied by the implicit deny.",
+  "requirements": [
+    "Clinical workstations on CLINICAL-NET must reach the records server EHR-SRV over HTTPS, and nothing else.",
+    "Medical devices on MED-NET must send readings to EHR-SRV on TCP 8443. They must not be able to reach the internet at all.",
+    "The vendor support subnet VENDOR-VPN may reach MED-NET over SSH for maintenance. It must not reach anything else.",
+    "The management workstation MGMT-WS, and no other host, may open RDP to EHR-SRV.",
+    "Workstation 10.2.7.7 is suspected of compromise and must be quarantined from everything, including the traffic its own subnet is otherwise permitted.",
+    "Finish with an explicit deny so the firewall can log what was dropped.",
+    "Apply least privilege. A rule that permits more than the requirement asks for will not receive credit even if the required traffic works."
+  ],
+  "config": {
+    "stateful": true,
+    "maxRules": 9,
+    "networkObjects": [
+      { "value": "any", "label": "ANY", "note": "0.0.0.0/0" },
+      { "value": "10.1.1.50", "label": "MGMT-WS", "note": "management workstation" },
+      { "value": "10.2.0.0/16", "label": "CLINICAL-NET", "note": "clinical workstations" },
+      { "value": "10.2.7.7", "label": "QUARANTINE-WS", "note": "suspected compromised workstation" },
+      { "value": "10.3.0.0/24", "label": "MED-NET", "note": "unpatchable medical devices" },
+      { "value": "10.4.0.10", "label": "EHR-SRV", "note": "records server" },
+      { "value": "172.16.9.0/24", "label": "VENDOR-VPN", "note": "vendor remote support pool" }
+    ],
+    "protocols": ["any", "tcp", "udp", "icmp"],
+    "portOptions": [
+      { "value": "any", "label": "ANY" },
+      { "value": "22", "label": "22 (SSH)" },
+      { "value": "80", "label": "80 (HTTP)" },
+      { "value": "443", "label": "443 (HTTPS)" },
+      { "value": "3389", "label": "3389 (RDP)" },
+      { "value": "8443", "label": "8443 (device telemetry)" }
+    ]
+  },
+  "solution": {
+    "reference": [
+      { "action": "deny", "protocol": "any", "src": "10.2.7.7", "srcPort": "any", "dst": "any", "dstPort": "any" },
+      { "action": "permit", "protocol": "tcp", "src": "10.2.0.0/16", "srcPort": "any", "dst": "10.4.0.10", "dstPort": "443" },
+      { "action": "permit", "protocol": "tcp", "src": "10.3.0.0/24", "srcPort": "any", "dst": "10.4.0.10", "dstPort": "8443" },
+      { "action": "permit", "protocol": "tcp", "src": "172.16.9.0/24", "srcPort": "any", "dst": "10.3.0.0/24", "dstPort": "22" },
+      { "action": "permit", "protocol": "tcp", "src": "10.1.1.50", "srcPort": "any", "dst": "10.4.0.10", "dstPort": "3389" },
+      { "action": "deny", "protocol": "any", "src": "any", "srcPort": "any", "dst": "any", "dstPort": "any" }
+    ],
+    "testCases": [
+      { "id": "t1", "label": "Clinical workstation opening a patient record",
+        "packet": { "protocol": "tcp", "src": "10.2.5.5", "srcPort": "51001", "dst": "10.4.0.10", "dstPort": "443" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t2", "label": "The quarantined workstation attempting the same permitted records traffic",
+        "packet": { "protocol": "tcp", "src": "10.2.7.7", "srcPort": "51002", "dst": "10.4.0.10", "dstPort": "443" },
+        "expect": "deny", "points": 4, "misconception": "acl-rule-order" },
+      { "id": "t3", "label": "Clinical workstation attempting the device telemetry port",
+        "packet": { "protocol": "tcp", "src": "10.2.5.5", "srcPort": "51003", "dst": "10.4.0.10", "dstPort": "8443" },
+        "expect": "deny", "points": 2, "misconception": "acl-overbroad-any" },
+      { "id": "t4", "label": "Medical device sending readings to the records server",
+        "packet": { "protocol": "tcp", "src": "10.3.0.15", "srcPort": "49200", "dst": "10.4.0.10", "dstPort": "8443" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t5", "label": "Medical device reaching out to the internet (the isolation the devices depend on)",
+        "packet": { "protocol": "tcp", "src": "10.3.0.15", "srcPort": "49201", "dst": "198.51.100.5", "dstPort": "443" },
+        "expect": "deny", "points": 3, "misconception": "compensating-vs-corrective" },
+      { "id": "t6", "label": "Vendor support engineer connecting to a medical device",
+        "packet": { "protocol": "tcp", "src": "172.16.9.10", "srcPort": "52001", "dst": "10.3.0.15", "dstPort": "22" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t7", "label": "Vendor support engineer attempting to reach the records server",
+        "packet": { "protocol": "tcp", "src": "172.16.9.10", "srcPort": "52002", "dst": "10.4.0.10", "dstPort": "443" },
+        "expect": "deny", "points": 3, "misconception": "acl-overbroad-any" },
+      { "id": "t8", "label": "Management workstation opening a remote desktop session",
+        "packet": { "protocol": "tcp", "src": "10.1.1.50", "srcPort": "53001", "dst": "10.4.0.10", "dstPort": "3389" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t9", "label": "Clinical workstation attempting SSH to a medical device",
+        "packet": { "protocol": "tcp", "src": "10.2.5.5", "srcPort": "51004", "dst": "10.3.0.15", "dstPort": "22" },
+        "expect": "deny", "points": 3, "misconception": "acl-overbroad-any" },
+      { "id": "t10", "label": "Another clinical workstation opening a record (the quarantine must not block the whole subnet)",
+        "packet": { "protocol": "tcp", "src": "10.2.9.9", "srcPort": "51005", "dst": "10.4.0.10", "dstPort": "443" },
+        "expect": "permit", "points": 3, "misconception": "acl-rule-order" }
+    ],
+    "checks": [
+      { "id": "c1", "type": "no-permit-any-any", "label": "No rule permits everything", "points": 3,
+        "misconception": "acl-implicit-deny" },
+      { "id": "c2", "type": "explicit-deny-last", "label": "List ends with an explicit deny so drops can be logged", "points": 2,
+        "misconception": "acl-implicit-deny" },
+      { "id": "c3", "type": "no-shadowed-rules", "label": "No rule is unreachable behind a broader rule above it", "points": 4,
+        "misconception": "acl-rule-order" },
+      { "id": "c4", "type": "source-not-broad", "label": "SSH to the medical devices is restricted to the vendor pool",
+        "match": { "dst": "10.3.0.0/24", "dstPort": "22" }, "allowedSources": ["172.16.9.0/24"], "points": 3,
+        "misconception": "acl-overbroad-any" },
+      { "id": "c5", "type": "source-not-broad", "label": "RDP to the records server is restricted to the management workstation",
+        "match": { "dst": "10.4.0.10", "dstPort": "3389" }, "allowedSources": ["10.1.1.50"], "points": 3,
+        "misconception": "acl-overbroad-any" }
+    ]
+  }
+}

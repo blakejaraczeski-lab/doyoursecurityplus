@@ -1,0 +1,121 @@
+[
+{"id":"g-016","type":"mcq","objective":"5.5","topics":["attestation","regulatory-examination","self-assessments"],"difficulty":2,
+ "stem":"A regulator conducts a mandatory review of a bank's security controls and issues formal findings. What is this?",
+ "options":[
+  {"id":"a","text":"A regulatory examination","correct":true,"why":"A review performed by the regulator itself, which the organisation cannot decline, is an examination."},
+  {"id":"b","text":"An independent third-party audit","misconception":"audit-vs-assessment","why":"A third-party audit is commissioned by the organisation from an audit firm. A regulator arrives on its own authority."},
+  {"id":"c","text":"An internal audit","misconception":"audit-vs-assessment","why":"Internal audit is staffed by the organisation and reports to its audit committee."},
+  {"id":"d","text":"An attestation","misconception":"audit-vs-assessment","why":"An attestation is a signed statement that something is true, not a review process."}]},
+
+{"id":"g-017","type":"mcq","objective":"5.5","topics":["unknown-environment","known-environment","partially-known-environment"],"difficulty":3,
+ "stem":"A penetration tester is engaged to simulate an external attacker and is given only the company name. Which type of engagement is this?",
+ "options":[
+  {"id":"a","text":"Unknown environment testing","correct":true,"why":"The tester receives no internal information and must discover everything, which is the modern term for a black box test."},
+  {"id":"b","text":"Partially known environment testing","misconception":"pentest-environments","why":"That would mean the tester is given some information, such as network ranges or a standard user account."},
+  {"id":"c","text":"Known environment testing","misconception":"pentest-environments","why":"Known environment testing supplies full information, including architecture diagrams, credentials and sometimes source code."},
+  {"id":"d","text":"Passive reconnaissance","misconception":"pentest-environments","why":"That describes a technique the tester will use, not how much they were told. The two are separate axes."}]},
+
+{"id":"g-018","type":"mcq","objective":"5.5","topics":["passive-reconnaissance","active-reconnaissance"],"difficulty":3,
+ "stem":"During the opening phase of an engagement the tester reviews WHOIS records, employee LinkedIn profiles and certificate transparency logs, without sending any traffic to the target. What is this?",
+ "options":[
+  {"id":"a","text":"Passive reconnaissance","correct":true,"why":"Information is gathered from third-party sources, so the target has no way to observe it."},
+  {"id":"b","text":"Active reconnaissance","misconception":"pentest-environments","why":"Active reconnaissance interacts with the target directly, such as port scanning or banner grabbing, and is visible in the target's logs."},
+  {"id":"c","text":"Unknown environment testing","misconception":"pentest-environments","why":"That describes how much the tester was told at the outset, not the technique being used now."},
+  {"id":"d","text":"A vulnerability scan","misconception":"pentest-environments","why":"A scan sends probes to the target, making it very much active."}]},
+
+{"id":"g-019","type":"mcq","objective":"5.3","topics":["right-to-audit-clause","independent-assessments","questionnaires"],"difficulty":4,
+ "stem":"Legal wants the ability to inspect a critical supplier's security controls directly, at a time of the company's own choosing, for the life of the contract. What must be negotiated?",
+ "options":[
+  {"id":"a","text":"A right-to-audit clause","correct":true,"why":"Only a contractual right to audit gives you inspection on your schedule and your scope. It has to be agreed before signing."},
+  {"id":"b","text":"A requirement for an annual SOC 2 report","misconception":"vendor-assessment-methods","why":"Strong independent assurance, and its scope and timing are chosen by the vendor, not by you."},
+  {"id":"c","text":"An annual security questionnaire","misconception":"vendor-assessment-methods","why":"A questionnaire is the vendor's own account of its controls. It is the weakest form of assurance available."},
+  {"id":"d","text":"A non-disclosure agreement covering the assessment","misconception":"agreement-types","why":"An NDA protects information exchanged. It grants no inspection right at all."}]},
+
+{"id":"g-020","type":"mcq","objective":"5.3","topics":["supply-chain-analysis","vendor-monitoring","suppliers"],"difficulty":3,
+ "stem":"A company's critical SaaS vendor depends on a single small provider for authentication. Which activity is designed to reveal this kind of exposure?",
+ "options":[
+  {"id":"a","text":"Supply chain analysis","correct":true,"why":"It looks past the direct vendor to the vendor's own suppliers, which is where fourth-party risk hides."},
+  {"id":"b","text":"A right-to-audit clause","misconception":"vendor-assessment-methods","why":"That gives you the right to inspect your vendor. It does not automatically extend down to their suppliers."},
+  {"id":"c","text":"A penetration test of the vendor","misconception":"vendor-assessment-methods","why":"A test probes the vendor's exposed systems. It does not map their commercial dependencies."},
+  {"id":"d","text":"A service level agreement with stronger penalties","misconception":"agreement-types","why":"Penalties compensate you after an outage. They do not reveal or reduce the dependency."}]},
+
+{"id":"g-021","type":"mcq","objective":"5.2","topics":["business-impact-analysis","recovery-time-objective-rto","risk-assessment"],"difficulty":3,
+ "stem":"An exercise works through each business process, asking what it costs per hour of downtime and how quickly it must be restored. Which exercise is this?",
+ "options":[
+  {"id":"a","text":"A business impact analysis","correct":true,"why":"A BIA starts from business processes, assumes disruption, and produces criticality rankings plus RTO and RPO."},
+  {"id":"b","text":"A risk assessment","misconception":"bia-vs-risk-assessment","why":"A risk assessment starts from threats and vulnerabilities and asks how likely they are. The BIA is deliberately indifferent to cause."},
+  {"id":"c","text":"A gap analysis","misconception":"bia-vs-risk-assessment","why":"A gap analysis compares the current state against a target such as a framework."},
+  {"id":"d","text":"A tabletop exercise","misconception":"tabletop-vs-simulation","why":"A tabletop tests whether a plan works by talking it through. It does not produce the underlying impact figures."}]},
+
+{"id":"g-022","type":"mcq","objective":"5.2","topics":["risk-identification","risk-assessment","business-impact-analysis"],"difficulty":3,
+ "stem":"Which output belongs to a risk assessment rather than a business impact analysis?",
+ "options":[
+  {"id":"a","text":"A register of threats with likelihood and impact ratings","correct":true,"why":"Identifying what could go wrong and how likely it is, is the risk assessment's job."},
+  {"id":"b","text":"Recovery time objectives for each business process","misconception":"bia-vs-risk-assessment","why":"RTO comes from the BIA, which measures the consequence of disruption regardless of what caused it."},
+  {"id":"c","text":"Maximum tolerable downtime per function","misconception":"bia-vs-risk-assessment","why":"Also a BIA output, derived from how long the business can survive without the function."},
+  {"id":"d","text":"A criticality ranking of business processes","misconception":"bia-vs-risk-assessment","why":"Ranking processes by criticality is the central deliverable of a BIA."}]},
+
+{"id":"g-023","type":"mcq","objective":"5.6","topics":["phishing-campaigns","recognizing-a-phishing-attempt","initial-reporting"],"difficulty":3,
+ "stem":"A phishing simulation shows a low click rate, but almost nobody reports the simulated messages. What should the security team conclude?",
+ "options":[
+  {"id":"a","text":"Reporting is the weak point, and the programme should make reporting easy and recognised","correct":true,"why":"Someone will eventually click. What determines the outcome is how quickly the security team hears about it, so report rate is the more useful measure."},
+  {"id":"b","text":"The programme is effective, since the click rate is what matters","misconception":"awareness-program-elements","why":"Click rate measures the attack's success. It says nothing about whether your organisation can detect and respond."},
+  {"id":"c","text":"The simulation was too easy and should be made harder before anything else","misconception":"awareness-program-elements","why":"Difficulty tuning is worth doing and does not address the finding, which is that nobody is reporting."},
+  {"id":"d","text":"Users who failed to report should be formally disciplined","misconception":"awareness-program-elements","why":"Punishment suppresses reporting. The reliable way to raise report rates is to make reporting frictionless and to recognise people who do it."}]},
+
+{"id":"g-024","type":"mcq","objective":"5.6","topics":["user-guidance-and-training","initial-reporting","recurring-reporting"],"difficulty":2,
+ "stem":"Which combination best describes an effective security awareness programme?",
+ "options":[
+  {"id":"a","text":"Initial training at onboarding plus recurring training with refreshed content, and targeted follow-up for users who need it","correct":true,"why":"New starters are trained immediately, everyone is trained repeatedly, the content changes so it is not ignored, and weak spots get specific attention."},
+  {"id":"b","text":"A single comprehensive session at onboarding","misconception":"awareness-program-elements","why":"Without recurring training, knowledge decays and new threats are never covered."},
+  {"id":"c","text":"An annual repeat of the same training deck for everyone","misconception":"awareness-program-elements","why":"Recurring is right and unchanged content trains people to click through without reading."},
+  {"id":"d","text":"Publishing the acceptable use policy on the intranet","misconception":"policy-standard-procedure-guideline","why":"Making a policy available is not training and does not change behaviour."}]},
+
+{"id":"g-025","type":"mcq","objective":"5.6","topics":["risky-behavior","unexpected-behavior","unintentional-behavior","insider-threat-awareness"],"difficulty":3,
+ "stem":"A user emails a customer spreadsheet to their personal address so they can finish work at the weekend. How is this behaviour best characterised?",
+ "options":[
+  {"id":"a","text":"Risky but unintentional, and best addressed with guidance and a sanctioned alternative","correct":true,"why":"There is no malicious intent. The user has a legitimate need and no approved way to meet it, so the fix is training plus a usable remote access route."},
+  {"id":"b","text":"A malicious insider threat requiring immediate termination","misconception":"awareness-program-elements","why":"Nothing indicates intent to harm. Treating well meant shortcuts as malice destroys the reporting culture you depend on."},
+  {"id":"c","text":"Acceptable, since the user is working in the company's interest","misconception":"awareness-program-elements","why":"Good intent does not make it acceptable. Customer data has left the organisation's control entirely."},
+  {"id":"d","text":"A technical control failure only, with no behavioural component","misconception":"awareness-program-elements","why":"DLP should have caught it, and the behaviour still needs addressing, or the user finds the next workaround."}]},
+
+{"id":"g-026","type":"mcq","objective":"1.3","topics":["backout-plan","maintenance-window","impact-analysis"],"difficulty":3,
+ "stem":"A firmware update was applied to the core switch. It failed, the switch would not boot, and the team had no way to return to the previous version. Which change management element was missing?",
+ "options":[
+  {"id":"a","text":"A backout plan","correct":true,"why":"A backout plan defines, in advance, exactly how to return to the previous known good state when a change fails."},
+  {"id":"b","text":"An impact analysis","misconception":"change-management-elements","why":"Impact analysis identifies what the change will affect. Here the effect was understood; the failure was the inability to undo it."},
+  {"id":"c","text":"A maintenance window","misconception":"change-management-elements","why":"A maintenance window governs when the change may be applied, not how to recover from it."},
+  {"id":"d","text":"An approval process","misconception":"change-management-elements","why":"Nothing suggests the change was unauthorised. Approval would not have made it reversible."}]},
+
+{"id":"g-027","type":"mcq","objective":"1.3","topics":["maintenance-window","approval-process","test-results"],"difficulty":3,
+ "stem":"An engineer applied an urgent patch to the payments platform at 11am on the busiest trading day of the quarter, causing a 20 minute outage. The patch itself worked correctly. Which element failed?",
+ "options":[
+  {"id":"a","text":"The maintenance window","correct":true,"why":"The change was technically sound and was applied at a time the business could not absorb the disruption."},
+  {"id":"b","text":"The backout plan","misconception":"change-management-elements","why":"There was nothing to back out. The patch succeeded; the timing was the failure."},
+  {"id":"c","text":"Testing","misconception":"change-management-elements","why":"The patch worked correctly, so testing is not implicated."},
+  {"id":"d","text":"Version control","misconception":"change-management-elements","why":"Version control tracks what changed. It does not govern when changes are applied."}]},
+
+{"id":"g-028","type":"mcq","objective":"5.4","topics":["fines","sanctions","reputational-damage","loss-of-license"],"difficulty":2,
+ "stem":"Which is a direct regulatory consequence of non-compliance, as opposed to an indirect business consequence?",
+ "options":[
+  {"id":"a","text":"Fines imposed by the regulator","correct":true,"why":"Fines and sanctions are levied directly by the regulator under its statutory powers."},
+  {"id":"b","text":"Customers leaving after press coverage","misconception":"due-diligence-vs-due-care","why":"Reputational damage is a real and serious consequence, and it arrives through the market rather than from the regulator."},
+  {"id":"c","text":"Higher insurance premiums at renewal","misconception":"due-diligence-vs-due-care","why":"A commercial consequence imposed by the insurer, not a regulatory one."},
+  {"id":"d","text":"Difficulty recruiting security staff","misconception":"due-diligence-vs-due-care","why":"An indirect effect on the business, several steps removed from the regulator."}]},
+
+{"id":"g-029","type":"mcq","objective":"5.4","topics":["right-to-be-forgotten","data-subject","data-inventory-and-retention"],"difficulty":3,
+ "stem":"A customer asks a company to erase all personal data it holds about them. Responding accurately requires which capability above all?",
+ "options":[
+  {"id":"a","text":"A current data inventory showing where personal data is held","correct":true,"why":"You cannot erase what you cannot locate. The inventory is what makes a right to be forgotten request answerable at all."},
+  {"id":"b","text":"Full disk encryption on all storage","misconception":"data-roles","why":"Encryption protects data from unauthorised access. It neither locates nor removes it."},
+  {"id":"c","text":"A signed NDA with every processor","misconception":"agreement-types","why":"An NDA governs confidentiality. It does not tell you where the data is."},
+  {"id":"d","text":"An annual independent audit","misconception":"audit-vs-assessment","why":"An audit provides assurance that controls operate. It is not an operational lookup capability."}]},
+
+{"id":"g-030","type":"mcq","objective":"5.1","topics":["centralized-decentralized-governance","boards","committees"],"difficulty":3,
+ "stem":"A multinational lets each regional business unit set its own security standards within a global policy framework. What is this governance structure?",
+ "options":[
+  {"id":"a","text":"Decentralised governance","correct":true,"why":"Decision making is distributed to the units, which gives local responsiveness at the cost of consistency."},
+  {"id":"b","text":"Centralised governance","misconception":"policy-standard-procedure-guideline","why":"Centralised means one authority sets standards for everyone, which is the opposite of what is described."},
+  {"id":"c","text":"A right-to-audit arrangement","misconception":"vendor-assessment-methods","why":"That is a contractual term with a third party, not an internal governance structure."},
+  {"id":"d","text":"Separation of duties","misconception":"least-privilege-vs-need-to-know","why":"Separation of duties splits a sensitive process between people. It is not a governance topology."}]}
+]

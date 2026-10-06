@@ -1,0 +1,396 @@
+{
+  "id": "pbq-diagram-001",
+  "kind": "network-diagram",
+  "objective": "4.8",
+  "topics": [
+    "worm",
+    "containment",
+    "segmentation",
+    "isolation",
+    "acquisition",
+    "eradication"
+  ],
+  "difficulty": 4,
+  "title": "Malware outbreak on the corporate LAN",
+  "targetSeconds": 540,
+  "scenario": "It is 09:14 on a Tuesday. The service desk has taken six calls about slow machines in the space of twenty minutes. Click each host to review the evidence collected from it, then answer the questions. Nothing has been contained yet.",
+  "config": {
+    "nodes": [
+      {
+        "id": "inet",
+        "label": "Internet",
+        "type": "cloud",
+        "zone": "external",
+        "x": 50,
+        "y": 6,
+        "selectable": false
+      },
+      {
+        "id": "fw",
+        "label": "FW-01",
+        "type": "firewall",
+        "ip": "10.20.0.1",
+        "zone": "perimeter",
+        "x": 50,
+        "y": 20,
+        "selectable": false
+      },
+      {
+        "id": "web",
+        "label": "WEB-SRV",
+        "type": "server",
+        "ip": "203.0.113.10",
+        "zone": "dmz",
+        "x": 84,
+        "y": 33
+      },
+      {
+        "id": "sw",
+        "label": "CORE-SW",
+        "type": "switch",
+        "ip": "10.20.0.2",
+        "zone": "internal",
+        "x": 50,
+        "y": 36,
+        "selectable": false
+      },
+      {
+        "id": "dc",
+        "label": "DC-01",
+        "type": "server",
+        "ip": "10.20.1.10",
+        "zone": "internal",
+        "x": 16,
+        "y": 52
+      },
+      {
+        "id": "file",
+        "label": "FILE-SRV",
+        "type": "server",
+        "ip": "10.20.1.20",
+        "zone": "internal",
+        "x": 38,
+        "y": 52
+      },
+      {
+        "id": "ws01",
+        "label": "WS-01",
+        "type": "workstation",
+        "ip": "10.20.4.11",
+        "zone": "internal",
+        "x": 12,
+        "y": 78
+      },
+      {
+        "id": "ws02",
+        "label": "WS-02",
+        "type": "workstation",
+        "ip": "10.20.4.12",
+        "zone": "internal",
+        "x": 31,
+        "y": 78
+      },
+      {
+        "id": "ws03",
+        "label": "WS-03",
+        "type": "workstation",
+        "ip": "10.20.4.13",
+        "zone": "internal",
+        "x": 50,
+        "y": 78
+      },
+      {
+        "id": "ws04",
+        "label": "WS-04",
+        "type": "workstation",
+        "ip": "10.20.4.14",
+        "zone": "internal",
+        "x": 69,
+        "y": 78
+      },
+      {
+        "id": "ws05",
+        "label": "WS-05",
+        "type": "workstation",
+        "ip": "10.20.4.15",
+        "zone": "internal",
+        "x": 88,
+        "y": 78
+      }
+    ],
+    "links": [
+      [
+        "inet",
+        "fw"
+      ],
+      [
+        "fw",
+        "web"
+      ],
+      [
+        "fw",
+        "sw"
+      ],
+      [
+        "sw",
+        "dc"
+      ],
+      [
+        "sw",
+        "file"
+      ],
+      [
+        "sw",
+        "ws01"
+      ],
+      [
+        "sw",
+        "ws02"
+      ],
+      [
+        "sw",
+        "ws03"
+      ],
+      [
+        "sw",
+        "ws04"
+      ],
+      [
+        "sw",
+        "ws05"
+      ]
+    ],
+    "evidence": {
+      "ws03": {
+        "summary": "Earliest activity of any host. Outbound SMB connection attempts to 240 internal addresses in 90 seconds.",
+        "lines": [
+          "08:51:02  EDR    process svchost32.exe created from C:\\Users\\Public\\svchost32.exe",
+          "08:51:03  EDR    svchost32.exe registered service 'WinHostSvc' (autostart)",
+          "08:51:04  NETFLOW 10.20.4.13 -> 10.20.4.0/24 tcp/445  240 distinct destinations in 90s",
+          "08:51:44  NETFLOW 10.20.4.13 -> 10.20.1.20 tcp/445  ACCEPT",
+          "08:52:10  AUTH   no interactive logon since 08:03 (user session idle)",
+          "09:02:55  EDR    svchost32.exe read lsass memory (credential access)"
+        ]
+      },
+      "ws04": {
+        "summary": "Inbound SMB from WS-03, then the same service appears here.",
+        "lines": [
+          "08:53:18  NETFLOW 10.20.4.13 -> 10.20.4.14 tcp/445  ACCEPT",
+          "08:53:21  EDR    file written C:\\Users\\Public\\svchost32.exe",
+          "08:53:22  EDR    service 'WinHostSvc' created (autostart)",
+          "08:53:40  NETFLOW 10.20.4.14 -> 10.20.4.0/24 tcp/445  198 distinct destinations"
+        ]
+      },
+      "ws05": {
+        "summary": "Same pattern as WS-04, six minutes later.",
+        "lines": [
+          "08:59:02  NETFLOW 10.20.4.14 -> 10.20.4.15 tcp/445  ACCEPT",
+          "08:59:05  EDR    file written C:\\Users\\Public\\svchost32.exe",
+          "08:59:06  EDR    service 'WinHostSvc' created (autostart)",
+          "08:59:31  NETFLOW 10.20.4.15 -> 10.20.4.0/24 tcp/445  210 distinct destinations"
+        ]
+      },
+      "ws01": {
+        "summary": "Attack attempt arrived and was blocked. No execution.",
+        "lines": [
+          "08:52:07  NETFLOW 10.20.4.13 -> 10.20.4.11 tcp/445  ACCEPT",
+          "08:52:08  EDR    write to C:\\Users\\Public\\svchost32.exe BLOCKED by policy 'PublicDirExec'",
+          "08:52:08  EDR    no process created, no service registered",
+          "09:10:00  EDR    full scan clean"
+        ]
+      },
+      "ws02": {
+        "summary": "Powered off since Friday. Nothing to see.",
+        "lines": [
+          "Last checked in: Friday 17:40",
+          "No network activity during the incident window"
+        ]
+      },
+      "file": {
+        "summary": "High CPU and slow response, which is what users are calling about. No malware artefacts.",
+        "lines": [
+          "08:51:44  NETFLOW inbound tcp/445 from 10.20.4.13  ACCEPT",
+          "08:53:50  NETFLOW inbound tcp/445 from 10.20.4.14  ACCEPT",
+          "09:05:00  PERF   CPU 96%, SMB session count 2,400 (normal is ~60)",
+          "09:05:00  EDR    no unexpected files, no new services, scan clean"
+        ]
+      },
+      "dc": {
+        "summary": "Elevated authentication volume. No malware artefacts yet.",
+        "lines": [
+          "09:03:10  AUTH   NTLM authentication attempts from 10.20.4.13 using 4 distinct accounts",
+          "09:03:12  AUTH   2 succeeded, including svc_backup",
+          "09:06:00  EDR    no unexpected files, no new services, scan clean"
+        ]
+      },
+      "web": {
+        "summary": "Public web server in the screened subnet. Unaffected.",
+        "lines": [
+          "No inbound connections from the internal network during the incident window",
+          "09:00:00  EDR    scan clean"
+        ]
+      }
+    },
+    "tasks": [
+      {
+        "id": "t-identify",
+        "type": "select-nodes",
+        "max": 5,
+        "prompt": "Select every host that is actually compromised. Do not select hosts that are only suffering a side effect of the outbreak."
+      },
+      {
+        "id": "t-first",
+        "type": "choice",
+        "prompt": "It is now 09:16 and the spread is ongoing. What is the single most appropriate action to take first?",
+        "options": [
+          {
+            "value": "patch",
+            "label": "Deploy the SMB patch to every workstation"
+          },
+          {
+            "value": "segment",
+            "label": "Isolate the affected VLAN at the switch to stop lateral movement"
+          },
+          {
+            "value": "scan",
+            "label": "Run a full antivirus scan on all affected hosts"
+          },
+          {
+            "value": "reimage",
+            "label": "Begin reimaging the affected workstations"
+          },
+          {
+            "value": "poweroff",
+            "label": "Power off every affected workstation"
+          }
+        ]
+      },
+      {
+        "id": "t-evidence",
+        "type": "choice",
+        "prompt": "WS-03 is the earliest affected host and legal has asked for a full investigation. How should it be handled?",
+        "options": [
+          {
+            "value": "poweroff",
+            "label": "Power it off immediately to guarantee it stops spreading"
+          },
+          {
+            "value": "isolate-capture",
+            "label": "Disconnect it from the network, leave it running, and capture memory before anything else"
+          },
+          {
+            "value": "disk-first",
+            "label": "Disconnect it, then take a full disk image before touching memory"
+          },
+          {
+            "value": "leave",
+            "label": "Leave it connected and monitor it to gather more evidence"
+          }
+        ]
+      },
+      {
+        "id": "t-classify",
+        "type": "choice",
+        "prompt": "Based on the evidence, how should this malware be classified?",
+        "options": [
+          {
+            "value": "virus",
+            "label": "Virus"
+          },
+          {
+            "value": "worm",
+            "label": "Worm"
+          },
+          {
+            "value": "trojan",
+            "label": "Trojan"
+          },
+          {
+            "value": "ransomware",
+            "label": "Ransomware"
+          },
+          {
+            "value": "logicbomb",
+            "label": "Logic bomb"
+          }
+        ]
+      },
+      {
+        "id": "t-remediate",
+        "type": "choice",
+        "prompt": "The malware read credentials from lsass memory on WS-03 and authenticated to DC-01 as svc_backup. What is required before any affected host returns to service?",
+        "options": [
+          {
+            "value": "clean",
+            "label": "Run the EDR removal tool and return the hosts to service"
+          },
+          {
+            "value": "reimage-only",
+            "label": "Reimage the affected hosts from a known good image"
+          },
+          {
+            "value": "reimage-creds",
+            "label": "Reimage the affected hosts, patch them, and reset the credentials that were exposed, including svc_backup"
+          },
+          {
+            "value": "restore",
+            "label": "Restore the hosts from last night's backup"
+          }
+        ]
+      }
+    ]
+  },
+  "solution": {
+    "t-identify": [
+      "ws03",
+      "ws04",
+      "ws05"
+    ],
+    "t-first": "segment",
+    "t-evidence": "isolate-capture",
+    "t-classify": "worm",
+    "t-remediate": "reimage-creds"
+  },
+  "subtasks": [
+    {
+      "id": "st-identify",
+      "task": "t-identify",
+      "label": "Identify the compromised hosts",
+      "points": 5,
+      "misconception": "compromised-vs-affected",
+      "correctNote": "WS-03, WS-04 and WS-05 each show the dropped file, the new autostart service, and outbound scanning. FILE-SRV and DC-01 are loaded and abused but show no artefacts, so they are victims of the traffic rather than compromised. WS-01 blocked the write and never executed anything. WS-02 was powered off."
+    },
+    {
+      "id": "st-first",
+      "task": "t-first",
+      "label": "First response action",
+      "points": 4,
+      "misconception": "segmentation-as-containment",
+      "correctNote": "The spread is active, so containment comes before everything else. Isolating the VLAN stops lateral movement immediately. Patching prevents the next outbreak but does nothing about hosts already infected, and scanning or reimaging while the worm is still spreading means reinfection."
+    },
+    {
+      "id": "st-evidence",
+      "task": "t-evidence",
+      "label": "Evidence handling on patient zero",
+      "points": 4,
+      "misconception": "isolate-vs-power-off",
+      "correctNote": "Disconnect rather than power off, because powering off destroys memory, running processes and network state. Then follow order of volatility: memory before disk."
+    },
+    {
+      "id": "st-classify",
+      "task": "t-classify",
+      "label": "Malware classification",
+      "points": 3,
+      "misconception": "worm-vs-virus",
+      "correctNote": "It spread host to host across the network with no user interaction and no host file. That is a worm. The idle user session on WS-03 rules out a user executing something."
+    },
+    {
+      "id": "st-remediate",
+      "task": "t-remediate",
+      "label": "Remediation",
+      "points": 4,
+      "misconception": "clean-vs-reimage",
+      "correctNote": "Credentials were harvested and used, so rebuilding the hosts is not enough on its own. Reimage, close the vulnerability that allowed the spread, and reset every credential that was exposed, or the attacker simply logs back in."
+    }
+  ]
+}

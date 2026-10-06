@@ -1,0 +1,161 @@
+[
+{"id":"c-021","type":"mcq","objective":"4.6","topics":["attribute-based-access-control-abac","role-based-access-control-rbac"],"difficulty":3,
+ "stem":"A policy states that contractors may open design documents only from a managed device, during business hours, and while inside the country. Which access control model is this?",
+ "options":[
+  {"id":"a","text":"Attribute-based access control","correct":true,"why":"The decision combines several attributes at once: employment type, device state, time and location. That combination is ABAC."},
+  {"id":"b","text":"Role-based access control","misconception":"access-control-models","why":"RBAC decides on job function alone. It cannot express device posture, time of day and location together."},
+  {"id":"c","text":"Mandatory access control","misconception":"access-control-models","why":"MAC decides by security labels and clearances assigned centrally, which is not what is described."},
+  {"id":"d","text":"Discretionary access control","misconception":"access-control-models","why":"DAC leaves the decision to the resource owner. Here a central policy decides."}]},
+
+{"id":"c-022","type":"mcq","objective":"4.6","topics":["discretionary-access-control-dac","mandatory-access-control-mac"],"difficulty":3,
+ "stem":"On a file server, the creator of a folder can grant other users access to it at their own discretion. Which model is in use?",
+ "options":[
+  {"id":"a","text":"Discretionary access control","correct":true,"why":"The owner of the resource decides who may access it. That discretion is the defining feature."},
+  {"id":"b","text":"Mandatory access control","misconception":"access-control-models","why":"Under MAC the system enforces labels and users cannot override them, which is the opposite of owner discretion."},
+  {"id":"c","text":"Role-based access control","misconception":"access-control-models","why":"RBAC assigns access by job function, administered centrally, not granted ad hoc by whoever made the folder."},
+  {"id":"d","text":"Rule-based access control","misconception":"access-control-models","why":"Rule-based applies global conditions to everyone, such as a time restriction, regardless of owner."}]},
+
+{"id":"c-023","type":"mcq","objective":"4.6","topics":["least-privilege","permission-assignments-and-implications"],"difficulty":3,
+ "stem":"An accounts payable clerk can both create a new supplier record and approve payments to it. Which principle is violated?",
+ "options":[
+  {"id":"a","text":"Separation of duties","correct":true,"why":"One person can complete an entire sensitive transaction alone, which is the fraud scenario separation of duties exists to prevent."},
+  {"id":"b","text":"Least privilege","misconception":"least-privilege-vs-need-to-know","why":"Least privilege is arguably implicated, and the precise principle is that a single process must be split between people."},
+  {"id":"c","text":"Need to know","misconception":"least-privilege-vs-need-to-know","why":"Need to know restricts which data you may see. The problem here is which actions one person may complete."},
+  {"id":"d","text":"Job rotation","misconception":"least-privilege-vs-need-to-know","why":"Job rotation limits how long one person holds a role. It does not address combining two duties today."}]},
+
+{"id":"c-024","type":"mcq","objective":"4.6","topics":["least-privilege","permission-assignments-and-implications"],"difficulty":3,
+ "stem":"An analyst is cleared to access case files but is found browsing cases unrelated to any assignment. Which principle should be enforced?",
+ "options":[
+  {"id":"a","text":"Need to know","correct":true,"why":"Clearance establishes that they may handle this class of data. Need to know restricts them to the specific records their work requires."},
+  {"id":"b","text":"Least privilege","misconception":"least-privilege-vs-need-to-know","why":"Least privilege concerns the permissions and actions granted. Here the permission level is correct and the data scope is not."},
+  {"id":"c","text":"Separation of duties","misconception":"least-privilege-vs-need-to-know","why":"No single process is being completed by one person. Nothing about duties is at issue."},
+  {"id":"d","text":"Mandatory vacation","misconception":"least-privilege-vs-need-to-know","why":"A detective control for long running fraud, unrelated to scoping data access."}]},
+
+{"id":"c-025","type":"mcq","objective":"5.2","topics":["single-loss-expectancy-sle","annualized-loss-expectancy-ale","annualized-rate-of-occurrence-aro","exposure-factor"],"difficulty":4,
+ "stem":"A data centre is valued at 2,000,000. A flood would destroy 25% of it, and floods are expected once every four years. What is the ALE?",
+ "options":[
+  {"id":"a","text":"125,000","correct":true,"why":"SLE is 2,000,000 times 0.25, which is 500,000. ARO for once in four years is 0.25. ALE is 500,000 times 0.25, which is 125,000."},
+  {"id":"b","text":"500,000","misconception":"sle-ale-aro","why":"That is the SLE, the cost of one event. ALE is the annualised figure, so it must be multiplied by the ARO."},
+  {"id":"c","text":"2,000,000","misconception":"sle-ale-aro","why":"That is the asset value. The exposure factor of 25% has not been applied."},
+  {"id":"d","text":"2,000,000","misconception":"sle-ale-aro","why":"Treating once in four years as an ARO of 4 rather than 0.25 inverts the rate and inflates the result enormously."}]},
+
+{"id":"c-026","type":"mcq","objective":"5.2","topics":["single-loss-expectancy-sle","annualized-loss-expectancy-ale","risk-management-strategies"],"difficulty":3,
+ "stem":"A control costing 40,000 per year would eliminate a risk with an ALE of 25,000. What does quantitative analysis suggest?",
+ "options":[
+  {"id":"a","text":"Do not buy the control; it costs more than the loss it prevents","correct":true,"why":"Spending 40,000 a year to avoid 25,000 a year of expected loss destroys value. The organisation would accept or otherwise treat the risk."},
+  {"id":"b","text":"Buy the control, because eliminating risk always justifies the cost","misconception":"sle-ale-aro","why":"Risk management is economic. A control that costs more than the exposure is not justified on those grounds."},
+  {"id":"c","text":"Buy the control, because the SLE will exceed 40,000","misconception":"sle-ale-aro","why":"The SLE is not given, and the annualised comparison is the relevant one for an annual cost."},
+  {"id":"d","text":"Recalculate, since ALE cannot be lower than the control cost","misconception":"sle-ale-aro","why":"There is no such constraint. ALE frequently comes out below the cost of eliminating it."}]},
+
+{"id":"c-027","type":"mcq","objective":"5.2","topics":["recovery-point-objective-rpo","recovery-time-objective-rto","business-impact-analysis"],"difficulty":3,
+ "stem":"A business impact analysis states that the order system may lose no more than 15 minutes of transactions. Which metric is this, and what does it drive?",
+ "options":[
+  {"id":"a","text":"RPO, which sets the backup or replication frequency","correct":true,"why":"RPO looks backwards from the outage and defines acceptable data loss, so backups must run at least that often."},
+  {"id":"b","text":"RTO, which sets how quickly service must be restored","misconception":"rto-vs-rpo","why":"RTO looks forwards and concerns downtime. This statement is about lost data, not elapsed time."},
+  {"id":"c","text":"MTTR, which measures average repair time","misconception":"rto-vs-rpo","why":"MTTR is an observed measurement of repairs, not a target set by the business."},
+  {"id":"d","text":"MTBF, which measures time between failures","misconception":"rto-vs-rpo","why":"MTBF describes reliability across an asset's life and says nothing about acceptable data loss."}]},
+
+{"id":"c-028","type":"mcq","objective":"5.2","topics":["mean-time-to-repair-mttr","mean-time-between-failures-mtbf","recovery-time-objective-rto"],"difficulty":3,
+ "stem":"Which pair correctly separates a target the business sets from a metric the organisation observes?",
+ "options":[
+  {"id":"a","text":"RTO is a target; MTTR is an observed measurement","correct":true,"why":"RTO is chosen by the business as the maximum tolerable downtime. MTTR is measured from actual repairs."},
+  {"id":"b","text":"MTTR is a target; RTO is an observed measurement","misconception":"rto-vs-rpo","why":"Reversed. You do not observe an RTO, you commit to it."},
+  {"id":"c","text":"RPO and RTO are both observed measurements","misconception":"rto-vs-rpo","why":"Both are targets set in the business impact analysis."},
+  {"id":"d","text":"MTBF is a target; RPO is an observed measurement","misconception":"rto-vs-rpo","why":"Both are reversed. MTBF is measured, RPO is set."}]},
+
+{"id":"c-029","type":"mcq","objective":"5.2","topics":["risk-appetite","risk-tolerance","risk-threshold"],"difficulty":2,
+ "stem":"A board resolution states the organisation will pursue aggressive growth into new markets and accepts elevated risk in doing so. Which term does this describe?",
+ "options":[
+  {"id":"a","text":"An expansionary risk appetite","correct":true,"why":"Risk appetite is the strategic level of risk an organisation is willing to take to pursue its objectives, and expansionary is one of the three named stances."},
+  {"id":"b","text":"A high risk tolerance","misconception":"risk-appetite-vs-tolerance","why":"Tolerance is the acceptable variation around the appetite, set by management per risk, not the board level strategic stance."},
+  {"id":"c","text":"A raised risk threshold","misconception":"risk-appetite-vs-tolerance","why":"A threshold is the specific trip wire recorded in the risk register that triggers action."},
+  {"id":"d","text":"Risk transference","misconception":"risk-appetite-vs-tolerance","why":"Transference is a treatment strategy, such as insurance. This statement sets a posture, not a treatment."}]},
+
+{"id":"c-030","type":"mcq","objective":"5.2","topics":["risk-register","key-risk-indicators","risk-threshold","risk-owners"],"difficulty":2,
+ "stem":"Where are individual risks, their owners, their current scores and the levels that trigger escalation recorded?",
+ "options":[
+  {"id":"a","text":"The risk register","correct":true,"why":"The register is the working record of identified risks, owners, key risk indicators and thresholds."},
+  {"id":"b","text":"The risk appetite statement","misconception":"risk-appetite-vs-tolerance","why":"The appetite statement sets the overall posture. It does not track individual risks."},
+  {"id":"c","text":"The business impact analysis","misconception":"rto-vs-rpo","why":"The BIA determines the impact of disruption to processes and produces RTO and RPO figures."},
+  {"id":"d","text":"The statement of applicability","misconception":"risk-appetite-vs-tolerance","why":"That documents which controls apply and why, not the risks themselves."}]},
+
+{"id":"c-031","type":"mcq","objective":"4.3","topics":["false-positive","false-negative","alert-tuning"],"difficulty":2,
+ "stem":"A vulnerability scanner reports a critical finding on a server. Investigation confirms the patch was applied two weeks ago and the vulnerability is not present. What is this?",
+ "options":[
+  {"id":"a","text":"A false positive","correct":true,"why":"The tool raised an alarm and there was nothing there. Positive means the tool reported something, false means it was wrong."},
+  {"id":"b","text":"A false negative","misconception":"false-positive-vs-negative","why":"A false negative is silence in the presence of a real problem. Here the tool spoke up."},
+  {"id":"c","text":"A true positive that needs revalidation","misconception":"false-positive-vs-negative","why":"A true positive is a real finding. This was confirmed not to be present."},
+  {"id":"d","text":"A true negative","misconception":"false-positive-vs-negative","why":"A true negative is correct silence. The scanner did not stay silent."}]},
+
+{"id":"c-032","type":"mcq","objective":"4.3","topics":["false-negative","false-positive","alert-tuning"],"difficulty":3,
+ "stem":"Which outcome is the most dangerous for a detection system, and why?",
+ "options":[
+  {"id":"a","text":"A false negative, because a real attack goes unreported","correct":true,"why":"Nobody is alerted and nobody investigates. The organisation believes it is safe while it is not."},
+  {"id":"b","text":"A false positive, because analysts waste time","misconception":"false-positive-vs-negative","why":"Costly and corrosive through alert fatigue, and still not the outcome that lets an attacker operate undetected."},
+  {"id":"c","text":"A true positive, because it means an attack succeeded","misconception":"false-positive-vs-negative","why":"A true positive means the system worked. Detection is not the same as compromise."},
+  {"id":"d","text":"A true negative, because nothing is logged","misconception":"false-positive-vs-negative","why":"A true negative is correct silence when there is genuinely nothing to report."}]},
+
+{"id":"c-033","type":"mcq","objective":"3.4","topics":["tabletop-exercises","fail-over","simulation"],"difficulty":3,
+ "stem":"A retailer must validate its disaster recovery plan before the holiday season without any impact on production. Which test is appropriate?",
+ "options":[
+  {"id":"a","text":"A tabletop exercise","correct":true,"why":"Participants talk through the plan in a room. It has no production impact, which the requirement demands."},
+  {"id":"b","text":"A full failover test to the recovery site","misconception":"tabletop-vs-simulation","why":"The most conclusive test and the most disruptive. The stem forbids production impact."},
+  {"id":"c","text":"A parallel processing test","misconception":"tabletop-vs-simulation","why":"Lower impact than failover and still brings up recovery systems alongside production, so it is not zero impact."},
+  {"id":"d","text":"A simulation with systems partially engaged","misconception":"tabletop-vs-simulation","why":"Simulations touch systems and carry some risk. Discussion only means tabletop."}]},
+
+{"id":"c-034","type":"mcq","objective":"3.4","topics":["fail-over","parallel-processing","tabletop-exercises"],"difficulty":3,
+ "stem":"Which test provides the strongest evidence that the recovery site can genuinely carry production load?",
+ "options":[
+  {"id":"a","text":"A full failover test with production cut over to the recovery site","correct":true,"why":"Only actually running production at the recovery site proves it can. Everything else is inference."},
+  {"id":"b","text":"A tabletop exercise attended by all system owners","misconception":"tabletop-vs-simulation","why":"Discussion validates the plan on paper and proves nothing about the systems."},
+  {"id":"c","text":"A walkthrough of the runbooks with the operations team","misconception":"tabletop-vs-simulation","why":"A walkthrough checks the procedure is complete and correct, not that the infrastructure works."},
+  {"id":"d","text":"Reviewing the recovery site's capacity documentation","misconception":"tabletop-vs-simulation","why":"Documentation review is the weakest form of assurance available."}]},
+
+{"id":"c-035","type":"mcq","objective":"2.2","topics":["vishing","phishing","smishing"],"difficulty":2,
+ "stem":"An employee receives a phone call from someone claiming to be from the IT service desk, asking them to read out the code that just arrived on their phone. What is this?",
+ "options":[
+  {"id":"a","text":"Vishing","correct":true,"why":"The channel is a voice call, which makes it vishing, and the goal is to defeat the second factor."},
+  {"id":"b","text":"Phishing","misconception":"phishing-variants","why":"Technically part of the phishing family, and the exam wants the channel specific term when the channel is stated."},
+  {"id":"c","text":"Smishing","misconception":"phishing-variants","why":"Smishing arrives by SMS. The code arrived by SMS, the attack arrived by phone call."},
+  {"id":"d","text":"Whaling","misconception":"phishing-variants","why":"Whaling targets an executive. Nothing indicates the employee is one."}]},
+
+{"id":"c-036","type":"mcq","objective":"2.2","topics":["business-email-compromise","impersonation","pretexting"],"difficulty":3,
+ "stem":"Finance receives an email from the CFO's genuine mailbox, in their usual style, asking for an urgent wire transfer to a new account. Mail authentication passes because the message really did come from that mailbox. What is this?",
+ "options":[
+  {"id":"a","text":"Business email compromise","correct":true,"why":"The attacker controls a real, legitimate mailbox, which is why SPF, DKIM and DMARC all pass and the message reads as authentic."},
+  {"id":"b","text":"Whaling","misconception":"phishing-variants","why":"Whaling targets an executive. Here the executive's account is the weapon, and finance staff are the target."},
+  {"id":"c","text":"Spoofing","misconception":"phishing-variants","why":"Nothing is spoofed. The message genuinely originates from the CFO's account, which is what makes it so effective."},
+  {"id":"d","text":"Smishing","misconception":"phishing-variants","why":"The channel is email, not SMS."}]},
+
+{"id":"c-037","type":"mcq","objective":"2.4","topics":["password-spraying","account-lockout","password-brute-force"],"difficulty":3,
+ "stem":"Authentication logs show a single failed sign-in against each of 340 different accounts over two hours, from one source. No accounts locked out. What is happening?",
+ "options":[
+  {"id":"a","text":"Password spraying","correct":true,"why":"One common password tried against many accounts, deliberately staying under the lockout threshold. Wide and shallow is the signature."},
+  {"id":"b","text":"Brute force","misconception":"spraying-vs-brute-force","why":"Brute force concentrates many attempts on one account, which produces a large failure count and a lockout."},
+  {"id":"c","text":"Credential stuffing","misconception":"spraying-vs-brute-force","why":"Stuffing uses leaked username and password pairs and typically produces a mix of successes and failures."},
+  {"id":"d","text":"A denial of service attempt against the directory","misconception":"spraying-vs-brute-force","why":"340 attempts over two hours is negligible load. The pattern is reconnaissance for valid credentials."}]},
+
+{"id":"c-038","type":"mcq","objective":"2.4","topics":["password-spraying","account-lockout","multifactor-authentication"],"difficulty":3,
+ "stem":"Why does an account lockout policy fail to stop password spraying?",
+ "options":[
+  {"id":"a","text":"The attack deliberately stays below the lockout threshold on every account","correct":true,"why":"Spraying exists precisely to evade lockout. One or two attempts per account never reaches the limit, so MFA and impossible travel detection are the real answers."},
+  {"id":"b","text":"Lockout policies only apply to administrative accounts","misconception":"spraying-vs-brute-force","why":"Lockout applies to whatever accounts it is configured for, typically all of them."},
+  {"id":"c","text":"Spraying uses valid credentials, so nothing fails","misconception":"spraying-vs-brute-force","why":"That describes credential stuffing with known-good pairs. Spraying is guessing, and most attempts fail."},
+  {"id":"d","text":"Lockout counters reset only at midnight","misconception":"spraying-vs-brute-force","why":"Reset windows vary and are not the reason. The attack simply never reaches the threshold."}]},
+
+{"id":"c-039","type":"mcq","objective":"2.3","topics":["sql-injection-sqli","input-validation"],"difficulty":3,
+ "stem":"A web application concatenates a user supplied search term directly into a database query. What is the most effective fix?",
+ "options":[
+  {"id":"a","text":"Use parameterised queries so input is never treated as code","correct":true,"why":"Parameterisation separates the query structure from the data, which removes the class of vulnerability rather than filtering symptoms."},
+  {"id":"b","text":"Apply input validation to reject suspicious characters","misconception":"sqli-vs-xss","why":"Worth doing as defence in depth, and filters are routinely bypassed. Parameterisation is the structural fix."},
+  {"id":"c","text":"HTML encode the search term before displaying it","misconception":"sqli-vs-xss","why":"Output encoding defends against cross site scripting. It does nothing about the query sent to the database."},
+  {"id":"d","text":"Set the HttpOnly flag on the session cookie","misconception":"sqli-vs-xss","why":"HttpOnly limits the damage of cross site scripting. It is unrelated to SQL injection."}]},
+
+{"id":"c-040","type":"mcq","objective":"2.3","topics":["cross-site-scripting-xss","input-validation","secure-cookies"],"difficulty":3,
+ "stem":"An attacker stores a script in a forum post. When other users view the thread, their session cookies are sent to the attacker's server. What is the attack, and who is the victim?",
+ "options":[
+  {"id":"a","text":"Stored cross site scripting; the victims are the other users viewing the page","correct":true,"why":"The payload executes in each visitor's browser under the site's origin, which is why it can read their session."},
+  {"id":"b","text":"SQL injection; the victim is the database","misconception":"sqli-vs-xss","why":"Nothing is being interpreted by the database. The payload runs in a browser."},
+  {"id":"c","text":"Cross site request forgery; the victim is the forum server","misconception":"sqli-vs-xss","why":"CSRF makes a victim's browser perform an action, it does not execute attacker script to steal cookies."},
+  {"id":"d","text":"Directory traversal; the victims are other users","misconception":"sqli-vs-xss","why":"Traversal reads files outside the intended path on the server. No script runs in anyone's browser."}]}
+]

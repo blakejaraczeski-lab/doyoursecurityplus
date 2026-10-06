@@ -1,0 +1,129 @@
+{
+  "id": "pbq-wireless-003",
+  "kind": "wireless-config",
+  "objective": "4.1",
+  "topics": ["wi-fi-protected-access-3", "authentication-protocols", "segmentation", "aaa-radius"],
+  "difficulty": 5,
+  "title": "Three wireless networks in a retail store",
+  "targetSeconds": 660,
+  "scenario": "Kilbride Retail is opening a store carrying three wireless networks from the same access points: point of sale terminals handling card data, staff devices, and customer guest access. Configure all three. Every setting is scored independently.",
+  "requirements": [
+    "POS: the terminals process cardholder data and must be segmented onto VLAN 110. Certificates have already been issued to every terminal, and authentication must be mutual, with both ends proving identity by certificate.",
+    "STAFF: staff authenticate with their existing domain credentials. Many staff devices are personally owned and no client certificates can be issued to them. Staff belong on VLAN 120.",
+    "GUEST: customers get internet access only. There is no per-customer identity and none can be created. Guests must not be able to reach one another, and they belong on VLAN 130.",
+    "Forged management frames must not be able to disconnect clients on any of these networks.",
+    "No setup shortcut may remain that would bypass the configured authentication.",
+    "The RADIUS server is at 10.70.0.20."
+  ],
+  "config": {
+    "deviceName": "KIL-STORE14-AP01",
+    "fields": [
+      { "id": "pos_security_mode", "label": "POS: security mode", "type": "select", "options": [
+        { "value": "open", "label": "Open (no security)" },
+        { "value": "wpa2-personal", "label": "WPA2-Personal (PSK)" },
+        { "value": "wpa3-personal", "label": "WPA3-Personal (SAE)" },
+        { "value": "wpa2-enterprise", "label": "WPA2-Enterprise (802.1X)" },
+        { "value": "wpa3-enterprise", "label": "WPA3-Enterprise (802.1X)" }
+      ]},
+      { "id": "pos_eap", "label": "POS: EAP method", "type": "select",
+        "dependsOn": { "field": "pos_security_mode", "in": ["wpa2-enterprise", "wpa3-enterprise"] },
+        "options": [
+          { "value": "eap-tls", "label": "EAP-TLS" },
+          { "value": "peap-mschapv2", "label": "PEAP-MSCHAPv2" },
+          { "value": "eap-ttls", "label": "EAP-TTLS" }
+        ]},
+      { "id": "pos_vlan", "label": "POS: VLAN ID", "type": "text", "placeholder": "e.g. 10" },
+      { "id": "staff_security_mode", "label": "STAFF: security mode", "type": "select", "options": [
+        { "value": "open", "label": "Open (no security)" },
+        { "value": "wpa2-personal", "label": "WPA2-Personal (PSK)" },
+        { "value": "wpa3-personal", "label": "WPA3-Personal (SAE)" },
+        { "value": "wpa2-enterprise", "label": "WPA2-Enterprise (802.1X)" },
+        { "value": "wpa3-enterprise", "label": "WPA3-Enterprise (802.1X)" }
+      ]},
+      { "id": "staff_eap", "label": "STAFF: EAP method", "type": "select",
+        "dependsOn": { "field": "staff_security_mode", "in": ["wpa2-enterprise", "wpa3-enterprise"] },
+        "options": [
+          { "value": "eap-tls", "label": "EAP-TLS" },
+          { "value": "peap-mschapv2", "label": "PEAP-MSCHAPv2" },
+          { "value": "eap-ttls", "label": "EAP-TTLS" }
+        ]},
+      { "id": "staff_vlan", "label": "STAFF: VLAN ID", "type": "text", "placeholder": "e.g. 10" },
+      { "id": "guest_security_mode", "label": "GUEST: security mode", "type": "select", "options": [
+        { "value": "open", "label": "Open (no security)" },
+        { "value": "wpa2-personal", "label": "WPA2-Personal (PSK)" },
+        { "value": "wpa3-personal", "label": "WPA3-Personal (SAE)" },
+        { "value": "wpa2-enterprise", "label": "WPA2-Enterprise (802.1X)" },
+        { "value": "wpa3-enterprise", "label": "WPA3-Enterprise (802.1X)" }
+      ]},
+      { "id": "guest_client_isolation", "label": "GUEST: client isolation", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled" }
+      ]},
+      { "id": "guest_vlan", "label": "GUEST: VLAN ID", "type": "text", "placeholder": "e.g. 10" },
+      { "id": "radius_server", "label": "RADIUS server address", "type": "text", "placeholder": "e.g. 10.0.0.1" },
+      { "id": "pmf", "label": "Protected Management Frames (802.11w)", "type": "select", "options": [
+        { "value": "disabled", "label": "Disabled" },
+        { "value": "optional", "label": "Optional" },
+        { "value": "required", "label": "Required" }
+      ]},
+      { "id": "wps", "label": "Wi-Fi Protected Setup (WPS)", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled" }
+      ]}
+    ]
+  },
+  "solution": {
+    "fields": {
+      "pos_security_mode": { "accept": ["wpa3-enterprise"] },
+      "pos_eap": { "accept": ["eap-tls"] },
+      "pos_vlan": { "accept": ["110"] },
+      "staff_security_mode": { "accept": ["wpa3-enterprise"] },
+      "staff_eap": { "accept": ["peap-mschapv2", "eap-ttls"] },
+      "staff_vlan": { "accept": ["120"] },
+      "guest_security_mode": { "accept": ["wpa3-personal"] },
+      "guest_client_isolation": { "accept": ["enabled"] },
+      "guest_vlan": { "accept": ["130"] },
+      "radius_server": { "accept": ["10.70.0.20"] },
+      "pmf": { "accept": ["required"] },
+      "wps": { "accept": ["disabled"] }
+    }
+  },
+  "subtasks": [
+    { "id": "st-pos-mode", "field": "pos_security_mode", "label": "POS security mode", "points": 3,
+      "misconception": "wpa3-sae-vs-enterprise",
+      "correctNote": "Cardholder terminals with issued certificates and a RADIUS server available means 802.1X, and there is no reason to choose WPA2 over WPA3." },
+    { "id": "st-pos-eap", "field": "pos_eap", "label": "POS EAP method", "points": 4,
+      "misconception": "eap-tls-vs-peap",
+      "correctNote": "Certificates are already on the terminals and the requirement says mutual certificate authentication. Only EAP-TLS puts a certificate on the client as well as the server." },
+    { "id": "st-pos-vlan", "field": "pos_vlan", "label": "POS VLAN", "points": 2,
+      "misconception": "guest-network-isolation",
+      "correctNote": "VLAN 110 as specified. Cardholder systems must be segmented from everything else, and the wireless settings alone do not do that." },
+    { "id": "st-staff-mode", "field": "staff_security_mode", "label": "STAFF security mode", "points": 2,
+      "misconception": "wpa3-sae-vs-enterprise",
+      "correctNote": "Staff authenticate as individuals against the directory, so it is Enterprise, not a shared passphrase." },
+    { "id": "st-staff-eap", "field": "staff_eap", "label": "STAFF EAP method", "points": 4,
+      "misconception": "eap-tls-vs-peap",
+      "correctNote": "No client certificates can be issued to personally owned devices, so EAP-TLS is undeployable here. PEAP or EAP-TTLS authenticates the server by certificate and the user by their existing password inside the tunnel. This is the same decision as the POS network with the opposite answer, because the constraint is different." },
+    { "id": "st-staff-vlan", "field": "staff_vlan", "label": "STAFF VLAN", "points": 2,
+      "misconception": "guest-network-isolation",
+      "correctNote": "VLAN 120 as specified." },
+    { "id": "st-guest-mode", "field": "guest_security_mode", "label": "GUEST security mode", "points": 3,
+      "misconception": "wpa3-sae-vs-enterprise",
+      "correctNote": "There is no per-customer identity and none can be created, so Enterprise is impossible. WPA3-Personal is the strongest mode available, and unlike an open network it still encrypts each customer's traffic." },
+    { "id": "st-guest-isolation", "field": "guest_client_isolation", "label": "GUEST client isolation", "points": 3,
+      "misconception": "guest-network-isolation",
+      "correctNote": "The VLAN keeps guests off the store networks. Only client isolation keeps guests away from each other, and the requirements ask for both." },
+    { "id": "st-guest-vlan", "field": "guest_vlan", "label": "GUEST VLAN", "points": 2,
+      "misconception": "guest-network-isolation",
+      "correctNote": "VLAN 130 as specified." },
+    { "id": "st-radius", "field": "radius_server", "label": "RADIUS server", "points": 1,
+      "misconception": null,
+      "correctNote": "10.70.0.20 as given. Both Enterprise networks are unusable without it." },
+    { "id": "st-pmf", "field": "pmf", "label": "Protected Management Frames", "points": 2,
+      "misconception": "pmf-and-deauth",
+      "correctNote": "Forged frames disconnecting clients is a deauthentication attack, and PMF set to required is what stops it. WPA3 mandates it in any case." },
+    { "id": "st-wps", "field": "wps", "label": "WPS", "points": 2,
+      "misconception": "wps-convenience-risk",
+      "correctNote": "WPS is the setup shortcut that bypasses everything configured above it. On a network carrying cardholder data this is not negotiable." }
+  ]
+}

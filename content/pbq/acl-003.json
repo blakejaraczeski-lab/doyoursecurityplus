@@ -1,0 +1,97 @@
+{
+  "id": "pbq-acl-003",
+  "kind": "acl-table",
+  "objective": "4.5",
+  "topics": ["firewall-rules", "ports-protocols", "dns-filtering", "least-privilege", "centralized-proxy"],
+  "difficulty": 4,
+  "title": "Egress filtering at the perimeter",
+  "targetSeconds": 600,
+  "scenario": "Most firewall rule sets control what comes in and permit almost anything outbound, which is how malware reaches its command and control server. You are tightening egress on the stateful perimeter firewall at Halbrook Financial. Build the outbound rule set. First match wins, and anything not permitted is denied.",
+  "requirements": [
+    "Only the internal resolver DNS-SRV may send DNS queries to the internet, and only to the approved public resolver at 9.9.9.9. No other host may send DNS out.",
+    "Only PROXY-01 may reach the internet on HTTP and HTTPS. Workstations must be forced through it.",
+    "UPDATE-SRV may reach the internet on HTTPS to fetch vendor patches.",
+    "No host may reach the internet on SMB or RDP under any circumstances.",
+    "Finish with an explicit deny so blocked egress is logged. Outbound denies are the alerts that catch a compromised host calling home.",
+    "Apply least privilege. A rule that permits more than the requirement asks for will not receive credit even if the required traffic works."
+  ],
+  "config": {
+    "stateful": true,
+    "maxRules": 8,
+    "networkObjects": [
+      { "value": "any", "label": "ANY", "note": "0.0.0.0/0, here meaning the internet" },
+      { "value": "10.30.0.0/16", "label": "CORP-NET", "note": "all internal hosts" },
+      { "value": "10.30.0.50", "label": "PROXY-01", "note": "web proxy" },
+      { "value": "10.30.0.53", "label": "DNS-SRV", "note": "internal resolver" },
+      { "value": "10.30.0.60", "label": "UPDATE-SRV", "note": "patch distribution server" },
+      { "value": "9.9.9.9", "label": "APPROVED-DNS", "note": "approved public resolver" }
+    ],
+    "protocols": ["any", "tcp", "udp", "icmp"],
+    "portOptions": [
+      { "value": "any", "label": "ANY" },
+      { "value": "53", "label": "53 (DNS)" },
+      { "value": "80", "label": "80 (HTTP)" },
+      { "value": "443", "label": "443 (HTTPS)" },
+      { "value": "445", "label": "445 (SMB)" },
+      { "value": "3389", "label": "3389 (RDP)" }
+    ]
+  },
+  "solution": {
+    "reference": [
+      { "action": "permit", "protocol": "udp", "src": "10.30.0.53", "srcPort": "any", "dst": "9.9.9.9", "dstPort": "53" },
+      { "action": "permit", "protocol": "tcp", "src": "10.30.0.50", "srcPort": "any", "dst": "any", "dstPort": "443" },
+      { "action": "permit", "protocol": "tcp", "src": "10.30.0.50", "srcPort": "any", "dst": "any", "dstPort": "80" },
+      { "action": "permit", "protocol": "tcp", "src": "10.30.0.60", "srcPort": "any", "dst": "any", "dstPort": "443" },
+      { "action": "deny", "protocol": "any", "src": "any", "srcPort": "any", "dst": "any", "dstPort": "any" }
+    ],
+    "testCases": [
+      { "id": "t1", "label": "Internal resolver querying the approved public resolver",
+        "packet": { "protocol": "udp", "src": "10.30.0.53", "srcPort": "41001", "dst": "9.9.9.9", "dstPort": "53" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t2", "label": "A workstation querying the approved resolver directly, bypassing the internal one",
+        "packet": { "protocol": "udp", "src": "10.30.4.4", "srcPort": "41002", "dst": "9.9.9.9", "dstPort": "53" },
+        "expect": "deny", "points": 3, "misconception": "acl-overbroad-any" },
+      { "id": "t3", "label": "Malware on a workstation using DNS to an attacker-controlled resolver for command and control",
+        "packet": { "protocol": "udp", "src": "10.30.4.4", "srcPort": "41003", "dst": "203.0.113.53", "dstPort": "53" },
+        "expect": "deny", "points": 3, "misconception": "acl-overbroad-any" },
+      { "id": "t4", "label": "The proxy fetching a page for a user over HTTPS",
+        "packet": { "protocol": "tcp", "src": "10.30.0.50", "srcPort": "52001", "dst": "198.51.100.20", "dstPort": "443" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t5", "label": "A workstation connecting straight out to a website, bypassing the proxy",
+        "packet": { "protocol": "tcp", "src": "10.30.4.4", "srcPort": "52002", "dst": "198.51.100.20", "dstPort": "443" },
+        "expect": "deny", "points": 3, "misconception": "acl-overbroad-any" },
+      { "id": "t6", "label": "A compromised host attempting outbound SMB to an external server",
+        "packet": { "protocol": "tcp", "src": "10.30.4.4", "srcPort": "52003", "dst": "203.0.113.9", "dstPort": "445" },
+        "expect": "deny", "points": 2, "misconception": "acl-implicit-deny" },
+      { "id": "t7", "label": "A compromised host attempting outbound RDP to an external server",
+        "packet": { "protocol": "tcp", "src": "10.30.4.4", "srcPort": "52004", "dst": "203.0.113.9", "dstPort": "3389" },
+        "expect": "deny", "points": 2, "misconception": "acl-implicit-deny" },
+      { "id": "t8", "label": "The patch server fetching vendor updates",
+        "packet": { "protocol": "tcp", "src": "10.30.0.60", "srcPort": "52005", "dst": "198.51.100.30", "dstPort": "443" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t9", "label": "The proxy fetching a page over plain HTTP",
+        "packet": { "protocol": "tcp", "src": "10.30.0.50", "srcPort": "52006", "dst": "198.51.100.20", "dstPort": "80" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t10", "label": "The internal resolver attempting HTTPS to the approved resolver's address",
+        "packet": { "protocol": "tcp", "src": "10.30.0.53", "srcPort": "52007", "dst": "9.9.9.9", "dstPort": "443" },
+        "expect": "deny", "points": 3, "misconception": "acl-overbroad-any" },
+      { "id": "t11", "label": "The patch server attempting plain HTTP",
+        "packet": { "protocol": "tcp", "src": "10.30.0.60", "srcPort": "52008", "dst": "198.51.100.30", "dstPort": "80" },
+        "expect": "deny", "points": 2, "misconception": "acl-overbroad-any" }
+    ],
+    "checks": [
+      { "id": "c1", "type": "no-permit-any-any", "label": "No rule permits everything outbound", "points": 3,
+        "misconception": "acl-implicit-deny" },
+      { "id": "c2", "type": "explicit-deny-last", "label": "List ends with an explicit deny so blocked egress is logged", "points": 3,
+        "misconception": "acl-implicit-deny" },
+      { "id": "c3", "type": "no-shadowed-rules", "label": "No rule is unreachable behind a broader rule above it", "points": 2,
+        "misconception": "acl-rule-order" },
+      { "id": "c4", "type": "source-not-broad", "label": "Outbound HTTPS is restricted to the proxy and the patch server",
+        "match": { "dst": "any", "dstPort": "443" }, "allowedSources": ["10.30.0.50", "10.30.0.60"], "points": 4,
+        "misconception": "acl-overbroad-any" },
+      { "id": "c5", "type": "source-not-broad", "label": "Outbound DNS is restricted to the internal resolver",
+        "match": { "dst": "9.9.9.9", "dstPort": "53" }, "allowedSources": ["10.30.0.53"], "points": 3,
+        "misconception": "acl-overbroad-any" }
+    ]
+  }
+}

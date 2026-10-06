@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>doyoursecurityplus self test</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { padding: 2rem; }
+  main { max-width: 900px; }
+  pre { font-family: var(--mono); font-size: .84rem; line-height: 1.5; white-space: pre-wrap; }
+  .ok { color: var(--good); } .fail { color: var(--bad); } .dim { color: var(--ink-faint); }
+</style>
+</head>
+<body>
+<main>
+<h1>Self test</h1>
+<p class="sub">Runs every PBQ's reference answer through the real graders, the same code path the app uses, and checks it scores full marks. A PBQ that fails here has requirements that cannot all be satisfied at once. Also exercises the misconception loop end to end.</p>
+<pre id="out">Running...</pre>
+</main>
+<script type="module">
+import { loadContent } from "./app/content.js";
+import { gradePbq } from "./app/grade/index.js";
+import * as mentor from "./app/mentor.js";
+import { buildQueue } from "./app/scheduler.js";
+import { DEFAULT_STATE } from "./app/state.js";
+
+const lines = [];
+let failures = 0;
+const say = (s, cls) => lines.push(cls ? `<span class="${cls}">${s}</span>` : s);
+const check = (cond, label, detail = "") => {
+  if (cond) say(`  ok   ${label}`, "ok");
+  else { failures++; say(`  FAIL ${label} ${detail}`, "fail"); }
+};
+
+/** Build the answer set that the content itself declares to be correct. */
+function referenceAnswers(p) {
+  if (p.kind === "acl-table") return { rules: p.solution.reference || [] };
+  if (p.kind === "wireless-config") {
+    const a = {};
+    for (const [k, v] of Object.entries(p.solution.fields || {})) {
+      if (v.accept) a[k] = v.accept[0];
+      else if (v.rule) {
+        const [kind, arg] = String(v.rule).split(":");
+        if (kind === "minLength") a[k] = "x".repeat(Number(arg));
+        if (kind === "equals") a[k] = arg;
+      }
+    }
+    return a;
+  }
+  return { ...p.solution };
+}
+
+const content = await loadContent();
+
+say(`<b>PBQ reference answers (${content.pbqs.length})</b>`);
+for (const p of content.pbqs) {
+  const g = gradePbq(p, referenceAnswers(p));
+  check(
+    g.percent === 100,
+    `${p.id.padEnd(18)} ${String(g.earned).padStart(3)}/${String(g.max).padEnd(3)} ${p.kind}`,
+    g.percent === 100 ? "" : `-> ${g.results.filter((r) => !r.pass).map((r) => r.label).join("; ")}`
+  );
+}
+
+say("");
+say("<b>Every PBQ subtask maps to a defined misconception</b>");
+for (const p of content.pbqs) {
+  const subs = [
+    ...(p.subtasks || []),
+    ...(p.solution.testCases || []),
+    ...(p.solution.checks || []),
+  ];
+  const bad = subs.filter((s) => s.misconception && !content.misconceptions[s.misconception]);
+  check(bad.length === 0, `${p.id.padEnd(18)} ${subs.length} scoreable units`,
+        bad.map((s) => s.misconception).join(", "));
+}
+
+say("");
+say("<b>Every misconception can actually be retired</b>");
+say(`  <span class="dim">needs at least retireAfter distinct items testing it</span>`);
+const unreachable = [];
+for (const [id, def] of Object.entries(content.misconceptions)) {
+  const { mcqs, pbqs } = mentor.itemsFor(id, content, { misconceptions: {} });
+  const n = mcqs.length + pbqs.length;
+  if (n < (def.retireAfter ?? 2)) unreachable.push(`${id} (${n})`);
+}
+check(unreachable.length === 0,
+      `${Object.keys(content.misconceptions).length} misconceptions reachable`,
+      unreachable.join(", "));
+
+say("");
+say("<b>The retargeting loop: a miss is re-served on a DIFFERENT item</b>");
+const state = structuredClone(DEFAULT_STATE);
+let retargeted = 0, sameItem = 0, noAlternative = 0;
+for (const [id] of Object.entries(content.misconceptions)) {
+  const { mcqs } = mentor.itemsFor(id, content, { misconceptions: {} });
+  if (!mcqs.length) continue;
+  const failedOn = mcqs[0].id;
+  mentor.bank(state, id, failedOn);
+  const later = Date.now() + 60 * 60 * 1000;
+  const q = buildQueue(state, content, { mode: "weak", size: 200, now: later })
+    .filter((e) => e.targetMisconception === id);
+  if (!q.length) continue;
+  const served = q[0].item?.id || q[0].pbq?.id;
+  if (!served) noAlternative++;
+  else if (served === failedOn) sameItem++;
+  else retargeted++;
+}
+check(sameItem === 0,
+      `${retargeted} misconceptions re-served on a different item, ${sameItem} repeated the failed item`);
+
+say("");
+say("<b>Retirement requires clean passes on DISTINCT items</b>");
+const s2 = structuredClone(DEFAULT_STATE);
+const probe = Object.keys(content.misconceptions).find((id) => {
+  const { mcqs } = mentor.itemsFor(id, content, { misconceptions: {} });
+  return mcqs.length >= 2;
+});
+const items = mentor.itemsFor(probe, content, { misconceptions: {} }).mcqs;
+mentor.bank(s2, probe, items[0].id);
+mentor.pass(s2, probe, items[1].id, content);
+const afterOne = s2.misconceptions[probe].retired;
+mentor.pass(s2, probe, items[1].id, content); // same item again, must not count
+const afterRepeat = s2.misconceptions[probe].retired;
+mentor.pass(s2, probe, items[0].id, content); // a genuinely different item
+const afterTwo = s2.misconceptions[probe].retired;
+check(!afterOne, `one clean pass does not retire "${probe}"`);
+check(!afterRepeat, `repeating the same item does not count toward retirement`);
+check(afterTwo, `two clean passes on distinct items retires it`);
+
+say("");
+say(failures === 0
+  ? `<b class="ok">All checks passed.</b>`
+  : `<b class="fail">${failures} check(s) failed.</b>`);
+
+document.getElementById("out").innerHTML = lines.join("\n");
+</script>
+</body>
+</html>

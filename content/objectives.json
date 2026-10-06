@@ -1,0 +1,3310 @@
+{
+  "$schema": "./schemas/objectives.schema.json",
+  "exam": {
+    "code": "SY0-701",
+    "name": "CompTIA Security+",
+    "objectivesVersion": "5.0",
+    "maxQuestions": 90,
+    "minutes": 90,
+    "scaleMin": 100,
+    "scaleMax": 900,
+    "passScaled": 750,
+    "pbqCountRange": [
+      1,
+      10
+    ],
+    "pbqCountTypical": [
+      4,
+      5
+    ],
+    "pbqPlacement": "front-loaded",
+    "questionTypes": [
+      "multiple-choice",
+      "performance-based"
+    ]
+  },
+  "source": "CompTIA Security+ SY0-701 Exam Objectives v5.0 (official, public PDF)",
+  "counts": {
+    "domains": 5,
+    "objectives": 28,
+    "topics": 683
+  },
+  "domains": [
+    {
+      "id": "1",
+      "title": "General Security Concepts",
+      "weight": 0.12,
+      "objectives": [
+        {
+          "id": "1.1",
+          "stem": "Compare and contrast",
+          "title": "various types of security controls",
+          "fullTitle": "Compare and contrast various types of security controls.",
+          "topics": [
+            {
+              "id": "technical-controls",
+              "label": "Technical controls"
+            },
+            {
+              "id": "managerial-controls",
+              "label": "Managerial controls"
+            },
+            {
+              "id": "operational-controls",
+              "label": "Operational controls"
+            },
+            {
+              "id": "physical-controls",
+              "label": "Physical controls"
+            },
+            {
+              "id": "preventive",
+              "label": "Preventive"
+            },
+            {
+              "id": "deterrent",
+              "label": "Deterrent"
+            },
+            {
+              "id": "detective",
+              "label": "Detective"
+            },
+            {
+              "id": "corrective",
+              "label": "Corrective"
+            },
+            {
+              "id": "compensating",
+              "label": "Compensating"
+            },
+            {
+              "id": "directive",
+              "label": "Directive"
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "stem": "Summarize",
+          "title": "fundamental security concepts",
+          "fullTitle": "Summarize fundamental security concepts.",
+          "topics": [
+            {
+              "id": "confidentiality",
+              "label": "Confidentiality"
+            },
+            {
+              "id": "integrity",
+              "label": "Integrity"
+            },
+            {
+              "id": "availability",
+              "label": "Availability"
+            },
+            {
+              "id": "non-repudiation",
+              "label": "Non-repudiation"
+            },
+            {
+              "id": "authentication-authorization-and-accounting",
+              "label": "Authentication, Authorization, and Accounting (AAA)",
+              "aliases": [
+                "authentication-authorization-and-accounting-aaa"
+              ]
+            },
+            {
+              "id": "authenticating-people",
+              "label": "Authenticating people"
+            },
+            {
+              "id": "authenticating-systems",
+              "label": "Authenticating systems"
+            },
+            {
+              "id": "authorization-models",
+              "label": "Authorization models"
+            },
+            {
+              "id": "gap-analysis",
+              "label": "Gap analysis"
+            },
+            {
+              "id": "zero-trust",
+              "label": "Zero Trust"
+            },
+            {
+              "id": "control-plane",
+              "label": "Control plane"
+            },
+            {
+              "id": "adaptive-identity",
+              "label": "Adaptive identity"
+            },
+            {
+              "id": "threat-scope-reduction",
+              "label": "Threat scope reduction"
+            },
+            {
+              "id": "policy-driven-access-control",
+              "label": "Policy-driven access control"
+            },
+            {
+              "id": "policy-administrator",
+              "label": "Policy Administrator"
+            },
+            {
+              "id": "policy-engine",
+              "label": "Policy Engine"
+            },
+            {
+              "id": "data-plane",
+              "label": "Data plane"
+            },
+            {
+              "id": "implicit-trust-zones",
+              "label": "Implicit trust zones"
+            },
+            {
+              "id": "subject-system",
+              "label": "Subject/System"
+            },
+            {
+              "id": "policy-enforcement-point",
+              "label": "Policy Enforcement Point"
+            },
+            {
+              "id": "bollards",
+              "label": "Bollards"
+            },
+            {
+              "id": "access-control-vestibule",
+              "label": "Access control vestibule"
+            },
+            {
+              "id": "fencing",
+              "label": "Fencing"
+            },
+            {
+              "id": "video-surveillance",
+              "label": "Video surveillance"
+            },
+            {
+              "id": "security-guard",
+              "label": "Security guard"
+            },
+            {
+              "id": "access-badge",
+              "label": "Access badge"
+            },
+            {
+              "id": "lighting",
+              "label": "Lighting"
+            },
+            {
+              "id": "infrared-sensor",
+              "label": "Infrared sensor"
+            },
+            {
+              "id": "pressure-sensor",
+              "label": "Pressure sensor"
+            },
+            {
+              "id": "microwave-sensor",
+              "label": "Microwave sensor"
+            },
+            {
+              "id": "ultrasonic-sensor",
+              "label": "Ultrasonic sensor"
+            },
+            {
+              "id": "honeypot",
+              "label": "Honeypot"
+            },
+            {
+              "id": "honeynet",
+              "label": "Honeynet"
+            },
+            {
+              "id": "honeyfile",
+              "label": "Honeyfile"
+            },
+            {
+              "id": "honeytoken",
+              "label": "Honeytoken"
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "stem": "Explain",
+          "title": "the importance of change management processes and the impact to security",
+          "fullTitle": "Explain the importance of change management processes and the impact to security.",
+          "topics": [
+            {
+              "id": "approval-process",
+              "label": "Approval process"
+            },
+            {
+              "id": "ownership",
+              "label": "Ownership"
+            },
+            {
+              "id": "stakeholders",
+              "label": "Stakeholders"
+            },
+            {
+              "id": "impact-analysis",
+              "label": "Impact analysis"
+            },
+            {
+              "id": "test-results",
+              "label": "Test results"
+            },
+            {
+              "id": "backout-plan",
+              "label": "Backout plan"
+            },
+            {
+              "id": "maintenance-window",
+              "label": "Maintenance window"
+            },
+            {
+              "id": "standard-operating-procedure",
+              "label": "Standard operating procedure"
+            },
+            {
+              "id": "allow-lists-deny-lists",
+              "label": "Allow lists/deny lists"
+            },
+            {
+              "id": "restricted-activities",
+              "label": "Restricted activities"
+            },
+            {
+              "id": "downtime",
+              "label": "Downtime"
+            },
+            {
+              "id": "service-restart",
+              "label": "Service restart"
+            },
+            {
+              "id": "application-restart",
+              "label": "Application restart"
+            },
+            {
+              "id": "legacy-applications",
+              "label": "Legacy applications"
+            },
+            {
+              "id": "dependencies",
+              "label": "Dependencies"
+            },
+            {
+              "id": "updating-diagrams",
+              "label": "Updating diagrams"
+            },
+            {
+              "id": "updating-policies-procedures",
+              "label": "Updating policies/procedures"
+            },
+            {
+              "id": "version-control",
+              "label": "Version control"
+            }
+          ]
+        },
+        {
+          "id": "1.4",
+          "stem": "Explain",
+          "title": "the importance of using appropriate cryptographic solutions",
+          "fullTitle": "Explain the importance of using appropriate cryptographic solutions.",
+          "topics": [
+            {
+              "id": "public-key-infrastructure",
+              "label": "Public key infrastructure (PKI)",
+              "aliases": [
+                "public-key-infrastructure-pki"
+              ]
+            },
+            {
+              "id": "public-key",
+              "label": "Public key"
+            },
+            {
+              "id": "private-key",
+              "label": "Private key"
+            },
+            {
+              "id": "key-escrow",
+              "label": "Key escrow"
+            },
+            {
+              "id": "full-disk-encryption",
+              "label": "Full-disk encryption"
+            },
+            {
+              "id": "partition-encryption",
+              "label": "Partition encryption"
+            },
+            {
+              "id": "file-encryption",
+              "label": "File encryption"
+            },
+            {
+              "id": "volume-encryption",
+              "label": "Volume encryption"
+            },
+            {
+              "id": "database-encryption",
+              "label": "Database encryption"
+            },
+            {
+              "id": "record-encryption",
+              "label": "Record encryption"
+            },
+            {
+              "id": "transport-communication-encryption",
+              "label": "Transport/communication encryption"
+            },
+            {
+              "id": "asymmetric-encryption",
+              "label": "Asymmetric encryption"
+            },
+            {
+              "id": "symmetric-encryption",
+              "label": "Symmetric encryption"
+            },
+            {
+              "id": "key-exchange",
+              "label": "Key exchange"
+            },
+            {
+              "id": "algorithms",
+              "label": "Algorithms"
+            },
+            {
+              "id": "key-length",
+              "label": "Key length"
+            },
+            {
+              "id": "trusted-platform-module",
+              "label": "Trusted Platform Module (TPM)",
+              "aliases": [
+                "trusted-platform-module-tpm"
+              ]
+            },
+            {
+              "id": "hardware-security-module",
+              "label": "Hardware security module (HSM)",
+              "aliases": [
+                "hardware-security-module-hsm"
+              ]
+            },
+            {
+              "id": "key-management-system",
+              "label": "Key management system"
+            },
+            {
+              "id": "secure-enclave",
+              "label": "Secure enclave"
+            },
+            {
+              "id": "steganography",
+              "label": "Steganography"
+            },
+            {
+              "id": "tokenization",
+              "label": "Tokenization"
+            },
+            {
+              "id": "data-masking",
+              "label": "Data masking"
+            },
+            {
+              "id": "hashing",
+              "label": "Hashing"
+            },
+            {
+              "id": "salting",
+              "label": "Salting"
+            },
+            {
+              "id": "digital-signatures",
+              "label": "Digital signatures"
+            },
+            {
+              "id": "key-stretching",
+              "label": "Key stretching"
+            },
+            {
+              "id": "blockchain",
+              "label": "Blockchain"
+            },
+            {
+              "id": "open-public-ledger",
+              "label": "Open public ledger"
+            },
+            {
+              "id": "certificate-authorities",
+              "label": "Certificate authorities"
+            },
+            {
+              "id": "certificate-revocation-lists",
+              "label": "Certificate revocation lists (CRLs)",
+              "aliases": [
+                "certificate-revocation-lists-crls"
+              ]
+            },
+            {
+              "id": "online-certificate-status-protocol",
+              "label": "Online Certificate Status Protocol (OCSP)",
+              "aliases": [
+                "online-certificate-status-protocol-ocsp"
+              ]
+            },
+            {
+              "id": "self-signed-certificates",
+              "label": "Self-signed certificates"
+            },
+            {
+              "id": "third-party-certificates",
+              "label": "Third-party certificates"
+            },
+            {
+              "id": "root-of-trust",
+              "label": "Root of trust"
+            },
+            {
+              "id": "certificate-signing-request-generation",
+              "label": "Certificate signing request (CSR) generation",
+              "aliases": [
+                "certificate-signing-request-csr-generation"
+              ]
+            },
+            {
+              "id": "wildcard-certificates",
+              "label": "Wildcard certificates"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Threats, Vulnerabilities, and Mitigations",
+      "weight": 0.22,
+      "objectives": [
+        {
+          "id": "2.1",
+          "stem": "Compare and contrast",
+          "title": "common threat actors and motivations",
+          "fullTitle": "Compare and contrast common threat actors and motivations.",
+          "topics": [
+            {
+              "id": "nation-state",
+              "label": "Nation-state"
+            },
+            {
+              "id": "unskilled-attacker",
+              "label": "Unskilled attacker"
+            },
+            {
+              "id": "hacktivist",
+              "label": "Hacktivist"
+            },
+            {
+              "id": "insider-threat",
+              "label": "Insider threat"
+            },
+            {
+              "id": "organized-crime",
+              "label": "Organized crime"
+            },
+            {
+              "id": "shadow-it",
+              "label": "Shadow IT"
+            },
+            {
+              "id": "internal-external",
+              "label": "Internal/external"
+            },
+            {
+              "id": "resources-funding",
+              "label": "Resources/funding"
+            },
+            {
+              "id": "level-of-sophistication-capability",
+              "label": "Level of sophistication/capability"
+            },
+            {
+              "id": "data-exfiltration",
+              "label": "Data exfiltration"
+            },
+            {
+              "id": "espionage",
+              "label": "Espionage"
+            },
+            {
+              "id": "service-disruption",
+              "label": "Service disruption"
+            },
+            {
+              "id": "blackmail",
+              "label": "Blackmail"
+            },
+            {
+              "id": "financial-gain",
+              "label": "Financial gain"
+            },
+            {
+              "id": "philosophical-political-beliefs",
+              "label": "Philosophical/political beliefs"
+            },
+            {
+              "id": "ethical",
+              "label": "Ethical"
+            },
+            {
+              "id": "revenge",
+              "label": "Revenge"
+            },
+            {
+              "id": "disruption-chaos",
+              "label": "Disruption/chaos"
+            },
+            {
+              "id": "war",
+              "label": "War"
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "stem": "Explain",
+          "title": "common threat vectors and attack surfaces",
+          "fullTitle": "Explain common threat vectors and attack surfaces.",
+          "topics": [
+            {
+              "id": "email",
+              "label": "Email"
+            },
+            {
+              "id": "short-message-service",
+              "label": "Short Message Service (SMS)",
+              "aliases": [
+                "short-message-service-sms"
+              ]
+            },
+            {
+              "id": "instant-messaging",
+              "label": "Instant messaging (IM)",
+              "aliases": [
+                "instant-messaging-im"
+              ]
+            },
+            {
+              "id": "image-based",
+              "label": "Image-based"
+            },
+            {
+              "id": "file-based",
+              "label": "File-based"
+            },
+            {
+              "id": "voice-call",
+              "label": "Voice call"
+            },
+            {
+              "id": "removable-device",
+              "label": "Removable device"
+            },
+            {
+              "id": "vulnerable-software",
+              "label": "Vulnerable software"
+            },
+            {
+              "id": "client-based-vs-agentless",
+              "label": "Client-based vs. agentless"
+            },
+            {
+              "id": "unsupported-systems-and-applications",
+              "label": "Unsupported systems and applications"
+            },
+            {
+              "id": "unsecure-wireless-networks",
+              "label": "Unsecure wireless networks"
+            },
+            {
+              "id": "unsecure-wired-networks",
+              "label": "Unsecure wired networks"
+            },
+            {
+              "id": "bluetooth",
+              "label": "Bluetooth"
+            },
+            {
+              "id": "open-service-ports",
+              "label": "Open service ports"
+            },
+            {
+              "id": "default-credentials",
+              "label": "Default credentials"
+            },
+            {
+              "id": "managed-service-providers",
+              "label": "Managed service providers (MSPs)",
+              "aliases": [
+                "managed-service-providers-msps"
+              ]
+            },
+            {
+              "id": "vendors",
+              "label": "Vendors"
+            },
+            {
+              "id": "suppliers",
+              "label": "Suppliers"
+            },
+            {
+              "id": "phishing",
+              "label": "Phishing"
+            },
+            {
+              "id": "vishing",
+              "label": "Vishing"
+            },
+            {
+              "id": "smishing",
+              "label": "Smishing"
+            },
+            {
+              "id": "misinformation-disinformation",
+              "label": "Misinformation/disinformation"
+            },
+            {
+              "id": "impersonation",
+              "label": "Impersonation"
+            },
+            {
+              "id": "business-email-compromise",
+              "label": "Business email compromise"
+            },
+            {
+              "id": "pretexting",
+              "label": "Pretexting"
+            },
+            {
+              "id": "watering-hole",
+              "label": "Watering hole"
+            },
+            {
+              "id": "brand-impersonation",
+              "label": "Brand impersonation"
+            },
+            {
+              "id": "typosquatting",
+              "label": "Typosquatting"
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "stem": "Explain",
+          "title": "various types of vulnerabilities",
+          "fullTitle": "Explain various types of vulnerabilities.",
+          "topics": [
+            {
+              "id": "memory-injection",
+              "label": "Memory injection"
+            },
+            {
+              "id": "buffer-overflow",
+              "label": "Buffer overflow"
+            },
+            {
+              "id": "race-conditions",
+              "label": "Race conditions"
+            },
+            {
+              "id": "time-of-check",
+              "label": "Time-of-check (TOC)",
+              "aliases": [
+                "time-of-check-toc"
+              ]
+            },
+            {
+              "id": "time-of-use",
+              "label": "Time-of-use (TOU)",
+              "aliases": [
+                "time-of-use-tou"
+              ]
+            },
+            {
+              "id": "malicious-update",
+              "label": "Malicious update"
+            },
+            {
+              "id": "operating-system-based",
+              "label": "Operating system (OS)-based",
+              "aliases": [
+                "operating-system-os-based"
+              ]
+            },
+            {
+              "id": "sql-injection",
+              "label": "SQL injection (SQLi)",
+              "aliases": [
+                "sql-injection-sqli"
+              ]
+            },
+            {
+              "id": "cross-site-scripting",
+              "label": "Cross-site scripting (XSS)",
+              "aliases": [
+                "cross-site-scripting-xss"
+              ]
+            },
+            {
+              "id": "firmware",
+              "label": "Firmware"
+            },
+            {
+              "id": "end-of-life",
+              "label": "End-of-life"
+            },
+            {
+              "id": "legacy-hardware",
+              "label": "Legacy hardware"
+            },
+            {
+              "id": "virtual-machine-escape",
+              "label": "Virtual machine (VM) escape",
+              "aliases": [
+                "virtual-machine-vm-escape"
+              ]
+            },
+            {
+              "id": "resource-reuse",
+              "label": "Resource reuse"
+            },
+            {
+              "id": "cloud-specific",
+              "label": "Cloud-specific"
+            },
+            {
+              "id": "service-provider-supply-chain",
+              "label": "Service provider supply chain"
+            },
+            {
+              "id": "hardware-provider-supply-chain",
+              "label": "Hardware provider supply chain"
+            },
+            {
+              "id": "software-provider-supply-chain",
+              "label": "Software provider supply chain"
+            },
+            {
+              "id": "cryptographic-vulnerabilities",
+              "label": "Cryptographic vulnerabilities"
+            },
+            {
+              "id": "misconfiguration",
+              "label": "Misconfiguration"
+            },
+            {
+              "id": "mobile-device-vulnerabilities",
+              "label": "Mobile device vulnerabilities"
+            },
+            {
+              "id": "side-loading",
+              "label": "Side loading"
+            },
+            {
+              "id": "jailbreaking",
+              "label": "Jailbreaking"
+            },
+            {
+              "id": "zero-day",
+              "label": "Zero-day"
+            }
+          ]
+        },
+        {
+          "id": "2.4",
+          "stem": "Given a scenario, analyze",
+          "title": "indicators of malicious activity",
+          "fullTitle": "Given a scenario, analyze indicators of malicious activity.",
+          "topics": [
+            {
+              "id": "ransomware",
+              "label": "Ransomware"
+            },
+            {
+              "id": "trojan",
+              "label": "Trojan"
+            },
+            {
+              "id": "worm",
+              "label": "Worm"
+            },
+            {
+              "id": "spyware",
+              "label": "Spyware"
+            },
+            {
+              "id": "bloatware",
+              "label": "Bloatware"
+            },
+            {
+              "id": "virus",
+              "label": "Virus"
+            },
+            {
+              "id": "keylogger",
+              "label": "Keylogger"
+            },
+            {
+              "id": "logic-bomb",
+              "label": "Logic bomb"
+            },
+            {
+              "id": "rootkit",
+              "label": "Rootkit"
+            },
+            {
+              "id": "physical-brute-force",
+              "label": "Physical brute force"
+            },
+            {
+              "id": "rfid-cloning",
+              "label": "RFID cloning"
+            },
+            {
+              "id": "environmental-attacks",
+              "label": "Environmental attacks"
+            },
+            {
+              "id": "distributed-denial-of-service",
+              "label": "Distributed denial-of-service (DDoS)",
+              "aliases": [
+                "distributed-denial-of-service-ddos"
+              ]
+            },
+            {
+              "id": "amplified-ddos",
+              "label": "Amplified DDoS"
+            },
+            {
+              "id": "reflected-ddos",
+              "label": "Reflected DDoS"
+            },
+            {
+              "id": "dns-attacks",
+              "label": "DNS attacks"
+            },
+            {
+              "id": "wireless-attacks",
+              "label": "Wireless attacks"
+            },
+            {
+              "id": "on-path",
+              "label": "On-path"
+            },
+            {
+              "id": "credential-replay",
+              "label": "Credential replay"
+            },
+            {
+              "id": "malicious-code",
+              "label": "Malicious code"
+            },
+            {
+              "id": "injection",
+              "label": "Injection"
+            },
+            {
+              "id": "application-buffer-overflow",
+              "label": "Application buffer overflow"
+            },
+            {
+              "id": "replay",
+              "label": "Replay"
+            },
+            {
+              "id": "privilege-escalation",
+              "label": "Privilege escalation"
+            },
+            {
+              "id": "forgery",
+              "label": "Forgery"
+            },
+            {
+              "id": "directory-traversal",
+              "label": "Directory traversal"
+            },
+            {
+              "id": "downgrade-attack",
+              "label": "Downgrade attack"
+            },
+            {
+              "id": "collision",
+              "label": "Collision"
+            },
+            {
+              "id": "birthday-attack",
+              "label": "Birthday attack"
+            },
+            {
+              "id": "password-spraying",
+              "label": "Password spraying"
+            },
+            {
+              "id": "password-brute-force",
+              "label": "Password brute force"
+            },
+            {
+              "id": "indicators",
+              "label": "Indicators"
+            },
+            {
+              "id": "account-lockout",
+              "label": "Account lockout"
+            },
+            {
+              "id": "concurrent-session-usage",
+              "label": "Concurrent session usage"
+            },
+            {
+              "id": "blocked-content",
+              "label": "Blocked content"
+            },
+            {
+              "id": "impossible-travel",
+              "label": "Impossible travel"
+            },
+            {
+              "id": "resource-consumption",
+              "label": "Resource consumption"
+            },
+            {
+              "id": "resource-inaccessibility",
+              "label": "Resource inaccessibility"
+            },
+            {
+              "id": "out-of-cycle-logging",
+              "label": "Out-of-cycle logging"
+            },
+            {
+              "id": "published-documented-indicators",
+              "label": "Published/documented indicators"
+            },
+            {
+              "id": "missing-logs",
+              "label": "Missing logs"
+            }
+          ]
+        },
+        {
+          "id": "2.5",
+          "stem": "Explain",
+          "title": "the purpose of mitigation techniques used to secure the enterprise",
+          "fullTitle": "Explain the purpose of mitigation techniques used to secure the enterprise.",
+          "topics": [
+            {
+              "id": "segmentation",
+              "label": "Segmentation"
+            },
+            {
+              "id": "access-control-list",
+              "label": "Access control list (ACL)",
+              "aliases": [
+                "access-control-list-acl"
+              ]
+            },
+            {
+              "id": "permissions",
+              "label": "Permissions"
+            },
+            {
+              "id": "application-allow-list",
+              "label": "Application allow list"
+            },
+            {
+              "id": "isolation",
+              "label": "Isolation"
+            },
+            {
+              "id": "patching",
+              "label": "Patching"
+            },
+            {
+              "id": "encryption",
+              "label": "Encryption"
+            },
+            {
+              "id": "monitoring",
+              "label": "Monitoring"
+            },
+            {
+              "id": "least-privilege",
+              "label": "Least privilege"
+            },
+            {
+              "id": "configuration-enforcement",
+              "label": "Configuration enforcement"
+            },
+            {
+              "id": "decommissioning",
+              "label": "Decommissioning"
+            },
+            {
+              "id": "endpoint-protection-installation",
+              "label": "Endpoint protection installation"
+            },
+            {
+              "id": "host-based-firewall",
+              "label": "Host-based firewall"
+            },
+            {
+              "id": "host-based-intrusion-prevention-system",
+              "label": "Host-based intrusion prevention system (HIPS)",
+              "aliases": [
+                "host-based-intrusion-prevention-system-hips"
+              ]
+            },
+            {
+              "id": "disabling-ports-protocols",
+              "label": "Disabling ports/protocols"
+            },
+            {
+              "id": "default-password-changes",
+              "label": "Default password changes"
+            },
+            {
+              "id": "removal-of-unnecessary-software",
+              "label": "Removal of unnecessary software"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Security Architecture",
+      "weight": 0.18,
+      "objectives": [
+        {
+          "id": "3.1",
+          "stem": "Compare and contrast",
+          "title": "security implications of different architecture models",
+          "fullTitle": "Compare and contrast security implications of different architecture models.",
+          "topics": [
+            {
+              "id": "cloud-responsibility-matrix",
+              "label": "Cloud responsibility matrix"
+            },
+            {
+              "id": "hybrid-considerations",
+              "label": "Hybrid considerations"
+            },
+            {
+              "id": "third-party-vendors",
+              "label": "Third-party vendors"
+            },
+            {
+              "id": "infrastructure-as-code",
+              "label": "Infrastructure as code (IaC)",
+              "aliases": [
+                "infrastructure-as-code-iac"
+              ]
+            },
+            {
+              "id": "serverless",
+              "label": "Serverless"
+            },
+            {
+              "id": "microservices",
+              "label": "Microservices"
+            },
+            {
+              "id": "physical-isolation",
+              "label": "Physical isolation"
+            },
+            {
+              "id": "air-gapped",
+              "label": "Air-gapped"
+            },
+            {
+              "id": "logical-segmentation",
+              "label": "Logical segmentation"
+            },
+            {
+              "id": "software-defined-networking",
+              "label": "Software-defined networking (SDN)",
+              "aliases": [
+                "software-defined-networking-sdn"
+              ]
+            },
+            {
+              "id": "on-premises",
+              "label": "On-premises"
+            },
+            {
+              "id": "centralized-vs-decentralized",
+              "label": "Centralized vs. decentralized"
+            },
+            {
+              "id": "containerization",
+              "label": "Containerization"
+            },
+            {
+              "id": "virtualization",
+              "label": "Virtualization"
+            },
+            {
+              "id": "iot",
+              "label": "IoT"
+            },
+            {
+              "id": "ics-scada",
+              "label": "ICS/SCADA"
+            },
+            {
+              "id": "real-time-operating-system",
+              "label": "Real-time operating system (RTOS)",
+              "aliases": [
+                "real-time-operating-system-rtos"
+              ]
+            },
+            {
+              "id": "embedded-systems",
+              "label": "Embedded systems"
+            },
+            {
+              "id": "high-availability",
+              "label": "High availability"
+            },
+            {
+              "id": "availability-2",
+              "label": "Availability",
+              "aliases": [
+                "availability"
+              ]
+            },
+            {
+              "id": "resilience",
+              "label": "Resilience"
+            },
+            {
+              "id": "cost",
+              "label": "Cost"
+            },
+            {
+              "id": "responsiveness",
+              "label": "Responsiveness"
+            },
+            {
+              "id": "scalability",
+              "label": "Scalability"
+            },
+            {
+              "id": "ease-of-deployment",
+              "label": "Ease of deployment"
+            },
+            {
+              "id": "risk-transference",
+              "label": "Risk transference"
+            },
+            {
+              "id": "ease-of-recovery",
+              "label": "Ease of recovery"
+            },
+            {
+              "id": "patch-availability",
+              "label": "Patch availability"
+            },
+            {
+              "id": "inability-to-patch",
+              "label": "Inability to patch"
+            },
+            {
+              "id": "power",
+              "label": "Power"
+            },
+            {
+              "id": "compute",
+              "label": "Compute"
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "stem": "Given a scenario, apply",
+          "title": "security principles to secure enterprise infrastructure",
+          "fullTitle": "Given a scenario, apply security principles to secure enterprise infrastructure.",
+          "topics": [
+            {
+              "id": "device-placement",
+              "label": "Device placement"
+            },
+            {
+              "id": "security-zones",
+              "label": "Security zones"
+            },
+            {
+              "id": "attack-surface",
+              "label": "Attack surface"
+            },
+            {
+              "id": "connectivity",
+              "label": "Connectivity"
+            },
+            {
+              "id": "fail-open",
+              "label": "Fail-open"
+            },
+            {
+              "id": "fail-closed",
+              "label": "Fail-closed"
+            },
+            {
+              "id": "active-vs-passive",
+              "label": "Active vs. passive"
+            },
+            {
+              "id": "inline-vs-tap-monitor",
+              "label": "Inline vs. tap/monitor"
+            },
+            {
+              "id": "jump-server",
+              "label": "Jump server"
+            },
+            {
+              "id": "proxy-server",
+              "label": "Proxy server"
+            },
+            {
+              "id": "intrusion-prevention-system",
+              "label": "Intrusion prevention system (IPS)",
+              "aliases": [
+                "intrusion-prevention-system-ips"
+              ]
+            },
+            {
+              "id": "intrusion-detection-system",
+              "label": "Intrusion detection system (IDS)",
+              "aliases": [
+                "intrusion-detection-system-ids"
+              ]
+            },
+            {
+              "id": "load-balancer",
+              "label": "Load balancer"
+            },
+            {
+              "id": "sensors",
+              "label": "Sensors"
+            },
+            {
+              "id": "802-1x",
+              "label": "802.1X"
+            },
+            {
+              "id": "extensible-authentication-protocol",
+              "label": "Extensible Authentication Protocol (EAP)",
+              "aliases": [
+                "extensible-authentication-protocol-eap"
+              ]
+            },
+            {
+              "id": "web-application-firewall",
+              "label": "Web application firewall (WAF)",
+              "aliases": [
+                "web-application-firewall-waf"
+              ]
+            },
+            {
+              "id": "firewall-types",
+              "label": "Firewall types"
+            },
+            {
+              "id": "unified-threat-management",
+              "label": "Unified threat management (UTM)",
+              "aliases": [
+                "unified-threat-management-utm"
+              ]
+            },
+            {
+              "id": "next-generation-firewall",
+              "label": "Next-generation firewall (NGFW)",
+              "aliases": [
+                "next-generation-firewall-ngfw"
+              ]
+            },
+            {
+              "id": "layer-4-layer-7-firewall",
+              "label": "Layer 4/Layer 7 firewall"
+            },
+            {
+              "id": "virtual-private-network",
+              "label": "Virtual private network (VPN)",
+              "aliases": [
+                "virtual-private-network-vpn"
+              ]
+            },
+            {
+              "id": "remote-access",
+              "label": "Remote access"
+            },
+            {
+              "id": "tls-tunneling",
+              "label": "TLS tunneling"
+            },
+            {
+              "id": "ipsec-tunneling",
+              "label": "IPSec tunneling"
+            },
+            {
+              "id": "software-defined-wide-area-network",
+              "label": "Software-defined wide area network (SD-WAN)",
+              "aliases": [
+                "software-defined-wide-area-network-sd-wan"
+              ]
+            },
+            {
+              "id": "secure-access-service-edge",
+              "label": "Secure access service edge (SASE)",
+              "aliases": [
+                "secure-access-service-edge-sase"
+              ]
+            },
+            {
+              "id": "selection-of-effective-controls",
+              "label": "Selection of effective controls"
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "stem": "Compare and contrast",
+          "title": "concepts and strategies to protect data",
+          "fullTitle": "Compare and contrast concepts and strategies to protect data.",
+          "topics": [
+            {
+              "id": "regulated-data",
+              "label": "Regulated data"
+            },
+            {
+              "id": "trade-secret",
+              "label": "Trade secret"
+            },
+            {
+              "id": "intellectual-property",
+              "label": "Intellectual property"
+            },
+            {
+              "id": "legal-information",
+              "label": "Legal information"
+            },
+            {
+              "id": "financial-information",
+              "label": "Financial information"
+            },
+            {
+              "id": "human-and-non-human-readable",
+              "label": "Human- and non-human-readable"
+            },
+            {
+              "id": "sensitive",
+              "label": "Sensitive"
+            },
+            {
+              "id": "confidential",
+              "label": "Confidential"
+            },
+            {
+              "id": "public",
+              "label": "Public"
+            },
+            {
+              "id": "restricted",
+              "label": "Restricted"
+            },
+            {
+              "id": "private",
+              "label": "Private"
+            },
+            {
+              "id": "critical",
+              "label": "Critical"
+            },
+            {
+              "id": "data-at-rest",
+              "label": "Data at rest"
+            },
+            {
+              "id": "data-in-transit",
+              "label": "Data in transit"
+            },
+            {
+              "id": "data-in-use",
+              "label": "Data in use"
+            },
+            {
+              "id": "data-sovereignty",
+              "label": "Data sovereignty"
+            },
+            {
+              "id": "geolocation",
+              "label": "Geolocation"
+            },
+            {
+              "id": "geographic-restrictions",
+              "label": "Geographic restrictions"
+            },
+            {
+              "id": "encryption-2",
+              "label": "Encryption",
+              "aliases": [
+                "encryption"
+              ]
+            },
+            {
+              "id": "hashing-2",
+              "label": "Hashing",
+              "aliases": [
+                "hashing"
+              ]
+            },
+            {
+              "id": "masking",
+              "label": "Masking"
+            },
+            {
+              "id": "tokenization-2",
+              "label": "Tokenization",
+              "aliases": [
+                "tokenization"
+              ]
+            },
+            {
+              "id": "obfuscation",
+              "label": "Obfuscation"
+            },
+            {
+              "id": "segmentation-2",
+              "label": "Segmentation",
+              "aliases": [
+                "segmentation"
+              ]
+            },
+            {
+              "id": "permission-restrictions",
+              "label": "Permission restrictions"
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "stem": "Explain",
+          "title": "the importance of resilience and recovery in security architecture",
+          "fullTitle": "Explain the importance of resilience and recovery in security architecture.",
+          "topics": [
+            {
+              "id": "high-availability-2",
+              "label": "High availability",
+              "aliases": [
+                "high-availability"
+              ]
+            },
+            {
+              "id": "load-balancing-vs-clustering",
+              "label": "Load balancing vs. clustering"
+            },
+            {
+              "id": "hot-site",
+              "label": "Hot site"
+            },
+            {
+              "id": "cold-site",
+              "label": "Cold site"
+            },
+            {
+              "id": "warm-site",
+              "label": "Warm site"
+            },
+            {
+              "id": "geographic-dispersion",
+              "label": "Geographic dispersion"
+            },
+            {
+              "id": "platform-diversity",
+              "label": "Platform diversity"
+            },
+            {
+              "id": "multi-cloud-systems",
+              "label": "Multi-cloud systems"
+            },
+            {
+              "id": "continuity-of-operations",
+              "label": "Continuity of operations"
+            },
+            {
+              "id": "capacity-planning-people",
+              "label": "Capacity planning - people"
+            },
+            {
+              "id": "capacity-planning-technology",
+              "label": "Capacity planning - technology"
+            },
+            {
+              "id": "capacity-planning-infrastructure",
+              "label": "Capacity planning - infrastructure"
+            },
+            {
+              "id": "tabletop-exercises",
+              "label": "Tabletop exercises"
+            },
+            {
+              "id": "fail-over",
+              "label": "Fail over"
+            },
+            {
+              "id": "simulation",
+              "label": "Simulation"
+            },
+            {
+              "id": "parallel-processing",
+              "label": "Parallel processing"
+            },
+            {
+              "id": "onsite-offsite-backups",
+              "label": "Onsite/offsite backups"
+            },
+            {
+              "id": "backup-frequency",
+              "label": "Backup frequency"
+            },
+            {
+              "id": "backup-encryption",
+              "label": "Backup encryption"
+            },
+            {
+              "id": "snapshots",
+              "label": "Snapshots"
+            },
+            {
+              "id": "recovery",
+              "label": "Recovery"
+            },
+            {
+              "id": "replication",
+              "label": "Replication"
+            },
+            {
+              "id": "journaling",
+              "label": "Journaling"
+            },
+            {
+              "id": "generators",
+              "label": "Generators"
+            },
+            {
+              "id": "uninterruptible-power-supply",
+              "label": "Uninterruptible power supply (UPS)",
+              "aliases": [
+                "uninterruptible-power-supply-ups"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Security Operations",
+      "weight": 0.28,
+      "objectives": [
+        {
+          "id": "4.1",
+          "stem": "Given a scenario, apply",
+          "title": "common security techniques to computing resources",
+          "fullTitle": "Given a scenario, apply common security techniques to computing resources.",
+          "topics": [
+            {
+              "id": "establish-secure-baselines",
+              "label": "Establish secure baselines"
+            },
+            {
+              "id": "deploy-secure-baselines",
+              "label": "Deploy secure baselines"
+            },
+            {
+              "id": "maintain-secure-baselines",
+              "label": "Maintain secure baselines"
+            },
+            {
+              "id": "harden-mobile-devices",
+              "label": "Harden mobile devices"
+            },
+            {
+              "id": "harden-workstations",
+              "label": "Harden workstations"
+            },
+            {
+              "id": "harden-switches",
+              "label": "Harden switches"
+            },
+            {
+              "id": "harden-routers",
+              "label": "Harden routers"
+            },
+            {
+              "id": "harden-cloud-infrastructure",
+              "label": "Harden cloud infrastructure"
+            },
+            {
+              "id": "harden-servers",
+              "label": "Harden servers"
+            },
+            {
+              "id": "harden-ics-scada",
+              "label": "Harden ICS/SCADA"
+            },
+            {
+              "id": "harden-embedded-systems",
+              "label": "Harden embedded systems"
+            },
+            {
+              "id": "harden-rtos",
+              "label": "Harden RTOS"
+            },
+            {
+              "id": "harden-iot-devices",
+              "label": "Harden IoT devices"
+            },
+            {
+              "id": "site-surveys",
+              "label": "Site surveys"
+            },
+            {
+              "id": "heat-maps",
+              "label": "Heat maps"
+            },
+            {
+              "id": "mobile-device-management",
+              "label": "Mobile device management (MDM)",
+              "aliases": [
+                "mobile-device-management-mdm"
+              ]
+            },
+            {
+              "id": "bring-your-own-device",
+              "label": "Bring your own device (BYOD)",
+              "aliases": [
+                "bring-your-own-device-byod"
+              ]
+            },
+            {
+              "id": "corporate-owned-personally-enabled",
+              "label": "Corporate-owned, personally enabled (COPE)",
+              "aliases": [
+                "corporate-owned-personally-enabled-cope"
+              ]
+            },
+            {
+              "id": "choose-your-own-device",
+              "label": "Choose your own device (CYOD)",
+              "aliases": [
+                "choose-your-own-device-cyod"
+              ]
+            },
+            {
+              "id": "cellular",
+              "label": "Cellular"
+            },
+            {
+              "id": "wi-fi",
+              "label": "Wi-Fi"
+            },
+            {
+              "id": "bluetooth-2",
+              "label": "Bluetooth",
+              "aliases": [
+                "bluetooth"
+              ]
+            },
+            {
+              "id": "wi-fi-protected-access-3",
+              "label": "Wi-Fi Protected Access 3 (WPA3)",
+              "aliases": [
+                "wi-fi-protected-access-3-wpa3"
+              ]
+            },
+            {
+              "id": "aaa-radius",
+              "label": "AAA/RADIUS"
+            },
+            {
+              "id": "cryptographic-protocols",
+              "label": "Cryptographic protocols"
+            },
+            {
+              "id": "authentication-protocols",
+              "label": "Authentication protocols"
+            },
+            {
+              "id": "input-validation",
+              "label": "Input validation"
+            },
+            {
+              "id": "secure-cookies",
+              "label": "Secure cookies"
+            },
+            {
+              "id": "static-code-analysis",
+              "label": "Static code analysis"
+            },
+            {
+              "id": "code-signing",
+              "label": "Code signing"
+            },
+            {
+              "id": "sandboxing",
+              "label": "Sandboxing"
+            },
+            {
+              "id": "monitoring-2",
+              "label": "Monitoring",
+              "aliases": [
+                "monitoring"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "stem": "Explain",
+          "title": "the security implications of proper hardware, software, and data asset management",
+          "fullTitle": "Explain the security implications of proper hardware, software, and data asset management.",
+          "topics": [
+            {
+              "id": "acquisition-procurement-process",
+              "label": "Acquisition/procurement process"
+            },
+            {
+              "id": "ownership-2",
+              "label": "Ownership",
+              "aliases": [
+                "ownership"
+              ]
+            },
+            {
+              "id": "classification",
+              "label": "Classification"
+            },
+            {
+              "id": "monitoring-asset-tracking",
+              "label": "Monitoring/asset tracking"
+            },
+            {
+              "id": "inventory",
+              "label": "Inventory"
+            },
+            {
+              "id": "enumeration",
+              "label": "Enumeration"
+            },
+            {
+              "id": "sanitization",
+              "label": "Sanitization"
+            },
+            {
+              "id": "destruction",
+              "label": "Destruction"
+            },
+            {
+              "id": "certification",
+              "label": "Certification"
+            },
+            {
+              "id": "data-retention",
+              "label": "Data retention"
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "stem": "Explain",
+          "title": "various activities associated with vulnerability management",
+          "fullTitle": "Explain various activities associated with vulnerability management.",
+          "topics": [
+            {
+              "id": "vulnerability-scan",
+              "label": "Vulnerability scan"
+            },
+            {
+              "id": "static-analysis",
+              "label": "Static analysis"
+            },
+            {
+              "id": "dynamic-analysis",
+              "label": "Dynamic analysis"
+            },
+            {
+              "id": "package-monitoring",
+              "label": "Package monitoring"
+            },
+            {
+              "id": "open-source-intelligence",
+              "label": "Open-source intelligence (OSINT)",
+              "aliases": [
+                "open-source-intelligence-osint"
+              ]
+            },
+            {
+              "id": "proprietary-third-party-threat-feed",
+              "label": "Proprietary/third-party threat feed"
+            },
+            {
+              "id": "information-sharing-organization",
+              "label": "Information-sharing organization"
+            },
+            {
+              "id": "dark-web",
+              "label": "Dark web"
+            },
+            {
+              "id": "penetration-testing",
+              "label": "Penetration testing"
+            },
+            {
+              "id": "responsible-disclosure-program",
+              "label": "Responsible disclosure program"
+            },
+            {
+              "id": "bug-bounty-program",
+              "label": "Bug bounty program"
+            },
+            {
+              "id": "system-process-audit",
+              "label": "System/process audit"
+            },
+            {
+              "id": "false-positive",
+              "label": "False positive"
+            },
+            {
+              "id": "false-negative",
+              "label": "False negative"
+            },
+            {
+              "id": "prioritize",
+              "label": "Prioritize"
+            },
+            {
+              "id": "common-vulnerability-scoring-system",
+              "label": "Common Vulnerability Scoring System (CVSS)",
+              "aliases": [
+                "common-vulnerability-scoring-system-cvss"
+              ]
+            },
+            {
+              "id": "common-vulnerability-enumeration",
+              "label": "Common Vulnerability Enumeration (CVE)",
+              "aliases": [
+                "common-vulnerability-enumeration-cve"
+              ]
+            },
+            {
+              "id": "vulnerability-classification",
+              "label": "Vulnerability classification"
+            },
+            {
+              "id": "exposure-factor",
+              "label": "Exposure factor"
+            },
+            {
+              "id": "environmental-variables",
+              "label": "Environmental variables"
+            },
+            {
+              "id": "industry-organizational-impact",
+              "label": "Industry/organizational impact"
+            },
+            {
+              "id": "risk-tolerance",
+              "label": "Risk tolerance"
+            },
+            {
+              "id": "patching-2",
+              "label": "Patching",
+              "aliases": [
+                "patching"
+              ]
+            },
+            {
+              "id": "insurance",
+              "label": "Insurance"
+            },
+            {
+              "id": "segmentation-3",
+              "label": "Segmentation",
+              "aliases": [
+                "segmentation"
+              ]
+            },
+            {
+              "id": "compensating-controls",
+              "label": "Compensating controls"
+            },
+            {
+              "id": "exceptions-and-exemptions",
+              "label": "Exceptions and exemptions"
+            },
+            {
+              "id": "rescanning",
+              "label": "Rescanning"
+            },
+            {
+              "id": "audit",
+              "label": "Audit"
+            },
+            {
+              "id": "verification",
+              "label": "Verification"
+            },
+            {
+              "id": "reporting",
+              "label": "Reporting"
+            }
+          ]
+        },
+        {
+          "id": "4.4",
+          "stem": "Explain",
+          "title": "security alerting and monitoring concepts and tools",
+          "fullTitle": "Explain security alerting and monitoring concepts and tools.",
+          "topics": [
+            {
+              "id": "monitoring-systems",
+              "label": "Monitoring systems"
+            },
+            {
+              "id": "monitoring-applications",
+              "label": "Monitoring applications"
+            },
+            {
+              "id": "monitoring-infrastructure",
+              "label": "Monitoring infrastructure"
+            },
+            {
+              "id": "log-aggregation",
+              "label": "Log aggregation"
+            },
+            {
+              "id": "alerting",
+              "label": "Alerting"
+            },
+            {
+              "id": "scanning",
+              "label": "Scanning"
+            },
+            {
+              "id": "reporting-2",
+              "label": "Reporting",
+              "aliases": [
+                "reporting"
+              ]
+            },
+            {
+              "id": "archiving",
+              "label": "Archiving"
+            },
+            {
+              "id": "alert-response-and-remediation-validation",
+              "label": "Alert response and remediation/validation"
+            },
+            {
+              "id": "quarantine",
+              "label": "Quarantine"
+            },
+            {
+              "id": "alert-tuning",
+              "label": "Alert tuning"
+            },
+            {
+              "id": "security-content-automation-protocol",
+              "label": "Security Content Automation Protocol (SCAP)",
+              "aliases": [
+                "security-content-automation-protocol-scap"
+              ]
+            },
+            {
+              "id": "benchmarks",
+              "label": "Benchmarks"
+            },
+            {
+              "id": "agents-agentless",
+              "label": "Agents/agentless"
+            },
+            {
+              "id": "security-information-and-event-management",
+              "label": "Security information and event management (SIEM)",
+              "aliases": [
+                "security-information-and-event-management-siem"
+              ]
+            },
+            {
+              "id": "antivirus",
+              "label": "Antivirus"
+            },
+            {
+              "id": "data-loss-prevention",
+              "label": "Data loss prevention (DLP)",
+              "aliases": [
+                "data-loss-prevention-dlp"
+              ]
+            },
+            {
+              "id": "snmp-traps",
+              "label": "SNMP traps"
+            },
+            {
+              "id": "netflow",
+              "label": "NetFlow"
+            },
+            {
+              "id": "vulnerability-scanners",
+              "label": "Vulnerability scanners"
+            }
+          ]
+        },
+        {
+          "id": "4.5",
+          "stem": "Given a scenario, modify",
+          "title": "enterprise capabilities to enhance security",
+          "fullTitle": "Given a scenario, modify enterprise capabilities to enhance security.",
+          "topics": [
+            {
+              "id": "firewall-rules",
+              "label": "Firewall rules"
+            },
+            {
+              "id": "access-lists",
+              "label": "Access lists"
+            },
+            {
+              "id": "ports-protocols",
+              "label": "Ports/protocols"
+            },
+            {
+              "id": "screened-subnets",
+              "label": "Screened subnets"
+            },
+            {
+              "id": "ids-ips-trends",
+              "label": "IDS/IPS trends"
+            },
+            {
+              "id": "ids-ips-signatures",
+              "label": "IDS/IPS signatures"
+            },
+            {
+              "id": "agent-based-web-filter",
+              "label": "Agent-based web filter"
+            },
+            {
+              "id": "centralized-proxy",
+              "label": "Centralized proxy"
+            },
+            {
+              "id": "url-scanning",
+              "label": "URL scanning"
+            },
+            {
+              "id": "content-categorization",
+              "label": "Content categorization"
+            },
+            {
+              "id": "block-rules",
+              "label": "Block rules"
+            },
+            {
+              "id": "reputation",
+              "label": "Reputation"
+            },
+            {
+              "id": "group-policy",
+              "label": "Group Policy"
+            },
+            {
+              "id": "selinux",
+              "label": "SELinux"
+            },
+            {
+              "id": "protocol-selection",
+              "label": "Protocol selection"
+            },
+            {
+              "id": "port-selection",
+              "label": "Port selection"
+            },
+            {
+              "id": "transport-method",
+              "label": "Transport method"
+            },
+            {
+              "id": "dns-filtering",
+              "label": "DNS filtering"
+            },
+            {
+              "id": "domain-based-message-authentication-reporting-and-conformance",
+              "label": "Domain-based Message Authentication Reporting and Conformance (DMARC)",
+              "aliases": [
+                "domain-based-message-authentication-reporting-and-conformance-dmarc"
+              ]
+            },
+            {
+              "id": "domainkeys-identified-mail",
+              "label": "DomainKeys Identified Mail (DKIM)",
+              "aliases": [
+                "domainkeys-identified-mail-dkim"
+              ]
+            },
+            {
+              "id": "sender-policy-framework",
+              "label": "Sender Policy Framework (SPF)",
+              "aliases": [
+                "sender-policy-framework-spf"
+              ]
+            },
+            {
+              "id": "email-gateway",
+              "label": "Email gateway"
+            },
+            {
+              "id": "file-integrity-monitoring",
+              "label": "File integrity monitoring"
+            },
+            {
+              "id": "dlp",
+              "label": "DLP"
+            },
+            {
+              "id": "network-access-control",
+              "label": "Network access control (NAC)",
+              "aliases": [
+                "network-access-control-nac"
+              ]
+            },
+            {
+              "id": "endpoint-detection-and-response",
+              "label": "Endpoint detection and response (EDR)",
+              "aliases": [
+                "endpoint-detection-and-response-edr"
+              ]
+            },
+            {
+              "id": "extended-detection-and-response",
+              "label": "Extended detection and response (XDR)",
+              "aliases": [
+                "extended-detection-and-response-xdr"
+              ]
+            },
+            {
+              "id": "user-behavior-analytics",
+              "label": "User behavior analytics"
+            }
+          ]
+        },
+        {
+          "id": "4.6",
+          "stem": "Given a scenario, implement and maintain",
+          "title": "identity and access management",
+          "fullTitle": "Given a scenario, implement and maintain identity and access management.",
+          "topics": [
+            {
+              "id": "provisioning-user-accounts",
+              "label": "Provisioning user accounts"
+            },
+            {
+              "id": "de-provisioning-user-accounts",
+              "label": "De-provisioning user accounts"
+            },
+            {
+              "id": "permission-assignments-and-implications",
+              "label": "Permission assignments and implications"
+            },
+            {
+              "id": "identity-proofing",
+              "label": "Identity proofing"
+            },
+            {
+              "id": "federation",
+              "label": "Federation"
+            },
+            {
+              "id": "single-sign-on",
+              "label": "Single sign-on (SSO)",
+              "aliases": [
+                "single-sign-on-sso"
+              ]
+            },
+            {
+              "id": "lightweight-directory-access-protocol",
+              "label": "Lightweight Directory Access Protocol (LDAP)",
+              "aliases": [
+                "lightweight-directory-access-protocol-ldap"
+              ]
+            },
+            {
+              "id": "open-authorization",
+              "label": "Open authorization (OAuth)",
+              "aliases": [
+                "open-authorization-oauth"
+              ]
+            },
+            {
+              "id": "security-assertions-markup-language",
+              "label": "Security Assertions Markup Language (SAML)",
+              "aliases": [
+                "security-assertions-markup-language-saml"
+              ]
+            },
+            {
+              "id": "interoperability",
+              "label": "Interoperability"
+            },
+            {
+              "id": "attestation",
+              "label": "Attestation"
+            },
+            {
+              "id": "mandatory-access-control",
+              "label": "Mandatory access control (MAC)",
+              "aliases": [
+                "mandatory-access-control-mac"
+              ]
+            },
+            {
+              "id": "discretionary-access-control",
+              "label": "Discretionary access control (DAC)",
+              "aliases": [
+                "discretionary-access-control-dac"
+              ]
+            },
+            {
+              "id": "role-based-access-control",
+              "label": "Role-based access control (RBAC)",
+              "aliases": [
+                "role-based-access-control-rbac"
+              ]
+            },
+            {
+              "id": "rule-based-access-control",
+              "label": "Rule-based access control"
+            },
+            {
+              "id": "attribute-based-access-control",
+              "label": "Attribute-based access control (ABAC)",
+              "aliases": [
+                "attribute-based-access-control-abac"
+              ]
+            },
+            {
+              "id": "time-of-day-restrictions",
+              "label": "Time-of-day restrictions"
+            },
+            {
+              "id": "least-privilege-2",
+              "label": "Least privilege",
+              "aliases": [
+                "least-privilege"
+              ]
+            },
+            {
+              "id": "multifactor-authentication",
+              "label": "Multifactor authentication"
+            },
+            {
+              "id": "biometrics",
+              "label": "Biometrics"
+            },
+            {
+              "id": "hard-soft-authentication-tokens",
+              "label": "Hard/soft authentication tokens"
+            },
+            {
+              "id": "security-keys",
+              "label": "Security keys"
+            },
+            {
+              "id": "something-you-know",
+              "label": "Something you know"
+            },
+            {
+              "id": "something-you-have",
+              "label": "Something you have"
+            },
+            {
+              "id": "something-you-are",
+              "label": "Something you are"
+            },
+            {
+              "id": "somewhere-you-are",
+              "label": "Somewhere you are"
+            },
+            {
+              "id": "password-length",
+              "label": "Password length"
+            },
+            {
+              "id": "password-complexity",
+              "label": "Password complexity"
+            },
+            {
+              "id": "password-reuse",
+              "label": "Password reuse"
+            },
+            {
+              "id": "password-expiration",
+              "label": "Password expiration"
+            },
+            {
+              "id": "password-age",
+              "label": "Password age"
+            },
+            {
+              "id": "password-managers",
+              "label": "Password managers"
+            },
+            {
+              "id": "passwordless",
+              "label": "Passwordless"
+            },
+            {
+              "id": "just-in-time-permissions",
+              "label": "Just-in-time permissions"
+            },
+            {
+              "id": "password-vaulting",
+              "label": "Password vaulting"
+            },
+            {
+              "id": "ephemeral-credentials",
+              "label": "Ephemeral credentials"
+            },
+            {
+              "id": "privileged-access-management-tools",
+              "label": "Privileged access management (PAM) tools",
+              "aliases": [
+                "privileged-access-management-pam-tools"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.7",
+          "stem": "Explain",
+          "title": "the importance of automation and orchestration related to secure operations",
+          "fullTitle": "Explain the importance of automation and orchestration related to secure operations.",
+          "topics": [
+            {
+              "id": "user-provisioning",
+              "label": "User provisioning"
+            },
+            {
+              "id": "resource-provisioning",
+              "label": "Resource provisioning"
+            },
+            {
+              "id": "guard-rails",
+              "label": "Guard rails"
+            },
+            {
+              "id": "security-groups",
+              "label": "Security groups"
+            },
+            {
+              "id": "ticket-creation",
+              "label": "Ticket creation"
+            },
+            {
+              "id": "escalation",
+              "label": "Escalation"
+            },
+            {
+              "id": "enabling-disabling-services-and-access",
+              "label": "Enabling/disabling services and access"
+            },
+            {
+              "id": "continuous-integration-and-testing",
+              "label": "Continuous integration and testing"
+            },
+            {
+              "id": "integrations-and-apis",
+              "label": "Integrations and APIs"
+            },
+            {
+              "id": "efficiency-time-saving",
+              "label": "Efficiency/time saving"
+            },
+            {
+              "id": "enforcing-baselines",
+              "label": "Enforcing baselines"
+            },
+            {
+              "id": "standard-infrastructure-configurations",
+              "label": "Standard infrastructure configurations"
+            },
+            {
+              "id": "scaling-in-a-secure-manner",
+              "label": "Scaling in a secure manner"
+            },
+            {
+              "id": "employee-retention",
+              "label": "Employee retention"
+            },
+            {
+              "id": "reaction-time",
+              "label": "Reaction time"
+            },
+            {
+              "id": "workforce-multiplier",
+              "label": "Workforce multiplier"
+            },
+            {
+              "id": "complexity",
+              "label": "Complexity"
+            },
+            {
+              "id": "cost-2",
+              "label": "Cost",
+              "aliases": [
+                "cost"
+              ]
+            },
+            {
+              "id": "single-point-of-failure",
+              "label": "Single point of failure"
+            },
+            {
+              "id": "technical-debt",
+              "label": "Technical debt"
+            },
+            {
+              "id": "ongoing-supportability",
+              "label": "Ongoing supportability"
+            }
+          ]
+        },
+        {
+          "id": "4.8",
+          "stem": "Explain",
+          "title": "appropriate incident response activities",
+          "fullTitle": "Explain appropriate incident response activities.",
+          "topics": [
+            {
+              "id": "preparation",
+              "label": "Preparation"
+            },
+            {
+              "id": "detection",
+              "label": "Detection"
+            },
+            {
+              "id": "analysis",
+              "label": "Analysis"
+            },
+            {
+              "id": "containment",
+              "label": "Containment"
+            },
+            {
+              "id": "eradication",
+              "label": "Eradication"
+            },
+            {
+              "id": "recovery-2",
+              "label": "Recovery",
+              "aliases": [
+                "recovery"
+              ]
+            },
+            {
+              "id": "lessons-learned",
+              "label": "Lessons learned"
+            },
+            {
+              "id": "training",
+              "label": "Training"
+            },
+            {
+              "id": "tabletop-exercise",
+              "label": "Tabletop exercise"
+            },
+            {
+              "id": "simulation-2",
+              "label": "Simulation",
+              "aliases": [
+                "simulation"
+              ]
+            },
+            {
+              "id": "root-cause-analysis",
+              "label": "Root cause analysis"
+            },
+            {
+              "id": "threat-hunting",
+              "label": "Threat hunting"
+            },
+            {
+              "id": "legal-hold",
+              "label": "Legal hold"
+            },
+            {
+              "id": "chain-of-custody",
+              "label": "Chain of custody"
+            },
+            {
+              "id": "acquisition",
+              "label": "Acquisition"
+            },
+            {
+              "id": "reporting-3",
+              "label": "Reporting",
+              "aliases": [
+                "reporting"
+              ]
+            },
+            {
+              "id": "preservation",
+              "label": "Preservation"
+            },
+            {
+              "id": "e-discovery",
+              "label": "E-discovery"
+            }
+          ]
+        },
+        {
+          "id": "4.9",
+          "stem": "Given a scenario, use",
+          "title": "data sources to support an investigation",
+          "fullTitle": "Given a scenario, use data sources to support an investigation.",
+          "topics": [
+            {
+              "id": "firewall-logs",
+              "label": "Firewall logs"
+            },
+            {
+              "id": "application-logs",
+              "label": "Application logs"
+            },
+            {
+              "id": "endpoint-logs",
+              "label": "Endpoint logs"
+            },
+            {
+              "id": "os-specific-security-logs",
+              "label": "OS-specific security logs"
+            },
+            {
+              "id": "ips-ids-logs",
+              "label": "IPS/IDS logs"
+            },
+            {
+              "id": "network-logs",
+              "label": "Network logs"
+            },
+            {
+              "id": "metadata",
+              "label": "Metadata"
+            },
+            {
+              "id": "vulnerability-scans",
+              "label": "Vulnerability scans"
+            },
+            {
+              "id": "automated-reports",
+              "label": "Automated reports"
+            },
+            {
+              "id": "dashboards",
+              "label": "Dashboards"
+            },
+            {
+              "id": "packet-captures",
+              "label": "Packet captures"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Security Program Management and Oversight",
+      "weight": 0.2,
+      "objectives": [
+        {
+          "id": "5.1",
+          "stem": "Summarize",
+          "title": "elements of effective security governance",
+          "fullTitle": "Summarize elements of effective security governance.",
+          "topics": [
+            {
+              "id": "guidelines",
+              "label": "Guidelines"
+            },
+            {
+              "id": "acceptable-use-policy",
+              "label": "Acceptable use policy (AUP)",
+              "aliases": [
+                "acceptable-use-policy-aup"
+              ]
+            },
+            {
+              "id": "information-security-policies",
+              "label": "Information security policies"
+            },
+            {
+              "id": "business-continuity-policy",
+              "label": "Business continuity policy"
+            },
+            {
+              "id": "disaster-recovery-policy",
+              "label": "Disaster recovery policy"
+            },
+            {
+              "id": "incident-response-policy",
+              "label": "Incident response policy"
+            },
+            {
+              "id": "software-development-lifecycle-policy",
+              "label": "Software development lifecycle (SDLC) policy",
+              "aliases": [
+                "software-development-lifecycle-sdlc-policy"
+              ]
+            },
+            {
+              "id": "change-management-policy",
+              "label": "Change management policy"
+            },
+            {
+              "id": "password-standards",
+              "label": "Password standards"
+            },
+            {
+              "id": "access-control-standards",
+              "label": "Access control standards"
+            },
+            {
+              "id": "physical-security-standards",
+              "label": "Physical security standards"
+            },
+            {
+              "id": "encryption-standards",
+              "label": "Encryption standards"
+            },
+            {
+              "id": "change-management-procedures",
+              "label": "Change management procedures"
+            },
+            {
+              "id": "onboarding-offboarding",
+              "label": "Onboarding/offboarding"
+            },
+            {
+              "id": "playbooks",
+              "label": "Playbooks"
+            },
+            {
+              "id": "regulatory-considerations",
+              "label": "Regulatory considerations"
+            },
+            {
+              "id": "legal-considerations",
+              "label": "Legal considerations"
+            },
+            {
+              "id": "industry-considerations",
+              "label": "Industry considerations"
+            },
+            {
+              "id": "local-regional-considerations",
+              "label": "Local/regional considerations"
+            },
+            {
+              "id": "national-considerations",
+              "label": "National considerations"
+            },
+            {
+              "id": "global-considerations",
+              "label": "Global considerations"
+            },
+            {
+              "id": "monitoring-and-revision",
+              "label": "Monitoring and revision"
+            },
+            {
+              "id": "boards",
+              "label": "Boards"
+            },
+            {
+              "id": "committees",
+              "label": "Committees"
+            },
+            {
+              "id": "government-entities",
+              "label": "Government entities"
+            },
+            {
+              "id": "centralized-decentralized-governance",
+              "label": "Centralized/decentralized governance"
+            },
+            {
+              "id": "owners",
+              "label": "Owners"
+            },
+            {
+              "id": "controllers",
+              "label": "Controllers"
+            },
+            {
+              "id": "processors",
+              "label": "Processors"
+            },
+            {
+              "id": "custodians-stewards",
+              "label": "Custodians/stewards"
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "stem": "Explain",
+          "title": "elements of the risk management process",
+          "fullTitle": "Explain elements of the risk management process.",
+          "topics": [
+            {
+              "id": "risk-identification",
+              "label": "Risk identification"
+            },
+            {
+              "id": "risk-assessment",
+              "label": "Risk assessment"
+            },
+            {
+              "id": "ad-hoc-assessment",
+              "label": "Ad hoc assessment"
+            },
+            {
+              "id": "recurring-assessment",
+              "label": "Recurring assessment"
+            },
+            {
+              "id": "one-time-assessment",
+              "label": "One-time assessment"
+            },
+            {
+              "id": "continuous-assessment",
+              "label": "Continuous assessment"
+            },
+            {
+              "id": "qualitative-risk-analysis",
+              "label": "Qualitative risk analysis"
+            },
+            {
+              "id": "quantitative-risk-analysis",
+              "label": "Quantitative risk analysis"
+            },
+            {
+              "id": "single-loss-expectancy",
+              "label": "Single loss expectancy (SLE)",
+              "aliases": [
+                "single-loss-expectancy-sle"
+              ]
+            },
+            {
+              "id": "annualized-loss-expectancy",
+              "label": "Annualized loss expectancy (ALE)",
+              "aliases": [
+                "annualized-loss-expectancy-ale"
+              ]
+            },
+            {
+              "id": "annualized-rate-of-occurrence",
+              "label": "Annualized rate of occurrence (ARO)",
+              "aliases": [
+                "annualized-rate-of-occurrence-aro"
+              ]
+            },
+            {
+              "id": "probability",
+              "label": "Probability"
+            },
+            {
+              "id": "likelihood",
+              "label": "Likelihood"
+            },
+            {
+              "id": "exposure-factor-2",
+              "label": "Exposure factor",
+              "aliases": [
+                "exposure-factor"
+              ]
+            },
+            {
+              "id": "impact",
+              "label": "Impact"
+            },
+            {
+              "id": "risk-register",
+              "label": "Risk register"
+            },
+            {
+              "id": "key-risk-indicators",
+              "label": "Key risk indicators"
+            },
+            {
+              "id": "risk-owners",
+              "label": "Risk owners"
+            },
+            {
+              "id": "risk-threshold",
+              "label": "Risk threshold"
+            },
+            {
+              "id": "risk-tolerance-2",
+              "label": "Risk tolerance",
+              "aliases": [
+                "risk-tolerance"
+              ]
+            },
+            {
+              "id": "risk-appetite",
+              "label": "Risk appetite"
+            },
+            {
+              "id": "expansionary-risk-appetite",
+              "label": "Expansionary risk appetite"
+            },
+            {
+              "id": "conservative-risk-appetite",
+              "label": "Conservative risk appetite"
+            },
+            {
+              "id": "neutral-risk-appetite",
+              "label": "Neutral risk appetite"
+            },
+            {
+              "id": "transfer",
+              "label": "Transfer"
+            },
+            {
+              "id": "accept",
+              "label": "Accept"
+            },
+            {
+              "id": "exemption",
+              "label": "Exemption"
+            },
+            {
+              "id": "exception",
+              "label": "Exception"
+            },
+            {
+              "id": "avoid",
+              "label": "Avoid"
+            },
+            {
+              "id": "mitigate",
+              "label": "Mitigate"
+            },
+            {
+              "id": "risk-reporting",
+              "label": "Risk reporting"
+            },
+            {
+              "id": "business-impact-analysis",
+              "label": "Business impact analysis"
+            },
+            {
+              "id": "recovery-time-objective",
+              "label": "Recovery time objective (RTO)",
+              "aliases": [
+                "recovery-time-objective-rto"
+              ]
+            },
+            {
+              "id": "recovery-point-objective",
+              "label": "Recovery point objective (RPO)",
+              "aliases": [
+                "recovery-point-objective-rpo"
+              ]
+            },
+            {
+              "id": "mean-time-to-repair",
+              "label": "Mean time to repair (MTTR)",
+              "aliases": [
+                "mean-time-to-repair-mttr"
+              ]
+            },
+            {
+              "id": "mean-time-between-failures",
+              "label": "Mean time between failures (MTBF)",
+              "aliases": [
+                "mean-time-between-failures-mtbf"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "5.3",
+          "stem": "Explain",
+          "title": "the processes associated with third-party risk assessment and management",
+          "fullTitle": "Explain the processes associated with third-party risk assessment and management.",
+          "topics": [
+            {
+              "id": "vendor-penetration-testing",
+              "label": "Vendor penetration testing"
+            },
+            {
+              "id": "right-to-audit-clause",
+              "label": "Right-to-audit clause"
+            },
+            {
+              "id": "evidence-of-internal-audits",
+              "label": "Evidence of internal audits"
+            },
+            {
+              "id": "independent-assessments",
+              "label": "Independent assessments"
+            },
+            {
+              "id": "supply-chain-analysis",
+              "label": "Supply chain analysis"
+            },
+            {
+              "id": "due-diligence",
+              "label": "Due diligence"
+            },
+            {
+              "id": "conflict-of-interest",
+              "label": "Conflict of interest"
+            },
+            {
+              "id": "service-level-agreement",
+              "label": "Service-level agreement (SLA)",
+              "aliases": [
+                "service-level-agreement-sla"
+              ]
+            },
+            {
+              "id": "memorandum-of-agreement",
+              "label": "Memorandum of agreement (MOA)",
+              "aliases": [
+                "memorandum-of-agreement-moa"
+              ]
+            },
+            {
+              "id": "memorandum-of-understanding",
+              "label": "Memorandum of understanding (MOU)",
+              "aliases": [
+                "memorandum-of-understanding-mou"
+              ]
+            },
+            {
+              "id": "master-service-agreement",
+              "label": "Master service agreement (MSA)",
+              "aliases": [
+                "master-service-agreement-msa"
+              ]
+            },
+            {
+              "id": "work-order-statement-of-work",
+              "label": "Work order (WO)/statement of work (SOW)",
+              "aliases": [
+                "work-order-wo-statement-of-work-sow"
+              ]
+            },
+            {
+              "id": "non-disclosure-agreement",
+              "label": "Non-disclosure agreement (NDA)",
+              "aliases": [
+                "non-disclosure-agreement-nda"
+              ]
+            },
+            {
+              "id": "business-partners-agreement",
+              "label": "Business partners agreement (BPA)",
+              "aliases": [
+                "business-partners-agreement-bpa"
+              ]
+            },
+            {
+              "id": "vendor-monitoring",
+              "label": "Vendor monitoring"
+            },
+            {
+              "id": "questionnaires",
+              "label": "Questionnaires"
+            },
+            {
+              "id": "rules-of-engagement",
+              "label": "Rules of engagement"
+            }
+          ]
+        },
+        {
+          "id": "5.4",
+          "stem": "Summarize",
+          "title": "elements of effective security compliance",
+          "fullTitle": "Summarize elements of effective security compliance.",
+          "topics": [
+            {
+              "id": "internal-compliance-reporting",
+              "label": "Internal compliance reporting"
+            },
+            {
+              "id": "external-compliance-reporting",
+              "label": "External compliance reporting"
+            },
+            {
+              "id": "fines",
+              "label": "Fines"
+            },
+            {
+              "id": "sanctions",
+              "label": "Sanctions"
+            },
+            {
+              "id": "reputational-damage",
+              "label": "Reputational damage"
+            },
+            {
+              "id": "loss-of-license",
+              "label": "Loss of license"
+            },
+            {
+              "id": "contractual-impacts",
+              "label": "Contractual impacts"
+            },
+            {
+              "id": "due-diligence-care",
+              "label": "Due diligence/care"
+            },
+            {
+              "id": "attestation-and-acknowledgement",
+              "label": "Attestation and acknowledgement"
+            },
+            {
+              "id": "internal-and-external-monitoring",
+              "label": "Internal and external monitoring"
+            },
+            {
+              "id": "automation",
+              "label": "Automation"
+            },
+            {
+              "id": "local-regional-privacy-law",
+              "label": "Local/regional privacy law"
+            },
+            {
+              "id": "national-privacy-law",
+              "label": "National privacy law"
+            },
+            {
+              "id": "global-privacy-law",
+              "label": "Global privacy law"
+            },
+            {
+              "id": "data-subject",
+              "label": "Data subject"
+            },
+            {
+              "id": "controller-vs-processor",
+              "label": "Controller vs. processor"
+            },
+            {
+              "id": "ownership-3",
+              "label": "Ownership",
+              "aliases": [
+                "ownership"
+              ]
+            },
+            {
+              "id": "data-inventory-and-retention",
+              "label": "Data inventory and retention"
+            },
+            {
+              "id": "right-to-be-forgotten",
+              "label": "Right to be forgotten"
+            }
+          ]
+        },
+        {
+          "id": "5.5",
+          "stem": "Explain",
+          "title": "types and purposes of audits and assessments",
+          "fullTitle": "Explain types and purposes of audits and assessments.",
+          "topics": [
+            {
+              "id": "attestation-2",
+              "label": "Attestation",
+              "aliases": [
+                "attestation"
+              ]
+            },
+            {
+              "id": "internal-compliance-audit",
+              "label": "Internal compliance audit"
+            },
+            {
+              "id": "audit-committee",
+              "label": "Audit committee"
+            },
+            {
+              "id": "self-assessments",
+              "label": "Self-assessments"
+            },
+            {
+              "id": "regulatory-examination",
+              "label": "Regulatory examination"
+            },
+            {
+              "id": "external-assessment",
+              "label": "External assessment"
+            },
+            {
+              "id": "independent-third-party-audit",
+              "label": "Independent third-party audit"
+            },
+            {
+              "id": "physical-penetration-testing",
+              "label": "Physical penetration testing"
+            },
+            {
+              "id": "offensive",
+              "label": "Offensive"
+            },
+            {
+              "id": "defensive",
+              "label": "Defensive"
+            },
+            {
+              "id": "integrated",
+              "label": "Integrated"
+            },
+            {
+              "id": "known-environment",
+              "label": "Known environment"
+            },
+            {
+              "id": "partially-known-environment",
+              "label": "Partially known environment"
+            },
+            {
+              "id": "unknown-environment",
+              "label": "Unknown environment"
+            },
+            {
+              "id": "passive-reconnaissance",
+              "label": "Passive reconnaissance"
+            },
+            {
+              "id": "active-reconnaissance",
+              "label": "Active reconnaissance"
+            }
+          ]
+        },
+        {
+          "id": "5.6",
+          "stem": "Given a scenario, implement",
+          "title": "security awareness practices",
+          "fullTitle": "Given a scenario, implement security awareness practices.",
+          "topics": [
+            {
+              "id": "phishing-campaigns",
+              "label": "Phishing campaigns"
+            },
+            {
+              "id": "recognizing-a-phishing-attempt",
+              "label": "Recognizing a phishing attempt"
+            },
+            {
+              "id": "responding-to-reported-suspicious-messages",
+              "label": "Responding to reported suspicious messages"
+            },
+            {
+              "id": "risky-behavior",
+              "label": "Risky behavior"
+            },
+            {
+              "id": "unexpected-behavior",
+              "label": "Unexpected behavior"
+            },
+            {
+              "id": "unintentional-behavior",
+              "label": "Unintentional behavior"
+            },
+            {
+              "id": "user-guidance-and-training",
+              "label": "User guidance and training"
+            },
+            {
+              "id": "policy-handbooks",
+              "label": "Policy/handbooks"
+            },
+            {
+              "id": "situational-awareness",
+              "label": "Situational awareness"
+            },
+            {
+              "id": "insider-threat-awareness",
+              "label": "Insider threat awareness"
+            },
+            {
+              "id": "password-management",
+              "label": "Password management"
+            },
+            {
+              "id": "removable-media-and-cables",
+              "label": "Removable media and cables"
+            },
+            {
+              "id": "social-engineering-awareness",
+              "label": "Social engineering awareness"
+            },
+            {
+              "id": "operational-security",
+              "label": "Operational security"
+            },
+            {
+              "id": "hybrid-remote-work-environments",
+              "label": "Hybrid/remote work environments"
+            },
+            {
+              "id": "initial-reporting",
+              "label": "Initial reporting"
+            },
+            {
+              "id": "recurring-reporting",
+              "label": "Recurring reporting"
+            },
+            {
+              "id": "development",
+              "label": "Development"
+            },
+            {
+              "id": "execution",
+              "label": "Execution"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

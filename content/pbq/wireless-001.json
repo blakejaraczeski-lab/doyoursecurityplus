@@ -1,0 +1,107 @@
+{
+  "id": "pbq-wireless-001",
+  "kind": "wireless-config",
+  "objective": "4.1",
+  "topics": ["wi-fi-protected-access-3", "aaa-radius", "authentication-protocols", "802-1x"],
+  "difficulty": 4,
+  "title": "Corporate wireless for a branch office",
+  "targetSeconds": 480,
+  "scenario": "Northwind Logistics is bringing a new branch office online. Configure the corporate access point to meet the requirements below. Every setting is scored independently, so complete every field even if you are unsure of one.",
+  "requirements": [
+    "Employees authenticate with their own corporate identity. When someone leaves the company, revoking that one account must remove their wireless access without affecting anyone else.",
+    "The internal PKI has already issued client certificates to every corporate laptop. Authentication must be mutual, with both the client and the server proving identity by certificate.",
+    "An attacker who captures the wireless association must not be able to crack the credential offline.",
+    "Users in the warehouse are being repeatedly knocked off the network by forged frames. Stop this.",
+    "The access point must not offer any setup shortcut that bypasses the configured authentication.",
+    "Apply only controls that provide real security. Do not add configuration that provides obscurity and ongoing administrative cost without stopping an attacker.",
+    "The RADIUS server is at 10.10.5.20 and uses the current IANA assigned authentication port."
+  ],
+  "config": {
+    "deviceName": "NWL-BR7-AP01",
+    "fields": [
+      { "id": "security_mode", "label": "Security mode", "type": "select", "options": [
+        { "value": "open", "label": "Open (no security)" },
+        { "value": "wpa2-personal", "label": "WPA2-Personal (PSK)" },
+        { "value": "wpa2-enterprise", "label": "WPA2-Enterprise (802.1X)" },
+        { "value": "wpa3-personal", "label": "WPA3-Personal (SAE)" },
+        { "value": "wpa3-enterprise", "label": "WPA3-Enterprise (802.1X)" }
+      ]},
+      { "id": "eap_method", "label": "EAP method", "type": "select",
+        "dependsOn": { "field": "security_mode", "in": ["wpa2-enterprise", "wpa3-enterprise"] },
+        "options": [
+          { "value": "eap-tls", "label": "EAP-TLS" },
+          { "value": "peap-mschapv2", "label": "PEAP-MSCHAPv2" },
+          { "value": "eap-ttls", "label": "EAP-TTLS" },
+          { "value": "eap-fast", "label": "EAP-FAST" }
+        ]},
+      { "id": "radius_server", "label": "RADIUS server address", "type": "text", "placeholder": "e.g. 10.0.0.1",
+        "dependsOn": { "field": "security_mode", "in": ["wpa2-enterprise", "wpa3-enterprise"] } },
+      { "id": "radius_port", "label": "RADIUS authentication port", "type": "select",
+        "dependsOn": { "field": "security_mode", "in": ["wpa2-enterprise", "wpa3-enterprise"] },
+        "options": [
+          { "value": "49", "label": "49" },
+          { "value": "389", "label": "389" },
+          { "value": "1645", "label": "1645" },
+          { "value": "1812", "label": "1812" },
+          { "value": "1813", "label": "1813" }
+        ]},
+      { "id": "passphrase", "label": "Pre-shared passphrase", "type": "text",
+        "dependsOn": { "field": "security_mode", "in": ["wpa2-personal", "wpa3-personal"] } },
+      { "id": "pmf", "label": "Protected Management Frames (802.11w)", "type": "select", "options": [
+        { "value": "disabled", "label": "Disabled" },
+        { "value": "optional", "label": "Optional" },
+        { "value": "required", "label": "Required" }
+      ]},
+      { "id": "wps", "label": "Wi-Fi Protected Setup (WPS)", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled" }
+      ]},
+      { "id": "ssid_broadcast", "label": "SSID broadcast", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled (hidden)" }
+      ]},
+      { "id": "mac_filter", "label": "MAC address filtering", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled" }
+      ]}
+    ]
+  },
+  "solution": {
+    "fields": {
+      "security_mode": { "accept": ["wpa3-enterprise"] },
+      "eap_method": { "accept": ["eap-tls"] },
+      "radius_server": { "accept": ["10.10.5.20"] },
+      "radius_port": { "accept": ["1812"] },
+      "pmf": { "accept": ["required"] },
+      "wps": { "accept": ["disabled"] },
+      "ssid_broadcast": { "accept": ["enabled"] },
+      "mac_filter": { "accept": ["disabled"] }
+    }
+  },
+  "subtasks": [
+    { "id": "st-mode", "field": "security_mode", "label": "Authentication mode", "points": 3,
+      "misconception": "wpa3-sae-vs-enterprise",
+      "correctNote": "Per user identity plus individual revocation means 802.1X, and the offline cracking requirement rules out WPA2. WPA3-Enterprise is the only mode that satisfies both." },
+    { "id": "st-eap", "field": "eap_method", "label": "EAP method", "points": 3,
+      "misconception": "eap-tls-vs-peap",
+      "correctNote": "Client certificates are already deployed and the requirement says mutual certificate authentication. That is EAP-TLS and nothing else." },
+    { "id": "st-radius-ip", "field": "radius_server", "label": "RADIUS server address", "points": 1,
+      "misconception": null,
+      "correctNote": "The scenario gives the address directly. Enterprise mode is unusable without it." },
+    { "id": "st-radius-port", "field": "radius_port", "label": "RADIUS port", "points": 1,
+      "misconception": "radius-vs-tacacs",
+      "correctNote": "1812 is RADIUS authentication. 1813 is RADIUS accounting, 1645 is the legacy pre-standard port, 49 is TACACS+ and 389 is LDAP." },
+    { "id": "st-pmf", "field": "pmf", "label": "Protected Management Frames", "points": 2,
+      "misconception": "pmf-and-deauth",
+      "correctNote": "Forged frames knocking users off the network is a deauthentication attack. PMF set to required is the control that stops it, and WPA3 mandates it." },
+    { "id": "st-wps", "field": "wps", "label": "WPS", "points": 2,
+      "misconception": "wps-convenience-risk",
+      "correctNote": "WPS is the setup shortcut that bypasses your authentication design. Disable it." },
+    { "id": "st-ssid", "field": "ssid_broadcast", "label": "SSID broadcast", "points": 1,
+      "misconception": "ssid-hiding-as-security",
+      "correctNote": "Hiding the SSID is obscurity, not security, and it degrades roaming. The requirement explicitly excluded controls of this kind." },
+    { "id": "st-mac", "field": "mac_filter", "label": "MAC filtering", "points": 1,
+      "misconception": "ssid-hiding-as-security",
+      "correctNote": "MAC addresses are trivially spoofed and the filter list is a permanent administrative burden. Same exclusion as SSID hiding." }
+  ]
+}

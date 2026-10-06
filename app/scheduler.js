@@ -1,0 +1,342 @@
+// Queue builder and readiness projection.
+//
+// Two ideas drive everything here:
+//   1. Exam weight. Domain 4 is 28% of the exam and domain 1 is 12%. Study time
+//      follows the weights, not the alphabet.
+//   2. Retargeting. A due misconception does not re-show the item you failed. It
+//      pulls a different item that tests the same discrimination.
+
+import * as fsrs from "./fsrs.js";
+import * as mentor from "./mentor.js";
+
+// `maxRecallShare` caps plain vocabulary cards as a fraction of a session.
+// The exam is multiple choice and PBQs, never free text, so a card you reveal
+// and grade yourself trains an operation the exam never asks for. Vocabulary
+// still has to get in the door, hence a small share rather than none.
+export const PACE = {
+  bootcamp:  { newPerSession: 40, retention: 0.92, mixMisconception: 0.5, mixNew: 0.3, mixReview: 0.2, maxRecallShare: 0.12 },
+  balanced:  { newPerSession: 25, retention: 0.90, mixMisconception: 0.4, mixNew: 0.3, mixReview: 0.3, maxRecallShare: 0.15 },
+  longhaul:  { newPerSession: 15, retention: 0.88, mixMisconception: 0.3, mixNew: 0.3, mixReview: 0.4, maxRecallShare: 0.20 },
+};
+
+/** Is this item worth putting in a drill queue at all? */
+const eligible = (content, it) =>
+  !(it.type === "recall" && content.supersededRecall?.has(it.id));
+
+const itemState = (state, id) => state.items[id] || null;
+const seen = (state, id) => !!state.items[id]?.seen;
+
+/**
+ * A contrast drill only works if the two halves arrive together. Shuffling is
+ * good for everything else, so shuffle first and then pull each pair back into
+ * adjacency, anchored on whichever half landed earlier.
+ */
+function keepPairsAdjacent(queue) {
+  const out = [];
+  const taken = new Set();
+  for (const entry of queue) {
+    if (taken.has(entry)) continue;
+    out.push(entry);
+    taken.add(entry);
+    if (entry.contrastDrill) {
+      const partners = queue.filter(
+        (e) => e !== entry && !taken.has(e) &&
+               e.contrastDrill && e.targetMisconception === entry.targetMisconception
+      );
+      for (const p of partners) { out.push(p); taken.add(p); }
+    }
+  }
+  return out;
+}
+
+function shuffle(arr, rnd = Math.random) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/** How far each domain's coverage is behind where the exam weights say it should be. */
+export function coverageDeficit(state, content) {
+  const byDomain = {};
+  for (const d of content.objectives.domains) {
+    byDomain[d.id] = { weight: d.weight, total: 0, seen: 0 };
+  }
+  for (const it of content.items) {
+    const dom = content.domainOf[it.objective];
+    if (!dom || !byDomain[dom] || !eligible(content, it)) continue;
+    byDomain[dom].total += 1;
+    if (seen(state, it.id)) byDomain[dom].seen += 1;
+  }
+  const totalSeen = Object.values(byDomain).reduce((a, b) => a + b.seen, 0) || 1;
+  for (const d of Object.values(byDomain)) {
+    d.share = d.seen / totalSeen;
+    d.deficit = d.weight - d.share; // positive means under-studied for its weight
+  }
+  return byDomain;
+}
+
+/** Pick the next unseen item, biased toward the most under-studied domains. */
+function pickNewItems(state, content, n, recallBudget = Infinity) {
+  const deficit = coverageDeficit(state, content);
+  const unseen = content.items.filter(
+    (it) => !seen(state, it.id) && it.objective && eligible(content, it)
+  );
+  const scored = unseen.map((it) => {
+    const dom = content.domainOf[it.objective];
+    const d = deficit[dom] || { deficit: 0, weight: 0.1 };
+    const jitter = Math.random() * 0.25;
+    // Exam-shaped items outrank plain vocabulary at equal coverage value.
+    const shape = it.type === "recall" ? -0.6 : 0;
+    return { it, score: d.deficit * 10 + d.weight * 2 + shape + jitter };
+  });
+  scored.sort((a, b) => b.score - a.score);
+
+  const out = [];
+  let recall = 0;
+  for (const { it } of scored) {
+    if (out.length >= n) break;
+    if (it.type === "recall") {
+      if (recall >= recallBudget) continue;
+      recall += 1;
+    }
+    out.push(it);
+  }
+  return out;
+}
+
+/** Previously seen items whose own FSRS card is due. */
+function pickDueItems(state, content, n, now) {
+  const due = content.items
+    .filter((it) => {
+      if (!eligible(content, it)) return false;
+      const s = itemState(state, it.id);
+      return s?.fsrs && s.fsrs.due <= now;
+    })
+    .map((it) => ({ it, overdue: now - state.items[it.id].fsrs.due }));
+  due.sort((a, b) => b.overdue - a.overdue);
+  return due.slice(0, n).map((d) => d.it);
+}
+
+/**
+ * Build a study queue.
+ * @param {string} mode drill | weak | pbq | mock
+ */
+export function buildQueue(state, content, { mode = "drill", size = 25, now = Date.now() } = {}) {
+  const pace = PACE[state.profile.pace] || PACE.bootcamp;
+  const queue = [];
+
+  if (mode === "pbq") {
+    const attempted = (id) => state.pbq[id]?.attempts?.length || 0;
+    return shuffle(content.pbqs)
+      .sort((a, b) => attempted(a.id) - attempted(b.id))
+      .slice(0, size)
+      .map((p) => ({ kind: "pbq", pbq: p, reason: "PBQ lab" }));
+  }
+
+  // 1. Due misconceptions, each retargeted onto a DIFFERENT item.
+  const dueMc = mentor.due(state, content, now);
+  const mcSlots = mode === "weak" ? size : Math.round(size * pace.mixMisconception);
+  const routedBackward = new Set();
+  for (const d of dueMc) {
+    if (queue.length >= mcSlots) break;
+
+    // Repair backward. If this correction sits on top of a dependency that is
+    // itself still open, drilling the symptom is wasted: fix the thing holding
+    // it up first, and say so.
+    const blockers = mentor.blockedBy(d.id, state, content);
+    if (blockers.length && !routedBackward.has(blockers[0].id)) {
+      const b = blockers[0];
+      routedBackward.add(b.id);
+      // Exclude the item that exposed the dependency, same rule as every other
+      // path: being re-served the question you just failed teaches the question.
+      const pool = mentor.itemsFor(b.id, content, state, b.rec?.lastItem);
+      const pick = [...pool.mcqs, ...pool.pbqs][0];
+      if (pick) {
+        queue.push({
+          kind: pick.subtasks ? "pbq" : "item",
+          item: pick.subtasks ? undefined : pick,
+          pbq: pick.subtasks ? pick : undefined,
+          targetMisconception: b.id,
+          prereqRepair: { blocked: d.def.label, blocker: b.def.label, why: b.why },
+          reason: `Dependency first: ${b.def.label}`,
+        });
+        continue;
+      }
+    }
+
+    // Third strike: stop re-serving the explanation and force the distinction.
+    if (mentor.tierFor(d.rec) >= 3) {
+      const pair = mentor.contrastPair(d.id, content, state);
+      if (pair && queue.length + 2 <= mcSlots + 1) {
+        pair.items.forEach((item, i) => {
+          queue.push({
+            kind: "item",
+            item,
+            targetMisconception: d.id,
+            contrastDrill: { index: i, of: pair.items.length, label: d.def.label },
+            reason: `Contrast drill: ${d.def.label}`,
+          });
+        });
+        continue;
+      }
+    }
+
+    const { mcqs, pbqs } = mentor.itemsFor(d.id, content, state, d.rec.lastItem);
+    const pool = [...mcqs, ...pbqs];
+    if (pool.length) {
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      queue.push({
+        kind: pick.subtasks ? "pbq" : "item",
+        item: pick.subtasks ? undefined : pick,
+        pbq: pick.subtasks ? pick : undefined,
+        targetMisconception: d.id,
+        reason: `Retargeting: ${d.def.label}`,
+      });
+    } else {
+      // No other item covers this discrimination yet. Teach it directly.
+      queue.push({
+        kind: "mentor",
+        targetMisconception: d.id,
+        reason: `Review the correction: ${d.def.label}`,
+      });
+    }
+  }
+
+  if (mode === "weak") return queue.slice(0, size);
+
+  // 2. Items already seen whose own card is due.
+  const reviewSlots = Math.round(size * pace.mixReview);
+  for (const it of pickDueItems(state, content, reviewSlots, now)) {
+    queue.push({ kind: "item", item: it, reason: "Due for review" });
+  }
+
+  // 3. New coverage, weighted toward the under-studied heavy domains, with
+  //    plain vocabulary capped so it cannot crowd out exam-shaped practice.
+  const newSlots = Math.max(0, size - queue.length);
+  const recallBudget = Math.max(1, Math.round(size * (pace.maxRecallShare ?? 0.15)));
+  const alreadyRecall = queue.filter((e) => e.item?.type === "recall").length;
+  for (const it of pickNewItems(state, content, newSlots, Math.max(0, recallBudget - alreadyRecall))) {
+    queue.push({ kind: "item", item: it, reason: it.type === "recall" ? "Vocabulary" : "New coverage" });
+  }
+
+  return keepPairsAdjacent(shuffle(queue)).slice(0, size);
+}
+
+/** Build a mock exam: PBQs front loaded, then multiple choice, up to 90 items. */
+export function buildMock(content, { pbqCount = 5, total = 90 } = {}) {
+  const pbqs = shuffle(content.pbqs).slice(0, Math.min(pbqCount, content.pbqs.length));
+  const mcqs = content.items.filter((i) => i.type === "mcq" && !i.derived);
+  const byDomain = {};
+  for (const m of mcqs) (byDomain[content.domainOf[m.objective]] ||= []).push(m);
+
+  const want = total - pbqs.length;
+  const picked = [];
+  for (const d of content.objectives.domains) {
+    const pool = shuffle(byDomain[d.id] || []);
+    picked.push(...pool.slice(0, Math.round(want * d.weight)));
+  }
+  const filler = shuffle(mcqs.filter((m) => !picked.includes(m)));
+  while (picked.length < want && filler.length) picked.push(filler.pop());
+
+  return [
+    ...pbqs.map((p) => ({ kind: "pbq", pbq: p })),
+    ...shuffle(picked).map((i) => ({ kind: "item", item: i })),
+  ];
+}
+
+// --- readiness -------------------------------------------------------------
+
+const laplace = (correct, seenCount) => (correct + 2) / (seenCount + 4);
+
+/** Mastery 0..1 per objective, and the projected scaled score. */
+export function readiness(state, content, now = Date.now()) {
+  const perObjective = {};
+  for (const d of content.objectives.domains) {
+    for (const o of d.objectives) {
+      perObjective[o.id] = {
+        objective: o.id, title: o.title, domain: d.id, weight: d.weight,
+        itemsSeen: 0, itemsCorrect: 0, attempts: 0,
+        openMisconceptions: 0, retiredMisconceptions: 0, severityDrag: 0,
+      };
+    }
+  }
+
+  for (const it of content.items) {
+    const s = itemState(state, it.id);
+    const rec = perObjective[it.objective];
+    if (!rec || !s?.seen) continue;
+    rec.itemsSeen += 1;
+    rec.attempts += s.seen;
+    rec.itemsCorrect += s.correct || 0;
+  }
+
+  const sev = { high: 1, medium: 0.7, low: 0.4 };
+  for (const [id, r] of Object.entries(state.misconceptions)) {
+    const def = content.misconceptions[id];
+    const rec = def && perObjective[def.objective];
+    if (!rec) continue;
+    if (r.retired) rec.retiredMisconceptions += 1;
+    else {
+      rec.openMisconceptions += 1;
+      const decay = fsrs.currentRetrievability(r.fsrs, now);
+      rec.severityDrag += (sev[def.severity] ?? 0.7) * (1 - decay);
+    }
+  }
+
+  // PBQ performance folds into the objective the PBQ belongs to.
+  for (const p of content.pbqs) {
+    const att = state.pbq[p.id]?.attempts || [];
+    const rec = perObjective[p.objective];
+    if (!rec || !att.length) continue;
+    const best = Math.max(...att.map((a) => a.percent)) / 100;
+    rec.pbqBest = best;
+  }
+
+  const totals = { itemsSeen: 0, weightedMastery: 0, sampled: 0 };
+  for (const rec of Object.values(perObjective)) {
+    const accuracy = rec.attempts ? laplace(rec.itemsCorrect, rec.attempts) : 0;
+    const coverage = Math.min(1, rec.itemsSeen / 12); // 12 items is a usable sample
+    const drag = Math.min(0.4, rec.severityDrag * 0.12);
+    let mastery = accuracy * (0.5 + 0.5 * coverage) - drag;
+    if (rec.pbqBest != null) mastery = mastery * 0.7 + rec.pbqBest * 0.3;
+    rec.accuracy = accuracy;
+    rec.coverage = coverage;
+    rec.mastery = Math.max(0, Math.min(1, mastery));
+    rec.status = rec.itemsSeen === 0 ? "untouched"
+      : rec.mastery >= 0.85 ? "strong"
+      : rec.mastery >= 0.7 ? "ok"
+      : rec.mastery >= 0.5 ? "shaky"
+      : "weak";
+    totals.itemsSeen += rec.itemsSeen;
+    totals.weightedMastery += rec.mastery * (rec.weight / 
+      content.objectives.domains.find((d) => d.id === rec.domain).objectives.length);
+    if (rec.itemsSeen) totals.sampled += 1;
+  }
+
+  const p = Math.max(0, Math.min(1, totals.weightedMastery));
+  // Anchored piecewise mapping onto CompTIA's 100-900 scale: 750 is the pass line
+  // and sits at roughly 75% mastery. This is an estimate, not a predicted score.
+  const scaled = p <= 0.75
+    ? Math.round(100 + (650 / 0.75) * p)
+    : Math.round(750 + (150 / 0.25) * (p - 0.75));
+
+  const n = state.reviews.length;
+  const band = Math.round(Math.min(180, 200 / Math.sqrt(Math.max(n, 1) + 4)));
+
+  return {
+    perObjective,
+    mastery: p,
+    scaled,
+    band,
+    low: Math.max(100, scaled - band),
+    high: Math.min(900, scaled + band),
+    passLine: 750,
+    confident: n >= 150 && totals.sampled >= 20,
+    reviewCount: n,
+    objectivesSampled: totals.sampled,
+    daysLeft: state.profile.examDate ? mentor.daysUntilExam(state, now) : null,
+  };
+}

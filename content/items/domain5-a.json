@@ -1,0 +1,121 @@
+[
+{"id":"g-001","type":"mcq","objective":"5.1","topics":["password-standards","information-security-policies","guidelines"],"difficulty":2,
+ "stem":"A document states: 'All privileged account passwords must be at least 16 characters and rotated every 90 days.' What is this document?",
+ "options":[
+  {"id":"a","text":"A standard","correct":true,"why":"It specifies exact, measurable, mandatory values. That specificity is what makes it a standard rather than a policy."},
+  {"id":"b","text":"A policy","misconception":"policy-standard-procedure-guideline","why":"A policy states the requirement and its intent without the specific numbers, for example that privileged accounts must use strong, regularly changed credentials."},
+  {"id":"c","text":"A procedure","misconception":"policy-standard-procedure-guideline","why":"A procedure would be the numbered steps for actually rotating the password in the vault."},
+  {"id":"d","text":"A guideline","misconception":"policy-standard-procedure-guideline","why":"Guidelines are recommendations. The word 'must' makes this mandatory."}]},
+
+{"id":"g-002","type":"mcq","objective":"5.1","topics":["playbooks","change-management-procedures","guidelines"],"difficulty":2,
+ "stem":"Which governance document is advisory rather than mandatory?",
+ "options":[
+  {"id":"a","text":"A guideline","correct":true,"why":"Guidelines recommend good practice. They are the only one of the four that you may reasonably choose not to follow."},
+  {"id":"b","text":"A standard","misconception":"policy-standard-procedure-guideline","why":"Standards are mandatory and specify exactly what must be true."},
+  {"id":"c","text":"A procedure","misconception":"policy-standard-procedure-guideline","why":"Procedures are mandatory steps for carrying out a task consistently."},
+  {"id":"d","text":"A policy","misconception":"policy-standard-procedure-guideline","why":"Policy is the top level mandatory statement of what the organisation requires."}]},
+
+{"id":"g-003","type":"mcq","objective":"5.1","topics":["owners", "custodians-stewards","classification"],"difficulty":3,
+ "stem":"Who is accountable for deciding the classification of the HR records and who may access them?",
+ "options":[
+  {"id":"a","text":"The data owner","correct":true,"why":"The owner is the senior business role accountable for the data, including its classification and access decisions."},
+  {"id":"b","text":"The data custodian","misconception":"data-roles","why":"The custodian implements and maintains the controls the owner decides on, such as applying the permissions and running backups."},
+  {"id":"c","text":"The data processor","misconception":"data-roles","why":"A processor handles data on behalf of the controller, following instructions. It does not set classification."},
+  {"id":"d","text":"The data subject","misconception":"data-roles","why":"The data subject is the person the data describes. They have rights over it, not classification authority."}]},
+
+{"id":"g-004","type":"mcq","objective":"5.4","topics":["controller-vs-processor","processors","data-subject"],"difficulty":3,
+ "stem":"A company uses an external payroll bureau. The company decides what data is collected and why; the bureau only runs the payroll as instructed. Under privacy law, what is the bureau?",
+ "options":[
+  {"id":"a","text":"The data processor","correct":true,"why":"It processes personal data on the controller's instructions and does not determine the purpose or means."},
+  {"id":"b","text":"The data controller","misconception":"data-roles","why":"The controller decides the purpose and means of processing. That is the company, not the bureau."},
+  {"id":"c","text":"The data owner","misconception":"data-roles","why":"Data owner is an internal accountability role, not the privacy law term the question is asking for."},
+  {"id":"d","text":"The data custodian","misconception":"data-roles","why":"Custodian is the internal operational role. The question asks about the legal relationship with an external party."}]},
+
+{"id":"g-005","type":"mcq","objective":"5.3","topics":["service-level-agreement-sla","memorandum-of-understanding-mou"],"difficulty":2,
+ "stem":"A contract commits a provider to 99.95% monthly availability with service credits if it is missed. Which agreement is this?",
+ "options":[
+  {"id":"a","text":"An SLA","correct":true,"why":"Measurable service levels with consequences for missing them is exactly what a service level agreement defines."},
+  {"id":"b","text":"An MOU","misconception":"agreement-types","why":"An MOU records mutual intent and is usually not binding. It would not carry service credits."},
+  {"id":"c","text":"An MSA","misconception":"agreement-types","why":"The master service agreement sets the umbrella terms of the relationship. The measurable targets sit in the SLA underneath it."},
+  {"id":"d","text":"A BPA","misconception":"agreement-types","why":"A business partners agreement governs a joint venture between two businesses, including how profits are shared."}]},
+
+{"id":"g-006","type":"mcq","objective":"5.3","topics":["master-service-agreement-msa","work-order-wo-statement-of-work-sow"],"difficulty":3,
+ "stem":"An organisation signs one document covering payment terms, liability and confidentiality for all future work with a consultancy, then issues separate documents for each individual project. What are these two documents?",
+ "options":[
+  {"id":"a","text":"A master service agreement, then statements of work under it","correct":true,"why":"The MSA is negotiated once as the umbrella. Each engagement is then defined by its own SOW covering deliverables, timeline and price."},
+  {"id":"b","text":"A memorandum of agreement, then service level agreements","misconception":"agreement-types","why":"An MOA sets out roles and responsibilities between parties. SLAs define measurable service levels, not project deliverables."},
+  {"id":"c","text":"A business partners agreement, then work orders","misconception":"agreement-types","why":"A BPA is for a joint business venture, which is not what buying consultancy is."},
+  {"id":"d","text":"A non-disclosure agreement, then statements of work","misconception":"agreement-types","why":"An NDA only covers confidentiality. It could not carry payment terms and liability."}]},
+
+{"id":"g-007","type":"mcq","objective":"5.3","topics":["memorandum-of-understanding-mou","memorandum-of-agreement-moa"],"difficulty":3,
+ "stem":"Two public sector bodies document their shared intention to cooperate on a data sharing initiative. The document explicitly states it creates no legal obligations. What is it?",
+ "options":[
+  {"id":"a","text":"An MOU","correct":true,"why":"A memorandum of understanding records mutual intent and is normally non-binding, which the document says explicitly."},
+  {"id":"b","text":"An MOA","misconception":"agreement-types","why":"An MOA goes further, assigning defined roles and responsibilities, and is normally binding."},
+  {"id":"c","text":"An SLA","misconception":"agreement-types","why":"An SLA sets measurable performance commitments, which a non-binding statement of intent cannot."},
+  {"id":"d","text":"An MSA","misconception":"agreement-types","why":"A master service agreement is a binding commercial umbrella contract."}]},
+
+{"id":"g-008","type":"mcq","objective":"5.2","topics":["transfer","insurance","mitigate"],"difficulty":2,
+ "stem":"An organisation purchases a cyber insurance policy covering breach response costs. Which risk management strategy is this?",
+ "options":[
+  {"id":"a","text":"Transfer","correct":true,"why":"The financial impact is moved to the insurer. The likelihood of the breach is unchanged, and accountability stays with the organisation."},
+  {"id":"b","text":"Mitigate","misconception":"risk-treatment-strategies","why":"Mitigation reduces likelihood or impact through controls. Insurance changes neither, it changes who pays."},
+  {"id":"c","text":"Avoid","misconception":"risk-treatment-strategies","why":"Avoidance means ceasing the activity that creates the risk. The organisation carries on exactly as before."},
+  {"id":"d","text":"Accept","misconception":"risk-treatment-strategies","why":"Acceptance means taking no action. Buying a policy is an action."}]},
+
+{"id":"g-009","type":"mcq","objective":"5.2","topics":["avoid","transfer","mitigate"],"difficulty":3,
+ "stem":"After assessing the risk of storing card data, a retailer stops handling cards entirely and redirects customers to a hosted payment page run by its processor. Which strategy is this?",
+ "options":[
+  {"id":"a","text":"Avoid","correct":true,"why":"The activity that created the risk has been discontinued, so the risk no longer applies to the retailer."},
+  {"id":"b","text":"Transfer","misconception":"risk-treatment-strategies","why":"Tempting, because a third party is now involved. The distinguishing fact is that the retailer no longer performs the activity at all, rather than paying someone to absorb the loss."},
+  {"id":"c","text":"Mitigate","misconception":"risk-treatment-strategies","why":"Mitigation would mean continuing to store card data with stronger controls around it."},
+  {"id":"d","text":"Accept","misconception":"risk-treatment-strategies","why":"Acceptance means continuing as before and documenting the exposure."}]},
+
+{"id":"g-010","type":"mcq","objective":"5.2","topics":["accept","exception","risk-owners"],"difficulty":2,
+ "stem":"A low impact risk would cost far more to remediate than it could ever cause in losses. Management signs off on leaving it as it is and records the decision. What is this?",
+ "options":[
+  {"id":"a","text":"Acceptance, documented as an exception","correct":true,"why":"The organisation knowingly takes no further action, and the decision is recorded with an owner so it can be reviewed later."},
+  {"id":"b","text":"Avoidance","misconception":"risk-treatment-strategies","why":"Nothing has been stopped. The activity continues unchanged."},
+  {"id":"c","text":"Mitigation, because documenting reduces the risk","misconception":"risk-treatment-strategies","why":"Documentation is governance, not a control. The risk is exactly as large as it was."},
+  {"id":"d","text":"Transfer, because management now owns it","misconception":"risk-treatment-strategies","why":"Assigning an internal risk owner is not transfer. Transfer moves financial impact outside the organisation."}]},
+
+{"id":"g-011","type":"mcq","objective":"5.2","topics":["quantitative-risk-analysis","qualitative-risk-analysis"],"difficulty":3,
+ "stem":"A risk team produces a 5 by 5 matrix rating each risk's likelihood and impact as low, medium or high, based on workshops with subject matter experts. Which method is this?",
+ "options":[
+  {"id":"a","text":"Qualitative","correct":true,"why":"The output is descriptive categories derived from expert judgement rather than currency figures."},
+  {"id":"b","text":"Quantitative","misconception":"qualitative-vs-quantitative","why":"Quantitative analysis produces monetary values such as SLE and ALE. A rating scale is not a monetary value even when it uses numbers."},
+  {"id":"c","text":"A business impact analysis","misconception":"bia-vs-risk-assessment","why":"A BIA measures the consequence of a process stopping and produces RTO and RPO, not likelihood ratings."},
+  {"id":"d","text":"A gap analysis","misconception":"qualitative-vs-quantitative","why":"A gap analysis compares current state against a target state such as a framework."}]},
+
+{"id":"g-012","type":"mcq","objective":"5.2","topics":["quantitative-risk-analysis","annualized-loss-expectancy-ale"],"difficulty":3,
+ "stem":"Which situation makes quantitative risk analysis the better choice?",
+ "options":[
+  {"id":"a","text":"Deciding whether a 60,000 per year control is justified against a measurable expected loss","correct":true,"why":"A direct cost comparison needs monetary figures on both sides, which is what quantitative analysis produces."},
+  {"id":"b","text":"Assessing reputational damage from a privacy incident","misconception":"qualitative-vs-quantitative","why":"Reputational harm resists reliable pricing. Forcing a number onto it produces false precision, which is when qualitative is correct."},
+  {"id":"c","text":"Ranking thirty newly identified risks quickly for a board paper","misconception":"qualitative-vs-quantitative","why":"Speed and breadth favour qualitative ratings. Quantitative analysis is slow and data hungry."},
+  {"id":"d","text":"Assessing risks where no historical frequency data exists","misconception":"qualitative-vs-quantitative","why":"Without frequency data you cannot calculate an ARO, so the quantitative result would be invented."}]},
+
+{"id":"g-013","type":"mcq","objective":"5.4","topics":["due-diligence","due-diligence-care"],"difficulty":3,
+ "stem":"Before signing with a cloud provider, a company reviews the provider's independent audit reports, financial stability and subcontractor list. What is this activity?",
+ "options":[
+  {"id":"a","text":"Due diligence","correct":true,"why":"Investigation carried out before committing to the relationship is due diligence."},
+  {"id":"b","text":"Due care","misconception":"due-diligence-vs-due-care","why":"Due care is acting responsibly on an ongoing basis after the commitment, such as monitoring the vendor through the contract."},
+  {"id":"c","text":"An attestation","misconception":"audit-vs-assessment","why":"An attestation is a formal signed statement that something is true. Reviewing evidence is not the same as signing a statement."},
+  {"id":"d","text":"A right-to-audit clause","misconception":"vendor-assessment-methods","why":"That is a contractual right to inspect later. This is the review performed before signing."}]},
+
+{"id":"g-014","type":"mcq","objective":"5.4","topics":["due-diligence-care","vendor-monitoring","compliance-monitoring"],"difficulty":3,
+ "stem":"A company reviews its vendor's SOC 2 report annually, checks quarterly that access is still appropriate, and tracks the vendor's security incidents throughout the contract. What does this demonstrate?",
+ "options":[
+  {"id":"a","text":"Due care","correct":true,"why":"Ongoing, reasonable action to maintain the security of the relationship after it has begun is due care."},
+  {"id":"b","text":"Due diligence","misconception":"due-diligence-vs-due-care","why":"Due diligence was the investigation performed before signing. This is what happens afterwards, continuously."},
+  {"id":"c","text":"A conflict of interest review","misconception":"due-diligence-vs-due-care","why":"That checks whether the vendor has competing loyalties, which is one narrow part of selection."},
+  {"id":"d","text":"A business impact analysis","misconception":"bia-vs-risk-assessment","why":"A BIA measures what happens if a process stops. This is vendor oversight."}]},
+
+{"id":"g-015","type":"mcq","objective":"5.5","topics":["independent-third-party-audit","self-assessments","internal-compliance-audit"],"difficulty":3,
+ "stem":"A prospective customer will not sign until it receives credible assurance about your security controls. Which is most appropriate to provide?",
+ "options":[
+  {"id":"a","text":"An independent third-party audit report","correct":true,"why":"External parties need assurance that does not depend on your own word. Independence is what gives the report weight outside the organisation."},
+  {"id":"b","text":"A completed internal self-assessment","misconception":"audit-vs-assessment","why":"A self-assessment is the team assessing its own controls. It is useful internally and carries no weight with a customer."},
+  {"id":"c","text":"An internal audit report from your audit function","misconception":"audit-vs-assessment","why":"Better, and it is still the organisation auditing itself. Customers normally require genuine third-party independence."},
+  {"id":"d","text":"A copy of your information security policy","misconception":"policy-standard-procedure-guideline","why":"A policy states intent. It is no evidence that the controls actually operate."}]}
+]

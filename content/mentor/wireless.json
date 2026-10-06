@@ -1,0 +1,427 @@
+[
+  {
+    "id": "wpa3-sae-vs-enterprise",
+    "label": "WPA3-Personal (SAE) vs WPA3-Enterprise (802.1X)",
+    "objective": "4.1",
+    "topics": [
+      "wi-fi-protected-access-3",
+      "aaa-radius",
+      "802-1x"
+    ],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated WPA3 as a single setting. WPA3 is a standard with two very different authentication modes, and the exam almost always cares about which mode, not whether it is WPA3.",
+      "contrast": [
+        [
+          "Aspect",
+          "WPA3-Personal (SAE)",
+          "WPA3-Enterprise (802.1X)"
+        ],
+        [
+          "Credential",
+          "One passphrase shared by everyone",
+          "Each user's own identity"
+        ],
+        [
+          "Who validates",
+          "The access point itself",
+          "A RADIUS server"
+        ],
+        [
+          "Extra infrastructure",
+          "None",
+          "RADIUS server plus EAP method plus certificates"
+        ],
+        [
+          "Revoking one user",
+          "Change the passphrase for everyone",
+          "Disable that one account"
+        ],
+        [
+          "Fits",
+          "Home, guest, small office",
+          "Corporate, any question about employees"
+        ]
+      ],
+      "rule": "If individual users must be identified, revoked, or tied to an identity store, it is Enterprise. If there is one password for the building, it is Personal.",
+      "tell": "Stems saying 'each employee', 'per user', 'domain credentials', 'revoke access when someone leaves', or naming a RADIUS server are all Enterprise. 'Guest network' and 'small branch with no servers' are Personal.",
+      "trap": "WPA3-Personal is a genuine upgrade over WPA2-Personal, so it looks like the secure choice and it is, for the wrong scenario. Corporate requirements make it wrong regardless of how modern it is."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "wpa2-psk-vs-wpa3-sae",
+    "label": "WPA2 four-way handshake vs WPA3 SAE (Dragonfly)",
+    "objective": "4.1",
+    "topics": [
+      "wi-fi-protected-access-3",
+      "cryptographic-protocols",
+      "wireless-attacks"
+    ],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You saw two pre-shared-key modes and assumed the difference is only the key length or the cipher. The real difference is that WPA2 lets an attacker crack the password offline and WPA3 does not.",
+      "contrast": [
+        [
+          "Aspect",
+          "WPA2-Personal",
+          "WPA3-Personal"
+        ],
+        [
+          "Key agreement",
+          "Four-way handshake",
+          "SAE, also called Dragonfly"
+        ],
+        [
+          "Capture the handshake and crack offline",
+          "Yes, this is the standard attack",
+          "No, SAE resists it"
+        ],
+        [
+          "Guessing the password",
+          "Unlimited offline guesses",
+          "Each guess costs a live exchange with the AP"
+        ],
+        [
+          "Forward secrecy",
+          "No",
+          "Yes"
+        ],
+        [
+          "Cipher",
+          "AES-CCMP",
+          "AES-GCMP, and SAE replaces PSK"
+        ]
+      ],
+      "rule": "WPA3-Personal's headline feature is killing the offline dictionary attack, not a bigger key.",
+      "tell": "'An attacker captured the handshake and is cracking it offline' is a WPA2 weakness. The fix is WPA3 and SAE, not a longer passphrase alone.",
+      "trap": "A longer passphrase does make WPA2 harder to crack, so it reads like a valid answer. It mitigates the attack, it does not remove it. SAE removes it."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "eap-tls-vs-peap",
+    "label": "EAP-TLS vs PEAP and EAP-TTLS",
+    "objective": "4.1",
+    "topics": [
+      "authentication-protocols",
+      "extensible-authentication-protocol-eap",
+      "public-key-infrastructure-pki"
+    ],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You picked an EAP method without checking which side has to hold a certificate. That is the only thing that separates these on the exam.",
+      "contrast": [
+        [
+          "Aspect",
+          "EAP-TLS",
+          "PEAP / EAP-TTLS"
+        ],
+        [
+          "Server certificate",
+          "Required",
+          "Required"
+        ],
+        [
+          "Client certificate",
+          "Required, on every device",
+          "Not required"
+        ],
+        [
+          "Client proves identity with",
+          "Its certificate",
+          "Username and password inside the TLS tunnel"
+        ],
+        [
+          "Strength",
+          "Strongest, mutual certificate authentication",
+          "Strong, but only the server is certificate authenticated"
+        ],
+        [
+          "Cost",
+          "You must run a PKI and enroll every device",
+          "Much lighter to deploy"
+        ]
+      ],
+      "rule": "EAP-TLS is the only common method needing a certificate on the client too. Both ends hold a certificate, so it is mutual.",
+      "tell": "'Certificates are deployed to all corporate laptops' or 'strongest possible authentication' points to EAP-TLS. 'We cannot issue client certificates' or 'use existing AD passwords' points to PEAP.",
+      "trap": "EAP-TLS is the strongest, so it is tempting whenever the stem says 'most secure'. If the scenario rules out a client PKI, the strongest deployable method is PEAP."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "ssid-hiding-as-security",
+    "label": "Hiding the SSID treated as a security control",
+    "objective": "4.1",
+    "topics": [
+      "wi-fi",
+      "wireless-attacks",
+      "unsecure-wireless-networks"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You counted SSID suppression as a control that stops an attacker. It is obscurity, not security.",
+      "contrast": [
+        [
+          "Aspect",
+          "Hiding the SSID",
+          "Real wireless control"
+        ],
+        [
+          "Stops a casual user browsing networks",
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Stops an attacker",
+          "No, the SSID is still in client probe and association frames",
+          "Yes"
+        ],
+        [
+          "Effort to defeat",
+          "A passive capture and a few minutes",
+          "Requires breaking the crypto or the identity"
+        ],
+        [
+          "Side effect",
+          "Clients broadcast the hidden name everywhere they go",
+          "None"
+        ]
+      ],
+      "rule": "Hiding the SSID and MAC filtering are both obscurity. Neither is the answer when the question asks how to secure a wireless network.",
+      "tell": "Any option offering 'disable SSID broadcast' or 'enable MAC address filtering' as the primary defence is a distractor.",
+      "trap": "Both appear on real hardening checklists, so they feel legitimate. They are defence in depth garnish, never the control that answers the question."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "radius-vs-tacacs",
+    "label": "RADIUS vs TACACS+",
+    "objective": "4.1",
+    "topics": [
+      "aaa-radius",
+      "authentication-authorization-and-accounting-aaa"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You swapped the two AAA protocols. They differ in what they encrypt and which job they are normally used for.",
+      "contrast": [
+        [
+          "Aspect",
+          "RADIUS",
+          "TACACS+"
+        ],
+        [
+          "Transport",
+          "UDP",
+          "TCP"
+        ],
+        [
+          "Encrypts",
+          "The password only",
+          "The entire payload"
+        ],
+        [
+          "AAA handling",
+          "Authentication and authorization combined",
+          "All three separated"
+        ],
+        [
+          "Typical job",
+          "Network access: Wi-Fi, VPN, 802.1X",
+          "Device administration: who may run which command on a router"
+        ],
+        [
+          "Origin",
+          "Open standard",
+          "Cisco developed"
+        ]
+      ],
+      "rule": "RADIUS gets users onto the network. TACACS+ controls what administrators may do on the devices.",
+      "tell": "802.1X, Wi-Fi and VPN scenarios mean RADIUS. 'Restrict which commands an engineer can run on the switch' means TACACS+.",
+      "trap": "Both are AAA servers, so either looks plausible. Decide by asking whether the subject is an end user getting on the network or an admin logging into gear."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "wps-convenience-risk",
+    "label": "WPS left enabled on a corporate access point",
+    "objective": "4.1",
+    "topics": [
+      "wi-fi",
+      "wireless-attacks",
+      "default-credentials"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You left WPS on, or did not see it as a finding. WPS undercuts whatever WPA mode you configured above it.",
+      "contrast": [
+        [
+          "Aspect",
+          "With WPS enabled",
+          "With WPS disabled"
+        ],
+        [
+          "Attack",
+          "The 8 digit PIN is validated in two halves, so it falls in hours",
+          "Attacker must beat WPA itself"
+        ],
+        [
+          "Effect on WPA3 config",
+          "Provides a parallel way in that bypasses your work",
+          "None"
+        ],
+        [
+          "Business value",
+          "Convenience when joining printers",
+          "One extra minute of setup"
+        ]
+      ],
+      "rule": "WPS is a bypass around your wireless security. On any corporate configuration, turn it off.",
+      "tell": "A configuration task listing WPS among the toggles is testing whether you notice it. It should be off.",
+      "trap": "It is off the critical path of the stated requirement, so it is easy to skip. PBQ graders score it as its own subtask."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "evil-twin-vs-rogue-ap",
+    "label": "Evil twin vs rogue access point",
+    "objective": "2.4",
+    "topics": [
+      "wireless-attacks",
+      "on-path",
+      "unsecure-wireless-networks"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You used the two terms interchangeably. They overlap, but the exam separates them by intent and by whether the name is cloned.",
+      "contrast": [
+        [
+          "Aspect",
+          "Rogue access point",
+          "Evil twin"
+        ],
+        [
+          "What it is",
+          "Any unauthorised AP on the network",
+          "An AP impersonating a legitimate SSID"
+        ],
+        [
+          "Usual source",
+          "An employee plugging in their own AP",
+          "An attacker"
+        ],
+        [
+          "Clones the real SSID",
+          "Not necessarily",
+          "Yes, that is the point"
+        ],
+        [
+          "Goal",
+          "Often just convenience",
+          "Get clients to associate so traffic can be captured or modified"
+        ],
+        [
+          "Detection",
+          "Wireless scanning, NAC, port security",
+          "Wireless IPS looking for duplicate SSIDs"
+        ]
+      ],
+      "rule": "Every evil twin is a rogue AP. Not every rogue AP is an evil twin. The cloned SSID is the tell.",
+      "tell": "'Same SSID as corporate, stronger signal, users reconnected automatically' is an evil twin, usually leading to an on-path attack.",
+      "trap": "Rogue AP is the broader and safer sounding term, so it attracts the answer. If the SSID was impersonated, evil twin is the more precise answer and the exam wants precision."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "pmf-and-deauth",
+    "label": "Protected Management Frames (802.11w) and deauthentication attacks",
+    "objective": "4.1",
+    "topics": [
+      "wi-fi-protected-access-3",
+      "wireless-attacks",
+      "cryptographic-protocols"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You left management frame protection off, or expected WPA encryption to cover it. WPA protects your data frames. Management frames are a separate problem.",
+      "contrast": [
+        [
+          "Aspect",
+          "Without PMF",
+          "With PMF required"
+        ],
+        [
+          "Deauthentication frames",
+          "Forged by anyone in range",
+          "Cryptographically authenticated"
+        ],
+        [
+          "Attack it enables",
+          "Knock clients off, then capture the reconnect handshake, or push them onto an evil twin",
+          "Neither works"
+        ],
+        [
+          "Relationship to WPA3",
+          "WPA3 mandates PMF",
+          "Already on if the mode is truly WPA3"
+        ],
+        [
+          "WPA2 setting",
+          "Optional, often off by default",
+          "Set to required where clients support it"
+        ]
+      ],
+      "rule": "Encrypting the data does not authenticate the management frames. PMF, also called 802.11w, is what stops deauthentication and disassociation attacks.",
+      "tell": "'Users are repeatedly knocked off the wireless network' or 'the attacker forced a reconnect to capture the handshake' means PMF.",
+      "trap": "The network is encrypted with a modern cipher, so it reads as already protected. The deauth frame was never encrypted in the first place."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "guest-network-isolation",
+    "label": "Guest wireless isolation: client isolation vs VLAN separation",
+    "objective": "4.1",
+    "topics": [
+      "wi-fi",
+      "segmentation",
+      "security-zones",
+      "logical-segmentation"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You used one isolation control and assumed it covered both directions. Guest traffic has to be separated from the corporate LAN and from other guests, and those are two different settings.",
+      "contrast": [
+        [
+          "Requirement",
+          "Control",
+          "What it does not do"
+        ],
+        [
+          "Guests must not reach the corporate LAN",
+          "A separate guest VLAN with a firewall rule",
+          "Does nothing about guest to guest traffic"
+        ],
+        [
+          "Guests must not reach each other",
+          "Client isolation, sometimes called AP isolation",
+          "Does nothing about reaching the LAN"
+        ],
+        [
+          "Guests must not consume the whole link",
+          "Bandwidth limiting per client",
+          "Not a security control"
+        ],
+        [
+          "Guests must accept the terms",
+          "Captive portal",
+          "Not authentication, and not encryption"
+        ]
+      ],
+      "rule": "VLAN separates guests from you. Client isolation separates guests from each other. A guest network that needs both must configure both.",
+      "tell": "'Guests must not be able to see or reach one another' is client isolation specifically, not VLAN assignment.",
+      "trap": "Putting guests on their own VLAN feels like complete isolation and is the answer people give. Two guests on the same VLAN can still attack each other."
+    },
+    "retireAfter": 2
+  }
+]

@@ -1,0 +1,193 @@
+[
+{"id":"t-001","type":"mcq","objective":"2.1","topics":["nation-state","organized-crime","espionage"],"difficulty":3,
+ "stem":"An intrusion used two previously unknown vulnerabilities, maintained access for eleven months without detection, and targeted defence contract documents. Which threat actor is most likely?",
+ "options":[
+  {"id":"a","text":"A nation-state actor","correct":true,"why":"Zero-day capability, very long dwell time and an espionage target together indicate resources and patience that only a state sponsored actor typically has."},
+  {"id":"b","text":"Organised crime","misconception":"threat-actor-attributes","why":"Criminal groups are well funded and motivated by money. Eleven quiet months on defence documents with no monetisation does not fit."},
+  {"id":"c","text":"A hacktivist","misconception":"threat-actor-attributes","why":"Hacktivists have limited resources and want visibility. Staying hidden for eleven months defeats their purpose."},
+  {"id":"d","text":"An unskilled attacker","misconception":"threat-actor-attributes","why":"Unskilled attackers use off the shelf tools. They do not develop zero-days."}]},
+
+{"id":"t-002","type":"mcq","objective":"2.1","topics":["hacktivist","organized-crime","philosophical-political-beliefs"],"difficulty":2,
+ "stem":"A group defaces a company's website with political slogans on the day of a controversial government vote, and publicises it widely. Which actor and motivation?",
+ "options":[
+  {"id":"a","text":"A hacktivist motivated by political beliefs","correct":true,"why":"Visible defacement timed to a political event, with publicity as the goal, is the hacktivist signature."},
+  {"id":"b","text":"Organised crime motivated by financial gain","misconception":"threat-actor-attributes","why":"No money is being extracted, and publicity is the opposite of what a criminal group wants."},
+  {"id":"c","text":"A nation-state motivated by espionage","misconception":"threat-actor-attributes","why":"Espionage requires staying hidden. Defacement announces the intrusion immediately."},
+  {"id":"d","text":"An insider threat motivated by revenge","misconception":"threat-actor-attributes","why":"Nothing indicates the attacker had legitimate access, and the motivation is stated as political."}]},
+
+{"id":"t-003","type":"mcq","objective":"2.1","topics":["shadow-it","insider-threat","unskilled-attacker"],"difficulty":3,
+ "stem":"A marketing team signs up for an unapproved cloud file sharing service and moves campaign material into it, without malicious intent. How is this classified?",
+ "options":[
+  {"id":"a","text":"Shadow IT","correct":true,"why":"Technology adopted outside the approved process by employees trying to do their jobs. It creates real risk without any malicious intent."},
+  {"id":"b","text":"A malicious insider threat","misconception":"threat-actor-attributes","why":"The scenario states there is no malicious intent. Treating convenience as sabotage misidentifies both the actor and the fix."},
+  {"id":"c","text":"An unskilled attacker","misconception":"threat-actor-attributes","why":"Nobody is attacking. Employees adopted a tool."},
+  {"id":"d","text":"A supply chain compromise","misconception":"supply-chain-vectors","why":"No vendor relationship was abused. The organisation simply has no relationship with this vendor at all."}]},
+
+{"id":"t-004","type":"mcq","objective":"2.1","topics":["insider-threat","revenge","data-exfiltration"],"difficulty":3,
+ "stem":"A departing engineer downloads the full customer database on their last afternoon, going directly to the one share containing it. Which characteristic most identifies this actor type?",
+ "options":[
+  {"id":"a","text":"Legitimate access and knowledge of exactly where the valuable data sits","correct":true,"why":"An insider does not need to intrude or discover anything. That is precisely what makes insiders so difficult to detect with perimeter controls."},
+  {"id":"b","text":"Advanced tooling and zero-day capability","misconception":"threat-actor-attributes","why":"That describes a nation-state. An insider needs no exploit because they already have credentials."},
+  {"id":"c","text":"Large financial backing","misconception":"threat-actor-attributes","why":"Resources describe organised crime and nation-states. An insider's advantage is access, not funding."},
+  {"id":"d","text":"A desire for public attention","misconception":"threat-actor-attributes","why":"That is hacktivist behaviour. This actor is acting quietly on their way out."}]},
+
+{"id":"t-005","type":"mcq","objective":"2.4","topics":["amplified-ddos","distributed-denial-of-service-ddos"],"difficulty":3,
+ "stem":"An attacker sends 60 byte DNS queries with a spoofed source address to open resolvers, which return 3,000 byte responses to the victim. Which term best describes the multiplication effect?",
+ "options":[
+  {"id":"a","text":"Amplification","correct":true,"why":"A small request producing a much larger response multiplies the attacker's bandwidth, which is the definition of amplification."},
+  {"id":"b","text":"Reflection","misconception":"ddos-amplified-vs-reflected","why":"Reflection is also present, since the resolvers bounce traffic to the spoofed victim. The question asks specifically about the size multiplier."},
+  {"id":"c","text":"An on-path attack","misconception":"on-path-vs-replay","why":"The attacker is not positioned between two communicating parties reading or altering traffic."},
+  {"id":"d","text":"A replay attack","misconception":"on-path-vs-replay","why":"Nothing captured earlier is being resent. These are freshly generated queries."}]},
+
+{"id":"t-006","type":"mcq","objective":"2.4","topics":["reflected-ddos","distributed-denial-of-service-ddos","dns-attacks"],"difficulty":3,
+ "stem":"A victim's logs show flood traffic arriving from thousands of legitimate, well known NTP servers that the victim never contacted. What does this indicate?",
+ "options":[
+  {"id":"a","text":"A reflected attack using a spoofed source address","correct":true,"why":"The attacker sent requests to those servers while forging the victim's address, so the innocent servers' replies land on the victim and conceal the true origin."},
+  {"id":"b","text":"Those NTP servers have been compromised and are now part of a botnet","misconception":"ddos-amplified-vs-reflected","why":"Reflection needs no compromise. The servers are simply answering what looks like a legitimate request."},
+  {"id":"c","text":"An on-path attacker is intercepting the victim's time synchronisation","misconception":"on-path-vs-replay","why":"Nothing is being intercepted or modified. The victim is receiving unsolicited flood traffic."},
+  {"id":"d","text":"The victim's own NTP client is misconfigured","misconception":"ddos-amplified-vs-reflected","why":"The victim never sent these requests, which is the whole point of source address spoofing."}]},
+
+{"id":"t-007","type":"mcq","objective":"2.4","topics":["replay","credential-replay","on-path"],"difficulty":3,
+ "stem":"An attacker captures an authentication message and submits it unchanged 40 minutes later. The server accepts it. Which control would have prevented this?",
+ "options":[
+  {"id":"a","text":"Including a nonce or timestamp so each message is valid only once","correct":true,"why":"Replay is defeated by making every authentication message unique and time bound, so a recording cannot be reused."},
+  {"id":"b","text":"Increasing the password complexity requirement","misconception":"on-path-vs-replay","why":"The attacker never needed the password. They reused the authentication message itself."},
+  {"id":"c","text":"Certificate pinning on the client","misconception":"on-path-vs-replay","why":"Pinning defends against on-path interception with a fraudulent certificate. It does not stop a captured message being replayed."},
+  {"id":"d","text":"Rate limiting failed logins","misconception":"on-path-vs-replay","why":"The replayed attempt succeeds on the first try, so it never triggers a failure threshold."}]},
+
+{"id":"t-008","type":"mcq","objective":"2.4","topics":["on-path","replay","forgery"],"difficulty":3,
+ "stem":"An attacker positions themselves between a user and a banking site, presenting a fraudulent certificate, and alters the destination account number in a transfer request in real time. What is this?",
+ "options":[
+  {"id":"a","text":"An on-path attack","correct":true,"why":"The attacker sits between the parties and modifies traffic live, which is what distinguishes on-path from a replay."},
+  {"id":"b","text":"A replay attack","misconception":"on-path-vs-replay","why":"Replay resends a previously captured message unchanged. Here the message is being altered as it passes."},
+  {"id":"c","text":"Cross site request forgery","misconception":"app-attack-types","why":"CSRF tricks the victim's own browser into issuing a request. It does not require an interception position."},
+  {"id":"d","text":"A downgrade attack","misconception":"crypto-attacks","why":"A downgrade forces weaker cryptography during negotiation. Here a fraudulent certificate is used, not a weakened cipher."}]},
+
+{"id":"t-009","type":"mcq","objective":"2.4","topics":["impossible-travel","concurrent-session-usage"],"difficulty":2,
+ "stem":"An account authenticates successfully from Dublin at 09:02 and from Kuala Lumpur at 09:26. Which indicator is this?",
+ "options":[
+  {"id":"a","text":"Impossible travel","correct":true,"why":"Two successful logins separated by more distance than could be covered in the elapsed time. It suggests the credential is in more than one person's hands."},
+  {"id":"b","text":"Account lockout","misconception":"impossible-travel-indicators","why":"Lockout follows repeated failures. Both of these attempts succeeded."},
+  {"id":"c","text":"Out-of-cycle logging","misconception":"impossible-travel-indicators","why":"That describes activity at an unusual time of day for the account, not an impossible geographic jump."},
+  {"id":"d","text":"Missing logs","misconception":"impossible-travel-indicators","why":"Both events are present in the log. Nothing is missing."}]},
+
+{"id":"t-010","type":"mcq","objective":"2.4","topics":["missing-logs","out-of-cycle-logging","indicators"],"difficulty":3,
+ "stem":"While investigating a suspected compromise, an analyst finds the security event log has no entries between 02:10 and 02:55, though the system was running. How should this be treated?",
+ "options":[
+  {"id":"a","text":"As an indicator of compromise, since something likely cleared or suppressed the log","correct":true,"why":"Missing logs are evidence in themselves. Clearing logs is a standard anti-forensic step, and it is exactly why logs are forwarded off host."},
+  {"id":"b","text":"As a benign gap, since nothing happened during that period","misconception":"impossible-travel-indicators","why":"A running system generates events. A silent window during a suspected compromise is the opposite of reassuring."},
+  {"id":"c","text":"As out-of-cycle logging","misconception":"impossible-travel-indicators","why":"Out-of-cycle logging means events appearing at unusual times, not events being absent."},
+  {"id":"d","text":"As a false positive from the SIEM","misconception":"false-positive-vs-negative","why":"The SIEM has not raised an incorrect alarm. The source data itself has a hole in it."}]},
+
+{"id":"t-011","type":"mcq","objective":"2.3","topics":["race-conditions","time-of-check-toc","time-of-use-tou"],"difficulty":4,
+ "stem":"An application checks that a file is owned by the user, then opens it. An attacker replaces the file with a symbolic link to a system file between those two operations. What is this flaw?",
+ "options":[
+  {"id":"a","text":"A time-of-check to time-of-use race condition","correct":true,"why":"The verification was accurate when made and stale when used. The vulnerability is the window between the two operations."},
+  {"id":"b","text":"Directory traversal","misconception":"app-attack-types","why":"Traversal uses path sequences in input to escape the intended directory. Here the input is unchanged and the file behind it is swapped."},
+  {"id":"c","text":"A buffer overflow","misconception":"app-attack-types","why":"No memory boundary is being exceeded. The flaw is one of timing."},
+  {"id":"d","text":"Privilege escalation through misconfiguration","misconception":"race-condition-toctou","why":"Escalation may be the outcome, and the mechanism the question asks about is the timing window."}]},
+
+{"id":"t-012","type":"mcq","objective":"2.3","topics":["race-conditions","time-of-use-tou"],"difficulty":3,
+ "stem":"Which fix genuinely addresses a time-of-check to time-of-use vulnerability?",
+ "options":[
+  {"id":"a","text":"Make the check and the use a single atomic operation, or hold a lock across both","correct":true,"why":"Only removing the window closes the flaw. Atomicity means no other process can intervene between verifying and acting."},
+  {"id":"b","text":"Perform the validation a second time immediately before use","misconception":"race-condition-toctou","why":"This narrows the window and creates a new one. The gap still exists, just smaller."},
+  {"id":"c","text":"Validate the input more strictly at the entry point","misconception":"race-condition-toctou","why":"Input validation is unrelated. The input was legitimate; the resource behind it changed."},
+  {"id":"d","text":"Run the process with reduced privileges","misconception":"race-condition-toctou","why":"Sound defence in depth that limits the damage and leaves the race condition intact."}]},
+
+{"id":"t-013","type":"mcq","objective":"2.3","topics":["software-provider-supply-chain","malicious-update","patching"],"difficulty":3,
+ "stem":"A company applies a correctly signed update from a trusted network monitoring vendor. The update contains a backdoor inserted after the vendor's build system was compromised. How is this best classified?",
+ "options":[
+  {"id":"a","text":"A software supply chain compromise","correct":true,"why":"The attack arrived through a legitimate, trusted distribution channel, which is why signature checking and prompt patching approved it."},
+  {"id":"b","text":"A failure of the company's patch management process","misconception":"supply-chain-vectors","why":"The company did the right thing. Applying signed vendor updates promptly is correct behaviour and is exactly what the attacker relied on."},
+  {"id":"c","text":"A zero-day vulnerability in the monitoring product","misconception":"zero-day-vs-unpatched","why":"No vulnerability was exploited. Malicious code was shipped as a legitimate feature of the update."},
+  {"id":"d","text":"An insider threat at the customer","misconception":"threat-actor-attributes","why":"The compromise occurred at the vendor. Nobody inside the customer acted improperly."}]},
+
+{"id":"t-014","type":"mcq","objective":"2.2","topics":["managed-service-providers-msps","service-provider-supply-chain","vendors"],"difficulty":3,
+ "stem":"An attacker compromises a managed service provider and uses its remote management tooling to deploy ransomware to 200 of its clients simultaneously. Which risk does this illustrate?",
+ "options":[
+  {"id":"a","text":"Third-party and supply chain risk through a service provider's privileged access","correct":true,"why":"The MSP holds trusted administrative access into every client, so compromising it once reaches all of them."},
+  {"id":"b","text":"Insider threat at each of the 200 clients","misconception":"supply-chain-vectors","why":"No client employee acted. The trusted access came from outside each organisation."},
+  {"id":"c","text":"Shadow IT","misconception":"threat-actor-attributes","why":"The MSP relationship is sanctioned and contracted, which is the opposite of shadow IT."},
+  {"id":"d","text":"A zero-day in the clients' endpoint protection","misconception":"zero-day-vs-unpatched","why":"The deployment used legitimate management tooling with legitimate credentials, so no exploit was needed."}]},
+
+{"id":"t-015","type":"mcq","objective":"2.4","topics":["downgrade-attack","cryptographic-vulnerabilities"],"difficulty":3,
+ "stem":"An attacker interferes with a TLS handshake so the client and server agree on an obsolete protocol version with known weaknesses. What is this?",
+ "options":[
+  {"id":"a","text":"A downgrade attack","correct":true,"why":"The negotiation is manipulated so both parties settle on weaker cryptography. The fix is to stop offering the weak versions at all."},
+  {"id":"b","text":"A collision attack","misconception":"crypto-attacks","why":"A collision means two different inputs producing the same hash. No hash function is being attacked here."},
+  {"id":"c","text":"A birthday attack","misconception":"crypto-attacks","why":"The birthday attack is the probability technique that makes finding hash collisions cheaper. It is not about protocol negotiation."},
+  {"id":"d","text":"A replay attack","misconception":"on-path-vs-replay","why":"Nothing captured earlier is being resent. The live handshake is being manipulated."}]},
+
+{"id":"t-016","type":"mcq","objective":"2.4","topics":["collision","birthday-attack","hashing"],"difficulty":3,
+ "stem":"A researcher produces two different PDF documents that share an identical MD5 digest. What does this demonstrate?",
+ "options":[
+  {"id":"a","text":"A hash collision, showing MD5 is unfit for integrity or signature use","correct":true,"why":"Two distinct inputs producing the same digest breaks the guarantee that a matching hash means identical content."},
+  {"id":"b","text":"A downgrade attack against the hashing algorithm","misconception":"crypto-attacks","why":"Downgrade attacks manipulate protocol negotiation. Nothing is being negotiated here."},
+  {"id":"c","text":"That MD5 encryption has been broken","misconception":"hashing-vs-encryption","why":"MD5 is a hash function, not encryption. It has no key and nothing to decrypt."},
+  {"id":"d","text":"A birthday attack, which is a different thing from a collision","misconception":"crypto-attacks","why":"The birthday attack is the technique used to find collisions efficiently. The result demonstrated here is the collision itself."}]},
+
+{"id":"t-017","type":"mcq","objective":"2.3","topics":["zero-day","patching","misconfiguration"],"difficulty":3,
+ "stem":"A breach exploited a vulnerability for which the vendor released a patch four months earlier. The company had not applied it. How should this be described?",
+ "options":[
+  {"id":"a","text":"Exploitation of a known unpatched vulnerability, which is a vulnerability management failure","correct":true,"why":"A fix existed and was not deployed. Naming it accurately matters, because the remediation is a patching process, not new detection technology."},
+  {"id":"b","text":"A zero-day attack","misconception":"zero-day-vs-unpatched","why":"Zero-day means no patch exists. A patch had been available for four months."},
+  {"id":"c","text":"A supply chain compromise","misconception":"supply-chain-vectors","why":"The vendor did its part by shipping a fix. Nothing arrived through a trusted channel."},
+  {"id":"d","text":"An end of life vulnerability","misconception":"zero-day-vs-unpatched","why":"End of life means the vendor no longer issues patches. This vendor issued one."}]},
+
+{"id":"t-018","type":"mcq","objective":"2.3","topics":["zero-day","compensating-controls"],"difficulty":3,
+ "stem":"A critical zero-day is disclosed for an internet facing application, with no patch available. What is the appropriate immediate response?",
+ "options":[
+  {"id":"a","text":"Apply compensating controls such as virtual patching, restricted access and enhanced monitoring","correct":true,"why":"With no patch to deploy, the objective must be met another way until the vendor ships a fix."},
+  {"id":"b","text":"Apply the vendor patch as soon as it is tested","misconception":"zero-day-vs-unpatched","why":"There is no patch. That is what makes it a zero-day."},
+  {"id":"c","text":"Wait, since exploitation is unlikely before a patch exists","misconception":"zero-day-vs-unpatched","why":"Public disclosure of an internet facing flaw is followed by mass scanning within hours."},
+  {"id":"d","text":"Reclassify the system as end of life","misconception":"zero-day-vs-unpatched","why":"The product is supported; the fix simply does not exist yet."}]},
+
+{"id":"t-019","type":"mcq","objective":"2.4","topics":["directory-traversal","injection","privilege-escalation"],"difficulty":3,
+ "stem":"A web server log shows requests containing ../../../../etc/passwd in a filename parameter. Which attack is this?",
+ "options":[
+  {"id":"a","text":"Directory traversal","correct":true,"why":"Relative path sequences used to escape the intended directory and read files elsewhere on the file system."},
+  {"id":"b","text":"SQL injection","misconception":"app-attack-types","why":"No SQL is present and nothing is being passed to a database. The payload is a file path."},
+  {"id":"c","text":"Privilege escalation","misconception":"app-attack-types","why":"Reading the file may support escalation later. The mechanism in the log is path traversal."},
+  {"id":"d","text":"Cross site scripting","misconception":"sqli-vs-xss","why":"XSS executes script in a victim's browser. This payload targets the server's file system."}]},
+
+{"id":"t-020","type":"mcq","objective":"2.4","topics":["forgery","privilege-escalation","injection"],"difficulty":3,
+ "stem":"A logged-in user visits a malicious page, which silently causes their browser to submit a password change request to their banking site using their existing session. What is this?",
+ "options":[
+  {"id":"a","text":"Cross site request forgery","correct":true,"why":"The victim's own authenticated browser is tricked into issuing a request they never intended, and the bank sees it as legitimate."},
+  {"id":"b","text":"Cross site scripting","misconception":"app-attack-types","why":"XSS executes attacker script within the vulnerable site's own origin. Here no script runs on the bank's site; the browser is simply made to send a request."},
+  {"id":"c","text":"An on-path attack","misconception":"on-path-vs-replay","why":"The attacker never intercepts traffic. They rely entirely on the victim's browser and existing session."},
+  {"id":"d","text":"Privilege escalation","misconception":"app-attack-types","why":"No additional rights are obtained. The attacker uses exactly the rights the victim already has."}]},
+
+{"id":"t-021","type":"mcq","objective":"2.3","topics":["jailbreaking","mobile-device-management-mdm"],"difficulty":2,
+ "stem":"An MDM report flags a corporate phone whose operating system restrictions have been removed, giving the user privileged control of the device. What is this, and why does it matter most?",
+ "options":[
+  {"id":"a","text":"Jailbreaking, because it invalidates the platform security model every other control depends on","correct":true,"why":"Once the OS restrictions are gone, containerisation, encryption enforcement and MDM policy can all be subverted."},
+  {"id":"b","text":"Sideloading, because apps can now be installed from outside the store","misconception":"jailbreak-vs-sideload","why":"Sideloading may follow, and the finding described is the removal of the OS restrictions themselves."},
+  {"id":"c","text":"A supply chain compromise of the device","misconception":"supply-chain-vectors","why":"Nothing was tampered with before delivery. The user modified the device."},
+  {"id":"d","text":"A zero-day in the mobile operating system","misconception":"zero-day-vs-unpatched","why":"Jailbreak tools often use known exploits, and either way the finding is the device's modified state."}]},
+
+{"id":"t-022","type":"mcq","objective":"2.3","topics":["side-loading","jailbreaking","mobile-device-vulnerabilities"],"difficulty":2,
+ "stem":"A user installs an application package downloaded from a website rather than from the official app store, on an otherwise unmodified device. What is this called?",
+ "options":[
+  {"id":"a","text":"Sideloading","correct":true,"why":"Installing an app from outside the official distribution channel, so it has not been through store review."},
+  {"id":"b","text":"Jailbreaking","misconception":"jailbreak-vs-sideload","why":"The device is explicitly unmodified. Jailbreaking means removing the OS restrictions."},
+  {"id":"c","text":"Rooting","misconception":"jailbreak-vs-sideload","why":"Rooting is the Android term for gaining privileged control, which is not what happened here."},
+  {"id":"d","text":"A malicious update","misconception":"supply-chain-vectors","why":"A malicious update arrives through the legitimate vendor channel. This app bypassed the channel entirely."}]},
+
+{"id":"t-023","type":"mcq","objective":"3.2","topics":["secure-access-service-edge-sase","software-defined-wide-area-network-sd-wan"],"difficulty":3,
+ "stem":"A company deploys SD-WAN across its branches and then asks why it still needs a separate security stack. What is the correct explanation?",
+ "options":[
+  {"id":"a","text":"SD-WAN optimises connectivity between sites; it does not inherently inspect or filter traffic","correct":true,"why":"SD-WAN chooses paths intelligently across available circuits. Security services have to be added, which is what moving to SASE provides."},
+  {"id":"b","text":"SD-WAN includes a full security stack, so no separate controls are needed","misconception":"sdwan-vs-sase","why":"That describes SASE. Confusing them leaves branches connected and unprotected."},
+  {"id":"c","text":"SD-WAN encrypts all traffic, which removes the need for filtering","misconception":"sdwan-vs-sase","why":"Encryption protects traffic in transit. It does not decide what traffic should be permitted."},
+  {"id":"d","text":"SD-WAN replaces the need for a VPN and therefore for perimeter security","misconception":"sdwan-vs-sase","why":"Replacing the tunnel technology says nothing about inspecting what travels through it."}]},
+
+{"id":"t-024","type":"mcq","objective":"3.4","topics":["uninterruptible-power-supply-ups","generators"],"difficulty":2,
+ "stem":"During a brief 8 second mains dip, which device keeps equipment running with no interruption?",
+ "options":[
+  {"id":"a","text":"The UPS","correct":true,"why":"A UPS carries the load instantly from battery, which is what covers short dips and bridges to a generator during longer outages."},
+  {"id":"b","text":"The generator","misconception":"ups-vs-generator","why":"A generator needs time to start and stabilise. For an 8 second dip it would barely have begun."},
+  {"id":"c","text":"Dual power supplies in each server","misconception":"ups-vs-generator","why":"Redundant supplies protect against a failed supply unit. If both feeds lose mains power, both go down."},
+  {"id":"d","text":"Power distribution units with surge protection","misconception":"ups-vs-generator","why":"Surge protection handles voltage spikes. It stores no energy to carry a loss of supply."}]}
+]

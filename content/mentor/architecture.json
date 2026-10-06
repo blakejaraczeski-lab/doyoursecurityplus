@@ -1,0 +1,252 @@
+[
+  {
+    "id": "cloud-responsibility-matrix",
+    "label": "Shared responsibility across IaaS, PaaS and SaaS",
+    "objective": "3.1",
+    "topics": ["cloud-responsibility-matrix", "hybrid-considerations", "third-party-vendors"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You assigned a responsibility to the wrong party. The dividing line moves with the service model, and the exam picks the model deliberately.",
+      "contrast": [
+        ["Layer", "IaaS", "PaaS", "SaaS"],
+        ["Physical and network", "Provider", "Provider", "Provider"],
+        ["Hypervisor", "Provider", "Provider", "Provider"],
+        ["Operating system patching", "You", "Provider", "Provider"],
+        ["Runtime and middleware", "You", "Provider", "Provider"],
+        ["Application code", "You", "You", "Provider"],
+        ["Data, access and configuration", "You", "You", "You"]
+      ],
+      "rule": "Your data, your accounts and your configuration are yours in every model, without exception. Everything else shifts to the provider as you move from IaaS toward SaaS.",
+      "tell": "'Who is responsible for patching the guest operating system' is IaaS only. A misconfigured storage bucket or an over-permissioned account is always the customer, whatever the model.",
+      "trap": "SaaS feels like the provider handles everything, which is why public data exposure through a misconfigured SaaS permission is such a common real world breach. Configuration never transfers."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "site-types-hot-warm-cold",
+    "label": "Hot, warm and cold recovery sites",
+    "objective": "3.4",
+    "topics": ["hot-site", "warm-site", "cold-site", "geographic-dispersion", "recovery-time-objective-rto"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You matched a site type to the wrong recovery time or cost. The three differ only by how much is already running when you arrive.",
+      "contrast": [
+        ["Site", "What is there", "Time to operational", "Cost"],
+        ["Hot", "Hardware, software and current data, running", "Minutes", "Highest"],
+        ["Warm", "Hardware and software, data is stale or must be restored", "Hours to days", "Moderate"],
+        ["Cold", "Space, power and connectivity only", "Days to weeks", "Lowest"],
+        ["Cloud or mobile", "Provisioned on demand", "Varies", "Pay as used"]
+      ],
+      "rule": "Hot means data is already there and current. Warm means the kit is there and the data is not. Cold means an empty room.",
+      "tell": "Match to the RTO in the stem. An RTO of one hour rules out warm and cold immediately. A tight budget with a tolerant RTO points to cold.",
+      "trap": "Warm sites are described as having hardware and software ready, which sounds nearly instant. The missing current data is what costs you the hours or days."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "ha-vs-load-balancing-vs-clustering",
+    "label": "High availability, load balancing and clustering",
+    "objective": "3.4",
+    "topics": ["high-availability", "load-balancing-vs-clustering", "load-balancer", "multi-cloud-systems"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated these as the same thing. They overlap and they solve different problems.",
+      "contrast": [
+        ["Concept", "Primary purpose", "If a node dies"],
+        ["Load balancing", "Spread requests across servers for capacity", "Traffic is directed to the remaining nodes"],
+        ["Clustering", "Servers act as one logical system, sharing state", "Another node takes over the workload and its state"],
+        ["High availability", "The outcome: minimal downtime", "Achieved by the above plus redundancy everywhere"],
+        ["Failover", "Switching to a standby", "The standby becomes active"]
+      ],
+      "rule": "Load balancing is about capacity and gives availability as a side effect. Clustering is about servers acting as one system with shared state. High availability is the goal, not the mechanism.",
+      "tell": "'Distribute incoming requests across the web farm' is load balancing. 'The database must keep running with its session state intact if a node fails' is clustering.",
+      "trap": "A load balancer does improve availability, so it answers many availability questions. When the stem stresses shared state or a single logical system, it is clustering."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "backup-methods",
+    "label": "Snapshot vs replication vs journaling vs backup",
+    "objective": "3.4",
+    "topics": ["snapshots", "replication", "journaling", "onsite-offsite-backups", "backup-frequency"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose a data protection method that does not survive the scenario's failure mode. Replication in particular is not a backup.",
+      "contrast": [
+        ["Method", "What it gives you", "Protects against"],
+        ["Backup", "A separate copy retained over time", "Deletion, corruption, ransomware, going back in time"],
+        ["Snapshot", "A point in time view, usually on the same storage", "Bad change or upgrade, recent and fast"],
+        ["Replication", "A continuously updated second copy", "Hardware or site failure only"],
+        ["Journaling", "A record of every change, so you can replay to any moment", "Very small RPO, fine grained recovery"]
+      ],
+      "rule": "Replication copies your mistakes as fast as it copies your data. Only a retained, separated backup lets you go back to before the damage.",
+      "tell": "Ransomware or accidental deletion means backup, and it must be offline or immutable. Site loss means replication. Near zero RPO means journaling or continuous replication.",
+      "trap": "Replication sounds strictly better than backup because it is continuous. Continuity is exactly the problem: the encryption or the deletion replicates too."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "data-states",
+    "label": "Data at rest, in transit and in use",
+    "objective": "3.3",
+    "topics": ["data-at-rest", "data-in-transit", "data-in-use", "encryption", "secure-enclave"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You applied a protection that does not cover the state the data was actually in.",
+      "contrast": [
+        ["State", "Where the data is", "Protection"],
+        ["At rest", "On disk, in a database, in object storage", "Full disk, volume, database or field encryption"],
+        ["In transit", "Crossing a network", "TLS, IPSec, a VPN tunnel"],
+        ["In use", "Loaded into memory, being processed", "Secure enclave, confidential computing, homomorphic encryption"]
+      ],
+      "rule": "Data in use is the hard one. It has to be decrypted to be processed, which is why it needs a hardware enclave rather than ordinary encryption.",
+      "tell": "'Protect the data even from the administrator of the server while the application is processing it' is data in use.",
+      "trap": "Full disk encryption is the reflex answer and it protects a powered off device. Once the system is running and the volume is mounted, it protects nothing against a live attacker."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "data-type-vs-classification",
+    "label": "Data type vs data classification",
+    "objective": "3.3",
+    "topics": ["regulated-data", "trade-secret", "intellectual-property", "sensitive", "confidential", "restricted", "critical", "public"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered with a classification level when the question asked what kind of data it is, or the reverse.",
+      "contrast": [
+        ["Axis", "Question", "Values"],
+        ["Data type", "What kind of information is this", "Regulated, trade secret, intellectual property, legal, financial, human readable"],
+        ["Classification", "How sensitive is it to us", "Public, private, sensitive, confidential, restricted, critical"],
+        ["Example", "Card numbers are regulated data", "and are classified restricted"],
+        ["Example", "A recipe is a trade secret", "and is classified confidential"]
+      ],
+      "rule": "Type describes the nature of the data and often who regulates it. Classification describes the handling level your organisation assigns.",
+      "tell": "If the options are Public, Private, Confidential and Restricted, the question wants a classification. If they are Regulated, Trade secret and Intellectual property, it wants a type.",
+      "trap": "Both axes appear in the same option list, so a word that sounds right is always available on the wrong axis. This is the same trick as control category versus control type."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "sdwan-vs-sase",
+    "label": "SD-WAN vs SASE vs VPN",
+    "objective": "3.2",
+    "topics": ["software-defined-wide-area-network-sd-wan", "secure-access-service-edge-sase", "virtual-private-network-vpn", "remote-access"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You picked a connectivity technology when the requirement was security delivered with the connectivity, or the reverse.",
+      "contrast": [
+        ["Technology", "Solves", "Includes security"],
+        ["VPN", "Encrypted tunnel for a user or a site", "Encryption only"],
+        ["SD-WAN", "Intelligent routing across multiple circuits between sites", "Not inherently"],
+        ["SASE", "Network and security delivered together from the cloud edge", "Yes: SWG, CASB, ZTNA, firewall as a service"]
+      ],
+      "rule": "SD-WAN is connectivity. SASE is SD-WAN plus the security stack, delivered from the cloud, applied wherever the user is.",
+      "tell": "'Remote and branch users must get consistent security policy without backhauling traffic to headquarters' is SASE.",
+      "trap": "SD-WAN improves branch connectivity and often ships alongside security features, which blurs them. If the stem emphasises policy following the user, it is SASE."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "containers-vs-virtualization",
+    "label": "Containerisation vs virtualisation, and VM escape vs container escape",
+    "objective": "3.1",
+    "topics": ["containerization", "virtualization", "virtual-machine-vm-escape", "resource-reuse", "microservices"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated a container as a lightweight virtual machine. They isolate at different layers, which changes the blast radius.",
+      "contrast": [
+        ["Aspect", "Virtual machine", "Container"],
+        ["Isolation boundary", "The hypervisor", "The host kernel"],
+        ["Each instance runs", "Its own full OS", "Only the application and its dependencies"],
+        ["Start time", "Seconds to minutes", "Milliseconds"],
+        ["Escape means", "Breaking the hypervisor to reach the host or other VMs", "Breaking out to the shared host kernel"],
+        ["Relative isolation", "Stronger", "Weaker, because the kernel is shared"]
+      ],
+      "rule": "Containers share the host kernel, virtual machines do not. That single fact explains the speed advantage and the weaker isolation.",
+      "tell": "'Strong isolation is required between untrusted tenants' favours virtual machines or dedicated hosts. Density and fast startup favour containers.",
+      "trap": "Containers are described as isolated, and they are, at a weaker boundary. A kernel vulnerability affects every container on the host at once."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "ups-vs-generator",
+    "label": "UPS vs generator",
+    "objective": "3.4",
+    "topics": ["uninterruptible-power-supply-ups", "generators", "power"],
+    "severity": "low",
+    "mentor": {
+      "diagnosis": "You expected one device to cover the whole outage. They cover different parts of it and are designed to be used together.",
+      "contrast": [
+        ["Device", "Engages", "Runs for", "Purpose"],
+        ["UPS", "Instantly, no gap", "Minutes", "Ride through a brief dip, or bridge to the generator"],
+        ["Generator", "After a start delay", "Days, while fuel lasts", "Sustain the site through a long outage"]
+      ],
+      "rule": "The UPS covers the seconds the generator needs to start. Neither alone covers a long outage without interruption.",
+      "tell": "'No interruption at all, even momentarily' means a UPS must be present. 'Keep running for two days' means a generator.",
+      "trap": "A generator sounds like the complete answer because it lasts far longer. It cannot start instantly, so without a UPS everything still drops."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "jump-server-vs-proxy",
+    "label": "Jump server vs proxy server vs reverse proxy",
+    "objective": "3.2",
+    "topics": ["jump-server", "proxy-server", "load-balancer", "device-placement", "security-zones"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose an intermediary device that faces the wrong direction for the scenario.",
+      "contrast": [
+        ["Device", "Who uses it", "Purpose"],
+        ["Jump server", "Administrators", "A single hardened, monitored entry point into a protected zone"],
+        ["Forward proxy", "Internal users going out", "Filtering, caching and logging outbound web traffic"],
+        ["Reverse proxy", "External users coming in", "Fronting internal servers, TLS termination, hiding the origin"],
+        ["Load balancer", "External users coming in", "Distributing requests across a pool for capacity"]
+      ],
+      "rule": "Jump server is for administrators entering. Forward proxy is for users leaving. Reverse proxy is for the public arriving.",
+      "tell": "'All administrative access to the production segment must pass through one auditable host' is a jump server, sometimes called a bastion host.",
+      "trap": "Every one of these sits in the middle of a connection, so all four read as plausible. Identify who is initiating and in which direction."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "fail-open-vs-fail-closed",
+    "label": "Fail-open vs fail-closed",
+    "objective": "3.2",
+    "topics": ["fail-open", "fail-closed", "availability", "resilience"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose a failure mode without asking whether availability or security matters more for that specific system.",
+      "contrast": [
+        ["Mode", "On failure", "Favours", "Right for"],
+        ["Fail-open", "Traffic or access is permitted", "Availability", "A door that must release in a fire, a non-critical inspection point"],
+        ["Fail-closed", "Traffic or access is denied", "Security", "A firewall, a vault door, a payment segment"],
+        ["Also called", "Fail-safe in the life safety sense", "", "Terminology varies by context, so read the scenario"]
+      ],
+      "rule": "Fail-closed protects data and risks an outage. Fail-open protects availability and risks exposure. Life safety almost always overrides security: doors release.",
+      "tell": "'Personnel must be able to evacuate during a power failure' means fail-open, regardless of how sensitive the area is.",
+      "trap": "Fail-closed reads as the responsible security answer everywhere, and applied to an exit door it kills people. Check whether human safety is in scope."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "air-gap-vs-logical-segmentation",
+    "label": "Air gap vs logical segmentation vs microsegmentation",
+    "objective": "3.1",
+    "topics": ["air-gapped", "physical-isolation", "logical-segmentation", "software-defined-networking-sdn", "segmentation"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You called a VLAN an air gap, or proposed an air gap where the system genuinely needs connectivity.",
+      "contrast": [
+        ["Approach", "Separation", "Defeated by"],
+        ["Air gap", "Physical: no network connection at all", "Removable media, or someone quietly adding a link"],
+        ["Physical isolation", "Separate hardware and cabling", "A bridging device"],
+        ["Logical segmentation", "VLANs and ACLs on shared hardware", "Misconfiguration, VLAN hopping"],
+        ["Microsegmentation", "Policy per workload, often software defined", "Policy errors"]
+      ],
+      "rule": "An air gap means no connection exists. If data still has to move, it is not an air gap, whatever the design document calls it.",
+      "tell": "'The system must never touch the corporate network under any circumstances' is an air gap. 'Must be reachable only by the SCADA management server' is segmentation.",
+      "trap": "Air gaps degrade quietly in practice. The moment someone adds a management link or walks a USB drive across, the protection is gone, and the design still claims it."
+    },
+    "retireAfter": 2
+  }
+]

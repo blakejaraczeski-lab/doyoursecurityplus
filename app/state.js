@@ -1,0 +1,165 @@
+// Study state: what you know, what you got wrong, and when you studied.
+//
+// Two tiers on purpose. localStorage is the fast tier the UI reads and writes
+// synchronously. The server (see serve.py) is the durable tier, written a couple
+// of seconds behind. localStorage is keyed to an origin and can be cleared by a
+// browser setting; the durable tier is a file on disk with snapshots.
+
+const KEY = "dysp.v1";
+
+export const DEFAULT_STATE = {
+  version: 2,
+  updatedAt: 0,
+  profile: {
+    examDate: null,
+    pace: "bootcamp",
+    dailyNewTarget: 40,
+    desiredRetention: 0.92,
+    dailyReviewGoal: 40,
+  },
+  items: {},
+  misconceptions: {},
+  pbq: {},
+  reviews: [],
+  streak: { days: [], current: 0, best: 0, lastStudied: null },
+  session: { started: null, answered: 0 },
+};
+
+export const today = (d = new Date()) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+const dayBefore = (iso) => {
+  const d = new Date(`${iso}T12:00:00`);
+  d.setDate(d.getDate() - 1);
+  return today(d);
+};
+
+/**
+ * Record that studying happened today and recompute the streak.
+ * Called on every review; cheap and idempotent within a day.
+ */
+export function touchStreak(state, now = new Date()) {
+  const t = today(now);
+  const s = (state.streak ||= structuredClone(DEFAULT_STATE.streak));
+  if (s.lastStudied === t) return s;
+
+  s.current = s.lastStudied === dayBefore(t) ? (s.current || 0) + 1 : 1;
+  s.best = Math.max(s.best || 0, s.current);
+  s.lastStudied = t;
+  s.days = [...new Set([...(s.days || []), t])].slice(-120);
+  return s;
+}
+
+/** Is the streak still alive, or was the last session before yesterday? */
+export function streakStatus(state, now = new Date()) {
+  const s = state.streak || {};
+  const t = today(now);
+  if (!s.lastStudied) return { current: 0, best: s.best || 0, studiedToday: false, alive: false };
+  const alive = s.lastStudied === t || s.lastStudied === dayBefore(t);
+  return {
+    current: alive ? s.current || 0 : 0,
+    best: s.best || 0,
+    studiedToday: s.lastStudied === t,
+    alive,
+  };
+}
+
+/**
+ * Confidence calibration.
+ *
+ * Two numbers matter and they are not symmetrical. Confident-and-wrong is the
+ * dangerous quadrant: you will not look it up, because you do not know you are
+ * wrong. Guessed-and-right is the fragile quadrant: the score says you know it
+ * and you do not.
+ */
+export function calibration(state) {
+  let sureRight = 0, sureWrong = 0, guessRight = 0, guessWrong = 0;
+  for (const r of state.reviews || []) {
+    if (r.kind !== "item" || !r.conf) continue;
+    const right = r.grade >= 2;
+    if (r.conf === "sure") right ? sureRight++ : sureWrong++;
+    else right ? guessRight++ : guessWrong++;
+  }
+  const sure = sureRight + sureWrong;
+  const guess = guessRight + guessWrong;
+  return {
+    sureRight, sureWrong, guessRight, guessWrong,
+    answered: sure + guess,
+    overconfidence: sure ? sureWrong / sure : 0,   // claimed sure, got it wrong
+    fragile: guess ? guessRight / guess : 0,       // guessed, got it right
+    // Well calibrated means you are right when you say you are sure, and you
+    // say you are guessing when you are. Perfect is 0.
+    error: sure || guess ? (sure ? sureWrong / sure : 0) * 0.7 + (guess ? guessRight / guess : 0) * 0.3 : null,
+  };
+}
+
+/** Reviews logged today, for the daily goal ring. */
+export function reviewsToday(state, now = new Date()) {
+  const start = new Date(now);
+  start.setHours(0, 0, 0, 0);
+  const from = start.getTime();
+  return (state.reviews || []).reduce((n, r) => n + (r.at >= from ? 1 : 0), 0);
+}
+
+function migrate(parsed) {
+  const s = { ...structuredClone(DEFAULT_STATE), ...parsed };
+  s.profile = { ...DEFAULT_STATE.profile, ...(parsed.profile || {}) };
+  s.streak = { ...DEFAULT_STATE.streak, ...(parsed.streak || {}) };
+  s.version = DEFAULT_STATE.version;
+  return s;
+}
+
+export function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    return raw ? migrate(JSON.parse(raw)) : structuredClone(DEFAULT_STATE);
+  } catch {
+    return structuredClone(DEFAULT_STATE);
+  }
+}
+
+let saveTimer = null;
+let onSaved = null;
+
+/** Register a callback invoked after each local save, so sync can push. */
+export function onLocalSave(fn) {
+  onSaved = fn;
+}
+
+export function save(state) {
+  state.updatedAt = Date.now();
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(state));
+    } catch (e) {
+      console.warn("Could not persist study state locally", e);
+    }
+    onSaved?.(state);
+  }, 120);
+}
+
+/** Write through immediately, used before unload. */
+export function flush(state) {
+  clearTimeout(saveTimer);
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+  } catch {}
+}
+
+export const exportState = (state) => JSON.stringify(state, null, 2);
+
+export function importState(json) {
+  const parsed = JSON.parse(json);
+  if (!parsed || typeof parsed !== "object" || !("misconceptions" in parsed)) {
+    throw new Error("That file is not a doyoursecurityplus progress export");
+  }
+  return migrate(parsed);
+}
+
+export function resetState() {
+  localStorage.removeItem(KEY);
+  return structuredClone(DEFAULT_STATE);
+}
+
+export { KEY };

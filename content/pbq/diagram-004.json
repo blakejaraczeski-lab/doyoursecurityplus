@@ -1,0 +1,146 @@
+{
+  "id": "pbq-diagram-004",
+  "kind": "network-diagram",
+  "objective": "5.3",
+  "topics": ["service-provider-supply-chain", "managed-service-providers-msps", "right-to-audit-clause", "eradication", "vendor-monitoring"],
+  "difficulty": 5,
+  "title": "Compromise arriving through a trusted supplier",
+  "targetSeconds": 600,
+  "scenario": "Your managed service provider has notified you at 07:15 that their remote monitoring and management platform was compromised. You outsource server patching to them and their agent runs on your servers with SYSTEM privileges. Review each host and answer the questions.",
+  "config": {
+    "nodes": [
+      { "id": "msp", "label": "MSP-RMM", "type": "cloud", "zone": "external", "x": 50, "y": 6, "selectable": false },
+      { "id": "fw", "label": "FW-01", "type": "firewall", "ip": "10.22.0.1", "zone": "perimeter", "x": 50, "y": 20, "selectable": false },
+      { "id": "jump", "label": "JUMP-01", "type": "server", "ip": "10.22.0.40", "zone": "perimeter", "x": 84, "y": 33 },
+      { "id": "sw", "label": "CORE-SW", "type": "switch", "ip": "10.22.0.2", "zone": "internal", "x": 50, "y": 36, "selectable": false },
+      { "id": "app1", "label": "APP-SRV-01", "type": "server", "ip": "10.22.1.11", "zone": "internal", "x": 14, "y": 54 },
+      { "id": "app2", "label": "APP-SRV-02", "type": "server", "ip": "10.22.1.12", "zone": "internal", "x": 38, "y": 54 },
+      { "id": "dc", "label": "DC-01", "type": "server", "ip": "10.22.1.10", "zone": "internal", "x": 62, "y": 54 },
+      { "id": "hr", "label": "HR-SRV", "type": "server", "ip": "10.22.1.50", "zone": "internal", "x": 86, "y": 54 },
+      { "id": "ws01", "label": "WS-01", "type": "workstation", "ip": "10.22.4.11", "zone": "internal", "x": 26, "y": 78 },
+      { "id": "ws02", "label": "WS-02", "type": "workstation", "ip": "10.22.4.12", "zone": "internal", "x": 62, "y": 78 }
+    ],
+    "links": [["msp","fw"],["fw","jump"],["fw","sw"],["sw","app1"],["sw","app2"],["sw","dc"],["sw","hr"],["sw","ws01"],["sw","ws02"]],
+    "evidence": {
+      "app1": {
+        "summary": "The MSP agent ran an unscheduled script at 03:14 and a new service was created.",
+        "lines": [
+          "EDR   rmm-agent.exe (signed, MSP vendor) executed script job id 88214 at 03:14",
+          "EDR   job not present in the agreed maintenance schedule",
+          "EDR   service 'SysHealthSvc' created, autostart, running as SYSTEM",
+          "NET   10.22.1.11 -> 45.0.113.60:443  every 300s since 03:16",
+          "AV    scan clean (the agent and its job are legitimately signed)"
+        ]
+      },
+      "app2": {
+        "summary": "Identical to APP-SRV-01, two minutes later.",
+        "lines": [
+          "EDR   rmm-agent.exe executed script job id 88214 at 03:16",
+          "EDR   service 'SysHealthSvc' created, autostart, running as SYSTEM",
+          "NET   10.22.1.12 -> 45.0.113.60:443  every 300s since 03:18",
+          "AV    scan clean"
+        ]
+      },
+      "dc": {
+        "summary": "The agent is installed but the job did not run here. Credential use originating from APP-SRV-01 is visible.",
+        "lines": [
+          "EDR   rmm-agent.exe present, job 88214 NOT executed on this host",
+          "EDR   no unexpected services, no unexpected files, scan clean",
+          "AUTH  svc_patch authenticated from 10.22.1.11 at 03:22, 03:41, 04:05",
+          "AUTH  svc_patch is a Domain Admin account used by the MSP agent",
+          "SEC   all security events present, no gaps"
+        ]
+      },
+      "hr": {
+        "summary": "No MSP agent installed. Files were read using the MSP's service account.",
+        "lines": [
+          "CONF  rmm-agent not installed on this host (excluded from the MSP contract)",
+          "FILE  svc_patch read 1.1 GB from \\\\HR-SRV\\personnel\\ at 04:07",
+          "EDR   no unexpected files, no new services, scan clean"
+        ]
+      },
+      "jump": {
+        "summary": "The administrative entry point. Logged the MSP's inbound session normally.",
+        "lines": [
+          "AUTH  MSP session from the RMM platform 03:12, as contractually permitted",
+          "EDR   no unexpected files, no new services, scan clean",
+          "SEC   all security events present, no gaps"
+        ]
+      },
+      "ws01": {
+        "summary": "Workstation. Not in scope of the MSP contract.",
+        "lines": [
+          "CONF  rmm-agent not installed",
+          "EDR   scan clean, no anomalous network activity"
+        ]
+      },
+      "ws02": {
+        "summary": "Workstation. Not in scope of the MSP contract.",
+        "lines": [
+          "CONF  rmm-agent not installed",
+          "EDR   scan clean, no anomalous network activity"
+        ]
+      }
+    },
+    "tasks": [
+      { "id": "t-identify", "type": "select-nodes", "max": 6,
+        "prompt": "Select every host that is actually compromised. Do not select hosts that were merely accessed using the stolen service account." },
+      { "id": "t-vector", "type": "choice",
+        "prompt": "How should this incident be classified?",
+        "options": [
+          { "value": "patching", "label": "A patch management failure, since the servers were running vulnerable software" },
+          { "value": "supply", "label": "A supply chain compromise through a service provider's privileged access" },
+          { "value": "insider", "label": "An insider threat, since the access came from a trusted account" },
+          { "value": "zeroday", "label": "A zero-day exploit against the server operating system" }
+        ]},
+      { "id": "t-first", "type": "choice",
+        "prompt": "What is the most appropriate first containment action at 07:20?",
+        "options": [
+          { "value": "revoke", "label": "Revoke the MSP's remote access and disable the svc_patch account, then isolate the affected servers" },
+          { "value": "reimage", "label": "Begin reimaging the affected servers immediately" },
+          { "value": "patch", "label": "Apply all outstanding operating system patches across the estate" },
+          { "value": "shutdown", "label": "Shut down the two affected application servers" }
+        ]},
+      { "id": "t-remediate", "type": "choice",
+        "prompt": "The attacker had SYSTEM on the application servers and used a Domain Admin service account. What does remediation require?",
+        "options": [
+          { "value": "removeservice", "label": "Delete the SysHealthSvc service and confirm a clean antivirus scan" },
+          { "value": "rebuild", "label": "Rebuild the affected servers from known good images, and reset every credential the attacker could have reached, including svc_patch and any Domain Admin material" },
+          { "value": "restore", "label": "Restore the affected servers from the snapshot taken at 02:00" },
+          { "value": "reset", "label": "Reset the svc_patch password and leave the servers in place" }
+        ]},
+      { "id": "t-contract", "type": "choice",
+        "prompt": "Which contractual control would best improve your ability to verify this provider's security before the next incident?",
+        "options": [
+          { "value": "sla", "label": "A stricter SLA with higher financial penalties for downtime" },
+          { "value": "rta", "label": "A right-to-audit clause, letting you inspect their controls on your own schedule" },
+          { "value": "nda", "label": "A broader non-disclosure agreement covering the incident" },
+          { "value": "questionnaire", "label": "An annual self-assessment questionnaire completed by the provider" }
+        ]}
+    ]
+  },
+  "solution": {
+    "t-identify": ["app1", "app2"],
+    "t-vector": "supply",
+    "t-first": "revoke",
+    "t-remediate": "rebuild",
+    "t-contract": "rta"
+  },
+  "subtasks": [
+    { "id": "st-identify", "task": "t-identify", "label": "Identify the compromised hosts", "points": 5,
+      "misconception": "compromised-vs-affected",
+      "correctNote": "Only APP-SRV-01 and APP-SRV-02 ran the malicious job, gained a persistent service and are beaconing. DC-01 and HR-SRV were accessed with the stolen svc_patch credential and are clean: the credential was compromised, not those hosts. JUMP-01 logged a contractually permitted session." },
+    { "id": "st-vector", "task": "t-vector", "label": "Classify the incident", "points": 4,
+      "misconception": "supply-chain-vectors",
+      "correctNote": "The attack arrived through a trusted provider's legitimate privileged access and its correctly signed agent. No vulnerability was exploited and no patch would have prevented it, which is exactly what makes supply chain compromise so effective." },
+    { "id": "st-first", "task": "t-first", "label": "First containment action", "points": 4,
+      "misconception": "segmentation-as-containment",
+      "correctNote": "The attacker's route in is the MSP's live access and the service account, so containment means closing both and isolating the affected hosts. Reimaging is eradication and comes later; patching addresses a weakness that was never used here." },
+    { "id": "st-remediate", "task": "t-remediate", "label": "Remediation", "points": 4,
+      "misconception": "clean-vs-reimage",
+      "correctNote": "SYSTEM privilege plus a Domain Admin service account means you cannot enumerate what was changed or taken. Rebuild the hosts and reset every credential in reach. Deleting the service you found assumes it was the only one, and the 02:00 snapshot predates the job but not necessarily the access." },
+    { "id": "st-contract", "task": "t-contract", "label": "Contractual improvement", "points": 3,
+      "misconception": "vendor-assessment-methods",
+      "correctNote": "A right-to-audit clause gives you inspection on your schedule and your scope, and must be negotiated before signing. A questionnaire is the provider's own account of itself, and an SLA compensates you for downtime without telling you anything about their controls." }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "id": "pbq-wireless-004",
+  "kind": "wireless-config",
+  "objective": "4.1",
+  "topics": ["wi-fi-protected-access-3", "compensating", "segmentation", "legacy-hardware", "authentication-protocols"],
+  "difficulty": 5,
+  "title": "Wireless where legacy devices cannot be upgraded",
+  "targetSeconds": 600,
+  "scenario": "Dunmore Logistics runs 40 handheld barcode scanners in its warehouse. The scanners support WPA2-Personal only, the manufacturer is out of business, and finance will not replace them this year. Corporate laptops on the same site must not be held back to the scanners' capability. Configure both wireless networks.",
+  "requirements": [
+    "SCANNERS: the handhelds support only WPA2-Personal. They cannot do 802.1X and cannot do WPA3. Configure the strongest mode they can actually operate.",
+    "SCANNERS: because their credential is crackable offline and they cannot be patched, the network isolation is the compensating control. Put them on their own VLAN 210 and stop them reaching one another.",
+    "SCANNERS: these devices predate 802.11w and will fail to associate if management frame protection is mandatory. Choose the setting that protects capable clients without locking the scanners out.",
+    "SCANNERS: the shared credential must be at least 20 characters, since offline cracking is possible against WPA2.",
+    "CORPORATE: laptops have certificates from the internal PKI and must authenticate mutually by certificate. Corporate belongs on VLAN 220.",
+    "CORPORATE: users are being knocked off the network by forged frames. Stop this on the corporate network.",
+    "The RADIUS server is at 10.90.0.25. No setup shortcut may remain enabled on either network."
+  ],
+  "config": {
+    "deviceName": "DUN-WH1-AP07",
+    "fields": [
+      { "id": "scanner_security_mode", "label": "SCANNERS: security mode", "type": "select", "options": [
+        { "value": "open", "label": "Open (no security)" },
+        { "value": "wpa2-personal", "label": "WPA2-Personal (PSK)" },
+        { "value": "wpa3-personal", "label": "WPA3-Personal (SAE)" },
+        { "value": "wpa2-enterprise", "label": "WPA2-Enterprise (802.1X)" },
+        { "value": "wpa3-enterprise", "label": "WPA3-Enterprise (802.1X)" }
+      ]},
+      { "id": "scanner_passphrase", "label": "SCANNERS: pre-shared passphrase", "type": "text", "placeholder": "at least 20 characters",
+        "dependsOn": { "field": "scanner_security_mode", "in": ["wpa2-personal", "wpa3-personal"] } },
+      { "id": "scanner_vlan", "label": "SCANNERS: VLAN ID", "type": "text", "placeholder": "e.g. 10" },
+      { "id": "scanner_client_isolation", "label": "SCANNERS: client isolation", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled" }
+      ]},
+      { "id": "scanner_pmf", "label": "SCANNERS: Protected Management Frames", "type": "select", "options": [
+        { "value": "disabled", "label": "Disabled" },
+        { "value": "optional", "label": "Optional" },
+        { "value": "required", "label": "Required" }
+      ]},
+      { "id": "corp_security_mode", "label": "CORPORATE: security mode", "type": "select", "options": [
+        { "value": "open", "label": "Open (no security)" },
+        { "value": "wpa2-personal", "label": "WPA2-Personal (PSK)" },
+        { "value": "wpa3-personal", "label": "WPA3-Personal (SAE)" },
+        { "value": "wpa2-enterprise", "label": "WPA2-Enterprise (802.1X)" },
+        { "value": "wpa3-enterprise", "label": "WPA3-Enterprise (802.1X)" }
+      ]},
+      { "id": "corp_eap", "label": "CORPORATE: EAP method", "type": "select",
+        "dependsOn": { "field": "corp_security_mode", "in": ["wpa2-enterprise", "wpa3-enterprise"] },
+        "options": [
+          { "value": "eap-tls", "label": "EAP-TLS" },
+          { "value": "peap-mschapv2", "label": "PEAP-MSCHAPv2" },
+          { "value": "eap-ttls", "label": "EAP-TTLS" }
+        ]},
+      { "id": "corp_vlan", "label": "CORPORATE: VLAN ID", "type": "text", "placeholder": "e.g. 10" },
+      { "id": "corp_pmf", "label": "CORPORATE: Protected Management Frames", "type": "select", "options": [
+        { "value": "disabled", "label": "Disabled" },
+        { "value": "optional", "label": "Optional" },
+        { "value": "required", "label": "Required" }
+      ]},
+      { "id": "radius_server", "label": "RADIUS server address", "type": "text", "placeholder": "e.g. 10.0.0.1" },
+      { "id": "wps", "label": "Wi-Fi Protected Setup (WPS)", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled" }
+      ]}
+    ]
+  },
+  "solution": {
+    "fields": {
+      "scanner_security_mode": { "accept": ["wpa2-personal"] },
+      "scanner_passphrase": { "rule": "minLength:20" },
+      "scanner_vlan": { "accept": ["210"] },
+      "scanner_client_isolation": { "accept": ["enabled"] },
+      "scanner_pmf": { "accept": ["optional"] },
+      "corp_security_mode": { "accept": ["wpa3-enterprise"] },
+      "corp_eap": { "accept": ["eap-tls"] },
+      "corp_vlan": { "accept": ["220"] },
+      "corp_pmf": { "accept": ["required"] },
+      "radius_server": { "accept": ["10.90.0.25"] },
+      "wps": { "accept": ["disabled"] }
+    }
+  },
+  "subtasks": [
+    { "id": "st-scan-mode", "field": "scanner_security_mode", "label": "Scanner security mode", "points": 3,
+      "misconception": "wpa2-psk-vs-wpa3-sae",
+      "correctNote": "WPA3 is genuinely better and the scanners cannot speak it. The strongest mode a device can actually operate is the correct answer, and configuring a mode the client cannot join is the same as having no network at all." },
+    { "id": "st-scan-pass", "field": "scanner_passphrase", "label": "Scanner passphrase length", "points": 3,
+      "misconception": "wpa2-psk-vs-wpa3-sae",
+      "correctNote": "WPA2-Personal allows offline cracking of a captured handshake, which WPA3's SAE removes entirely. Since you cannot have SAE here, a very long passphrase is the mitigation available: it does not remove the attack, it makes it impractical." },
+    { "id": "st-scan-vlan", "field": "scanner_vlan", "label": "Scanner VLAN", "points": 3,
+      "misconception": "compensating-vs-corrective",
+      "correctNote": "The control you want, patching or replacing the devices, is unavailable. Isolating them on their own VLAN meets the objective another way, which makes it a compensating control, and it should be recorded as an exception in the risk register." },
+    { "id": "st-scan-isolation", "field": "scanner_client_isolation", "label": "Scanner client isolation", "points": 2,
+      "misconception": "guest-network-isolation",
+      "correctNote": "The VLAN separates the scanners from the rest of the network. Client isolation stops one compromised scanner reaching the other thirty-nine, which matters precisely because none of them can be patched." },
+    { "id": "st-scan-pmf", "field": "scanner_pmf", "label": "Scanner management frame protection", "points": 4,
+      "misconception": "pmf-and-deauth",
+      "correctNote": "Required would lock out every device that predates 802.11w, which is all of them. Optional protects clients that support it and still admits those that do not. Disabled would protect nobody. This is the setting people get wrong by applying the corporate standard uniformly." },
+    { "id": "st-corp-mode", "field": "corp_security_mode", "label": "Corporate security mode", "points": 3,
+      "misconception": "wpa3-sae-vs-enterprise",
+      "correctNote": "The corporate laptops are capable and a RADIUS server is available, so there is no reason to hold them back to the scanners' limits. Two networks, two capability levels." },
+    { "id": "st-corp-eap", "field": "corp_eap", "label": "Corporate EAP method", "points": 3,
+      "misconception": "eap-tls-vs-peap",
+      "correctNote": "Certificates are already issued from the internal PKI and the requirement says mutual certificate authentication, which is EAP-TLS." },
+    { "id": "st-corp-vlan", "field": "corp_vlan", "label": "Corporate VLAN", "points": 2,
+      "misconception": "guest-network-isolation",
+      "correctNote": "VLAN 220 as specified, kept separate from the unpatchable device network." },
+    { "id": "st-corp-pmf", "field": "corp_pmf", "label": "Corporate management frame protection", "points": 3,
+      "misconception": "pmf-and-deauth",
+      "correctNote": "Users being knocked off by forged frames is a deauthentication attack. On a network of modern clients, PMF required stops it, and WPA3 mandates it anyway." },
+    { "id": "st-radius", "field": "radius_server", "label": "RADIUS server", "points": 1,
+      "misconception": null,
+      "correctNote": "10.90.0.25 as given." },
+    { "id": "st-wps", "field": "wps", "label": "WPS", "points": 2,
+      "misconception": "wps-convenience-risk",
+      "correctNote": "WPS is exactly the shortcut someone enables to get forty handhelds onto the network quickly. It hands out access around whatever passphrase you chose." }
+  ]
+}

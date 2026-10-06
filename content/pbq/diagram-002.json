@@ -1,0 +1,400 @@
+{
+  "id": "pbq-diagram-002",
+  "kind": "network-diagram",
+  "objective": "4.9",
+  "topics": [
+    "endpoint-logs",
+    "network-logs",
+    "metadata",
+    "impossible-travel",
+    "legal-hold",
+    "endpoint-detection-and-response-edr"
+  ],
+  "difficulty": 5,
+  "title": "Quiet intrusion and data exfiltration",
+  "targetSeconds": 600,
+  "scenario": "A partner organisation has notified you that data belonging to your company appeared on a criminal forum. Nothing has alerted internally. It is 08:30 and you are reviewing the evidence collected overnight. Click each host to read what was found, then answer the questions.",
+  "config": {
+    "nodes": [
+      {
+        "id": "inet",
+        "label": "Internet",
+        "type": "cloud",
+        "zone": "external",
+        "x": 50,
+        "y": 6,
+        "selectable": false
+      },
+      {
+        "id": "fw",
+        "label": "FW-01",
+        "type": "firewall",
+        "ip": "10.8.0.1",
+        "zone": "perimeter",
+        "x": 50,
+        "y": 20,
+        "selectable": false
+      },
+      {
+        "id": "proxy",
+        "label": "PROXY-01",
+        "type": "server",
+        "ip": "10.8.0.30",
+        "zone": "perimeter",
+        "x": 84,
+        "y": 33
+      },
+      {
+        "id": "sw",
+        "label": "CORE-SW",
+        "type": "switch",
+        "ip": "10.8.0.2",
+        "zone": "internal",
+        "x": 50,
+        "y": 36,
+        "selectable": false
+      },
+      {
+        "id": "dc",
+        "label": "DC-01",
+        "type": "server",
+        "ip": "10.8.1.10",
+        "zone": "internal",
+        "x": 16,
+        "y": 52
+      },
+      {
+        "id": "file",
+        "label": "FILE-SRV",
+        "type": "server",
+        "ip": "10.8.1.20",
+        "zone": "internal",
+        "x": 38,
+        "y": 52
+      },
+      {
+        "id": "fin1",
+        "label": "FIN-WS-01",
+        "type": "workstation",
+        "ip": "10.8.4.21",
+        "zone": "internal",
+        "x": 14,
+        "y": 78
+      },
+      {
+        "id": "fin2",
+        "label": "FIN-WS-02",
+        "type": "workstation",
+        "ip": "10.8.4.22",
+        "zone": "internal",
+        "x": 38,
+        "y": 78
+      },
+      {
+        "id": "fin3",
+        "label": "FIN-WS-03",
+        "type": "workstation",
+        "ip": "10.8.4.23",
+        "zone": "internal",
+        "x": 62,
+        "y": 78
+      },
+      {
+        "id": "exec",
+        "label": "EXEC-LT",
+        "type": "workstation",
+        "ip": "10.8.4.90",
+        "zone": "internal",
+        "x": 86,
+        "y": 78
+      }
+    ],
+    "links": [
+      [
+        "inet",
+        "fw"
+      ],
+      [
+        "fw",
+        "proxy"
+      ],
+      [
+        "fw",
+        "sw"
+      ],
+      [
+        "sw",
+        "dc"
+      ],
+      [
+        "sw",
+        "file"
+      ],
+      [
+        "sw",
+        "fin1"
+      ],
+      [
+        "sw",
+        "fin2"
+      ],
+      [
+        "sw",
+        "fin3"
+      ],
+      [
+        "sw",
+        "exec"
+      ]
+    ],
+    "evidence": {
+      "fin2": {
+        "summary": "Regular outbound connections to a domain registered 9 days ago, and a signed Windows binary loading a DLL from a user directory. Antivirus reports the host clean.",
+        "lines": [
+          "EDR   rundll32.exe (signed, Microsoft) loaded C:\\Users\\jhale\\AppData\\Roaming\\vcx32.dll",
+          "EDR   parent process: winword.exe  (document opened 11 days ago)",
+          "NET   10.8.4.22 -> cdn-sync-eu[.]net:443  every 60s +/- 4s, 812 bytes avg   (9 days)",
+          "NET   domain cdn-sync-eu[.]net registered 9 days ago, no reputation",
+          "AV    full scan completed, 0 detections",
+          "AUTH  jhale authenticated to FILE-SRV at 02:38 (jhale does not work nights)"
+        ]
+      },
+      "exec": {
+        "summary": "The executive's account authenticated from two locations that cannot both be true.",
+        "lines": [
+          "AUTH  m.okafor  VPN login  10:14  source 92.0.2.41   (Dublin)",
+          "AUTH  m.okafor  VPN login  10:41  source 203.0.113.77 (Singapore)",
+          "AUTH  both sessions active concurrently for 26 minutes",
+          "EDR   no malicious process, no unexpected files, scan clean",
+          "AUTH  password last changed 7 months ago, no MFA enrolled"
+        ]
+      },
+      "dc": {
+        "summary": "A gap in the security log during the incident window, and a scheduled task nobody recognises.",
+        "lines": [
+          "SEC   no security events logged between 02:10 and 02:55 (host was running)",
+          "TASK  scheduled task 'WinSysUpd' created 02:31, runs at every boot",
+          "TASK  action: powershell -enc <base64>  (decodes to an outbound connection)",
+          "AUTH  after the IT team reset jhale's password at 06:00, access resumed at 06:12",
+          "EDR   scan clean"
+        ]
+      },
+      "file": {
+        "summary": "Large overnight read by a finance account. No malware artefacts on the server itself.",
+        "lines": [
+          "FILE  jhale read 4.2 GB from \\\\FILE-SRV\\finance\\ between 02:40 and 03:15",
+          "FILE  normal daily volume for this account: under 60 MB",
+          "EDR   no unexpected files, no new services, scan clean",
+          "SEC   all security events present, no gaps"
+        ]
+      },
+      "proxy": {
+        "summary": "A matching outbound upload shortly afterwards.",
+        "lines": [
+          "PROXY 10.8.4.22  POST  https://filetransfer-eu[.]example/upload  4.1 GB  03:22",
+          "PROXY category: file sharing   action: ALLOWED (category not blocked)",
+          "PROXY no other host uploaded more than 12 MB that night"
+        ]
+      },
+      "fin1": {
+        "summary": "Received the same phishing document. It was not opened.",
+        "lines": [
+          "MAIL  message with attachment 'Invoice_Q3.docm' delivered 11 days ago",
+          "EDR   attachment never opened, no child processes",
+          "EDR   scan clean"
+        ]
+      },
+      "fin3": {
+        "summary": "Nothing of note.",
+        "lines": [
+          "MAIL  no matching message delivered",
+          "EDR   scan clean, no anomalous network activity"
+        ]
+      }
+    },
+    "tasks": [
+      {
+        "id": "t-identify",
+        "type": "select-nodes",
+        "max": 5,
+        "prompt": "Select every host showing evidence that it is itself compromised. Do not select hosts that only recorded the attacker's activity."
+      },
+      {
+        "id": "t-detect",
+        "type": "choice",
+        "prompt": "Antivirus reports FIN-WS-02 clean, yet a signed Microsoft binary is loading an unknown DLL and beaconing on a fixed interval. Which capability is needed to detect and investigate activity of this kind?",
+        "options": [
+          {
+            "value": "av-update",
+            "label": "Update the antivirus definitions and rescan"
+          },
+          {
+            "value": "edr",
+            "label": "Endpoint detection and response, using behavioural analysis and a full process timeline"
+          },
+          {
+            "value": "fim",
+            "label": "File integrity monitoring on the Windows system directories"
+          },
+          {
+            "value": "hostfw",
+            "label": "A host based firewall blocking outbound connections"
+          }
+        ]
+      },
+      {
+        "id": "t-persistence",
+        "type": "choice",
+        "prompt": "IT reset the compromised user's password at 06:00 and the attacker regained access at 06:12 using the scheduled task on DC-01. What does that scheduled task represent?",
+        "options": [
+          {
+            "value": "trojan",
+            "label": "A trojan"
+          },
+          {
+            "value": "backdoor",
+            "label": "A backdoor providing ongoing unauthorised access"
+          },
+          {
+            "value": "rootkit",
+            "label": "A rootkit"
+          },
+          {
+            "value": "logicbomb",
+            "label": "A logic bomb"
+          }
+        ]
+      },
+      {
+        "id": "t-indicator",
+        "type": "choice",
+        "prompt": "DC-01 logged no security events between 02:10 and 02:55 while it was running. How should this be treated?",
+        "options": [
+          {
+            "value": "benign",
+            "label": "As a benign quiet period, since nothing was happening at that hour"
+          },
+          {
+            "value": "indicator",
+            "label": "As an indicator of compromise, consistent with the attacker clearing the log"
+          },
+          {
+            "value": "falsepos",
+            "label": "As a false positive produced by the SIEM"
+          },
+          {
+            "value": "retention",
+            "label": "As normal log retention trimming old events"
+          }
+        ]
+      },
+      {
+        "id": "t-exec",
+        "type": "choice",
+        "prompt": "EXEC-LT itself is clean, but the executive's account authenticated from Dublin and Singapore 27 minutes apart with both sessions active. What is the finding and the correct immediate action?",
+        "options": [
+          {
+            "value": "reimage",
+            "label": "Malware on EXEC-LT; reimage the laptop"
+          },
+          {
+            "value": "impossible-travel",
+            "label": "Impossible travel indicating credential compromise; disable the sessions, reset the credential and enrol MFA"
+          },
+          {
+            "value": "vpn",
+            "label": "A VPN artefact; no action required"
+          },
+          {
+            "value": "lockout",
+            "label": "A brute force attempt; enable account lockout"
+          }
+        ]
+      },
+      {
+        "id": "t-legal",
+        "type": "choice",
+        "prompt": "Counsel expects litigation and asks you to make sure the relevant mailboxes and file server logs are not removed by the 90 day retention policy. What are they asking for?",
+        "options": [
+          {
+            "value": "custody",
+            "label": "Chain of custody"
+          },
+          {
+            "value": "hold",
+            "label": "A legal hold"
+          },
+          {
+            "value": "ediscovery",
+            "label": "E-discovery"
+          },
+          {
+            "value": "attestation",
+            "label": "An attestation"
+          }
+        ]
+      }
+    ]
+  },
+  "solution": {
+    "t-identify": [
+      "fin2",
+      "dc"
+    ],
+    "t-detect": "edr",
+    "t-persistence": "backdoor",
+    "t-indicator": "indicator",
+    "t-exec": "impossible-travel",
+    "t-legal": "hold"
+  },
+  "subtasks": [
+    {
+      "id": "st-identify",
+      "task": "t-identify",
+      "label": "Identify the compromised hosts",
+      "points": 5,
+      "misconception": "compromised-vs-affected",
+      "correctNote": "FIN-WS-02 has the loaded DLL, the beacon and the out of hours authentication. DC-01 has the log gap and an unrecognised persistence mechanism. FILE-SRV and PROXY-01 only recorded the attacker's activity using stolen credentials, and are not themselves compromised. EXEC-LT is clean: the credential was compromised, not the laptop. FIN-WS-01 received the document and never opened it."
+    },
+    {
+      "id": "st-detect",
+      "task": "t-detect",
+      "label": "Detection capability required",
+      "points": 3,
+      "misconception": "edr-vs-antivirus",
+      "correctNote": "A signed Microsoft binary loading a malicious DLL leaves no file signature to match. Behavioural detection with a recorded process timeline is what surfaces it, which is EDR."
+    },
+    {
+      "id": "st-persistence",
+      "task": "t-persistence",
+      "label": "Classify the persistence mechanism",
+      "points": 3,
+      "misconception": "trojan-vs-rootkit-vs-backdoor",
+      "correctNote": "It gives the attacker a route back in after the credential was reset, which is a backdoor. The macro document was the trojan that let them in originally; those are two different stages."
+    },
+    {
+      "id": "st-indicator",
+      "task": "t-indicator",
+      "label": "Interpret the log gap",
+      "points": 3,
+      "misconception": "impossible-travel-indicators",
+      "correctNote": "A running system generates security events. A gap is positive evidence that something removed them, which is why logs are forwarded off host in the first place."
+    },
+    {
+      "id": "st-exec",
+      "task": "t-exec",
+      "label": "Handle the executive account",
+      "points": 4,
+      "misconception": "impossible-travel-indicators",
+      "correctNote": "Two concurrent sessions from locations that cannot both be true is impossible travel, and the endpoint is clean. The compromise is the credential: kill the sessions, reset it, and enrol MFA, which is what would have prevented it."
+    },
+    {
+      "id": "st-legal",
+      "task": "t-legal",
+      "label": "Respond to counsel",
+      "points": 3,
+      "misconception": "chain-of-custody-vs-legal-hold",
+      "correctNote": "Suspending routine deletion because litigation is anticipated is a legal hold. Chain of custody would document handling of evidence you have already collected."
+    }
+  ]
+}

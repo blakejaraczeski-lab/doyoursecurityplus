@@ -1,0 +1,324 @@
+{
+  "id": "pbq-acl-001",
+  "kind": "acl-table",
+  "objective": "4.5",
+  "topics": [
+    "firewall-rules",
+    "access-lists",
+    "screened-subnets",
+    "least-privilege",
+    "ports-protocols"
+  ],
+  "difficulty": 4,
+  "title": "Screened subnet ACL for a public web application",
+  "targetSeconds": 600,
+  "scenario": "You are configuring the stateful firewall that sits between the internet, the screened subnet, and the internal network. Build the rule set. Rules are evaluated top to bottom and the first match wins. Anything not permitted is denied by the implicit deny at the bottom of the list.",
+  "requirements": [
+    "Internet users must reach WEB-SRV over HTTPS. Plain HTTP must not be permitted anywhere.",
+    "WEB-SRV must query DB-SRV on TCP 1433. That is the only traffic permitted from the screened subnet into the internal network.",
+    "The administrator workstation ADMIN-WS, and no other internal host, may reach WEB-SRV over SSH.",
+    "MAIL-SRV is being decommissioned and must receive nothing from the internet.",
+    "Denied traffic must be logged, so finish the list with an explicit deny that the firewall can log.",
+    "Apply least privilege. A rule that permits more than the requirement asks for will not receive credit even if the required traffic works."
+  ],
+  "config": {
+    "stateful": true,
+    "maxRules": 8,
+    "networkObjects": [
+      {
+        "value": "any",
+        "label": "ANY",
+        "note": "0.0.0.0/0"
+      },
+      {
+        "value": "203.0.113.10",
+        "label": "WEB-SRV",
+        "note": "screened subnet"
+      },
+      {
+        "value": "203.0.113.11",
+        "label": "MAIL-SRV",
+        "note": "screened subnet"
+      },
+      {
+        "value": "203.0.113.0/24",
+        "label": "DMZ-NET",
+        "note": "the whole screened subnet"
+      },
+      {
+        "value": "10.20.0.0/16",
+        "label": "INTERNAL-NET",
+        "note": "the whole internal network"
+      },
+      {
+        "value": "10.20.30.40",
+        "label": "DB-SRV",
+        "note": "internal database"
+      },
+      {
+        "value": "10.20.5.15",
+        "label": "ADMIN-WS",
+        "note": "administrator workstation"
+      }
+    ],
+    "protocols": [
+      "any",
+      "tcp",
+      "udp",
+      "icmp"
+    ],
+    "portOptions": [
+      {
+        "value": "any",
+        "label": "ANY"
+      },
+      {
+        "value": "22",
+        "label": "22 (SSH)"
+      },
+      {
+        "value": "25",
+        "label": "25 (SMTP)"
+      },
+      {
+        "value": "53",
+        "label": "53 (DNS)"
+      },
+      {
+        "value": "80",
+        "label": "80 (HTTP)"
+      },
+      {
+        "value": "443",
+        "label": "443 (HTTPS)"
+      },
+      {
+        "value": "445",
+        "label": "445 (SMB)"
+      },
+      {
+        "value": "1433",
+        "label": "1433 (MS SQL)"
+      },
+      {
+        "value": "3389",
+        "label": "3389 (RDP)"
+      }
+    ]
+  },
+  "solution": {
+    "reference": [
+      {
+        "action": "permit",
+        "protocol": "tcp",
+        "src": "any",
+        "srcPort": "any",
+        "dst": "203.0.113.10",
+        "dstPort": "443"
+      },
+      {
+        "action": "permit",
+        "protocol": "tcp",
+        "src": "203.0.113.10",
+        "srcPort": "any",
+        "dst": "10.20.30.40",
+        "dstPort": "1433"
+      },
+      {
+        "action": "permit",
+        "protocol": "tcp",
+        "src": "10.20.5.15",
+        "srcPort": "any",
+        "dst": "203.0.113.10",
+        "dstPort": "22"
+      },
+      {
+        "action": "deny",
+        "protocol": "any",
+        "src": "any",
+        "srcPort": "any",
+        "dst": "any",
+        "dstPort": "any"
+      }
+    ],
+    "testCases": [
+      {
+        "id": "t1",
+        "label": "Internet user browsing the site over HTTPS",
+        "packet": {
+          "protocol": "tcp",
+          "src": "198.51.100.7",
+          "srcPort": "52001",
+          "dst": "203.0.113.10",
+          "dstPort": "443"
+        },
+        "expect": "permit",
+        "points": 2,
+        "misconception": "acl-direction-and-ports"
+      },
+      {
+        "id": "t2",
+        "label": "Internet user reaching the site over plain HTTP",
+        "packet": {
+          "protocol": "tcp",
+          "src": "198.51.100.7",
+          "srcPort": "52002",
+          "dst": "203.0.113.10",
+          "dstPort": "80"
+        },
+        "expect": "deny",
+        "points": 2,
+        "misconception": "acl-overbroad-any"
+      },
+      {
+        "id": "t3",
+        "label": "Web server querying the internal database",
+        "packet": {
+          "protocol": "tcp",
+          "src": "203.0.113.10",
+          "srcPort": "49300",
+          "dst": "10.20.30.40",
+          "dstPort": "1433"
+        },
+        "expect": "permit",
+        "points": 2,
+        "misconception": "acl-direction-and-ports"
+      },
+      {
+        "id": "t4",
+        "label": "Web server reaching an internal file share (attacker pivoting from a compromised DMZ host)",
+        "packet": {
+          "protocol": "tcp",
+          "src": "203.0.113.10",
+          "srcPort": "49301",
+          "dst": "10.20.5.15",
+          "dstPort": "445"
+        },
+        "expect": "deny",
+        "points": 3,
+        "misconception": "screened-subnet-direction"
+      },
+      {
+        "id": "t5",
+        "label": "Web server attempting SSH into the database server",
+        "packet": {
+          "protocol": "tcp",
+          "src": "203.0.113.10",
+          "srcPort": "49302",
+          "dst": "10.20.30.40",
+          "dstPort": "22"
+        },
+        "expect": "deny",
+        "points": 2,
+        "misconception": "acl-overbroad-any"
+      },
+      {
+        "id": "t6",
+        "label": "Administrator workstation opening an SSH session to the web server",
+        "packet": {
+          "protocol": "tcp",
+          "src": "10.20.5.15",
+          "srcPort": "50110",
+          "dst": "203.0.113.10",
+          "dstPort": "22"
+        },
+        "expect": "permit",
+        "points": 2,
+        "misconception": "acl-direction-and-ports"
+      },
+      {
+        "id": "t7",
+        "label": "Another internal workstation attempting SSH to the web server",
+        "packet": {
+          "protocol": "tcp",
+          "src": "10.20.9.9",
+          "srcPort": "50111",
+          "dst": "203.0.113.10",
+          "dstPort": "22"
+        },
+        "expect": "deny",
+        "points": 3,
+        "misconception": "acl-overbroad-any"
+      },
+      {
+        "id": "t8",
+        "label": "Internet host connecting directly to the internal database",
+        "packet": {
+          "protocol": "tcp",
+          "src": "198.51.100.7",
+          "srcPort": "52003",
+          "dst": "10.20.30.40",
+          "dstPort": "1433"
+        },
+        "expect": "deny",
+        "points": 2,
+        "misconception": "screened-subnet-direction"
+      },
+      {
+        "id": "t9",
+        "label": "Internet mail delivery to the decommissioned mail server",
+        "packet": {
+          "protocol": "tcp",
+          "src": "198.51.100.7",
+          "srcPort": "52004",
+          "dst": "203.0.113.11",
+          "dstPort": "25"
+        },
+        "expect": "deny",
+        "points": 2,
+        "misconception": "acl-overbroad-any"
+      },
+      {
+        "id": "t10",
+        "label": "An explicit reverse rule for the database's replies (unnecessary on a stateful firewall, and an unwanted inbound opening)",
+        "packet": {
+          "protocol": "tcp",
+          "src": "10.20.30.40",
+          "srcPort": "1433",
+          "dst": "203.0.113.10",
+          "dstPort": "49300"
+        },
+        "expect": "deny",
+        "points": 2,
+        "misconception": "stateful-return-traffic"
+      }
+    ],
+    "checks": [
+      {
+        "id": "c1",
+        "type": "no-permit-any-any",
+        "label": "No rule permits everything",
+        "points": 3,
+        "misconception": "acl-implicit-deny"
+      },
+      {
+        "id": "c2",
+        "type": "explicit-deny-last",
+        "label": "List ends with an explicit deny so drops can be logged",
+        "points": 2,
+        "misconception": "acl-implicit-deny"
+      },
+      {
+        "id": "c3",
+        "type": "no-shadowed-rules",
+        "label": "No rule is unreachable behind a broader rule above it",
+        "points": 3,
+        "misconception": "acl-rule-order"
+      },
+      {
+        "id": "c4",
+        "type": "source-not-broad",
+        "label": "SSH to the web server is restricted to the named host",
+        "match": {
+          "dst": "203.0.113.10",
+          "dstPort": "22"
+        },
+        "allowedSources": [
+          "10.20.5.15"
+        ],
+        "points": 3,
+        "misconception": "acl-overbroad-any"
+      }
+    ]
+  }
+}

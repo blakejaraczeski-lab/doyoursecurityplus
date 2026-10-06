@@ -1,0 +1,88 @@
+{
+  "id": "pbq-acl-004",
+  "kind": "acl-table",
+  "objective": "4.5",
+  "topics": ["firewall-rules", "access-lists", "industrial-control-systems-ics-supervisory-control-and-data-acquisition-scada", "segmentation", "ports-protocols"],
+  "difficulty": 5,
+  "title": "Stateless packet filter in an ICS zone",
+  "targetSeconds": 660,
+  "scenario": "The router separating the process control zone at Ardmore Water is a legacy STATELESS packet filter. It does not track connections, so it judges every packet on its own. A rule permitting traffic in one direction does nothing for the replies. Build the rule set. First match wins, and anything not permitted is denied.",
+  "requirements": [
+    "This device is stateless. Every conversation needs both directions permitted explicitly, or the replies are dropped and nothing works.",
+    "The engineering workstation ENG-WS must reach the historian HISTORIAN over HTTPS, and must receive the replies.",
+    "The HMI must poll the PLC devices on PLC-NET over TCP 502, and must receive the replies.",
+    "Nothing on the corporate network CORP-NET may reach PLC-NET. The process control zone is not reachable from the business network.",
+    "The engineering workstation must not be able to reach the PLCs directly. Only the HMI polls them.",
+    "Finish with an explicit deny so drops are logged.",
+    "Apply least privilege. A rule that permits more than the requirement asks for will not receive credit even if the required traffic works."
+  ],
+  "config": {
+    "stateful": false,
+    "maxRules": 10,
+    "networkObjects": [
+      { "value": "any", "label": "ANY", "note": "0.0.0.0/0" },
+      { "value": "10.50.1.10", "label": "HMI", "note": "operator interface" },
+      { "value": "10.50.2.20", "label": "HISTORIAN", "note": "process historian" },
+      { "value": "10.50.3.30", "label": "ENG-WS", "note": "engineering workstation" },
+      { "value": "10.50.9.0/24", "label": "PLC-NET", "note": "programmable logic controllers" },
+      { "value": "10.60.0.0/16", "label": "CORP-NET", "note": "corporate business network" }
+    ],
+    "protocols": ["any", "tcp", "udp", "icmp"],
+    "portOptions": [
+      { "value": "any", "label": "ANY" },
+      { "value": "22", "label": "22 (SSH)" },
+      { "value": "443", "label": "443 (HTTPS)" },
+      { "value": "502", "label": "502 (Modbus TCP)" },
+      { "value": "20000", "label": "20000 (DNP3)" }
+    ]
+  },
+  "solution": {
+    "reference": [
+      { "action": "permit", "protocol": "tcp", "src": "10.50.3.30", "srcPort": "any", "dst": "10.50.2.20", "dstPort": "443" },
+      { "action": "permit", "protocol": "tcp", "src": "10.50.2.20", "srcPort": "443", "dst": "10.50.3.30", "dstPort": "any" },
+      { "action": "permit", "protocol": "tcp", "src": "10.50.1.10", "srcPort": "any", "dst": "10.50.9.0/24", "dstPort": "502" },
+      { "action": "permit", "protocol": "tcp", "src": "10.50.9.0/24", "srcPort": "502", "dst": "10.50.1.10", "dstPort": "any" },
+      { "action": "deny", "protocol": "any", "src": "any", "srcPort": "any", "dst": "any", "dstPort": "any" }
+    ],
+    "testCases": [
+      { "id": "t1", "label": "Engineering workstation opening the historian dashboard",
+        "packet": { "protocol": "tcp", "src": "10.50.3.30", "srcPort": "50001", "dst": "10.50.2.20", "dstPort": "443" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t2", "label": "The historian's REPLY to that request (stateless, so it needs its own rule)",
+        "packet": { "protocol": "tcp", "src": "10.50.2.20", "srcPort": "443", "dst": "10.50.3.30", "dstPort": "50001" },
+        "expect": "permit", "points": 4, "misconception": "stateful-return-traffic" },
+      { "id": "t3", "label": "HMI polling a PLC over Modbus",
+        "packet": { "protocol": "tcp", "src": "10.50.1.10", "srcPort": "49500", "dst": "10.50.9.5", "dstPort": "502" },
+        "expect": "permit", "points": 2, "misconception": "acl-direction-and-ports" },
+      { "id": "t4", "label": "The PLC's REPLY to the poll (stateless, so it needs its own rule)",
+        "packet": { "protocol": "tcp", "src": "10.50.9.5", "srcPort": "502", "dst": "10.50.1.10", "dstPort": "49500" },
+        "expect": "permit", "points": 4, "misconception": "stateful-return-traffic" },
+      { "id": "t5", "label": "A corporate host attempting to reach a PLC",
+        "packet": { "protocol": "tcp", "src": "10.60.5.5", "srcPort": "50002", "dst": "10.50.9.5", "dstPort": "502" },
+        "expect": "deny", "points": 3, "misconception": "screened-subnet-direction" },
+      { "id": "t6", "label": "A corporate host attempting to reach the historian",
+        "packet": { "protocol": "tcp", "src": "10.60.5.5", "srcPort": "50003", "dst": "10.50.2.20", "dstPort": "443" },
+        "expect": "deny", "points": 2, "misconception": "acl-overbroad-any" },
+      { "id": "t7", "label": "A reply from the historian toward a corporate host (an over-broad return rule would permit this)",
+        "packet": { "protocol": "tcp", "src": "10.50.2.20", "srcPort": "443", "dst": "10.60.5.5", "dstPort": "50003" },
+        "expect": "deny", "points": 4, "misconception": "acl-overbroad-any" },
+      { "id": "t8", "label": "Engineering workstation attempting to reach a PLC directly",
+        "packet": { "protocol": "tcp", "src": "10.50.3.30", "srcPort": "50004", "dst": "10.50.9.5", "dstPort": "502" },
+        "expect": "deny", "points": 3, "misconception": "acl-overbroad-any" },
+      { "id": "t9", "label": "An attacker on PLC-NET attempting SSH to the engineering workstation",
+        "packet": { "protocol": "tcp", "src": "10.50.9.5", "srcPort": "50005", "dst": "10.50.3.30", "dstPort": "22" },
+        "expect": "deny", "points": 3, "misconception": "acl-overbroad-any" }
+    ],
+    "checks": [
+      { "id": "c1", "type": "no-permit-any-any", "label": "No rule permits everything", "points": 3,
+        "misconception": "acl-implicit-deny" },
+      { "id": "c2", "type": "explicit-deny-last", "label": "List ends with an explicit deny so drops can be logged", "points": 2,
+        "misconception": "acl-implicit-deny" },
+      { "id": "c3", "type": "no-shadowed-rules", "label": "No rule is unreachable behind a broader rule above it", "points": 2,
+        "misconception": "acl-rule-order" },
+      { "id": "c4", "type": "source-not-broad", "label": "Modbus to the PLCs is restricted to the HMI",
+        "match": { "dst": "10.50.9.0/24", "dstPort": "502" }, "allowedSources": ["10.50.1.10"], "points": 3,
+        "misconception": "acl-overbroad-any" }
+    ]
+  }
+}

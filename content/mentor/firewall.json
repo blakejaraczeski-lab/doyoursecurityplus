@@ -1,0 +1,191 @@
+[
+  {
+    "id": "acl-rule-order",
+    "label": "ACL rule order and first match wins",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "access-lists", "access-control-list-acl"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You wrote rules that are individually correct but in an order that makes some of them unreachable. An ACL is evaluated top to bottom and stops at the first match.",
+      "contrast": [
+        ["Aspect", "Correct ordering", "Broken ordering"],
+        ["Position of specific rules", "Above the broad rules", "Below a broad rule that already matched"],
+        ["A deny for one host", "Placed before the permit for its subnet", "Placed after, so it never runs"],
+        ["Result", "Every rule can fire", "Shadowed rules, silently dead"]
+      ],
+      "rule": "Specific before general, always. If a broader rule above already matches the traffic, everything below it for that traffic is dead code.",
+      "tell": "Any task mixing a subnet wide permit with a single host deny is testing ordering. Put the exception first.",
+      "trap": "The rule set looks complete because every required line is present. Graders simulate the traffic, so a shadowed rule scores as if you never wrote it."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "acl-implicit-deny",
+    "label": "The implicit deny at the end of an ACL",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "access-lists", "screened-subnets"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You either added an explicit permit any at the end, or you assumed traffic not mentioned would be allowed. Firewalls deny by default.",
+      "contrast": [
+        ["Aspect", "Implicit deny", "Explicit deny any"],
+        ["Present automatically", "Yes, at the bottom of every ACL", "Only if you write it"],
+        ["Logs the dropped traffic", "Usually not", "Yes, which is why you add it"],
+        ["Effect on allowed traffic", "None", "None"],
+        ["Adding permit any at the end", "Destroys the whole rule set", "Never do this"]
+      ],
+      "rule": "Anything you did not explicitly permit is already denied. Write an explicit deny any at the bottom only to get logging, never a permit any.",
+      "tell": "'Deny all other traffic' in the requirements usually needs no rule at all. It is already true. Check whether the task wants it logged.",
+      "trap": "'Deny all other traffic' reads like an instruction to add a rule, and adding an explicit deny any is harmless. Adding permit any is the failure, and it is the option that makes the other requirements appear to pass."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "acl-direction-and-ports",
+    "label": "Source vs destination, and which side holds the well known port",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "ports-protocols", "port-selection"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You put the service port on the wrong side of the rule, or reversed source and destination. The server listens on the well known port, the client uses a random high port.",
+      "contrast": [
+        ["Aspect", "Inbound to your web server", "Outbound from your client"],
+        ["Source", "Any, on an ephemeral port", "Your host, on an ephemeral port"],
+        ["Destination", "The server IP, port 443", "The remote server, port 443"],
+        ["Which side is fixed", "Destination port", "Destination port"],
+        ["Ephemeral range", "Roughly 49152 to 65535", "Roughly 49152 to 65535"]
+      ],
+      "rule": "The destination port is the service. The source port is almost always any. Write the rule in the direction the connection is initiated.",
+      "tell": "'Allow the internet to reach the web server' means destination is the server and destination port is 443. Never source port 443.",
+      "trap": "Source port 443 looks symmetric and tidy. It matches only the return traffic, which a stateful firewall already handles."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "acl-overbroad-any",
+    "label": "Using any where the requirement named a specific host or port",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "least-privilege", "access-lists"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "Your rule permits the required traffic, but also a great deal more. Passing the functional test is not the same as passing least privilege.",
+      "contrast": [
+        ["Aspect", "Least privilege rule", "Overbroad rule"],
+        ["Scope", "Exactly the host, port and direction required", "any, or a whole subnet, or all ports"],
+        ["Required traffic works", "Yes", "Yes"],
+        ["Other traffic", "Blocked", "Also permitted, invisibly"],
+        ["PBQ scoring", "Full credit", "Partial credit at best, often zero for that subtask"]
+      ],
+      "rule": "Use any only where the requirement genuinely says any, which is usually only the source of inbound internet traffic.",
+      "tell": "If the scenario names a specific management workstation, the source must be that host's address, not its subnet and not any.",
+      "trap": "The traffic test passes, so the rule feels correct. Graders check breadth as well as function, exactly as a real auditor would."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "stateful-return-traffic",
+    "label": "Writing return traffic rules on a stateful firewall",
+    "objective": "3.2",
+    "topics": ["firewall-types", "layer-4-layer-7-firewall", "firewall-rules"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You added a second rule to allow the replies. A stateful firewall tracks the connection and permits the return automatically.",
+      "contrast": [
+        ["Aspect", "Stateless (classic ACL)", "Stateful"],
+        ["Tracks connections", "No", "Yes, in a state table"],
+        ["Return traffic", "Needs its own rule", "Permitted automatically"],
+        ["Rules needed per flow", "Two", "One"],
+        ["Judges each packet", "In isolation", "In the context of its connection"]
+      ],
+      "rule": "On a stateful firewall write one rule per connection, in the direction it is initiated. The reply is free.",
+      "tell": "If the question describes a modern firewall or NGFW, do not write reverse rules. If it says stateless packet filter or classic router ACL, you must.",
+      "trap": "Adding the return rule seems safely thorough. On a stateful device it is an unnecessary opening and usually scores as an overbroad rule."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "screened-subnet-direction",
+    "label": "What a screened subnet (DMZ) is allowed to initiate",
+    "objective": "3.2",
+    "topics": ["screened-subnets", "security-zones", "segmentation"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You allowed the DMZ host to open connections into the internal LAN. The entire point of the zone is that a compromised DMZ host cannot reach inside.",
+      "contrast": [
+        ["Direction", "Allowed", "Why"],
+        ["Internet to DMZ, specific service", "Yes", "That is what the DMZ is for"],
+        ["DMZ to internal LAN", "No, except one named flow if required", "A compromised public host must not pivot inward"],
+        ["Internal LAN to DMZ", "Yes", "Inside is more trusted than outside"],
+        ["Internet to internal LAN", "Never", "No direct path from untrusted to trusted"]
+      ],
+      "rule": "Trust flows inward to outward. The DMZ may be reached from the internet and from inside, but it initiates nothing into the internal network unless a requirement explicitly names that one flow.",
+      "tell": "'The web server must query the internal database' is that explicit exception. Permit exactly that one host, one port, nothing more.",
+      "trap": "The application genuinely needs the database, so a broad DMZ to LAN permit makes the app work. It also hands an attacker the pivot the design exists to prevent."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "waf-vs-ngfw-vs-utm",
+    "label": "WAF vs NGFW vs UTM",
+    "objective": "3.2",
+    "topics": ["web-application-firewall-waf", "next-generation-firewall-ngfw", "unified-threat-management-utm"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You picked a general purpose firewall for an application specific attack, or the reverse.",
+      "contrast": [
+        ["Aspect", "WAF", "NGFW", "UTM"],
+        ["Protects", "One web application", "The whole network perimeter", "The whole network, small office"],
+        ["Understands", "HTTP requests, parameters, payloads", "Applications, users, plus IPS", "A bundle of everything"],
+        ["Stops SQLi and XSS", "Yes, this is its job", "Partly, via IPS signatures", "Partly"],
+        ["Selling point", "Depth on one protocol", "Application awareness plus identity", "One box, one licence, all features"]
+      ],
+      "rule": "Attack against the application logic means WAF. Broad perimeter control with application and user awareness means NGFW. One appliance doing everything for a small site means UTM.",
+      "tell": "The words SQL injection, cross site scripting, or OWASP in the stem point to a WAF.",
+      "trap": "An NGFW is more capable overall, so it reads like the stronger answer. For a targeted web application attack the specialised device is the correct one."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "ids-vs-ips-placement",
+    "label": "IDS vs IPS, and inline vs tap placement",
+    "objective": "3.2",
+    "topics": ["intrusion-detection-system-ids", "intrusion-prevention-system-ips", "inline-vs-tap-monitor", "active-vs-passive"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You chose a device that can only watch when the requirement was to stop the traffic, or you placed a blocking device out of the traffic path.",
+      "contrast": [
+        ["Aspect", "IDS", "IPS"],
+        ["Placement", "Tap or SPAN port, out of band", "Inline, in the traffic path"],
+        ["Sees a copy or the real packets", "A copy", "The real packets"],
+        ["Can block", "No, alerts only", "Yes, drops the traffic"],
+        ["Risk of a false positive", "A noisy alert", "Legitimate traffic dropped"],
+        ["Risk if the device fails", "Monitoring stops", "The network may stop, so fail mode matters"]
+      ],
+      "rule": "To stop an attack the device must be inline, which makes it an IPS. If it is out of band it can only tell you afterwards.",
+      "tell": "'Prevent', 'block', 'stop in real time' means IPS. 'Alert', 'detect', 'no impact on traffic flow' means IDS.",
+      "trap": "An IDS is safer to deploy and tuning is less risky, which makes it attractive. It cannot satisfy a requirement that uses the word prevent."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "nat-as-security-control",
+    "label": "NAT treated as a firewall",
+    "objective": "3.2",
+    "topics": ["firewall-types", "attack-surface", "connectivity"],
+    "severity": "low",
+    "mentor": {
+      "diagnosis": "You credited NAT with security it does not provide. Hiding addresses is a side effect, not a policy.",
+      "contrast": [
+        ["Aspect", "NAT", "Firewall"],
+        ["Purpose", "Address conservation and translation", "Enforce a traffic policy"],
+        ["Inspects traffic against rules", "No", "Yes"],
+        ["Blocks outbound connections", "No", "Yes, if you tell it to"],
+        ["Side effect", "Inbound connections have nowhere to land by default", "Explicit and auditable"]
+      ],
+      "rule": "NAT is not a security control. It makes unsolicited inbound connections awkward, which is not the same as denying them by policy.",
+      "tell": "Any option that answers a filtering requirement with 'enable NAT' is a distractor.",
+      "trap": "It is true that NAT makes inbound access harder, so the option contains a half truth. The exam wants the control that enforces the stated policy."
+    },
+    "retireAfter": 2
+  }
+]

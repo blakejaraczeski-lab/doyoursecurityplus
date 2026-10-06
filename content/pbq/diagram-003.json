@@ -1,0 +1,151 @@
+{
+  "id": "pbq-diagram-003",
+  "kind": "network-diagram",
+  "objective": "4.8",
+  "topics": ["ransomware", "onsite-offsite-backups", "snapshots", "replication", "containment", "recovery"],
+  "difficulty": 4,
+  "title": "Ransomware, and the backup that was not one",
+  "targetSeconds": 600,
+  "scenario": "At 06:50 the overnight shift reports that files on the shared drive open as gibberish and a ransom note has appeared on two desktops. Nothing is contained yet. Click each host to review what was collected, then answer the questions.",
+  "config": {
+    "nodes": [
+      { "id": "inet", "label": "Internet", "type": "cloud", "zone": "external", "x": 50, "y": 6, "selectable": false },
+      { "id": "fw", "label": "FW-01", "type": "firewall", "ip": "10.12.0.1", "zone": "perimeter", "x": 50, "y": 20, "selectable": false },
+      { "id": "sw", "label": "CORE-SW", "type": "switch", "ip": "10.12.0.2", "zone": "internal", "x": 50, "y": 36, "selectable": false },
+      { "id": "backup", "label": "BACKUP-SRV", "type": "server", "ip": "10.12.1.30", "zone": "internal", "x": 14, "y": 52 },
+      { "id": "file", "label": "FILE-SRV", "type": "server", "ip": "10.12.1.20", "zone": "internal", "x": 38, "y": 52 },
+      { "id": "db", "label": "DB-SRV", "type": "server", "ip": "10.12.1.40", "zone": "internal", "x": 62, "y": 52 },
+      { "id": "dc", "label": "DC-01", "type": "server", "ip": "10.12.1.10", "zone": "internal", "x": 86, "y": 52 },
+      { "id": "ws01", "label": "WS-01", "type": "workstation", "ip": "10.12.4.11", "zone": "internal", "x": 20, "y": 78 },
+      { "id": "ws02", "label": "WS-02", "type": "workstation", "ip": "10.12.4.12", "zone": "internal", "x": 44, "y": 78 },
+      { "id": "ws03", "label": "WS-03", "type": "workstation", "ip": "10.12.4.13", "zone": "internal", "x": 68, "y": 78 }
+    ],
+    "links": [["inet","fw"],["fw","sw"],["sw","backup"],["sw","file"],["sw","db"],["sw","dc"],["sw","ws01"],["sw","ws02"],["sw","ws03"]],
+    "evidence": {
+      "ws02": {
+        "summary": "Earliest activity. A macro-enabled attachment was opened here, and the encryption routine ran from this host.",
+        "lines": [
+          "MAIL  'Remittance_Advice.xlsm' delivered 05:41, opened 05:44 by user tmurray",
+          "EDR   excel.exe spawned powershell.exe -enc <base64>",
+          "EDR   file written C:\\Users\\tmurray\\AppData\\Local\\svc-upd.exe",
+          "EDR   svc-upd.exe enumerated mapped drives, began mass file rename to .lokx",
+          "NET   10.12.4.12 -> 10.12.1.20 tcp/445  sustained write activity 05:52 onward",
+          "FILE  ransom note LOKX_README.txt written to desktop 06:31"
+        ]
+      },
+      "ws03": {
+        "summary": "Second host running the same executable.",
+        "lines": [
+          "NET   10.12.4.12 -> 10.12.4.13 tcp/445  06:02  file copy",
+          "EDR   file written C:\\Users\\Public\\svc-upd.exe 06:02",
+          "EDR   svc-upd.exe running, local files renamed to .lokx",
+          "FILE  ransom note LOKX_README.txt written to desktop 06:33"
+        ]
+      },
+      "ws01": {
+        "summary": "Received the same message. It was never opened.",
+        "lines": [
+          "MAIL  'Remittance_Advice.xlsm' delivered 05:41, never opened",
+          "EDR   no child processes from excel.exe, no files written",
+          "EDR   full scan clean"
+        ]
+      },
+      "file": {
+        "summary": "The share contents are encrypted. Nothing malicious is resident on the server itself.",
+        "lines": [
+          "FILE  184,000 files under \\\\FILE-SRV\\shared\\ renamed to .lokx between 05:52 and 06:44",
+          "AUTH  all writes performed over SMB by tmurray from 10.12.4.12",
+          "EDR   no unexpected files on this host, no new services, scan clean",
+          "SEC   all security events present, no gaps"
+        ]
+      },
+      "backup": {
+        "summary": "Backups exist and are also encrypted. The backup target was a share the file server could write to.",
+        "lines": [
+          "CONF  backup job writes nightly to \\\\BACKUP-SRV\\backups\\ over SMB",
+          "CONF  share permissions: Domain Users have modify rights",
+          "CONF  no offline copy, no immutability, no versioning enabled",
+          "FILE  all .bak files under \\\\BACKUP-SRV\\backups\\ renamed to .lokx 06:38",
+          "EDR   no unexpected files on this host, no new services, scan clean"
+        ]
+      },
+      "db": {
+        "summary": "Unaffected. Data lives on local storage that was never mapped as a drive.",
+        "lines": [
+          "FILE  no renamed files, database online and serving",
+          "CONF  no SMB shares published",
+          "EDR   scan clean"
+        ]
+      },
+      "dc": {
+        "summary": "No malware artefacts. Authentication volume normal.",
+        "lines": [
+          "AUTH  no anomalous authentication, no new accounts",
+          "SEC   all security events present, no gaps",
+          "EDR   scan clean"
+        ]
+      }
+    },
+    "tasks": [
+      { "id": "t-identify", "type": "select-nodes", "max": 6,
+        "prompt": "Select every host that is actually compromised, meaning the ransomware executed on it. Do not select hosts whose files were encrypted over the network." },
+      { "id": "t-first", "type": "choice",
+        "prompt": "It is 06:52 and encryption is still running. What is the single most appropriate first action?",
+        "options": [
+          { "value": "restore", "label": "Begin restoring the file server from last night's backup" },
+          { "value": "isolate", "label": "Isolate the affected hosts and the file server from the network" },
+          { "value": "scan", "label": "Run a full antivirus scan across all workstations" },
+          { "value": "shutdown", "label": "Shut down every server to stop the encryption" },
+          { "value": "notify", "label": "Notify the insurer and begin ransom negotiation" }
+        ]},
+      { "id": "t-backup", "type": "choice",
+        "prompt": "The backups were encrypted along with everything else. What is the design failure?",
+        "options": [
+          { "value": "frequency", "label": "Backups ran only once per night, so the recovery point was too old" },
+          { "value": "reachable", "label": "The backup target was an ordinary writable share reachable from the systems it protected, with no offline or immutable copy" },
+          { "value": "encryption", "label": "The backup files were not themselves encrypted at rest" },
+          { "value": "offsite", "label": "The backup server was in the same building as the file server" }
+        ]},
+      { "id": "t-recover", "type": "choice",
+        "prompt": "An offline copy from four days ago is found in a fire safe. What is the correct recovery sequence?",
+        "options": [
+          { "value": "restore-first", "label": "Restore the data immediately to minimise downtime, then patch and clean the hosts" },
+          { "value": "rebuild-first", "label": "Rebuild the compromised hosts, close the delivery route and reset exposed credentials, then restore from the offline copy" },
+          { "value": "pay", "label": "Pay the ransom, since four days of lost work is more expensive" },
+          { "value": "decrypt", "label": "Look for a public decryptor and decrypt in place, leaving the hosts running" }
+        ]},
+      { "id": "t-actor", "type": "choice",
+        "prompt": "Encryption of business data followed by a payment demand in cryptocurrency indicates which threat actor?",
+        "options": [
+          { "value": "nation", "label": "A nation-state actor" },
+          { "value": "crime", "label": "Organised crime" },
+          { "value": "hacktivist", "label": "A hacktivist" },
+          { "value": "insider", "label": "An insider threat" }
+        ]}
+    ]
+  },
+  "solution": {
+    "t-identify": ["ws02", "ws03"],
+    "t-first": "isolate",
+    "t-backup": "reachable",
+    "t-recover": "rebuild-first",
+    "t-actor": "crime"
+  },
+  "subtasks": [
+    { "id": "st-identify", "task": "t-identify", "label": "Identify the compromised hosts", "points": 5,
+      "misconception": "compromised-vs-affected",
+      "correctNote": "The ransomware executed on WS-02 and WS-03 only. FILE-SRV and BACKUP-SRV had their files encrypted across SMB by a legitimate user account, and both scan clean with no resident malware. Their data needs restoring; the hosts do not need rebuilding. WS-01 received the document and never opened it." },
+    { "id": "st-first", "task": "t-first", "label": "First response action", "points": 4,
+      "misconception": "ir-phase-order",
+      "correctNote": "Encryption is still running, so containment comes before everything else. Restoring into an actively encrypting environment loses the restore, and shutting down every server destroys volatile evidence while doing no more than isolation would." },
+    { "id": "st-backup", "task": "t-backup", "label": "Diagnose the backup design", "points": 4,
+      "misconception": "backup-methods",
+      "correctNote": "A backup reachable and writable from the system it protects is not a backup, it is a second copy waiting to be encrypted. Offline, immutable or versioned storage is what makes it survive. Nightly frequency and same-building location are real weaknesses and are not what destroyed these backups." },
+    { "id": "st-recover", "task": "t-recover", "label": "Recovery sequence", "points": 4,
+      "misconception": "ransomware-pay",
+      "correctNote": "Rebuild first, close the route in, reset what was exposed, then restore. Restoring first puts clean data onto compromised hosts. Paying is never the exam's answer and does not guarantee a working key." },
+    { "id": "st-actor", "task": "t-actor", "label": "Threat actor attribution", "points": 3,
+      "misconception": "threat-actor-attributes",
+      "correctNote": "Direct monetisation through extortion is the organised crime signature. A nation-state would stay hidden, a hacktivist would seek publicity for a cause, and an insider would not need a phishing document to get in." }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "id": "pbq-wireless-002",
+  "kind": "wireless-config",
+  "objective": "4.1",
+  "topics": ["wi-fi-protected-access-3", "segmentation", "wi-fi"],
+  "difficulty": 3,
+  "title": "Guest wireless at a site with no local servers",
+  "targetSeconds": 360,
+  "scenario": "Northwind Logistics operates a two person satellite office. It has a broadband circuit and a single wireless router. There is no server at the site, no site to site tunnel, and no reachable identity infrastructure. Configure the guest wireless network.",
+  "requirements": [
+    "Visitors need wireless access. There is no RADIUS server available at this site and none can be reached.",
+    "Select the strongest security mode that this site can actually operate.",
+    "An attacker who captures the association must not be able to run an offline dictionary attack against the credential.",
+    "Guests must not be able to see or reach one another on the wireless network.",
+    "Guest traffic must be kept off the office LAN. The guest VLAN is 40.",
+    "Visitors must be able to find the network without being told its name.",
+    "Do not leave any setup shortcut enabled that would bypass the configured security.",
+    "The shared credential must be at least 12 characters."
+  ],
+  "config": {
+    "deviceName": "NWL-SAT2-RTR01",
+    "fields": [
+      { "id": "security_mode", "label": "Security mode", "type": "select", "options": [
+        { "value": "open", "label": "Open (no security)" },
+        { "value": "open-captive", "label": "Open with captive portal" },
+        { "value": "wpa2-personal", "label": "WPA2-Personal (PSK)" },
+        { "value": "wpa2-enterprise", "label": "WPA2-Enterprise (802.1X)" },
+        { "value": "wpa3-personal", "label": "WPA3-Personal (SAE)" },
+        { "value": "wpa3-enterprise", "label": "WPA3-Enterprise (802.1X)" }
+      ]},
+      { "id": "passphrase", "label": "Pre-shared passphrase", "type": "text", "placeholder": "at least 12 characters",
+        "dependsOn": { "field": "security_mode", "in": ["wpa2-personal", "wpa3-personal"] } },
+      { "id": "client_isolation", "label": "Client isolation", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled" }
+      ]},
+      { "id": "vlan_id", "label": "VLAN ID", "type": "text", "placeholder": "e.g. 10" },
+      { "id": "pmf", "label": "Protected Management Frames (802.11w)", "type": "select", "options": [
+        { "value": "disabled", "label": "Disabled" },
+        { "value": "optional", "label": "Optional" },
+        { "value": "required", "label": "Required" }
+      ]},
+      { "id": "wps", "label": "Wi-Fi Protected Setup (WPS)", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled" }
+      ]},
+      { "id": "ssid_broadcast", "label": "SSID broadcast", "type": "select", "options": [
+        { "value": "enabled", "label": "Enabled" },
+        { "value": "disabled", "label": "Disabled (hidden)" }
+      ]}
+    ]
+  },
+  "solution": {
+    "fields": {
+      "security_mode": { "accept": ["wpa3-personal"] },
+      "passphrase": { "rule": "minLength:12" },
+      "client_isolation": { "accept": ["enabled"] },
+      "vlan_id": { "accept": ["40"] },
+      "pmf": { "accept": ["required"] },
+      "wps": { "accept": ["disabled"] },
+      "ssid_broadcast": { "accept": ["enabled"] }
+    }
+  },
+  "subtasks": [
+    { "id": "st-mode", "field": "security_mode", "label": "Security mode", "points": 3,
+      "misconception": "wpa3-sae-vs-enterprise",
+      "correctNote": "Enterprise is the stronger mode in general, and it is unavailable here because there is no RADIUS server and none can be reached. The strongest mode this site can operate is WPA3-Personal. SAE also satisfies the offline cracking requirement, which WPA2-Personal would not." },
+    { "id": "st-sae", "field": "security_mode", "label": "Offline dictionary resistance", "points": 2,
+      "misconception": "wpa2-psk-vs-wpa3-sae",
+      "correctNote": "SAE replaces the WPA2 four way handshake, so a captured association cannot be cracked offline. This is the reason WPA3-Personal beats WPA2-Personal here, not the key length." },
+    { "id": "st-isolation", "field": "client_isolation", "label": "Client isolation", "points": 2,
+      "misconception": "guest-network-isolation",
+      "correctNote": "The VLAN keeps guests off the office LAN. Only client isolation keeps guests away from each other, and the requirements ask for both." },
+    { "id": "st-vlan", "field": "vlan_id", "label": "Guest VLAN", "points": 2,
+      "misconception": "guest-network-isolation",
+      "correctNote": "VLAN 40 as specified. Without the VLAN assignment, guest traffic lands on the office LAN regardless of the wireless settings." },
+    { "id": "st-pmf", "field": "pmf", "label": "Protected Management Frames", "points": 1,
+      "misconception": "pmf-and-deauth",
+      "correctNote": "WPA3 mandates PMF. Leaving it optional or disabled contradicts the mode you selected." },
+    { "id": "st-wps", "field": "wps", "label": "WPS", "points": 2,
+      "misconception": "wps-convenience-risk",
+      "correctNote": "A guest network is exactly where someone leaves WPS on for convenience. It hands out access around your passphrase." },
+    { "id": "st-ssid", "field": "ssid_broadcast", "label": "SSID broadcast", "points": 1,
+      "misconception": "ssid-hiding-as-security",
+      "correctNote": "Visitors must find the network unaided, so it must broadcast. Hiding it would not have added security anyway." },
+    { "id": "st-pass", "field": "passphrase", "label": "Passphrase length", "points": 1,
+      "misconception": null,
+      "correctNote": "At least 12 characters, as stated in the requirements." }
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "note": "Directed prerequisite edges between misconceptions. An edge A -> B means: you cannot reliably repair B until A is solid, so a miss on B while A is still open should be routed backward to A first. Edges are authored, not inferred: a real dependency is one where the downstream reasoning is impossible without the upstream fact, not merely one where the topics are adjacent.",
+  "edges": [
+    {
+      "id": "acl-rule-order",
+      "requires": [
+        "acl-implicit-deny"
+      ],
+      "why": "Ordering only matters once you know evaluation stops at the first match. Without that, 'specific before general' is an arbitrary rule to memorise."
+    },
+    {
+      "id": "acl-overbroad-any",
+      "requires": [
+        "acl-direction-and-ports"
+      ],
+      "why": "You cannot judge whether a rule is too broad until you can read which side holds the service port and which direction it is written in."
+    },
+    {
+      "id": "screened-subnet-direction",
+      "requires": [
+        "acl-direction-and-ports"
+      ],
+      "why": "Zone direction is an argument about which side initiates. That is unreadable without source and destination being solid first."
+    },
+    {
+      "id": "stateful-return-traffic",
+      "requires": [
+        "acl-direction-and-ports"
+      ],
+      "why": "Return traffic is the reverse of a flow you must already be able to write."
+    },
+    {
+      "id": "digital-signature-properties",
+      "requires": [
+        "hashing-vs-encryption"
+      ],
+      "why": "A signature is a hash encrypted with a private key. If hashing and encryption are still blurred, the properties a signature does and does not provide cannot be derived."
+    },
+    {
+      "id": "salting-purpose",
+      "requires": [
+        "hashing-vs-encryption"
+      ],
+      "why": "Salting is a property of hashing. It cannot be reasoned about while hashing is still confused with encryption."
+    },
+    {
+      "id": "crl-vs-ocsp",
+      "requires": [
+        "digital-signature-properties"
+      ],
+      "why": "Revocation checking is about trusting a signed statement from the CA. The signature properties come first."
+    },
+    {
+      "id": "access-control-models",
+      "requires": [
+        "authn-vs-authz"
+      ],
+      "why": "Every access control model is an authorization model. Picking between them is impossible while authorization is still conflated with authentication."
+    },
+    {
+      "id": "mfa-same-factor",
+      "requires": [
+        "authn-vs-authz"
+      ],
+      "why": "Factors are an authentication concept. Counting them only makes sense once authentication is cleanly separated."
+    },
+    {
+      "id": "least-privilege-vs-need-to-know",
+      "requires": [
+        "access-control-models"
+      ],
+      "why": "Least privilege and need to know are applied through an access control model. The model has to be solid first."
+    },
+    {
+      "id": "deterrent-vs-preventive",
+      "requires": [
+        "control-category-vs-type"
+      ],
+      "why": "Deterrent and preventive are both control TYPES. Separating them is pointless while the type axis is still being confused with the category axis."
+    },
+    {
+      "id": "compensating-vs-corrective",
+      "requires": [
+        "control-category-vs-type"
+      ],
+      "why": "Same axis problem. Both are types, and the common error is answering on the wrong axis entirely."
+    },
+    {
+      "id": "data-type-vs-classification",
+      "requires": [
+        "control-category-vs-type"
+      ],
+      "why": "This is the identical two-axis trap in a different domain. Fixing the pattern once makes the second instance much cheaper."
+    },
+    {
+      "id": "risk-treatment-strategies",
+      "requires": [
+        "sle-ale-aro"
+      ],
+      "why": "Deciding to mitigate, transfer, accept or avoid is an economic judgement against the annualised loss. Without ALE the decision has no basis."
+    },
+    {
+      "id": "bia-vs-risk-assessment",
+      "requires": [
+        "rto-vs-rpo"
+      ],
+      "why": "The BIA is identified by its outputs. If RTO and RPO are still swapped, the thing that distinguishes a BIA from a risk assessment is invisible."
+    },
+    {
+      "id": "qualitative-vs-quantitative",
+      "requires": [
+        "sle-ale-aro"
+      ],
+      "why": "Quantitative analysis IS the SLE/ARO/ALE calculation. The distinction is empty until those are solid."
+    },
+    {
+      "id": "isolate-vs-power-off",
+      "requires": [
+        "ir-phase-order"
+      ],
+      "why": "The choice is only forced once you know containment precedes eradication. Out of phase order, powering off looks like a reasonable first move."
+    },
+    {
+      "id": "segmentation-as-containment",
+      "requires": [
+        "ir-phase-order"
+      ],
+      "why": "Choosing a network control over patching or scanning is a phase decision before it is a technology decision."
+    },
+    {
+      "id": "clean-vs-reimage",
+      "requires": [
+        "ir-phase-order"
+      ],
+      "why": "Reimaging is eradication. Its timing relative to containment and evidence collection is what makes it right or wrong."
+    },
+    {
+      "id": "order-of-volatility",
+      "requires": [
+        "isolate-vs-power-off"
+      ],
+      "why": "Collection order only matters if the machine is still running. The decision not to power it off comes first."
+    },
+    {
+      "id": "segmentation-as-containment",
+      "requires": [
+        "worm-vs-virus"
+      ],
+      "why": "Why containment must be a network control follows directly from the malware propagating by itself. Get the propagation model right and the containment choice falls out."
+    },
+    {
+      "id": "compromised-vs-affected",
+      "requires": [
+        "ir-phase-order"
+      ],
+      "why": "Scoping is the analysis phase. Without the phases, there is no stage at which scope is the question being asked."
+    },
+    {
+      "id": "eap-tls-vs-peap",
+      "requires": [
+        "wpa3-sae-vs-enterprise"
+      ],
+      "why": "EAP methods only exist inside Enterprise mode. Choosing one before the mode distinction is solid is answering a question that has not been reached."
+    },
+    {
+      "id": "radius-vs-tacacs",
+      "requires": [
+        "wpa3-sae-vs-enterprise"
+      ],
+      "why": "RADIUS enters the picture because Enterprise delegates the decision. That is the reason to know which AAA protocol applies."
+    },
+    {
+      "id": "pmf-and-deauth",
+      "requires": [
+        "wpa2-psk-vs-wpa3-sae"
+      ],
+      "why": "Understanding that WPA protects data frames but not management frames depends on knowing what the WPA handshake actually covers."
+    },
+    {
+      "id": "guest-network-isolation",
+      "requires": [
+        "wpa3-sae-vs-enterprise"
+      ],
+      "why": "Guest design starts from the fact that no per-user identity exists, which is the Personal versus Enterprise distinction."
+    },
+    {
+      "id": "fail-open-vs-fail-closed",
+      "requires": [
+        "ids-vs-ips-placement"
+      ],
+      "why": "Failure mode is only a live question for a device that sits inline. Inline versus out of band comes first."
+    },
+    {
+      "id": "air-gap-vs-logical-segmentation",
+      "requires": [
+        "screened-subnet-direction"
+      ],
+      "why": "Degrees of separation are judged against what a controlled connection actually permits, which is the zone direction argument."
+    },
+    {
+      "id": "zero-day-vs-unpatched",
+      "requires": [
+        "compensating-vs-corrective"
+      ],
+      "why": "The reason zero-day matters is that no patch exists, so you must reach for a compensating control. Without that concept the distinction has no consequence."
+    },
+    {
+      "id": "supply-chain-vectors",
+      "requires": [
+        "zero-day-vs-unpatched"
+      ],
+      "why": "Supply chain compromise is defined by nothing being exploited at all. That only reads as surprising once exploitation of a known or unknown flaw is clear."
+    },
+    {
+      "id": "crypto-attacks",
+      "requires": [
+        "hashing-vs-encryption"
+      ],
+      "why": "Collision and birthday attack the hash; downgrade attacks the negotiation. Separating them needs hashing and encryption already separated."
+    },
+    {
+      "id": "on-path-vs-replay",
+      "requires": [
+        "app-attack-types"
+      ],
+      "why": "Telling live interception from a replayed capture is a mechanism-versus-outcome distinction, the same discipline the application attack family demands."
+    },
+    {
+      "id": "audit-vs-assessment",
+      "requires": [
+        "due-diligence-vs-due-care"
+      ],
+      "why": "Review types are ranked by independence, which is the same before-versus-ongoing, who-is-accountable reasoning as diligence versus care."
+    },
+    {
+      "id": "vendor-assessment-methods",
+      "requires": [
+        "audit-vs-assessment"
+      ],
+      "why": "Choosing between a questionnaire, a SOC 2 and a right-to-audit clause is a judgement about independence, which the audit types establish."
+    },
+    {
+      "id": "vendor-assessment-methods",
+      "requires": [
+        "agreement-types"
+      ],
+      "why": "A right-to-audit clause is a contract term. It cannot be selected without knowing what the agreement types do."
+    },
+    {
+      "id": "policy-standard-procedure-guideline",
+      "requires": [
+        "control-category-vs-type"
+      ],
+      "why": "The governance hierarchy is another specificity ladder, and the failure mode is identical: answering at the wrong level."
+    },
+    {
+      "id": "edr-vs-antivirus",
+      "requires": [
+        "zero-day-vs-unpatched"
+      ],
+      "why": "Behavioural detection matters precisely because there is no signature yet. The zero-day concept is what gives EDR its reason to exist."
+    },
+    {
+      "id": "ransomware-pay",
+      "requires": [
+        "backup-methods"
+      ],
+      "why": "The answer to ransomware is a restorable backup. If replication is still mistaken for backup, paying starts to look rational."
+    },
+    {
+      "id": "site-types-hot-warm-cold",
+      "requires": [
+        "rto-vs-rpo"
+      ],
+      "why": "Hot, warm and cold are selected against an RTO. Without the target the three are just degrees of expense."
+    },
+    {
+      "id": "backup-methods",
+      "requires": [
+        "rto-vs-rpo"
+      ],
+      "why": "Backup frequency is set by the RPO. Choosing between snapshot, replication and journaling is choosing a recovery point."
+    },
+    {
+      "id": "ha-vs-load-balancing-vs-clustering",
+      "requires": [
+        "site-types-hot-warm-cold"
+      ],
+      "why": "Availability design sits on top of the recovery site decision."
+    },
+    {
+      "id": "impossible-travel-indicators",
+      "requires": [
+        "spraying-vs-brute-force"
+      ],
+      "why": "Reading authentication logs for a pattern starts with being able to read the simplest pattern: many failures on one account versus one failure on many."
+    },
+    {
+      "id": "app-attack-types",
+      "requires": [
+        "sqli-vs-xss"
+      ],
+      "why": "The application attack family is separated by mechanism. SQLi versus XSS is the cheapest instance of that discipline and the one the exam uses most."
+    }
+  ]
+}

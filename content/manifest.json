@@ -1,0 +1,44 @@
+{
+  "items": [
+    "anki-imported.json",
+    "architecture.json",
+    "core-a.json",
+    "core-b.json",
+    "derived-terminology.json",
+    "domain5-a.json",
+    "domain5-b.json",
+    "firewall.json",
+    "incident.json",
+    "threats.json",
+    "wireless.json"
+  ],
+  "pbq": [
+    "acl-001.json",
+    "acl-002.json",
+    "acl-003.json",
+    "acl-004.json",
+    "diagram-001.json",
+    "diagram-002.json",
+    "diagram-003.json",
+    "diagram-004.json",
+    "wireless-001.json",
+    "wireless-002.json",
+    "wireless-003.json",
+    "wireless-004.json"
+  ],
+  "mentor": [
+    "architecture.json",
+    "core.json",
+    "firewall.json",
+    "governance.json",
+    "incident.json",
+    "terminology.json",
+    "threats.json",
+    "wireless.json"
+  ],
+  "index": [
+    "messer-notes.json",
+    "miranda-guide.json",
+    "sybex-study-guide.json"
+  ]
+}

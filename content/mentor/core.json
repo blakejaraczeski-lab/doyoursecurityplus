@@ -1,0 +1,434 @@
+[
+  {
+    "id": "control-category-vs-type",
+    "label": "Control category (technical, managerial, operational, physical) vs control type (preventive, detective, ...)",
+    "objective": "1.1",
+    "topics": ["technical-controls", "managerial-controls", "operational-controls", "physical-controls", "preventive", "detective", "deterrent", "corrective", "compensating", "directive"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You answered with the wrong axis. Every control has both a category and a type, and the question always asks for exactly one of them.",
+      "contrast": [
+        ["Axis", "Question it answers", "Values"],
+        ["Category", "What kind of thing is it", "Technical, Managerial, Operational, Physical"],
+        ["Type", "What does it do about the event", "Preventive, Deterrent, Detective, Corrective, Compensating, Directive"],
+        ["Example: security guard", "Category: Physical", "Type: could be deterrent, preventive or detective"],
+        ["Example: security policy", "Category: Managerial", "Type: Directive"],
+        ["Example: backups", "Category: Technical", "Type: Corrective"]
+      ],
+      "rule": "Category is what it is made of. Type is when it acts relative to the incident: before, during, or after.",
+      "tell": "The words 'category' and 'type' in the stem are literal. Read which one is being asked before scanning the options.",
+      "trap": "Both axes appear in the option list together, so a correct sounding word is always available on the wrong axis."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "deterrent-vs-preventive",
+    "label": "Deterrent vs preventive control",
+    "objective": "1.1",
+    "topics": ["deterrent", "preventive", "physical-controls"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You picked preventive for a control that only discourages. A deterrent changes the attacker's mind, a preventive changes what is physically possible.",
+      "contrast": [
+        ["Control", "Type", "Why"],
+        ["Warning sign, 'CCTV in use'", "Deterrent", "Persuades, blocks nothing"],
+        ["Bollard", "Preventive", "The vehicle physically cannot pass"],
+        ["Lighting", "Deterrent", "Makes attackers feel exposed"],
+        ["Locked door", "Preventive", "Stops entry"],
+        ["Fence, low", "Deterrent", "Easily climbed, marks a boundary"],
+        ["Fence, tall with razor wire", "Preventive", "Actually stops entry"]
+      ],
+      "rule": "Ask whether a determined attacker who ignores it is still stopped. If yes it is preventive, if no it is deterrent.",
+      "tell": "Signs, lighting and visible cameras are the classic deterrent set.",
+      "trap": "Deterrents do reduce incidents, so they feel preventive in effect. The exam classifies by mechanism, not by outcome."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "compensating-vs-corrective",
+    "label": "Compensating vs corrective control",
+    "objective": "1.1",
+    "topics": ["compensating", "corrective", "exceptions-and-exemptions"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You confused the control that stands in for another with the control that fixes damage afterwards.",
+      "contrast": [
+        ["Aspect", "Compensating", "Corrective"],
+        ["Exists because", "The control you wanted is not possible", "An incident happened"],
+        ["Timing", "Before, as a substitute", "After, as a repair"],
+        ["Example", "Legacy system cannot be patched, so it is isolated on its own VLAN", "Restoring from backup after ransomware"],
+        ["Paired with", "An exception in the risk register", "The recovery phase"]
+      ],
+      "rule": "Compensating substitutes for a missing control. Corrective repairs after the event.",
+      "tell": "'Cannot be patched', 'vendor no longer supports it', 'business will not accept the downtime' all set up a compensating control.",
+      "trap": "Both are the answer to 'we have a problem', so both sound reactive. Compensating is chosen in advance and documented."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "hashing-vs-encryption",
+    "label": "Hashing vs encryption",
+    "objective": "1.4",
+    "topics": ["hashing", "symmetric-encryption", "asymmetric-encryption", "digital-signatures"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You offered a hash where the requirement was confidentiality, or encryption where the requirement was integrity.",
+      "contrast": [
+        ["Aspect", "Hashing", "Encryption"],
+        ["Reversible", "No, one way by design", "Yes, with the key"],
+        ["Provides", "Integrity", "Confidentiality"],
+        ["Output size", "Fixed, whatever the input", "Roughly the input size"],
+        ["Uses a key", "No, unless it is an HMAC", "Always"],
+        ["Right for", "Verify a file was not altered, store passwords", "Keep data secret at rest or in transit"]
+      ],
+      "rule": "If the data must be read back, it must be encryption. If you only need to prove it did not change, it is a hash.",
+      "tell": "'Verify the download was not modified' is hashing. 'Protect the data if the laptop is stolen' is encryption.",
+      "trap": "Both are cryptography and both are correct sounding security answers. Decide by whether anybody ever needs the original back."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "salting-purpose",
+    "label": "What salting actually defeats",
+    "objective": "1.4",
+    "topics": ["salting", "hashing", "key-stretching", "password-brute-force"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You said salting makes hashing slower or stronger. It does neither. It makes precomputation useless.",
+      "contrast": [
+        ["Attack", "Stopped by salt", "Stopped by key stretching"],
+        ["Rainbow table, precomputed hashes", "Yes", "Not the point"],
+        ["Two users with the same password producing the same hash", "Yes", "No"],
+        ["Brute force against one hash", "No", "Yes, each guess is made expensive"],
+        ["GPU cracking at scale", "No", "Yes"]
+      ],
+      "rule": "Salt defeats precomputation and reuse. Key stretching (bcrypt, PBKDF2, Argon2, scrypt) defeats speed. Real systems use both.",
+      "tell": "'Rainbow table' in the stem means salt. 'The attacker is running millions of guesses per second' means key stretching.",
+      "trap": "Salting genuinely improves password storage, so 'it makes the hash harder to crack' feels true. It is true only against precomputed tables."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "crl-vs-ocsp",
+    "label": "CRL vs OCSP vs OCSP stapling",
+    "objective": "1.4",
+    "topics": ["certificate-revocation-lists-crls", "online-certificate-status-protocol-ocsp", "certificate-authorities"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated the three revocation checks as interchangeable. They differ in who asks and how current the answer is.",
+      "contrast": [
+        ["Aspect", "CRL", "OCSP", "OCSP stapling"],
+        ["Mechanism", "Download the whole list of revoked serials", "Ask the CA about one certificate", "The server attaches a recent signed CA response"],
+        ["Freshness", "As stale as the last publication", "Live", "Recent, refreshed by the server"],
+        ["Client privacy", "Fine, no per site lookup", "Poor, the CA learns every site you visit", "Fine, the client asks nobody"],
+        ["Performance", "Large download", "An extra round trip per certificate", "Best, no extra round trip"]
+      ],
+      "rule": "CRL is a list you fetch. OCSP is a question you ask. Stapling is the server answering it for you, in advance.",
+      "tell": "'Reduce latency' or 'avoid the client contacting the CA' means stapling.",
+      "trap": "OCSP is more current than a CRL, so it reads as the best answer whenever freshness is mentioned. If the stem mentions performance or privacy, stapling beats it."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "digital-signature-properties",
+    "label": "What a digital signature does and does not provide",
+    "objective": "1.4",
+    "topics": ["digital-signatures", "non-repudiation", "confidentiality", "integrity"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You expected a signature to keep the message secret. Signing and encrypting are separate operations using opposite keys.",
+      "contrast": [
+        ["Property", "Digital signature", "Encryption with the recipient's public key"],
+        ["Confidentiality", "No, the message is still readable", "Yes"],
+        ["Integrity", "Yes", "No, not on its own"],
+        ["Authentication of sender", "Yes", "No"],
+        ["Non-repudiation", "Yes", "No"],
+        ["Key used", "Sender signs with their private key", "Sender encrypts with the recipient's public key"]
+      ],
+      "rule": "Sign with your private key so anyone can verify it was you. Encrypt with their public key so only they can read it. To get both, do both.",
+      "tell": "'Prove the sender cannot later deny it' is non-repudiation, which means a digital signature.",
+      "trap": "A signed message looks protected because the signature block is cryptographic. The body is plaintext."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "authn-vs-authz",
+    "label": "Authentication vs authorization vs accounting",
+    "objective": "1.2",
+    "topics": ["authentication-authorization-and-accounting-aaa", "authenticating-people", "authorization-models"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered an access question with an identity control, or the reverse.",
+      "contrast": [
+        ["Stage", "Question", "Failure looks like"],
+        ["Authentication", "Who are you", "Wrong password, login rejected"],
+        ["Authorization", "What may you do", "Logged in fine, then access denied to a share"],
+        ["Accounting", "What did you do", "No audit trail of who changed the record"]
+      ],
+      "rule": "Logged in successfully but blocked from a resource is always authorization. Cannot log in at all is authentication.",
+      "tell": "'The user authenticated successfully but could not open the folder' rules out every MFA and password option.",
+      "trap": "MFA is the strongest sounding security answer and it is offered constantly. It cannot fix an authorization problem."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "mfa-same-factor",
+    "label": "Two credentials of the same factor are not MFA",
+    "objective": "4.6",
+    "topics": ["multifactor-authentication", "something-you-know", "something-you-have", "something-you-are", "somewhere-you-are"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You counted two things as multifactor when they belong to the same factor category.",
+      "contrast": [
+        ["Combination", "Multifactor", "Why"],
+        ["Password plus PIN", "No", "Both are something you know"],
+        ["Password plus security question", "No", "Both are something you know"],
+        ["Password plus hardware token", "Yes", "Know plus have"],
+        ["Fingerprint plus smart card", "Yes", "Are plus have"],
+        ["Smart card plus its PIN", "Yes", "Have plus know"],
+        ["Password plus push notification to an enrolled phone", "Yes", "Know plus have"]
+      ],
+      "rule": "Count the categories, not the credentials. Two of the same category is still single factor.",
+      "tell": "PIN and security question are both knowledge. They are the exam's favourite fake second factor.",
+      "trap": "Two prompts feel like two factors, and the login flow looks identical to real MFA."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "access-control-models",
+    "label": "MAC vs DAC vs RBAC vs ABAC vs rule-based",
+    "objective": "4.6",
+    "topics": ["mandatory-access-control-mac", "discretionary-access-control-dac", "role-based-access-control-rbac", "attribute-based-access-control-abac", "rule-based-access-control"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You matched on a keyword rather than on who decides access and what the decision is based on.",
+      "contrast": [
+        ["Model", "Who decides", "Based on"],
+        ["MAC", "The system, centrally, users cannot override", "Labels and clearances, classic in government and military"],
+        ["DAC", "The owner of the resource", "The owner's discretion, classic file share permissions"],
+        ["RBAC", "Administrators, by job function", "Your role, not you personally"],
+        ["ABAC", "A policy engine", "Attributes combined: department, device, location, time, sensitivity"],
+        ["Rule-based", "Administrators, by global rule", "Conditions applied to everyone, such as a time of day restriction"]
+      ],
+      "rule": "Owner decides is DAC. System enforces labels is MAC. Job title is RBAC. Multiple combined conditions is ABAC.",
+      "tell": "'Contractors may access it only from a managed device, during business hours, from inside the country' is ABAC, because it is several attributes at once.",
+      "trap": "RBAC covers most real organisations, so it is the comfortable default. If the stem lists conditions beyond job function, it is ABAC."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "least-privilege-vs-need-to-know",
+    "label": "Least privilege vs need to know vs separation of duties",
+    "objective": "4.6",
+    "topics": ["least-privilege", "permission-assignments-and-implications", "role-based-access-control-rbac"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You applied the wrong principle to the scenario. They limit different things.",
+      "contrast": [
+        ["Principle", "Limits", "Classic failure it prevents"],
+        ["Least privilege", "What actions you can take", "An intern with domain admin"],
+        ["Need to know", "What data you can see", "An authorised analyst browsing unrelated case files"],
+        ["Separation of duties", "One person completing a whole sensitive process", "The person who raises the payment also approves it"],
+        ["Job rotation", "One person holding a role indefinitely", "Fraud that only survives because nobody else does the job"]
+      ],
+      "rule": "Least privilege is about permissions, need to know is about data, separation of duties is about splitting a process between people.",
+      "tell": "'The same employee can both create and approve' is separation of duties, every time.",
+      "trap": "Least privilege is true of almost every access scenario, so it is always defensible and often not the most precise answer."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "sle-ale-aro",
+    "label": "SLE, ARO and ALE",
+    "objective": "5.2",
+    "topics": ["single-loss-expectancy-sle", "annualized-loss-expectancy-ale", "annualized-rate-of-occurrence-aro", "exposure-factor", "quantitative-risk-analysis"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You mixed up the per incident figure with the yearly figure, or forgot the exposure factor.",
+      "contrast": [
+        ["Term", "Meaning", "Formula"],
+        ["AV", "Asset value, what the whole thing is worth", "Given"],
+        ["EF", "Exposure factor, the fraction lost in one event", "A percentage"],
+        ["SLE", "Single loss expectancy, cost of one event", "AV times EF"],
+        ["ARO", "Annualized rate of occurrence, events per year", "Given, 0.5 means once every two years"],
+        ["ALE", "Annualized loss expectancy, cost per year", "SLE times ARO"]
+      ],
+      "rule": "SLE is one event, ALE is one year. A control is worth buying when it costs less than the ALE it removes.",
+      "tell": "'Once every four years' is an ARO of 0.25, not 4. That single conversion is the most common arithmetic slip.",
+      "trap": "If the exposure factor is omitted from your working, SLE equals the asset value and every downstream number is wrong but still looks plausible."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "rto-vs-rpo",
+    "label": "RTO vs RPO vs MTTR vs MTBF",
+    "objective": "5.2",
+    "topics": ["recovery-time-objective-rto", "recovery-point-objective-rpo", "mean-time-to-repair-mttr", "mean-time-between-failures-mtbf", "business-impact-analysis"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You read one of these as another. Two are targets you choose, two are measurements you observe.",
+      "contrast": [
+        ["Term", "Measures", "Direction"],
+        ["RTO", "How long until service is back, a target", "Forward from the outage"],
+        ["RPO", "How much data you can afford to lose, a target", "Backward from the outage"],
+        ["MTTR", "How long repairs actually take, observed", "Forward"],
+        ["MTBF", "How long between failures, observed", "Across the asset's life"]
+      ],
+      "rule": "RPO points backwards and sets your backup frequency. RTO points forwards and sets your recovery capability. RPO of one hour means backups at least hourly.",
+      "tell": "'We can lose at most 15 minutes of transactions' is an RPO. 'We must be trading again within 4 hours' is an RTO.",
+      "trap": "Both are stated in units of time in the same sentence of a BIA, so the numbers are easy to swap."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "risk-appetite-vs-tolerance",
+    "label": "Risk appetite vs risk tolerance vs risk threshold",
+    "objective": "5.2",
+    "topics": ["risk-appetite", "risk-tolerance", "risk-threshold", "risk-register"],
+    "severity": "low",
+    "mentor": {
+      "diagnosis": "You used appetite and tolerance as synonyms. Appetite is strategic and broad, tolerance is the acceptable variance around it.",
+      "contrast": [
+        ["Term", "Meaning", "Set by"],
+        ["Risk appetite", "How much risk the organisation wants to take pursuing its goals", "The board, as expansionary, conservative or neutral"],
+        ["Risk tolerance", "How much variance from that is acceptable in practice", "Management, per risk"],
+        ["Risk threshold", "The specific line that triggers action", "Recorded in the risk register"]
+      ],
+      "rule": "Appetite is the strategy, tolerance is the wobble allowed, threshold is the trip wire.",
+      "tell": "Expansionary, conservative and neutral are appetite words.",
+      "trap": "In everyday speech the two words mean the same thing, so the distinction feels invented. The exam still tests it."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "false-positive-vs-negative",
+    "label": "False positive vs false negative",
+    "objective": "4.3",
+    "topics": ["false-positive", "false-negative", "alert-tuning", "vulnerability-scan"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You inverted the pair. Read positive as 'the tool raised an alarm' and false as 'the alarm was wrong'.",
+      "contrast": [
+        ["Term", "Tool said", "Reality", "Consequence"],
+        ["True positive", "Alarm", "Real", "Working as intended"],
+        ["False positive", "Alarm", "Nothing there", "Wasted effort, alert fatigue, tuning needed"],
+        ["False negative", "Silence", "Real attack", "The dangerous one, you never knew"],
+        ["True negative", "Silence", "Nothing there", "Working as intended"]
+      ],
+      "rule": "Positive means the tool spoke up. False means it was wrong. False negative is the one that gets you breached.",
+      "tell": "'The scanner reported a critical vulnerability but the patch is already installed' is a false positive.",
+      "trap": "Negative sounds bad and positive sounds good, which is backwards here. The words describe the tool's output, not the outcome."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "tabletop-vs-simulation",
+    "label": "Tabletop exercise vs simulation vs failover test",
+    "objective": "3.4",
+    "topics": ["tabletop-exercises", "simulation", "fail-over", "parallel-processing"],
+    "severity": "low",
+    "mentor": {
+      "diagnosis": "You chose a test that disrupts production when the stem asked for the low impact option, or the reverse.",
+      "contrast": [
+        ["Test", "What happens", "Disruption"],
+        ["Tabletop", "People talk through the plan in a room", "None"],
+        ["Walkthrough", "Step by step review of the procedure", "None"],
+        ["Simulation", "A realistic scenario is acted out, systems may be touched", "Low to moderate"],
+        ["Parallel processing", "Recovery site runs alongside production", "Low, production stays up"],
+        ["Failover", "Production is actually cut over to the recovery site", "High, and the most conclusive"]
+      ],
+      "rule": "Discussion only means tabletop. Proving it really works means a failover test. Parallel processing is the compromise.",
+      "tell": "'Without impacting production' rules out failover immediately.",
+      "trap": "Failover is the most thorough test, so it reads as the best practice answer when the stem has quietly forbidden downtime."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "phishing-variants",
+    "label": "Phishing vs vishing vs smishing vs whaling vs pretexting",
+    "objective": "2.2",
+    "topics": ["phishing", "vishing", "smishing", "pretexting", "business-email-compromise", "impersonation"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You named the family instead of the specific variant. The exam names the channel and the target.",
+      "contrast": [
+        ["Term", "Channel", "Target"],
+        ["Phishing", "Email", "Anyone, at scale"],
+        ["Spear phishing", "Email", "A named individual, researched"],
+        ["Whaling", "Email", "An executive"],
+        ["Vishing", "Voice call", "Anyone"],
+        ["Smishing", "SMS", "Anyone"],
+        ["Business email compromise", "Email from a real, compromised account", "Finance, usually a wire transfer"],
+        ["Pretexting", "Any channel", "Defined by the invented backstory, not the channel"]
+      ],
+      "rule": "Identify the channel first, then the target. Both are in the stem.",
+      "tell": "'A call from someone claiming to be IT' is vishing. If the message came from the CFO's genuine mailbox, it is business email compromise, not spoofing.",
+      "trap": "Phishing is technically true of most of these, so it is always defensible and rarely the most precise answer."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "spraying-vs-brute-force",
+    "label": "Password spraying vs brute force vs credential stuffing",
+    "objective": "2.4",
+    "topics": ["password-spraying", "password-brute-force", "account-lockout", "credential-replay"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You called a low and slow attack brute force. The tell is the direction of the attempts and the lockout behaviour.",
+      "contrast": [
+        ["Attack", "Method", "Log signature"],
+        ["Brute force", "Many passwords against one account", "One account, huge failure count, locked out fast"],
+        ["Password spraying", "One common password against many accounts", "Many accounts, one or two failures each, no lockouts"],
+        ["Credential stuffing", "Username and password pairs leaked from another breach", "Successes mixed with failures, often from unusual locations"]
+      ],
+      "rule": "Spraying is wide and shallow, deliberately staying under the lockout threshold. Brute force is narrow and deep.",
+      "tell": "'A single failed login against each of two hundred accounts, no accounts locked' is spraying.",
+      "trap": "Account lockout stops brute force and does nothing against spraying, which is why spraying is used. Answering lockout to a spraying scenario is the paired error."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "sqli-vs-xss",
+    "label": "SQL injection vs cross site scripting",
+    "objective": "2.3",
+    "topics": ["sql-injection-sqli", "cross-site-scripting-xss", "input-validation", "web-application-firewall-waf"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You matched on 'injection' without checking who gets attacked. One attacks the database, the other attacks another user's browser.",
+      "contrast": [
+        ["Aspect", "SQL injection", "Cross site scripting"],
+        ["Victim", "The database and its data", "Another user of the site"],
+        ["Payload", "SQL fragments, such as ' OR 1=1", "Script, such as a script tag"],
+        ["Goal", "Read, alter or dump data", "Steal a session cookie, act as the victim"],
+        ["Primary fix", "Parameterised queries or prepared statements", "Output encoding plus input validation"],
+        ["Also helps", "Least privilege on the database account", "HttpOnly and Secure cookie flags, CSP"]
+      ],
+      "rule": "Payload interpreted by the database is SQLi. Payload executed in a victim's browser is XSS.",
+      "tell": "'Input validation' is offered for both and is a partial answer for both. If parameterised queries are among the options for a SQLi stem, that is the better answer.",
+      "trap": "Input validation is a correct thing to do in both cases, which makes it a persuasive half answer."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "zero-trust-planes",
+    "label": "Zero Trust control plane vs data plane",
+    "objective": "1.2",
+    "topics": ["zero-trust", "control-plane", "data-plane", "policy-engine", "policy-administrator", "policy-enforcement-point", "adaptive-identity"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You placed a Zero Trust component in the wrong plane. The split is decision making versus decision enforcement.",
+      "contrast": [
+        ["Plane", "Components", "Job"],
+        ["Control plane", "Policy Engine, Policy Administrator, adaptive identity, threat scope reduction, policy driven access control", "Decides whether access is granted"],
+        ["Data plane", "Subject or System, Policy Enforcement Point, implicit trust zones", "Carries and enforces the decision on actual traffic"],
+        ["Policy Engine", "Control plane", "Makes the grant or deny decision"],
+        ["Policy Administrator", "Control plane", "Communicates the decision and issues credentials"],
+        ["Policy Enforcement Point", "Data plane", "Actually allows or blocks the session"]
+      ],
+      "rule": "Engine decides, Administrator relays, Enforcement Point acts. The first two are control plane, the last is data plane.",
+      "tell": "Anything containing the word Policy except Policy Enforcement Point is control plane.",
+      "trap": "Policy Enforcement Point contains the word policy, which pulls it toward the control plane. It sits in the data path, so it is data plane."
+    },
+    "retireAfter": 2
+  }
+]
