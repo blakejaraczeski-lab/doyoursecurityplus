@@ -1,0 +1,58 @@
+[
+  {
+    "id": "acronym-fluency",
+    "label": "Stalling on an acronym mid-stem",
+    "objective": "1.2",
+    "topics": [],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You lost time working out what an acronym meant instead of answering the question. The exam never expands them, and a stem you have to decode twice is a stem you answer slowly and badly.",
+      "contrast": [
+        [
+          "Acronym",
+          "Expansion",
+          "What the words tell you"
+        ],
+        [
+          "ARO",
+          "Annualized Rate of Occurrence",
+          "It is a RATE, so it multiplies. Once in four years is 0.25, not 4"
+        ],
+        [
+          "SLE",
+          "Single Loss Expectancy",
+          "SINGLE: one event, not a year"
+        ],
+        [
+          "ALE",
+          "Annualized Loss Expectancy",
+          "ANNUALIZED: SLE times ARO"
+        ],
+        [
+          "RPO",
+          "Recovery POINT Objective",
+          "A point in the past: how much data you can lose"
+        ],
+        [
+          "RTO",
+          "Recovery TIME Objective",
+          "A duration forward: how long until you are back"
+        ],
+        [
+          "MTBF",
+          "Mean Time BETWEEN Failures",
+          "Between: reliability across a life"
+        ],
+        [
+          "MTTR",
+          "Mean Time To Repair",
+          "To repair: how long a fix takes"
+        ]
+      ],
+      "rule": "Expand the acronym in your head and the answer is usually inside the words. Rate multiplies, point looks backwards, time looks forwards, single means one event.",
+      "tell": "Any stem with a bare three-letter acronym and numbers in the options is testing whether you know which word the acronym hides.",
+      "trap": "The ones that catch people are the pairs that differ by one word: SLE and SLA, RPO and RTO, MTBF and MTTR, DAC and MAC. Learning the pair together is faster than learning either alone."
+    },
+    "retireAfter": 2
+  }
+]

@@ -1,5 +1,6 @@
 {
   "items": [
+    "acronyms.json",
     "anki-imported.json",
     "architecture.json",
     "core-a.json",
@@ -28,6 +29,7 @@
     "wireless-004.json"
   ],
   "mentor": [
+    "acronyms.json",
     "architecture.json",
     "core.json",
     "firewall.json",

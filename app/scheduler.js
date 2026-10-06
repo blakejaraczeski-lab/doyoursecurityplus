@@ -14,9 +14,9 @@ import * as mentor from "./mentor.js";
 // and grade yourself trains an operation the exam never asks for. Vocabulary
 // still has to get in the door, hence a small share rather than none.
 export const PACE = {
-  bootcamp:  { newPerSession: 40, retention: 0.92, mixMisconception: 0.5, mixNew: 0.3, mixReview: 0.2, maxRecallShare: 0.12 },
-  balanced:  { newPerSession: 25, retention: 0.90, mixMisconception: 0.4, mixNew: 0.3, mixReview: 0.3, maxRecallShare: 0.15 },
-  longhaul:  { newPerSession: 15, retention: 0.88, mixMisconception: 0.3, mixNew: 0.3, mixReview: 0.4, maxRecallShare: 0.20 },
+  bootcamp:  { newPerSession: 40, retention: 0.92, mixMisconception: 0.5, mixNew: 0.3, mixReview: 0.2, maxRecallShare: 0.12, maxAcronymShare: 0.10 },
+  balanced:  { newPerSession: 25, retention: 0.90, mixMisconception: 0.4, mixNew: 0.3, mixReview: 0.3, maxRecallShare: 0.15, maxAcronymShare: 0.12 },
+  longhaul:  { newPerSession: 15, retention: 0.88, mixMisconception: 0.3, mixNew: 0.3, mixReview: 0.4, maxRecallShare: 0.20, maxAcronymShare: 0.15 },
 };
 
 /** Is this item worth putting in a drill queue at all? */
@@ -79,31 +79,40 @@ export function coverageDeficit(state, content) {
 }
 
 /** Pick the next unseen item, biased toward the most under-studied domains. */
-function pickNewItems(state, content, n, recallBudget = Infinity) {
-  const deficit = coverageDeficit(state, content);
-  const unseen = content.items.filter(
-    (it) => !seen(state, it.id) && it.objective && eligible(content, it)
-  );
-  const scored = unseen.map((it) => {
-    const dom = content.domainOf[it.objective];
-    const d = deficit[dom] || { deficit: 0, weight: 0.1 };
-    const jitter = Math.random() * 0.25;
-    // Exam-shaped items outrank plain vocabulary at equal coverage value.
-    const shape = it.type === "recall" ? -0.6 : 0;
-    return { it, score: d.deficit * 10 + d.weight * 2 + shape + jitter };
-  });
-  scored.sort((a, b) => b.score - a.score);
+const isAcronym = (it) => it.source === "acronym-list";
 
+function pickNewItems(state, content, n, recallBudget = Infinity, acronymBudget = Infinity) {
+  const deficit = coverageDeficit(state, content);
+
+  // Acronyms are cross-cutting and carry no objective: the exam assumes them
+  // everywhere rather than testing them under one. An earlier version required
+  // an objective here, which silently made all 315 of them unservable.
+  const unseen = content.items.filter(
+    (it) => !seen(state, it.id) && eligible(content, it) && (it.objective || isAcronym(it))
+  );
+
+  const score = (it) => {
+    const d = deficit[content.domainOf[it.objective]] || { deficit: 0, weight: 0.1 };
+    return d.deficit * 10 + d.weight * 2 + Math.random() * 0.25;
+  };
+
+  const pools = {
+    recall: unseen.filter((it) => it.type === "recall").sort((a, b) => score(b) - score(a)),
+    acronym: unseen.filter(isAcronym).sort(() => Math.random() - 0.5),
+    core: unseen.filter((it) => it.type !== "recall" && !isAcronym(it)).sort((a, b) => score(b) - score(a)),
+  };
+
+  // These are floors, not just caps. A cap alone means vocabulary and acronyms
+  // never appear at all while any exam-shaped item is left unseen, which is most
+  // of the programme, so the slices that were meant to be small became zero.
   const out = [];
-  let recall = 0;
-  for (const { it } of scored) {
-    if (out.length >= n) break;
-    if (it.type === "recall") {
-      if (recall >= recallBudget) continue;
-      recall += 1;
-    }
-    out.push(it);
-  }
+  const take = (pool, k) => { for (let i = 0; i < k && pool.length && out.length < n; i++) out.push(pool.shift()); };
+  take(pools.acronym, Math.min(acronymBudget, Math.floor(n * 0.08)));
+  take(pools.recall, Math.min(recallBudget, Math.floor(n * 0.08)));
+  take(pools.core, n - out.length);
+  // Whatever is left over goes to the reserved pools, still inside their caps.
+  take(pools.acronym, Math.max(0, acronymBudget - out.filter(isAcronym).length));
+  take(pools.recall, Math.max(0, recallBudget - out.filter((it) => it.type === "recall").length));
   return out;
 }
 
@@ -217,9 +226,18 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
   //    plain vocabulary capped so it cannot crowd out exam-shaped practice.
   const newSlots = Math.max(0, size - queue.length);
   const recallBudget = Math.max(1, Math.round(size * (pace.maxRecallShare ?? 0.15)));
+  const acronymBudget = Math.max(1, Math.round(size * (pace.maxAcronymShare ?? 0.12)));
   const alreadyRecall = queue.filter((e) => e.item?.type === "recall").length;
-  for (const it of pickNewItems(state, content, newSlots, Math.max(0, recallBudget - alreadyRecall))) {
-    queue.push({ kind: "item", item: it, reason: it.type === "recall" ? "Vocabulary" : "New coverage" });
+  const alreadyAcronym = queue.filter((e) => e.item && e.item.source === "acronym-list").length;
+  for (const it of pickNewItems(state, content, newSlots,
+                                Math.max(0, recallBudget - alreadyRecall),
+                                Math.max(0, acronymBudget - alreadyAcronym))) {
+    queue.push({
+      kind: "item", item: it,
+      reason: it.type === "recall" ? "Vocabulary"
+            : it.source === "acronym-list" ? "Acronym recognition"
+            : "New coverage",
+    });
   }
 
   return keepPairsAdjacent(shuffle(queue)).slice(0, size);
