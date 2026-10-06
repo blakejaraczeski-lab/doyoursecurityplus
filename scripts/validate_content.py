@@ -171,11 +171,14 @@ def main():
             items.append(it)
             if it.get("objective") and it["objective"] not in objectives:
                 err(f"{it['id']}: unknown objective {it['objective']}")
-            if it["type"] == "mcq":
+            if it["type"] in ("mcq", "mcq-multi"):
                 opts = it.get("options", [])
                 correct = [o for o in opts if o.get("correct")]
-                if len(correct) != 1:
-                    err(f"{it['id']}: expected exactly 1 correct option, found {len(correct)}")
+                want = it.get("selectCount", 1) if it["type"] == "mcq-multi" else 1
+                if it["type"] == "mcq-multi" and want < 2:
+                    err(f"{it['id']}: mcq-multi needs selectCount >= 2")
+                if len(correct) != want:
+                    err(f"{it['id']}: selectCount {want} but {len(correct)} options marked correct")
                 if len(opts) < 3:
                     err(f"{it['id']}: only {len(opts)} options")
                 for o in opts:

@@ -24,6 +24,7 @@ const App = {
   expanded: null,
   questionShownAt: null,
   markedGuess: false,
+  multiPicked: new Set(),
   sessionStats: { answered: 0, correct: 0, banked: 0, retired: 0, rushed: 0, missesByObjective: {} },
 };
 window.App = App;
@@ -257,6 +258,69 @@ function answerMcq(optId) {
   store.save(App.state);
 }
 
+/**
+ * Grade a multiple-select item. All or nothing, the way the exam scores it:
+ * the selected set must equal the correct set exactly. Every wrongly selected
+ * option still banks its own misconception, so a near miss teaches as much as
+ * a clean miss.
+ */
+function answerMcqMulti() {
+  const entry = App.queue[App.idx];
+  const item = entry.item;
+  const picked = App.multiPicked;
+  const now = Date.now();
+  const responseMs = App.questionShownAt ? now - App.questionShownAt : null;
+  const confident = !App.markedGuess;
+
+  const correctIds = new Set(item.options.filter((o) => o.correct).map((o) => o.id));
+  const exact = picked.size === correctIds.size && [...picked].every((id) => correctIds.has(id));
+
+  recordItem(item, exact ? (confident ? fsrs.RATING.GOOD : fsrs.RATING.HARD) : fsrs.RATING.AGAIN,
+             now, responseMs, confident);
+
+  const mentorIds = [];
+  let retiredNote = null;
+
+  if (!exact) {
+    for (const id of picked) {
+      const opt = item.options.find((o) => o.id === id);
+      if (opt && !opt.correct && opt.misconception) {
+        mentor.bank(App.state, opt.misconception, item.id, now, null, confident);
+        if (!mentorIds.includes(opt.misconception)) mentorIds.push(opt.misconception);
+      }
+    }
+    // Missing a required option is its own error, so the option you failed to
+    // pick banks its misconception too.
+    for (const o of item.options) {
+      if (o.correct && !picked.has(o.id) && o.missedMisconception) {
+        mentor.bank(App.state, o.missedMisconception, item.id, now, null, confident);
+        if (!mentorIds.includes(o.missedMisconception)) mentorIds.push(o.missedMisconception);
+      }
+    }
+    App.sessionStats.banked += mentorIds.length;
+    if (item.objective) {
+      App.sessionStats.missesByObjective[item.objective] =
+        (App.sessionStats.missesByObjective[item.objective] || 0) + 1;
+    }
+  } else {
+    const tested = new Set(item.options.filter((o) => o.misconception).map((o) => o.misconception));
+    for (const mc of tested) {
+      const res = mentor.pass(App.state, mc, item.id, App.content, now, confident);
+      if (res?.retired) {
+        App.sessionStats.retired += 1;
+        retiredNote = `"${App.content.misconceptions[mc].label}" cleared after ${res.have} correct answers on different questions.`;
+      }
+    }
+  }
+
+  App.sessionStats.answered += 1;
+  if (exact) App.sessionStats.correct += 1;
+  App.answer = { correct: exact, mentorIds, retiredNote, responseMs, confident,
+                 overconfident: confident && !exact, lucky: !confident && exact };
+  App.markedGuess = false;
+  store.save(App.state);
+}
+
 function submitPbq() {
   const pbq = App.queue[App.idx].pbq;
   const now = Date.now();
@@ -294,6 +358,7 @@ function startSession(mode) {
   App.pbqAnswers = {};
   App.pbqGraded = null;
   App.pbqStartedAt = null;
+  App.multiPicked = new Set();
   App.sessionStats = { answered: 0, correct: 0, banked: 0, retired: 0, rushed: 0, missesByObjective: {} };
   App.questionShownAt = Date.now();
   App.view = "drill";
@@ -304,6 +369,7 @@ function next() {
   App.idx += 1;
   App.answer = null;
   App.markedGuess = false;
+  App.multiPicked = new Set();
   App.questionShownAt = Date.now();
   App.pbqAnswers = {};
   App.pbqGraded = null;
@@ -377,6 +443,11 @@ const ACTIONS = {
   },
   "diagram-choice": (el) => { examPbqStore()[el.dataset.task] = el.dataset.value; },
   "toggle-guess": () => { App.markedGuess = !App.markedGuess; },
+  "multi-toggle": (el) => {
+    const id = el.dataset.opt;
+    App.multiPicked.has(id) ? App.multiPicked.delete(id) : App.multiPicked.add(id);
+  },
+  "multi-submit": answerMcqMulti,
   "mock-start": (el) => {
     const fmt = el.dataset.format;
     const f = mock.FORMATS[fmt];
@@ -500,6 +571,21 @@ document.addEventListener("keydown", (e) => {
   if (App.view !== "drill" || !App.queue.length) return;
   const entry = App.queue[App.idx];
   if (!entry || entry.kind !== "item") return;
+
+  if (entry.item.type === "mcq-multi") {
+    if (App.answer && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); next(); return render(); }
+    if (App.answer) return;
+    const need = entry.item.selectCount || 2;
+    if (e.key === "Enter" && App.multiPicked.size === need) { e.preventDefault(); answerMcqMulti(); return render(); }
+    const i = "abcdef".indexOf(e.key.toLowerCase());
+    if (i >= 0 && entry.item.options[i]) {
+      e.preventDefault();
+      const id = entry.item.options[i].id;
+      App.multiPicked.has(id) ? App.multiPicked.delete(id) : App.multiPicked.add(id);
+      render();
+    }
+    return;
+  }
 
   if (entry.item.type === "mcq") {
     if (App.answer && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); next(); return render(); }

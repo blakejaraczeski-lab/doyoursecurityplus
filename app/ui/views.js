@@ -15,6 +15,78 @@ const humanise = (ms) => {
 };
 
 // --- drill ----------------------------------------------------------------
+/**
+ * Multiple-select. The exam calls it "choose two" and scores it all or nothing:
+ * every required option and no extras. People lose these on format alone, by
+ * answering the first correct option they see and moving on, so the UI makes the
+ * count explicit and refuses to submit until it is met.
+ */
+function mcqMultiHtml(App, entry) {
+  const it = entry.item;
+  const ans = App.answer;
+  const need = it.selectCount || 2;
+  const picked = App.multiPicked || new Set();
+
+  const opts = it.options
+    .map((o, i) => {
+      let cls = "";
+      let mark = picked.has(o.id) ? "&check;" : "";
+      if (ans) {
+        if (o.correct) { cls = "correct"; mark = "&check;"; }
+        else if (picked.has(o.id)) { cls = "wrong"; mark = "&times;"; }
+      } else if (picked.has(o.id)) cls = "chosen";
+      return `<button class="opt ${cls}" data-action="multi-toggle" data-opt="${esc(o.id)}" ${ans ? "disabled" : ""}
+        role="checkbox" aria-checked="${picked.has(o.id)}">
+        <span class="key" aria-hidden="true">${KEYS[i]}</span>
+        <span>${esc(o.text)}</span>
+        <span class="verdict" aria-hidden="true">${mark}</span>
+      </button>`;
+    })
+    .join("");
+
+  const chosenWrong = ans ? it.options.filter((o) => !o.correct && picked.has(o.id)) : [];
+  const missed = ans ? it.options.filter((o) => o.correct && !picked.has(o.id)) : [];
+
+  return `
+  <div class="row" style="margin-bottom:var(--s3)">
+    <span class="tag">${esc(objectiveLabel(App.content, it.objective))}</span>
+    <span class="tag warn">choose ${need}</span>
+    ${entry.reason ? `<span class="tag reason">${esc(entry.reason)}</span>` : ""}
+  </div>
+  <div class="card">
+    <p class="stem">${esc(it.stem)}</p>
+    <div class="opts" role="group" aria-label="Select ${need}">${opts}</div>
+    ${ans ? "" : `<div class="row" style="margin-top:var(--s4);justify-content:space-between">
+      <span class="faint">${picked.size} of ${need} selected</span>
+      <button class="btn" data-action="multi-submit" ${picked.size === need ? "" : "disabled"}>
+        Submit ${need}
+      </button></div>`}
+  </div>
+  ${ans ? multiFeedbackHtml(App, it, chosenWrong, missed) : ""}`;
+}
+
+function multiFeedbackHtml(App, it, chosenWrong, missed) {
+  const good = App.answer.correct;
+  const cards = (App.answer.mentorIds || [])
+    .map((id) => mentorCardHtml(mentor.card(id, App.content, App.state)))
+    .join("");
+  return `
+  <div class="verdict-banner ${good ? "yes" : "no"}">
+    <div class="mark" aria-hidden="true">${good ? "&check;" : "&times;"}</div>
+    <div>
+      <b>${good ? "Correct" : chosenWrong.length && missed.length ? "Partly right, and the exam scores this as wrong"
+          : missed.length ? "You found some but not all" : "Not correct"}</b>
+      ${missed.length ? `<p><b>Missed:</b> ${missed.map((o) => esc(o.text)).join("; ")}</p>` : ""}
+      ${chosenWrong.length ? `<p><b>Wrongly selected:</b> ${chosenWrong.map((o) => esc(o.text)).join("; ")}</p>` : ""}
+      ${good ? `<p>${esc(it.options.find((o) => o.correct)?.why || "")}</p>` : ""}
+      ${!good ? `<p class="faint">A choose-two is all or nothing. One right answer plus one wrong one scores the same as two wrong ones.</p>` : ""}
+    </div>
+  </div>
+  ${cards}
+  <div class="row"><button class="btn" data-action="next">Next</button>
+    <span class="hint"><span class="kbd">&crarr;</span> to continue</span></div>`;
+}
+
 function mcqHtml(App, entry) {
   const it = entry.item;
   const ans = App.answer;
@@ -184,6 +256,8 @@ export function drillView(App) {
       ? mentorOnlyHtml(App, entry)
       : entry.item.type === "recall"
       ? recallHtml(App, entry)
+      : entry.item.type === "mcq-multi"
+      ? mcqMultiHtml(App, entry)
       : mcqHtml(App, entry);
 
   return bar + body;

@@ -1,0 +1,109 @@
+[
+{"id":"m-001","type":"mcq-multi","selectCount":2,"objective":"1.1","topics":["preventive","deterrent"],"difficulty":3,
+ "stem":"Which TWO controls are preventive rather than deterrent? (Choose two.)",
+ "options":[
+  {"id":"a","text":"Bollards across the vehicle approach","correct":true,"why":"A vehicle physically cannot pass. The attacker's intent is irrelevant, which is what makes it preventive."},
+  {"id":"b","text":"An access control vestibule","correct":true,"why":"It physically stops a second person following the first through the door."},
+  {"id":"c","text":"A sign reading 'These premises are under video surveillance'","misconception":"deterrent-vs-preventive","why":"A sign persuades. Anyone who ignores it walks straight past, so it deters and prevents nothing."},
+  {"id":"d","text":"Security lighting across the car park","misconception":"deterrent-vs-preventive","why":"Lighting makes an attacker feel exposed. It blocks nobody."},
+  {"id":"e","text":"A corporate acceptable use policy","misconception":"control-category-vs-type","why":"A policy is directive in type and managerial in category. It instructs, it does not prevent."}]},
+
+{"id":"m-002","type":"mcq-multi","selectCount":2,"objective":"4.1","topics":["wi-fi-protected-access-3","802-1x","aaa-radius"],"difficulty":4,
+ "stem":"An access point is being configured for WPA3-Enterprise. Which TWO are required for clients to authenticate at all? (Choose two.)",
+ "options":[
+  {"id":"a","text":"A reachable RADIUS server","correct":true,"why":"In Enterprise mode the access point only relays credentials. Without a RADIUS server nothing can make an authentication decision."},
+  {"id":"b","text":"An EAP method configured on both the AP and the clients","correct":true,"why":"802.1X carries EAP. Without an agreed method there is no authentication exchange to carry."},
+  {"id":"c","text":"A pre-shared passphrase of at least 12 characters","misconception":"wpa3-sae-vs-enterprise","why":"A shared passphrase is WPA3-Personal. Enterprise authenticates each user individually and has no PSK."},
+  {"id":"d","text":"SSID broadcast disabled","misconception":"ssid-hiding-as-security","why":"Hiding the SSID is obscurity and is irrelevant to whether authentication succeeds."},
+  {"id":"e","text":"MAC filtering populated with every client address","misconception":"ssid-hiding-as-security","why":"MAC filtering is a separate, trivially bypassed control. It is not part of 802.1X."}]},
+
+{"id":"m-003","type":"mcq-multi","selectCount":2,"objective":"4.6","topics":["multifactor-authentication","something-you-know","something-you-have","something-you-are"],"difficulty":3,
+ "stem":"Which TWO combinations qualify as multifactor authentication? (Choose two.)",
+ "options":[
+  {"id":"a","text":"A smart card plus the PIN that unlocks it","correct":true,"why":"Something you have plus something you know. Two categories, so it is multifactor."},
+  {"id":"b","text":"A fingerprint plus a hardware security key","correct":true,"why":"Something you are plus something you have."},
+  {"id":"c","text":"A password plus a security question","misconception":"mfa-same-factor","why":"Both are something you know. Two prompts, one factor."},
+  {"id":"d","text":"A password plus a PIN","misconception":"mfa-same-factor","why":"Also both knowledge. This is the exam's favourite fake second factor."},
+  {"id":"e","text":"A fingerprint plus a retina scan","misconception":"mfa-same-factor","why":"Both are something you are. Two biometrics are still one factor."}]},
+
+{"id":"m-004","type":"mcq-multi","selectCount":2,"objective":"2.4","topics":["impossible-travel","concurrent-session-usage","account-lockout"],"difficulty":3,
+ "stem":"Which TWO log patterns most strongly suggest a credential has been compromised rather than a user mistyping? (Choose two.)",
+ "options":[
+  {"id":"a","text":"Two successful logins from cities 9,000 km apart, 20 minutes apart","correct":true,"why":"Impossible travel. Both succeeded, so this is not a typing problem."},
+  {"id":"b","text":"The same account active in two sessions simultaneously from different networks","correct":true,"why":"Concurrent session usage. One person cannot be in two places."},
+  {"id":"c","text":"Twelve failed logins on one account followed by a lockout","misconception":"spraying-vs-brute-force","why":"That is brute force or a stale saved password. Nothing succeeded, so no credential is proven compromised."},
+  {"id":"d","text":"One failed login against each of 300 accounts","misconception":"spraying-vs-brute-force","why":"That is password spraying, an attack in progress rather than evidence a specific credential is already compromised."},
+  {"id":"e","text":"A password reset requested by the user through the help desk","misconception":"impossible-travel-indicators","why":"A routine event. On its own it indicates nothing."}]},
+
+{"id":"m-005","type":"mcq-multi","selectCount":2,"objective":"4.8","topics":["containment","isolation","eradication"],"difficulty":4,
+ "stem":"A worm is spreading and legal has asked for a full forensic investigation. Which TWO actions belong to containment and preserve evidence? (Choose two.)",
+ "options":[
+  {"id":"a","text":"Disconnect the affected hosts from the network, leaving them powered on","correct":true,"why":"Stops the spread while memory, processes and connections survive for acquisition."},
+  {"id":"b","text":"Block the worm's port between workstation subnets at the switch","correct":true,"why":"Network segmentation stops lateral movement across every host at once, and touches no evidence."},
+  {"id":"c","text":"Power off every affected host immediately","misconception":"isolate-vs-power-off","why":"Contains the spread and destroys every byte of volatile evidence, which legal has just asked for."},
+  {"id":"d","text":"Reimage the affected hosts from a known good image","misconception":"ir-phase-order","why":"Reimaging is eradication, it comes later, and it destroys the evidence."},
+  {"id":"e","text":"Run a full antivirus scan on every workstation","misconception":"segmentation-as-containment","why":"Scanning is eradication one host at a time while the worm keeps reinfecting from neighbours."}]},
+
+{"id":"m-006","type":"mcq-multi","selectCount":2,"objective":"1.4","topics":["digital-signatures","non-repudiation","integrity"],"difficulty":3,
+ "stem":"Which TWO properties does a digital signature provide? (Choose two.)",
+ "options":[
+  {"id":"a","text":"Non-repudiation","correct":true,"why":"Only the holder of the private key could have produced it, so they cannot later deny it."},
+  {"id":"b","text":"Integrity","correct":true,"why":"Any change to the signed content invalidates the signature."},
+  {"id":"c","text":"Confidentiality","misconception":"digital-signature-properties","why":"Signing leaves the content in plaintext. To keep it secret you must also encrypt it with the recipient's public key."},
+  {"id":"d","text":"Availability","misconception":"digital-signature-properties","why":"Signatures have nothing to do with keeping a service reachable."},
+  {"id":"e","text":"Key exchange","misconception":"digital-signature-properties","why":"Key exchange is a separate operation. A signature proves origin, it does not establish a shared key."}]},
+
+{"id":"m-007","type":"mcq-multi","selectCount":2,"objective":"3.4","topics":["onsite-offsite-backups","replication","snapshots"],"difficulty":4,
+ "stem":"A company's backups were encrypted by ransomware along with production. Which TWO design properties would have preserved a usable copy? (Choose two.)",
+ "options":[
+  {"id":"a","text":"An offline copy the production systems cannot reach","correct":true,"why":"Ransomware can only encrypt what the compromised host can write to. An air-gapped copy is out of reach."},
+  {"id":"b","text":"Immutable storage where written objects cannot be altered for a retention period","correct":true,"why":"Even with credentials, the attacker cannot overwrite an object under an immutability lock."},
+  {"id":"c","text":"Continuous replication to a second data centre","misconception":"backup-methods","why":"Replication copies the encryption as faithfully as it copies the data. It protects against site loss, not corruption."},
+  {"id":"d","text":"Encrypting the backup files at rest","misconception":"backup-methods","why":"That protects their confidentiality. The ransomware encrypts them again regardless."},
+  {"id":"e","text":"Running the backup job twice as often","misconception":"backup-methods","why":"More frequent copies to a reachable share means more encrypted copies."}]},
+
+{"id":"m-008","type":"mcq-multi","selectCount":2,"objective":"2.4","topics":["worm","virus","trojan"],"difficulty":3,
+ "stem":"Which TWO characteristics identify malware as a worm rather than a virus? (Choose two.)",
+ "options":[
+  {"id":"a","text":"It propagates across the network without any user action","correct":true,"why":"Self-propagation with no user involvement is the defining worm behaviour."},
+  {"id":"b","text":"It is a standalone program that needs no host file","correct":true,"why":"A virus attaches to a host file. A worm does not need one."},
+  {"id":"c","text":"It encrypts files and demands payment","misconception":"worm-vs-virus","why":"That is a payload. Either type can carry it, so it does not classify the malware."},
+  {"id":"d","text":"It hides itself from security tools","misconception":"trojan-vs-rootkit-vs-backdoor","why":"Concealment describes a rootkit, which is a separate category."},
+  {"id":"e","text":"It arrives disguised as useful software the user installs","misconception":"worm-vs-virus","why":"That is a trojan, and it requires exactly the user action a worm does not need."}]},
+
+{"id":"m-009","type":"mcq-multi","selectCount":2,"objective":"4.5","topics":["firewall-rules","least-privilege","acl-overbroad-any"],"difficulty":4,
+ "stem":"Outbound filtering must let only PROXY-01 reach the internet on 443. Which TWO rules violate least privilege even though the required traffic still works? (Choose two.)",
+ "options":[
+  {"id":"a","text":"permit tcp CORP-NET any -> any 443","correct":true,"why":"The whole internal network gets outbound HTTPS, which is exactly the path malware uses to call home."},
+  {"id":"b","text":"permit tcp PROXY-01 any -> any any","correct":true,"why":"The right source and every port. The proxy can now reach anything, not just the web."},
+  {"id":"c","text":"permit tcp PROXY-01 any -> any 443","misconception":"acl-direction-and-ports","why":"This is the correct rule: one named source, one destination port, written in the direction the connection is initiated."},
+  {"id":"d","text":"deny ip any any at the bottom of the list","misconception":"acl-implicit-deny","why":"An explicit deny at the end permits nothing. It exists so the drops get logged."},
+  {"id":"e","text":"permit udp DNS-SRV any -> APPROVED-DNS 53","misconception":"acl-overbroad-any","why":"A separate, correctly scoped rule for a different requirement. One source, one destination, one port."}]},
+
+{"id":"m-010","type":"mcq-multi","selectCount":2,"objective":"5.2","topics":["business-impact-analysis","recovery-time-objective-rto","recovery-point-objective-rpo"],"difficulty":3,
+ "stem":"Which TWO outputs come from a business impact analysis rather than a risk assessment? (Choose two.)",
+ "options":[
+  {"id":"a","text":"Recovery time objective for each business process","correct":true,"why":"The BIA establishes how long each process can be down, which sets the RTO."},
+  {"id":"b","text":"Maximum tolerable downtime per function","correct":true,"why":"Also a BIA output, derived from how long the business survives without the function."},
+  {"id":"c","text":"A register of threats with likelihood ratings","misconception":"bia-vs-risk-assessment","why":"Likelihood of a threat is a risk assessment output. The BIA is deliberately indifferent to cause."},
+  {"id":"d","text":"Annualized loss expectancy for a named asset","misconception":"sle-ale-aro","why":"ALE comes from quantitative risk analysis, not from the BIA."},
+  {"id":"e","text":"The organisation's stated risk appetite","misconception":"risk-appetite-vs-tolerance","why":"Appetite is set by the board as a strategic posture, not produced by either exercise."}]},
+
+{"id":"m-011","type":"mcq-multi","selectCount":2,"objective":"2.5","topics":["compensating","segmentation","isolation"],"difficulty":4,
+ "stem":"A medical device runs an operating system the manufacturer will not patch and cannot be replaced this year. Which TWO are appropriate compensating controls? (Choose two.)",
+ "options":[
+  {"id":"a","text":"Place the device on an isolated VLAN reachable only by the one server it must talk to","correct":true,"why":"The control you wanted is unavailable, so network isolation meets the objective another way. That is what makes it compensating."},
+  {"id":"b","text":"Monitor the segment and alert on any traffic outside the one permitted flow","correct":true,"why":"Detection substitutes for the prevention you cannot deploy, and it is recorded against the documented exception."},
+  {"id":"c","text":"Apply the latest vendor patch","misconception":"zero-day-vs-unpatched","why":"The scenario states there is none. This is the control that is unavailable, which is why a compensating one is needed."},
+  {"id":"d","text":"Accept the risk and record it in the register with no further action","misconception":"risk-treatment-strategies","why":"That is acceptance, not compensation. Acceptance leaves the exposure exactly as it was."},
+  {"id":"e","text":"Install endpoint protection agents on the device","misconception":"compensating-vs-corrective","why":"An unpatchable legacy OS generally cannot run a current agent, which is part of why it needs isolating."}]},
+
+{"id":"m-012","type":"mcq-multi","selectCount":3,"objective":"4.9","topics":["endpoint-logs","network-logs","missing-logs"],"difficulty":5,
+ "stem":"Reviewing a suspected intrusion, which THREE findings are indicators of compromise rather than ordinary operations? (Choose three.)",
+ "options":[
+  {"id":"a","text":"A security log with no entries for a 45 minute window while the host was running","correct":true,"why":"A running host generates events. A gap is positive evidence something removed them."},
+  {"id":"b","text":"A signed Microsoft binary loading a DLL from a user's AppData directory","correct":true,"why":"Legitimate binaries do not normally load code from a user profile. This is the classic living-off-the-land pattern."},
+  {"id":"c","text":"Outbound connections to one host on a fixed 60 second interval for nine days","correct":true,"why":"Machine-regular timing to a single destination is beaconing, not human browsing."},
+  {"id":"d","text":"A server showing sustained high CPU and slow response","misconception":"compromised-vs-affected","why":"A symptom of load. It is as likely to be a victim of the incident as a participant in it."},
+  {"id":"e","text":"An antivirus full scan completing with zero detections","misconception":"edr-vs-antivirus","why":"A clean signature scan proves nothing when the technique has no signature. It is not itself an indicator."}]}
+]

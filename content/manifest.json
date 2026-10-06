@@ -9,6 +9,7 @@
     "domain5-b.json",
     "firewall.json",
     "incident.json",
+    "multi-select.json",
     "threats.json",
     "wireless.json"
   ],
