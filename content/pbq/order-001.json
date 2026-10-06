@@ -1,0 +1,46 @@
+{
+  "id": "pbq-order-001",
+  "kind": "drag-order",
+  "objective": "4.8",
+  "topics": ["preparation", "detection", "analysis", "containment", "eradication", "recovery", "lessons-learned"],
+  "difficulty": 3,
+  "title": "Incident response, in order",
+  "targetSeconds": 300,
+  "scenario": "Place the incident response phases in the order CompTIA defines them. The order is not administrative trivia: it is what makes the difference between containing an outbreak and cleaning hosts that are being reinfected while you work.",
+  "requirements": [
+    "Place all seven phases.",
+    "Partial credit applies per phase, so place every one even where you are unsure."
+  ],
+  "config": {
+    "mode": "sequence",
+    "sequenceLabel": "Incident response phases",
+    "items": [
+      { "id": "recovery", "label": "Recovery" },
+      { "id": "detection", "label": "Detection" },
+      { "id": "lessons", "label": "Lessons learned" },
+      { "id": "containment", "label": "Containment" },
+      { "id": "preparation", "label": "Preparation" },
+      { "id": "eradication", "label": "Eradication" },
+      { "id": "analysis", "label": "Analysis" }
+    ]
+  },
+  "solution": {
+    "order": ["preparation", "detection", "analysis", "containment", "eradication", "recovery", "lessons"]
+  },
+  "subtasks": [
+    { "id": "s1", "item": "preparation", "label": "Preparation first", "points": 2, "misconception": "ir-phase-order",
+      "correctNote": "Everything that makes a response possible happens before the incident: the plan, the tools, the training." },
+    { "id": "s2", "item": "detection", "label": "Detection second", "points": 2, "misconception": "ir-phase-order",
+      "correctNote": "Detection is noticing something happened. It is not yet knowing what." },
+    { "id": "s3", "item": "analysis", "label": "Analysis third", "points": 3, "misconception": "ir-phase-order",
+      "correctNote": "Analysis establishes what it is and how far it has spread. Skipping it means containing a scope you guessed." },
+    { "id": "s4", "item": "containment", "label": "Containment fourth", "points": 4, "misconception": "ir-phase-order",
+      "correctNote": "Stop the spread before removing anything. This is the one people move, and moving it is why outbreaks get re-cleaned all day." },
+    { "id": "s5", "item": "eradication", "label": "Eradication fifth", "points": 3, "misconception": "ir-phase-order",
+      "correctNote": "Remove the cause only once it can no longer spread." },
+    { "id": "s6", "item": "recovery", "label": "Recovery sixth", "points": 2, "misconception": "ir-phase-order",
+      "correctNote": "Return to service after the hole is closed, not before." },
+    { "id": "s7", "item": "lessons", "label": "Lessons learned last", "points": 2, "misconception": "ir-phase-order",
+      "correctNote": "The phase everyone skips, and the only one that stops a repeat." }
+  ]
+}

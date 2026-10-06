@@ -183,11 +183,78 @@ function diagramHtml(pbq, answers, locked) {
     ${evHtml}${tasks}`;
 }
 
+// --- drag and order --------------------------------------------------------
+//
+// The exam calls these drag and drop. This is click to place instead: click the
+// item, click where it goes. Same cognitive task, and it works with a keyboard,
+// on a touch screen, and for anyone who cannot hold a drag steady. HTML5 drag
+// events do none of those things well.
+function orderHtml(pbq, answers, locked) {
+  const cfg = pbq.config;
+  const held = answers.held || null;
+
+  if (cfg.mode === "sequence") {
+    const order = answers.order || [];
+    const remaining = cfg.items.filter((i) => !order.includes(i.id));
+    return `
+    <div class="card">
+      <h2 class="eyebrow">Steps to place</h2>
+      ${remaining.length
+        ? `<div class="chip-pool">${remaining.map((i) => `
+            <button class="chip" data-action="order-place" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
+              ${esc(i.label)}</button>`).join("")}</div>`
+        : `<p class="faint" style="margin:0">All steps placed. Click one in the sequence to take it back.</p>`}
+    </div>
+    <div class="card">
+      <h2 class="eyebrow">${esc(cfg.sequenceLabel || "In order")}</h2>
+      <ol class="seq">
+        ${cfg.items.map((_, i) => {
+          const id = order[i];
+          const item = cfg.items.find((x) => x.id === id);
+          return `<li class="${item ? "filled" : "empty"}">
+            <span class="pos">${i + 1}</span>
+            ${item
+              ? `<button class="chip placed" data-action="order-unplace" data-i="${i}" ${locked ? "disabled" : ""}>${esc(item.label)}</button>`
+              : `<span class="slot">drop here</span>`}
+          </li>`;
+        }).join("")}
+      </ol>
+    </div>`;
+  }
+
+  // categorize
+  const placements = answers.placements || {};
+  const unplaced = cfg.items.filter((i) => !placements[i.id]);
+  return `
+  <div class="card">
+    <h2 class="eyebrow">Items to classify${held ? ` &middot; pick a column for "${esc(cfg.items.find((i) => i.id === held)?.label || "")}"` : ""}</h2>
+    ${unplaced.length
+      ? `<div class="chip-pool">${unplaced.map((i) => `
+          <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
+            ${esc(i.label)}</button>`).join("")}</div>`
+      : `<p class="faint" style="margin:0">Everything placed. Click an item in a column to take it back.</p>`}
+  </div>
+  <div class="buckets">
+    ${cfg.buckets.map((b) => `
+      <div class="bucket">
+        <button class="bucket-head" data-action="order-drop" data-bucket="${esc(b.id)}" ${locked || !held ? "disabled" : ""}>
+          ${esc(b.label)}${held ? " &larr; place here" : ""}
+        </button>
+        <div class="bucket-body">
+          ${cfg.items.filter((i) => placements[i.id] === b.id).map((i) => `
+            <button class="chip placed" data-action="order-remove" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
+              ${esc(i.label)}</button>`).join("") || `<span class="faint">empty</span>`}
+        </div>
+      </div>`).join("")}
+  </div>`;
+}
+
 // --- shell -----------------------------------------------------------------
 export function pbqHtml(pbq, answers, { locked = false, graded = null, inExam = false } = {}) {
   const body =
     pbq.kind === "wireless-config" ? wirelessHtml(pbq, answers, locked)
     : pbq.kind === "acl-table" ? aclHtml(pbq, answers, locked)
+    : pbq.kind === "drag-order" ? orderHtml(pbq, answers, locked)
     : diagramHtml(pbq, answers, locked);
 
   const reqs = (pbq.requirements || []).map((r) => `<li>${esc(r)}</li>`).join("");

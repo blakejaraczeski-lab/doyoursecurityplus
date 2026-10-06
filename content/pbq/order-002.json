@@ -1,0 +1,43 @@
+{
+  "id": "pbq-order-002",
+  "kind": "drag-order",
+  "objective": "4.8",
+  "topics": ["order-of-volatility", "acquisition", "preservation"],
+  "difficulty": 4,
+  "title": "Order of volatility",
+  "targetSeconds": 300,
+  "scenario": "A compromised host has been isolated from the network and is still running. Legal wants a full forensic investigation. Place these evidence sources in the order they should be collected.",
+  "requirements": [
+    "Most volatile first.",
+    "Partial credit applies per source."
+  ],
+  "config": {
+    "mode": "sequence",
+    "sequenceLabel": "Collect in this order",
+    "items": [
+      { "id": "disk", "label": "Disk and file system" },
+      { "id": "ram", "label": "RAM: running processes and network connections" },
+      { "id": "backups", "label": "Archives and backup media" },
+      { "id": "cache", "label": "CPU registers and cache" },
+      { "id": "remote", "label": "Logs held on a remote server" },
+      { "id": "temp", "label": "Temporary files and swap" }
+    ]
+  },
+  "solution": {
+    "order": ["cache", "ram", "temp", "disk", "remote", "backups"]
+  },
+  "subtasks": [
+    { "id": "v1", "item": "cache", "label": "CPU registers and cache first", "points": 3, "misconception": "order-of-volatility",
+      "correctNote": "Gone in nanoseconds. First or not at all." },
+    { "id": "v2", "item": "ram", "label": "RAM second", "points": 4, "misconception": "order-of-volatility",
+      "correctNote": "Memory holds the running malware, injected code and live connections, and it dies with the power. This is why the host was isolated rather than switched off." },
+    { "id": "v3", "item": "temp", "label": "Temporary files and swap third", "points": 2, "misconception": "order-of-volatility",
+      "correctNote": "Survives until a reboot or a cleanup job." },
+    { "id": "v4", "item": "disk", "label": "Disk fourth", "points": 3, "misconception": "order-of-volatility",
+      "correctNote": "Persistent. It will still be there in an hour, which is exactly why it is not first." },
+    { "id": "v5", "item": "remote", "label": "Remote logs fifth", "points": 2, "misconception": "order-of-volatility",
+      "correctNote": "Held off the host, so the host's fate does not touch them." },
+    { "id": "v6", "item": "backups", "label": "Archives and backups last", "points": 2, "misconception": "order-of-volatility",
+      "correctNote": "The most durable evidence there is." }
+  ]
+}

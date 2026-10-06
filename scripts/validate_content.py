@@ -110,6 +110,13 @@ def verify_references(pbqs):
                         err(f"{p['id']}: solution for '{fid}' accepts '{v}', "
                             f"which is not one of its options")
 
+        elif p["kind"] == "drag-order":
+            if p["config"]["mode"] == "sequence":
+                if len(p["solution"].get("order", [])) != len(p["config"]["items"]):
+                    err(f"{p['id']}: reference order does not place every item")
+            elif len(p["solution"].get("placements", {})) != len(p["config"]["items"]):
+                err(f"{p['id']}: reference placements do not cover every item")
+
         elif p["kind"] == "network-diagram":
             tasks = {t["id"]: t for t in p["config"]["tasks"]}
             for tid, ans in p["solution"].items():
@@ -195,7 +202,7 @@ def main():
 
     # --- pbqs ---
     pbqs = []
-    kinds = {"wireless-config", "acl-table", "network-diagram"}
+    kinds = {"wireless-config", "acl-table", "network-diagram", "drag-order"}
     for f in sorted(glob.glob(str(ROOT / "content/pbq/*.json"))):
         p = json.loads(pathlib.Path(f).read_text())
         pbqs.append(p)
@@ -223,6 +230,27 @@ def main():
                     err(f"{p['id']}/{t['id']}: unknown misconception '{t['misconception']}'")
             if not sol.get("testCases"):
                 err(f"{p['id']}: acl-table PBQ has no traffic test cases")
+        if p["kind"] == "drag-order":
+            ids = {i["id"] for i in p["config"]["items"]}
+            if p["config"]["mode"] == "sequence":
+                order = sol.get("order", [])
+                if set(order) != ids:
+                    err(f"{p['id']}: solution order must cover exactly the item set")
+                if len(order) != len(set(order)):
+                    err(f"{p['id']}: solution order repeats an item")
+            else:
+                buckets = {b["id"] for b in p["config"].get("buckets", [])}
+                for item, b in sol.get("placements", {}).items():
+                    if item not in ids:
+                        err(f"{p['id']}: placement names unknown item '{item}'")
+                    if b not in buckets:
+                        err(f"{p['id']}: placement names unknown bucket '{b}'")
+                if set(sol.get("placements", {})) != ids:
+                    err(f"{p['id']}: every item needs a placement in the solution")
+            for st in p["subtasks"]:
+                if st.get("item") not in ids:
+                    err(f"{p['id']}/{st['id']}: references unknown item '{st.get('item')}'")
+
         if p["kind"] == "network-diagram":
             node_ids = {n["id"] for n in p["config"]["nodes"]}
             task_ids = {t["id"] for t in p["config"]["tasks"]}

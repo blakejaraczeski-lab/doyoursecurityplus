@@ -73,9 +73,11 @@ some of the time, and you would have no way to tell which time.
 | Objectives | All 5 domains, 28 objectives, 682 tagged sub-topics, from CompTIA's official objectives document |
 | Misconceptions | 105, each with a full mentor guide: diagnosis, side by side contrast table, rule of thumb, what to look for in the stem, and why the wrong answer looked right |
 | Multiple choice | 172 original items, every distractor mapped to a misconception |
+| Multiple select | 12 "choose two/three" items, scored all or nothing like the exam |
+| Acronym recognition | 315, generated from CompTIA's own acronym list |
 | Derived discrimination | 151, generated from the imported vocabulary (see below) |
 | Recall vocabulary | 689 remaining, capped at ~12% of any session |
-| PBQs | 12, across all three engines, graded per subtask with real partial credit |
+| PBQs | 15, across four engines, graded per subtask with real partial credit |
 
 ## The PBQ engines
 
@@ -91,6 +93,14 @@ written on the wrong side. Ten traffic tests plus four structural checks.
 choosing Personal mode makes the RADIUS fields unreachable rather than silently
 wrong, so one bad decision does not cascade into losing everything.
 
+**`drag-order`** covers the two formats the exam uses after configuration tasks:
+putting steps in order, and sorting items into buckets. It is **click to place**,
+not HTML5 drag: click the item, click where it goes. Same cognitive task, and it
+works with a keyboard, on a touch screen, and for anyone who cannot hold a drag
+steady. Sequences score per position and also report how many consecutive pairs
+held, because getting the whole chain one slot out is a different mistake from
+shuffling it.
+
 **`network-diagram`** gives you a clickable topology with per host evidence, then
 asks you to identify what is actually compromised, what to do first, and how to
 handle it. Every one of these deliberately mixes compromised hosts with hosts
@@ -105,6 +115,7 @@ selection gets partial credit; a wrong host costs half what a right one earns.
 | `acl-table` | screened subnet, clinical segmentation with a quarantine ordering trap, perimeter egress filtering, and a **stateless** ICS filter where you must write both directions |
 | `wireless-config` | corporate branch, guest site with no servers, a retail store running three SSIDs at once, and a site where legacy devices cannot be upgraded |
 | `network-diagram` | worm outbreak, quiet intrusion and exfiltration, ransomware with a backup that was not one, and compromise arriving through a managed service provider |
+| `drag-order` | incident response phases in order, order of volatility, and classifying ten controls by type |
 
 Two pairs are deliberately built to invert each other. The retail PBQ asks for
 the EAP method twice and the correct answers differ, because the constraints
@@ -384,7 +395,7 @@ of their exam weight on graded practice.
   by anyone. Gating on the official vocabulary removes the off-syllabus material
   and fixes placement; it does **not** verify that a definition is correct. Treat
   derived questions as drilling, and your own notes as the authority.
-- 12 PBQs across three engines, four each. Enough to drill every format without
+- 15 PBQs across four engines. Enough to drill every format without
   memorising them. More drop straight in as JSON, and both the validator and the
   self test check each one's reference answer scores full marks.
 - The imported recall bank is skewed toward domain 3 and thin on domain 5. It is

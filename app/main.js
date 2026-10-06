@@ -378,7 +378,9 @@ function next() {
 }
 
 function seedPbq(pbq) {
-  App.pbqAnswers = pbq.kind === "acl-table" ? { rules: [] } : {};
+  App.pbqAnswers = pbq.kind === "acl-table" ? { rules: [] }
+    : pbq.kind === "drag-order" ? (pbq.config.mode === "sequence" ? { order: [] } : { placements: {}, held: null })
+    : {};
   if (pbq.kind === "network-diagram") App.pbqAnswers.seenNodes = [];
   App.pbqStartedAt = Date.now();
 }
@@ -387,7 +389,10 @@ function seedPbq(pbq) {
 function examPbqStore() {
   if (App.view === "mock" && App.mock?.active) {
     const e = App.mock.items[App.mock.idx];
-    return (App.mock.pbqAnswers[e.pbq.id] ||= e.pbq.kind === "acl-table" ? { rules: [] } : {});
+    return (App.mock.pbqAnswers[e.pbq.id] ||= e.pbq.kind === "acl-table" ? { rules: [] }
+      : e.pbq.kind === "drag-order"
+        ? (e.pbq.config.mode === "sequence" ? { order: [] } : { placements: {}, held: null })
+        : {});
   }
   return App.pbqAnswers;
 }
@@ -442,6 +447,31 @@ const ACTIONS = {
     [r[i + 1], r[i]] = [r[i], r[i + 1]];
   },
   "diagram-choice": (el) => { examPbqStore()[el.dataset.task] = el.dataset.value; },
+
+  // Click to place, rather than HTML5 drag: keyboard reachable, touch friendly,
+  // and it does not lose the item when a drag wobbles.
+  "order-place": (el) => {
+    const st = examPbqStore();
+    st.order = [...(st.order || []), el.dataset.item];
+  },
+  "order-unplace": (el) => {
+    const st = examPbqStore();
+    (st.order ||= []).splice(Number(el.dataset.i), 1);
+  },
+  "order-hold": (el) => {
+    const st = examPbqStore();
+    st.held = st.held === el.dataset.item ? null : el.dataset.item;
+  },
+  "order-drop": (el) => {
+    const st = examPbqStore();
+    if (!st.held) return;
+    (st.placements ||= {})[st.held] = el.dataset.bucket;
+    st.held = null;
+  },
+  "order-remove": (el) => {
+    const st = examPbqStore();
+    delete (st.placements ||= {})[el.dataset.item];
+  },
   "toggle-guess": () => { App.markedGuess = !App.markedGuess; },
   "multi-toggle": (el) => {
     const id = el.dataset.opt;
@@ -458,7 +488,10 @@ const ACTIONS = {
       startedAt: Date.now(), endsAt: Date.now() + f.minutes * 60000, result: null,
     };
     for (const e of items) if (e.kind === "pbq") {
-      App.mock.pbqAnswers[e.pbq.id] = e.pbq.kind === "acl-table" ? { rules: [] } : {};
+      App.mock.pbqAnswers[e.pbq.id] = e.pbq.kind === "acl-table" ? { rules: [] }
+        : e.pbq.kind === "drag-order"
+          ? (e.pbq.config.mode === "sequence" ? { order: [] } : { placements: {}, held: null })
+          : {};
     }
     App.view = "mock";
   },

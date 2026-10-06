@@ -36,6 +36,11 @@ const check = (cond, label, detail = "") => {
 /** Build the answer set that the content itself declares to be correct. */
 function referenceAnswers(p) {
   if (p.kind === "acl-table") return { rules: p.solution.reference || [] };
+  if (p.kind === "drag-order") {
+    return p.config.mode === "sequence"
+      ? { order: [...p.solution.order] }
+      : { placements: { ...p.solution.placements } };
+  }
   if (p.kind === "wireless-config") {
     const a = {};
     for (const [k, v] of Object.entries(p.solution.fields || {})) {

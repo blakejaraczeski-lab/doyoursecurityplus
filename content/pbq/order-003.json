@@ -1,0 +1,74 @@
+{
+  "id": "pbq-order-003",
+  "kind": "drag-order",
+  "objective": "1.1",
+  "topics": ["preventive", "detective", "deterrent", "corrective", "compensating", "directive"],
+  "difficulty": 4,
+  "title": "Classify the controls by type",
+  "targetSeconds": 420,
+  "scenario": "Drop each control into the TYPE it belongs to. Type is about when the control acts relative to the incident, not what the control is made of. A security guard is physical in category and can be deterrent, preventive or detective in type depending on what they are there to do.",
+  "requirements": [
+    "Every control goes in exactly one column.",
+    "Judge by mechanism, not by outcome: ask whether a determined attacker who ignores it is still stopped.",
+    "Partial credit applies per control."
+  ],
+  "config": {
+    "mode": "categorize",
+    "items": [
+      { "id": "bollard", "label": "Bollards at the entrance" },
+      { "id": "sign", "label": "'Premises under video surveillance' sign" },
+      { "id": "ids", "label": "Intrusion detection system" },
+      { "id": "backup", "label": "Nightly backup job" },
+      { "id": "vlan", "label": "Isolating an unpatchable device on its own VLAN" },
+      { "id": "aup", "label": "Acceptable use policy" },
+      { "id": "lighting", "label": "Car park security lighting" },
+      { "id": "mfa", "label": "Multifactor authentication" },
+      { "id": "siemalert", "label": "SIEM alert on impossible travel" },
+      { "id": "restore", "label": "Restoring a server from backup after ransomware" }
+    ],
+    "buckets": [
+      { "id": "preventive", "label": "Preventive" },
+      { "id": "deterrent", "label": "Deterrent" },
+      { "id": "detective", "label": "Detective" },
+      { "id": "corrective", "label": "Corrective" },
+      { "id": "compensating", "label": "Compensating" },
+      { "id": "directive", "label": "Directive" }
+    ]
+  },
+  "solution": {
+    "placements": {
+      "bollard": "preventive",
+      "sign": "deterrent",
+      "ids": "detective",
+      "backup": "corrective",
+      "vlan": "compensating",
+      "aup": "directive",
+      "lighting": "deterrent",
+      "mfa": "preventive",
+      "siemalert": "detective",
+      "restore": "corrective"
+    }
+  },
+  "subtasks": [
+    { "id": "c1", "item": "bollard", "points": 2, "misconception": "deterrent-vs-preventive",
+      "correctNote": "A vehicle physically cannot pass. Intent is irrelevant, which is what makes it preventive rather than deterrent." },
+    { "id": "c2", "item": "sign", "points": 2, "misconception": "deterrent-vs-preventive",
+      "correctNote": "It persuades and blocks nothing. The cameras it advertises are detective; the sign is deterrent." },
+    { "id": "c3", "item": "ids", "points": 2, "misconception": "control-category-vs-type",
+      "correctNote": "It detects and alerts. An IPS would be preventive, because it sits inline and drops the traffic." },
+    { "id": "c4", "item": "backup", "points": 2, "misconception": "compensating-vs-corrective",
+      "correctNote": "Backups repair after the event. Nothing about taking one prevents anything." },
+    { "id": "c5", "item": "vlan", "points": 3, "misconception": "compensating-vs-corrective",
+      "correctNote": "The control you wanted, patching, is impossible, so isolation meets the objective another way. That substitution is what makes it compensating rather than merely preventive." },
+    { "id": "c6", "item": "aup", "points": 2, "misconception": "control-category-vs-type",
+      "correctNote": "A policy instructs people what to do. Directive in type, managerial in category." },
+    { "id": "c7", "item": "lighting", "points": 2, "misconception": "deterrent-vs-preventive",
+      "correctNote": "Makes an attacker feel exposed. It stops nobody who proceeds anyway." },
+    { "id": "c8", "item": "mfa", "points": 2, "misconception": "deterrent-vs-preventive",
+      "correctNote": "A stolen password alone no longer works. The attack is stopped, not discouraged." },
+    { "id": "c9", "item": "siemalert", "points": 2, "misconception": "control-category-vs-type",
+      "correctNote": "It tells you after the fact. Detective." },
+    { "id": "c10", "item": "restore", "points": 2, "misconception": "compensating-vs-corrective",
+      "correctNote": "The incident happened and this repairs the damage. Corrective." }
+  ]
+}

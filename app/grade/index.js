@@ -1,11 +1,13 @@
 import { gradeAcl } from "./acl.js";
 import { gradeWireless } from "./wireless.js";
 import { gradeDiagram } from "./diagram.js";
+import { gradeOrder } from "./order.js";
 
 const GRADERS = {
   "acl-table": gradeAcl,
   "wireless-config": gradeWireless,
   "network-diagram": gradeDiagram,
+  "drag-order": gradeOrder,
 };
 
 /**
@@ -24,4 +26,4 @@ export function gradePbq(pbq, answers) {
   };
 }
 
-export { gradeAcl, gradeWireless, gradeDiagram };
+export { gradeAcl, gradeWireless, gradeDiagram, gradeOrder };
