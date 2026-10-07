@@ -8,6 +8,7 @@
     "derived-terminology.json",
     "domain5-a.json",
     "domain5-b.json",
+    "domain5-c.json",
     "firewall.json",
     "incident.json",
     "multi-select.json",

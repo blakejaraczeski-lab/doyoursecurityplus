@@ -3,16 +3,47 @@
     "id": "policy-standard-procedure-guideline",
     "label": "Policy vs standard vs procedure vs guideline",
     "objective": "5.1",
-    "topics": ["guidelines", "information-security-policies", "password-standards", "change-management-procedures", "playbooks"],
+    "topics": [
+      "guidelines",
+      "information-security-policies",
+      "password-standards",
+      "change-management-procedures",
+      "playbooks"
+    ],
     "severity": "high",
     "mentor": {
       "diagnosis": "You picked the wrong level of the governance hierarchy. All four documents are real, and the exam decides between them on how specific the document is and whether following it is optional.",
       "contrast": [
-        ["Document", "Answers", "Mandatory", "Example"],
-        ["Policy", "What we require and why", "Yes", "All access must be authenticated and authorised"],
-        ["Standard", "What specifically must be true", "Yes", "Passwords must be at least 14 characters"],
-        ["Procedure", "How to do it, step by step", "Yes", "The onboarding checklist, the incident playbook"],
-        ["Guideline", "What is recommended", "No", "Suggested practices for choosing a passphrase"]
+        [
+          "Document",
+          "Answers",
+          "Mandatory",
+          "Example"
+        ],
+        [
+          "Policy",
+          "What we require and why",
+          "Yes",
+          "All access must be authenticated and authorised"
+        ],
+        [
+          "Standard",
+          "What specifically must be true",
+          "Yes",
+          "Passwords must be at least 14 characters"
+        ],
+        [
+          "Procedure",
+          "How to do it, step by step",
+          "Yes",
+          "The onboarding checklist, the incident playbook"
+        ],
+        [
+          "Guideline",
+          "What is recommended",
+          "No",
+          "Suggested practices for choosing a passphrase"
+        ]
       ],
       "rule": "Policy is the why, standard is the what, procedure is the how, guideline is the suggestion. Only the guideline is optional.",
       "tell": "A specific measurable value such as a key length or a password length is a standard. Numbered steps are a procedure. The word 'should' or 'recommended' signals a guideline.",
@@ -24,17 +55,48 @@
     "id": "data-roles",
     "label": "Data owner vs controller vs processor vs custodian or steward",
     "objective": "5.1",
-    "topics": ["owners", "controllers", "processors", "custodians-stewards", "data-subject", "controller-vs-processor"],
+    "topics": [
+      "owners",
+      "controllers",
+      "processors",
+      "custodians-stewards",
+      "data-subject",
+      "controller-vs-processor"
+    ],
     "severity": "high",
     "mentor": {
       "diagnosis": "You assigned the wrong role. These are separated by who decides, who acts on instructions, and who keeps the systems running.",
       "contrast": [
-        ["Role", "Responsibility", "Typical person"],
-        ["Data owner", "Accountable for the data: classification and who may access it", "A senior business leader, such as the head of HR"],
-        ["Data controller", "Decides the purpose and means of processing", "The organisation itself, in privacy law"],
-        ["Data processor", "Processes data on the controller's instructions", "A payroll bureau or cloud provider"],
-        ["Data custodian or steward", "Implements and maintains the controls day to day", "A database administrator"],
-        ["Data subject", "The living person the data is about", "The employee or customer"]
+        [
+          "Role",
+          "Responsibility",
+          "Typical person"
+        ],
+        [
+          "Data owner",
+          "Accountable for the data: classification and who may access it",
+          "A senior business leader, such as the head of HR"
+        ],
+        [
+          "Data controller",
+          "Decides the purpose and means of processing",
+          "The organisation itself, in privacy law"
+        ],
+        [
+          "Data processor",
+          "Processes data on the controller's instructions",
+          "A payroll bureau or cloud provider"
+        ],
+        [
+          "Data custodian or steward",
+          "Implements and maintains the controls day to day",
+          "A database administrator"
+        ],
+        [
+          "Data subject",
+          "The living person the data is about",
+          "The employee or customer"
+        ]
       ],
       "rule": "Owner is accountable, custodian is operational, controller decides the purpose, processor follows instructions.",
       "tell": "'Decides why and how the data is used' is the controller. 'Runs the backups and applies the permissions' is the custodian. 'Sets the classification' is the owner.",
@@ -46,19 +108,59 @@
     "id": "agreement-types",
     "label": "SLA vs MOU vs MOA vs MSA vs SOW vs NDA vs BPA",
     "objective": "5.3",
-    "topics": ["service-level-agreement-sla", "memorandum-of-understanding-mou", "memorandum-of-agreement-moa", "master-service-agreement-msa", "work-order-wo-statement-of-work-sow", "non-disclosure-agreement-nda", "business-partners-agreement-bpa"],
+    "topics": [
+      "service-level-agreement-sla",
+      "memorandum-of-understanding-mou",
+      "memorandum-of-agreement-moa",
+      "master-service-agreement-msa",
+      "work-order-wo-statement-of-work-sow",
+      "non-disclosure-agreement-nda",
+      "business-partners-agreement-bpa"
+    ],
     "severity": "high",
     "mentor": {
       "diagnosis": "You matched on a vague sense of 'contract' rather than on what each document actually fixes.",
       "contrast": [
-        ["Agreement", "What it establishes", "Binding"],
-        ["SLA", "Measurable service levels: uptime, response time, penalties", "Yes"],
-        ["MOU", "A shared understanding of intent between parties", "Usually not"],
-        ["MOA", "Agreed roles and responsibilities, more formal than an MOU", "Often"],
-        ["MSA", "The umbrella terms governing an ongoing relationship", "Yes"],
-        ["SOW or WO", "The specific deliverables and timeline for one piece of work", "Yes, under the MSA"],
-        ["NDA", "Confidentiality of information exchanged", "Yes"],
-        ["BPA", "How two businesses will operate a joint venture, including profit sharing", "Yes"]
+        [
+          "Agreement",
+          "What it establishes",
+          "Binding"
+        ],
+        [
+          "SLA",
+          "Measurable service levels: uptime, response time, penalties",
+          "Yes"
+        ],
+        [
+          "MOU",
+          "A shared understanding of intent between parties",
+          "Usually not"
+        ],
+        [
+          "MOA",
+          "Agreed roles and responsibilities, more formal than an MOU",
+          "Often"
+        ],
+        [
+          "MSA",
+          "The umbrella terms governing an ongoing relationship",
+          "Yes"
+        ],
+        [
+          "SOW or WO",
+          "The specific deliverables and timeline for one piece of work",
+          "Yes, under the MSA"
+        ],
+        [
+          "NDA",
+          "Confidentiality of information exchanged",
+          "Yes"
+        ],
+        [
+          "BPA",
+          "How two businesses will operate a joint venture, including profit sharing",
+          "Yes"
+        ]
       ],
       "rule": "MSA is the umbrella, SOW is the individual job under it. SLA is the measurable promise. MOU is intent without teeth.",
       "tell": "Any number with a unit, such as 99.9% or four hours, means SLA. 'Deliverables and milestones for this project' means SOW.",
@@ -70,16 +172,44 @@
     "id": "risk-treatment-strategies",
     "label": "Transfer vs accept vs avoid vs mitigate",
     "objective": "5.2",
-    "topics": ["transfer", "accept", "avoid", "mitigate", "exemption", "exception", "insurance"],
+    "topics": [
+      "transfer",
+      "accept",
+      "avoid",
+      "mitigate",
+      "exemption",
+      "exception",
+      "insurance"
+    ],
     "severity": "high",
     "mentor": {
       "diagnosis": "You named a treatment that does not match what the organisation actually did with the risk.",
       "contrast": [
-        ["Strategy", "What happens to the risk", "Example"],
-        ["Mitigate", "Reduced by applying controls", "Deploy MFA to reduce credential theft"],
-        ["Transfer", "Financial impact moved to a third party", "Buy cyber insurance, or outsource the function"],
-        ["Avoid", "The activity is stopped, so the risk no longer exists", "Cancel the product line that required storing card data"],
-        ["Accept", "Acknowledged and nothing further is done", "Documented as an exception, signed off by the risk owner"]
+        [
+          "Strategy",
+          "What happens to the risk",
+          "Example"
+        ],
+        [
+          "Mitigate",
+          "Reduced by applying controls",
+          "Deploy MFA to reduce credential theft"
+        ],
+        [
+          "Transfer",
+          "Financial impact moved to a third party",
+          "Buy cyber insurance, or outsource the function"
+        ],
+        [
+          "Avoid",
+          "The activity is stopped, so the risk no longer exists",
+          "Cancel the product line that required storing card data"
+        ],
+        [
+          "Accept",
+          "Acknowledged and nothing further is done",
+          "Documented as an exception, signed off by the risk owner"
+        ]
       ],
       "rule": "Avoid removes the activity. Mitigate reduces the risk. Transfer moves who pays. Accept does nothing but write it down.",
       "tell": "Insurance is always transfer. Discontinuing the service is always avoid. Note that transfer moves the financial impact, not the accountability.",
@@ -91,17 +221,47 @@
     "id": "qualitative-vs-quantitative",
     "label": "Qualitative vs quantitative risk analysis",
     "objective": "5.2",
-    "topics": ["qualitative-risk-analysis", "quantitative-risk-analysis", "probability", "likelihood", "impact"],
+    "topics": [
+      "qualitative-risk-analysis",
+      "quantitative-risk-analysis",
+      "probability",
+      "likelihood",
+      "impact"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You classified the analysis by how rigorous it felt rather than by whether it produces currency figures.",
       "contrast": [
-        ["Aspect", "Qualitative", "Quantitative"],
-        ["Output", "High, medium, low; a heat map", "Currency figures: SLE, ARO, ALE"],
-        ["Input needed", "Expert judgement", "Asset values and reliable frequency data"],
-        ["Speed", "Fast", "Slow, data hungry"],
-        ["Best for", "Reputational and safety risks that resist pricing", "Comparing a control's cost against the loss it prevents"],
-        ["Weakness", "Subjective and hard to compare", "False precision when the input data is guessed"]
+        [
+          "Aspect",
+          "Qualitative",
+          "Quantitative"
+        ],
+        [
+          "Output",
+          "High, medium, low; a heat map",
+          "Currency figures: SLE, ARO, ALE"
+        ],
+        [
+          "Input needed",
+          "Expert judgement",
+          "Asset values and reliable frequency data"
+        ],
+        [
+          "Speed",
+          "Fast",
+          "Slow, data hungry"
+        ],
+        [
+          "Best for",
+          "Reputational and safety risks that resist pricing",
+          "Comparing a control's cost against the loss it prevents"
+        ],
+        [
+          "Weakness",
+          "Subjective and hard to compare",
+          "False precision when the input data is guessed"
+        ]
       ],
       "rule": "If the answer is a number in currency, it is quantitative. If it is a word or a colour on a matrix, it is qualitative.",
       "tell": "SLE, ARO, ALE and exposure factor are all quantitative. A 5 by 5 likelihood and impact grid is qualitative.",
@@ -113,14 +273,31 @@
     "id": "due-diligence-vs-due-care",
     "label": "Due diligence vs due care",
     "objective": "5.4",
-    "topics": ["due-diligence-care", "due-diligence", "vendor-monitoring", "conflict-of-interest"],
+    "topics": [
+      "due-diligence-care",
+      "due-diligence",
+      "vendor-monitoring",
+      "conflict-of-interest"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You used the two as synonyms. One is investigating, the other is acting.",
       "contrast": [
-        ["Term", "Meaning", "Example"],
-        ["Due diligence", "Investigating before you commit", "Reviewing a vendor's SOC 2 report and finances before signing"],
-        ["Due care", "Acting reasonably and continuously afterwards", "Patching, monitoring the vendor, reviewing access quarterly"]
+        [
+          "Term",
+          "Meaning",
+          "Example"
+        ],
+        [
+          "Due diligence",
+          "Investigating before you commit",
+          "Reviewing a vendor's SOC 2 report and finances before signing"
+        ],
+        [
+          "Due care",
+          "Acting reasonably and continuously afterwards",
+          "Patching, monitoring the vendor, reviewing access quarterly"
+        ]
       ],
       "rule": "Diligence is doing your homework. Care is doing your job. Diligence comes first and is a point in time; care is ongoing.",
       "tell": "'Before entering the agreement' or 'during vendor selection' is due diligence. 'On an ongoing basis' is due care.",
@@ -132,17 +309,54 @@
     "id": "audit-vs-assessment",
     "label": "Internal audit vs external audit vs self-assessment vs attestation",
     "objective": "5.5",
-    "topics": ["internal-compliance-audit", "audit-committee", "self-assessments", "independent-third-party-audit", "regulatory-examination", "attestation"],
+    "topics": [
+      "internal-compliance-audit",
+      "audit-committee",
+      "self-assessments",
+      "independent-third-party-audit",
+      "regulatory-examination",
+      "attestation"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You chose a review type without checking who performs it and how independent they must be.",
       "contrast": [
-        ["Type", "Performed by", "Independence", "Typical purpose"],
-        ["Self-assessment", "The team that owns the control", "None", "Cheap, frequent, internal improvement"],
-        ["Internal audit", "An internal audit function reporting to the audit committee", "Independent of the team, not of the organisation", "Assurance to management and the board"],
-        ["External or third-party audit", "An outside firm", "Fully independent", "Assurance to customers, partners and regulators"],
-        ["Regulatory examination", "The regulator", "Fully independent, and compulsory", "Confirm legal compliance"],
-        ["Attestation", "A signed formal statement that something is true", "Depends who signs", "Evidence a control or condition holds"]
+        [
+          "Type",
+          "Performed by",
+          "Independence",
+          "Typical purpose"
+        ],
+        [
+          "Self-assessment",
+          "The team that owns the control",
+          "None",
+          "Cheap, frequent, internal improvement"
+        ],
+        [
+          "Internal audit",
+          "An internal audit function reporting to the audit committee",
+          "Independent of the team, not of the organisation",
+          "Assurance to management and the board"
+        ],
+        [
+          "External or third-party audit",
+          "An outside firm",
+          "Fully independent",
+          "Assurance to customers, partners and regulators"
+        ],
+        [
+          "Regulatory examination",
+          "The regulator",
+          "Fully independent, and compulsory",
+          "Confirm legal compliance"
+        ],
+        [
+          "Attestation",
+          "A signed formal statement that something is true",
+          "Depends who signs",
+          "Evidence a control or condition holds"
+        ]
       ],
       "rule": "The more independent the reviewer, the more weight the result carries outside the organisation. A customer asking for assurance will not accept your self-assessment.",
       "tell": "'A customer requires evidence before renewing' means an independent third-party audit, not an internal one.",
@@ -154,17 +368,49 @@
     "id": "pentest-environments",
     "label": "Known, partially known and unknown environment testing, and passive vs active reconnaissance",
     "objective": "5.5",
-    "topics": ["known-environment", "partially-known-environment", "unknown-environment", "passive-reconnaissance", "active-reconnaissance", "offensive", "defensive"],
+    "topics": [
+      "known-environment",
+      "partially-known-environment",
+      "unknown-environment",
+      "passive-reconnaissance",
+      "active-reconnaissance",
+      "offensive",
+      "defensive"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You mixed up how much the tester was told with what the tester then did.",
       "contrast": [
-        ["Term", "Meaning", "Old name"],
-        ["Known environment", "Tester is given full information: architecture, credentials, source", "White box"],
-        ["Partially known", "Tester is given limited information", "Grey box"],
-        ["Unknown environment", "Tester is given nothing and must discover it", "Black box"],
-        ["Passive reconnaissance", "Gathering information without touching the target: WHOIS, OSINT, social media", "n/a"],
-        ["Active reconnaissance", "Interacting with the target: scanning, enumeration, banner grabbing", "n/a"]
+        [
+          "Term",
+          "Meaning",
+          "Old name"
+        ],
+        [
+          "Known environment",
+          "Tester is given full information: architecture, credentials, source",
+          "White box"
+        ],
+        [
+          "Partially known",
+          "Tester is given limited information",
+          "Grey box"
+        ],
+        [
+          "Unknown environment",
+          "Tester is given nothing and must discover it",
+          "Black box"
+        ],
+        [
+          "Passive reconnaissance",
+          "Gathering information without touching the target: WHOIS, OSINT, social media",
+          "n/a"
+        ],
+        [
+          "Active reconnaissance",
+          "Interacting with the target: scanning, enumeration, banner grabbing",
+          "n/a"
+        ]
       ],
       "rule": "Known, partially known and unknown describe what the tester was told. Passive and active describe whether the target can see the tester.",
       "tell": "'Simulates an external attacker with no inside knowledge' is unknown environment. 'Without alerting the target or touching its systems' is passive reconnaissance.",
@@ -176,17 +422,48 @@
     "id": "vendor-assessment-methods",
     "label": "Right-to-audit clause vs independent assessment vs questionnaire vs supply chain analysis",
     "objective": "5.3",
-    "topics": ["right-to-audit-clause", "independent-assessments", "evidence-of-internal-audits", "supply-chain-analysis", "questionnaires", "vendor-monitoring"],
+    "topics": [
+      "right-to-audit-clause",
+      "independent-assessments",
+      "evidence-of-internal-audits",
+      "supply-chain-analysis",
+      "questionnaires",
+      "vendor-monitoring"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You chose a vendor assurance method that does not give the level of confidence the scenario asked for.",
       "contrast": [
-        ["Method", "What you get", "Strength"],
-        ["Questionnaire", "The vendor's own answers about its controls", "Weakest, self-reported"],
-        ["Evidence of internal audits", "The vendor's own audit reports", "Better, still the vendor auditing itself"],
-        ["Independent assessment", "A third party's report, such as SOC 2", "Strong, and on the vendor's schedule and scope"],
-        ["Right-to-audit clause", "A contractual right for YOU to audit them", "Strongest, on your schedule and your scope"],
-        ["Supply chain analysis", "Visibility into the vendor's own suppliers", "Addresses fourth-party risk"]
+        [
+          "Method",
+          "What you get",
+          "Strength"
+        ],
+        [
+          "Questionnaire",
+          "The vendor's own answers about its controls",
+          "Weakest, self-reported"
+        ],
+        [
+          "Evidence of internal audits",
+          "The vendor's own audit reports",
+          "Better, still the vendor auditing itself"
+        ],
+        [
+          "Independent assessment",
+          "A third party's report, such as SOC 2",
+          "Strong, and on the vendor's schedule and scope"
+        ],
+        [
+          "Right-to-audit clause",
+          "A contractual right for YOU to audit them",
+          "Strongest, on your schedule and your scope"
+        ],
+        [
+          "Supply chain analysis",
+          "Visibility into the vendor's own suppliers",
+          "Addresses fourth-party risk"
+        ]
       ],
       "rule": "A right-to-audit clause must be negotiated into the contract before signing. Afterwards you get whatever the vendor chooses to share.",
       "tell": "'We must be able to inspect their controls ourselves, at a time of our choosing' is a right-to-audit clause.",
@@ -198,16 +475,42 @@
     "id": "bia-vs-risk-assessment",
     "label": "Business impact analysis vs risk assessment",
     "objective": "5.2",
-    "topics": ["business-impact-analysis", "risk-identification", "risk-assessment", "recovery-time-objective-rto", "recovery-point-objective-rpo"],
+    "topics": [
+      "business-impact-analysis",
+      "risk-identification",
+      "risk-assessment",
+      "recovery-time-objective-rto",
+      "recovery-point-objective-rpo"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You confused the exercise that identifies threats with the one that measures what disruption costs.",
       "contrast": [
-        ["Aspect", "Risk assessment", "Business impact analysis"],
-        ["Question", "What could go wrong and how likely is it", "If this process stops, how bad is it and how fast must it return"],
-        ["Starts from", "Threats and vulnerabilities", "Business processes and functions"],
-        ["Produces", "A risk register with likelihood and impact", "Criticality rankings, RTO, RPO, MTD"],
-        ["Feeds", "Control selection and risk treatment", "Business continuity and disaster recovery plans"]
+        [
+          "Aspect",
+          "Risk assessment",
+          "Business impact analysis"
+        ],
+        [
+          "Question",
+          "What could go wrong and how likely is it",
+          "If this process stops, how bad is it and how fast must it return"
+        ],
+        [
+          "Starts from",
+          "Threats and vulnerabilities",
+          "Business processes and functions"
+        ],
+        [
+          "Produces",
+          "A risk register with likelihood and impact",
+          "Criticality rankings, RTO, RPO, MTD"
+        ],
+        [
+          "Feeds",
+          "Control selection and risk treatment",
+          "Business continuity and disaster recovery plans"
+        ]
       ],
       "rule": "Risk assessment asks what might happen. BIA assumes it already happened and asks what it costs per hour.",
       "tell": "Anything producing RTO or RPO figures is a BIA. Anything producing likelihood ratings is a risk assessment.",
@@ -219,17 +522,49 @@
     "id": "awareness-program-elements",
     "label": "Security awareness: campaigns, reporting, and anomalous behaviour recognition",
     "objective": "5.6",
-    "topics": ["phishing-campaigns", "recognizing-a-phishing-attempt", "responding-to-reported-suspicious-messages", "risky-behavior", "initial-reporting", "recurring-reporting", "user-guidance-and-training"],
+    "topics": [
+      "phishing-campaigns",
+      "recognizing-a-phishing-attempt",
+      "responding-to-reported-suspicious-messages",
+      "risky-behavior",
+      "initial-reporting",
+      "recurring-reporting",
+      "user-guidance-and-training"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You answered a human behaviour problem with a technical control, or measured the wrong thing.",
       "contrast": [
-        ["Goal", "The awareness answer", "Not the answer"],
-        ["Users click simulated phishing links", "Targeted follow-up training for those users", "Blocking all external email"],
-        ["Users do not report suspicious messages", "A one-click report button plus recognition for reporting", "Disciplining people who report"],
-        ["Measure programme effectiveness", "Report rate and time to report, not just click rate", "Click rate alone"],
-        ["New starters", "Initial training at onboarding", "Waiting for the annual cycle"],
-        ["Everyone else", "Recurring training, with the content refreshed", "Repeating the same deck annually"]
+        [
+          "Goal",
+          "The awareness answer",
+          "Not the answer"
+        ],
+        [
+          "Users click simulated phishing links",
+          "Targeted follow-up training for those users",
+          "Blocking all external email"
+        ],
+        [
+          "Users do not report suspicious messages",
+          "A one-click report button plus recognition for reporting",
+          "Disciplining people who report"
+        ],
+        [
+          "Measure programme effectiveness",
+          "Report rate and time to report, not just click rate",
+          "Click rate alone"
+        ],
+        [
+          "New starters",
+          "Initial training at onboarding",
+          "Waiting for the annual cycle"
+        ],
+        [
+          "Everyone else",
+          "Recurring training, with the content refreshed",
+          "Repeating the same deck annually"
+        ]
       ],
       "rule": "A rising report rate is a better signal than a falling click rate. Someone has to click eventually; what matters is how fast you hear about it.",
       "tell": "'Users are not reporting' means make reporting easy and rewarded. Punishing reporters guarantees silence.",
@@ -241,22 +576,163 @@
     "id": "change-management-elements",
     "label": "Backout plan vs maintenance window vs impact analysis vs approval",
     "objective": "1.3",
-    "topics": ["backout-plan", "maintenance-window", "impact-analysis", "approval-process", "test-results", "standard-operating-procedure"],
+    "topics": [
+      "backout-plan",
+      "maintenance-window",
+      "impact-analysis",
+      "approval-process",
+      "test-results",
+      "standard-operating-procedure"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You named the wrong element of the change process for what the scenario was actually missing.",
       "contrast": [
-        ["Element", "Answers", "Missing when"],
-        ["Impact analysis", "What will this change affect", "Nobody realised the change would take the VPN down"],
-        ["Approval process", "Who authorised this change", "The engineer changed production alone"],
-        ["Test results", "Did it work somewhere safe first", "It was applied straight to production"],
-        ["Backout plan", "How do we undo this if it goes wrong", "The change failed and the team could not revert"],
-        ["Maintenance window", "When may this be applied", "The change ran at 10am on a trading day"],
-        ["Standard operating procedure", "How is this kind of change normally done", "Every engineer does it differently"]
+        [
+          "Element",
+          "Answers",
+          "Missing when"
+        ],
+        [
+          "Impact analysis",
+          "What will this change affect",
+          "Nobody realised the change would take the VPN down"
+        ],
+        [
+          "Approval process",
+          "Who authorised this change",
+          "The engineer changed production alone"
+        ],
+        [
+          "Test results",
+          "Did it work somewhere safe first",
+          "It was applied straight to production"
+        ],
+        [
+          "Backout plan",
+          "How do we undo this if it goes wrong",
+          "The change failed and the team could not revert"
+        ],
+        [
+          "Maintenance window",
+          "When may this be applied",
+          "The change ran at 10am on a trading day"
+        ],
+        [
+          "Standard operating procedure",
+          "How is this kind of change normally done",
+          "Every engineer does it differently"
+        ]
       ],
       "rule": "Match the element to the failure. Could not undo means backout plan. Wrong time means maintenance window. Unexpected side effect means impact analysis.",
       "tell": "'The team was unable to restore service after the update failed' is a missing backout plan, every time.",
       "trap": "Approval is the element people name by reflex because it sounds like governance. Read which part of the change actually broke."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "compliance-consequences",
+    "label": "Consequences of non-compliance, and who imposes them",
+    "objective": "5.4",
+    "topics": [
+      "fines",
+      "sanctions",
+      "reputational-damage",
+      "loss-of-license",
+      "contractual-impacts",
+      "internal-compliance-reporting",
+      "external-compliance-reporting"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated every bad outcome of non-compliance as the same kind of thing. The exam separates them by who imposes them, because that decides who you have to satisfy.",
+      "contrast": [
+        [
+          "Consequence",
+          "Imposed by",
+          "Note"
+        ],
+        [
+          "Fines",
+          "The regulator",
+          "A direct statutory penalty"
+        ],
+        [
+          "Sanctions",
+          "The regulator or a government",
+          "Can include restrictions on operating, not only money"
+        ],
+        [
+          "Loss of licence",
+          "The regulator or licensing body",
+          "The most severe: you cannot trade in that market at all"
+        ],
+        [
+          "Contractual impacts",
+          "Your customers and partners",
+          "Breach of contract, lost renewals, indemnity claims"
+        ],
+        [
+          "Reputational damage",
+          "The market",
+          "Nobody imposes it; it arrives through customers leaving"
+        ]
+      ],
+      "rule": "Ask who hands out the penalty. Regulator means fines, sanctions or licence. A counterparty means contractual. Nobody in particular means reputational.",
+      "tell": "'Which is a direct regulatory consequence' excludes reputational damage and contractual impacts, even though both are real and expensive.",
+      "trap": "Reputational damage is usually the largest cost in practice, which makes it feel like the headline answer. It is an indirect market consequence, not one a regulator imposes."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "privacy-rights-and-roles",
+    "label": "Data subject rights, and who answers them",
+    "objective": "5.4",
+    "topics": [
+      "data-subject",
+      "right-to-be-forgotten",
+      "controller-vs-processor",
+      "data-inventory-and-retention",
+      "ownership"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered a privacy question with a security control. Subject rights are an operational capability question: can you find the data, and who is accountable for answering.",
+      "contrast": [
+        [
+          "Request or duty",
+          "What it actually requires",
+          "Who answers it"
+        ],
+        [
+          "Right to be forgotten",
+          "Locating every copy, then deleting it",
+          "The controller"
+        ],
+        [
+          "Access request",
+          "Producing everything held about one person",
+          "The controller"
+        ],
+        [
+          "Processing on instruction",
+          "Doing only what the controller asked",
+          "The processor"
+        ],
+        [
+          "Retention limits",
+          "Deleting on schedule, not keeping forever",
+          "The controller, enforced through the inventory"
+        ],
+        [
+          "The enabling capability",
+          "A current data inventory",
+          "Without it, none of the above can be answered"
+        ]
+      ],
+      "rule": "Every subject right reduces to the same prerequisite: knowing where the data is. Encryption, access control and backups do not answer a deletion request.",
+      "tell": "'A customer asks the company to erase everything it holds about them' is testing the data inventory, not the security stack.",
+      "trap": "Encryption is the reflex answer to any question with personal data in it. It protects confidentiality and makes locating and deleting data no easier."
     },
     "retireAfter": 2
   }
