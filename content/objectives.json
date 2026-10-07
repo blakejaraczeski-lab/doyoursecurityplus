@@ -27,7 +27,7 @@
   "counts": {
     "domains": 5,
     "objectives": 28,
-    "topics": 683
+    "topics": 684
   },
   "domains": [
     {
@@ -1815,6 +1815,10 @@
             {
               "id": "enumeration",
               "label": "Enumeration"
+            },
+            {
+              "id": "disposal-decommissioning",
+              "label": "Disposal/decommissioning"
             },
             {
               "id": "sanitization",

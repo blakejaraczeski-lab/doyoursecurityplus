@@ -12,6 +12,7 @@
     "firewall.json",
     "incident.json",
     "multi-select.json",
+    "operations.json",
     "threats.json",
     "wireless.json"
   ],
@@ -39,6 +40,7 @@
     "firewall.json",
     "governance.json",
     "incident.json",
+    "operations.json",
     "terminology.json",
     "threats.json",
     "wireless.json"

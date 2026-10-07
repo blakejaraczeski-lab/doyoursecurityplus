@@ -1,0 +1,421 @@
+[
+  {
+    "id": "automation-benefits-vs-risks",
+    "label": "What automation buys, and what it costs",
+    "objective": "4.7",
+    "topics": [
+      "efficiency-time-saving",
+      "enforcing-baselines",
+      "workforce-multiplier",
+      "single-point-of-failure",
+      "technical-debt",
+      "ongoing-supportability",
+      "complexity"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated automation as free upside. The exam tests the trade: the same property that makes it valuable is what makes it dangerous.",
+      "contrast": [
+        [
+          "Benefit",
+          "The same property, as a cost"
+        ],
+        [
+          "Reaction time: it acts in seconds",
+          "It acts wrongly in seconds too, at full scale"
+        ],
+        [
+          "Enforcing baselines: every host identical",
+          "One bad baseline is now on every host"
+        ],
+        [
+          "Workforce multiplier: fewer hands needed",
+          "Those hands also held the knowledge of how it works"
+        ],
+        [
+          "Standard configurations",
+          "Complexity and technical debt in the automation itself"
+        ],
+        [
+          "One system does the provisioning",
+          "That system is a single point of failure"
+        ]
+      ],
+      "rule": "Automation multiplies whatever you give it, including mistakes. Benefits scale and so does blast radius.",
+      "tell": "'Which is a drawback of automation' expects complexity, technical debt, single point of failure, or ongoing supportability, never 'it is slower'.",
+      "trap": "Every listed benefit is genuinely true, so a benefits answer always reads as correct. Check whether the stem asked for the cost."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "automation-use-cases",
+    "label": "Guard rails vs ticket creation vs provisioning",
+    "objective": "4.7",
+    "topics": [
+      "user-provisioning",
+      "resource-provisioning",
+      "guard-rails",
+      "security-groups",
+      "ticket-creation",
+      "escalation",
+      "continuous-integration-and-testing",
+      "integrations-and-apis"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You named an automation use case that does not match what the scenario automates. Each one automates a different moment.",
+      "contrast": [
+        [
+          "Use case",
+          "What it automates",
+          "Scenario wording"
+        ],
+        [
+          "User provisioning",
+          "Creating and removing accounts from an HR trigger",
+          "'A leaver still had access three weeks later'"
+        ],
+        [
+          "Resource provisioning",
+          "Standing up infrastructure to a template",
+          "'Each environment was built slightly differently'"
+        ],
+        [
+          "Guard rails",
+          "Blocking a non-compliant action as it is attempted",
+          "'Engineers could create a public storage bucket'"
+        ],
+        [
+          "Security groups",
+          "Membership, and therefore access, from a rule",
+          "'Access is granted by job role automatically'"
+        ],
+        [
+          "Ticket creation and escalation",
+          "Raising and routing the work item",
+          "'Alerts were seen but nobody was assigned'"
+        ],
+        [
+          "Continuous integration and testing",
+          "Running checks on every change",
+          "'A bad config reached production unreviewed'"
+        ]
+      ],
+      "rule": "Match the automation to the moment that failed. Access that lingered is provisioning; an action that should have been impossible is a guard rail; work nobody picked up is ticketing.",
+      "tell": "Onboarding and offboarding stories are almost always user provisioning, and the exam likes the offboarding half because the risk is clearer.",
+      "trap": "Guard rails and security groups both sound like preventing access. Guard rails stop an action; security groups decide membership."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "monitoring-tool-selection",
+    "label": "SIEM vs SCAP vs NetFlow vs SNMP traps",
+    "objective": "4.4",
+    "topics": [
+      "security-information-and-event-management-siem",
+      "security-content-automation-protocol-scap",
+      "netflow",
+      "snmp-traps",
+      "vulnerability-scanners",
+      "benchmarks",
+      "agents-agentless"
+    ],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You reached for the tool you know rather than the one that produces the data the question needs. Each of these answers a different question.",
+      "contrast": [
+        [
+          "Tool",
+          "Answers",
+          "Does not"
+        ],
+        [
+          "SIEM",
+          "What happened across everything, correlated, with alerts",
+          "Tell you whether a host meets a configuration standard"
+        ],
+        [
+          "SCAP",
+          "Is this host configured to the benchmark",
+          "Watch live traffic or correlate events"
+        ],
+        [
+          "NetFlow",
+          "Who talked to whom, how much, for how long",
+          "Show you packet contents"
+        ],
+        [
+          "Packet capture",
+          "Exactly what was said on the wire",
+          "Scale: it is expensive to keep"
+        ],
+        [
+          "SNMP traps",
+          "A device reporting its own state change",
+          "Give security context"
+        ],
+        [
+          "Vulnerability scanner",
+          "Which known flaws are present",
+          "Tell you whether one was exploited"
+        ]
+      ],
+      "rule": "Correlation across sources is SIEM. Configuration against a standard is SCAP. Conversation metadata at scale is NetFlow. Contents is packet capture.",
+      "tell": "'Which data source identifies which internal hosts talked to the command and control address, over weeks' is NetFlow: you need metadata at volume, not payloads.",
+      "trap": "A SIEM ingests all of these, so it reads as the answer to everything. The question is usually which SOURCE produces the evidence, not where you would look at it."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "alert-tuning-vs-quarantine",
+    "label": "Alert tuning, alert response, and the cost of noise",
+    "objective": "4.4",
+    "topics": [
+      "alerting",
+      "alert-tuning",
+      "alert-response-and-remediation-validation",
+      "quarantine",
+      "log-aggregation",
+      "archiving",
+      "reporting"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered an alert quality problem with more alerting, or a containment problem with tuning. They are opposite moves.",
+      "contrast": [
+        [
+          "Symptom",
+          "Correct response",
+          "Why not the other"
+        ],
+        [
+          "Hundreds of alerts a day, nearly all benign",
+          "Alert tuning: raise thresholds, suppress known-good",
+          "More alerting makes the real one less likely to be seen"
+        ],
+        [
+          "A confirmed malicious file on an endpoint",
+          "Quarantine it",
+          "Tuning does nothing about a live threat"
+        ],
+        [
+          "Alerts fire and nothing happens afterwards",
+          "Alert response and remediation workflow",
+          "The detection worked; the process after it did not"
+        ],
+        [
+          "Fixed, but was it really fixed",
+          "Validation, by rescanning or reverifying",
+          "Closing on the responder's word is how issues reopen"
+        ],
+        [
+          "Logs scattered across hosts",
+          "Aggregation",
+          "You cannot correlate what you cannot see together"
+        ]
+      ],
+      "rule": "Tuning is a quality fix for too much noise. Quarantine is a containment action on one confirmed thing. Alert fatigue is a real failure mode and the cure is fewer, better alerts.",
+      "tell": "'Analysts have begun ignoring the alerts' is alert tuning, and it is the finding, not a complaint about the analysts.",
+      "trap": "Suppressing alerts feels like hiding problems, so tuning reads as the irresponsible answer. Untuned alerting hides problems far more effectively, by burying them."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "asset-lifecycle",
+    "label": "Acquisition, assignment, monitoring, disposal",
+    "objective": "4.2",
+    "topics": [
+      "acquisition-procurement-process",
+      "ownership",
+      "classification",
+      "monitoring-asset-tracking",
+      "inventory",
+      "enumeration",
+      "disposal-decommissioning",
+      "data-retention"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You named a stage of the asset lifecycle that does not match where the failure happened. The lifecycle is procurement, assignment, tracking, disposal, and each has its own failure.",
+      "contrast": [
+        [
+          "Stage",
+          "What it establishes",
+          "The failure it prevents"
+        ],
+        [
+          "Acquisition and procurement",
+          "Security requirements before you buy",
+          "Buying something that cannot meet policy"
+        ],
+        [
+          "Assignment and ownership",
+          "A named owner and a classification",
+          "Nobody accountable when a decision is needed"
+        ],
+        [
+          "Monitoring and asset tracking",
+          "A current inventory of what exists",
+          "Defending an estate you cannot enumerate"
+        ],
+        [
+          "Disposal and decommissioning",
+          "Data destroyed, asset removed from the register",
+          "A sold laptop carrying readable company data"
+        ]
+      ],
+      "rule": "You cannot secure, patch, or decommission an asset you do not know you own. The inventory is the control everything else depends on.",
+      "tell": "'Devices were found running unsupported software nobody knew existed' is an inventory and tracking failure, before it is a patching one.",
+      "trap": "Patching is the instinctive answer to anything about out-of-date systems. You cannot patch what is not in the inventory, which is why asset management sits underneath vulnerability management."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "sanitization-vs-destruction",
+    "label": "Sanitization, destruction, and certification",
+    "objective": "4.2",
+    "topics": [
+      "sanitization",
+      "destruction",
+      "certification",
+      "disposal-decommissioning",
+      "data-retention"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose a disposal method that does not match whether the asset is being reused, and you may have skipped the evidence step.",
+      "contrast": [
+        [
+          "Method",
+          "Asset afterwards",
+          "Use when"
+        ],
+        [
+          "Sanitization: wipe, overwrite, crypto-erase",
+          "Reusable",
+          "The device is being redeployed, sold or returned on lease"
+        ],
+        [
+          "Destruction: shred, degauss, incinerate",
+          "Gone",
+          "The data is too sensitive to risk, or the media has failed"
+        ],
+        [
+          "Certification",
+          "Evidence either happened",
+          "Always, when a third party did the work or an auditor will ask"
+        ],
+        [
+          "Deleting files or formatting",
+          "Data is still recoverable",
+          "Never, as a disposal control"
+        ]
+      ],
+      "rule": "Reuse means sanitize. No reuse and high sensitivity means destroy. Either way, get the certificate, because without it you cannot prove it happened.",
+      "tell": "'The drives were sent to a disposal vendor' should make you look for certification. The control is not complete without evidence.",
+      "trap": "Degaussing is a destruction method for magnetic media and does nothing to an SSD, which stores no magnetic domains. Media type decides which destruction method is real."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "allow-list-vs-deny-list",
+    "label": "Application allow list vs deny list",
+    "objective": "2.5",
+    "topics": [
+      "application-allow-list",
+      "configuration-enforcement",
+      "least-privilege",
+      "monitoring"
+    ],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You picked the list that has to enumerate everything bad. Only one of these two is possible to finish.",
+      "contrast": [
+        [
+          "Approach",
+          "You must enumerate",
+          "Unknown software"
+        ],
+        [
+          "Allow list",
+          "Everything permitted",
+          "Blocked by default"
+        ],
+        [
+          "Deny list",
+          "Everything forbidden",
+          "Permitted by default"
+        ],
+        [
+          "Effort",
+          "Allow list: high up front, stable after",
+          "Deny list: endless, and always behind"
+        ],
+        [
+          "Against a zero-day or new malware",
+          "Allow list holds",
+          "Deny list has no entry for it yet"
+        ]
+      ],
+      "rule": "Enumerating badness is a losing game because the list is infinite and grows. Allow listing is the same logic as a firewall's implicit deny, applied to software.",
+      "tell": "'Prevent any unapproved software from executing, including software we have not seen' is an allow list. A deny list cannot make that promise.",
+      "trap": "Allow listing is operationally painful, so the easier answer feels more realistic. The exam rewards the control that actually meets the stated requirement."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "hardening-vs-patching",
+    "label": "Hardening a host vs patching it",
+    "objective": "2.5",
+    "topics": [
+      "disabling-ports-protocols",
+      "default-password-changes",
+      "removal-of-unnecessary-software",
+      "host-based-firewall",
+      "host-based-intrusion-prevention-system-hips",
+      "endpoint-protection-installation",
+      "configuration-enforcement",
+      "decommissioning"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered an attack surface problem with a patch. Patching fixes known flaws in software you are running; hardening reduces how much you are running and what it exposes.",
+      "contrast": [
+        [
+          "Technique",
+          "What it removes",
+          "Still needed if fully patched"
+        ],
+        [
+          "Removing unnecessary software",
+          "Whole classes of future flaws",
+          "Yes: tomorrow's CVE in software you did not need"
+        ],
+        [
+          "Disabling unused ports and protocols",
+          "Reachable services",
+          "Yes"
+        ],
+        [
+          "Changing default passwords",
+          "The most-tried credential there is",
+          "Yes: no patch fixes a default password"
+        ],
+        [
+          "Host based firewall and HIPS",
+          "Unexpected inbound and outbound paths",
+          "Yes"
+        ],
+        [
+          "Patching",
+          "Known flaws in what remains",
+          "This is the part patching does"
+        ]
+      ],
+      "rule": "Patching fixes what you run. Hardening reduces what you run. A fully patched host with default credentials and every service enabled is still trivially owned.",
+      "tell": "'The device cannot be patched' makes hardening and isolation the only moves left, which is also when they become compensating controls.",
+      "trap": "Patching is the default answer to every vulnerability question, and it is often also correct, which trains the reflex. Read whether the flaw is a missing fix or an unnecessary exposure."
+    },
+    "retireAfter": 2
+  }
+]

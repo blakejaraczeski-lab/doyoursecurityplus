@@ -351,6 +351,58 @@ def main():
     print(f"  (recall column is {recall_total} imported vocabulary items, counted separately:")
     print("   they build recognition, they do not test discrimination)")
 
+    # --- blueprint coverage -------------------------------------------------
+    # Domain percentages are a RATIO and are blind to size: a domain can sit at
+    # exactly its exam weight while three of its objectives have no items at
+    # all. That is precisely what happened, so coverage is reported in absolute
+    # terms, per objective, and a zero-item objective is an error.
+    alias = {}
+    topics_of = {}
+    for d in tax["domains"]:
+        for o in d["objectives"]:
+            topics_of[o["id"]] = [t["id"] for t in o["topics"]]
+            for t in o["topics"]:
+                alias[t["id"]] = t["id"]
+                for a in t.get("aliases", []):
+                    alias[a] = t["id"]
+
+    touched = defaultdict(int)
+    per_obj_items = defaultdict(int)
+    for it in items:
+        if it["type"] == "recall" or it.get("source") == "acronym-list":
+            continue
+        if it.get("objective"):
+            per_obj_items[it["objective"]] += 1
+        for t in (it.get("topics") or []):
+            if t in alias:
+                touched[alias[t]] += 1
+    for pq in pbqs:
+        if pq.get("objective"):
+            per_obj_items[pq["objective"]] += 1
+        for t in (pq.get("topics") or []):
+            if t in alias:
+                touched[alias[t]] += 1
+
+    all_topics = [t for ts in topics_of.values() for t in ts]
+    hit = sum(1 for t in all_topics if touched[t])
+    print(f"\nblueprint coverage: {hit}/{len(all_topics)} topics touched "
+          f"({hit / len(all_topics):.0%}); {len(all_topics) - hit} with none")
+
+    thin = []
+    for d in tax["domains"]:
+        for o in d["objectives"]:
+            ts = topics_of[o["id"]]
+            c = sum(1 for t in ts if touched[t])
+            n = per_obj_items[o["id"]]
+            if n == 0:
+                err(f"objective {o['id']} has NO graded items ({o['title'][:48]})")
+            elif c / len(ts) < 0.35 or n < 4:
+                thin.append((o["id"], c, len(ts), n))
+    if thin:
+        print(f"  thin objectives ({len(thin)}): topics covered / total, items")
+        for oid, c, t, n in thin:
+            print(f"    {oid}  {c:3d}/{t:3d}  {c/t:4.0%}  {n:2d} items")
+
     print(f"\nmisconception reachability:")
     print(f"  retirable now (enough distinct items): {len(mis) - len(unreachable) - len(single)}")
     if single:

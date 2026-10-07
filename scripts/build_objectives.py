@@ -154,7 +154,7 @@ OBJ = {
     "Sandboxing", "Monitoring"]),
 "4.2": ("Explain", "the security implications of proper hardware, software, and data asset management", [
     "Acquisition/procurement process", "Ownership", "Classification",
-    "Monitoring/asset tracking", "Inventory", "Enumeration", "Sanitization",
+    "Monitoring/asset tracking", "Inventory", "Enumeration", "Disposal/decommissioning", "Sanitization",
     "Destruction", "Certification", "Data retention"]),
 "4.3": ("Explain", "various activities associated with vulnerability management", [
     "Vulnerability scan", "Static analysis", "Dynamic analysis", "Package monitoring",

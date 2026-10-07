@@ -380,9 +380,29 @@ that way would teach you the questions rather than the material.
 `reference/` holds CompTIA's own objectives document, which is free and public.
 It is a personal study reference and is not for redistribution.
 
+## Coverage, which is not the same as balance
+
+Domain percentage is a **ratio**, and ratios are blind to size. For a long time
+this bank reported all five domains "within tolerance" while three objectives
+had **no items at all**: 4.7 automation, 4.4 alerting and monitoring, 4.2 asset
+management. Domain 4 read 25.3% against a 28% weight and looked healthy.
+
+So the validator now reports coverage in absolute terms as well:
+
+```
+blueprint coverage: 383/684 topics touched (56%); 301 with none
+  thin objectives (5): topics covered / total, items
+    1.3    5/ 18   28%   2 items
+    ...
+```
+
+**An objective with zero graded items is an error, not a warning.** Thin
+objectives (under 35% of their topics, or fewer than 4 items) are listed every
+run so the holes stay visible rather than averaging away.
+
 ## Domain balance
 
-`validate_content.py` reports the bank's balance against the real exam weights,
+`validate_content.py` also reports balance against the real exam weights,
 and it counts **graded practice separately from imported recall vocabulary**.
 That distinction matters: the 628 tagged Anki items build recognition, they do
 not test discrimination, and letting them into the balance figure hides what the
@@ -391,6 +411,10 @@ of their exam weight on graded practice.
 
 ## Known gaps
 
+- **Coverage is 56% of the blueprint.** 301 topics have no graded item. The bank
+  is 320 graded items against 684 topics, so breadth, not balance, is the
+  limiting factor now. Thinnest: 1.3 change management, 2.2 threat vectors,
+  4.3 vulnerability management, 4.6 identity and access, 4.1 secure baselines.
 - Scaled scores here are an estimate. CompTIA's weighting model is confidential,
   so difficulty weighting is an approximation, not a reconstruction of it.
 - The imported deck is third-party and its definitions have never been reviewed

@@ -1,0 +1,760 @@
+[
+  {
+    "id": "o-001",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": [
+      "user-provisioning",
+      "enabling-disabling-services-and-access"
+    ],
+    "difficulty": 3,
+    "stem": "An audit finds three leavers still had active accounts weeks after their last day. Which automation use case addresses this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "User provisioning and de-provisioning driven by the HR system",
+        "correct": true,
+        "why": "Tying account lifecycle to the authoritative HR record removes the manual step that was missed, in both directions."
+      },
+      {
+        "id": "b",
+        "text": "Guard rails on resource creation",
+        "misconception": "automation-use-cases",
+        "why": "Guard rails block a non-compliant action as it is attempted. Nobody attempted anything here; a step simply never happened."
+      },
+      {
+        "id": "c",
+        "text": "Automated ticket creation for the service desk",
+        "misconception": "automation-use-cases",
+        "why": "Closer, and it still depends on a human picking the ticket up. The access is what should be removed automatically."
+      },
+      {
+        "id": "d",
+        "text": "Continuous integration and testing",
+        "misconception": "automation-use-cases",
+        "why": "CI runs checks on code changes. It has no view of employment status."
+      }
+    ]
+  },
+  {
+    "id": "o-002",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": [
+      "guard-rails",
+      "resource-provisioning",
+      "security-groups"
+    ],
+    "difficulty": 3,
+    "stem": "Engineers keep creating cloud storage that is readable by anyone on the internet. Which automation concept prevents the action rather than reporting it afterwards?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Guard rails",
+        "correct": true,
+        "why": "A guard rail refuses the non-compliant action at the moment it is attempted, so the exposure never exists."
+      },
+      {
+        "id": "b",
+        "text": "Automated reporting to a dashboard",
+        "misconception": "automation-use-cases",
+        "why": "That tells you after the bucket is already public. The stem asks for prevention."
+      },
+      {
+        "id": "c",
+        "text": "Security group membership automation",
+        "misconception": "automation-use-cases",
+        "why": "Security groups decide who belongs to what. They do not constrain how a resource is configured."
+      },
+      {
+        "id": "d",
+        "text": "Ticket creation and escalation",
+        "misconception": "automation-use-cases",
+        "why": "Raises the work item once the problem exists. Still after the fact."
+      }
+    ]
+  },
+  {
+    "id": "o-003",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": [
+      "single-point-of-failure",
+      "technical-debt",
+      "complexity",
+      "ongoing-supportability"
+    ],
+    "difficulty": 3,
+    "stem": "Which is a genuine drawback of heavily automating security operations?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The orchestration platform becomes a single point of failure",
+        "correct": true,
+        "why": "When provisioning, access and response all route through one system, its outage or compromise is an outage or compromise of all of them."
+      },
+      {
+        "id": "b",
+        "text": "Response times increase",
+        "misconception": "automation-benefits-vs-risks",
+        "why": "Reaction time is one of automation's clearest benefits. It acts in seconds."
+      },
+      {
+        "id": "c",
+        "text": "Baselines become harder to enforce",
+        "misconception": "automation-benefits-vs-risks",
+        "why": "Enforcing baselines consistently is exactly what automation is good at."
+      },
+      {
+        "id": "d",
+        "text": "Staff retention gets worse",
+        "misconception": "automation-benefits-vs-risks",
+        "why": "The objectives list employee retention as a benefit: removing repetitive work keeps people."
+      }
+    ]
+  },
+  {
+    "id": "o-004",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": [
+      "enforcing-baselines",
+      "standard-infrastructure-configurations",
+      "scaling-in-a-secure-manner"
+    ],
+    "difficulty": 4,
+    "stem": "A team automates host builds from a single template. A misconfiguration is later found in that template. What does this illustrate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Automation multiplies whatever it is given, so one bad baseline reaches every host",
+        "correct": true,
+        "why": "The property that makes automation valuable, perfect consistency at scale, is the same property that scales a mistake."
+      },
+      {
+        "id": "b",
+        "text": "Automation is unsuitable for host builds",
+        "misconception": "automation-benefits-vs-risks",
+        "why": "Manual builds drift and are worse. The lesson is to review the template, not to stop automating."
+      },
+      {
+        "id": "c",
+        "text": "Templates should be replaced by manual configuration",
+        "misconception": "automation-benefits-vs-risks",
+        "why": "That trades one consistent error for many inconsistent ones and loses enforceable baselines."
+      },
+      {
+        "id": "d",
+        "text": "The misconfiguration proves the automation failed",
+        "misconception": "automation-benefits-vs-risks",
+        "why": "The automation did exactly what it was told. The failure is upstream, in what it was told."
+      }
+    ]
+  },
+  {
+    "id": "o-005",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": [
+      "workforce-multiplier",
+      "efficiency-time-saving",
+      "reaction-time"
+    ],
+    "difficulty": 2,
+    "stem": "A small security team automates triage of low-severity alerts. Which benefit does the exam call this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A workforce multiplier",
+        "correct": true,
+        "why": "The same number of people cover more ground. The objectives name this explicitly alongside efficiency and reaction time."
+      },
+      {
+        "id": "b",
+        "text": "Risk transference",
+        "misconception": "automation-benefits-vs-risks",
+        "why": "Transference moves financial impact to a third party, such as insurance. Nothing moved outside the organisation."
+      },
+      {
+        "id": "c",
+        "text": "A compensating control",
+        "misconception": "compensating-vs-corrective",
+        "why": "A compensating control substitutes for one you cannot implement. Automation here improves a control you already have."
+      },
+      {
+        "id": "d",
+        "text": "Defence in depth",
+        "misconception": "automation-benefits-vs-risks",
+        "why": "Layering independent controls is a different idea. This is throughput."
+      }
+    ]
+  },
+  {
+    "id": "o-006",
+    "type": "mcq",
+    "objective": "4.4",
+    "topics": [
+      "netflow",
+      "packet-captures",
+      "security-information-and-event-management-siem"
+    ],
+    "difficulty": 4,
+    "stem": "You need to find which internal hosts communicated with a known command and control address over the past six weeks. Which data source is designed for this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "NetFlow records",
+        "correct": true,
+        "why": "Flow data records who talked to whom, how much and for how long, and it is small enough to retain for weeks."
+      },
+      {
+        "id": "b",
+        "text": "Full packet capture",
+        "misconception": "monitoring-tool-selection",
+        "why": "Packet capture carries contents and is far too large to hold for six weeks at any scale. You rarely need the payload to answer 'who talked to this address'."
+      },
+      {
+        "id": "c",
+        "text": "SCAP benchmark results",
+        "misconception": "monitoring-tool-selection",
+        "why": "SCAP reports whether a host matches a configuration standard. It sees no traffic."
+      },
+      {
+        "id": "d",
+        "text": "SNMP traps from the core switches",
+        "misconception": "monitoring-tool-selection",
+        "why": "Traps report a device's own state changes, not conversations between hosts."
+      }
+    ]
+  },
+  {
+    "id": "o-007",
+    "type": "mcq",
+    "objective": "4.4",
+    "topics": [
+      "security-content-automation-protocol-scap",
+      "benchmarks",
+      "vulnerability-scanners"
+    ],
+    "difficulty": 3,
+    "stem": "An auditor asks for evidence that 400 servers match the agreed hardening benchmark. Which tool produces it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A SCAP-based configuration scan against the benchmark",
+        "correct": true,
+        "why": "SCAP exists to express a benchmark in machine-readable form and report compliance against it, host by host."
+      },
+      {
+        "id": "b",
+        "text": "A SIEM correlation search",
+        "misconception": "monitoring-tool-selection",
+        "why": "A SIEM correlates events that happened. It does not evaluate a host's current configuration against a standard."
+      },
+      {
+        "id": "c",
+        "text": "NetFlow analysis",
+        "misconception": "monitoring-tool-selection",
+        "why": "Flow data describes traffic, not configuration."
+      },
+      {
+        "id": "d",
+        "text": "A packet capture on the server VLAN",
+        "misconception": "monitoring-tool-selection",
+        "why": "Traffic contents say nothing about whether a host is hardened."
+      }
+    ]
+  },
+  {
+    "id": "o-008",
+    "type": "mcq",
+    "objective": "4.4",
+    "topics": [
+      "alert-tuning",
+      "alerting",
+      "alert-response-and-remediation-validation"
+    ],
+    "difficulty": 3,
+    "stem": "Analysts receive 600 alerts a day, almost all benign, and have started closing them in bulk without reading. What is the correct response?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Alert tuning: raise thresholds and suppress known-good patterns",
+        "correct": true,
+        "why": "This is alert fatigue, and the cure is fewer, better alerts. An alert nobody reads provides no detection at all."
+      },
+      {
+        "id": "b",
+        "text": "Add more detection rules to improve coverage",
+        "misconception": "alert-tuning-vs-quarantine",
+        "why": "More alerts into a queue nobody reads makes the real one less likely to be seen, not more."
+      },
+      {
+        "id": "c",
+        "text": "Quarantine the affected endpoints",
+        "misconception": "alert-tuning-vs-quarantine",
+        "why": "Quarantine is a containment action against one confirmed threat. There is no confirmed threat here, there is noise."
+      },
+      {
+        "id": "d",
+        "text": "Discipline the analysts for closing alerts unread",
+        "misconception": "alert-tuning-vs-quarantine",
+        "why": "The behaviour is a rational response to an unworkable queue. The finding is the queue."
+      }
+    ]
+  },
+  {
+    "id": "o-009",
+    "type": "mcq",
+    "objective": "4.4",
+    "topics": [
+      "alert-response-and-remediation-validation",
+      "quarantine",
+      "archiving"
+    ],
+    "difficulty": 3,
+    "stem": "An endpoint tool confirms a malicious executable on a laptop. Which activity does the objectives list call this response?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Quarantine",
+        "correct": true,
+        "why": "Isolating the confirmed malicious object or host is the named alert response action, and it buys time to investigate."
+      },
+      {
+        "id": "b",
+        "text": "Alert tuning",
+        "misconception": "alert-tuning-vs-quarantine",
+        "why": "Tuning adjusts which alerts fire. This alert was correct and needs acting on."
+      },
+      {
+        "id": "c",
+        "text": "Log aggregation",
+        "misconception": "alert-tuning-vs-quarantine",
+        "why": "Aggregation brings logs together so they can be correlated. It is not a response to a confirmed detection."
+      },
+      {
+        "id": "d",
+        "text": "Archiving",
+        "misconception": "alert-tuning-vs-quarantine",
+        "why": "Archiving retains data for later. It does nothing about the live file."
+      }
+    ]
+  },
+  {
+    "id": "o-010",
+    "type": "mcq",
+    "objective": "4.4",
+    "topics": [
+      "agents-agentless",
+      "monitoring-systems",
+      "monitoring-infrastructure"
+    ],
+    "difficulty": 3,
+    "stem": "A fleet includes appliances where no software may be installed. Which monitoring approach fits, and what is the trade?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Agentless, which needs no install but sees less and depends on reachable credentials or protocols",
+        "correct": true,
+        "why": "Agentless collection works where you cannot deploy software, at the cost of depth and of needing network access and credentials."
+      },
+      {
+        "id": "b",
+        "text": "Agent based, because it gives richer data",
+        "misconception": "monitoring-tool-selection",
+        "why": "Richer, and the scenario says no software may be installed, which rules it out."
+      },
+      {
+        "id": "c",
+        "text": "Neither; appliances cannot be monitored",
+        "misconception": "monitoring-tool-selection",
+        "why": "Agentless collection exists precisely for this case."
+      },
+      {
+        "id": "d",
+        "text": "Install agents anyway and accept the support risk",
+        "misconception": "monitoring-tool-selection",
+        "why": "On a vendor appliance this usually voids support and may be technically impossible."
+      }
+    ]
+  },
+  {
+    "id": "o-011",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": [
+      "inventory",
+      "monitoring-asset-tracking",
+      "enumeration"
+    ],
+    "difficulty": 3,
+    "stem": "A vulnerability programme repeatedly misses hosts. Investigation finds devices in service that appear in no asset register. What is the root problem?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Asset inventory and tracking: you cannot scan or patch what you do not know exists",
+        "correct": true,
+        "why": "Asset management sits underneath vulnerability management. An incomplete inventory caps how good scanning can ever be."
+      },
+      {
+        "id": "b",
+        "text": "The scanner's configuration",
+        "misconception": "asset-lifecycle",
+        "why": "The scanner covered what it was told about. The gap is what it was never told about."
+      },
+      {
+        "id": "c",
+        "text": "Patch management cadence",
+        "misconception": "asset-lifecycle",
+        "why": "Cadence governs how fast known hosts are patched. These hosts are not known."
+      },
+      {
+        "id": "d",
+        "text": "Insufficient network segmentation",
+        "misconception": "asset-lifecycle",
+        "why": "Segmentation limits movement. It neither finds nor registers unknown devices."
+      }
+    ]
+  },
+  {
+    "id": "o-012",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": [
+      "sanitization",
+      "destruction",
+      "certification"
+    ],
+    "difficulty": 3,
+    "stem": "Laptops coming off a three year lease must be returned to the leasing company. What is the correct disposal control?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Sanitization, with a certificate recording that it was done",
+        "correct": true,
+        "why": "The devices are being reused by someone else, so they must be wiped rather than destroyed, and the certificate is the evidence an auditor will ask for."
+      },
+      {
+        "id": "b",
+        "text": "Physical destruction of the drives",
+        "misconception": "sanitization-vs-destruction",
+        "why": "Destroying drives in leased equipment you must return intact is both a contract problem and unnecessary."
+      },
+      {
+        "id": "c",
+        "text": "Deleting the user profiles and reformatting",
+        "misconception": "sanitization-vs-destruction",
+        "why": "Formatting leaves data recoverable. It is not a sanitization method."
+      },
+      {
+        "id": "d",
+        "text": "Degaussing each device",
+        "misconception": "sanitization-vs-destruction",
+        "why": "Degaussing destroys magnetic media and does nothing to an SSD, which stores no magnetic domains. It also destroys the drive you must return."
+      }
+    ]
+  },
+  {
+    "id": "o-013",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": [
+      "ownership",
+      "classification",
+      "assignment-accounting"
+    ],
+    "difficulty": 3,
+    "stem": "A dispute arises over whether a dataset may be shared with a partner, and nobody can say who decides. Which asset management practice was missing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Assignment of ownership, with a classification attached",
+        "correct": true,
+        "why": "Every asset needs a named owner who is accountable for classification and access decisions. Without one, questions like this have no answer."
+      },
+      {
+        "id": "b",
+        "text": "Enumeration of the asset in the inventory",
+        "misconception": "asset-lifecycle",
+        "why": "Knowing it exists is necessary and does not say who decides about it."
+      },
+      {
+        "id": "c",
+        "text": "A data retention schedule",
+        "misconception": "asset-lifecycle",
+        "why": "Retention governs how long it is kept, not who may share it."
+      },
+      {
+        "id": "d",
+        "text": "Secure disposal procedures",
+        "misconception": "asset-lifecycle",
+        "why": "Disposal is the end of the lifecycle and is not in play."
+      }
+    ]
+  },
+  {
+    "id": "o-014",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": [
+      "acquisition-procurement-process",
+      "classification"
+    ],
+    "difficulty": 3,
+    "stem": "At which point in the asset lifecycle should security requirements first be applied?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Acquisition and procurement, before the purchase is made",
+        "correct": true,
+        "why": "Requirements set before buying prevent acquiring something that can never meet policy. Afterwards you are negotiating with a contract already signed."
+      },
+      {
+        "id": "b",
+        "text": "At deployment, once the device is on the network",
+        "misconception": "asset-lifecycle",
+        "why": "By then you own something that may be incapable of meeting the standard."
+      },
+      {
+        "id": "c",
+        "text": "At the first vulnerability scan",
+        "misconception": "asset-lifecycle",
+        "why": "Far too late, and scanning only reports what is already true."
+      },
+      {
+        "id": "d",
+        "text": "At decommissioning",
+        "misconception": "asset-lifecycle",
+        "why": "That is the end of the lifecycle."
+      }
+    ]
+  },
+  {
+    "id": "o-015",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": [
+      "application-allow-list",
+      "configuration-enforcement"
+    ],
+    "difficulty": 4,
+    "stem": "A requirement states that no unapproved software may execute, including software the company has never seen before. Which control meets it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An application allow list",
+        "correct": true,
+        "why": "Only permitted software runs, so anything unknown is blocked by default. This is the same logic as a firewall's implicit deny."
+      },
+      {
+        "id": "b",
+        "text": "An application deny list of known-bad software",
+        "misconception": "allow-list-vs-deny-list",
+        "why": "A deny list permits anything it has no entry for, so it cannot make a promise about software nobody has seen."
+      },
+      {
+        "id": "c",
+        "text": "Signature based antivirus with current definitions",
+        "misconception": "allow-list-vs-deny-list",
+        "why": "Also an enumerate-the-bad approach. No definition exists for the unseen."
+      },
+      {
+        "id": "d",
+        "text": "A host based firewall",
+        "misconception": "allow-list-vs-deny-list",
+        "why": "That governs network connections, not which binaries may execute."
+      }
+    ]
+  },
+  {
+    "id": "o-016",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": [
+      "disabling-ports-protocols",
+      "removal-of-unnecessary-software",
+      "default-password-changes"
+    ],
+    "difficulty": 3,
+    "stem": "A server is fully patched. Which hardening steps still reduce its attack surface?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Removing unnecessary software, disabling unused services and changing default credentials",
+        "correct": true,
+        "why": "Patching fixes known flaws in what you run. Hardening reduces what you run and what it exposes, including tomorrow's flaw in software you did not need."
+      },
+      {
+        "id": "b",
+        "text": "None; a fully patched host is hardened by definition",
+        "misconception": "hardening-vs-patching",
+        "why": "A fully patched host with default credentials and every service enabled is still trivially compromised. No patch fixes a default password."
+      },
+      {
+        "id": "c",
+        "text": "Only installing additional monitoring",
+        "misconception": "hardening-vs-patching",
+        "why": "Monitoring detects. It removes no attack surface."
+      },
+      {
+        "id": "d",
+        "text": "Increasing the patch cadence further",
+        "misconception": "hardening-vs-patching",
+        "why": "More of the thing already done, and it still does not touch unnecessary services or default credentials."
+      }
+    ]
+  },
+  {
+    "id": "o-017",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": [
+      "host-based-intrusion-prevention-system-hips",
+      "host-based-firewall",
+      "installation-of-endpoint-protection"
+    ],
+    "difficulty": 3,
+    "stem": "Which hardening measure blocks malicious behaviour on the host itself rather than filtering its network connections?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A host based intrusion prevention system",
+        "correct": true,
+        "why": "HIPS watches activity on the host and blocks behaviour it judges malicious, which is a different layer from connection filtering."
+      },
+      {
+        "id": "b",
+        "text": "A host based firewall",
+        "misconception": "hardening-vs-patching",
+        "why": "That is exactly the network connection filtering the question excludes."
+      },
+      {
+        "id": "c",
+        "text": "Disabling unused ports",
+        "misconception": "hardening-vs-patching",
+        "why": "Also a network exposure measure, and a static one."
+      },
+      {
+        "id": "d",
+        "text": "Network segmentation",
+        "misconception": "segmentation-as-containment",
+        "why": "Segmentation happens between hosts, not on one."
+      }
+    ]
+  },
+  {
+    "id": "o-018",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": [
+      "decommissioning",
+      "isolation",
+      "patching"
+    ],
+    "difficulty": 3,
+    "stem": "An internet-facing server runs an application the vendor stopped supporting two years ago and the business no longer uses. What is the appropriate mitigation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Decommission it",
+        "correct": true,
+        "why": "Unused and unsupportable. Removing it eliminates the exposure entirely, which no control applied to a live host can match."
+      },
+      {
+        "id": "b",
+        "text": "Isolate it on its own segment and monitor it",
+        "misconception": "hardening-vs-patching",
+        "why": "The right answer when the business still needs the system. It does not, so compensating controls are unnecessary cost and residual risk."
+      },
+      {
+        "id": "c",
+        "text": "Apply the latest available patches",
+        "misconception": "hardening-vs-patching",
+        "why": "There are none; support ended two years ago."
+      },
+      {
+        "id": "d",
+        "text": "Add a web application firewall in front of it",
+        "misconception": "hardening-vs-patching",
+        "why": "A compensating control for something you must keep running. You do not have to keep this running."
+      }
+    ]
+  },
+  {
+    "id": "o-019",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": [
+      "destruction",
+      "sanitization",
+      "certification"
+    ],
+    "difficulty": 3,
+    "stem": "A failed SSD held regulated data and cannot be wiped because it no longer responds. What is the correct disposal route?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Physical destruction, with a certificate of destruction",
+        "correct": true,
+        "why": "Sanitization requires a working device. When the media has failed, destruction is the only route that guarantees the data is gone, and the certificate is the evidence."
+      },
+      {
+        "id": "b",
+        "text": "Degaussing",
+        "misconception": "sanitization-vs-destruction",
+        "why": "Degaussing erases magnetic domains. An SSD stores charge in flash cells and is completely unaffected by it."
+      },
+      {
+        "id": "c",
+        "text": "Overwriting every sector three times",
+        "misconception": "sanitization-vs-destruction",
+        "why": "Overwriting is a sanitization method and it needs a drive that responds to writes. This one does not."
+      },
+      {
+        "id": "d",
+        "text": "Returning it to the vendor under warranty without further action",
+        "misconception": "sanitization-vs-destruction",
+        "why": "That hands regulated data to a third party. Warranty returns of storage holding sensitive data normally need a destruction clause or a retain-the-drive agreement."
+      }
+    ]
+  },
+  {
+    "id": "o-020",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": [
+      "application-allow-list",
+      "least-privilege",
+      "configuration-enforcement"
+    ],
+    "difficulty": 3,
+    "stem": "Which statement correctly contrasts an application allow list with a deny list?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An allow list enumerates what may run and blocks everything else; a deny list enumerates what may not and permits everything else",
+        "correct": true,
+        "why": "The default is what separates them, and it is why only the allow list can make a promise about software nobody has catalogued."
+      },
+      {
+        "id": "b",
+        "text": "They are equivalent, differing only in how the list is written",
+        "misconception": "allow-list-vs-deny-list",
+        "why": "They have opposite defaults. One fails closed on the unknown, the other fails open."
+      },
+      {
+        "id": "c",
+        "text": "A deny list is stronger because it names the actual threats",
+        "misconception": "allow-list-vs-deny-list",
+        "why": "Naming threats means the list is only ever as current as the last update, and the set of bad software is unbounded."
+      },
+      {
+        "id": "d",
+        "text": "An allow list requires less ongoing maintenance than a deny list",
+        "misconception": "allow-list-vs-deny-list",
+        "why": "Reversed. An allow list costs more up front and stabilises; a deny list needs endless updating and is always behind."
+      }
+    ]
+  }
+]
