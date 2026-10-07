@@ -1,145 +1,728 @@
 [
-{"id":"g-031","type":"mcq","objective":"5.1","topics":["boards","committees","centralized-decentralized-governance"],"difficulty":3,
- "stem":"A security steering group made up of the CISO, the heads of each business unit and a non-executive director meets quarterly to approve policy and review the risk register. What is this?",
- "options":[
-  {"id":"a","text":"A governance committee","correct":true,"why":"A standing group with delegated authority to approve policy and oversee risk is a committee within the governance structure."},
-  {"id":"b","text":"An audit","misconception":"audit-vs-assessment","why":"An audit is a review of whether controls operate. This group sets direction and approves policy."},
-  {"id":"c","text":"A risk assessment","misconception":"bia-vs-risk-assessment","why":"A risk assessment is an exercise that identifies and rates risks. This is the body that reviews its output."},
-  {"id":"d","text":"A business impact analysis","misconception":"bia-vs-risk-assessment","why":"A BIA measures the consequence of disruption to processes. It is not a governance body."}]},
-
-{"id":"g-032","type":"mcq","objective":"5.1","topics":["custodians-stewards","owners","processors"],"difficulty":3,
- "stem":"A database administrator applies the permissions, runs the backups and maintains the encryption on a system holding HR records. Which role is this?",
- "options":[
-  {"id":"a","text":"Data custodian","correct":true,"why":"The custodian implements and maintains the controls day to day. They execute what the owner decided."},
-  {"id":"b","text":"Data owner","misconception":"data-roles","why":"The owner is accountable for classification and who may have access. They decide; the custodian implements."},
-  {"id":"c","text":"Data controller","misconception":"data-roles","why":"Controller is the privacy law role that determines the purpose and means of processing, normally the organisation itself."},
-  {"id":"d","text":"Data subject","misconception":"data-roles","why":"The data subject is the employee the records describe."}]},
-
-{"id":"g-033","type":"mcq","objective":"5.1","topics":["guidelines","password-standards","playbooks"],"difficulty":2,
- "stem":"Which document would contain the numbered steps an analyst follows when a phishing report arrives?",
- "options":[
-  {"id":"a","text":"A playbook, which is a procedure","correct":true,"why":"Procedures are the how: ordered steps for carrying out a task consistently. An incident playbook is exactly that."},
-  {"id":"b","text":"The information security policy","misconception":"policy-standard-procedure-guideline","why":"Policy states what is required and why. It does not carry the steps."},
-  {"id":"c","text":"The password standard","misconception":"policy-standard-procedure-guideline","why":"A standard specifies measurable values that must hold. Wrong document and wrong subject."},
-  {"id":"d","text":"A guideline on recognising phishing","misconception":"policy-standard-procedure-guideline","why":"Guidelines recommend. An analyst responding to a live report follows a mandatory procedure, not a suggestion."}]},
-
-{"id":"g-034","type":"mcq","objective":"5.3","topics":["memorandum-of-understanding-mou","service-level-agreement-sla","master-service-agreement-msa"],"difficulty":3,
- "stem":"Two companies sign a document committing to four hour response on critical incidents, with service credits if it is missed. A separate document, signed first, sets the payment terms and liability covering all work between them. Name them in order.",
- "options":[
-  {"id":"a","text":"SLA, and the MSA signed first","correct":true,"why":"The SLA carries the measurable commitment and its penalty. The MSA is the umbrella agreed once, covering everything underneath it."},
-  {"id":"b","text":"MOU, and the SOW signed first","misconception":"agreement-types","why":"An MOU records intent and normally binds nobody, so it could not carry service credits. A SOW defines one piece of work, not the umbrella terms."},
-  {"id":"c","text":"BPA, and the NDA signed first","misconception":"agreement-types","why":"A BPA governs a joint business venture. An NDA covers confidentiality only and carries no payment terms."},
-  {"id":"d","text":"SOW, and the SLA signed first","misconception":"agreement-types","why":"Reversed and mislabelled. The measurable uptime promise is the SLA, not the SOW."}]},
-
-{"id":"g-035","type":"mcq","objective":"5.3","topics":["vendor-monitoring","questionnaires","independent-assessments"],"difficulty":3,
- "stem":"A vendor passed due diligence two years ago and has not been reviewed since. Which practice addresses this gap?",
- "options":[
-  {"id":"a","text":"Ongoing vendor monitoring with periodic reassessment","correct":true,"why":"A vendor's security posture changes after signing. Monitoring through the life of the contract is the ongoing duty, and it is due care rather than due diligence."},
-  {"id":"b","text":"A more detailed questionnaire at onboarding","misconception":"due-diligence-vs-due-care","why":"That strengthens the one-time check at the start. It does nothing about the two years since."},
-  {"id":"c","text":"A non-disclosure agreement covering the review","misconception":"agreement-types","why":"An NDA governs confidentiality of information exchanged. It triggers no review."},
-  {"id":"d","text":"Accepting the risk and recording it in the register","misconception":"risk-treatment-strategies","why":"Acceptance is a legitimate treatment and is not an answer to 'we stopped looking'."}]},
-
-{"id":"g-036","type":"mcq","objective":"5.3","topics":["supply-chain-analysis","suppliers","managed-service-providers-msps"],"difficulty":4,
- "stem":"Your critical SaaS vendor subcontracts its storage to a provider you have no contract with. What is this exposure called, and which activity surfaces it?",
- "options":[
-  {"id":"a","text":"Fourth-party risk, surfaced by supply chain analysis","correct":true,"why":"Your vendor's vendors are a dependency you inherit without a contractual relationship. Supply chain analysis is what maps them."},
-  {"id":"b","text":"Insider threat, surfaced by user behaviour analytics","misconception":"supply-chain-vectors","why":"Nobody inside either organisation is acting improperly. This is a structural dependency."},
-  {"id":"c","text":"Shadow IT, surfaced by asset discovery","misconception":"supply-chain-vectors","why":"Shadow IT is technology your own staff adopted outside the approved process. The vendor's subcontractor is not that."},
-  {"id":"d","text":"Third-party risk, surfaced by a right-to-audit clause","misconception":"vendor-assessment-methods","why":"A right-to-audit clause reaches your direct vendor. It does not automatically extend down to their suppliers, which is exactly the gap."}]},
-
-{"id":"g-037","type":"mcq","objective":"5.4","topics":["fines","reputational-damage","contractual-impacts"],"difficulty":3,
- "stem":"After a compliance failure the company is fined by the regulator, loses two enterprise renewals, and is criticised in the trade press. Which of these is the direct regulatory consequence?",
- "options":[
-  {"id":"a","text":"The fine","correct":true,"why":"Only the regulator imposes a fine, under its statutory powers."},
-  {"id":"b","text":"The lost renewals","misconception":"compliance-consequences","why":"A contractual consequence imposed by customers, not the regulator."},
-  {"id":"c","text":"The press criticism","misconception":"compliance-consequences","why":"Reputational damage. Real and often the largest cost, and nobody imposes it."},
-  {"id":"d","text":"All three equally","misconception":"compliance-consequences","why":"The exam separates them by who imposes the penalty, because that decides who you must satisfy to resolve it."}]},
-
-{"id":"g-038","type":"mcq","objective":"5.4","topics":["attestation-and-acknowledgement","compliance-monitoring","automation"],"difficulty":3,
- "stem":"Staff must confirm each year that they have read and understood the acceptable use policy, and the confirmations must be evidenced to an auditor. What is this?",
- "options":[
-  {"id":"a","text":"Attestation and acknowledgement","correct":true,"why":"A recorded, signed statement that something is true. It is the evidence an auditor asks for when a control depends on people having been told."},
-  {"id":"b","text":"An internal audit","misconception":"audit-vs-assessment","why":"An audit tests whether controls operate. Collecting signatures is the control, not the test of it."},
-  {"id":"c","text":"Due diligence","misconception":"due-diligence-vs-due-care","why":"Due diligence is investigation before committing to a relationship, normally with a third party."},
-  {"id":"d","text":"A right-to-audit clause","misconception":"vendor-assessment-methods","why":"A contractual term letting you inspect a vendor. Unrelated to your own staff."}]},
-
-{"id":"g-039","type":"mcq","objective":"5.4","topics":["right-to-be-forgotten","data-inventory-and-retention","data-subject"],"difficulty":4,
- "stem":"A customer invokes their right to be forgotten. The company holds their data in a CRM, three backup generations, a data warehouse and a vendor's mailing platform. What determines whether the company can actually comply?",
- "options":[
-  {"id":"a","text":"Whether a current data inventory maps every location the data is held","correct":true,"why":"You cannot delete what you cannot find. The inventory is what turns the right into something answerable, including the copies at processors."},
-  {"id":"b","text":"Whether the data is encrypted at rest everywhere","misconception":"privacy-rights-and-roles","why":"Encryption protects confidentiality and makes locating and deleting the data no easier."},
-  {"id":"c","text":"Whether the customer can prove their identity to the help desk","misconception":"privacy-rights-and-roles","why":"Identity verification is a necessary step and is not what determines whether compliance is possible."},
-  {"id":"d","text":"Whether the vendor signed a non-disclosure agreement","misconception":"agreement-types","why":"An NDA governs confidentiality of what was shared. It creates no deletion capability."}]},
-
-{"id":"g-040","type":"mcq","objective":"5.4","topics":["controller-vs-processor","processors","ownership"],"difficulty":3,
- "stem":"A company uses a cloud email provider. A subject access request arrives. Who is accountable for answering it?",
- "options":[
-  {"id":"a","text":"The company, as controller","correct":true,"why":"The controller determines purpose and means and carries the obligation. The provider assists as processor but the duty does not transfer."},
-  {"id":"b","text":"The cloud provider, as processor","misconception":"privacy-rights-and-roles","why":"A processor acts on instruction. Outsourcing the processing does not outsource the accountability."},
-  {"id":"c","text":"Whichever party the contract names, with no default","misconception":"data-roles","why":"Privacy law assigns the duty to the controller by default. A contract allocates work, not accountability."},
-  {"id":"d","text":"The data subject's own employer","misconception":"data-roles","why":"Irrelevant to who holds the data and decided why it is held."}]},
-
-{"id":"g-041","type":"mcq","objective":"5.5","topics":["self-assessments","internal-compliance-audit","independent-third-party-audit"],"difficulty":3,
- "stem":"Rank these from least to most independent: an internal audit, a team self-assessment, a third-party audit.",
- "options":[
-  {"id":"a","text":"Self-assessment, internal audit, third-party audit","correct":true,"why":"The team assessing itself has no independence. Internal audit is independent of the team but not of the organisation. A third party is independent of both."},
-  {"id":"b","text":"Internal audit, self-assessment, third-party audit","misconception":"audit-vs-assessment","why":"Internal audit is more independent than a self-assessment, not less. It reports to the audit committee rather than to the team."},
-  {"id":"c","text":"Self-assessment, third-party audit, internal audit","misconception":"audit-vs-assessment","why":"An internal audit is never more independent than an external one."},
-  {"id":"d","text":"They are equally independent if the same checklist is used","misconception":"audit-vs-assessment","why":"Independence is about who performs the review, not which checklist they hold."}]},
-
-{"id":"g-042","type":"mcq","objective":"5.5","topics":["passive-reconnaissance","active-reconnaissance","unknown-environment"],"difficulty":3,
- "stem":"A tester runs a port scan against the target's public range during the first week of an engagement. How is this classified?",
- "options":[
-  {"id":"a","text":"Active reconnaissance","correct":true,"why":"Scanning sends packets to the target and appears in its logs. Interacting with the target is what makes reconnaissance active."},
-  {"id":"b","text":"Passive reconnaissance","misconception":"pentest-environments","why":"Passive means gathering from third-party sources without touching the target: WHOIS, OSINT, certificate transparency."},
-  {"id":"c","text":"Unknown environment testing","misconception":"pentest-environments","why":"That describes how much the tester was told at the outset, not what they are doing now. The two are separate axes."},
-  {"id":"d","text":"A vulnerability assessment rather than reconnaissance","misconception":"pentest-environments","why":"A scan during reconnaissance is still reconnaissance. The phase is defined by purpose, and it is active either way."}]},
-
-{"id":"g-043","type":"mcq","objective":"5.5","topics":["physical-penetration-testing","offensive","defensive","integrated"],"difficulty":3,
- "stem":"An exercise runs an attacking team and a defending team at the same time, with a third group coordinating both and feeding lessons back live. What is this called?",
- "options":[
-  {"id":"a","text":"An integrated exercise","correct":true,"why":"Offensive and defensive running together with coordination between them is the integrated form, sometimes called purple teaming."},
-  {"id":"b","text":"An offensive test","misconception":"pentest-environments","why":"Offensive describes the attacking side alone, with no defensive participation by design."},
-  {"id":"c","text":"A defensive test","misconception":"pentest-environments","why":"Defensive describes the blue team's side alone."},
-  {"id":"d","text":"A tabletop exercise","misconception":"tabletop-vs-simulation","why":"A tabletop is a discussion in a room. This exercise involves teams actually operating."}]},
-
-{"id":"g-044","type":"mcq","objective":"5.5","topics":["rules-of-engagement","right-to-audit-clause","work-order-wo-statement-of-work-sow"],"difficulty":4,
- "stem":"Before a penetration test begins, which document states what the tester may and may not touch, the hours they may test, and who to contact if something breaks?",
- "options":[
-  {"id":"a","text":"The rules of engagement","correct":true,"why":"Scope boundaries, permitted windows, prohibited techniques and escalation contacts are exactly what the rules of engagement fix before testing starts."},
-  {"id":"b","text":"The statement of work","misconception":"agreement-types","why":"The SOW defines deliverables, timeline and price. It is commercial rather than operational."},
-  {"id":"c","text":"The right-to-audit clause","misconception":"vendor-assessment-methods","why":"That is a contractual right to inspect a vendor. It does not scope a test of your own estate."},
-  {"id":"d","text":"The non-disclosure agreement","misconception":"agreement-types","why":"An NDA governs what the tester may say afterwards, not what they may do."}]},
-
-{"id":"g-045","type":"mcq","objective":"5.6","topics":["phishing-campaigns","responding-to-reported-suspicious-messages","initial-reporting"],"difficulty":3,
- "stem":"After a simulated phishing campaign, which metric best indicates the programme is working?",
- "options":[
-  {"id":"a","text":"The report rate and the time taken to report","correct":true,"why":"Somebody will always eventually click. What decides the outcome is how quickly the security team hears about it, so reporting behaviour is the capability being built."},
-  {"id":"b","text":"The click rate alone","misconception":"awareness-program-elements","why":"Click rate measures the attack's success. It says nothing about whether anyone would tell you."},
-  {"id":"c","text":"The number of staff disciplined for clicking","misconception":"awareness-program-elements","why":"Punishment suppresses reporting, which destroys the measure that actually matters."},
-  {"id":"d","text":"The percentage who completed the annual training module","misconception":"awareness-program-elements","why":"Completion measures attendance, not behaviour change."}]},
-
-{"id":"g-046","type":"mcq","objective":"5.6","topics":["risky-behavior","unexpected-behavior","unintentional-behavior","insider-threat-awareness"],"difficulty":3,
- "stem":"An employee repeatedly uses a personal file sharing account for work documents because the approved tool is slow. How should the programme classify and treat this?",
- "options":[
-  {"id":"a","text":"Risky but unintentional, treated with guidance and a usable sanctioned alternative","correct":true,"why":"There is no intent to harm. The behaviour persists because the approved path is worse, so training alone will not change it."},
-  {"id":"b","text":"Malicious insider activity, treated as a disciplinary matter","misconception":"awareness-program-elements","why":"Nothing indicates intent to harm. Treating well-meant shortcuts as malice ends the reporting culture you depend on."},
-  {"id":"c","text":"Acceptable, since productivity improved","misconception":"awareness-program-elements","why":"Company documents have left the organisation's control. Good intent does not make that acceptable."},
-  {"id":"d","text":"Purely a technical failure, treated by blocking the service","misconception":"awareness-program-elements","why":"Blocking without fixing the slow approved tool simply moves the behaviour to the next workaround."}]},
-
-{"id":"g-047","type":"mcq","objective":"5.6","topics":["initial-reporting","recurring-reporting","development","execution"],"difficulty":2,
- "stem":"A company trains new starters thoroughly at onboarding and never again. What is the gap?",
- "options":[
-  {"id":"a","text":"No recurring training, so knowledge decays and new threats are never covered","correct":true,"why":"Awareness has an initial and a recurring component. Onboarding alone leaves everyone hired more than a year ago on out of date material."},
-  {"id":"b","text":"No initial training","misconception":"awareness-program-elements","why":"Initial training is the part they do have."},
-  {"id":"c","text":"Training should be replaced by technical controls","misconception":"awareness-program-elements","why":"Controls and awareness address different failure modes. Neither replaces the other."},
-  {"id":"d","text":"Nothing, provided the onboarding module is comprehensive","misconception":"awareness-program-elements","why":"No module survives contact with a threat landscape that changes after it was recorded."}]},
-
-{"id":"g-048","type":"mcq","objective":"5.6","topics":["removable-media-and-cables","situational-awareness","operational-security"],"difficulty":3,
- "stem":"Staff attending a conference are warned not to use charging cables or USB drives handed out on the exhibition floor. Which awareness topic is this?",
- "options":[
-  {"id":"a","text":"Removable media and cables","correct":true,"why":"A named awareness topic in its own right, because a cable or drive can carry an implant and looks exactly like a free gift."},
-  {"id":"b","text":"Phishing recognition","misconception":"awareness-program-elements","why":"Phishing arrives as a message. This threat arrives as hardware."},
-  {"id":"c","text":"Password management","misconception":"awareness-program-elements","why":"Unrelated to the vector described."},
-  {"id":"d","text":"Hybrid and remote work","misconception":"awareness-program-elements","why":"That topic covers home networks, shoulder surfing and shared spaces, not conference giveaways."}]}
+  {
+    "id": "g-031",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": [
+      "boards",
+      "committees",
+      "centralized-decentralized-governance"
+    ],
+    "difficulty": 3,
+    "stem": "A security steering group made up of the CISO, the heads of each business unit and a non-executive director meets quarterly to approve policy and review the risk register. What is this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A governance committee",
+        "correct": true,
+        "why": "A standing group with delegated authority to approve policy and oversee risk is a committee within the governance structure."
+      },
+      {
+        "id": "b",
+        "text": "An audit",
+        "misconception": "audit-vs-assessment",
+        "why": "An audit is a review of whether controls operate. This group sets direction and approves policy."
+      },
+      {
+        "id": "c",
+        "text": "A risk assessment",
+        "misconception": "bia-vs-risk-assessment",
+        "why": "A risk assessment is an exercise that identifies and rates risks. This is the body that reviews its output."
+      },
+      {
+        "id": "d",
+        "text": "A business impact analysis",
+        "misconception": "bia-vs-risk-assessment",
+        "why": "A BIA measures the consequence of disruption to processes. It is not a governance body."
+      }
+    ]
+  },
+  {
+    "id": "g-032",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": [
+      "custodians-stewards",
+      "owners",
+      "processors"
+    ],
+    "difficulty": 3,
+    "stem": "A database administrator applies the permissions, runs the backups and maintains the encryption on a system holding HR records. Which role is this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Data custodian",
+        "correct": true,
+        "why": "The custodian implements and maintains the controls day to day. They execute what the owner decided."
+      },
+      {
+        "id": "b",
+        "text": "Data owner",
+        "misconception": "data-roles",
+        "why": "The owner is accountable for classification and who may have access. They decide; the custodian implements."
+      },
+      {
+        "id": "c",
+        "text": "Data controller",
+        "misconception": "data-roles",
+        "why": "Controller is the privacy law role that determines the purpose and means of processing, normally the organisation itself."
+      },
+      {
+        "id": "d",
+        "text": "Data subject",
+        "misconception": "data-roles",
+        "why": "The data subject is the employee the records describe."
+      }
+    ]
+  },
+  {
+    "id": "g-033",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": [
+      "guidelines",
+      "password-standards",
+      "playbooks"
+    ],
+    "difficulty": 2,
+    "stem": "Which document would contain the numbered steps an analyst follows when a phishing report arrives?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A playbook, which is a procedure",
+        "correct": true,
+        "why": "Procedures are the how: ordered steps for carrying out a task consistently. An incident playbook is exactly that."
+      },
+      {
+        "id": "b",
+        "text": "The information security policy",
+        "misconception": "policy-standard-procedure-guideline",
+        "why": "Policy states what is required and why. It does not carry the steps."
+      },
+      {
+        "id": "c",
+        "text": "The password standard",
+        "misconception": "policy-standard-procedure-guideline",
+        "why": "A standard specifies measurable values that must hold. Wrong document and wrong subject."
+      },
+      {
+        "id": "d",
+        "text": "A guideline on recognising phishing",
+        "misconception": "policy-standard-procedure-guideline",
+        "why": "Guidelines recommend. An analyst responding to a live report follows a mandatory procedure, not a suggestion."
+      }
+    ]
+  },
+  {
+    "id": "g-034",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": [
+      "memorandum-of-understanding-mou",
+      "service-level-agreement-sla",
+      "master-service-agreement-msa"
+    ],
+    "difficulty": 3,
+    "stem": "Two companies sign a document committing to four hour response on critical incidents, with service credits if it is missed. A separate document, signed first, sets the payment terms and liability covering all work between them. Name them in order.",
+    "options": [
+      {
+        "id": "a",
+        "text": "SLA, and the MSA signed first",
+        "correct": true,
+        "why": "The SLA carries the measurable commitment and its penalty. The MSA is the umbrella agreed once, covering everything underneath it."
+      },
+      {
+        "id": "b",
+        "text": "MOU, and the SOW signed first",
+        "misconception": "agreement-types",
+        "why": "An MOU records intent and normally binds nobody, so it could not carry service credits. A SOW defines one piece of work, not the umbrella terms."
+      },
+      {
+        "id": "c",
+        "text": "BPA, and the NDA signed first",
+        "misconception": "agreement-types",
+        "why": "A BPA governs a joint business venture. An NDA covers confidentiality only and carries no payment terms."
+      },
+      {
+        "id": "d",
+        "text": "SOW, and the SLA signed first",
+        "misconception": "agreement-types",
+        "why": "Reversed and mislabelled. The measurable uptime promise is the SLA, not the SOW."
+      }
+    ]
+  },
+  {
+    "id": "g-035",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": [
+      "vendor-monitoring",
+      "questionnaires",
+      "independent-assessments"
+    ],
+    "difficulty": 3,
+    "stem": "A vendor passed due diligence two years ago and has not been reviewed since. Which practice addresses this gap?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Ongoing vendor monitoring with periodic reassessment",
+        "correct": true,
+        "why": "A vendor's security posture changes after signing. Monitoring through the life of the contract is the ongoing duty, and it is due care rather than due diligence."
+      },
+      {
+        "id": "b",
+        "text": "A more detailed questionnaire at onboarding",
+        "misconception": "due-diligence-vs-due-care",
+        "why": "That strengthens the one-time check at the start. It does nothing about the two years since."
+      },
+      {
+        "id": "c",
+        "text": "A non-disclosure agreement covering the review",
+        "misconception": "agreement-types",
+        "why": "An NDA governs confidentiality of information exchanged. It triggers no review."
+      },
+      {
+        "id": "d",
+        "text": "Accepting the risk and recording it in the register",
+        "misconception": "risk-treatment-strategies",
+        "why": "Acceptance is a legitimate treatment and is not an answer to 'we stopped looking'."
+      }
+    ]
+  },
+  {
+    "id": "g-036",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": [
+      "supply-chain-analysis",
+      "suppliers",
+      "managed-service-providers-msps"
+    ],
+    "difficulty": 4,
+    "stem": "Your critical SaaS vendor subcontracts its storage to a provider you have no contract with. What is this exposure called, and which activity surfaces it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Fourth-party risk, surfaced by supply chain analysis",
+        "correct": true,
+        "why": "Your vendor's vendors are a dependency you inherit without a contractual relationship. Supply chain analysis is what maps them."
+      },
+      {
+        "id": "b",
+        "text": "Insider threat, surfaced by user behaviour analytics",
+        "misconception": "supply-chain-vectors",
+        "why": "Nobody inside either organisation is acting improperly. This is a structural dependency."
+      },
+      {
+        "id": "c",
+        "text": "Shadow IT, surfaced by asset discovery",
+        "misconception": "supply-chain-vectors",
+        "why": "Shadow IT is technology your own staff adopted outside the approved process. The vendor's subcontractor is not that."
+      },
+      {
+        "id": "d",
+        "text": "Third-party risk, surfaced by a right-to-audit clause",
+        "misconception": "vendor-assessment-methods",
+        "why": "A right-to-audit clause reaches your direct vendor. It does not automatically extend down to their suppliers, which is exactly the gap."
+      }
+    ]
+  },
+  {
+    "id": "g-037",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": [
+      "fines",
+      "reputational-damage",
+      "contractual-impacts"
+    ],
+    "difficulty": 3,
+    "stem": "After a compliance failure the company is fined by the regulator, loses two enterprise renewals, and is criticised in the trade press. Which of these is the direct regulatory consequence?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The fine",
+        "correct": true,
+        "why": "Only the regulator imposes a fine, under its statutory powers."
+      },
+      {
+        "id": "b",
+        "text": "The lost renewals",
+        "misconception": "compliance-consequences",
+        "why": "A contractual consequence imposed by customers, not the regulator."
+      },
+      {
+        "id": "c",
+        "text": "The press criticism",
+        "misconception": "compliance-consequences",
+        "why": "Reputational damage. Real and often the largest cost, and nobody imposes it."
+      },
+      {
+        "id": "d",
+        "text": "All three equally",
+        "misconception": "compliance-consequences",
+        "why": "The exam separates them by who imposes the penalty, because that decides who you must satisfy to resolve it."
+      }
+    ]
+  },
+  {
+    "id": "g-038",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": [
+      "attestation-and-acknowledgement",
+      "compliance-monitoring",
+      "automation"
+    ],
+    "difficulty": 3,
+    "stem": "Staff must confirm each year that they have read and understood the acceptable use policy, and the confirmations must be evidenced to an auditor. What is this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Attestation and acknowledgement",
+        "correct": true,
+        "why": "A recorded, signed statement that something is true. It is the evidence an auditor asks for when a control depends on people having been told."
+      },
+      {
+        "id": "b",
+        "text": "An internal audit",
+        "misconception": "audit-vs-assessment",
+        "why": "An audit tests whether controls operate. Collecting signatures is the control, not the test of it."
+      },
+      {
+        "id": "c",
+        "text": "Due diligence",
+        "misconception": "due-diligence-vs-due-care",
+        "why": "Due diligence is investigation before committing to a relationship, normally with a third party."
+      },
+      {
+        "id": "d",
+        "text": "A right-to-audit clause",
+        "misconception": "vendor-assessment-methods",
+        "why": "A contractual term letting you inspect a vendor. Unrelated to your own staff."
+      }
+    ]
+  },
+  {
+    "id": "g-039",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": [
+      "right-to-be-forgotten",
+      "data-inventory-and-retention",
+      "data-subject"
+    ],
+    "difficulty": 4,
+    "stem": "A customer invokes their right to be forgotten. The company holds their data in a CRM, three backup generations, a data warehouse and a vendor's mailing platform. What determines whether the company can actually comply?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Whether a current data inventory maps every location the data is held",
+        "correct": true,
+        "why": "You cannot delete what you cannot find. The inventory is what turns the right into something answerable, including the copies at processors."
+      },
+      {
+        "id": "b",
+        "text": "Whether the data is encrypted at rest everywhere",
+        "misconception": "privacy-rights-and-roles",
+        "why": "Encryption protects confidentiality and makes locating and deleting the data no easier."
+      },
+      {
+        "id": "c",
+        "text": "Whether the customer can prove their identity to the help desk",
+        "misconception": "privacy-rights-and-roles",
+        "why": "Identity verification is a necessary step and is not what determines whether compliance is possible."
+      },
+      {
+        "id": "d",
+        "text": "Whether the vendor signed a non-disclosure agreement",
+        "misconception": "agreement-types",
+        "why": "An NDA governs confidentiality of what was shared. It creates no deletion capability."
+      }
+    ]
+  },
+  {
+    "id": "g-040",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": [
+      "controller-vs-processor",
+      "processors",
+      "ownership"
+    ],
+    "difficulty": 3,
+    "stem": "A company uses a cloud email provider. A subject access request arrives. Who is accountable for answering it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The company, as controller",
+        "correct": true,
+        "why": "The controller determines purpose and means and carries the obligation. The provider assists as processor but the duty does not transfer."
+      },
+      {
+        "id": "b",
+        "text": "The cloud provider, as processor",
+        "misconception": "privacy-rights-and-roles",
+        "why": "A processor acts on instruction. Outsourcing the processing does not outsource the accountability."
+      },
+      {
+        "id": "c",
+        "text": "Whichever party the contract names, with no default",
+        "misconception": "data-roles",
+        "why": "Privacy law assigns the duty to the controller by default. A contract allocates work, not accountability."
+      },
+      {
+        "id": "d",
+        "text": "The data subject's own employer",
+        "misconception": "data-roles",
+        "why": "Irrelevant to who holds the data and decided why it is held."
+      }
+    ]
+  },
+  {
+    "id": "g-041",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": [
+      "self-assessments",
+      "internal-compliance-audit",
+      "independent-third-party-audit"
+    ],
+    "difficulty": 3,
+    "stem": "Rank these from least to most independent: an internal audit, a team self-assessment, a third-party audit.",
+    "options": [
+      {
+        "id": "a",
+        "text": "Self-assessment, internal audit, third-party audit",
+        "correct": true,
+        "why": "The team assessing itself has no independence. Internal audit is independent of the team but not of the organisation. A third party is independent of both."
+      },
+      {
+        "id": "b",
+        "text": "Internal audit, self-assessment, third-party audit",
+        "misconception": "audit-vs-assessment",
+        "why": "Internal audit is more independent than a self-assessment, not less. It reports to the audit committee rather than to the team."
+      },
+      {
+        "id": "c",
+        "text": "Self-assessment, third-party audit, internal audit",
+        "misconception": "audit-vs-assessment",
+        "why": "An internal audit is never more independent than an external one."
+      },
+      {
+        "id": "d",
+        "text": "They are equally independent if the same checklist is used",
+        "misconception": "audit-vs-assessment",
+        "why": "Independence is about who performs the review, not which checklist they hold."
+      }
+    ]
+  },
+  {
+    "id": "g-042",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": [
+      "passive-reconnaissance",
+      "active-reconnaissance",
+      "unknown-environment"
+    ],
+    "difficulty": 3,
+    "stem": "A tester runs a port scan against the target's public range during the first week of an engagement. How is this classified?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Active reconnaissance",
+        "correct": true,
+        "why": "Scanning sends packets to the target and appears in its logs. Interacting with the target is what makes reconnaissance active."
+      },
+      {
+        "id": "b",
+        "text": "Passive reconnaissance",
+        "misconception": "pentest-environments",
+        "why": "Passive means gathering from third-party sources without touching the target: WHOIS, OSINT, certificate transparency."
+      },
+      {
+        "id": "c",
+        "text": "Unknown environment testing",
+        "misconception": "pentest-environments",
+        "why": "That describes how much the tester was told at the outset, not what they are doing now. The two are separate axes."
+      },
+      {
+        "id": "d",
+        "text": "A vulnerability assessment rather than reconnaissance",
+        "misconception": "pentest-environments",
+        "why": "A scan during reconnaissance is still reconnaissance. The phase is defined by purpose, and it is active either way."
+      }
+    ]
+  },
+  {
+    "id": "g-043",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": [
+      "physical-penetration-testing",
+      "offensive",
+      "defensive",
+      "integrated"
+    ],
+    "difficulty": 3,
+    "stem": "An exercise runs an attacking team and a defending team at the same time, with a third group coordinating both and feeding lessons back live. What is this called?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An integrated exercise",
+        "correct": true,
+        "why": "Offensive and defensive running together with coordination between them is the integrated form, sometimes called purple teaming."
+      },
+      {
+        "id": "b",
+        "text": "An offensive test",
+        "misconception": "pentest-environments",
+        "why": "Offensive describes the attacking side alone, with no defensive participation by design."
+      },
+      {
+        "id": "c",
+        "text": "A defensive test",
+        "misconception": "pentest-environments",
+        "why": "Defensive describes the blue team's side alone."
+      },
+      {
+        "id": "d",
+        "text": "A tabletop exercise",
+        "misconception": "tabletop-vs-simulation",
+        "why": "A tabletop is a discussion in a room. This exercise involves teams actually operating."
+      }
+    ]
+  },
+  {
+    "id": "g-044",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": [
+      "rules-of-engagement",
+      "right-to-audit-clause",
+      "work-order-wo-statement-of-work-sow"
+    ],
+    "difficulty": 4,
+    "stem": "Before a penetration test begins, which document states what the tester may and may not touch, the hours they may test, and who to contact if something breaks?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The rules of engagement",
+        "correct": true,
+        "why": "Scope boundaries, permitted windows, prohibited techniques and escalation contacts are exactly what the rules of engagement fix before testing starts."
+      },
+      {
+        "id": "b",
+        "text": "The statement of work",
+        "misconception": "agreement-types",
+        "why": "The SOW defines deliverables, timeline and price. It is commercial rather than operational."
+      },
+      {
+        "id": "c",
+        "text": "The right-to-audit clause",
+        "misconception": "vendor-assessment-methods",
+        "why": "That is a contractual right to inspect a vendor. It does not scope a test of your own estate."
+      },
+      {
+        "id": "d",
+        "text": "The non-disclosure agreement",
+        "misconception": "agreement-types",
+        "why": "An NDA governs what the tester may say afterwards, not what they may do."
+      }
+    ]
+  },
+  {
+    "id": "g-045",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": [
+      "phishing-campaigns",
+      "responding-to-reported-suspicious-messages",
+      "initial-reporting"
+    ],
+    "difficulty": 3,
+    "stem": "After a simulated phishing campaign, which metric best indicates the programme is working?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The report rate and the time taken to report",
+        "correct": true,
+        "why": "Somebody will always eventually click. What decides the outcome is how quickly the security team hears about it, so reporting behaviour is the capability being built."
+      },
+      {
+        "id": "b",
+        "text": "The click rate alone",
+        "misconception": "awareness-program-elements",
+        "why": "Click rate measures the attack's success. It says nothing about whether anyone would tell you."
+      },
+      {
+        "id": "c",
+        "text": "The number of staff disciplined for clicking",
+        "misconception": "awareness-program-elements",
+        "why": "Punishment suppresses reporting, which destroys the measure that actually matters."
+      },
+      {
+        "id": "d",
+        "text": "The percentage who completed the annual training module",
+        "misconception": "awareness-program-elements",
+        "why": "Completion measures attendance, not behaviour change."
+      }
+    ]
+  },
+  {
+    "id": "g-046",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": [
+      "risky-behavior",
+      "unexpected-behavior",
+      "unintentional-behavior",
+      "insider-threat-awareness"
+    ],
+    "difficulty": 3,
+    "stem": "An employee repeatedly uses a personal file sharing account for work documents because the approved tool is slow. How should the programme classify and treat this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Risky but unintentional, treated with guidance and a usable sanctioned alternative",
+        "correct": true,
+        "why": "There is no intent to harm. The behaviour persists because the approved path is worse, so training alone will not change it."
+      },
+      {
+        "id": "b",
+        "text": "Malicious insider activity, treated as a disciplinary matter",
+        "misconception": "awareness-program-elements",
+        "why": "Nothing indicates intent to harm. Treating well-meant shortcuts as malice ends the reporting culture you depend on."
+      },
+      {
+        "id": "c",
+        "text": "Acceptable, since productivity improved",
+        "misconception": "awareness-program-elements",
+        "why": "Company documents have left the organisation's control. Good intent does not make that acceptable."
+      },
+      {
+        "id": "d",
+        "text": "Purely a technical failure, treated by blocking the service",
+        "misconception": "awareness-program-elements",
+        "why": "Blocking without fixing the slow approved tool simply moves the behaviour to the next workaround."
+      }
+    ]
+  },
+  {
+    "id": "g-047",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": [
+      "initial-reporting",
+      "recurring-reporting",
+      "development",
+      "execution"
+    ],
+    "difficulty": 2,
+    "stem": "A company trains new starters thoroughly at onboarding and never again. What is the gap?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No recurring training, so knowledge decays and new threats are never covered",
+        "correct": true,
+        "why": "Awareness has an initial and a recurring component. Onboarding alone leaves everyone hired more than a year ago on out of date material."
+      },
+      {
+        "id": "b",
+        "text": "No initial training",
+        "misconception": "awareness-program-elements",
+        "why": "Initial training is the part they do have."
+      },
+      {
+        "id": "c",
+        "text": "Training should be replaced by technical controls",
+        "misconception": "awareness-program-elements",
+        "why": "Controls and awareness address different failure modes. Neither replaces the other."
+      },
+      {
+        "id": "d",
+        "text": "Nothing, provided the onboarding module is comprehensive",
+        "misconception": "awareness-program-elements",
+        "why": "No module survives contact with a threat landscape that changes after it was recorded."
+      }
+    ]
+  },
+  {
+    "id": "g-048",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": [
+      "removable-media-and-cables",
+      "situational-awareness",
+      "operational-security"
+    ],
+    "difficulty": 3,
+    "stem": "Staff attending a conference are warned not to use charging cables or USB drives handed out on the exhibition floor. Which awareness topic is this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Removable media and cables",
+        "correct": true,
+        "why": "A named awareness topic in its own right, because a cable or drive can carry an implant and looks exactly like a free gift."
+      },
+      {
+        "id": "b",
+        "text": "Phishing recognition",
+        "misconception": "awareness-program-elements",
+        "why": "Phishing arrives as a message. This threat arrives as hardware."
+      },
+      {
+        "id": "c",
+        "text": "Password management",
+        "misconception": "awareness-program-elements",
+        "why": "Unrelated to the vector described."
+      },
+      {
+        "id": "d",
+        "text": "Hybrid and remote work",
+        "misconception": "awareness-program-elements",
+        "why": "That topic covers home networks, shoulder surfing and shared spaces, not conference giveaways."
+      }
+    ]
+  },
+  {
+    "id": "g-049",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": [
+      "internal-compliance-reporting",
+      "external-compliance-reporting",
+      "compliance-monitoring",
+      "automation"
+    ],
+    "difficulty": 3,
+    "stem": "A compliance team produces a quarterly pack for the board and a separate annual submission to the regulator. How do these differ?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The board pack is internal reporting for oversight; the regulator submission is external reporting against a legal obligation",
+        "correct": true,
+        "why": "Internal reporting informs the organisation's own governance. External reporting discharges a duty to someone outside it, and missing it carries regulatory consequences the board pack does not."
+      },
+      {
+        "id": "b",
+        "text": "They are the same report with different formatting",
+        "misconception": "compliance-consequences",
+        "why": "They answer to different audiences with different consequences for being wrong. The regulator can fine you; the board cannot."
+      },
+      {
+        "id": "c",
+        "text": "Only the board pack matters, since the regulator relies on the external audit",
+        "misconception": "compliance-consequences",
+        "why": "An audit is independent assurance. It does not replace a reporting obligation you hold directly."
+      },
+      {
+        "id": "d",
+        "text": "The regulator submission is reputational and the board pack is contractual",
+        "misconception": "compliance-consequences",
+        "why": "Neither. Reputational damage arrives through the market and contractual impacts come from counterparties; a regulatory filing is neither of those."
+      }
+    ]
+  }
 ]

@@ -515,6 +515,28 @@ select:hover, input:hover { border-color: var(--accent); }
   line-height: 1.75; overflow-x: auto; white-space: pre; border: 1px solid var(--line);
 }
 
+/* ---------- mock review grid ---------------------------------------------- */
+.rv-legend { display: flex; gap: var(--s4); margin-bottom: var(--s3); font-size: var(--t-xs); color: var(--ink-faint); }
+.rv-legend span { display: flex; align-items: center; gap: var(--s2); }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; border: 1px solid var(--line-strong); }
+.sw.answered { background: var(--accent); border-color: var(--accent); }
+.sw.blank { background: var(--panel); }
+.sw.flagged { background: var(--warn-soft); border-color: var(--warn); border-width: 2px; }
+
+.review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: var(--s2); }
+.rv {
+  position: relative; min-height: 44px; border-radius: var(--r1); cursor: pointer;
+  border: 1px solid var(--line-strong); background: var(--panel);
+  font: 600 var(--t-sm)/1 var(--mono); color: var(--ink-dim);
+  display: grid; place-items: center; gap: 1px;
+  transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.rv:hover { transform: translateY(-1px); border-color: var(--accent); }
+.rv.answered { background: var(--accent); border-color: var(--accent); color: #fff; }
+.rv.flagged { border-color: var(--warn); border-width: 2px; }
+.rv.here { outline: 2px solid var(--ink); outline-offset: 1px; }
+.rv .pb { font-size: 9px; font-weight: 500; letter-spacing: .04em; opacity: .75; }
+
 /* ---------- drag and order ------------------------------------------------ */
 .chip-pool { display: flex; flex-wrap: wrap; gap: var(--s2); }
 .chip {

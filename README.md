@@ -391,6 +391,8 @@ of their exam weight on graded practice.
 
 ## Known gaps
 
+- Scaled scores here are an estimate. CompTIA's weighting model is confidential,
+  so difficulty weighting is an approximation, not a reconstruction of it.
 - The imported deck is third-party and its definitions have never been reviewed
   by anyone. Gating on the official vocabulary removes the off-syllabus material
   and fixes placement; it does **not** verify that a definition is correct. Treat

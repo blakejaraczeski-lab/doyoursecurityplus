@@ -14,6 +14,21 @@ export const FORMATS = {
 
 const PBQ_WEIGHT = 3; // a PBQ is worth roughly three multiple choice items
 
+/**
+ * Item weight for scoring.
+ *
+ * CompTIA scales 100-900 and states that items carry different weights by
+ * difficulty. The exact model is confidential, so this is an approximation and
+ * not a reconstruction: weight rises with the item's authored difficulty, and a
+ * hard item is worth about twice an easy one rather than ten times.
+ *
+ * Why it matters for YOUR score and not just realism: a flat count rewards
+ * farming easy items. Weighted, a run of difficulty-1 acronym recognition no
+ * longer moves the number the way a difficulty-5 PBQ subtask does, which is the
+ * honest signal about readiness.
+ */
+const itemWeight = (it) => 0.6 + 0.2 * Math.max(1, Math.min(5, it.difficulty || 2));
+
 export function startView(App) {
   const best = App.state.mockHistory?.length
     ? Math.max(...App.state.mockHistory.map((m) => m.scaled))
@@ -49,6 +64,71 @@ export function startView(App) {
     </div>` : ""}`;
 }
 
+/**
+ * The review screen the real exam ends with.
+ *
+ * Without it, "submit" is a leap: you cannot see which of 90 items you left
+ * blank or flagged, so people either submit with blanks or burn minutes paging
+ * back through everything. Blank matters because there is no penalty for a
+ * wrong guess, so an unanswered item is a thrown-away mark and nothing else.
+ */
+export function reviewView(App) {
+  const m = App.mock;
+  const answeredOf = (e) => {
+    if (e.kind === "pbq") {
+      const a = m.pbqAnswers[e.pbq.id] || {};
+      const touched = Object.keys(a).some((k) => {
+        const v = a[k];
+        return Array.isArray(v) ? v.length : v && typeof v === "object" ? Object.keys(v).length : !!v;
+      });
+      return touched ? "answered" : "blank";
+    }
+    return m.answers[e.item.id] ? "answered" : "blank";
+  };
+
+  const cells = m.items.map((e, i) => {
+    const id = e.item?.id || e.pbq?.id;
+    const state = answeredOf(e);
+    const flagged = m.flagged.has(id);
+    return `<button class="rv ${state} ${flagged ? "flagged" : ""} ${i === m.idx ? "here" : ""}"
+      data-action="mock-goto" data-i="${i}"
+      title="${e.kind === "pbq" ? esc(e.pbq.title) : "Question " + (i + 1)}${flagged ? " (flagged)" : ""}">
+      <span class="n">${i + 1}</span>${e.kind === "pbq" ? `<span class="pb">PBQ</span>` : ""}
+    </button>`;
+  }).join("");
+
+  const blanks = m.items.filter((e) => answeredOf(e) === "blank").length;
+  const flagged = m.flagged.size;
+
+  return `
+  <div class="session-bar">
+    <div class="meta">
+      <span><b>Review</b> &middot; ${m.items.length} questions</span>
+      <span id="mock-timer" data-ends="${m.endsAt}" class="mono">--:--</span>
+    </div>
+    <div class="track"><i style="width:100%"></i></div>
+  </div>
+  <h1>Review before submitting</h1>
+  <p class="sub">Click any question to go back to it. ${blanks
+      ? `<b>${blanks} unanswered.</b> There is no penalty for a wrong guess on the real exam, so a blank is a mark you have thrown away.`
+      : "Nothing left blank."}${flagged ? ` ${flagged} flagged for another look.` : ""}</p>
+
+  <div class="card">
+    <div class="rv-legend">
+      <span><i class="sw answered"></i> answered</span>
+      <span><i class="sw blank"></i> blank</span>
+      <span><i class="sw flagged"></i> flagged</span>
+    </div>
+    <div class="review-grid">${cells}</div>
+  </div>
+
+  <div class="row">
+    <button class="btn ghost" data-action="mock-resume">Back to question ${m.idx + 1}</button>
+    ${blanks ? `<button class="btn ghost" data-action="mock-first-blank">Go to first blank</button>` : ""}
+    <button class="btn danger" data-action="mock-submit">Submit exam</button>
+  </div>`;
+}
+
 export function runnerView(App) {
   const m = App.mock;
   const entry = m.items[m.idx];
@@ -74,9 +154,8 @@ export function runnerView(App) {
       <button class="btn" data-action="mock-next" ${m.idx === m.items.length - 1 ? "disabled" : ""}>Next</button>
       <button class="btn ghost small" data-action="mock-flag">${m.flagged.has(entry.item?.id || entry.pbq?.id) ? "Unflag" : "Flag for review"}</button>
     </div>
-    <button class="btn danger" data-action="mock-submit">Submit exam</button>
-  </div>
-  ${m.idx === m.items.length - 1 ? `<p class="faint" style="margin-top:var(--s3)">Last question. Flagged: ${m.flagged.size}.</p>` : ""}`;
+    <button class="btn ghost" data-action="mock-review">Review all ${m.items.length}</button>
+  </div>`;
 }
 
 function mcqHtml(item, chosen, flagged) {
@@ -146,6 +225,7 @@ export function grade(App, gradePbq) {
   const now = Date.now();
   let mcqCorrect = 0, mcqTotal = 0, unanswered = 0;
   let pbqEarned = 0, pbqMax = 0, pbqCount = 0;
+  let wCorrect = 0, wTotal = 0;          // difficulty weighted
   const byDomain = {};
   const banked = [];
   const missedObjectives = {};
@@ -158,6 +238,9 @@ export function grade(App, gradePbq) {
     if (entry.kind === "pbq") {
       const g = gradePbq(entry.pbq, m.pbqAnswers[entry.pbq.id] || {});
       pbqEarned += g.earned; pbqMax += g.max; pbqCount += 1;
+      const pw = PBQ_WEIGHT * itemWeight(entry.pbq);
+      wTotal += pw;
+      wCorrect += pw * (g.max ? g.earned / g.max : 0);
       const dom = App.content.domainOf[entry.pbq.objective];
       if (byDomain[dom]) {
         byDomain[dom].total += PBQ_WEIGHT;
@@ -181,9 +264,12 @@ export function grade(App, gradePbq) {
     const correct = chosen && item.options.find((o) => o.id === chosen)?.correct;
     const dom = App.content.domainOf[item.objective];
     mcqTotal += 1;
+    const w = itemWeight(item);
+    wTotal += w;
     if (byDomain[dom]) byDomain[dom].total += 1;
     if (!chosen) unanswered += 1;
     if (correct) {
+      wCorrect += w;
       mcqCorrect += 1;
       if (byDomain[dom]) byDomain[dom].correct += 1;
       for (const o of item.options) {
@@ -209,9 +295,10 @@ export function grade(App, gradePbq) {
   }
 
   const pbqFrac = pbqMax ? pbqEarned / pbqMax : 0;
-  const weightedCorrect = mcqCorrect + pbqFrac * pbqCount * PBQ_WEIGHT;
-  const weightedTotal = mcqTotal + pbqCount * PBQ_WEIGHT;
-  const raw = weightedTotal ? weightedCorrect / weightedTotal : 0;
+  const raw = wTotal ? wCorrect / wTotal : 0;
+  const flatRaw = (mcqTotal + pbqCount * PBQ_WEIGHT)
+    ? (mcqCorrect + pbqFrac * pbqCount * PBQ_WEIGHT) / (mcqTotal + pbqCount * PBQ_WEIGHT)
+    : 0;
   const scaled = raw <= 0.75
     ? Math.round(100 + (650 / 0.75) * raw)
     : Math.round(750 + (150 / 0.25) * (raw - 0.75));
@@ -231,8 +318,15 @@ export function grade(App, gradePbq) {
     .map((id) => mentorCardHtml(mentor.card(id, App.content, App.state)))
     .join("");
 
+  if (Math.abs(raw - flatRaw) >= 0.03) {
+    notes.push(`Weighted for item difficulty your raw score is ${pct(raw)}; counted flat it would be ${pct(flatRaw)}. ${
+      raw < flatRaw
+        ? "You are doing better on the easy items than the hard ones, which is the pattern that passes practice tests and fails the exam."
+        : "You are holding up on the harder items, which is the right way round."}`);
+  }
+
   const result = {
-    at: now, format: m.format, raw, scaled, seconds, minutes: m.minutes,
+    at: now, format: m.format, raw, flatRaw, scaled, seconds, minutes: m.minutes,
     unanswered, banked: banked.length,
     byDomain: Object.values(byDomain), notes, mentorHtml,
   };

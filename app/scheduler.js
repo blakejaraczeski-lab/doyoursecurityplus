@@ -282,13 +282,18 @@ export function readiness(state, content, now = Date.now()) {
     }
   }
 
+  // Weighted the same way the mock scores: a difficulty-1 acronym and a
+  // difficulty-5 scenario should not move the projection equally, or a run of
+  // easy items reads as readiness.
+  const weightOf = (it) => 0.6 + 0.2 * Math.max(1, Math.min(5, it.difficulty || 2));
   for (const it of content.items) {
     const s = itemState(state, it.id);
     const rec = perObjective[it.objective];
     if (!rec || !s?.seen) continue;
+    const w = weightOf(it);
     rec.itemsSeen += 1;
-    rec.attempts += s.seen;
-    rec.itemsCorrect += s.correct || 0;
+    rec.attempts += s.seen * w;
+    rec.itemsCorrect += (s.correct || 0) * w;
   }
 
   const sev = { high: 1, medium: 0.7, low: 0.4 };

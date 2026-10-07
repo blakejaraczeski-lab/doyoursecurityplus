@@ -121,6 +121,7 @@ function render() {
     : App.view === "pbq" ? pbqLabView(App)
     : App.view === "mock"
       ? (App.mock?.result ? mock.resultView(App)
+         : App.mock?.active && App.mock.reviewing ? mock.reviewView(App)
          : App.mock?.active ? mock.runnerView(App)
          : mock.startView(App))
     : App.view === "mentor" ? mentorView(App)
@@ -485,7 +486,7 @@ const ACTIONS = {
     App.mock = {
       active: true, format: fmt, minutes: f.minutes, items, idx: 0,
       answers: {}, pbqAnswers: {}, flagged: new Set(),
-      startedAt: Date.now(), endsAt: Date.now() + f.minutes * 60000, result: null,
+      startedAt: Date.now(), endsAt: Date.now() + f.minutes * 60000, result: null, reviewing: false,
     };
     for (const e of items) if (e.kind === "pbq") {
       App.mock.pbqAnswers[e.pbq.id] = e.pbq.kind === "acl-table" ? { rules: [] }
@@ -505,6 +506,20 @@ const ACTIONS = {
     const e = App.mock.items[App.mock.idx];
     const id = e.item?.id || e.pbq?.id;
     App.mock.flagged.has(id) ? App.mock.flagged.delete(id) : App.mock.flagged.add(id);
+  },
+  "mock-review": () => { App.mock.reviewing = true; },
+  "mock-resume": () => { App.mock.reviewing = false; },
+  "mock-goto": (el) => { App.mock.idx = Number(el.dataset.i); App.mock.reviewing = false; },
+  "mock-first-blank": () => {
+    const m2 = App.mock;
+    const blank = m2.items.findIndex((e) =>
+      e.kind === "pbq"
+        ? !Object.keys(m2.pbqAnswers[e.pbq.id] || {}).some((k) => {
+            const v = (m2.pbqAnswers[e.pbq.id] || {})[k];
+            return Array.isArray(v) ? v.length : v && typeof v === "object" ? Object.keys(v).length : !!v;
+          })
+        : !m2.answers[e.item.id]);
+    if (blank >= 0) { m2.idx = blank; m2.reviewing = false; }
   },
   "mock-submit": () => {
     const left = App.mock.items.length - Object.keys(App.mock.answers).length;
