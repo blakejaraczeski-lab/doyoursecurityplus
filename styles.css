@@ -461,6 +461,45 @@ select, input[type=text], input[type=date], input[type=number] {
    the whole point of that PBQ is seeing the order at a glance. Mouse-sized,
    and it is not a surface anyone taps on a phone. */
 table.grid select, table.grid input { min-height: 34px; }
+
+/* Seven controls across a column that is never wide enough: the table was set
+   to width 100%, so instead of overflowing into the scroller it squeezed the
+   columns until the native selects truncated their own labels. PERMIT rendered
+   in 50px of a box that needed 80. Giving the table a minimum width lets
+   .scroll-x do its job, which is what it was there for. */
+/* Widths measured from the widest option each column can hold, not guessed:
+   "443 (HTTPS)" needs 128px and was getting 79. */
+/* Widths go on the controls, not the cells: in auto table layout a min-width on
+   a th is only a hint and the browser kept overriding it. These numbers are
+   measured from the widest option each column can hold, so "443 (HTTPS)" and
+   "1433 (MS SQL)" fit instead of being cut to "443 (HT". When the column set no
+   longer fits, .scroll-x finally does what it was put there to do. */
+table.acl-grid { min-width: 880px; }
+table.acl-grid th, table.acl-grid td { padding: var(--s1) var(--s2); }
+table.acl-grid td:nth-child(1) { width: 2rem; }
+table.acl-grid td:nth-child(2) select { min-width: 86px; }
+table.acl-grid td:nth-child(3) select { min-width: 70px; }
+table.acl-grid td:nth-child(4) select,
+table.acl-grid td:nth-child(6) select { min-width: 132px; }
+table.acl-grid td:nth-child(5) select,
+table.acl-grid td:nth-child(7) select { min-width: 130px; }
+table.acl-grid td:last-child { width: 108px; }
+
+/* The same rule set as plain text, because reading the policy in order is the
+   task and a row of truncated dropdowns cannot be read. */
+.readout { margin-top: var(--s4); padding-top: var(--s4); border-top: 1px solid var(--line); }
+.acl-readout { list-style: none; margin: var(--s3) 0 0; padding: 0; display: grid; gap: 2px; }
+.acl-readout li {
+  display: grid; grid-template-columns: 1.8rem 1fr; gap: var(--s2); align-items: baseline;
+  padding: var(--s2) var(--s3); border-radius: var(--r1); background: var(--panel-2);
+  border-left: 3px solid var(--line-strong);
+}
+.acl-readout li.permit { border-left-color: var(--good); }
+.acl-readout li.deny { border-left-color: var(--bad); }
+.acl-readout li.implicit { background: transparent; border-left-style: dashed; opacity: .75; }
+.acl-readout .n { font: 650 var(--t-xs)/1.6 var(--mono); color: var(--ink-faint); text-align: right; }
+.acl-readout code { font: var(--t-sm)/1.6 var(--mono); color: var(--ink-dim); }
+.acl-readout code b { color: var(--ink); font-weight: 650; }
 select:hover, input:hover { border-color: var(--accent); }
 
 .field-row {
@@ -472,6 +511,26 @@ select:hover, input:hover { border-color: var(--accent); }
 .field-row.disabled { opacity: .42; }
 .req { margin: 0; padding-left: var(--s5); }
 .req li { margin: var(--s2) 0; max-width: var(--measure); }
+
+/* With eight ACL rules the span from the first requirement to the last rule is
+   about 1300px in a 768px viewport, so the rules you are trying to satisfy are
+   never on screen at the same time as the grid you satisfy them in. The card
+   sticks to the top of the work area and collapses to a single line, so you
+   can keep it open while you build or fold it away once you have it. */
+.req-card { position: sticky; top: var(--s3); z-index: 3; }
+.req-card summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s3);
+  cursor: pointer; list-style: none; min-height: 44px;
+}
+.req-card summary::-webkit-details-marker { display: none; }
+.req-card summary h2 { margin: 0; }
+.req-card summary::after {
+  content: "collapse"; font: 500 var(--t-xs)/1 var(--sans); color: var(--accent);
+}
+.req-card:not([open]) summary::after { content: "show"; }
+.req-card[open] > .req { margin-top: var(--s3); }
+.req-card[open] { max-height: 34vh; overflow-y: auto; }
+.req-card:not([open]) > .req { display: none; }
 
 /* ---------- results ------------------------------------------------------- */
 .result { display: flex; gap: var(--s3); padding: var(--s3) 0; border-bottom: 1px solid var(--line); }
@@ -512,6 +571,26 @@ select:hover, input:hover { border-color: var(--accent); }
   line-height: 1.75; overflow-x: auto; white-space: pre; border: 1px solid var(--line);
 }
 
+/* Naming a host compromised is an explicit act, so it gets an explicit control
+   rather than being a side effect of reading the evidence. */
+.host-picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--s2); }
+.host-pick {
+  display: flex; align-items: center; gap: var(--s3); text-align: left;
+  background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--r1);
+  padding: var(--s2) var(--s3); min-height: 44px; cursor: pointer; color: var(--ink);
+  font: 500 var(--t-sm)/1.4 var(--sans);
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.host-pick:hover:not([disabled]) { border-color: var(--accent); }
+.host-pick .box {
+  flex: none; width: 1.15rem; height: 1.15rem; border-radius: 4px;
+  border: 1.5px solid var(--line-strong); display: grid; place-items: center;
+  font-size: var(--t-xs); color: #fff;
+}
+.host-pick.on { border-color: var(--warn); background: var(--warn-soft); }
+.host-pick.on .box { background: var(--warn); border-color: var(--warn); }
+.host-pick .who { min-width: 0; }
+
 /* ---------- mock review grid ---------------------------------------------- */
 .rv-legend { display: flex; gap: var(--s4); margin-bottom: var(--s3); font-size: var(--t-xs); color: var(--ink-faint); }
 .rv-legend span { display: flex; align-items: center; gap: var(--s2); }
@@ -550,10 +629,15 @@ select:hover, input:hover { border-color: var(--accent); }
 .seq li { display: grid; grid-template-columns: 2rem 1fr; gap: var(--s3); align-items: center; }
 .seq .pos { font: 650 var(--t-sm)/1 var(--mono); color: var(--ink-faint); text-align: right; }
 .seq .slot {
-  display: block; padding: var(--s2) var(--s3); min-height: 44px; line-height: 28px;
+  display: block; width: 100%; text-align: left; background: transparent;
+  padding: var(--s2) var(--s3); min-height: 44px; line-height: 28px;
   border: 1px dashed var(--line-strong); border-radius: var(--r1);
-  color: var(--ink-faint); font-size: var(--t-sm);
+  color: var(--ink-faint); font: var(--t-sm)/1.75 var(--sans); cursor: pointer;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
 }
+.seq .slot[disabled] { cursor: default; }
+.seq .slot:not([disabled]) { border-color: var(--accent); color: var(--accent); }
+.seq .slot:not([disabled]):hover { background: var(--accent-soft); border-style: solid; }
 .seq li.filled .chip { width: 100%; }
 
 .buckets { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--s3); margin-bottom: var(--s4); }

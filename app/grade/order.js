@@ -36,7 +36,9 @@ function gradeSequence(expected, given) {
     placed,
     pairsRight,
     pairsTotal: Math.max(0, expected.length - 1),
-    allPlaced: got.length === expected.length,
+    // Positions can be filled in any order, so the array may hold gaps. Counting
+    // length would call a sequence complete as soon as its LAST slot was used.
+    allPlaced: expected.every((_, i) => got[i] != null),
   };
 }
 

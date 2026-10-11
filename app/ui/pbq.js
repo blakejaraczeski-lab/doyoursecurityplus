@@ -86,10 +86,46 @@ function aclHtml(pbq, answers, locked) {
         + Add rule <span class="faint">${rules.length}/${cfg.maxRules}</span>
       </button>
     </div>
-    <div class="scroll-x"><table class="grid">
+    <div class="scroll-x"><table class="grid acl-grid">
       <thead><tr><th>#</th><th>Action</th><th>Proto</th><th>Source</th><th>Src port</th><th>Destination</th><th>Dst port</th><th></th></tr></thead>
       <tbody>${body || `<tr><td colspan="8" class="faint" style="padding:var(--s5);text-align:center">No rules yet. With an empty list, everything is denied.</td></tr>`}</tbody>
     </table></div>
+    ${aclReadoutHtml(cfg, rules)}
+  </div>`;
+}
+
+/**
+ * The rule set as a firewall would print it.
+ *
+ * The editable grid is seven controls wide and each one is a native select that
+ * truncates its own text, so at the widths the columns actually get you cannot
+ * read a rule you just wrote, let alone scan eight of them for order. Reading
+ * the policy top to bottom IS the task on this question type, so the policy is
+ * also rendered as plain text, which is how it would appear on a real device.
+ */
+export function aclReadoutHtml(cfg, rules) {
+  const label = (list, v) => list.find((o) => o.value === v)?.label || v;
+  const addr = (v) => (v === "any" ? "any" : label(cfg.networkObjects, v));
+  const port = (v) => (v === "any" ? "any" : label(cfg.portOptions, v));
+  if (!rules.length) {
+    return `<div class="readout" id="acl-readout"></div>`;
+  }
+  const lines = rules
+    .map((r, i) => {
+      const verb = r.action === "permit" ? "permit" : "deny";
+      return `<li class="${verb}"><span class="n">${i + 1}</span>
+        <code><b>${verb}</b> ${esc(r.protocol || "ip")} from <b>${esc(addr(r.src))}</b>${
+          r.srcPort && r.srcPort !== "any" ? ` port ${esc(port(r.srcPort))}` : ""
+        } to <b>${esc(addr(r.dst))}</b>${
+          r.dstPort && r.dstPort !== "any" ? ` port ${esc(port(r.dstPort))}` : ""
+        }</code></li>`;
+    })
+    .join("");
+  return `<div class="readout" id="acl-readout">
+    <h3 class="eyebrow">Your policy, in order</h3>
+    <ol class="acl-readout">${lines}
+      <li class="implicit"><span class="n">&mdash;</span><code><b>deny</b> everything else <span class="faint">(implicit)</span></code></li>
+    </ol>
   </div>`;
 }
 
@@ -146,25 +182,41 @@ function diagramHtml(pbq, answers, locked) {
     })
     .join("");
 
+  const selectTask = cfg.tasks.find((t) => t.type === "select-nodes");
   const ev = inspected && cfg.evidence[inspected];
+  const marked = selected.has(inspected);
   const evHtml = ev
     ? `<div class="card"><div class="spread" style="margin-bottom:var(--s3)">
          <h2 class="eyebrow" style="margin:0">${esc(pos[inspected].label)} &mdash; collected evidence</h2>
          <span class="tag">${esc(pos[inspected].ip || "")}</span></div>
        <p class="muted">${esc(ev.summary)}</p>
-       <div class="evidence">${esc(ev.lines.join("\n"))}</div></div>`
-    : `<div class="card tight"><p class="faint" style="margin:0">Click a host to read the evidence collected from it. Hosts you have reviewed get a dot.</p></div>`;
+       <div class="evidence">${esc(ev.lines.join("\n"))}</div>
+       ${selectTask ? `<div class="row" style="margin-top:var(--s4)">
+         <button class="btn ${marked ? "" : "ghost"}" data-action="node-toggle"
+                 data-task="${esc(selectTask.id)}" data-host="${esc(inspected)}" ${locked ? "disabled" : ""}>
+           ${marked ? "&check; Marked compromised" : "Mark this host compromised"}
+         </button>
+         <span class="hint">Reading the evidence does not mark anything. Decide after you have looked.</span>
+       </div>` : ""}</div>`
+    : `<div class="card tight"><p class="faint" style="margin:0">Click a host to read the evidence collected from it. Hosts you have reviewed get a dot. Reading is safe: nothing is marked until you say so.</p></div>`;
 
   const tasks = cfg.tasks
     .map((t) => {
       if (t.type === "select-nodes") {
-        const chosen = [...selected].map((id) => pos[id]?.label).filter(Boolean);
+        const roster = cfg.nodes
+          .filter((n) => n.selectable !== false)
+          .map((n) => {
+            const on = selected.has(n.id);
+            return `<button class="host-pick ${on ? "on" : ""}" data-action="node-toggle"
+                data-task="${esc(t.id)}" data-host="${esc(n.id)}" aria-pressed="${on}" ${locked ? "disabled" : ""}>
+                <span class="box" aria-hidden="true">${on ? "&check;" : ""}</span>
+                <span class="who">${esc(n.label)}${seen.has(n.id) ? "" : ` <span class="faint">not reviewed</span>`}</span>
+              </button>`;
+          })
+          .join("");
         return `<div class="card"><b>${esc(t.prompt)}</b>
-          <div class="row" style="margin-top:var(--s3)">
-            ${chosen.length
-              ? chosen.map((c) => `<span class="tag warn">${esc(c)}</span>`).join("")
-              : `<span class="faint">Nothing selected. Click hosts in the diagram.</span>`}
-          </div></div>`;
+          <p class="faint" style="margin:var(--s2) 0 var(--s3)">${selected.size} selected. Click a host in the diagram to read its evidence first.</p>
+          <div class="host-picks">${roster}</div></div>`;
       }
       const val = answers[t.id];
       return `<div class="card"><b>${esc(t.prompt)}</b>
@@ -196,14 +248,18 @@ function orderHtml(pbq, answers, locked) {
   if (cfg.mode === "sequence") {
     const order = answers.order || [];
     const remaining = cfg.items.filter((i) => !order.includes(i.id));
+    const heldItem = cfg.items.find((i) => i.id === held);
     return `
     <div class="card">
-      <h2 class="eyebrow">Steps to place</h2>
+      <h2 class="eyebrow">Steps to place${heldItem ? ` &middot; pick a position for "${esc(heldItem.label)}"` : ""}</h2>
       ${remaining.length
         ? `<div class="chip-pool">${remaining.map((i) => `
-            <button class="chip" data-action="order-place" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
+            <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
               ${esc(i.label)}</button>`).join("")}</div>`
         : `<p class="faint" style="margin:0">All steps placed. Click one in the sequence to take it back.</p>`}
+      ${remaining.length && !held
+        ? `<p class="faint" style="margin:var(--s3) 0 0">Click a step, then click the position it belongs in. You can fill the positions in any order.</p>`
+        : ""}
     </div>
     <div class="card">
       <h2 class="eyebrow">${esc(cfg.sequenceLabel || "In order")}</h2>
@@ -215,7 +271,8 @@ function orderHtml(pbq, answers, locked) {
             <span class="pos">${i + 1}</span>
             ${item
               ? `<button class="chip placed" data-action="order-unplace" data-i="${i}" ${locked ? "disabled" : ""}>${esc(item.label)}</button>`
-              : `<span class="slot">drop here</span>`}
+              : `<button class="slot" data-action="order-place-at" data-i="${i}" ${locked || !held ? "disabled" : ""}>
+                   ${held ? "place here" : "empty"}</button>`}
           </li>`;
         }).join("")}
       </ol>
@@ -269,7 +326,10 @@ export function pbqHtml(pbq, answers, { locked = false, graded = null, inExam = 
     </div>
   </div>
   <p class="sub">${esc(pbq.scenario)}</p>
-  ${reqs ? `<div class="card"><h2 class="eyebrow">Requirements</h2><ol class="req">${reqs}</ol></div>` : ""}
+  ${reqs ? `<details class="card req-card" open>
+      <summary><h2 class="eyebrow">Requirements</h2><span class="faint">${(pbq.requirements || []).length} to satisfy</span></summary>
+      <ol class="req">${reqs}</ol>
+    </details>` : ""}
   ${body}
   ${graded ? gradedHtml(pbq, graded)
     : inExam

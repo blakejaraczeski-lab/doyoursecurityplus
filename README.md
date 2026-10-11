@@ -95,11 +95,12 @@ wrong, so one bad decision does not cascade into losing everything.
 
 **`drag-order`** covers the two formats the exam uses after configuration tasks:
 putting steps in order, and sorting items into buckets. It is **click to place**,
-not HTML5 drag: click the item, click where it goes. Same cognitive task, and it
-works with a keyboard, on a touch screen, and for anyone who cannot hold a drag
-steady. Sequences score per position and also report how many consecutive pairs
-held, because getting the whole chain one slot out is a different mistake from
-shuffling it.
+not HTML5 drag: click the item, then click the position it belongs in. Same
+cognitive task, and it works with a keyboard, on a touch screen, and for anyone
+who cannot hold a drag steady. Positions fill in **any order**, so you can
+commit the step you are sure is last before working out the middle. Sequences
+score per position and also report how many consecutive pairs held, because
+getting the whole chain one slot out is a different mistake from shuffling it.
 
 **`network-diagram`** gives you a clickable topology with per host evidence, then
 asks you to identify what is actually compromised, what to do first, and how to
@@ -107,6 +108,29 @@ handle it. Every one of these deliberately mixes compromised hosts with hosts
 that merely show the effects: the file server whose data was encrypted over SMB
 by a valid account was never compromised, and rebuilding it is wasted work. Host
 selection gets partial credit; a wrong host costs half what a right one earns.
+
+**Inspecting a host is not accusing it.** Clicking a host opens its evidence and
+nothing else; naming it compromised is a separate control, either in the
+evidence panel or from the host list under the question. These used to be the
+same click, which meant you could not read a machine's logs without marking it,
+and reading them twice cleared the mark. Gather first, decide after, which is
+the whole point of the question.
+
+### Reading your own work
+
+The ACL grid is seven controls per row across eight rows, and native selects
+truncate their own labels: at the widths those columns were getting, PERMIT
+rendered in 50px of a box that needed 80, and five of the six controls in every
+row were cut. You could not read the rule you had just written, let alone scan
+eight of them for order, on a question whose entire task is evaluating a policy
+top to bottom. Column widths are now measured from the widest option each one
+can hold, and the policy is **also rendered as plain text** underneath, the way
+it would print on a real device.
+
+The requirements list stays pinned while you work. With a full rule set the span
+from the first requirement to the last rule is around 1300px in a 768px
+viewport, so the rules you are trying to satisfy were never on screen with the
+grid you satisfy them in. It collapses to one line when you want the room.
 
 ### The twelve
 

@@ -1,4 +1,5 @@
 import { loadContent } from "./content.js";
+import { aclReadoutHtml } from "./ui/pbq.js";
 import * as store from "./state.js";
 import * as sync from "./sync.js";
 import * as fsrs from "./fsrs.js";
@@ -108,6 +109,16 @@ function syncFootHtml() {
   const s = sync.getStatus();
   const [cls, text] = SYNC_TEXT[s] || SYNC_TEXT.unknown;
   return `<span class="dot ${cls}"></span><span>${esc(text)}</span>`;
+}
+
+/** Keep the readable policy in step with the grid without re-rendering it. */
+function refreshAclReadout() {
+  const el = document.getElementById("acl-readout");
+  if (!el) return;
+  const examPbq = App.view === "mock" && App.mock?.active && App.mock.items[App.mock.idx]?.pbq;
+  const pbq = examPbq || App.queue[App.idx]?.pbq;
+  if (pbq?.kind !== "acl-table") return;
+  el.outerHTML = aclReadoutHtml(pbq.config, examPbqStore().rules || []);
 }
 
 function updateSyncFoot() {
@@ -448,16 +459,37 @@ const ACTIONS = {
     [r[i + 1], r[i]] = [r[i], r[i + 1]];
   },
   "diagram-choice": (el) => { examPbqStore()[el.dataset.task] = el.dataset.value; },
+  // data-host, not data-node: the diagram's own click handler claims anything
+  // carrying data-node before action dispatch ever runs.
+  "node-toggle": (el) => {
+    const store_ = examPbqStore();
+    const list = (store_[el.dataset.task] ||= []);
+    const at = list.indexOf(el.dataset.host);
+    if (at >= 0) list.splice(at, 1); else list.push(el.dataset.host);
+  },
 
   // Click to place, rather than HTML5 drag: keyboard reachable, touch friendly,
   // and it does not lose the item when a drag wobbles.
-  "order-place": (el) => {
+  // Positions fill in any order now. The slots said "drop here" but were inert
+  // spans, and the only placement path appended to the end, so the sequence had
+  // to be built front to back with no way to say "this one is definitely last".
+  "order-place-at": (el) => {
     const st = examPbqStore();
-    st.order = [...(st.order || []), el.dataset.item];
+    const i = Number(el.dataset.i);
+    const order = [...(st.order || [])];
+    while (order.length <= i) order.push(undefined);
+    order[i] = st.held;
+    st.order = order;
+    st.held = null;
   },
   "order-unplace": (el) => {
     const st = examPbqStore();
-    (st.order ||= []).splice(Number(el.dataset.i), 1);
+    // Clear the position, do not splice it out: with positional placement,
+    // splicing would silently shift every later step up by one.
+    const order = [...(st.order || [])];
+    order[Number(el.dataset.i)] = undefined;
+    while (order.length && order[order.length - 1] === undefined) order.pop();
+    st.order = order;
   },
   "order-hold": (el) => {
     const st = examPbqStore();
@@ -565,15 +597,14 @@ document.addEventListener("click", (e) => {
     const pbq = examPbq || App.queue[App.idx].pbq;
     const def = pbq.config.nodes.find((n) => n.id === node.dataset.node);
     if (def && def.selectable !== false) {
+      // Inspecting a host is not accusing it. One click used to do both, so
+      // reading the evidence for a machine marked it compromised and reading it
+      // a second time cleared the mark: you could not investigate without
+      // committing, which is the opposite of the skill this question trains.
+      // Clicking inspects. Naming it compromised is a separate, explicit act.
       const store_ = examPbqStore();
       store_.inspected = def.id;
       store_.seenNodes = [...new Set([...(store_.seenNodes || []), def.id])];
-      const task = pbq.config.tasks.find((t) => t.type === "select-nodes");
-      if (task) {
-        const list = (store_[task.id] ||= []);
-        const at = list.indexOf(def.id);
-        if (at >= 0) list.splice(at, 1); else list.push(def.id);
-      }
       render();
     }
     return;
@@ -597,6 +628,9 @@ document.addEventListener("change", (e) => {
     render();
   } else if (t.dataset.acl) {
     pbqStore.rules[Number(t.dataset.acl)][t.dataset.k] = t.value;
+    // A full render would rebuild the select you are still interacting with and
+    // take the focus with it, so the plain-text policy is refreshed on its own.
+    refreshAclReadout();
   } else if (t.dataset.setting) {
     const k = t.dataset.setting;
     App.state.profile[k] =
