@@ -1,0 +1,49 @@
+[
+  {
+    "id": "mitigation-technique-selection",
+    "label": "Choosing the mitigation that addresses the failure described",
+    "objective": "2.5",
+    "topics": ["segmentation", "access-control-list", "permissions", "patching", "encryption",
+               "monitoring", "least-privilege", "endpoint-protection-installation", "isolation",
+               "configuration-enforcement", "decommissioning"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You picked the strongest-sounding control rather than the one that acts on the weakness in the stem. Every technique in this objective is correct somewhere and wrong almost everywhere else.",
+      "contrast": [
+        ["Technique", "Addresses", "Does nothing about"],
+        ["Patching", "A known software flaw with a fix available", "Misconfiguration, excess rights, or a flaw with no patch"],
+        ["Segmentation", "How far an intruder can move once inside", "Getting in; the first host still falls"],
+        ["Access control lists", "Which traffic or which principals may reach a resource", "What an authorised principal then does"],
+        ["Permissions and least privilege", "How much an authorised account can do", "An unauthenticated attacker on the network"],
+        ["Encryption", "Disclosure if the data or traffic is obtained", "Availability, integrity of a running system, or misuse by an authorised reader"],
+        ["Monitoring", "Noticing that something happened", "Preventing it; this is the only detective control in the list"],
+        ["Endpoint protection", "Malicious code executing on a host", "A valid account doing permitted things"],
+        ["Isolation and decommissioning", "A system that cannot be fixed or should not exist", "Systems you still need"]
+      ],
+      "rule": "Name what actually failed: unpatched code, too much access, traffic that should not have been permitted, or data that should not have been readable. The technique follows from that, and monitoring never prevents anything.",
+      "tell": "A scenario with one clear failure and four controls that all sound responsible.",
+      "trap": "Monitoring is the attractive answer because it looks like diligence. If the stem asks how to prevent recurrence, a detective control is the wrong category of answer."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "least-privilege-vs-permissions",
+    "label": "Least privilege as a principle, permissions as the implementation, ACLs as the mechanism",
+    "objective": "2.5",
+    "topics": ["least-privilege", "permissions", "access-control-list"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated these as three names for restricting access. They sit at different levels: one is a principle you apply, one is the state you configure, one is the structure that holds it.",
+      "contrast": [
+        ["Term", "Level", "What it is"],
+        ["Least privilege", "Principle", "Grant only what the role requires, for only as long as it is required"],
+        ["Permissions", "Configuration", "The actual rights an account holds on a resource right now"],
+        ["Access control list", "Mechanism", "The structure attached to a resource that records who may do what"]
+      ],
+      "rule": "Least privilege is a decision about how much to grant. Permissions are what was granted. The ACL is where that is written down. A question asking why an account could do something is about permissions; one asking what rule should have governed the grant is about least privilege.",
+      "tell": "Accounts with more access than their role requires point to least privilege. A specific resource someone should not have reached points to permissions or the ACL.",
+      "trap": "Least privilege is a design principle, so it is not something you switch on. If the stem asks for an immediate action, the answer is usually to correct the permissions, with least privilege as the reason."
+    },
+    "retireAfter": 2
+  }
+]

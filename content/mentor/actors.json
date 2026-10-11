@@ -1,0 +1,29 @@
+[
+  {
+    "id": "threat-actor-motivations",
+    "label": "Telling threat actor motivations apart: money, disruption, espionage, ideology, war",
+    "objective": "2.1",
+    "topics": ["financial-gain", "blackmail", "service-disruption", "disruption-chaos", "espionage",
+               "war", "ethical", "revenge", "philosophical-political-beliefs", "data-exfiltration"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You answered with the actor rather than the motivation, or you used the damage as the motive. The motivation is what the attacker wanted, which is often not what you noticed.",
+      "contrast": [
+        ["Motivation", "What the attacker wants", "Tell in the stem"],
+        ["Financial gain", "Money, directly", "Ransom, fraud, cryptomining, data sold on"],
+        ["Blackmail", "Leverage over a person or organisation", "Threat to publish unless paid or unless something is done"],
+        ["Espionage", "Information, quietly and for a long time", "Long dwell time, no damage, intellectual property or state secrets"],
+        ["Service disruption", "Your systems to stop working", "DDoS, wiper, timed to an event that matters to you"],
+        ["Disruption or chaos", "Disorder for its own sake, or for notoriety", "No demand, no theft, no clear beneficiary"],
+        ["Philosophical or political", "To make a point", "Defacement, leak with a manifesto, timed to a cause"],
+        ["Ethical", "To improve security, with or without permission", "Reports the flaw rather than using it"],
+        ["Revenge", "To harm a specific target personally", "A named former employee or an identifiable grievance"],
+        ["War", "A state objective pursued by other means", "Critical national infrastructure, conflict context"]
+      ],
+      "rule": "Separate what happened from what was wanted. Ransomware that exfiltrates and then threatens to publish is financial gain through blackmail; a wiper with no demand is service disruption.",
+      "tell": "Any stem that describes the attacker's behaviour and asks for the motivation rather than the actor.",
+      "trap": "Espionage leaves no damage, which is why it is missed. If the stem emphasises long undetected presence and nothing broken, the motive is information, not disruption."
+    },
+    "retireAfter": 2
+  }
+]

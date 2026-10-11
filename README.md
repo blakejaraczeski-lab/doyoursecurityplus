@@ -485,14 +485,24 @@ of their exam weight on graded practice.
 
 ## Known gaps
 
-- **Coverage is 84% of the blueprint.** 109 topics still have no graded item.
+- **Coverage is 88% of the blueprint.** 84 topics still have no graded item.
   **No objective is thin**: every one reaches at least 35% of its topics and
-  holds at least four graded units, and the weakest now sits at 53% rather than
+  holds at least four graded units, and the weakest now sits at 67% rather than
   28%. Readiness marks a thin objective as thin rather than quietly scoring it
   as a weakness in you, and `content/coverage.json` pins the figure so the app
   and the validator cannot drift apart about it. Weakest remaining by topic
-  coverage: 2.5 mitigation techniques, 2.1 threat actors, 3.4 resilience,
-  4.4 alerting and monitoring, 5.3 third-party risk.
+  coverage: 4.8 incident response, 5.2 risk management, 4.4 alerting and
+  monitoring, 5.3 third-party risk, 3.1 architecture models.
+- **A canonical topic id always wins over another topic's alias.** Where the
+  same CompTIA bullet appears under two objectives the generator suffixes the
+  later one (`segmentation-2`) and keeps the bare word as its alias. Resolving
+  tags through one flat map let that alias overwrite the canonical entry of the
+  objective that owns the bare id, so an item tagged `segmentation` was credited
+  to 3.3 and never to 2.5. **Eighteen topics were misattributed**, in the
+  validator and the app alike, and the report was confident about all of them.
+  Canonical ids are now seeded first in both implementations, and the validator
+  lists every shadowed alias so the taxonomy can be cleaned up rather than
+  quietly carrying dead entries.
 - **The bank no longer matches the exam weights.** Seven rounds of filling the
   thinnest objectives went where the holes were rather than where the
   percentages wanted: domains 1 and 4 read over, 2 and 3 read under. This does

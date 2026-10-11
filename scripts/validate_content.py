@@ -356,15 +356,37 @@ def main():
     # exactly its exam weight while three of its objectives have no items at
     # all. That is precisely what happened, so coverage is reported in absolute
     # terms, per objective, and a zero-item objective is an error.
-    alias = {}
+    # A canonical topic id ALWAYS wins over another topic's alias.
+    #
+    # Where the same CompTIA bullet appears under two objectives, the generator
+    # suffixes the later one (segmentation-2) and records the bare word as its
+    # alias. Building one flat map let that alias overwrite the canonical entry
+    # of the objective that legitimately owns the bare id, so tagging an item
+    # "segmentation" credited 3.3 and never 2.5. Eighteen topics were affected,
+    # and the coverage report was confidently wrong about all of them.
     topics_of = {}
+    canonical_ids = set()
     for d in tax["domains"]:
         for o in d["objectives"]:
             topics_of[o["id"]] = [t["id"] for t in o["topics"]]
+            canonical_ids.update(t["id"] for t in o["topics"])
+    alias = {t: t for t in canonical_ids}
+    shadowed = []
+    for d in tax["domains"]:
+        for o in d["objectives"]:
             for t in o["topics"]:
-                alias[t["id"]] = t["id"]
                 for a in t.get("aliases", []):
-                    alias[a] = t["id"]
+                    if a in canonical_ids:
+                        shadowed.append((a, t["id"]))
+                    else:
+                        alias[a] = t["id"]
+    if shadowed:
+        print(f"\nnote: {len(shadowed)} alias(es) are shadowed by a canonical topic of the "
+              f"same name and can never match; the canonical owner takes the credit")
+        for a, owner in sorted(shadowed)[:6]:
+            print(f"  '{a}' declared on {owner}")
+        if len(shadowed) > 6:
+            print(f"  ... and {len(shadowed) - 6} more")
 
     touched = defaultdict(int)
     per_obj_items = defaultdict(int)

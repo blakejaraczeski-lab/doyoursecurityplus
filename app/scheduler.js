@@ -316,14 +316,22 @@ export function readiness(state, content, now = Date.now()) {
   // Resolve topic tags the same way scripts/validate_content.py does, aliases
   // included, so the app and the gate cannot drift apart and report different
   // coverage for the same bank.
+  // A canonical topic id always wins over another topic's alias. Building one
+  // flat map in a single pass let an alias such as "segmentation" (declared on
+  // 3.3's segmentation-2) overwrite the canonical entry owned by 2.5, so items
+  // tagged with the bare word were credited to the wrong objective.
   const canonical = {};
   const ownTopics = {};
   for (const d of content.objectives.domains) {
     for (const o of d.objectives) {
       ownTopics[o.id] = new Set(o.topics.map((t) => t.id));
+      for (const t of o.topics) canonical[t.id] = t.id;
+    }
+  }
+  for (const d of content.objectives.domains) {
+    for (const o of d.objectives) {
       for (const t of o.topics) {
-        canonical[t.id] = t.id;
-        for (const a of t.aliases || []) canonical[a] = t.id;
+        for (const a of t.aliases || []) if (!(a in canonical)) canonical[a] = t.id;
       }
     }
   }

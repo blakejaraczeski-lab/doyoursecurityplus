@@ -1,6 +1,7 @@
 {
   "items": [
     "acronyms.json",
+    "actors.json",
     "anki-imported.json",
     "architecture.json",
     "baselines.json",
@@ -19,8 +20,10 @@
     "identity.json",
     "incident.json",
     "investigation.json",
+    "mitigations.json",
     "multi-select.json",
     "operations.json",
+    "resilience.json",
     "threats.json",
     "vulnmgmt.json",
     "wireless.json"
@@ -49,6 +52,7 @@
   ],
   "mentor": [
     "acronyms.json",
+    "actors.json",
     "architecture.json",
     "baselines.json",
     "capabilities.json",
@@ -62,7 +66,9 @@
     "identity.json",
     "incident.json",
     "investigation.json",
+    "mitigations.json",
     "operations.json",
+    "resilience.json",
     "terminology.json",
     "threats.json",
     "vulnmgmt.json",
