@@ -1,0 +1,25 @@
+[
+  {
+    "id": "tunneling-protocols",
+    "label": "TLS tunnelling vs IPsec tunnelling, and transport vs tunnel mode",
+    "objective": "3.2",
+    "topics": ["tls-tunneling", "ipsec-tunneling", "virtual-private-network", "remote-access",
+               "transport-method"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated VPN as one technology. The two families operate at different layers, which decides what they can carry, where they terminate, and what gets through a restrictive network.",
+      "contrast": [
+        ["", "TLS-based VPN", "IPsec VPN"],
+        ["Layer", "Transport and above", "Network layer"],
+        ["Typical use", "Remote access from anywhere, often clientless in a browser", "Site-to-site tunnels, and client remote access"],
+        ["Port behaviour", "Usually 443, so it passes most egress filtering and captive portals", "Needs ESP and IKE, which restrictive networks often block"],
+        ["What it carries", "Whatever the client is configured to route, often application-scoped", "Any IP traffic between the two networks"],
+        ["Modes", "Not applicable", "Transport mode protects the payload between two hosts; tunnel mode wraps the whole packet between gateways"]
+      ],
+      "rule": "IPsec tunnel mode wraps the entire original packet, including its headers, which is what lets two networks join as if they were one. Transport mode protects only the payload and leaves the original headers visible, so it suits host-to-host.",
+      "tell": "Joining two offices points to IPsec tunnel mode. A remote worker on a hotel network that blocks everything but 443 points to TLS.",
+      "trap": "Split tunnelling is the detail that costs marks. It sends only corporate traffic through the VPN and everything else direct, which preserves bandwidth and removes your inspection of the rest, so the device is simultaneously on your network and on the open internet."
+    },
+    "retireAfter": 2
+  }
+]

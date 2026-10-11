@@ -1,0 +1,320 @@
+[
+  {
+    "id": "tn-001",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": [
+      "tls-tunneling",
+      "ipsec-tunneling",
+      "remote-access"
+    ],
+    "difficulty": 4,
+    "stem": "A consultant must reach internal systems from hotel and conference networks that block everything except HTTP and HTTPS. Which remote access approach is most likely to work?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A TLS-based VPN operating over port 443",
+        "correct": true,
+        "why": "TLS VPNs ride the one port restrictive networks almost always permit. That practical reachability is the main reason they displaced IPsec for roaming users."
+      },
+      {
+        "id": "b",
+        "text": "An IPsec VPN in tunnel mode",
+        "misconception": "tunneling-protocols",
+        "why": "IPsec needs IKE and ESP, which restrictive guest networks commonly block. NAT traversal helps and is not guaranteed."
+      },
+      {
+        "id": "c",
+        "text": "A site-to-site IPsec tunnel from the hotel",
+        "misconception": "tunneling-protocols",
+        "why": "Site-to-site joins two networks you control. You do not control the hotel."
+      },
+      {
+        "id": "d",
+        "text": "A jump server reachable over SSH",
+        "misconception": "jump-server-vs-proxy",
+        "why": "A jump server controls access once inside. It is not the transport that gets you there, and SSH is often blocked too."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "tn-002",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": [
+      "ipsec-tunneling",
+      "virtual-private-network"
+    ],
+    "difficulty": 4,
+    "stem": "Two branch offices are joined so that hosts in each can address hosts in the other directly, with the original IP headers protected in transit. Which IPsec mode is in use?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Tunnel mode, which encapsulates the entire original packet between the gateways",
+        "correct": true,
+        "why": "Tunnel mode wraps the whole packet including its headers in a new one addressed gateway to gateway. That encapsulation is what makes two networks behave as one."
+      },
+      {
+        "id": "b",
+        "text": "Transport mode, which is the standard for site-to-site links",
+        "misconception": "tunneling-protocols",
+        "why": "Transport mode protects the payload and leaves the original headers exposed. It suits host to host, not gateway to gateway."
+      },
+      {
+        "id": "c",
+        "text": "TLS tunnelling, since the traffic is encrypted",
+        "misconception": "tunneling-protocols",
+        "why": "TLS operates above the transport layer and does not encapsulate arbitrary IP packets between networks."
+      },
+      {
+        "id": "d",
+        "text": "Split tunnelling",
+        "misconception": "tunneling-protocols",
+        "why": "That describes which traffic is sent through a VPN, not how the packets are encapsulated."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "tn-003",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": [
+      "virtual-private-network",
+      "tls-tunneling",
+      "remote-access"
+    ],
+    "difficulty": 4,
+    "stem": "A VPN is configured so that corporate traffic traverses the tunnel while all other traffic goes direct to the internet. What is the security consequence?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Split tunnelling: the device is simultaneously on the corporate network and the open internet, and its general browsing is outside corporate inspection",
+        "correct": true,
+        "why": "Bandwidth and latency improve, and the trade is that the endpoint becomes a bridge between two networks, with half its traffic unfiltered and unlogged."
+      },
+      {
+        "id": "b",
+        "text": "No consequence, since corporate traffic remains encrypted",
+        "misconception": "tunneling-protocols",
+        "why": "The encrypted half is fine. The risk is the unmonitored half and the bridge the device now forms."
+      },
+      {
+        "id": "c",
+        "text": "The VPN is operating in transport mode",
+        "misconception": "tunneling-protocols",
+        "why": "Mode concerns IPsec encapsulation, not which routes are sent through the tunnel."
+      },
+      {
+        "id": "d",
+        "text": "It prevents the device from reaching the internet at all",
+        "misconception": "tunneling-protocols",
+        "why": "That describes full tunnelling with no direct egress, which is the opposite configuration."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "tn-004",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": [
+      "active-vs-passive",
+      "sensors",
+      "intrusion-detection-system"
+    ],
+    "difficulty": 4,
+    "stem": "A monitoring device receives a copy of traffic from a span port and raises alerts. It is not in the forwarding path. How is it described, and what is the limitation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Passive: it can detect and alert but cannot block, because the traffic has already passed",
+        "correct": true,
+        "why": "Passive placement observes a copy. It adds no latency and introduces no failure point, and it cannot stop anything."
+      },
+      {
+        "id": "b",
+        "text": "Active, because it is actively analysing traffic",
+        "misconception": "ids-vs-ips-placement",
+        "why": "Active and passive describe position in the path, not effort. Active means inline and able to act."
+      },
+      {
+        "id": "c",
+        "text": "Passive, and it can block by sending reset packets, which is equivalent to inline blocking",
+        "misconception": "ids-vs-ips-placement",
+        "why": "Resets are a partial mitigation that often arrives too late, and they are not equivalent to dropping the packet inline."
+      },
+      {
+        "id": "d",
+        "text": "Active, because a span port is a form of inline tap",
+        "misconception": "ids-vs-ips-placement",
+        "why": "A span port copies traffic. The device is not in the forwarding path."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "tn-005",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": [
+      "proxy-server",
+      "jump-server",
+      "centralized-proxy"
+    ],
+    "difficulty": 4,
+    "stem": "Which statement correctly distinguishes a forward proxy from a reverse proxy?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A forward proxy acts on behalf of internal clients reaching out; a reverse proxy acts on behalf of internal servers being reached",
+        "correct": true,
+        "why": "Direction is the distinction. Forward proxies enforce policy and log outbound browsing; reverse proxies terminate inbound connections, hiding and protecting the servers behind."
+      },
+      {
+        "id": "b",
+        "text": "A forward proxy encrypts traffic and a reverse proxy decrypts it",
+        "misconception": "jump-server-vs-proxy",
+        "why": "Both can terminate TLS. Encryption is not what separates them."
+      },
+      {
+        "id": "c",
+        "text": "A forward proxy is hardware and a reverse proxy is software",
+        "misconception": "jump-server-vs-proxy",
+        "why": "Either can be either."
+      },
+      {
+        "id": "d",
+        "text": "A reverse proxy is another name for a jump server",
+        "misconception": "jump-server-vs-proxy",
+        "why": "A jump server is a controlled host administrators connect through to reach managed systems. Different purpose entirely."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "tn-006",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": [
+      "sensors",
+      "active-vs-passive",
+      "inline-vs-tap-monitor"
+    ],
+    "difficulty": 3,
+    "stem": "Where should sensors be placed to give visibility of lateral movement between internal segments?",
+    "options": [
+      {
+        "id": "a",
+        "text": "At internal segment boundaries, not only at the perimeter, since east-west traffic never crosses the internet gateway",
+        "correct": true,
+        "why": "Perimeter-only sensing sees traffic entering and leaving. An attacker moving between internal hosts produces nothing the perimeter can observe."
+      },
+      {
+        "id": "b",
+        "text": "At the internet perimeter only, since all traffic eventually passes it",
+        "misconception": "ids-vs-ips-placement",
+        "why": "Internal host-to-host traffic does not pass the perimeter at all, which is exactly the blind spot."
+      },
+      {
+        "id": "c",
+        "text": "On the public side of the firewall only",
+        "misconception": "ids-vs-ips-placement",
+        "why": "That position sees unfiltered internet noise and nothing internal."
+      },
+      {
+        "id": "d",
+        "text": "Sensors are unnecessary where an IPS is deployed inline at the edge",
+        "misconception": "ids-vs-ips-placement",
+        "why": "An edge IPS has the same blind spot for east-west traffic."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "tn-007",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": [
+      "selection-of-effective-controls",
+      "fail-open",
+      "fail-closed"
+    ],
+    "difficulty": 4,
+    "stem": "A control is being selected for a door on a medical ward. In a fire alarm the door must release; for everyday access it must stay locked. Which principle governs the choice, and what is the answer?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Selection of effective controls weighs safety against security: the door fails open, because life safety outranks access control",
+        "correct": true,
+        "why": "Choosing a control means deciding which failure mode you can live with. On an escape route the answer is always life safety, and the access control is compensated elsewhere."
+      },
+      {
+        "id": "b",
+        "text": "It should fail closed, since security must be maintained during an incident",
+        "misconception": "fail-open-vs-fail-closed",
+        "why": "A locked escape route during a fire is a fatality risk. No security requirement outweighs it."
+      },
+      {
+        "id": "c",
+        "text": "It should fail closed, with staff issued override keys",
+        "misconception": "fail-open-vs-fail-closed",
+        "why": "Depends on people acting correctly under emergency conditions, which is precisely when they do not."
+      },
+      {
+        "id": "d",
+        "text": "The choice is governed by the screened subnet principle",
+        "misconception": "screened-subnet-direction",
+        "why": "That concerns which direction network traffic may be initiated."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "tn-008",
+    "type": "mcq-multi",
+    "objective": "3.2",
+    "topics": [
+      "tls-tunneling",
+      "ipsec-tunneling",
+      "active-vs-passive",
+      "proxy-server"
+    ],
+    "difficulty": 4,
+    "stem": "Which TWO statements about secure infrastructure are correct? (Choose two.)",
+    "options": [
+      {
+        "id": "a",
+        "text": "IPsec tunnel mode encapsulates the whole original packet, which is what joins two networks",
+        "correct": true,
+        "why": "Transport mode protects only the payload and leaves the original headers visible, suiting host-to-host."
+      },
+      {
+        "id": "b",
+        "text": "A passively placed sensor cannot drop traffic, because it only sees a copy",
+        "correct": true,
+        "why": "Passive placement adds no latency and no failure point, at the cost of being unable to act."
+      },
+      {
+        "id": "c",
+        "text": "A reverse proxy is deployed to control outbound browsing by staff",
+        "misconception": "jump-server-vs-proxy",
+        "why": "That is a forward proxy. Reverse proxies front inbound connections to your servers."
+      },
+      {
+        "id": "d",
+        "text": "Split tunnelling improves security by reducing VPN load",
+        "misconception": "tunneling-protocols",
+        "why": "It improves performance and removes your visibility of everything not routed through the tunnel."
+      },
+      {
+        "id": "e",
+        "text": "TLS VPNs are blocked more often than IPsec on restrictive networks",
+        "misconception": "tunneling-protocols",
+        "why": "The reverse: TLS on 443 passes almost everywhere, which is why roaming users favour it."
+      }
+    ],
+    "selectCount": 2
+  }
+]

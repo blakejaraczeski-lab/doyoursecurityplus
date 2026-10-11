@@ -4,6 +4,7 @@
     "actors.json",
     "anki-imported.json",
     "architecture.json",
+    "archmodels.json",
     "assets.json",
     "automation.json",
     "awareness.json",
@@ -34,7 +35,9 @@
     "risk-extra.json",
     "thirdparty.json",
     "threats.json",
+    "tunnels.json",
     "vulnmgmt.json",
+    "vulntypes.json",
     "wireless.json"
   ],
   "pbq": [
@@ -63,6 +66,7 @@
     "acronyms.json",
     "actors.json",
     "architecture.json",
+    "archmodels.json",
     "assets.json",
     "automation.json",
     "awareness.json",
@@ -89,7 +93,9 @@
     "terminology.json",
     "thirdparty.json",
     "threats.json",
+    "tunnels.json",
     "vulnmgmt.json",
+    "vulntypes.json",
     "wireless.json"
   ],
   "index": [

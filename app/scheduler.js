@@ -267,7 +267,12 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
 /** Build a mock exam: PBQs front loaded, then multiple choice, up to 90 items. */
 export function buildMock(content, { pbqCount = 5, total = 90 } = {}) {
   const pbqs = shuffle(content.pbqs).slice(0, Math.min(pbqCount, content.pbqs.length));
-  const mcqs = content.items.filter((i) => i.type === "mcq" && !i.derived);
+  // The real exam is single-select, multi-select and PBQs, so a mock that draws
+  // only plain "mcq" is narrower than the thing it is imitating. Multi-select
+  // and the derived discrimination items are exam-shaped and belong in the pool.
+  const mcqs = content.items.filter(
+    (i) => typeof i.type === "string" && i.type.startsWith("mcq")
+  );
   const byDomain = {};
   for (const m of mcqs) (byDomain[content.domainOf[m.objective]] ||= []).push(m);
 

@@ -546,6 +546,7 @@ export function settingsView(App) {
   const c = App.content;
   const counts = {
     mcq: c.items.filter((i) => i.type === "mcq").length,
+    multi: c.items.filter((i) => i.type === "mcq-multi").length,
     recall: c.items.filter((i) => i.type === "recall").length,
     pbq: c.pbqs.length,
     mc: Object.keys(c.misconceptions).length,
@@ -611,6 +612,7 @@ export function settingsView(App) {
   <div class="card">
     <table class="grid"><tbody>
       <tr><td>Multiple choice items</td><td class="mono">${counts.mcq}</td></tr>
+      <tr><td>Multiple select items</td><td class="mono">${counts.multi}</td></tr>
       <tr><td>Recall items (imported)</td><td class="mono">${counts.recall}</td></tr>
       <tr><td>Performance-based questions</td><td class="mono">${counts.pbq}</td></tr>
       <tr><td>Misconceptions with mentor guides</td><td class="mono">${counts.mc}</td></tr>

@@ -252,8 +252,14 @@ export function itemsFor(mcId, content, state, excludeItemId = null) {
   const used = new Set(rec?.cleanPasses || []);
   if (excludeItemId) used.add(excludeItemId);
 
+  // Both "mcq" and "mcq-multi": a choose-two item tests the same discrimination
+  // and the exam asks them the same way. Filtering on "mcq" alone quietly
+  // excluded all 35 multi-select items from the misconception loop, so they
+  // could never be served as a retarget and never counted toward retiring
+  // anything. The Python gate counted them, so the two sides disagreed about
+  // which misconceptions were reachable.
   const mcqs = content.items.filter(
-    (it) => it.type === "mcq" &&
+    (it) => typeof it.type === "string" && it.type.startsWith("mcq") &&
       it.options?.some((o) => o.misconception === mcId) &&
       !used.has(it.id)
   );
