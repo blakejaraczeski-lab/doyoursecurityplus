@@ -1,0 +1,88 @@
+[
+  {
+    "id": "baseline-lifecycle",
+    "label": "Establishing vs deploying vs maintaining a secure baseline",
+    "objective": "4.1",
+    "topics": ["establish-secure-baselines", "deploy-secure-baselines", "maintain-secure-baselines"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated the baseline as a document that gets written once. The objectives name three separate activities because the failure is almost always in the third one.",
+      "contrast": [
+        ["Stage", "What happens", "How it fails"],
+        ["Establish", "Decide the required configuration, from a benchmark such as CIS or a vendor guide, adapted to your environment", "Copied verbatim without testing, so it breaks production"],
+        ["Deploy", "Push it to every in-scope system, through Group Policy, MDM or configuration management", "Applied to the systems you knew about, missing the ones you did not"],
+        ["Maintain", "Detect drift, re-apply, and revise the baseline as threats and software change", "Nobody checks, so the baseline describes a state that stopped existing months ago"]
+      ],
+      "rule": "A baseline is a continuous control, not an artefact. If nothing detects drift from it, you have a document rather than a baseline.",
+      "tell": "A stem where the configuration was correct at build time and is not correct now, or where new systems were built outside the process.",
+      "trap": "Deploying is the visible work and maintaining is where the security actually lives. Drift detection is the control the exam expects you to name."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "hardening-by-device-class",
+    "label": "What hardening means for a server, a switch, cloud infrastructure, and a device you cannot patch",
+    "objective": "4.1",
+    "topics": ["harden-workstations", "harden-servers", "harden-switches", "harden-routers",
+               "harden-cloud-infrastructure", "harden-mobile-devices", "harden-ics-scada",
+               "harden-embedded-systems", "harden-rtos", "harden-iot-devices"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You applied the workstation answer to every device class. The exam separates them because some classes cannot take the standard answer at all.",
+      "contrast": [
+        ["Class", "Characteristic hardening", "The trap"],
+        ["Workstations and servers", "Patch, remove roles and software, host firewall, endpoint protection, disable unused accounts", "None, this is the default answer"],
+        ["Switches and routers", "Disable unused ports and services, change defaults, secure management plane, use out-of-band management", "Treating the data plane and the management plane as one problem"],
+        ["Cloud infrastructure", "Identity and policy configuration, least privilege, logging, no public exposure by default", "Looking for a host to patch when the exposure is a misconfigured permission"],
+        ["Mobile devices", "MDM policy, encryption, screen lock, remote wipe, restrict sideloading", "Assuming you control the hardware"],
+        ["ICS, SCADA, embedded, RTOS, IoT", "Segmentation, strict access control, monitoring, because patching is often impossible", "Answering 'apply the patch' when no patch exists or downtime is unacceptable"]
+      ],
+      "rule": "If the device class cannot be patched or rebooted, the answer is a compensating control: segment it, restrict who can reach it, and watch it closely.",
+      "tell": "Operational technology, a production line, a medical device, a vendor who ended support, or a system that cannot be taken offline.",
+      "trap": "Patch management is the correct answer so often that people pick it for the one class where it is specifically not available. Read for whether patching is even possible."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "mobile-deployment-models",
+    "label": "BYOD vs COPE vs CYOD",
+    "objective": "4.1",
+    "topics": ["bring-your-own-device", "corporate-owned-personally-enabled", "choose-your-own-device",
+               "mobile-device-management", "cellular"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You sorted these by how much the employee likes them. The axis that matters is who owns the device, because ownership decides what the organisation may enforce and wipe.",
+      "contrast": [
+        ["Model", "Who owns it", "Who chose it", "Control the organisation has"],
+        ["BYOD", "The employee", "The employee", "Least: usually containerisation, and wiping only the corporate container"],
+        ["COPE", "The organisation", "The organisation", "Most: full management, with personal use permitted"],
+        ["CYOD", "The organisation", "The employee, from an approved list", "High: corporate ownership with some choice"]
+      ],
+      "rule": "Ownership decides authority. If the employee owns the device you cannot wipe it wholesale, which is why BYOD drives containerisation and why the hardest questions are about privacy and legal exposure rather than technology.",
+      "tell": "A stem about remote wiping a departing employee's phone, or about which model gives the most control.",
+      "trap": "COPE and CYOD are both corporate-owned and differ only in who picked the hardware. The distinction people get wrong is CYOD against BYOD, because choice is confused with ownership."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "application-security-techniques",
+    "label": "Input validation vs static code analysis vs code signing vs sandboxing",
+    "objective": "4.1",
+    "topics": ["input-validation", "static-code-analysis", "code-signing", "sandboxing", "secure-cookies"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You picked the technique that sounded most thorough rather than the one that acts at the moment described. Each operates at a different point in the life of the code.",
+      "contrast": [
+        ["Technique", "When it acts", "What it assures"],
+        ["Static code analysis", "Before the code runs, in the repository or build", "Flaws visible in the source, without executing it"],
+        ["Input validation", "At runtime, on every request", "That data entering the application conforms before it is used"],
+        ["Code signing", "At publication, verified at install or load", "Origin and integrity: this came from who it claims, unmodified"],
+        ["Sandboxing", "At runtime, around the process", "Containment: if it misbehaves, the damage is bounded"]
+      ],
+      "rule": "Static analysis finds the flaw, input validation stops the payload, code signing proves the provenance, sandboxing limits the blast radius. Only one of them is about trusting where software came from.",
+      "tell": "A stem about an application accepting malicious input points to validation. One about verifying a vendor's update points to signing. One about running an untrusted file safely points to sandboxing.",
+      "trap": "Code signing proves origin and integrity and says nothing about whether the code is safe. Signed malware is signed, and the signature is doing its job."
+    },
+    "retireAfter": 2
+  }
+]

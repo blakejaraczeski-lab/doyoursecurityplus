@@ -485,23 +485,25 @@ of their exam weight on graded practice.
 
 ## Known gaps
 
-- **Coverage is 76% of the blueprint.** 166 topics still have no graded item, so
-  breadth remains the limiting factor. **No objective is thin**: every one
-  reaches at least 35% of its topics and holds at least four graded units.
-  Readiness marks a thin objective as thin rather than quietly scoring it as a
-  weakness in you, and `content/coverage.json` pins the figure so the app and
-  the validator cannot drift apart about it. Weakest remaining by topic
-  coverage: 4.1 secure baselines, 1.2 fundamental concepts, 5.1 governance,
-  2.5 mitigation techniques, 2.1 threat actors.
-- **The bank no longer matches the exam weights**, because six rounds of filling
-  the thinnest objectives went wherever the holes were rather than wherever the
-  percentages wanted. Domains 1 and 4 read over, 2 and 5 read under. This does
-  not change what you are served: mock exams draw per domain by exam weight
-  regardless of how the bank is composed, and the drill queue routes new items
-  by how much of each domain you have actually seen. The remaining holes sit
-  mostly in domains 2, 3 and 5, so continuing to fill the thinnest objectives
-  corrects the ratio as a side effect. Adding filler purely to move the number
-  would be the exact mistake this project already made once.
+- **Coverage is 84% of the blueprint.** 109 topics still have no graded item.
+  **No objective is thin**: every one reaches at least 35% of its topics and
+  holds at least four graded units, and the weakest now sits at 53% rather than
+  28%. Readiness marks a thin objective as thin rather than quietly scoring it
+  as a weakness in you, and `content/coverage.json` pins the figure so the app
+  and the validator cannot drift apart about it. Weakest remaining by topic
+  coverage: 2.5 mitigation techniques, 2.1 threat actors, 3.4 resilience,
+  4.4 alerting and monitoring, 5.3 third-party risk.
+- **The bank no longer matches the exam weights.** Seven rounds of filling the
+  thinnest objectives went where the holes were rather than where the
+  percentages wanted: domains 1 and 4 read over, 2 and 3 read under. This does
+  not change what reaches you, because mock exams draw per domain by exam weight
+  regardless of how the bank is composed and the drill queue routes new items by
+  how much of each domain you have actually seen. It is now worth correcting on
+  its own terms, and conveniently the remaining holes are concentrated in
+  domains 2 and 3: 57 of the 109 uncovered topics, against 4 left in domain 1.
+  Filling the thinnest objectives next corrects the ratio as a side effect,
+  which is the only reason to care about it. Adding filler purely to move the
+  number would be the exact mistake this project already made once.
 - **Mock exams draw only from plain `mcq` items.** Multiple select and the
   derived discrimination questions are excluded, so a mock is narrower than the
   real thing. The drill queue serves all of them.

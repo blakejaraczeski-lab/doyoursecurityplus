@@ -1,0 +1,146 @@
+[
+ {
+  "id":"bl-001","type":"mcq","objective":"4.1",
+  "topics":["establish-secure-baselines","deploy-secure-baselines","maintain-secure-baselines"],"difficulty":4,
+  "stem":"An organisation adopted a CIS benchmark two years ago and applied it to every server at build time. An audit finds 40% of servers no longer match it. Which part of baseline management failed?",
+  "options":[
+   {"id":"a","text":"Maintaining the baseline: nothing detected or corrected configuration drift after deployment","correct":true,"why":"Establishment and deployment both succeeded. Without drift detection and re-application, a baseline degrades from the day it is applied, which is why maintenance is named as its own activity."},
+   {"id":"b","text":"Establishing the baseline, because the benchmark chosen was unsuitable","misconception":"baseline-lifecycle","why":"Nothing suggests the benchmark was wrong. The servers matched it initially and then diverged."},
+   {"id":"c","text":"Deploying the baseline, because it was never applied to those servers","misconception":"baseline-lifecycle","why":"The stem says it was applied at build time. The divergence happened afterwards."},
+   {"id":"d","text":"Nothing failed: baselines are a point-in-time hardening exercise","misconception":"baseline-lifecycle","why":"That belief is the failure. A baseline is a continuous control, and this is precisely the outcome of treating it as a one-off."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-002","type":"mcq","objective":"4.1",
+  "topics":["establish-secure-baselines","deploy-secure-baselines"],"difficulty":3,
+  "stem":"A team downloads a vendor hardening guide and applies every setting to production without modification. Two business applications stop working. What should have happened first?",
+  "options":[
+   {"id":"a","text":"The baseline should have been established by adapting and testing the benchmark against the organisation's actual environment","correct":true,"why":"Establishing means deciding the required configuration for your estate, which includes testing it. A benchmark is input to that decision, not the decision itself."},
+   {"id":"b","text":"The guide should have been deployed to a wider set of systems simultaneously","misconception":"baseline-lifecycle","why":"Wider deployment of an untested configuration breaks more things, not fewer."},
+   {"id":"c","text":"Drift detection should have been enabled before deployment","misconception":"baseline-lifecycle","why":"Drift detection reports divergence from the baseline. It would have happily confirmed the broken configuration was correctly applied."},
+   {"id":"d","text":"The applications should have been added to an allow list","misconception":"application-security-techniques","why":"Allow lists govern which executables may run. They have no bearing on an OS configuration setting breaking an application."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-003","type":"mcq","objective":"4.1",
+  "topics":["harden-ics-scada","harden-embedded-systems","harden-rtos"],"difficulty":4,
+  "stem":"A vulnerability is published for the controllers running a water treatment plant. The vendor has no patch, the controllers cannot be taken offline, and they run a real-time operating system with no endpoint agent available. What is the appropriate response?",
+  "options":[
+   {"id":"a","text":"Apply compensating controls: segment the controllers, tightly restrict which hosts can reach them, and increase monitoring","correct":true,"why":"When patching is unavailable and downtime is unacceptable, the remaining levers are reachability and visibility. This is the standard answer for operational technology and the exam tests it specifically."},
+   {"id":"b","text":"Schedule emergency patching at the next maintenance window","misconception":"hardening-by-device-class","why":"There is no patch. Scheduling one that does not exist is the reflex the question is designed to catch."},
+   {"id":"c","text":"Install endpoint detection and response on the controllers","misconception":"hardening-by-device-class","why":"The stem states no agent is available, which is typical for a real-time OS where an agent would also threaten timing guarantees."},
+   {"id":"d","text":"Accept the risk with no further action, since exploitation requires local access","misconception":"hardening-by-device-class","why":"Nothing in the stem says that, and accepting without compensating controls is not risk acceptance, it is omission."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-004","type":"mcq","objective":"4.1",
+  "topics":["harden-switches","harden-routers"],"difficulty":4,
+  "stem":"Which set of measures most specifically hardens a network switch rather than a general-purpose server?",
+  "options":[
+   {"id":"a","text":"Disable unused ports, change default credentials, restrict management access to an out-of-band network, and turn off unneeded management services","correct":true,"why":"Network device hardening centres on the management plane and on unused ports. Separating management from the data path is what keeps a compromised user segment away from the device itself."},
+   {"id":"b","text":"Install antivirus and endpoint detection, and apply monthly OS patches","misconception":"hardening-by-device-class","why":"That is the workstation and server answer. Switches run embedded firmware and do not host general-purpose endpoint agents."},
+   {"id":"c","text":"Enforce full disk encryption and a screen lock timeout","misconception":"hardening-by-device-class","why":"Both are endpoint controls aimed at a stolen or unattended device."},
+   {"id":"d","text":"Deploy mobile device management policies and enable remote wipe","misconception":"mobile-deployment-models","why":"MDM applies to phones and tablets, not to network infrastructure."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-005","type":"mcq","objective":"4.1",
+  "topics":["harden-cloud-infrastructure","harden-servers"],"difficulty":4,
+  "stem":"A cloud storage bucket holding customer exports was reachable from the internet with no authentication. The underlying platform was fully patched. What does hardening mean in this context?",
+  "options":[
+   {"id":"a","text":"Correcting identity and access configuration: no public exposure by default, least privilege on the resource policy, and logging enabled","correct":true,"why":"In cloud infrastructure the attack surface is configuration and identity rather than unpatched software. There is no host here to harden in the traditional sense."},
+   {"id":"b","text":"Applying the latest operating system patches to the storage service","misconception":"hardening-by-device-class","why":"The provider patches the service, and the stem says the platform was current. This is the shared responsibility line."},
+   {"id":"c","text":"Installing endpoint protection on the bucket","misconception":"hardening-by-device-class","why":"A storage bucket is not a host and cannot run an agent."},
+   {"id":"d","text":"Enabling full disk encryption on the provider's storage arrays","misconception":"encryption-scope-levels","why":"Already done by the provider, and irrelevant: the data was being served to anyone who asked, decrypted."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-006","type":"mcq","objective":"4.1",
+  "topics":["harden-iot-devices","harden-embedded-systems"],"difficulty":3,
+  "stem":"An organisation installs two hundred networked sensors that ship with a shared default password, no update mechanism, and a web console on port 80. Which measure gives the most risk reduction?",
+  "options":[
+   {"id":"a","text":"Place them on an isolated segment that only the management server can reach, and change the default credentials","correct":true,"why":"Changing defaults removes the trivial path, and segmentation bounds what a compromised sensor can reach. With no update mechanism these are the only durable levers."},
+   {"id":"b","text":"Enrol them in the patch management system","misconception":"hardening-by-device-class","why":"The stem says there is no update mechanism. This is the class of device where patching simply is not available."},
+   {"id":"c","text":"Install host-based firewalls on each sensor","misconception":"hardening-by-device-class","why":"Embedded devices of this kind do not accept third-party software. The firewall has to be in the network."},
+   {"id":"d","text":"Require multifactor authentication on the sensors' web consoles","misconception":"hardening-by-device-class","why":"Desirable and almost never supported on hardware like this. Where it is unavailable, access restriction has to substitute."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-007","type":"mcq","objective":"4.1",
+  "topics":["bring-your-own-device","corporate-owned-personally-enabled","choose-your-own-device"],"difficulty":4,
+  "stem":"An employee resigns. The organisation needs to remove corporate email and documents from their phone but has no authority to erase family photographs. Which deployment model is in use?",
+  "options":[
+   {"id":"a","text":"BYOD, where the device is personally owned and only the corporate container can be wiped","correct":true,"why":"Ownership sets the limit of authority. BYOD is why containerisation and selective wipe exist at all."},
+   {"id":"b","text":"COPE, where the organisation owns the device and permits personal use","misconception":"mobile-deployment-models","why":"Under COPE the organisation owns the hardware and can wipe it entirely, so the constraint in the stem would not arise."},
+   {"id":"c","text":"CYOD, where the employee chose the device from an approved list","misconception":"mobile-deployment-models","why":"CYOD devices are corporate-owned. Choosing the model does not transfer ownership, which is the distinction most often missed."},
+   {"id":"d","text":"A corporate-owned, business-only deployment","misconception":"mobile-deployment-models","why":"Business-only devices hold no personal data, so there would be nothing to preserve."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-008","type":"mcq","objective":"4.1",
+  "topics":["choose-your-own-device","corporate-owned-personally-enabled","bring-your-own-device"],"difficulty":3,
+  "stem":"What distinguishes CYOD from COPE?",
+  "options":[
+   {"id":"a","text":"Who selects the hardware: both are corporate-owned, but CYOD lets the employee pick from an approved list","correct":true,"why":"Ownership is identical. The only difference is choice, which is why the control the organisation holds is essentially the same in both."},
+   {"id":"b","text":"CYOD devices are owned by the employee, COPE devices by the organisation","misconception":"mobile-deployment-models","why":"Employee ownership is BYOD. CYOD is corporate-owned with employee choice."},
+   {"id":"c","text":"COPE permits personal use and CYOD forbids it","misconception":"mobile-deployment-models","why":"Personal use is usually permitted under both. The split is procurement choice."},
+   {"id":"d","text":"CYOD requires MDM enrolment and COPE does not","misconception":"mobile-deployment-models","why":"Both are corporate-owned and both are normally enrolled."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-009","type":"mcq","objective":"4.1",
+  "topics":["code-signing","static-code-analysis","sandboxing"],"difficulty":4,
+  "stem":"A software vendor digitally signs each release. A customer verifies the signature before installing. What does a valid signature establish?",
+  "options":[
+   {"id":"a","text":"That the package came from that vendor and has not been altered since signing","correct":true,"why":"Origin and integrity, and nothing beyond. It is the control against a tampered or substituted update, which is the supply chain scenario it usually appears in."},
+   {"id":"b","text":"That the software contains no vulnerabilities","misconception":"application-security-techniques","why":"A signature says nothing about quality. Signed software with a critical flaw is still correctly signed."},
+   {"id":"c","text":"That the software was reviewed by static code analysis","misconception":"application-security-techniques","why":"Signing happens at publication and makes no claim about the vendor's internal process."},
+   {"id":"d","text":"That the software will be confined if it misbehaves at runtime","misconception":"application-security-techniques","why":"That is sandboxing, which is a runtime containment control applied by the host."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-010","type":"mcq","objective":"4.1",
+  "topics":["sandboxing","static-code-analysis","input-validation"],"difficulty":3,
+  "stem":"A malware analyst needs to execute an unknown binary and observe its behaviour without risking the corporate network. Which technique applies?",
+  "options":[
+   {"id":"a","text":"Sandboxing","correct":true,"why":"An isolated execution environment that bounds what the code can touch. It is the only option here that permits running the sample at all."},
+   {"id":"b","text":"Static code analysis","misconception":"application-security-techniques","why":"Static analysis examines without executing, so it cannot produce the behaviour the analyst wants to observe."},
+   {"id":"c","text":"Input validation","misconception":"application-security-techniques","why":"A control inside an application for data arriving at it. It is not a way to run an unknown binary safely."},
+   {"id":"d","text":"Code signing","misconception":"application-security-techniques","why":"Verifies provenance. An unknown binary has none worth trusting, and checking would not make execution safe."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-011","type":"mcq","objective":"4.1",
+  "topics":["input-validation","static-code-analysis","secure-cookies"],"difficulty":4,
+  "stem":"A web application concatenates a user-supplied search term directly into a database query. Which control stops the resulting injection at the moment an attack is attempted?",
+  "options":[
+   {"id":"a","text":"Input validation, rejecting or neutralising data that does not conform before it reaches the query","correct":true,"why":"Validation acts at runtime, on every request. Parameterised queries are the stronger structural fix, and of the options given, validation is the one operating at the moment of attack."},
+   {"id":"b","text":"Static code analysis","misconception":"application-security-techniques","why":"It would very likely find this pattern in the source, which is valuable and happens before deployment. It blocks nothing at runtime."},
+   {"id":"c","text":"Code signing the application package","misconception":"application-security-techniques","why":"Proves the application is the vendor's unmodified build, flaw included."},
+   {"id":"d","text":"Setting the Secure and HttpOnly flags on session cookies","misconception":"application-security-techniques","why":"Those protect the session cookie from interception and script access. They do nothing about a database query."}
+  ],"selectCount":1
+ },
+ {
+  "id":"bl-012","type":"mcq-multi","objective":"4.1",
+  "topics":["harden-ics-scada","harden-rtos","harden-servers","maintain-secure-baselines"],"difficulty":4,
+  "stem":"Which TWO statements about hardening are correct? (Choose two.)",
+  "options":[
+   {"id":"a","text":"For device classes that cannot be patched, segmentation and access restriction substitute for patching","correct":true,"why":"Operational technology, embedded systems and real-time operating systems routinely cannot be patched, and compensating controls are the expected answer."},
+   {"id":"b","text":"A baseline requires ongoing drift detection, or it describes a state that no longer exists","correct":true,"why":"Maintenance is a named activity precisely because configuration diverges continuously after deployment."},
+   {"id":"c","text":"Cloud infrastructure is hardened primarily by patching the underlying hosts","misconception":"hardening-by-device-class","why":"The provider patches those. Customer hardening in cloud is identity, policy and configuration."},
+   {"id":"d","text":"Network switches should be hardened by installing endpoint detection software","misconception":"hardening-by-device-class","why":"Switches run embedded firmware and do not host general-purpose agents."},
+   {"id":"e","text":"Once a benchmark is applied at build time, the system is hardened for its lifetime","misconception":"baseline-lifecycle","why":"This is the belief the maintenance stage exists to correct."}
+  ],"selectCount":2
+ },
+ {
+  "id":"bl-013","type":"mcq","objective":"4.1",
+  "topics":["cellular","harden-mobile-devices","mobile-device-management"],"difficulty":3,
+  "stem":"Field staff use corporate tablets over cellular rather than Wi-Fi. A manager argues no further protection is needed because cellular traffic does not touch public hotspots. What is the correct assessment?",
+  "options":[
+   {"id":"a","text":"Cellular avoids rogue access points but the traffic still crosses a carrier network, so the usual controls still apply","correct":true,"why":"Changing the access medium removes one class of attack and leaves the device, the data on it and the transport beyond the carrier exactly as exposed. The device still needs MDM, encryption and a VPN or TLS."},
+   {"id":"b","text":"Correct: cellular connections are encrypted end to end to the destination","misconception":"hardening-by-device-class","why":"Cellular encrypts the radio link to the carrier. Beyond that it is ordinary internet traffic."},
+   {"id":"c","text":"Correct, provided the tablets are corporate-owned","misconception":"mobile-deployment-models","why":"Ownership determines what you may enforce, not whether the transport is safe."},
+   {"id":"d","text":"Incorrect, because cellular is inherently less secure than public Wi-Fi","misconception":"hardening-by-device-class","why":"Overcorrection. Cellular is generally the safer of the two; it is simply not a substitute for the other controls."}
+  ],"selectCount":1
+ }
+]
