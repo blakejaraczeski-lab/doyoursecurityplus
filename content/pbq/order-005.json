@@ -1,0 +1,75 @@
+{
+  "id": "pbq-order-005",
+  "kind": "drag-order",
+  "objective": "3.1",
+  "topics": ["cloud-responsibility-matrix", "hybrid-considerations", "third-party-vendors", "on-premises",
+             "infrastructure-as-code", "serverless", "containerization", "virtualization",
+             "risk-transference", "patch-availability", "inability-to-patch"],
+  "difficulty": 4,
+  "title": "Who patches what, across the service models",
+  "targetSeconds": 480,
+  "scenario": "Meridian Health runs workloads on-premises, on rented virtual machines, on a managed application platform, and on a vendor's finished software. An auditor wants to know who is accountable for each item. Sort each responsibility by the lowest service model at which the customer still owns it. The provider owns everything below that line; you own everything at and above it.",
+  "requirements": [
+    "Every responsibility goes in exactly one column.",
+    "Ask where the customer's control actually ends, not who the customer can blame.",
+    "Responsibility can be transferred by contract. Accountability cannot.",
+    "Partial credit applies per item."
+  ],
+  "config": {
+    "mode": "categorize",
+    "items": [
+      { "id": "hvac", "label": "Cooling and power in the data hall" },
+      { "id": "hyperv", "label": "Patching the hypervisor the VMs run on" },
+      { "id": "guestos", "label": "Patching the guest operating system on a rented VM" },
+      { "id": "runtime", "label": "Patching the managed language runtime your code is deployed onto" },
+      { "id": "appcode", "label": "Fixing an injection flaw in your own application code" },
+      { "id": "saasbug", "label": "Fixing a defect inside the vendor's finished SaaS product" },
+      { "id": "iam", "label": "Deciding which staff accounts may read the records" },
+      { "id": "classify", "label": "Classifying the records as regulated health data" },
+      { "id": "bucket", "label": "Setting the object store to private rather than public" },
+      { "id": "disposal", "label": "Physically destroying a failed disk in the provider's rack" }
+    ],
+    "buckets": [
+      { "id": "provider", "label": "Always the provider" },
+      { "id": "iaas", "label": "Customer from IaaS upward" },
+      { "id": "paas", "label": "Customer from PaaS upward" },
+      { "id": "always", "label": "Always the customer, every model" }
+    ]
+  },
+  "solution": {
+    "placements": {
+      "hvac": "provider",
+      "hyperv": "provider",
+      "disposal": "provider",
+      "guestos": "iaas",
+      "runtime": "iaas",
+      "appcode": "paas",
+      "saasbug": "provider",
+      "iam": "always",
+      "classify": "always",
+      "bucket": "always"
+    }
+  },
+  "subtasks": [
+    { "id": "s1", "item": "hvac", "label": "Facility power and cooling", "points": 2, "misconception": "cloud-responsibility-matrix",
+      "correctNote": "Physical plant is the provider's in every cloud model. The only model where you own it is on-premises, which is not a cloud model." },
+    { "id": "s2", "item": "hyperv", "label": "Hypervisor patching", "points": 3, "misconception": "cloud-responsibility-matrix",
+      "correctNote": "You never touch the hypervisor in IaaS. The boundary sits at the guest OS: below it is theirs, at and above it is yours." },
+    { "id": "s3", "item": "disposal", "label": "Media destruction in their rack", "points": 2, "misconception": "cloud-responsibility-matrix",
+      "correctNote": "Their hardware, their disposal. Your control is contractual and evidenced by attestation, not performed by you." },
+    { "id": "s4", "item": "guestos", "label": "Guest OS patching", "points": 3, "misconception": "cloud-responsibility-matrix",
+      "correctNote": "IaaS hands you a machine and the duty of care that comes with it. This is the single most commonly misassigned line on the matrix." },
+    { "id": "s5", "item": "runtime", "label": "Managed runtime patching", "points": 3, "misconception": "cloud-responsibility-matrix",
+      "correctNote": "On IaaS you installed the runtime, so you patch it. Move the same workload to PaaS and the provider takes it over, which is the point of PaaS." },
+    { "id": "s6", "item": "appcode", "label": "Your own application defects", "points": 3, "misconception": "cloud-responsibility-matrix",
+      "correctNote": "Your code is yours on IaaS and on PaaS. It stops being a line on your side only when you stop writing code, which is SaaS." },
+    { "id": "s7", "item": "saasbug", "label": "Defect inside the vendor's product", "points": 3, "misconception": "cloud-responsibility-matrix",
+      "correctNote": "In SaaS the application is theirs. Your remaining duties are the data in it and who can reach it." },
+    { "id": "s8", "item": "iam", "label": "Who may read the records", "points": 3, "misconception": "cloud-responsibility-matrix",
+      "correctNote": "Identity and access is the customer's in every model without exception. Almost every cloud breach of note lands on this line." },
+    { "id": "s9", "item": "classify", "label": "Classifying the data", "points": 3, "misconception": "data-type-vs-classification",
+      "correctNote": "Only you know what the data is and which regime governs it. No provider can classify it for you, and no contract moves the accountability." },
+    { "id": "s10", "item": "bucket", "label": "Object store exposure", "points": 3, "misconception": "cloud-responsibility-matrix",
+      "correctNote": "Configuration of the services you consume is always yours. A public bucket is a customer misconfiguration in every service model." }
+  ]
+}

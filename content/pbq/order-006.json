@@ -1,0 +1,80 @@
+{
+  "id": "pbq-order-006",
+  "kind": "drag-order",
+  "objective": "3.3",
+  "topics": ["data-at-rest", "data-in-transit", "data-in-use", "encryption-2", "hashing-2", "masking",
+             "tokenization-2", "obfuscation", "permission-restrictions", "segmentation-2",
+             "human-and-non-human-readable", "data-sovereignty", "geographic-restrictions",
+             "regulated-data", "financial-information", "legal-information", "sensitive", "critical"],
+  "difficulty": 4,
+  "title": "Pick the protection that fits the data",
+  "targetSeconds": 480,
+  "scenario": "A payments team has ten data handling problems and a shortlist of methods. Each problem has one method that actually solves it. Several of the wrong answers protect data perfectly well, just not against the thing described, which is how this is tested.",
+  "requirements": [
+    "Every problem goes under exactly one method.",
+    "Read what the requirement needs afterwards: whether the original value must be recoverable, and by whom.",
+    "Partial credit applies per problem."
+  ],
+  "config": {
+    "mode": "categorize",
+    "items": [
+      { "id": "pan-store", "label": "Card numbers must be usable for refunds but must not sit in the database as card numbers" },
+      { "id": "pw-store", "label": "Passwords must be verifiable at login and never recoverable by anyone, including us" },
+      { "id": "support-view", "label": "Support staff must confirm the last four digits of a card without seeing the rest" },
+      { "id": "laptop", "label": "A finance laptop is lost in a taxi and must not leak the spreadsheets on its disk" },
+      { "id": "api-call", "label": "Statements move between two services across a shared network segment" },
+      { "id": "test-data", "label": "Developers need realistic volumes in a test database without real customers in it" },
+      { "id": "hr-folder", "label": "Only the HR team should open the disciplinary folder on the file server" },
+      { "id": "eu-records", "label": "EU customer records must not be processed outside the EU" },
+      { "id": "card-net", "label": "Card processing systems must not share a broadcast domain with the warehouse" },
+      { "id": "enclave", "label": "A key must stay protected while it is loaded and actively being used for signing" }
+    ],
+    "buckets": [
+      { "id": "tokenization", "label": "Tokenisation" },
+      { "id": "hashing", "label": "Hashing" },
+      { "id": "masking", "label": "Masking" },
+      { "id": "encryption-rest", "label": "Encryption at rest" },
+      { "id": "encryption-transit", "label": "Encryption in transit" },
+      { "id": "protect-in-use", "label": "Protection in use" },
+      { "id": "permissions", "label": "Permission restrictions" },
+      { "id": "geographic", "label": "Geographic restriction" },
+      { "id": "segmentation", "label": "Segmentation" }
+    ]
+  },
+  "solution": {
+    "placements": {
+      "pan-store": "tokenization",
+      "pw-store": "hashing",
+      "support-view": "masking",
+      "laptop": "encryption-rest",
+      "api-call": "encryption-transit",
+      "test-data": "tokenization",
+      "hr-folder": "permissions",
+      "eu-records": "geographic",
+      "card-net": "segmentation",
+      "enclave": "protect-in-use"
+    }
+  },
+  "subtasks": [
+    { "id": "s1", "item": "pan-store", "label": "Card numbers in storage", "points": 3, "misconception": "data-states",
+      "correctNote": "Tokenisation. The real value is swapped for a surrogate with no mathematical relationship to it, and the mapping lives in a separate vault, so a database dump yields nothing. Refunds work because the token can be exchanged back by the vault." },
+    { "id": "s2", "item": "pw-store", "label": "Password storage", "points": 3, "misconception": "data-states",
+      "correctNote": "Hashing. One way by design: you verify by hashing the attempt and comparing. If a scheme lets you recover the password, it was encryption, and that is the defect." },
+    { "id": "s3", "item": "support-view", "label": "Partial visibility for support", "points": 3, "misconception": "data-states",
+      "correctNote": "Masking. The value is still there; the presentation hides most of it. It protects the screen and the shoulder behind it, not the database." },
+    { "id": "s4", "item": "laptop", "label": "Lost device", "points": 2, "misconception": "data-states",
+      "correctNote": "Data at rest. Full disk encryption is the control that makes a lost laptop a procurement problem rather than a breach notification." },
+    { "id": "s5", "item": "api-call", "label": "Service to service traffic", "points": 2, "misconception": "data-states",
+      "correctNote": "Data in transit. A shared segment means other hosts can see the frames, so the protection has to travel with the data." },
+    { "id": "s6", "item": "test-data", "label": "Test environments", "points": 3, "misconception": "data-states",
+      "correctNote": "Tokenisation again, and it is the better answer than masking here because the test data must keep referential integrity across tables while containing no real customer." },
+    { "id": "s7", "item": "hr-folder", "label": "Restricting a share", "points": 2, "misconception": "data-type-vs-classification",
+      "correctNote": "Permission restrictions. Encryption does not answer 'who', it answers 'readable or not'. Access control answers 'who'." },
+    { "id": "s8", "item": "eu-records", "label": "Processing location", "points": 3, "misconception": "data-type-vs-classification",
+      "correctNote": "Geographic restriction, driven by data sovereignty. Where the data physically sits and is processed is a legal control, not a cryptographic one." },
+    { "id": "s9", "item": "card-net", "label": "Separating the card environment", "points": 3, "misconception": "segmentation-as-containment",
+      "correctNote": "Segmentation. It shrinks both the blast radius and the audit scope, which is why PCI leans on it so heavily." },
+    { "id": "s10", "item": "enclave", "label": "A key while it is being used", "points": 3, "misconception": "data-states",
+      "correctNote": "Data in use is the third state and the one people forget. A key decrypted into ordinary memory is exposed to anything that can read that memory, which is what secure enclaves and HSMs exist to prevent." }
+  ]
+}

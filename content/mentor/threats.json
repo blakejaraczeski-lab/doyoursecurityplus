@@ -3,18 +3,63 @@
     "id": "threat-actor-attributes",
     "label": "Telling threat actors apart by resources, sophistication and motivation",
     "objective": "2.1",
-    "topics": ["nation-state", "organized-crime", "hacktivist", "insider-threat", "unskilled-attacker", "shadow-it", "financial-gain", "espionage", "philosophical-political-beliefs"],
+    "topics": [
+      "nation-state",
+      "organized-crime",
+      "hacktivist",
+      "insider-threat",
+      "unskilled-attacker",
+      "shadow-it",
+      "financial-gain",
+      "espionage",
+      "philosophical-political-beliefs"
+    ],
     "severity": "high",
     "mentor": {
       "diagnosis": "You picked a threat actor on vibes rather than on the two things the stem always supplies: how capable they are and what they want.",
       "contrast": [
-        ["Actor", "Resources", "Motivation", "Tell in the stem"],
-        ["Nation-state", "Effectively unlimited", "Espionage, disruption, war", "APT, zero-day, months of dwell time, geopolitical target"],
-        ["Organised crime", "Well funded", "Financial gain", "Ransomware, fraud, data sold on"],
-        ["Hacktivist", "Limited", "Philosophical or political", "Defacement, leak, timed to a cause or event"],
-        ["Insider threat", "Legitimate access already", "Revenge, money, sometimes accidental", "No intrusion needed, knew exactly where to look"],
-        ["Unskilled attacker", "Very limited", "Chaos, reputation", "Off the shelf tools, noisy, no custom capability"],
-        ["Shadow IT", "Internal, not malicious", "Convenience", "A team stood up an unapproved service"]
+        [
+          "Actor",
+          "Resources",
+          "Motivation",
+          "Tell in the stem"
+        ],
+        [
+          "Nation-state",
+          "Effectively unlimited",
+          "Espionage, disruption, war",
+          "APT, zero-day, months of dwell time, geopolitical target"
+        ],
+        [
+          "Organised crime",
+          "Well funded",
+          "Financial gain",
+          "Ransomware, fraud, data sold on"
+        ],
+        [
+          "Hacktivist",
+          "Limited",
+          "Philosophical or political",
+          "Defacement, leak, timed to a cause or event"
+        ],
+        [
+          "Insider threat",
+          "Legitimate access already",
+          "Revenge, money, sometimes accidental",
+          "No intrusion needed, knew exactly where to look"
+        ],
+        [
+          "Unskilled attacker",
+          "Very limited",
+          "Chaos, reputation",
+          "Off the shelf tools, noisy, no custom capability"
+        ],
+        [
+          "Shadow IT",
+          "Internal, not malicious",
+          "Convenience",
+          "A team stood up an unapproved service"
+        ]
       ],
       "rule": "Sophistication plus motivation identifies the actor. A zero-day with long, quiet persistence is nation-state. Encryption with a payment demand is organised crime.",
       "tell": "'Advanced persistent threat', 'previously unknown vulnerability' and 'undetected for eight months' all point to a nation-state.",
@@ -26,16 +71,41 @@
     "id": "ddos-amplified-vs-reflected",
     "label": "Amplified vs reflected distributed denial of service",
     "objective": "2.4",
-    "topics": ["distributed-denial-of-service-ddos", "amplified-ddos", "reflected-ddos", "dns-attacks"],
+    "topics": [
+      "distributed-denial-of-service-ddos",
+      "amplified-ddos",
+      "reflected-ddos",
+      "dns-attacks"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You used the two terms as if they were one. Most large attacks are both, and the exam still separates them.",
       "contrast": [
-        ["Term", "Mechanism", "What it buys the attacker"],
-        ["Reflected", "Spoof the victim's address, send requests to third parties, replies land on the victim", "Hides the source and uses innocent servers"],
-        ["Amplified", "Choose a protocol where a small request produces a large reply", "Multiplies traffic, often 50x or more"],
-        ["Both together", "Spoofed requests to open DNS or NTP resolvers", "The common large scale attack"],
-        ["Protocols abused", "DNS, NTP, memcached, SSDP", "All UDP, since UDP does not verify the source"]
+        [
+          "Term",
+          "Mechanism",
+          "What it buys the attacker"
+        ],
+        [
+          "Reflected",
+          "Spoof the victim's address, send requests to third parties, replies land on the victim",
+          "Hides the source and uses innocent servers"
+        ],
+        [
+          "Amplified",
+          "Choose a protocol where a small request produces a large reply",
+          "Multiplies traffic, often 50x or more"
+        ],
+        [
+          "Both together",
+          "Spoofed requests to open DNS or NTP resolvers",
+          "The common large scale attack"
+        ],
+        [
+          "Protocols abused",
+          "DNS, NTP, memcached, SSDP",
+          "All UDP, since UDP does not verify the source"
+        ]
       ],
       "rule": "Reflection is about who appears to send it. Amplification is about how much comes back. Spoofing the source makes reflection possible.",
       "tell": "'A 60 byte query producing a 3,000 byte response' is amplification. 'Traffic arriving from thousands of legitimate DNS servers' is reflection.",
@@ -47,16 +117,41 @@
     "id": "on-path-vs-replay",
     "label": "On-path attack vs replay vs session hijacking",
     "objective": "2.4",
-    "topics": ["on-path", "replay", "credential-replay", "forgery"],
+    "topics": [
+      "on-path",
+      "replay",
+      "credential-replay",
+      "forgery"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You matched on 'the attacker was in the middle' without checking whether they modified traffic live or resent it later.",
       "contrast": [
-        ["Attack", "What the attacker does", "Defence"],
-        ["On-path", "Sits between the parties and can read or alter traffic in real time", "Mutual TLS, certificate validation, HSTS"],
-        ["Replay", "Captures a valid message and sends it again later", "Nonces, timestamps, sequence numbers"],
-        ["Session hijacking", "Takes over an established session, usually with a stolen token", "Secure and HttpOnly cookies, rebinding the session, short lifetimes"],
-        ["Credential replay", "Reuses captured authentication material", "One time values, Kerberos timestamps, MFA"]
+        [
+          "Attack",
+          "What the attacker does",
+          "Defence"
+        ],
+        [
+          "On-path",
+          "Sits between the parties and can read or alter traffic in real time",
+          "Mutual TLS, certificate validation, HSTS"
+        ],
+        [
+          "Replay",
+          "Captures a valid message and sends it again later",
+          "Nonces, timestamps, sequence numbers"
+        ],
+        [
+          "Session hijacking",
+          "Takes over an established session, usually with a stolen token",
+          "Secure and HttpOnly cookies, rebinding the session, short lifetimes"
+        ],
+        [
+          "Credential replay",
+          "Reuses captured authentication material",
+          "One time values, Kerberos timestamps, MFA"
+        ]
       ],
       "rule": "On-path is live interception. Replay is a recording played back. A nonce or timestamp defeats replay and does nothing about on-path.",
       "tell": "'The captured authentication request was submitted again an hour later and was accepted' is replay, and the fix is a nonce or timestamp.",
@@ -68,18 +163,53 @@
     "id": "impossible-travel-indicators",
     "label": "Reading indicators of compromise in authentication data",
     "objective": "2.4",
-    "topics": ["impossible-travel", "concurrent-session-usage", "account-lockout", "out-of-cycle-logging", "missing-logs", "resource-consumption"],
+    "topics": [
+      "impossible-travel",
+      "concurrent-session-usage",
+      "account-lockout",
+      "out-of-cycle-logging",
+      "missing-logs",
+      "resource-consumption"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You read a single log line instead of the pattern. Each of these indicators names a specific shape in the data.",
       "contrast": [
-        ["Indicator", "What it looks like", "Usually means"],
-        ["Impossible travel", "Successful logins from distant locations closer together than travel allows", "Credential compromise, or a VPN in use"],
-        ["Concurrent session usage", "One account active in two places at once", "Shared or stolen credentials"],
-        ["Account lockout", "Many failures on one account", "Brute force, or a stale saved password"],
-        ["Out-of-cycle logging", "Activity at a time this account never works", "Compromise, or automation nobody documented"],
-        ["Missing logs", "A gap where events should be", "Anti-forensics, log tampering"],
-        ["Resource inaccessibility", "Files or services suddenly unavailable", "Ransomware or destructive action"]
+        [
+          "Indicator",
+          "What it looks like",
+          "Usually means"
+        ],
+        [
+          "Impossible travel",
+          "Successful logins from distant locations closer together than travel allows",
+          "Credential compromise, or a VPN in use"
+        ],
+        [
+          "Concurrent session usage",
+          "One account active in two places at once",
+          "Shared or stolen credentials"
+        ],
+        [
+          "Account lockout",
+          "Many failures on one account",
+          "Brute force, or a stale saved password"
+        ],
+        [
+          "Out-of-cycle logging",
+          "Activity at a time this account never works",
+          "Compromise, or automation nobody documented"
+        ],
+        [
+          "Missing logs",
+          "A gap where events should be",
+          "Anti-forensics, log tampering"
+        ],
+        [
+          "Resource inaccessibility",
+          "Files or services suddenly unavailable",
+          "Ransomware or destructive action"
+        ]
       ],
       "rule": "Missing logs are an indicator, not an absence of one. A gap is evidence that something removed it.",
       "tell": "'Authenticated from London at 09:02 and from Singapore at 09:20' is impossible travel, and the first response is to verify with the user.",
@@ -91,16 +221,41 @@
     "id": "race-condition-toctou",
     "label": "Race conditions and time-of-check to time-of-use",
     "objective": "2.3",
-    "topics": ["race-conditions", "time-of-check-toc", "time-of-use-tou", "memory-injection"],
+    "topics": [
+      "race-conditions",
+      "time-of-check-toc",
+      "time-of-use-tou",
+      "memory-injection"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You described the flaw as a logic error rather than as a timing gap between checking a condition and acting on it.",
       "contrast": [
-        ["Step", "What happens", "The flaw"],
-        ["Time of check", "The program verifies the condition, for example that the file is safe", "Correct at this instant"],
-        ["The gap", "Another process changes the thing that was checked", "This window is the vulnerability"],
-        ["Time of use", "The program acts on the earlier verification", "It is now acting on a stale fact"],
-        ["Fix", "Make check and use atomic, or lock the resource", "Remove the window rather than narrow it"]
+        [
+          "Step",
+          "What happens",
+          "The flaw"
+        ],
+        [
+          "Time of check",
+          "The program verifies the condition, for example that the file is safe",
+          "Correct at this instant"
+        ],
+        [
+          "The gap",
+          "Another process changes the thing that was checked",
+          "This window is the vulnerability"
+        ],
+        [
+          "Time of use",
+          "The program acts on the earlier verification",
+          "It is now acting on a stale fact"
+        ],
+        [
+          "Fix",
+          "Make check and use atomic, or lock the resource",
+          "Remove the window rather than narrow it"
+        ]
       ],
       "rule": "The check was true when it was made and false when it was used. Verifying more carefully does not help; only closing the window does.",
       "tell": "'Between validating the balance and completing the withdrawal' or 'the symlink was swapped after validation' is TOCTOU.",
@@ -112,16 +267,43 @@
     "id": "supply-chain-vectors",
     "label": "Supply chain compromise: service provider, hardware provider, software provider",
     "objective": "2.3",
-    "topics": ["service-provider-supply-chain", "hardware-provider-supply-chain", "software-provider-supply-chain", "managed-service-providers-msps", "malicious-update", "package-monitoring"],
+    "topics": [
+      "service-provider-supply-chain",
+      "hardware-provider-supply-chain",
+      "software-provider-supply-chain",
+      "managed-service-providers-msps",
+      "malicious-update",
+      "package-monitoring"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You attributed the compromise to the victim's own weakness when the entry point was something they were legitimately given or sold.",
       "contrast": [
-        ["Vector", "How it arrives", "Example"],
-        ["Software provider", "A signed update from a trusted vendor carries the payload", "Malicious update pushed to all customers"],
-        ["Hardware provider", "Components are tampered with before delivery", "Implanted firmware, counterfeit parts"],
-        ["Service provider or MSP", "A trusted partner's privileged access is abused", "MSP credentials used to reach every client"],
-        ["Open source dependency", "A package or its maintainer is compromised", "Typosquatted or hijacked library"]
+        [
+          "Vector",
+          "How it arrives",
+          "Example"
+        ],
+        [
+          "Software provider",
+          "A signed update from a trusted vendor carries the payload",
+          "Malicious update pushed to all customers"
+        ],
+        [
+          "Hardware provider",
+          "Components are tampered with before delivery",
+          "Implanted firmware, counterfeit parts"
+        ],
+        [
+          "Service provider or MSP",
+          "A trusted partner's privileged access is abused",
+          "MSP credentials used to reach every client"
+        ],
+        [
+          "Open source dependency",
+          "A package or its maintainer is compromised",
+          "Typosquatted or hijacked library"
+        ]
       ],
       "rule": "Supply chain attacks defeat trust rather than controls. The update was genuinely signed, the MSP genuinely had access, so the usual defences approve it.",
       "tell": "'The malicious code arrived in a correctly signed vendor update' is a software supply chain compromise, not a patching failure.",
@@ -133,16 +315,42 @@
     "id": "crypto-attacks",
     "label": "Downgrade vs collision vs birthday attack",
     "objective": "2.4",
-    "topics": ["downgrade-attack", "collision", "birthday-attack", "hashing", "cryptographic-vulnerabilities"],
+    "topics": [
+      "downgrade-attack",
+      "collision",
+      "birthday-attack",
+      "hashing",
+      "cryptographic-vulnerabilities"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You grouped these as 'crypto attacks' without separating what each one actually targets.",
       "contrast": [
-        ["Attack", "Target", "Mechanism"],
-        ["Downgrade", "The negotiation", "Force both parties to agree on a weaker cipher or protocol version"],
-        ["Collision", "The hash function", "Find two different inputs producing the same digest"],
-        ["Birthday", "The hash function", "Exploit probability so collisions are found far faster than brute force suggests"],
-        ["Defence", "Downgrade: disable legacy versions, require minimum TLS", "Collision: use SHA-256 or better, retire MD5 and SHA-1"]
+        [
+          "Attack",
+          "Target",
+          "Mechanism"
+        ],
+        [
+          "Downgrade",
+          "The negotiation",
+          "Force both parties to agree on a weaker cipher or protocol version"
+        ],
+        [
+          "Collision",
+          "The hash function",
+          "Find two different inputs producing the same digest"
+        ],
+        [
+          "Birthday",
+          "The hash function",
+          "Exploit probability so collisions are found far faster than brute force suggests"
+        ],
+        [
+          "Defence",
+          "Downgrade: disable legacy versions, require minimum TLS",
+          "Collision: use SHA-256 or better, retire MD5 and SHA-1"
+        ]
       ],
       "rule": "Downgrade attacks the negotiation, not the algorithm. Collision and birthday attack the hash, with birthday describing why collisions are cheaper than intuition suggests.",
       "tell": "'The client and server were forced to negotiate SSL 3.0' is a downgrade. 'Two different documents produced the same MD5 digest' is a collision.",
@@ -154,16 +362,42 @@
     "id": "zero-day-vs-unpatched",
     "label": "Zero-day vs a known unpatched vulnerability",
     "objective": "2.3",
-    "topics": ["zero-day", "misconfiguration", "end-of-life", "legacy-hardware", "patching"],
+    "topics": [
+      "zero-day",
+      "misconfiguration",
+      "end-of-life",
+      "legacy-hardware",
+      "patching"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You called any successful exploit a zero-day. A zero-day means no patch exists yet, which changes what you can do about it.",
       "contrast": [
-        ["Situation", "Name", "Available response"],
-        ["No patch exists, vendor may not know", "Zero-day", "Compensating controls, behavioural detection, virtual patching"],
-        ["Patch exists, not applied", "Unpatched known vulnerability", "Apply the patch"],
-        ["Vendor no longer issues patches", "End of life or legacy", "Isolate, replace, compensating controls"],
-        ["Software is fine, settings are wrong", "Misconfiguration", "Correct the configuration, enforce a baseline"]
+        [
+          "Situation",
+          "Name",
+          "Available response"
+        ],
+        [
+          "No patch exists, vendor may not know",
+          "Zero-day",
+          "Compensating controls, behavioural detection, virtual patching"
+        ],
+        [
+          "Patch exists, not applied",
+          "Unpatched known vulnerability",
+          "Apply the patch"
+        ],
+        [
+          "Vendor no longer issues patches",
+          "End of life or legacy",
+          "Isolate, replace, compensating controls"
+        ],
+        [
+          "Software is fine, settings are wrong",
+          "Misconfiguration",
+          "Correct the configuration, enforce a baseline"
+        ]
       ],
       "rule": "Zero-day is defined by the absence of a fix, not by how sophisticated the attack was.",
       "tell": "If the stem says a patch had been available for three months, it is not a zero-day. It is a vulnerability management failure.",
@@ -175,17 +409,47 @@
     "id": "app-attack-types",
     "label": "Privilege escalation vs directory traversal vs forgery vs injection",
     "objective": "2.4",
-    "topics": ["privilege-escalation", "directory-traversal", "forgery", "injection", "buffer-overflow"],
+    "topics": [
+      "privilege-escalation",
+      "directory-traversal",
+      "forgery",
+      "injection",
+      "buffer-overflow"
+    ],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You named an application attack by its outcome rather than by the mechanism the stem described.",
       "contrast": [
-        ["Attack", "Mechanism", "Signature in the stem"],
-        ["Privilege escalation", "Gaining rights beyond those granted", "A standard user ended up with administrative access"],
-        ["Directory traversal", "Escaping the intended path to read other files", "Sequences such as ../../ in a file parameter"],
-        ["Request forgery", "Making a victim's browser or server send a request the attacker chose", "The action ran as the victim, who never intended it"],
-        ["Injection", "Input interpreted as code by a downstream interpreter", "SQL fragments, commands, LDAP filters in a parameter"],
-        ["Buffer overflow", "Writing past the end of allocated memory", "Oversized input, crash, then controlled execution"]
+        [
+          "Attack",
+          "Mechanism",
+          "Signature in the stem"
+        ],
+        [
+          "Privilege escalation",
+          "Gaining rights beyond those granted",
+          "A standard user ended up with administrative access"
+        ],
+        [
+          "Directory traversal",
+          "Escaping the intended path to read other files",
+          "Sequences such as ../../ in a file parameter"
+        ],
+        [
+          "Request forgery",
+          "Making a victim's browser or server send a request the attacker chose",
+          "The action ran as the victim, who never intended it"
+        ],
+        [
+          "Injection",
+          "Input interpreted as code by a downstream interpreter",
+          "SQL fragments, commands, LDAP filters in a parameter"
+        ],
+        [
+          "Buffer overflow",
+          "Writing past the end of allocated memory",
+          "Oversized input, crash, then controlled execution"
+        ]
       ],
       "rule": "Name the mechanism, not the consequence. Most of these can end in the attacker gaining control, so the outcome does not identify them.",
       "tell": "Path sequences in a parameter are traversal. A parameter interpreted by another system is injection. Extra rights obtained afterwards are escalation.",
@@ -197,20 +461,121 @@
     "id": "jailbreak-vs-sideload",
     "label": "Jailbreaking vs sideloading vs rooting",
     "objective": "2.3",
-    "topics": ["jailbreaking", "side-loading", "mobile-device-vulnerabilities", "mobile-device-management-mdm"],
+    "topics": [
+      "jailbreaking",
+      "side-loading",
+      "mobile-device-vulnerabilities",
+      "mobile-device-management-mdm"
+    ],
     "severity": "low",
     "mentor": {
       "diagnosis": "You used the two interchangeably. One removes the platform's restrictions, the other installs outside the official store.",
       "contrast": [
-        ["Term", "What it does", "Requires the other"],
-        ["Jailbreaking or rooting", "Removes the OS restrictions to gain privileged control", "No"],
-        ["Sideloading", "Installs an app from outside the official store", "Not always, depending on platform"],
-        ["Security impact of jailbreaking", "Breaks the platform's security model and MDM assumptions", "Severe"],
-        ["Security impact of sideloading", "Bypasses store review, so the app is unvetted", "Moderate"]
+        [
+          "Term",
+          "What it does",
+          "Requires the other"
+        ],
+        [
+          "Jailbreaking or rooting",
+          "Removes the OS restrictions to gain privileged control",
+          "No"
+        ],
+        [
+          "Sideloading",
+          "Installs an app from outside the official store",
+          "Not always, depending on platform"
+        ],
+        [
+          "Security impact of jailbreaking",
+          "Breaks the platform's security model and MDM assumptions",
+          "Severe"
+        ],
+        [
+          "Security impact of sideloading",
+          "Bypasses store review, so the app is unvetted",
+          "Moderate"
+        ]
       ],
       "rule": "Jailbreaking changes the device's security model. Sideloading changes where an app came from.",
       "tell": "'The device no longer enforces the MDM policy and the user has root' is jailbreaking. 'The user installed an APK from a website' is sideloading.",
       "trap": "Both defeat the corporate app strategy, so both look like the answer. Jailbreaking is the more serious finding because it invalidates every other control on the device."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "threat-vector-families",
+    "label": "Which family a threat vector belongs to: message, file, device, network, software or supply chain",
+    "objective": "2.2",
+    "topics": [
+      "email",
+      "short-message-service",
+      "instant-messaging",
+      "image-based",
+      "file-based",
+      "voice-call",
+      "removable-device",
+      "vulnerable-software",
+      "unsupported-systems-and-applications",
+      "unsecure-wireless-networks",
+      "unsecure-wired-networks",
+      "bluetooth",
+      "open-service-ports",
+      "default-credentials",
+      "managed-service-providers",
+      "vendors",
+      "suppliers"
+    ],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You classified the vector by the payload or by the eventual damage rather than by the route in. The vector is how the attacker first reaches you, not what happens afterwards.",
+      "contrast": [
+        [
+          "Family",
+          "The route in",
+          "What makes it that family",
+          "Typical tell in the stem"
+        ],
+        [
+          "Message-based",
+          "Email, SMS, instant message, voice call",
+          "A human is addressed directly and asked to act",
+          "'received a message', 'a caller claiming to be', a link or a request"
+        ],
+        [
+          "File and image based",
+          "A document, executable or image that carries the payload",
+          "The content itself is the weapon, however it arrived",
+          "macro, embedded script, 'opened the attachment'"
+        ],
+        [
+          "Removable device",
+          "USB drives, cables, peripherals",
+          "Physical media crosses the boundary",
+          "'found in the car park', 'handed out at a conference'"
+        ],
+        [
+          "Unsecure network",
+          "Wireless, wired ports, Bluetooth",
+          "Connectivity itself is the opening",
+          "open socket in reception, unknown pairing, rogue AP"
+        ],
+        [
+          "Vulnerable or unsupported software",
+          "Services and systems already running",
+          "No one has to be tricked; it is exposed",
+          "default credentials, unpatched, vendor ended support, listening port"
+        ],
+        [
+          "Supply chain",
+          "Suppliers, vendors, managed service providers",
+          "Trust you granted is used against you",
+          "'the MSP agent', 'a vendor update', third-party library"
+        ]
+      ],
+      "rule": "Ask how the attacker got their first foothold, not what they did with it. A macro-laden spreadsheet sent by email is file-based once you are judging the payload and message-based once you are judging delivery, so the stem will name the one it means.",
+      "tell": "Any question listing several plausible ways in and asking which vector or attack surface it is.",
+      "trap": "The damage is memorable and the route is not, so people answer with the outcome. Ransomware is not a vector, it is what arrived."
     },
     "retireAfter": 2
   }

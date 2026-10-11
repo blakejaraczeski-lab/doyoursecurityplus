@@ -1,10 +1,8 @@
 {
-  "topicsCovered": 383,
+  "topicsCovered": 416,
   "topicsTotal": 684,
   "thin": [
     "1.3",
-    "2.2",
-    "4.1",
     "4.3",
     "4.6"
   ],
@@ -35,9 +33,9 @@
       "units": 9
     },
     "2.2": {
-      "topicsCovered": 12,
+      "topicsCovered": 27,
       "topics": 28,
-      "units": 3
+      "units": 7
     },
     "2.3": {
       "topicsCovered": 18,
@@ -45,9 +43,9 @@
       "units": 15
     },
     "2.4": {
-      "topicsCovered": 33,
+      "topicsCovered": 34,
       "topics": 41,
-      "units": 32
+      "units": 33
     },
     "2.5": {
       "topicsCovered": 9,
@@ -55,19 +53,19 @@
       "units": 8
     },
     "3.1": {
-      "topicsCovered": 16,
+      "topicsCovered": 22,
       "topics": 31,
-      "units": 17
+      "units": 18
     },
     "3.2": {
-      "topicsCovered": 20,
+      "topicsCovered": 21,
       "topics": 28,
-      "units": 24
+      "units": 25
     },
     "3.3": {
-      "topicsCovered": 15,
+      "topicsCovered": 24,
       "topics": 25,
-      "units": 4
+      "units": 5
     },
     "3.4": {
       "topicsCovered": 15,
@@ -75,7 +73,7 @@
       "units": 15
     },
     "4.1": {
-      "topicsCovered": 11,
+      "topicsCovered": 12,
       "topics": 32,
       "units": 20
     },

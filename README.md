@@ -102,6 +102,11 @@ commit the step you are sure is last before working out the middle. Sequences
 score per position and also report how many consecutive pairs held, because
 getting the whole chain one slot out is a different mistake from shuffling it.
 
+**Domains 2 and 3 carry 40% of the exam** and used to have no PBQ at all, while
+domain 4 carried thirteen. They now have five between them: threat vector
+families and authentication indicators in domain 2, shared responsibility, a
+jump server rule set and data protection methods in domain 3.
+
 **`network-diagram`** gives you a clickable topology with per host evidence, then
 asks you to identify what is actually compromised, what to do first, and how to
 handle it. Every one of these deliberately mixes compromised hosts with hosts
@@ -316,6 +321,21 @@ count and what is on disk right now.
 
 Verified behaviour: clear site data completely, reload, and your reviews,
 banked corrections and streak all come back.
+
+## Testing the app without writing to your progress
+
+Open it with `?scratch=1` and the session keeps its progress under a separate
+browser key and never talks to the server. A banner says so.
+
+This exists because driving the real app to test it writes real reviews into
+real study data. One round of UI testing added **eleven fabricated correct
+answers** and retired **four misconceptions that had never been demonstrated**,
+which the scheduler then believed. It was recovered from a snapshot, which is
+the other reason the server keeps forty of them.
+
+If it happens again: stop the app in **every** tab first, because a tab holding
+stale state in memory will push it back the moment it is hidden, then restore
+the newest snapshot from before the damage with a forced `PUT /api/state`.
 
 ## Running it as a background service
 

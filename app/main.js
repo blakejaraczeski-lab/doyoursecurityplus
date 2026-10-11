@@ -66,6 +66,9 @@ function sidebarHtml() {
   const goal = App.state.profile.dailyReviewGoal || 40;
   const days = App.state.profile.examDate ? mentor.daysUntilExam(App.state) : null;
 
+  const scratch = store.SCRATCH
+    ? `<div class="scratch-flag">scratch session &middot; nothing here is saved to your real progress</div>`
+    : "";
   const nav = NAV.map(([id, label]) => {
     const badge = id === "mentor" && due
       ? `<span class="badge ${due > 8 ? "hot" : ""}">${due}</span>` : "";
@@ -81,6 +84,7 @@ function sidebarHtml() {
       <span class="mark" aria-hidden="true">S+</span>
       <span class="name">doyoursecurityplus<small>SY0-701</small></span>
     </div>
+    ${scratch}
     <nav aria-label="Sections">${nav}</nav>
     <div class="side-stats">
       ${goalRing(done, goal)}

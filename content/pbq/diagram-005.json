@@ -1,0 +1,173 @@
+{
+  "id": "pbq-diagram-005",
+  "kind": "network-diagram",
+  "objective": "2.4",
+  "topics": ["password-spraying", "password-brute-force", "credential-replay", "impossible-travel",
+             "account-lockout", "concurrent-session-usage", "on-path", "replay", "indicators",
+             "out-of-cycle-logging", "published-documented-indicators", "privilege-escalation"],
+  "difficulty": 5,
+  "title": "Four authentication patterns, four different attacks",
+  "targetSeconds": 660,
+  "scenario": "Overnight, four systems at Calderwood Group logged unusual authentication activity. The patterns look similar on a dashboard and are four different attacks, which is exactly how the exam tests this. Click each system to read what was collected, then answer the questions. Only one of these attacks actually succeeded.",
+  "config": {
+    "nodes": [
+      { "id": "inet", "label": "Internet", "type": "cloud", "zone": "external", "x": 50, "y": 6, "selectable": false },
+      { "id": "fw", "label": "FW-01", "type": "firewall", "ip": "172.16.0.1", "zone": "perimeter", "x": 50, "y": 20, "selectable": false },
+      { "id": "sw", "label": "CORE-SW", "type": "switch", "ip": "172.16.0.2", "zone": "core", "x": 50, "y": 36, "selectable": false },
+      { "id": "vpn", "label": "VPN-01", "type": "server", "ip": "172.16.1.10", "zone": "perimeter", "x": 14, "y": 52, "selectable": true },
+      { "id": "portal", "label": "PORTAL-01", "type": "server", "ip": "172.16.1.20", "zone": "dmz", "x": 38, "y": 52, "selectable": true },
+      { "id": "dc", "label": "DC-01", "type": "server", "ip": "172.16.1.30", "zone": "internal", "x": 62, "y": 52, "selectable": true },
+      { "id": "mail", "label": "MAIL-01", "type": "server", "ip": "172.16.1.40", "zone": "internal", "x": 86, "y": 52, "selectable": true },
+      { "id": "ws01", "label": "WS-01", "type": "workstation", "ip": "172.16.4.11", "zone": "internal", "x": 26, "y": 78, "selectable": true },
+      { "id": "ws02", "label": "WS-02", "type": "workstation", "ip": "172.16.4.12", "zone": "internal", "x": 50, "y": 78, "selectable": true },
+      { "id": "ws03", "label": "WS-03", "type": "workstation", "ip": "172.16.4.13", "zone": "internal", "x": 74, "y": 78, "selectable": true }
+    ],
+    "links": [
+      ["inet", "fw"], ["fw", "sw"], ["sw", "vpn"], ["sw", "portal"], ["sw", "dc"], ["sw", "mail"],
+      ["sw", "ws01"], ["sw", "ws02"], ["sw", "ws03"]
+    ],
+    "evidence": {
+      "vpn": {
+        "summary": "One password tried against many accounts, slowly. No account ever locked out.",
+        "lines": [
+          "AUTH  02:11  user a.boyle     result=fail   reason=bad_password  src=198.51.100.44",
+          "AUTH  02:11  user c.devlin    result=fail   reason=bad_password  src=198.51.100.44",
+          "AUTH  02:12  user d.fenton    result=fail   reason=bad_password  src=198.51.100.44",
+          "AUTH  02:12  user e.gaskill   result=fail   reason=bad_password  src=198.51.100.44",
+          "AUTH  ...    1,842 distinct usernames, 1 attempt each, 2 per second",
+          "NOTE  lockout policy is 5 failures in 15 minutes; zero lockouts recorded",
+          "AUTH  02:48  user r.mackle    result=SUCCESS                      src=198.51.100.44"
+        ]
+      },
+      "portal": {
+        "summary": "Many passwords tried against one account until it locked.",
+        "lines": [
+          "AUTH  03:02  user svc_report  result=fail   reason=bad_password  src=203.0.113.19",
+          "AUTH  03:02  user svc_report  result=fail   reason=bad_password  src=203.0.113.19",
+          "AUTH  03:02  user svc_report  result=fail   reason=bad_password  src=203.0.113.19",
+          "AUTH  ...    14,500 attempts against this one account in 9 minutes",
+          "AUTH  03:11  user svc_report  result=fail   reason=ACCOUNT_LOCKED",
+          "NOTE  no successful authentication for svc_report at any point"
+        ]
+      },
+      "mail": {
+        "summary": "A single account authenticating from two places that cannot both be true.",
+        "lines": [
+          "AUTH  01:40  user r.mackle  result=SUCCESS  src=86.142.7.9     geo=Leeds, UK",
+          "AUTH  02:51  user r.mackle  result=SUCCESS  src=198.51.100.44 geo=Sao Paulo, BR",
+          "NOTE  71 minutes between sessions; both sessions active concurrently until 04:10",
+          "MAIL  02:53  inbox rule created: move messages containing 'invoice' to RSS Feeds, mark read",
+          "MAIL  02:55  12 messages forwarded externally"
+        ]
+      },
+      "dc": {
+        "summary": "Authentication material reused from a capture rather than a password being guessed.",
+        "lines": [
+          "AUTH  03:40  user j.harkin  result=SUCCESS  type=NTLM  src=172.16.4.13",
+          "NOTE  identical authenticator value previously seen at 19:12 the prior evening",
+          "NOTE  no bad_password events for j.harkin at any point in the window",
+          "NET   03:38  172.16.4.13 sent gratuitous ARP claiming 172.16.0.1",
+          "NET   03:39  traffic from 172.16.4.11 to DC-01 observed transiting 172.16.4.13"
+        ]
+      },
+      "ws01": {
+        "summary": "A user workstation whose traffic was being relayed through another host.",
+        "lines": [
+          "NET   03:38  ARP cache: 172.16.0.1 -> 00:1b:44:11:3a:b7 (WS-03's MAC)",
+          "AUTH  19:12  user j.harkin  result=SUCCESS  type=NTLM  (prior evening, legitimate)",
+          "EDR   no malicious process, no persistence, no files written"
+        ]
+      },
+      "ws02": {
+        "summary": "Nothing of interest. Included so the roster is not a giveaway.",
+        "lines": [
+          "AUTH  08:30  user p.quill  result=SUCCESS  (normal working hours)",
+          "EDR   clean",
+          "NET   no anomalous traffic"
+        ]
+      },
+      "ws03": {
+        "summary": "The host doing the relaying.",
+        "lines": [
+          "NET   03:38  sent gratuitous ARP claiming to be 172.16.0.1 (the gateway)",
+          "NET   03:38  IP forwarding enabled on this host",
+          "NET   03:39  relaying traffic between 172.16.4.11 and DC-01",
+          "EDR   unsigned binary 'netbridge.exe' running from %TEMP%",
+          "AUTH  03:40  replayed j.harkin authenticator toward DC-01"
+        ]
+      }
+    },
+    "tasks": [
+      { "id": "t-success", "type": "select-nodes", "max": 4,
+        "prompt": "Select every system where an attacker actually obtained a valid authenticated session. Do not select systems that only recorded failed attempts." },
+      { "id": "t-vpn", "type": "choice",
+        "prompt": "VPN-01: one password tried against 1,842 accounts, one attempt each, no lockouts. Which attack is this?",
+        "options": [
+          { "value": "spray", "label": "Password spraying" },
+          { "value": "brute", "label": "Password brute force" },
+          { "value": "stuffing", "label": "Credential stuffing" },
+          { "value": "replay", "label": "Credential replay" }
+        ] },
+      { "id": "t-portal", "type": "choice",
+        "prompt": "PORTAL-01: 14,500 passwords against one account in nine minutes, ending in a lockout. Which attack is this?",
+        "options": [
+          { "value": "spray", "label": "Password spraying" },
+          { "value": "brute", "label": "Password brute force" },
+          { "value": "impossible", "label": "Impossible travel" },
+          { "value": "replay", "label": "Credential replay" }
+        ] },
+      { "id": "t-dc", "type": "choice",
+        "prompt": "DC-01: a successful NTLM authentication using an authenticator value identical to one captured the previous evening, with no failed password attempts at all. Which attack is this?",
+        "options": [
+          { "value": "replay", "label": "A replay attack, enabled by an on-path position" },
+          { "value": "brute", "label": "Password brute force that happened to succeed first time" },
+          { "value": "escalation", "label": "Privilege escalation from an existing session" },
+          { "value": "spray", "label": "Password spraying against a single account" }
+        ] },
+      { "id": "t-lockout", "type": "choice",
+        "prompt": "Why did the VPN-01 activity produce no account lockouts while PORTAL-01 locked an account within nine minutes?",
+        "options": [
+          { "value": "threshold", "label": "Spraying stays under the lockout threshold per account by design, which is the whole reason attackers use it" },
+          { "value": "policy", "label": "The VPN had no lockout policy configured" },
+          { "value": "slow", "label": "The VPN attempts were too slow to be detected as authentication traffic" },
+          { "value": "valid", "label": "The VPN attempts used valid passwords, so no failure counter incremented" }
+        ] },
+      { "id": "t-first", "type": "choice",
+        "prompt": "It is 04:15. r.mackle's mailbox has an attacker-created inbox rule and an active second session. What is the most appropriate first action for that account?",
+        "options": [
+          { "value": "revoke", "label": "Revoke the active sessions and reset the credential, then remove the inbox rule" },
+          { "value": "reset", "label": "Reset the password and leave the existing sessions running so they can be monitored" },
+          { "value": "rule", "label": "Delete the inbox rule and keep watching the account" },
+          { "value": "disable", "label": "Disable the mailbox entirely until the investigation closes" }
+        ] }
+    ]
+  },
+  "solution": {
+    "t-success": ["vpn", "mail", "dc"],
+    "t-vpn": "spray",
+    "t-portal": "brute",
+    "t-dc": "replay",
+    "t-lockout": "threshold",
+    "t-first": "revoke"
+  },
+  "subtasks": [
+    { "id": "st-success", "task": "t-success", "label": "Which attacks actually succeeded", "points": 6,
+      "misconception": "spraying-vs-brute-force",
+      "correctNote": "VPN-01 logged a success for r.mackle at 02:48, MAIL-01 shows that same account authenticated from Sao Paulo and acting, and DC-01 accepted the replayed authenticator. PORTAL-01 recorded 14,500 failures and a lockout and never once succeeded, which is the distinction the question is testing: volume of attempts is not evidence of compromise." },
+    { "id": "st-vpn", "task": "t-vpn", "label": "Identify the VPN-01 pattern", "points": 4,
+      "misconception": "spraying-vs-brute-force",
+      "correctNote": "Password spraying: one common password, many accounts, one attempt each. Wide and shallow, deliberately below the lockout threshold. Credential stuffing would be reusing username and password pairs leaked from another breach, which the log would show as varying passwords per account." },
+    { "id": "st-portal", "task": "t-portal", "label": "Identify the PORTAL-01 pattern", "points": 4,
+      "misconception": "spraying-vs-brute-force",
+      "correctNote": "Brute force: many passwords, one account. Narrow and deep, which is why it trips lockout almost immediately. Spraying and brute force are the same operation rotated ninety degrees, and the axis the attacker iterates is the whole answer." },
+    { "id": "st-dc", "task": "t-dc", "label": "Identify the DC-01 pattern", "points": 5,
+      "misconception": "on-path-vs-replay",
+      "correctNote": "A replay. The authenticator was captured earlier and resubmitted, which is why there are no failed password attempts: nothing was guessed. The gratuitous ARP from WS-03 is the on-path position that made the capture possible, so the on-path attack is the means and the replay is the attack on DC-01." },
+    { "id": "st-lockout", "task": "t-lockout", "label": "Why spraying evades lockout", "points": 4,
+      "misconception": "spraying-vs-brute-force",
+      "correctNote": "Lockout counters are per account. One attempt per account never approaches a five-in-fifteen-minutes threshold no matter how many accounts are tried, so lockout policy alone does not detect spraying. Detecting it needs a view across accounts: a spike in distinct usernames failing from one source." },
+    { "id": "st-first", "task": "t-first", "label": "First action on the compromised mailbox", "points": 4,
+      "misconception": "impossible-travel-indicators",
+      "correctNote": "Resetting a password does not end sessions that already hold a valid token, which is the step people miss: the attacker keeps working through the existing session while you congratulate yourself. Revoke the sessions, reset the credential, then remove the persistence, which here is the inbox rule hiding invoice messages." }
+  ]
+}

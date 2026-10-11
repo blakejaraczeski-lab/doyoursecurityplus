@@ -1,0 +1,89 @@
+{
+  "id": "pbq-order-004",
+  "kind": "drag-order",
+  "objective": "2.2",
+  "topics": ["email", "short-message-service", "instant-messaging", "image-based", "file-based", "voice-call",
+             "removable-device", "unsecure-wired-networks", "bluetooth", "open-service-ports",
+             "default-credentials", "unsupported-systems-and-applications", "managed-service-providers",
+             "vendors", "suppliers", "vulnerable-software"],
+  "difficulty": 4,
+  "title": "Sort the openings by threat vector",
+  "targetSeconds": 420,
+  "scenario": "A quarterly attack surface review has produced thirteen findings. Sort each one by the vector family it belongs to. The question is always how an attacker would first get in, not what they would do once inside.",
+  "requirements": [
+    "Every finding goes in exactly one family.",
+    "Classify by the route in, not by the damage that would follow.",
+    "Partial credit applies per finding, so place all thirteen even where you are unsure."
+  ],
+  "config": {
+    "mode": "categorize",
+    "items": [
+      { "id": "smish", "label": "A text message about a held parcel, linking to a payment page" },
+      { "id": "vish", "label": "A caller claiming to be the service desk, asking a user to read back an MFA code" },
+      { "id": "im-link", "label": "A link posted in the company chat tool from a colleague's hijacked account" },
+      { "id": "macro", "label": "A spreadsheet whose macro runs a script when the file is opened" },
+      { "id": "svg", "label": "A banner image on a supplier portal with script embedded in the SVG" },
+      { "id": "usb-park", "label": "A USB drive left in the staff car park and plugged into a workstation" },
+      { "id": "cable", "label": "A phone charging cable given away at a trade stand" },
+      { "id": "reception-port", "label": "An unused wall socket in reception, patched through to the corporate VLAN" },
+      { "id": "bt-pair", "label": "A desk keyboard that has an unknown device paired to it" },
+      { "id": "telnet", "label": "A warehouse scanner console listening on telnet with the vendor's shipped password" },
+      { "id": "eol-plc", "label": "A production line controller running an OS the vendor stopped patching in 2020" },
+      { "id": "msp-agent", "label": "The managed service provider's monitoring agent, which holds admin rights on every server" },
+      { "id": "build-lib", "label": "A logging library pulled from a public registry during the nightly build" }
+    ],
+    "buckets": [
+      { "id": "message", "label": "Message-based" },
+      { "id": "fileimg", "label": "File and image based" },
+      { "id": "device", "label": "Removable device" },
+      { "id": "network", "label": "Unsecure network" },
+      { "id": "software", "label": "Vulnerable or unsupported software" },
+      { "id": "supply", "label": "Supply chain" }
+    ]
+  },
+  "solution": {
+    "placements": {
+      "smish": "message",
+      "vish": "message",
+      "im-link": "message",
+      "macro": "fileimg",
+      "svg": "fileimg",
+      "usb-park": "device",
+      "cable": "device",
+      "reception-port": "network",
+      "bt-pair": "network",
+      "telnet": "software",
+      "eol-plc": "software",
+      "msp-agent": "supply",
+      "build-lib": "supply"
+    }
+  },
+  "subtasks": [
+    { "id": "s1", "item": "smish", "label": "SMS lure", "points": 2, "misconception": "phishing-variants",
+      "correctNote": "Smishing. The channel names the variant: SMS is smishing, a voice call is vishing, email is phishing." },
+    { "id": "s2", "item": "vish", "label": "Voice call lure", "points": 2, "misconception": "phishing-variants",
+      "correctNote": "Vishing. A live caller pressuring someone for a code is still a message-based vector, delivered by voice." },
+    { "id": "s3", "item": "im-link", "label": "Instant message lure", "points": 2, "misconception": "threat-vector-families",
+      "correctNote": "Instant messaging is its own message channel in the objectives, and a hijacked internal account removes the usual tells." },
+    { "id": "s4", "item": "macro", "label": "Macro document", "points": 2, "misconception": "threat-vector-families",
+      "correctNote": "File-based. The finding is about the file carrying executable content, not about how it was delivered." },
+    { "id": "s5", "item": "svg", "label": "Image carrying script", "points": 3, "misconception": "threat-vector-families",
+      "correctNote": "Image-based. SVG is markup, not a bitmap, so it can carry script that a renderer will execute." },
+    { "id": "s6", "item": "usb-park", "label": "Dropped USB drive", "points": 2, "misconception": "threat-vector-families",
+      "correctNote": "Removable device. The classic drop attack: physical media carried across the boundary by a helpful employee." },
+    { "id": "s7", "item": "cable", "label": "Giveaway cable", "points": 3, "misconception": "threat-vector-families",
+      "correctNote": "Removable device. A cable can hold a keystroke injector; people who would never plug in a strange drive plug in a strange cable." },
+    { "id": "s8", "item": "reception-port", "label": "Live socket in a public area", "points": 3, "misconception": "threat-vector-families",
+      "correctNote": "Unsecure wired network. An unused live port in a lobby is an unauthenticated path onto the corporate VLAN, which is what 802.1X exists to close." },
+    { "id": "s9", "item": "bt-pair", "label": "Unknown Bluetooth pairing", "points": 2, "misconception": "threat-vector-families",
+      "correctNote": "Bluetooth is listed as its own unsecure network vector. An unexpected pairing on an input device means keystrokes are leaving the room." },
+    { "id": "s10", "item": "telnet", "label": "Default credentials on an open service", "points": 3, "misconception": "hardening-vs-patching",
+      "correctNote": "Open service port with default credentials. Nobody has to be tricked, and no patch fixes it: this is hardening work." },
+    { "id": "s11", "item": "eol-plc", "label": "Unsupported system", "points": 3, "misconception": "zero-day-vs-unpatched",
+      "correctNote": "Unsupported systems and applications. There is no patch coming, so the answer is compensating controls such as segmentation, not patching." },
+    { "id": "s12", "item": "msp-agent", "label": "Managed service provider access", "points": 3, "misconception": "supply-chain-vectors",
+      "correctNote": "The MSP is named separately from vendors and suppliers because the access it holds is standing and privileged across your whole estate." },
+    { "id": "s13", "item": "build-lib", "label": "Third-party dependency", "points": 3, "misconception": "supply-chain-vectors",
+      "correctNote": "A software supplier. The build pipeline trusts the registry, so a poisoned package inherits that trust without anyone being phished." }
+  ]
+}

@@ -5,7 +5,14 @@
 // of seconds behind. localStorage is keyed to an origin and can be cleared by a
 // browser setting; the durable tier is a file on disk with snapshots.
 
-const KEY = "dysp.v1";
+// Scratch mode: open the app with ?scratch=1 and it keeps its progress under a
+// separate key and never talks to the server. It exists because driving the real
+// app to test it writes real reviews into real study data, which is not a
+// hypothetical: a round of UI testing once added eleven fabricated correct
+// answers and retired four misconceptions that had never been demonstrated.
+export const SCRATCH =
+  typeof location !== "undefined" && new URLSearchParams(location.search).has("scratch");
+const KEY = SCRATCH ? "dysp.scratch" : "dysp.v1";
 
 export const DEFAULT_STATE = {
   version: 2,

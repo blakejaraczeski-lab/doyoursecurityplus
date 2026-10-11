@@ -5,6 +5,8 @@
 // making changes. The server refuses a push that would overwrite something
 // newer, which only happens if two tabs or two browsers were both studying.
 
+import { SCRATCH } from "./state.js";
+
 const ENDPOINT = "/api/state";
 const DEBOUNCE_MS = 1500;
 
@@ -31,6 +33,7 @@ export const onStatusChange = (fn) => { listener = fn; };
 
 /** Read the durable copy. Returns null when the server has nothing or is down. */
 export async function pull() {
+  if (SCRATCH) { setStatus(SYNC.SAVED); return null; }
   try {
     const res = await fetch(ENDPOINT, { cache: "no-store" });
     if (res.status === 404) { setStatus(SYNC.SAVED); return null; }
@@ -78,6 +81,7 @@ async function drain() {
 
 /** Queue a debounced mirror of the current state. */
 export function push(state) {
+  if (SCRATCH) return;
   pending = state;
   clearTimeout(timer);
   timer = setTimeout(drain, DEBOUNCE_MS);
@@ -99,6 +103,7 @@ export async function forcePush(state) {
  * silence, with the status dot still reading "saved".
  */
 export function flushNow(state) {
+  if (SCRATCH) return;
   clearTimeout(timer);
   pending = state;
   return drain();
@@ -110,6 +115,7 @@ export function flushNow(state) {
  * actually fits, and it is explicitly best effort.
  */
 export function flushBeacon(state) {
+  if (SCRATCH) return false;
   clearTimeout(timer);
   try {
     const body = JSON.stringify(state);

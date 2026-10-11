@@ -209,6 +209,13 @@ body.drilling .stem { font-size: var(--t-xl); line-height: 1.58; }
 .dot.saving { background: var(--warn); }
 .dot.offline, .dot.conflict { background: var(--bad); }
 
+.scratch-flag {
+  margin: 0 var(--s3) var(--s3); padding: var(--s2) var(--s3);
+  border: 1px dashed var(--warn); border-radius: var(--r1);
+  background: var(--warn-soft); color: var(--warn);
+  font: 500 var(--t-xs)/1.45 var(--sans);
+}
+
 /* ---------- layout ------------------------------------------------------- */
 main { padding: var(--s6) var(--s7) var(--s7); max-width: 1080px; }
 .prose, .stem, .sub, .mentor p, .result .body p { max-width: var(--measure); }
