@@ -3,6 +3,7 @@
     "acronyms.json",
     "anki-imported.json",
     "architecture.json",
+    "change.json",
     "core-a.json",
     "core-b.json",
     "derived-terminology.json",
@@ -10,10 +11,12 @@
     "domain5-b.json",
     "domain5-c.json",
     "firewall.json",
+    "identity.json",
     "incident.json",
     "multi-select.json",
     "operations.json",
     "threats.json",
+    "vulnmgmt.json",
     "wireless.json"
   ],
   "pbq": [
@@ -41,13 +44,16 @@
   "mentor": [
     "acronyms.json",
     "architecture.json",
+    "change.json",
     "core.json",
     "firewall.json",
     "governance.json",
+    "identity.json",
     "incident.json",
     "operations.json",
     "terminology.json",
     "threats.json",
+    "vulnmgmt.json",
     "wireless.json"
   ],
   "index": [

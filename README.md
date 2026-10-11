@@ -485,13 +485,20 @@ of their exam weight on graded practice.
 
 ## Known gaps
 
-- **Coverage is 56% of the blueprint.** 301 topics have no graded item. The bank
-  is 320 graded items and PBQs against 684 topics, so breadth, not balance, is
-  the limiting factor now. Thinnest: 1.3 change management, 2.2 threat vectors,
-  4.3 vulnerability management, 4.6 identity and access, 4.1 secure baselines.
-  Readiness marks these objectives **thin** rather than quietly scoring them as
-  weaknesses, and `content/coverage.json` pins the figure so the app and the
-  validator cannot drift apart about it.
+- **Coverage is 69% of the blueprint.** 213 topics still have no graded item, so
+  breadth remains the limiting factor. **No objective is thin any more**: every
+  one reaches at least 35% of its topics and holds at least four graded units.
+  Readiness marks a thin objective as thin rather than quietly scoring it as a
+  weakness in you, and `content/coverage.json` pins the figure so the app and
+  the validator cannot drift apart about it. Weakest remaining by topic
+  coverage: 1.4 cryptographic solutions, 4.5 enterprise capabilities,
+  4.9 investigation data sources, 4.1 secure baselines, 1.2 fundamental concepts.
+- **Domain 4 sits over its exam weight in the bank**, at 33% against 28%, which
+  is the direct cost of filling 4.3 and 4.6. It does not change what you are
+  served: mock exams draw per domain by exam weight regardless of how the bank
+  is composed, and the drill queue routes new items by how much of each domain
+  you have actually seen. Adding filler elsewhere to move the ratio would be the
+  exact mistake this project already made once.
 - **Mock exams draw only from plain `mcq` items.** Multiple select and the
   derived discrimination questions are excluded, so a mock is narrower than the
   real thing. The drill queue serves all of them.

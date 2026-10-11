@@ -1,0 +1,118 @@
+[
+  {
+    "id": "sso-federation-protocols",
+    "label": "SSO vs federation, and SAML vs OAuth vs OIDC vs LDAP",
+    "objective": "4.6",
+    "topics": ["single-sign-on", "federation", "security-assertions-markup-language", "open-authorization",
+               "lightweight-directory-access-protocol", "interoperability"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated these as four names for logging in once. They answer different questions: SSO and federation describe the arrangement, SAML and OAuth are the protocols that carry it, and LDAP is not in that family at all.",
+      "contrast": [
+        ["Term", "What it is", "Authentication or authorisation", "Crosses org boundaries"],
+        ["Single sign-on", "One login reused across many applications", "An arrangement, not a protocol", "Not necessarily"],
+        ["Federation", "Trust between separate organisations' identity systems", "An arrangement, not a protocol", "Yes, that is the definition"],
+        ["SAML", "XML assertions passed between IdP and service provider", "Authentication, and it carries attributes", "Yes, the classic enterprise federation protocol"],
+        ["OAuth 2.0", "Delegated access to a resource via tokens", "Authorisation, not authentication", "Yes"],
+        ["OpenID Connect", "An identity layer on top of OAuth 2.0", "Authentication", "Yes"],
+        ["LDAP", "A protocol for querying a directory of users and groups", "Directory access; can authenticate via bind", "No, it is an internal directory protocol"]
+      ],
+      "rule": "SAML says who you are. OAuth says what this app may do on your behalf. OIDC is OAuth with identity bolted on. LDAP is how you look someone up in the directory, not how you federate.",
+      "tell": "A stem naming an identity provider and a service provider, or mentioning assertions, tokens, scopes or a directory query.",
+      "trap": "OAuth is the single most common wrong answer to an authentication question. It was designed to grant access to a resource without handing over your password, which is authorisation. If the stem asks how the user proved who they are, OAuth alone is not it."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "identity-lifecycle",
+    "label": "Provisioning, de-provisioning, identity proofing and attestation",
+    "objective": "4.6",
+    "topics": ["provisioning-user-accounts", "de-provisioning-user-accounts", "identity-proofing", "attestation",
+               "permission-assignments-and-implications"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You collapsed the account lifecycle into creating and deleting accounts. The objectives separate four activities because the gaps between them are where standing access accumulates.",
+      "contrast": [
+        ["Activity", "Question it answers", "What fails without it"],
+        ["Identity proofing", "Are you really this person, before an account exists?", "Accounts issued to whoever asked convincingly"],
+        ["Provisioning", "What access does this role need on day one?", "Access copied from a colleague, inheriting their accumulated rights"],
+        ["Attestation", "Does this person still need what they have?", "Privilege creep: rights gathered through every role change, never removed"],
+        ["De-provisioning", "Is every path closed the day they leave?", "Dormant accounts, which is how former staff and attackers both get back in"]
+      ],
+      "rule": "Proofing comes before the account, provisioning sets it up, attestation periodically re-justifies it, and de-provisioning closes it. Privilege creep is an attestation failure, not a provisioning one.",
+      "tell": "A long-serving employee who has moved between departments, or a leaver who still has access.",
+      "trap": "Copying an existing user's permissions is fast and is the most common provisioning mistake on the exam. It grants everything that user accumulated, which nobody has reviewed."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "password-policy-levers",
+    "label": "Which password setting fixes which problem: length, complexity, age, expiration, reuse",
+    "objective": "4.6",
+    "topics": ["password-length", "password-complexity", "password-expiration", "password-age",
+               "password-reuse", "password-managers"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You reached for the setting you have seen most often rather than the one that addresses the attack described. Each lever counters a different thing and several of them counter nothing.",
+      "contrast": [
+        ["Setting", "What it actually counters", "What it does not help with"],
+        ["Length", "Offline cracking and brute force; by far the strongest lever", "A password already stolen or phished"],
+        ["Complexity", "Trivially guessable passwords", "Much else; it reliably produces predictable substitutions"],
+        ["Minimum age", "Users cycling through passwords to return to a favourite", "Anything about strength"],
+        ["Maximum age (expiration)", "Limiting how long a compromise stays useful", "Current guidance discourages routine rotation: it drives weaker, patterned choices"],
+        ["Reuse history", "Returning to a previously used password", "Reuse of the same password on other sites"],
+        ["Password manager", "Unique, long, random passwords per site", "Nothing, if the vault password is weak and unprotected"]
+      ],
+      "rule": "Length beats complexity. Minimum age stops the cycling trick, history stops the return, expiration is the one modern guidance has moved away from.",
+      "tell": "A stem describing cracking an offline hash dump, or users rotating straight back to a familiar password.",
+      "trap": "Forced expiry feels like diligence and is the answer most people pick. Current NIST guidance says rotate on evidence of compromise, not on a calendar, because routine rotation measurably weakens the passwords chosen."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "authenticator-types",
+    "label": "Hard token vs soft token vs security key vs biometric vs passwordless",
+    "objective": "4.6",
+    "topics": ["hard-soft-authentication-tokens", "security-keys", "biometrics", "passwordless",
+               "something-you-have", "something-you-are", "multifactor-authentication"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You sorted these by how modern they sound rather than by what form the authenticator takes and which attacks it survives.",
+      "contrast": [
+        ["Authenticator", "Form", "Factor", "Phishing resistant"],
+        ["Hard token", "Dedicated physical device showing a code", "Something you have", "No, the code can be read out and relayed"],
+        ["Soft token", "An app on a general-purpose phone", "Something you have", "No, same relay problem, plus the phone's own exposure"],
+        ["Security key (FIDO2)", "Physical key using origin-bound public key crypto", "Something you have", "Yes: the signature is bound to the real site's origin"],
+        ["Biometric", "A measured physical trait", "Something you are", "Depends on the implementation; local match is strongest"],
+        ["Passwordless", "An approach, not a device: no shared secret at all", "Varies by authenticator used", "Yes when built on FIDO2"],
+        ["SMS code", "A message to a phone number", "Something you have, weakly", "No, and the number can be ported away from you"]
+      ],
+      "rule": "A code you can read and type can be relayed to an attacker. A security key signs a challenge bound to the site's origin, so it cannot be replayed to a lookalike domain. That is the whole phishing-resistance argument.",
+      "tell": "A stem about users being tricked into entering a valid code on a convincing fake site.",
+      "trap": "Passwordless is not automatically strong and is not a factor. It describes removing the shared secret; the strength comes from whatever authenticator replaces it."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "privileged-access-techniques",
+    "label": "Just-in-time permissions vs password vaulting vs ephemeral credentials",
+    "objective": "4.6",
+    "topics": ["just-in-time-permissions", "password-vaulting", "ephemeral-credentials",
+               "privileged-access-management-tools", "least-privilege-2"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated privileged access management as one feature. The objectives name three distinct techniques, and they remove different parts of the standing-access problem.",
+      "contrast": [
+        ["Technique", "What it removes", "What still exists"],
+        ["Password vaulting", "Shared admin passwords living in people's heads and spreadsheets", "The account is still privileged all the time; checkout is audited"],
+        ["Just-in-time permissions", "Standing privilege: rights are granted on request, for a window, then revoked", "The identity persists; only the elevation is temporary"],
+        ["Ephemeral credentials", "The durable credential itself: issued per session, expiring in minutes", "Little, which is why it is the strongest of the three"],
+        ["PAM tooling", "The manual process around all of the above", "Whatever you did not configure it to cover"]
+      ],
+      "rule": "Vaulting controls who can take the key. Just-in-time controls when the lock works at all. Ephemeral credentials mean there is no lasting key to steal.",
+      "tell": "A stem about administrators holding permanent elevated rights, or shared accounts whose password everyone knows.",
+      "trap": "Vaulting is often presented as solving standing privilege and it does not. The account stays privileged around the clock; you have only controlled distribution of its password."
+    },
+    "retireAfter": 2
+  }
+]
