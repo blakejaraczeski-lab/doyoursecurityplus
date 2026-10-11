@@ -114,15 +114,20 @@ def main(apkg):
             continue
         seen.add(key)
         objective, matched, conf = tag(f"{front} {back} {' '.join(extra)}", topics)
+        # A card the tagger cannot place has no objective, and the scheduler
+        # requires one: pickNewItems filters on `it.objective || isAcronym(it)`
+        # and buildMock takes only type "mcq". An untagged recall card is
+        # therefore reachable by no code path. Dropping it at import is the
+        # honest version of what the app was already doing silently.
         if objective is None:
             untagged += 1
+            continue
         items.append({
             "id": f"anki-{nid}",
             "type": "recall",
             "source": "anki-import",
             "objective": objective,
             "topics": matched,
-            "tagConfidence": conf,
             "difficulty": 2,
             "term": front,
             "definition": back,
@@ -135,7 +140,7 @@ def main(apkg):
 
     by_obj = Counter(i["objective"] for i in items if i["objective"])
     print(f"imported {len(items)} recall items from {pathlib.Path(apkg).name}")
-    print(f"  auto-tagged: {len(items) - untagged}   untagged: {untagged}")
+    print(f"  auto-tagged: {len(items)}   dropped as untaggable: {untagged}")
     print(f"  wrote {out.relative_to(ROOT)}")
     print("  per domain:")
     dom = Counter(o.split(".")[0] for o in by_obj.elements())

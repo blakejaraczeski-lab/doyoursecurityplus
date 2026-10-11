@@ -665,7 +665,18 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-window.addEventListener("beforeunload", () => {
+// Save when the tab goes to the background, not when it is being torn down.
+// By beforeunload the only transport left is a keepalive fetch, which caps the
+// body at 64 KB; this state is past that. visibilitychange fires while a normal
+// request still works, and it also covers the cases beforeunload misses, such
+// as closing the lid or the tab being discarded on mobile.
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState !== "hidden") return;
+  store.flush(App.state);
+  sync.flushNow(App.state);
+});
+
+window.addEventListener("pagehide", () => {
   store.flush(App.state);
   sync.flushBeacon(App.state);
 });

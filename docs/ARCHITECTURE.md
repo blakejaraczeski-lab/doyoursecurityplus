@@ -80,6 +80,20 @@ item difficulty into a projected scaled score with a confidence band. Shown as a
 The projection deliberately reports a band, not a single number, because a small
 sample over a 100 to 900 scale cannot support false precision.
 
+Two denominators matter here and they are kept apart on purpose:
+
+- **Coverage** is `itemsSeen / min(itemsAvailable, 12)`. Twelve is the sample
+  worth having; an objective that cannot supply twelve is scored out of what it
+  has. This measures you.
+- **Bank depth** is the share of an objective's blueprint topics that any graded
+  item reaches. This measures the content, and it is reported separately as a
+  "thin" flag rather than folded into mastery.
+
+Mixing them is what the earlier flat `itemsSeen / 12` did, which reported a thin
+bank as a weak learner. Mastery counts graded practice only: a recall card is
+revealed and self-graded, so letting it in would mean "I knew that" could raise a
+number meant to predict a scored exam.
+
 ## Stack
 
 No build step, no dependencies. Plain ES modules and JSON served by a single

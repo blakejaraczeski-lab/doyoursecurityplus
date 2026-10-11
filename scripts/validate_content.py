@@ -403,6 +403,31 @@ def main():
         for oid, c, t, n in thin:
             print(f"    {oid}  {c:3d}/{t:3d}  {c/t:4.0%}  {n:2d} items")
 
+    # Pin the gate's reading of the bank so selftest.html can check that
+    # readiness() in JS agrees with it. The two are written independently, so a
+    # mismatch means one of them has drifted, which is exactly how the flat
+    # coverage denominator survived as long as it did.
+    (ROOT / "content" / "coverage.json").write_text(
+        json.dumps(
+            {
+                "topicsCovered": hit,
+                "topicsTotal": len(all_topics),
+                "thin": sorted(oid for oid, _, _, _ in thin),
+                "perObjective": {
+                    o["id"]: {
+                        "topicsCovered": sum(1 for t in topics_of[o["id"]] if touched[t]),
+                        "topics": len(topics_of[o["id"]]),
+                        "units": per_obj_items[o["id"]],
+                    }
+                    for d in tax["domains"]
+                    for o in d["objectives"]
+                },
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+
     print(f"\nmisconception reachability:")
     print(f"  retirable now (enough distinct items): {len(mis) - len(unreachable) - len(single)}")
     if single:

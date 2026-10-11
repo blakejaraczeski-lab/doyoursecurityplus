@@ -88,16 +88,38 @@ export async function forcePush(state) {
   try { return await put(state, true); } catch { setStatus(SYNC.OFFLINE); return false; }
 }
 
-/** Best-effort final write when the tab closes. */
+/**
+ * Write now rather than on the debounce. Called when the tab is hidden, which
+ * is the last moment a normal request is still reliable.
+ *
+ * This used to be a keepalive fetch on beforeunload, and keepalive bodies are
+ * capped at 64 KB by the spec. State passed that a while ago (it grows with
+ * every review), so the browser rejected the request and the rejection was
+ * never awaited: the last writes of every session were being dropped in
+ * silence, with the status dot still reading "saved".
+ */
+export function flushNow(state) {
+  clearTimeout(timer);
+  pending = state;
+  return drain();
+}
+
+/**
+ * Genuine last resort, on pagehide, when there is no time left for a normal
+ * request. Subject to the same 64 KB cap, so it is only attempted when the body
+ * actually fits, and it is explicitly best effort.
+ */
 export function flushBeacon(state) {
   clearTimeout(timer);
   try {
-    const blob = new Blob([JSON.stringify(state)], { type: "application/json" });
-    // sendBeacon cannot issue PUT, so the server also accepts this path via POST-like
-    // semantics is not available; fall back to a keepalive fetch instead.
+    const body = JSON.stringify(state);
+    if (body.length > 60_000) return false;
+    const blob = new Blob([body], { type: "application/json" });
     fetch(ENDPOINT, { method: "PUT", body: blob, keepalive: true,
-                      headers: { "Content-Type": "application/json" } });
-  } catch {}
+                      headers: { "Content-Type": "application/json" } })
+      .catch(() => {});
+    return true;
+  } catch { return false; }
 }
 
 export async function health() {

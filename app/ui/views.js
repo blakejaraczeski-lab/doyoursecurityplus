@@ -423,10 +423,15 @@ export function readinessView(App) {
   const cells = Object.values(r.perObjective)
     .sort((a, b) => a.mastery - b.mastery)
     .map(
-      (o) => `<div class="cell s-${o.status}">
-        <div class="spread"><b>${esc(o.objective)}</b><small>${pct(o.mastery)}</small></div>
+      (o) => `<div class="cell s-${o.status}${o.thin ? " is-thin" : ""}">
+        <div class="spread"><b>${esc(o.objective)}</b><small>${o.status === "no-items" ? "&mdash;" : pct(o.mastery)}</small></div>
         <div class="bar"><span style="width:${Math.round(o.mastery * 100)}%"></span></div>
-        <small>${o.status}${o.itemsSeen ? ` &middot; ${o.itemsSeen} seen` : ""}${o.openMisconceptions ? ` &middot; ${o.openMisconceptions} open` : ""}</small>
+        <small>${o.status === "no-items" ? "no items in the bank" : o.status}${
+          o.itemsSeen ? ` &middot; ${o.itemsSeen}/${o.itemsAvailable} seen` : ""}${
+          o.openMisconceptions ? ` &middot; ${o.openMisconceptions} open` : ""}</small>
+        ${o.thin
+          ? `<span class="thin-flag" title="${o.topicsCovered} of ${o.topics} blueprint topics have a graded item">bank thin &middot; ${pct(o.bankDepth)} of topics</span>`
+          : ""}
         <div class="title">${esc(o.title)}</div>
       </div>`
     )
@@ -435,15 +440,20 @@ export function readinessView(App) {
   const domains = App.content.objectives.domains
     .map((d) => {
       const c = cov[d.id];
-      const dir = c.deficit > 0.02 ? "under" : c.deficit < -0.02 ? "over" : "on target";
+      const dir = c.exhausted ? "bank empty"
+        : c.deficit > 0.02 ? "under"
+        : c.deficit < -0.02 ? "over" : "on target";
       return `<tr><td>${d.id}.0 ${esc(d.title)}</td><td class="mono">${pct(d.weight)}</td>
         <td class="mono">${pct(c.share || 0)}</td>
-        <td class="faint">${dir}</td><td class="mono">${c.seen}/${c.total}</td></tr>`;
+        <td class="faint">${dir}</td><td class="mono">${c.seen}/${c.available}</td></tr>`;
     })
     .join("");
 
+  // Only suggest objectives you can actually act on. An objective with nothing
+  // unseen left in the bank is a gap in the content, and sending you there is
+  // sending you to re-read what you have already answered.
   const weakest = Object.values(r.perObjective)
-    .filter((o) => o.itemsSeen > 0)
+    .filter((o) => o.itemsSeen > 0 && o.itemsSeen < o.itemsAvailable)
     .sort((a, b) => a.mastery - b.mastery)
     .slice(0, 3);
 
@@ -451,6 +461,13 @@ export function readinessView(App) {
   <p class="sub">${r.confident
       ? "Based on enough reviews to mean something."
       : `Low confidence so far: ${r.reviewCount} reviews across ${r.objectivesSampled} of 28 objectives. The band narrows as you drill.`}</p>
+
+  ${r.bankDepth < 0.8 ? `<div class="card tight" style="border-left:3px solid var(--warn)">
+    <h2 class="eyebrow">What this score can and cannot see</h2>
+    <p style="margin:0">Graded items reach <b>${r.topicsCovered} of ${r.topicsTotal}</b> blueprint topics (${pct(r.bankDepth)}).${
+      r.emptyObjectives ? ` ${r.emptyObjectives} objective${r.emptyObjectives === 1 ? " has" : "s have"} no items at all.` : ""
+    } ${r.thinObjectives} of 28 objectives are marked thin below. The estimate is an honest read of how you did on what exists, and the band is widened to carry the rest. A thin objective reading "strong" means you answered its items correctly, not that the topic is covered.</p>
+  </div>` : ""}
 
   <div class="card">
     <div class="spread" style="align-items:flex-start">
@@ -517,9 +534,9 @@ export function readinessView(App) {
   <h2>Domain balance</h2>
   <div class="card">
     <div class="scroll-x"><table class="grid">
-      <thead><tr><th>Domain</th><th>Exam weight</th><th>Your share</th><th></th><th>Items seen</th></tr></thead>
+      <thead><tr><th>Domain</th><th>Exam weight</th><th>Your share</th><th></th><th>Graded items seen</th></tr></thead>
       <tbody>${domains}</tbody></table></div>
-    <p class="faint" style="margin:var(--s3) 0 0">The drill queue biases new items toward whichever domain is furthest under its exam weight.</p>
+    <p class="faint" style="margin:var(--s3) 0 0">The drill queue biases new items toward whichever domain is furthest under its exam weight. Only graded practice counts here: a revealed vocabulary card does not cover a domain, because the exam never asks you to reveal anything.</p>
   </div>`;
 }
 

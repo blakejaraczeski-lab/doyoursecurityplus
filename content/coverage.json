@@ -1,0 +1,153 @@
+{
+  "topicsCovered": 383,
+  "topicsTotal": 684,
+  "thin": [
+    "1.3",
+    "2.2",
+    "4.1",
+    "4.3",
+    "4.6"
+  ],
+  "perObjective": {
+    "1.1": {
+      "topicsCovered": 10,
+      "topics": 10,
+      "units": 8
+    },
+    "1.2": {
+      "topicsCovered": 14,
+      "topics": 35,
+      "units": 10
+    },
+    "1.3": {
+      "topicsCovered": 5,
+      "topics": 18,
+      "units": 2
+    },
+    "1.4": {
+      "topicsCovered": 13,
+      "topics": 37,
+      "units": 17
+    },
+    "2.1": {
+      "topicsCovered": 11,
+      "topics": 19,
+      "units": 9
+    },
+    "2.2": {
+      "topicsCovered": 12,
+      "topics": 28,
+      "units": 3
+    },
+    "2.3": {
+      "topicsCovered": 18,
+      "topics": 24,
+      "units": 15
+    },
+    "2.4": {
+      "topicsCovered": 33,
+      "topics": 41,
+      "units": 32
+    },
+    "2.5": {
+      "topicsCovered": 9,
+      "topics": 17,
+      "units": 8
+    },
+    "3.1": {
+      "topicsCovered": 16,
+      "topics": 31,
+      "units": 17
+    },
+    "3.2": {
+      "topicsCovered": 20,
+      "topics": 28,
+      "units": 24
+    },
+    "3.3": {
+      "topicsCovered": 15,
+      "topics": 25,
+      "units": 4
+    },
+    "3.4": {
+      "topicsCovered": 15,
+      "topics": 25,
+      "units": 15
+    },
+    "4.1": {
+      "topicsCovered": 11,
+      "topics": 32,
+      "units": 20
+    },
+    "4.2": {
+      "topicsCovered": 8,
+      "topics": 11,
+      "units": 5
+    },
+    "4.3": {
+      "topicsCovered": 10,
+      "topics": 31,
+      "units": 6
+    },
+    "4.4": {
+      "topicsCovered": 14,
+      "topics": 20,
+      "units": 5
+    },
+    "4.5": {
+      "topicsCovered": 10,
+      "topics": 28,
+      "units": 18
+    },
+    "4.6": {
+      "topicsCovered": 11,
+      "topics": 37,
+      "units": 9
+    },
+    "4.7": {
+      "topicsCovered": 15,
+      "topics": 21,
+      "units": 5
+    },
+    "4.8": {
+      "topicsCovered": 15,
+      "topics": 18,
+      "units": 17
+    },
+    "4.9": {
+      "topicsCovered": 4,
+      "topics": 11,
+      "units": 6
+    },
+    "5.1": {
+      "topicsCovered": 12,
+      "topics": 30,
+      "units": 9
+    },
+    "5.2": {
+      "topicsCovered": 26,
+      "topics": 36,
+      "units": 22
+    },
+    "5.3": {
+      "topicsCovered": 12,
+      "topics": 17,
+      "units": 9
+    },
+    "5.4": {
+      "topicsCovered": 15,
+      "topics": 19,
+      "units": 10
+    },
+    "5.5": {
+      "topicsCovered": 14,
+      "topics": 16,
+      "units": 8
+    },
+    "5.6": {
+      "topicsCovered": 15,
+      "topics": 19,
+      "units": 7
+    }
+  }
+}

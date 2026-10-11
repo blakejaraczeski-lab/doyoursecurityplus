@@ -33,7 +33,7 @@
   --t-lg: 1.125rem; --t-xl: 1.375rem; --t-2xl: 1.75rem; --t-3xl: 2.5rem;
 
   --measure: 68ch;
-  --r1: 7px; --r2: 11px; --r3: 16px;
+  --r1: 7px; --r2: 11px;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --ease: cubic-bezier(.32, .72, .34, 1);
@@ -58,7 +58,6 @@
   --warn: #8a5a08;
   --warn-soft: #f8eedb;
   --shadow-1: 0 1px 2px rgba(60, 50, 35, .07), 0 1px 3px rgba(60, 50, 35, .05);
-  --shadow-2: 0 6px 18px rgba(60, 50, 35, .11);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -81,7 +80,6 @@
     --warn: #d99f3f;
     --warn-soft: #2b2113;
     --shadow-1: 0 1px 2px rgba(0, 0, 0, .5);
-    --shadow-2: 0 8px 24px rgba(0, 0, 0, .55);
   }
 }
 
@@ -244,7 +242,6 @@ h3, .eyebrow {
 
 .row { display: flex; gap: var(--s3); align-items: center; flex-wrap: wrap; }
 .spread { display: flex; justify-content: space-between; align-items: center; gap: var(--s4); }
-.stack { display: grid; gap: var(--s3); }
 
 /* ---------- buttons ------------------------------------------------------ */
 button.btn {
@@ -584,7 +581,19 @@ select:hover, input:hover { border-color: var(--accent); }
 .heat .cell .bar span { display: block; height: 100%; border-radius: 3px; transition: width 400ms var(--ease); }
 .s-strong span { background: var(--good); } .s-ok span { background: #6cb86a; }
 .s-shaky span { background: var(--warn); } .s-weak span { background: var(--bad); }
-.s-untouched span { background: var(--line-strong); }
+.s-untouched span, .s-no-items span { background: var(--line-strong); }
+
+/* The bank, not the learner. A cell can read "strong" and still be standing on
+   four items out of a thirty-topic objective, so the shortfall is said out loud
+   instead of being folded into the score. */
+.heat .cell.is-thin { border-style: dashed; }
+.thin-flag {
+  display: inline-flex; align-items: center; gap: var(--s1);
+  margin-top: var(--s1); padding: 1px var(--s2);
+  border: 1px solid var(--warn); border-radius: var(--r1);
+  color: var(--warn); background: var(--warn-soft);
+  font: 500 var(--t-xs)/1.5 var(--sans);
+}
 .heat .cell small { color: var(--ink-faint); font-size: var(--t-xs); display: block; }
 .heat .cell .title {
   color: var(--ink-dim); font-size: var(--t-xs); line-height: 1.35; margin-top: var(--s1);

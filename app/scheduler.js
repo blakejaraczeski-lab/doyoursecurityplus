@@ -23,6 +23,14 @@ export const PACE = {
 const eligible = (content, it) =>
   !(it.type === "recall" && content.supersededRecall?.has(it.id));
 
+/**
+ * Graded practice: an item that makes you choose between options and marks you
+ * right or wrong. A revealed vocabulary card is not this, and an acronym carries
+ * no objective, so neither can stand in for exam-shaped coverage of a domain.
+ */
+const isGraded = (it) =>
+  typeof it.type === "string" && it.type.startsWith("mcq") && it.source !== "acronym-list";
+
 const itemState = (state, id) => state.items[id] || null;
 const seen = (state, id) => !!state.items[id]?.seen;
 
@@ -58,22 +66,35 @@ function shuffle(arr, rnd = Math.random) {
   return a;
 }
 
-/** How far each domain's coverage is behind where the exam weights say it should be. */
+/**
+ * How far each domain's study is behind where the exam weights say it should be.
+ *
+ * Two things this deliberately does not do any more. It no longer counts a
+ * revealed vocabulary card as coverage of a domain: the exam never asks you to
+ * reveal anything, so only graded practice counts. And it no longer lets a
+ * domain keep pulling new items once it has none left, which an unbounded
+ * deficit used to do, sending the queue after material that does not exist.
+ */
 export function coverageDeficit(state, content) {
   const byDomain = {};
   for (const d of content.objectives.domains) {
-    byDomain[d.id] = { weight: d.weight, total: 0, seen: 0 };
+    byDomain[d.id] = { weight: d.weight, available: 0, seen: 0, remaining: 0 };
   }
   for (const it of content.items) {
     const dom = content.domainOf[it.objective];
-    if (!dom || !byDomain[dom] || !eligible(content, it)) continue;
-    byDomain[dom].total += 1;
+    if (!dom || !byDomain[dom] || !eligible(content, it) || !isGraded(it)) continue;
+    byDomain[dom].available += 1;
     if (seen(state, it.id)) byDomain[dom].seen += 1;
+    else byDomain[dom].remaining += 1;
   }
   const totalSeen = Object.values(byDomain).reduce((a, b) => a + b.seen, 0) || 1;
   for (const d of Object.values(byDomain)) {
     d.share = d.seen / totalSeen;
-    d.deficit = d.weight - d.share; // positive means under-studied for its weight
+    // A deficit you cannot spend is not a deficit. With nothing left unseen in
+    // the domain, the honest reading is that the bank is exhausted here, which
+    // is a content gap to report rather than a routing instruction.
+    d.deficit = d.remaining ? d.weight - d.share : 0;
+    d.exhausted = d.remaining === 0 && d.available > 0;
   }
   return byDomain;
 }
@@ -276,7 +297,8 @@ export function readiness(state, content, now = Date.now()) {
     for (const o of d.objectives) {
       perObjective[o.id] = {
         objective: o.id, title: o.title, domain: d.id, weight: d.weight,
-        itemsSeen: 0, itemsCorrect: 0, attempts: 0,
+        topics: o.topics.length, topicsCovered: 0,
+        itemsAvailable: 0, pbqAvailable: 0, itemsSeen: 0, itemsCorrect: 0, attempts: 0,
         openMisconceptions: 0, retiredMisconceptions: 0, severityDrag: 0,
       };
     }
@@ -286,10 +308,60 @@ export function readiness(state, content, now = Date.now()) {
   // difficulty-5 scenario should not move the projection equally, or a run of
   // easy items reads as readiness.
   const weightOf = (it) => 0.6 + 0.2 * Math.max(1, Math.min(5, it.difficulty || 2));
+
+  // How much graded material exists per objective, and how much of the
+  // objective's blueprint it reaches. Both are properties of the bank, not of
+  // the learner, and keeping them apart is the whole point: an objective with
+  // two items is not an objective you are bad at.
+  // Resolve topic tags the same way scripts/validate_content.py does, aliases
+  // included, so the app and the gate cannot drift apart and report different
+  // coverage for the same bank.
+  const canonical = {};
+  const ownTopics = {};
+  for (const d of content.objectives.domains) {
+    for (const o of d.objectives) {
+      ownTopics[o.id] = new Set(o.topics.map((t) => t.id));
+      for (const t of o.topics) {
+        canonical[t.id] = t.id;
+        for (const a of t.aliases || []) canonical[a] = t.id;
+      }
+    }
+  }
+  // A topic is covered when some graded item tests it, wherever that item is
+  // filed. Items legitimately reach across objective boundaries, and the
+  // question this answers is whether the blueprint topic gets examined at all,
+  // not whose drawer it was filed in.
+  const touched = new Set();
+  const credit = (topics) => {
+    for (const raw of topics || []) {
+      const t = canonical[raw];
+      if (t) touched.add(t);
+    }
+  };
+  for (const it of content.items) {
+    const rec = perObjective[it.objective];
+    if (!isGraded(it)) continue;
+    if (rec) rec.itemsAvailable += 1;
+    credit(it.topics);
+  }
+  // A PBQ is graded material too. It is scored separately from the item queue,
+  // so it covers blueprint ground without entering the itemsSeen denominator.
+  for (const pq of content.pbqs) {
+    const rec = perObjective[pq.objective];
+    if (rec) rec.pbqAvailable += 1;
+    credit(pq.topics);
+  }
+  for (const rec of Object.values(perObjective)) {
+    rec.topicsCovered = [...ownTopics[rec.objective]].filter((t) => touched.has(t)).length;
+  }
+
+  // Mastery is built from graded practice only. A recall card is revealed and
+  // self-graded, so folding it in here would let "I knew that" raise a number
+  // that is supposed to predict a scored exam.
   for (const it of content.items) {
     const s = itemState(state, it.id);
     const rec = perObjective[it.objective];
-    if (!rec || !s?.seen) continue;
+    if (!rec || !s?.seen || !isGraded(it)) continue;
     const w = weightOf(it);
     rec.itemsSeen += 1;
     rec.attempts += s.seen * w;
@@ -321,14 +393,36 @@ export function readiness(state, content, now = Date.now()) {
   const totals = { itemsSeen: 0, weightedMastery: 0, sampled: 0 };
   for (const rec of Object.values(perObjective)) {
     const accuracy = rec.attempts ? laplace(rec.itemsCorrect, rec.attempts) : 0;
-    const coverage = Math.min(1, rec.itemsSeen / 12); // 12 items is a usable sample
+
+    // The denominator is what this objective can actually offer you, not a
+    // constant. It used to be a flat 12 items, which meant an objective holding
+    // 2 items was permanently capped at coverage 0.17 and read "shaky" however
+    // well you did: 18 of 28 objectives could never reach 1, and 11 could never
+    // read "strong". That is a measurement of the bank being reported as a
+    // measurement of you. Twelve is still the sample size worth having; an
+    // objective that cannot supply twelve is scored out of what it has, and the
+    // shortfall is reported separately as bank depth.
+    const sample = Math.min(rec.itemsAvailable, 12);
+    const coverage = sample ? Math.min(1, rec.itemsSeen / sample) : 0;
     const drag = Math.min(0.4, rec.severityDrag * 0.12);
     let mastery = accuracy * (0.5 + 0.5 * coverage) - drag;
     if (rec.pbqBest != null) mastery = mastery * 0.7 + rec.pbqBest * 0.3;
     rec.accuracy = accuracy;
     rec.coverage = coverage;
+
+    // Bank depth is the blueprint question: of this objective's topics, how many
+    // does any graded item touch? A high mastery over a shallow bank is a real
+    // result on an unrepresentative sample, so it is labelled rather than
+    // silently discounted.
+    rec.bankDepth = rec.topics ? rec.topicsCovered / rec.topics : 0;
+    // Same thresholds as the validator's "thin objectives" report, counting the
+    // same units, so the two agree on which objectives are underbuilt.
+    const units = rec.itemsAvailable + rec.pbqAvailable;
+    rec.thin = units > 0 && (rec.bankDepth < 0.35 || units < 4);
+
     rec.mastery = Math.max(0, Math.min(1, mastery));
-    rec.status = rec.itemsSeen === 0 ? "untouched"
+    rec.status = units === 0 ? "no-items"
+      : rec.itemsSeen === 0 ? "untouched"
       : rec.mastery >= 0.85 ? "strong"
       : rec.mastery >= 0.7 ? "ok"
       : rec.mastery >= 0.5 ? "shaky"
@@ -347,7 +441,19 @@ export function readiness(state, content, now = Date.now()) {
     : Math.round(750 + (150 / 0.25) * (p - 0.75));
 
   const n = state.reviews.length;
-  const band = Math.round(Math.min(180, 200 / Math.sqrt(Math.max(n, 1) + 4)));
+  // Uncertainty, not the estimate, carries the cost of a shallow bank. The
+  // point estimate is an honest read of how you did on what exists; how far it
+  // might be from your real exam score depends on how much of the blueprint
+  // that material actually reached.
+  // Aggregate, not an average of per-objective ratios. Averaging the ratios
+  // weights a 10-topic objective the same as a 41-topic one and reads several
+  // points higher than the truth, which is the identical mistake one level up.
+  const recs = Object.values(perObjective);
+  const topicsTotal = recs.reduce((a, r) => a + r.topics, 0);
+  const topicsHitTotal = recs.reduce((a, r) => a + r.topicsCovered, 0);
+  const meanDepth = topicsTotal ? topicsHitTotal / topicsTotal : 0;
+  const bankPenalty = 1 + (1 - meanDepth) * 0.6;
+  const band = Math.round(Math.min(220, (200 / Math.sqrt(Math.max(n, 1) + 4)) * bankPenalty));
 
   return {
     perObjective,
@@ -357,9 +463,14 @@ export function readiness(state, content, now = Date.now()) {
     low: Math.max(100, scaled - band),
     high: Math.min(900, scaled + band),
     passLine: 750,
-    confident: n >= 150 && totals.sampled >= 20,
+    confident: n >= 150 && totals.sampled >= 20 && meanDepth >= 0.8,
     reviewCount: n,
     objectivesSampled: totals.sampled,
+    bankDepth: meanDepth,
+    topicsCovered: topicsHitTotal,
+    topicsTotal,
+    thinObjectives: recs.filter((r) => r.thin).length,
+    emptyObjectives: recs.filter((r) => r.itemsAvailable === 0).length,
     daysLeft: state.profile.examDate ? mentor.daysUntilExam(state, now) : null,
   };
 }

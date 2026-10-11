@@ -70,13 +70,13 @@ some of the time, and you would have no way to tell which time.
 
 | | |
 |---|---|
-| Objectives | All 5 domains, 28 objectives, 682 tagged sub-topics, from CompTIA's official objectives document |
-| Misconceptions | 105, each with a full mentor guide: diagnosis, side by side contrast table, rule of thumb, what to look for in the stem, and why the wrong answer looked right |
-| Multiple choice | 172 original items, every distractor mapped to a misconception |
+| Objectives | All 5 domains, 28 objectives, 684 tagged sub-topics, from CompTIA's official objectives document |
+| Misconceptions | 108, each with a full mentor guide: diagnosis, side by side contrast table, rule of thumb, what to look for in the stem, and why the wrong answer looked right |
+| Multiple choice | 211 original items, every distractor mapped to a misconception |
 | Multiple select | 12 "choose two/three" items, scored all or nothing like the exam |
 | Acronym recognition | 315, generated from CompTIA's own acronym list |
-| Derived discrimination | 151, generated from the imported vocabulary (see below) |
-| Recall vocabulary | 689 remaining, capped at ~12% of any session |
+| Derived discrimination | 82, generated from the imported vocabulary (see below) |
+| Recall vocabulary | 546 remaining after 82 were superseded, capped at ~12% of any session |
 | PBQs | 15, across four engines, graded per subtask with real partial credit |
 
 ## The PBQ engines
@@ -400,6 +400,36 @@ blueprint coverage: 383/684 topics touched (56%); 301 with none
 objectives (under 35% of their topics, or fewer than 4 items) are listed every
 run so the holes stay visible rather than averaging away.
 
+### The same mistake was inside the readiness score
+
+Finding it in the validator was not the end of it. `readiness()` measured how
+much of an objective you had covered as `itemsSeen / 12`, a constant denominator
+over objectives that hold anywhere from 2 to 32 items. An objective with 2 items
+was capped at coverage 0.17 however well you answered them, so **18 of 28
+objectives could never reach full coverage and 11 could never read "strong" on a
+flawless record**. Objective 1.3 read "shaky" at 0.58 with every question right.
+
+The grid was telling you to go study objectives that had nothing in them.
+
+The denominator is now what the objective can actually offer, so a perfect record
+reads as a perfect record. The shortfall did not disappear, it moved to where it
+belongs: each objective reports **bank depth**, the share of its blueprint topics
+any graded item reaches, and is marked **thin** when that falls under 35%. A thin
+objective can read "strong" and say so plainly, meaning you answered its items
+correctly, not that the topic is covered. The uncertainty band widens with the
+shortfall instead of the point estimate absorbing it.
+
+`coverageDeficit()` had the same shape one level down, and two bugs of its own:
+a revealed vocabulary card counted toward a domain exactly like a scenario
+question, and a domain with nothing unseen left kept reporting a deficit the
+queue could not spend. Only graded practice counts now, and an exhausted domain
+says so.
+
+`content/coverage.json` is written by the Python validator and checked against
+the JavaScript implementation by `selftest.html`. The two are written
+independently, so if either drifts the self test fails. That pin exists because
+a flat denominator survived in plain sight for weeks.
+
 ## Domain balance
 
 `validate_content.py` also reports balance against the real exam weights,
@@ -412,9 +442,15 @@ of their exam weight on graded practice.
 ## Known gaps
 
 - **Coverage is 56% of the blueprint.** 301 topics have no graded item. The bank
-  is 320 graded items against 684 topics, so breadth, not balance, is the
-  limiting factor now. Thinnest: 1.3 change management, 2.2 threat vectors,
+  is 320 graded items and PBQs against 684 topics, so breadth, not balance, is
+  the limiting factor now. Thinnest: 1.3 change management, 2.2 threat vectors,
   4.3 vulnerability management, 4.6 identity and access, 4.1 secure baselines.
+  Readiness marks these objectives **thin** rather than quietly scoring them as
+  weaknesses, and `content/coverage.json` pins the figure so the app and the
+  validator cannot drift apart about it.
+- **Mock exams draw only from plain `mcq` items.** Multiple select and the
+  derived discrimination questions are excluded, so a mock is narrower than the
+  real thing. The drill queue serves all of them.
 - Scaled scores here are an estimate. CompTIA's weighting model is confidential,
   so difficulty weighting is an approximation, not a reconstruction of it.
 - The imported deck is third-party and its definitions have never been reviewed

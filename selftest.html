@@ -22,7 +22,7 @@
 import { loadContent } from "./app/content.js";
 import { gradePbq } from "./app/grade/index.js";
 import * as mentor from "./app/mentor.js";
-import { buildQueue } from "./app/scheduler.js";
+import { buildQueue, readiness, coverageDeficit } from "./app/scheduler.js";
 import { DEFAULT_STATE } from "./app/state.js";
 
 const lines = [];
@@ -133,6 +133,74 @@ const afterTwo = s2.misconceptions[probe].retired;
 check(!afterOne, `one clean pass does not retire "${probe}"`);
 check(!afterRepeat, `repeating the same item does not count toward retirement`);
 check(afterTwo, `two clean passes on distinct items retires it`);
+
+say("");
+say("<b>Readiness measures the learner, not the size of the bank</b>");
+say('  <span class="dim">a small bank must not read as a weakness in the learner</span>');
+{
+  const perfect = structuredClone(DEFAULT_STATE);
+  const graded = content.items.filter(
+    (i) => typeof i.type === "string" && i.type.startsWith("mcq") && i.source !== "acronym-list"
+  );
+  for (const it of graded) {
+    perfect.items[it.id] = { seen: 3, correct: 3, wrong: 0, lastSeen: Date.now(), fsrs: null };
+  }
+  const r = readiness(perfect, content);
+  const withItems = Object.values(r.perObjective).filter((o) => o.itemsAvailable > 0);
+  // The harm being locked out: an objective used to read "shaky" or "weak" on a
+  // flawless record purely because the bank held fewer than 12 items for it.
+  // Residual smoothing is fine and intended: laplace() still holds a two-item
+  // objective slightly short of "strong", because two items really are less
+  // evidence than twelve. What must never come back is a small bank reading as
+  // a weakness.
+  const dragged = withItems.filter((o) => o.status === "shaky" || o.status === "weak");
+  check(dragged.length === 0,
+        `no stocked objective reads shaky or weak on a perfect record (${withItems.length} checked)`,
+        dragged.length ? `(${dragged.map((o) => `${o.objective}:${o.status}@${o.itemsAvailable} items`).join(", ")})` : "");
+
+  const floor = Math.min(...withItems.map((o) => o.mastery));
+  const worst = withItems.find((o) => o.mastery === floor);
+  say(`  <span class="dim">     weakest perfect objective: ${worst.objective} at ${floor.toFixed(2)} on ${worst.itemsAvailable} items (was 0.58 under the flat denominator)</span>`);
+
+  const unreachable = withItems.filter((o) => o.coverage < 1);
+  check(unreachable.length === 0,
+        `every stocked objective can reach coverage 1`,
+        unreachable.length ? `(${unreachable.map((o) => `${o.objective}:${o.coverage.toFixed(2)}`).join(", ")})` : "");
+
+  // Cross-language pin. content/coverage.json is written by the Python gate;
+  // readiness() computes the same thing independently in JS. They agreeing is
+  // the guard that stopped existing when the two definitions drifted.
+  const gate = await fetch("./content/coverage.json").then((x) => x.json());
+  check(r.topicsCovered === gate.topicsCovered && r.topicsTotal === gate.topicsTotal,
+        `blueprint coverage matches the validator (${r.topicsCovered}/${r.topicsTotal})`,
+        `(gate says ${gate.topicsCovered}/${gate.topicsTotal})`);
+
+  const thin = withItems.filter((o) => o.thin).map((o) => o.objective).sort();
+  check(thin.join(",") === gate.thin.join(","),
+        `the same ${gate.thin.length} objectives read thin in the app and the gate: ${gate.thin.join(", ")}`,
+        `(app says ${thin.join(", ") || "none"})`);
+
+  const deficit = coverageDeficit(perfect, content);
+  const stillPulling = Object.entries(deficit).filter(([, d]) => d.remaining === 0 && d.deficit !== 0);
+  check(stillPulling.length === 0,
+        `an exhausted domain stops reporting a deficit the queue cannot spend`,
+        stillPulling.length ? `(${stillPulling.map(([k]) => k).join(", ")})` : "");
+}
+
+say("");
+say("<b>A revealed vocabulary card does not cover a domain</b>");
+{
+  const vocabOnly = structuredClone(DEFAULT_STATE);
+  const recall = content.items.filter((i) => i.type === "recall" && i.objective);
+  for (const it of recall) {
+    vocabOnly.items[it.id] = { seen: 1, correct: 1, wrong: 0, lastSeen: Date.now(), fsrs: null };
+  }
+  const d = coverageDeficit(vocabOnly, content);
+  const counted = Object.values(d).reduce((a, b) => a + b.seen, 0);
+  check(counted === 0,
+        `${recall.length} revealed recall cards contribute 0 to domain coverage`,
+        counted ? `(counted ${counted})` : "");
+}
 
 say("");
 say(failures === 0
