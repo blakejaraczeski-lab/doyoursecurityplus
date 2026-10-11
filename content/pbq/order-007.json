@@ -1,0 +1,57 @@
+{
+  "id": "pbq-order-007",
+  "kind": "drag-order",
+  "objective": "4.3",
+  "topics": ["vulnerability-scan", "prioritize", "common-vulnerability-scoring-system",
+             "environmental-variables", "patching-2", "segmentation-3", "compensating-controls",
+             "rescanning", "verification", "reporting", "exceptions-and-exemptions",
+             "vulnerability-classification"],
+  "difficulty": 4,
+  "title": "Run the vulnerability management cycle",
+  "targetSeconds": 420,
+  "scenario": "A scan has just completed against the production estate. Place the activities in the order a vulnerability management programme performs them. The order is not bureaucratic: two of these steps are routinely swapped in practice, and both swaps produce a programme that reports progress it has not made.",
+  "requirements": [
+    "Place all seven activities.",
+    "Think about what each step needs as its input. A step cannot run before the thing it consumes exists.",
+    "Partial credit applies per position, so place every one even where you are unsure."
+  ],
+  "config": {
+    "mode": "sequence",
+    "sequenceLabel": "Vulnerability management cycle",
+    "items": [
+      { "id": "remediate", "label": "Remediate: patch, reconfigure, or apply a compensating control" },
+      { "id": "identify", "label": "Identify: scan, and take in findings from other sources" },
+      { "id": "report", "label": "Report: trend, outstanding exceptions, and what risk owners must decide" },
+      { "id": "validate", "label": "Validate: rescan and verify the weakness is genuinely gone" },
+      { "id": "analyse", "label": "Analyse: confirm the finding is real and classify it" },
+      { "id": "prioritise", "label": "Prioritise: rank by severity, exposure, environment and tolerance" },
+      { "id": "assign", "label": "Assign: give each accepted finding an owner and a due date" }
+    ]
+  },
+  "solution": {
+    "order": ["identify", "analyse", "prioritise", "assign", "remediate", "validate", "report"]
+  },
+  "subtasks": [
+    { "id": "s1", "item": "identify", "label": "Identification first", "points": 2,
+      "misconception": "vuln-identification-sources",
+      "correctNote": "Scanning is only one input. Penetration tests, bug bounty reports, threat feeds, package monitoring and audits all feed the same funnel, which is why the step is identification rather than scanning." },
+    { "id": "s2", "item": "analyse", "label": "Analysis second", "points": 3,
+      "misconception": "false-positive-vs-negative",
+      "correctNote": "Confirm the finding is real and classify what kind of weakness it is. Skipping this means prioritising false positives, which is how a backlog fills with work that was never needed." },
+    { "id": "s3", "item": "prioritise", "label": "Prioritisation third", "points": 4,
+      "misconception": "vuln-prioritization-inputs",
+      "correctNote": "Rank using CVSS together with exposure, environmental variables, sector impact and risk tolerance. Ranking by base score alone sends you to a critical finding on an isolated host while the exposed one waits." },
+    { "id": "s4", "item": "assign", "label": "Assignment fourth", "points": 2,
+      "misconception": "remediation-validation",
+      "correctNote": "An owner and a due date. A prioritised list with nobody named is a document, and exceptions are recorded here with an owner and an expiry rather than quietly skipped." },
+    { "id": "s5", "item": "remediate", "label": "Remediation fifth", "points": 3,
+      "misconception": "remediation-validation",
+      "correctNote": "Patch where a patch exists, reconfigure where it does not, and apply compensating controls such as segmentation where neither is possible before the deadline." },
+    { "id": "s6", "item": "validate", "label": "Validation sixth", "points": 4,
+      "misconception": "remediation-validation",
+      "correctNote": "This is the step most often dropped. Rescanning shows the scanner is quiet; verification shows the condition is gone. A firewall rule that hides a service passes the first and fails the second." },
+    { "id": "s7", "item": "report", "label": "Reporting last", "points": 2,
+      "misconception": "remediation-validation",
+      "correctNote": "Reporting closes the loop upward. Reporting before validation is the second common swap: it tells risk owners the work is finished when nobody has confirmed it." }
+  ]
+}

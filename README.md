@@ -107,6 +107,15 @@ domain 4 carried thirteen. They now have five between them: threat vector
 families and authentication indicators in domain 2, shared responsibility, a
 jump server rule set and data protection methods in domain 3.
 
+**Twenty-one PBQs is deliberate, and it stops here.** They are 3.5% of the
+graded bank against roughly 5% of the real exam, so the count is not excessive.
+But a PBQ only earns its place when it trains an operation multiple choice
+cannot: building a rule set and reading it back, ordering steps where the order
+is the answer, or gathering evidence across hosts before deciding. Where the
+discrimination is "which term is this", a PBQ is a slower multiple choice
+question with more authoring surface to get wrong. Eleven of 28 objectives have
+one, and the seventeen without are the ones whose content is definitional.
+
 **`network-diagram`** gives you a clickable topology with per host evidence, then
 asks you to identify what is actually compromised, what to do first, and how to
 handle it. Every one of these deliberately mixes compromised hosts with hosts
@@ -485,12 +494,16 @@ of their exam weight on graded practice.
 
 ## Known gaps
 
-- **Coverage is 98% of the blueprint.** 14 topics have no graded item, across
-  four objectives: 2.4 (7), 4.1 (3), 5.5 (3) and 4.3 (1). **Domains 1, 3 and 5
-  are complete.** No objective is thin, the weakest sits at 81%, and none holds
-  fewer than seven graded units. Readiness marks a thin objective as thin rather
-  than quietly scoring it as a weakness in you, and `content/coverage.json` pins
-  the figure so the app and the validator cannot drift apart about it.
+- **Blueprint coverage is complete: 684 of 684 topics, all 28 objectives at
+  100%.** Every sub-topic CompTIA lists has at least one graded item or PBQ
+  behind it. Readiness marks a thin objective as thin rather than quietly
+  scoring it as a weakness in you, and `content/coverage.json` pins the figure
+  so the app and the validator cannot drift apart about it.
+- **Depth is now the open question, not breadth.** Coverage says each topic is
+  touched once; it does not say an objective has enough distinct items to retire
+  a misconception on. The thinnest by count are 2.2 at 7 graded units across 28
+  topics and 1.1 at 8 across 10. The validator reports topics and units
+  separately for this reason.
 - **Topic coverage and item count are different kinds of thin**, and the
   validator reports both. An objective can touch every topic once on five items
   and still be unable to retire a misconception, which needs clean passes on
