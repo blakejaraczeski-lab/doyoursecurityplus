@@ -1,0 +1,88 @@
+[
+  {
+    "id": "risk-assessment-cadence",
+    "label": "Ad hoc vs recurring vs one-time vs continuous assessment",
+    "objective": "5.2",
+    "topics": ["ad-hoc-assessment", "recurring-assessment", "one-time-assessment",
+               "continuous-assessment", "risk-reporting", "risk-register"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You matched on how thorough each sounds. They differ by what triggers them, and the trigger is what the stem always gives you.",
+      "contrast": [
+        ["Cadence", "Triggered by", "Typical use"],
+        ["Ad hoc", "An event: an acquisition, a breach, a new regulation", "Something changed that the schedule did not anticipate"],
+        ["Recurring", "The calendar: quarterly, annually", "Keeping the risk register current as a matter of routine"],
+        ["One-time", "A specific decision or project, with a defined end", "Assessing a single new supplier or a migration"],
+        ["Continuous", "Always on, automated, fed by tooling", "Cloud posture, vulnerability state, control monitoring"]
+      ],
+      "rule": "Ad hoc is unscheduled and event-driven. One-time is scheduled once for a defined purpose. The difference is whether anyone planned it.",
+      "tell": "An acquisition or an incident points to ad hoc. An annual cycle points to recurring. A tool watching posture constantly points to continuous.",
+      "trap": "Ad hoc and one-time are the pair people swap. A one-time assessment is deliberately scoped and planned for a purpose; an ad hoc assessment is a response to something that just happened."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "risk-appetite-postures",
+    "label": "Expansionary, conservative and neutral risk appetite",
+    "objective": "5.2",
+    "topics": ["expansionary-risk-appetite", "conservative-risk-appetite", "neutral-risk-appetite",
+               "risk-appetite", "risk-tolerance-2"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You judged these as degrees of competence rather than as deliberate positions. A high appetite is a strategy, not a failure of governance.",
+      "contrast": [
+        ["Posture", "What it means", "Typical context"],
+        ["Expansionary", "Willing to accept more risk in pursuit of growth or opportunity", "A startup entering a market, aggressive product launch"],
+        ["Conservative", "Prefers to minimise risk even at the cost of opportunity", "Regulated finance, healthcare, safety-critical operations"],
+        ["Neutral", "Balanced: accepts risk where the return justifies it", "Most established organisations, most of the time"]
+      ],
+      "rule": "Appetite is how much risk the organisation is willing to take to achieve its objectives, set by the board. Tolerance is the acceptable variation around that in practice, and the threshold is the line that triggers action.",
+      "tell": "A stem describing strategy and growth rather than a specific control decision.",
+      "trap": "Expansionary is not recklessness. The exam expects you to read it as a deliberate, governed choice, which is why it appears as a named posture rather than as a criticism."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "exception-vs-exemption",
+    "label": "A risk exception vs a risk exemption",
+    "objective": "5.2",
+    "topics": ["exception", "exemption", "accept", "risk-owners"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You used the two words interchangeably. Both permit a departure from policy, and they differ in whether the departure is meant to end.",
+      "contrast": [
+        ["", "Exception", "Exemption"],
+        ["Duration", "Temporary, with an expiry and a review date", "Ongoing, for a case the policy was never meant to cover"],
+        ["Expectation", "The gap will be closed", "The gap is permanent and accepted"],
+        ["Needs", "Owner, justification, compensating control, expiry", "Owner, justification, and formal sign-off at the right level"],
+        ["Failure mode", "Renewed indefinitely until it is an exemption nobody approved", "Granted casually, so policy quietly stops meaning anything"]
+      ],
+      "rule": "An exception has an end date. An exemption does not. If the stem mentions a review date or a plan to remediate, it is an exception.",
+      "tell": "Unsupported software kept for a named replacement date points to an exception. A system that will never meet the standard by its nature points to an exemption.",
+      "trap": "An exception renewed four times is an undocumented exemption. The exam's interest is that both require an owner and a record, so neither is the same as simply ignoring the finding."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "likelihood-probability-impact",
+    "label": "Likelihood vs probability vs impact vs exposure factor",
+    "objective": "5.2",
+    "topics": ["likelihood", "probability", "impact", "exposure-factor-2",
+               "qualitative-risk-analysis", "quantitative-risk-analysis"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated likelihood and probability as one word and impact as a single number. In this objective they belong to different halves of the analysis.",
+      "contrast": [
+        ["Term", "Expressed as", "Belongs to"],
+        ["Likelihood", "A qualitative judgement: rare, possible, likely", "Qualitative analysis"],
+        ["Probability", "A number or percentage, or a rate per year", "Quantitative analysis"],
+        ["Impact", "Either a rating or a monetary figure, depending on the method", "Both, expressed differently"],
+        ["Exposure factor", "The proportion of an asset's value lost in one occurrence", "Quantitative: feeds single loss expectancy"]
+      ],
+      "rule": "Risk is likelihood combined with impact. Qualitative work uses words and a matrix; quantitative work uses numbers and produces SLE, ARO and ALE. Exposure factor only exists on the quantitative side.",
+      "tell": "A scale of high, medium and low points to qualitative. A percentage of asset value or a figure per year points to quantitative.",
+      "trap": "Qualitative analysis is often treated as the inferior version. It is the right method when reliable numbers do not exist, and inventing numbers to look rigorous is the worse error."
+    },
+    "retireAfter": 2
+  }
+]

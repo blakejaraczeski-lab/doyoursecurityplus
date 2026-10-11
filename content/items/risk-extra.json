@@ -1,0 +1,441 @@
+[
+  {
+    "id": "rk-001",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "ad-hoc-assessment",
+      "recurring-assessment",
+      "one-time-assessment",
+      "continuous-assessment"
+    ],
+    "difficulty": 4,
+    "stem": "A company acquires a competitor and immediately commissions a security risk assessment of the acquired estate, outside its normal annual cycle. Which assessment type is this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Ad hoc",
+        "correct": true,
+        "why": "Triggered by an event rather than by the calendar or a planned scope. An acquisition is the textbook trigger for an unscheduled assessment."
+      },
+      {
+        "id": "b",
+        "text": "One-time",
+        "misconception": "risk-assessment-cadence",
+        "why": "A one-time assessment is deliberately scoped and planned for a defined purpose. This one is a reaction to something that just happened, which is the distinction between the two."
+      },
+      {
+        "id": "c",
+        "text": "Recurring",
+        "misconception": "risk-assessment-cadence",
+        "why": "Recurring runs on a schedule. The stem says this falls outside the annual cycle."
+      },
+      {
+        "id": "d",
+        "text": "Continuous",
+        "misconception": "risk-assessment-cadence",
+        "why": "Continuous assessment is automated and always on, not a commissioned exercise."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "rk-002",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "continuous-assessment",
+      "recurring-assessment"
+    ],
+    "difficulty": 3,
+    "stem": "A cloud posture management tool evaluates every resource against policy as configurations change, raising findings automatically. Which assessment cadence does this represent?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Continuous",
+        "correct": true,
+        "why": "Always on and automated, with findings produced as state changes rather than at review points. This is what the objectives mean by continuous assessment."
+      },
+      {
+        "id": "b",
+        "text": "Recurring",
+        "misconception": "risk-assessment-cadence",
+        "why": "Recurring runs at defined intervals. The gap between runs is exactly what continuous assessment removes."
+      },
+      {
+        "id": "c",
+        "text": "Ad hoc",
+        "misconception": "risk-assessment-cadence",
+        "why": "Ad hoc is event-driven and unscheduled, commissioned by a person."
+      },
+      {
+        "id": "d",
+        "text": "One-time",
+        "misconception": "risk-assessment-cadence",
+        "why": "A one-time assessment has a defined end. This has none."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "rk-003",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "expansionary-risk-appetite",
+      "conservative-risk-appetite",
+      "neutral-risk-appetite"
+    ],
+    "difficulty": 4,
+    "stem": "A board states that it will accept materially higher security risk over the next eighteen months in order to reach a new market first. How should this be characterised?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An expansionary risk appetite, set deliberately at board level",
+        "correct": true,
+        "why": "Appetite is a governance position about how much risk the organisation will take to meet its objectives. Expansionary means accepting more of it in pursuit of opportunity."
+      },
+      {
+        "id": "b",
+        "text": "A governance failure, since appetite should always be conservative",
+        "misconception": "risk-appetite-postures",
+        "why": "Conservative suits regulated and safety-critical contexts. It is not universally correct, and the exam treats expansionary as a legitimate stated posture."
+      },
+      {
+        "id": "c",
+        "text": "A risk tolerance decision",
+        "misconception": "risk-appetite-vs-tolerance",
+        "why": "Tolerance is the acceptable variation around the appetite in practice. This statement sets the appetite itself."
+      },
+      {
+        "id": "d",
+        "text": "Risk acceptance as a treatment strategy",
+        "misconception": "risk-treatment-strategies",
+        "why": "Acceptance applies to a specific identified risk. This is a standing posture across the whole programme."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "rk-004",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "exception",
+      "exemption",
+      "accept"
+    ],
+    "difficulty": 4,
+    "stem": "A legacy system cannot meet the encryption standard. The platform is being retired in nine months, so a departure from policy is approved with a compensating control and a review date. What has been granted?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An exception",
+        "correct": true,
+        "why": "Temporary, with a compensating control and an expiry. The review date is the signal: an exception is expected to end."
+      },
+      {
+        "id": "b",
+        "text": "An exemption",
+        "misconception": "exception-vs-exemption",
+        "why": "An exemption is ongoing, for a case the policy was never intended to cover. Here there is a date by which the gap closes."
+      },
+      {
+        "id": "c",
+        "text": "Risk avoidance",
+        "misconception": "risk-treatment-strategies",
+        "why": "Avoidance means not doing the activity at all. The system continues to run."
+      },
+      {
+        "id": "d",
+        "text": "Risk transfer",
+        "misconception": "risk-treatment-strategies",
+        "why": "Transfer moves the financial consequence elsewhere, typically through insurance or contract."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "rk-005",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "exemption",
+      "exception",
+      "risk-owners"
+    ],
+    "difficulty": 4,
+    "stem": "An exception to the password standard for an industrial control system has been renewed every six months for four years, with no remediation plan at any point. What has actually happened?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It has become an exemption in substance without anyone approving one, so the risk is being carried permanently under a temporary label",
+        "correct": true,
+        "why": "Renewal without remediation converts an exception into an undocumented permanent acceptance. If the departure is genuinely permanent it should be approved as an exemption, at the right level, with an owner."
+      },
+      {
+        "id": "b",
+        "text": "The control is working as intended, since each renewal was approved",
+        "misconception": "exception-vs-exemption",
+        "why": "Approving the same temporary measure eight times is how a process stops being a control."
+      },
+      {
+        "id": "c",
+        "text": "The risk has been avoided",
+        "misconception": "risk-treatment-strategies",
+        "why": "Nothing has been avoided; the system runs and the standard is not met."
+      },
+      {
+        "id": "d",
+        "text": "It should be recorded as a false positive and closed",
+        "misconception": "false-positive-vs-negative",
+        "why": "The gap is real and acknowledged. A false positive is a finding that was never true."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "rk-006",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "likelihood",
+      "probability",
+      "qualitative-risk-analysis",
+      "quantitative-risk-analysis"
+    ],
+    "difficulty": 4,
+    "stem": "A risk register records a risk as 'likelihood: possible, impact: major'. Which analysis method is in use, and what would the quantitative equivalent look like?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Qualitative, using a descriptive scale; the quantitative equivalent would express probability as a rate and impact as a monetary figure",
+        "correct": true,
+        "why": "Words and a matrix are qualitative. Quantitative replaces them with ARO and SLE, producing ALE in currency."
+      },
+      {
+        "id": "b",
+        "text": "Quantitative, because likelihood and impact are both being measured",
+        "misconception": "likelihood-probability-impact",
+        "why": "Measuring on a descriptive scale is still qualitative. Quantitative analysis produces numbers you can arithmetic with."
+      },
+      {
+        "id": "c",
+        "text": "Qualitative, and it should always be replaced by quantitative analysis",
+        "misconception": "likelihood-probability-impact",
+        "why": "Qualitative is the right method where reliable data does not exist. Manufacturing numbers to look rigorous is the worse error."
+      },
+      {
+        "id": "d",
+        "text": "Neither; a risk register does not record analysis",
+        "misconception": "likelihood-probability-impact",
+        "why": "Recording likelihood and impact per risk is precisely what a register is for."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "rk-007",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "exposure-factor-2",
+      "single-loss-expectancy",
+      "impact"
+    ],
+    "difficulty": 4,
+    "stem": "An asset is valued at 400,000. A realistic incident would destroy 25% of that value. What is the single loss expectancy, and which input did the 25% supply?",
+    "options": [
+      {
+        "id": "a",
+        "text": "100,000; the 25% is the exposure factor",
+        "correct": true,
+        "why": "SLE equals asset value multiplied by exposure factor. The exposure factor is the proportion of value lost per occurrence, which only exists on the quantitative side."
+      },
+      {
+        "id": "b",
+        "text": "100,000; the 25% is the annualised rate of occurrence",
+        "misconception": "sle-ale-aro",
+        "why": "ARO is how often it happens per year, not how much is lost each time."
+      },
+      {
+        "id": "c",
+        "text": "400,000; the 25% is the likelihood",
+        "misconception": "likelihood-probability-impact",
+        "why": "Likelihood is a qualitative judgement of how probable it is, not a fraction of value, and SLE is not the whole asset."
+      },
+      {
+        "id": "d",
+        "text": "25,000; the 25% is the risk tolerance",
+        "misconception": "likelihood-probability-impact",
+        "why": "Tolerance is acceptable variation around appetite. The arithmetic here is simply value multiplied by exposure factor."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "rk-008",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "risk-reporting",
+      "key-risk-indicators",
+      "risk-register",
+      "risk-owners"
+    ],
+    "difficulty": 3,
+    "stem": "What distinguishes risk reporting from maintaining the risk register?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The register is the record of risks and their treatment; reporting puts the state of those risks in front of the people accountable for deciding about them",
+        "correct": true,
+        "why": "A register nobody reports from is an archive. Reporting is what converts recorded risk into a decision by an owner or a board."
+      },
+      {
+        "id": "b",
+        "text": "Reporting is the technical output of vulnerability scanning",
+        "misconception": "risk-assessment-cadence",
+        "why": "That is vulnerability reporting within 4.3. Risk reporting here operates at the programme level."
+      },
+      {
+        "id": "c",
+        "text": "The register is produced by reporting, not the other way round",
+        "misconception": "risk-assessment-cadence",
+        "why": "The register is maintained continuously; reports are drawn from it."
+      },
+      {
+        "id": "d",
+        "text": "They are the same activity under two names",
+        "misconception": "risk-assessment-cadence",
+        "why": "The objectives list them separately because recording a risk and escalating it are different acts."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "rk-009",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "risk-tolerance-2",
+      "risk-appetite",
+      "risk-threshold"
+    ],
+    "difficulty": 4,
+    "stem": "A board sets a neutral risk appetite. Operationally the organisation permits individual risks to sit up to a score of 12, and anything at 15 or above must be escalated immediately. Which terms describe the 12 and the 15?",
+    "options": [
+      {
+        "id": "a",
+        "text": "12 is the risk tolerance, 15 is the risk threshold",
+        "correct": true,
+        "why": "Tolerance is the acceptable variation around the stated appetite; the threshold is the line that triggers a defined action. Appetite is the board's posture that both sit beneath."
+      },
+      {
+        "id": "b",
+        "text": "12 is the risk appetite, 15 is the risk tolerance",
+        "misconception": "risk-appetite-vs-tolerance",
+        "why": "Appetite is the stated posture, here described as neutral. It is not a numeric operating limit."
+      },
+      {
+        "id": "c",
+        "text": "Both are expressions of risk appetite at different levels",
+        "misconception": "risk-appetite-vs-tolerance",
+        "why": "The objectives name three distinct terms, and the exam tests the ability to separate them."
+      },
+      {
+        "id": "d",
+        "text": "12 is the exposure factor, 15 is the impact rating",
+        "misconception": "likelihood-probability-impact",
+        "why": "Neither is a quantitative loss input; both are governance limits."
+      }
+    ],
+    "selectCount": 1
+  },
+  {
+    "id": "rk-010",
+    "type": "mcq-multi",
+    "objective": "5.2",
+    "topics": [
+      "one-time-assessment",
+      "ad-hoc-assessment",
+      "continuous-assessment",
+      "recurring-assessment"
+    ],
+    "difficulty": 4,
+    "stem": "Which TWO statements about risk assessment cadence are correct? (Choose two.)",
+    "options": [
+      {
+        "id": "a",
+        "text": "An ad hoc assessment is triggered by an event rather than by a schedule",
+        "correct": true,
+        "why": "A breach, an acquisition or a new regulation prompts it, outside any planned cycle."
+      },
+      {
+        "id": "b",
+        "text": "A one-time assessment is planned for a defined purpose and has a defined end",
+        "correct": true,
+        "why": "Scoped deliberately, such as for a single supplier or migration, which is what separates it from ad hoc."
+      },
+      {
+        "id": "c",
+        "text": "Continuous assessment removes the need for recurring assessment",
+        "misconception": "risk-assessment-cadence",
+        "why": "Continuous tooling watches technical posture. It does not replace periodic review of the register with risk owners."
+      },
+      {
+        "id": "d",
+        "text": "Recurring assessment means repeating the same assessment after each incident",
+        "misconception": "risk-assessment-cadence",
+        "why": "That is ad hoc. Recurring runs on the calendar."
+      },
+      {
+        "id": "e",
+        "text": "One-time and ad hoc assessments are the same thing",
+        "misconception": "risk-assessment-cadence",
+        "why": "The pair people swap. One is planned, the other is a reaction."
+      }
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "rk-011",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": [
+      "conservative-risk-appetite",
+      "expansionary-risk-appetite",
+      "neutral-risk-appetite",
+      "risk-appetite"
+    ],
+    "difficulty": 3,
+    "stem": "A hospital trust states that where a choice exists between a faster deployment and a lower risk of patient data exposure, it will take the lower risk option even at significant cost to delivery timelines. Which risk appetite does this describe?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Conservative",
+        "correct": true,
+        "why": "Minimising risk even at the cost of opportunity. Regulated and safety-critical contexts routinely set appetite here, and the giveaway is accepting a worse delivery outcome by policy."
+      },
+      {
+        "id": "b",
+        "text": "Neutral",
+        "misconception": "risk-appetite-postures",
+        "why": "Neutral balances the two, accepting risk where the return justifies it. This statement pre-commits to one side."
+      },
+      {
+        "id": "c",
+        "text": "Expansionary",
+        "misconception": "risk-appetite-postures",
+        "why": "Expansionary accepts more risk in pursuit of opportunity, which is the opposite of what is described."
+      },
+      {
+        "id": "d",
+        "text": "This describes risk tolerance rather than appetite",
+        "misconception": "risk-appetite-vs-tolerance",
+        "why": "Tolerance is the acceptable variation around the appetite in practice. A standing statement of how the organisation chooses is the appetite itself."
+      }
+    ],
+    "selectCount": 1
+  }
+]

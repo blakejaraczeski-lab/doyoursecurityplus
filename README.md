@@ -485,14 +485,19 @@ of their exam weight on graded practice.
 
 ## Known gaps
 
-- **Coverage is 88% of the blueprint.** 84 topics still have no graded item.
-  **No objective is thin**: every one reaches at least 35% of its topics and
-  holds at least four graded units, and the weakest now sits at 67% rather than
-  28%. Readiness marks a thin objective as thin rather than quietly scoring it
-  as a weakness in you, and `content/coverage.json` pins the figure so the app
-  and the validator cannot drift apart about it. Weakest remaining by topic
-  coverage: 4.8 incident response, 5.2 risk management, 4.4 alerting and
-  monitoring, 5.3 third-party risk, 3.1 architecture models.
+- **Coverage is 91% of the blueprint.** 60 topics still have no graded item, and
+  **domain 1 is complete at 100 of 100**. No objective is thin: every one reaches
+  at least 35% of its topics and holds at least four graded units, and the
+  weakest now sits at 71% rather than 28%. Readiness marks a thin objective as
+  thin rather than quietly scoring it as a weakness in you, and
+  `content/coverage.json` pins the figure so the app and the validator cannot
+  drift apart about it. Weakest remaining by topic coverage: 5.3 third-party
+  risk, 3.1 architecture models, 4.7 automation, 4.2 asset management,
+  5.4 compliance.
+- **Topic coverage and item count are different kinds of thin.** 3.3, 4.2 and
+  4.7 each reach most of their topics on five graded items, which is enough to
+  touch each topic once and not enough to retire a misconception on distinct
+  items. The validator reports both numbers for this reason.
 - **A canonical topic id always wins over another topic's alias.** Where the
   same CompTIA bullet appears under two objectives the generator suffixes the
   later one (`segmentation-2`) and keeps the bare word as its alias. Resolving

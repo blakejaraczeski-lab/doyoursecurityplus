@@ -1,5 +1,5 @@
 {
-  "topicsCovered": 600,
+  "topicsCovered": 624,
   "topicsTotal": 684,
   "thin": [],
   "perObjective": {
@@ -84,9 +84,9 @@
       "units": 20
     },
     "4.4": {
-      "topicsCovered": 14,
+      "topicsCovered": 20,
       "topics": 20,
-      "units": 5
+      "units": 14
     },
     "4.5": {
       "topicsCovered": 28,
@@ -104,9 +104,9 @@
       "units": 5
     },
     "4.8": {
-      "topicsCovered": 12,
+      "topicsCovered": 18,
       "topics": 18,
-      "units": 17
+      "units": 24
     },
     "4.9": {
       "topicsCovered": 11,
@@ -119,9 +119,9 @@
       "units": 22
     },
     "5.2": {
-      "topicsCovered": 24,
+      "topicsCovered": 36,
       "topics": 36,
-      "units": 22
+      "units": 33
     },
     "5.3": {
       "topicsCovered": 12,
