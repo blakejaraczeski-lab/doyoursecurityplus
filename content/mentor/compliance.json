@@ -1,0 +1,47 @@
+[
+  {
+    "id": "privacy-law-scope",
+    "label": "Local, regional, national and global privacy law, and which one reaches you",
+    "objective": "5.4",
+    "topics": ["local-regional-privacy-law", "national-privacy-law", "global-privacy-law",
+               "data-subject", "controller-vs-processor", "ownership-3"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You assumed the law that applies is the law where your company is registered. Privacy regimes mostly attach to the people whose data it is and to where processing happens, which is why several can apply at once.",
+      "contrast": [
+        ["Scope", "What it covers", "Example of the catch"],
+        ["Local or regional", "A state, province or region within a country", "A state law can be stricter than the national one and still binding"],
+        ["National", "A whole country, often the primary regime", "Applies to residents' data wherever you process it"],
+        ["Global or extraterritorial", "Reaches organisations outside the territory when they handle residents' data", "Having no office there does not put you outside it"],
+        ["Sectoral", "A particular industry regardless of geography", "Overlaps with all of the above rather than replacing them"]
+      ],
+      "rule": "Ask whose data it is and where the processing happens, not where the company is incorporated. More than one regime can apply to the same record, and the answer is usually to meet the strictest obligation rather than to choose one.",
+      "tell": "Customers in several countries, a cloud region in a different country from the users, or an organisation with no local presence.",
+      "trap": "Extraterritorial reach surprises people. Modern privacy law routinely binds organisations with no office, no staff and no servers in the territory, purely because they process residents' data."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "compliance-monitoring-and-attestation",
+    "label": "Internal vs external compliance monitoring, reporting and attestation",
+    "objective": "5.4",
+    "topics": ["internal-and-external-monitoring", "internal-compliance-reporting",
+               "external-compliance-reporting", "attestation-and-acknowledgement", "automation"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You collapsed monitoring, reporting and attestation into one compliance activity. They differ by who performs them and who the output is for, which is the whole of the question.",
+      "contrast": [
+        ["Activity", "Performed by", "Output goes to"],
+        ["Internal monitoring", "Your own team, continuously", "Management, to correct drift before anyone outside notices"],
+        ["External monitoring", "A regulator, auditor or assessor", "Them, and whatever enforcement follows"],
+        ["Internal reporting", "Compliance function", "Board and risk owners"],
+        ["External reporting", "The organisation, under obligation", "Regulator, customers, certification body"],
+        ["Attestation", "A named person who signs", "Whoever relies on the signature, which creates personal accountability"]
+      ],
+      "rule": "Monitoring is observation, reporting is communication, attestation is somebody putting their name to it. Only the last one creates personal accountability, which is why it is named separately.",
+      "tell": "A signature or formal acknowledgement in the stem points to attestation. A regulator asking for figures points to external reporting.",
+      "trap": "Automation appears in this objective as a compliance capability: continuous evidence collection rather than a scramble before each audit. Compliance activity that only exists in the weeks before an assessment is not monitoring."
+    },
+    "retireAfter": 2
+  }
+]

@@ -485,15 +485,15 @@ of their exam weight on graded practice.
 
 ## Known gaps
 
-- **Coverage is 93% of the blueprint.** 50 topics still have no graded item.
-  **Domain 1 is complete at 100 of 100 and domain 4 has 4 left of 209.** No
-  objective is thin, the weakest sits at 71% rather than 28%, and no objective
-  holds fewer than seven graded units. Readiness marks a thin objective as thin
-  rather than quietly scoring it as a weakness in you, and
-  `content/coverage.json` pins the figure so the app and the validator cannot
-  drift apart about it. Weakest remaining by topic coverage: 5.3 third-party
-  risk, 3.1 architecture models, 5.4 compliance, 2.3 vulnerability types,
-  3.2 enterprise infrastructure.
+- **Coverage is 95% of the blueprint.** 36 topics still have no graded item, and
+  they are concentrated: 13 in domain 2, 16 in domain 3, 4 in domain 4, 3 in
+  domain 5, **none in domain 1**. No objective is thin, the weakest sits at 71%
+  rather than 28%, and no objective holds fewer than seven graded units.
+  Readiness marks a thin objective as thin rather than quietly scoring it as a
+  weakness in you, and `content/coverage.json` pins the figure so the app and
+  the validator cannot drift apart about it. Weakest remaining by topic
+  coverage: 3.1 architecture models, 2.3 vulnerability types, 3.2 enterprise
+  infrastructure, 5.5 audits and assessments, 2.4 malicious activity.
 - **Topic coverage and item count are different kinds of thin**, and the
   validator reports both. An objective can touch every topic once on five items
   and still be unable to retire a misconception, which needs clean passes on
