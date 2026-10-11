@@ -1,0 +1,113 @@
+[
+  {
+    "id": "email-authentication-stack",
+    "label": "SPF vs DKIM vs DMARC, and what each one actually checks",
+    "objective": "4.5",
+    "topics": ["sender-policy-framework", "domainkeys-identified-mail",
+               "domain-based-message-authentication-reporting-and-conformance", "email-gateway",
+               "protocol-selection", "transport-method"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated the three as interchangeable anti-spoofing records. They check different things, and the one that enforces a policy is not the one that does either check.",
+      "contrast": [
+        ["Record", "What it checks", "What it is blind to", "Published as"],
+        ["SPF", "Is the sending IP authorised to send for this domain", "The From header the user actually sees; breaks on forwarding", "A DNS TXT record listing permitted senders"],
+        ["DKIM", "Was the message signed by the domain and unmodified in transit", "Whether the signing domain matches the visible From", "A public key in DNS, signature in the header"],
+        ["DMARC", "Does SPF or DKIM pass AND align with the visible From domain, then what to do about it", "Nothing new: it has no check of its own", "A DNS TXT policy: none, quarantine or reject, plus reporting"]
+      ],
+      "rule": "SPF checks the envelope sender's IP, DKIM checks the signature, DMARC checks that one of them aligns with the From address the human reads, and is the only one that can tell the receiver to reject.",
+      "tell": "A stem about spoofed messages that appear to come from your own domain, or about which record to publish to stop it.",
+      "trap": "SPF and DKIM both pass happily for a message whose visible From is forged, because neither looks at that header. Alignment is the gap, and DMARC exists solely to close it. Publishing SPF alone and expecting spoofing to stop is the classic mistake."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "web-filter-mechanisms",
+    "label": "How web filtering is delivered and what it decides on",
+    "objective": "4.5",
+    "topics": ["agent-based-web-filter", "centralized-proxy", "url-scanning", "content-categorization",
+               "block-rules", "reputation", "dns-filtering"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You mixed up where the filter runs with what it decides on. Delivery and decision are separate axes, and the exam asks about one or the other.",
+      "contrast": [
+        ["Aspect", "Option", "Strength", "Weakness"],
+        ["Delivery", "Agent-based, on the device", "Follows the laptop off the corporate network", "Needs an agent on every device; can be removed"],
+        ["Delivery", "Centralised proxy", "One enforcement point, full logging, no agent", "Only protects traffic routed through it"],
+        ["Delivery", "DNS filtering", "Trivial to deploy, blocks before connection", "Per-domain only, bypassed by hardcoded resolvers or direct IP"],
+        ["Decision", "URL scanning", "Inspects the specific address, not just the host", "Needs to see the URL, so TLS inspection or an agent"],
+        ["Decision", "Content categorisation", "Broad policy by category, such as gambling or webmail", "Miscategorised and brand new sites slip through"],
+        ["Decision", "Reputation", "Blocks newly registered or known-bad hosts with no category yet", "Scores are probabilistic, so false positives happen"],
+        ["Decision", "Block rules", "Explicit allow or deny for named destinations", "Manual, and does not scale alone"]
+      ],
+      "rule": "Agent, proxy and DNS are where it runs. URL, category, reputation and explicit rules are what it decides on. A stem about remote laptops is asking about delivery; a stem about brand new malicious domains is asking about reputation.",
+      "tell": "Mentions of staff working from home, or of a site too new to be categorised.",
+      "trap": "DNS filtering is cheap and popular and only sees the domain. It cannot distinguish one path on a site from another, so it cannot block a single abused page on an otherwise needed service."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "ids-ips-detection-methods",
+    "label": "Signature-based vs trend and anomaly-based detection",
+    "objective": "4.5",
+    "topics": ["ids-ips-signatures", "ids-ips-trends", "intrusion-detection-system", "intrusion-prevention-system"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You judged by how advanced the option sounded. The real split is whether the system is comparing against something known or against what is normal here.",
+      "contrast": [
+        ["Method", "Compares against", "Catches", "Misses or costs"],
+        ["Signature-based", "A database of known patterns", "Known attacks, precisely, with low false positives", "Anything novel, and anything slightly altered"],
+        ["Trend or anomaly-based", "A learned baseline of normal behaviour", "Novel and zero-day activity, insider misuse", "Higher false positives, and needs a clean baseline to learn from"]
+      ],
+      "rule": "Signatures know what bad looks like. Trend analysis knows what normal looks like. If the stem says the attack was previously unseen, no signature could have matched it.",
+      "tell": "Phrases such as 'not previously seen', 'no signature exists', 'deviation from baseline', or complaints about false positive volume.",
+      "trap": "Baselines learn from whatever is happening while they learn. If the environment was already compromised during baselining, the malicious behaviour becomes the definition of normal."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "host-hardening-enforcement",
+    "label": "Group Policy vs SELinux: two different kinds of enforcement",
+    "objective": "4.5",
+    "topics": ["group-policy", "selinux"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You read them as the Windows and Linux versions of the same thing. One distributes configuration centrally; the other enforces mandatory access control inside a single kernel.",
+      "contrast": [
+        ["", "Group Policy", "SELinux"],
+        ["Platform", "Windows, through Active Directory", "Linux, in the kernel"],
+        ["What it does", "Pushes configuration and security settings to domain members", "Enforces mandatory access control between processes and resources by label"],
+        ["Scope", "Centralised across the domain", "Local to the host, though policy can be distributed"],
+        ["Access model", "Configures discretionary controls and settings", "Mandatory: even root is bound by policy"],
+        ["Typical exam use", "Enforce a baseline across many machines at once", "Contain a compromised service so it cannot touch what it does not need"]
+      ],
+      "rule": "Group Policy is how you make a thousand Windows machines agree. SELinux is how you stop one Linux process doing something its label does not permit, including when it is running as root.",
+      "tell": "A stem about rolling a setting out across a domain, versus one about confining a service that has been exploited.",
+      "trap": "SELinux constraining root is the part people disbelieve. It is the whole point of mandatory access control: the policy sits above the account, not under it."
+    },
+    "retireAfter": 2
+  },
+  {
+    "id": "monitoring-capability-selection",
+    "label": "File integrity monitoring vs DLP vs user behaviour analytics",
+    "objective": "4.5",
+    "topics": ["file-integrity-monitoring", "dlp", "user-behavior-analytics",
+               "endpoint-detection-and-response", "network-access-control"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You chose the capability with the most familiar name rather than the one watching the thing in the question. Each watches a different noun: files, data leaving, or people.",
+      "contrast": [
+        ["Capability", "Watches", "Fires when", "Does not"],
+        ["File integrity monitoring", "Specific files and their hashes", "A protected file changes unexpectedly", "Care where data goes"],
+        ["Data loss prevention", "Data in motion, in use and at rest, by content", "Sensitive content is sent, copied or uploaded against policy", "Care who the user is, beyond policy scope"],
+        ["User behaviour analytics", "Patterns of account activity against a baseline", "An account behaves unlike itself or unlike its peers", "Inspect content"],
+        ["EDR", "Process, file and network activity on the endpoint", "Malicious execution or persistence is observed", "Classify documents"],
+        ["NAC", "Devices joining the network and their posture", "An unknown or non-compliant device connects", "See anything after admission"]
+      ],
+      "rule": "FIM watches files, DLP watches data leaving, UBA watches people, EDR watches processes, NAC watches the door.",
+      "tell": "A stem naming what is being protected or observed: a configuration file, a spreadsheet of customer records, or an account suddenly behaving oddly.",
+      "trap": "A departing employee emailing customer data out is a DLP question. The same employee signing in at 03:00 from a new country is a UBA question. The scenario often contains both, so read what the control is being asked to catch."
+    },
+    "retireAfter": 2
+  }
+]
