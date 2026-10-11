@@ -1,0 +1,25 @@
+[
+  {
+    "id": "automation-in-the-pipeline",
+    "label": "Where automation plugs in: APIs, CI testing, ticketing and escalation",
+    "objective": "4.7",
+    "topics": ["integrations-and-apis", "continuous-integration-and-testing", "ticket-creation",
+               "escalation", "enabling-disabling-services-and-access"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated automation as one capability rather than as a set of integration points. The exam asks which point in the workflow the automation sits at.",
+      "contrast": [
+        ["Integration point", "What it automates", "What it buys"],
+        ["APIs and integrations", "Systems acting on each other without a human relaying", "The plumbing everything else depends on"],
+        ["Continuous integration and testing", "Security checks running on every commit and build", "Flaws found while they are cheap, before release"],
+        ["Ticket creation", "Raising a tracked work item from an alert or a finding", "Nothing is lost between detection and someone owning it"],
+        ["Escalation", "Routing onward automatically when nobody responds in time", "Removes the single point of failure of one unavailable person"],
+        ["Enabling and disabling access", "Provisioning and revoking as roles change or incidents require", "Revocation that happens in seconds rather than at someone's convenience"]
+      ],
+      "rule": "Ticket creation records that something needs doing. Escalation handles nobody doing it. They are adjacent and separately named, and the exam tests the difference.",
+      "tell": "An alert that generated no follow-up points to ticket creation. An alert that sat unactioned for a weekend points to escalation.",
+      "trap": "Automating ticket creation on a noisy alert source multiplies the noise into a backlog. Tuning has to come first, or automation industrialises the problem."
+    },
+    "retireAfter": 2
+  }
+]

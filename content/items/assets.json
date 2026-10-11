@@ -1,0 +1,91 @@
+[
+ {
+  "id":"as-001","type":"mcq","objective":"4.2",
+  "topics":["data-retention","disposal-decommissioning"],"difficulty":4,
+  "stem":"An organisation's retention schedule requires customer transaction records to be kept for seven years. Records from twelve years ago are still held in production. What is the correct characterisation?",
+  "options":[
+   {"id":"a","text":"A disposal failure: data held beyond its retention period is liability without benefit, still discoverable and still breachable","correct":true,"why":"A retention schedule sets a ceiling as well as a floor. Keeping data past the ceiling adds exposure and adds nothing, which is why disposal is a named activity."},
+   {"id":"b","text":"Good practice, since more history is always safer","misconception":"retention-vs-disposal","why":"The instinct the objective exists to correct. Every extra year is more data to lose and more to produce in discovery."},
+   {"id":"c","text":"A legal hold, since the records are preserved","misconception":"retention-vs-disposal","why":"A hold is a deliberate instruction to preserve specific material for litigation. Forgetting to delete is not one."},
+   {"id":"d","text":"A classification error","misconception":"data-type-vs-classification","why":"Nothing suggests the records were classified wrongly; they were simply never disposed of."}
+  ],"selectCount":1
+ },
+ {
+  "id":"as-002","type":"mcq","objective":"4.2",
+  "topics":["data-retention","disposal-decommissioning"],"difficulty":4,
+  "stem":"Litigation begins. Automated deletion under the retention schedule would remove email relevant to the case next week. What must happen?",
+  "options":[
+   {"id":"a","text":"A legal hold must suspend the scheduled deletion for all relevant material","correct":true,"why":"A hold overrides routine disposal. Letting automation delete relevant material once litigation is anticipated is spoliation, regardless of the schedule being followed."},
+   {"id":"b","text":"The retention schedule takes precedence, since it is documented policy","misconception":"retention-vs-disposal","why":"Preservation obligations override internal schedules. The schedule being documented does not excuse the destruction."},
+   {"id":"c","text":"The material should be sanitised rather than deleted","misconception":"sanitization-vs-destruction","why":"Both destroy the evidence. The requirement is to keep it."},
+   {"id":"d","text":"The retention period should be permanently extended for all email","misconception":"retention-vs-disposal","why":"A hold is scoped to relevant material and lifted when the matter ends. Extending everything forever recreates the liability problem."}
+  ],"selectCount":1
+ },
+ {
+  "id":"as-003","type":"mcq","objective":"4.2",
+  "topics":["ownership-2","inventory","classification"],"difficulty":3,
+  "stem":"An asset register lists four hundred servers, of which sixty have no named owner. Why does this matter beyond administrative tidiness?",
+  "options":[
+   {"id":"a","text":"Without an owner nobody is accountable for patching, classification or approving changes, so those servers drift out of every other process","correct":true,"why":"Ownership is the hook every other control hangs on. An unowned asset has nobody to chase, nobody to approve its changes and nobody answering for its state."},
+   {"id":"b","text":"The register cannot be exported for audit without complete fields","misconception":"asset-lifecycle","why":"A formatting concern. The substantive risk is that nothing happens to those servers."},
+   {"id":"c","text":"Unowned assets are automatically classified as public","misconception":"data-type-vs-classification","why":"No such default exists, and that would be a worse outcome than having no classification."},
+   {"id":"d","text":"Ownership is only required for data, not for hardware","misconception":"asset-lifecycle","why":"The objectives name ownership across hardware, software and data."}
+  ],"selectCount":1
+ },
+ {
+  "id":"as-004","type":"mcq","objective":"4.2",
+  "topics":["disposal-decommissioning","inventory","monitoring-asset-tracking"],"difficulty":4,
+  "stem":"A server was replaced two years ago. The replacement went live, but the original was left powered on and is still reachable, unpatched and unmonitored. Which activity was incomplete?",
+  "options":[
+   {"id":"a","text":"Decommissioning: retiring the asset means removing it from service, from the network and from the inventory, not just ceasing to use it","correct":true,"why":"Decommissioning is an activity with steps. A host nobody uses and nobody patches is among the most attractive things on a network."},
+   {"id":"b","text":"Sanitization of the server's media","misconception":"sanitization-vs-destruction","why":"That applies when the hardware leaves. The problem here is that it never left and is still running."},
+   {"id":"c","text":"Classification of the data it held","misconception":"data-type-vs-classification","why":"Would not have changed the outcome; the host would still be live."},
+   {"id":"d","text":"Certification of destruction","misconception":"sanitization-vs-destruction","why":"Certification evidences destruction that has happened. Nothing was destroyed."}
+  ],"selectCount":1
+ },
+ {
+  "id":"as-005","type":"mcq","objective":"4.2",
+  "topics":["certification","sanitization","destruction"],"difficulty":3,
+  "stem":"A disposal vendor collects two hundred decommissioned drives and shreds them. What does the organisation still require to discharge its obligation?",
+  "options":[
+   {"id":"a","text":"A certificate of destruction identifying the specific media destroyed","correct":true,"why":"Certification is the documented evidence. Without it you cannot demonstrate the obligation was met, and in an audit or a breach investigation an undocumented destruction is indistinguishable from none."},
+   {"id":"b","text":"Nothing further, since the drives are physically destroyed","misconception":"retention-vs-disposal","why":"Having done the work and being able to show it are different, and only one of them survives scrutiny."},
+   {"id":"c","text":"A sanitisation report, since shredding is a form of sanitisation","misconception":"sanitization-vs-destruction","why":"Sanitisation makes media reusable by removing data. Shredding is destruction, and the artefact is a destruction certificate."},
+   {"id":"d","text":"Confirmation that the drives were encrypted before collection","misconception":"sanitization-vs-destruction","why":"Sound practice and not the required evidence of disposal."}
+  ],"selectCount":1
+ },
+ {
+  "id":"as-006","type":"mcq","objective":"4.2",
+  "topics":["acquisition-procurement-process","ownership-2","classification"],"difficulty":4,
+  "stem":"Why do the objectives place acquisition and procurement inside asset management rather than treating it as a finance process?",
+  "options":[
+   {"id":"a","text":"Because the asset enters the inventory, gains an owner and a classification, and inherits security requirements at the point it is acquired","correct":true,"why":"Procurement is where an asset becomes known. Anything bought outside it is shadow IT: unowned, uninventoried and outside every control that depends on the register."},
+   {"id":"b","text":"Because security must approve every purchase","misconception":"asset-lifecycle","why":"Overstates it. The point is that the asset is recorded and assigned, not that security holds a veto on spend."},
+   {"id":"c","text":"Because procurement sets the retention period for the data it will hold","misconception":"retention-vs-disposal","why":"Retention is driven by the data and its legal regime, not by how the hardware was bought."},
+   {"id":"d","text":"Because acquisition is when sanitisation requirements are applied","misconception":"sanitization-vs-destruction","why":"Sanitisation happens at end of life."}
+  ],"selectCount":1
+ },
+ {
+  "id":"as-007","type":"mcq","objective":"4.2",
+  "topics":["enumeration","inventory","monitoring-asset-tracking"],"difficulty":3,
+  "stem":"What is the relationship between enumeration and inventory in asset management?",
+  "options":[
+   {"id":"a","text":"Enumeration is actively discovering what exists; the inventory is the maintained record, and the gap between them is what asset management works to close","correct":true,"why":"Discovery finds reality, the inventory states what you believe. Devices present in enumeration and absent from inventory are exactly the unmanaged assets worth worrying about."},
+   {"id":"b","text":"They are the same activity under two names","misconception":"asset-lifecycle","why":"One is an act of discovery, the other a record. They disagree constantly, which is the point of comparing them."},
+   {"id":"c","text":"Enumeration applies to software and inventory to hardware","misconception":"asset-lifecycle","why":"Both apply across hardware, software and data."},
+   {"id":"d","text":"Inventory is produced by the procurement system and needs no enumeration","misconception":"asset-lifecycle","why":"Procurement captures what was bought through the process. Enumeration catches everything else."}
+  ],"selectCount":1
+ },
+ {
+  "id":"as-008","type":"mcq-multi","objective":"4.2",
+  "topics":["data-retention","disposal-decommissioning","certification","ownership-2"],"difficulty":4,
+  "stem":"Which TWO statements about data retention and disposal are correct? (Choose two.)",
+  "options":[
+   {"id":"a","text":"A retention schedule defines both a minimum keep period and a point at which data must be disposed of","correct":true,"why":"A floor and a ceiling. Only treating it as a floor is what produces twelve-year-old records in production."},
+   {"id":"b","text":"A legal hold suspends scheduled deletion for the material it covers","correct":true,"why":"Preservation obligations override routine disposal, and automated deletion continuing during litigation is spoliation."},
+   {"id":"c","text":"Keeping data indefinitely is the safest default","misconception":"retention-vs-disposal","why":"It is accumulating liability: more to breach, more to produce in discovery, more to secure."},
+   {"id":"d","text":"Destruction and sanitisation are interchangeable terms","misconception":"sanitization-vs-destruction","why":"Sanitisation removes data so media can be reused; destruction makes the media unusable."},
+   {"id":"e","text":"Certification is optional where destruction was witnessed internally","misconception":"retention-vs-disposal","why":"The documented record is what demonstrates the obligation was met."}
+  ],"selectCount":2
+ }
+]

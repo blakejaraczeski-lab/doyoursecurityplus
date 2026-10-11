@@ -485,19 +485,21 @@ of their exam weight on graded practice.
 
 ## Known gaps
 
-- **Coverage is 91% of the blueprint.** 60 topics still have no graded item, and
-  **domain 1 is complete at 100 of 100**. No objective is thin: every one reaches
-  at least 35% of its topics and holds at least four graded units, and the
-  weakest now sits at 71% rather than 28%. Readiness marks a thin objective as
-  thin rather than quietly scoring it as a weakness in you, and
+- **Coverage is 93% of the blueprint.** 50 topics still have no graded item.
+  **Domain 1 is complete at 100 of 100 and domain 4 has 4 left of 209.** No
+  objective is thin, the weakest sits at 71% rather than 28%, and no objective
+  holds fewer than seven graded units. Readiness marks a thin objective as thin
+  rather than quietly scoring it as a weakness in you, and
   `content/coverage.json` pins the figure so the app and the validator cannot
   drift apart about it. Weakest remaining by topic coverage: 5.3 third-party
-  risk, 3.1 architecture models, 4.7 automation, 4.2 asset management,
-  5.4 compliance.
-- **Topic coverage and item count are different kinds of thin.** 3.3, 4.2 and
-  4.7 each reach most of their topics on five graded items, which is enough to
-  touch each topic once and not enough to retire a misconception on distinct
-  items. The validator reports both numbers for this reason.
+  risk, 3.1 architecture models, 5.4 compliance, 2.3 vulnerability types,
+  3.2 enterprise infrastructure.
+- **Topic coverage and item count are different kinds of thin**, and the
+  validator reports both. An objective can touch every topic once on five items
+  and still be unable to retire a misconception, which needs clean passes on
+  distinct items. The remaining thin-by-count objectives are 2.2 and 1.1 at
+  seven and eight units despite full topic coverage, and 5.6, 5.5 and 5.3,
+  which are short on both.
 - **A canonical topic id always wins over another topic's alias.** Where the
   same CompTIA bullet appears under two objectives the generator suffixes the
   later one (`segmentation-2`) and keeps the bare word as its alias. Resolving
