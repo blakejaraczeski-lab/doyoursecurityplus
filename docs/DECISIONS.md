@@ -176,3 +176,15 @@ precondition. That is standard HTTP, and a second client would already know it.
 and the hook makes it run before a commit exists. A rule nobody can lint is a
 wish, and the two that stay manual (no hardcoded item in `app/`, the glyph
 beside every colour) are listed as weaknesses rather than hidden.
+
+## The scheduler is tested under a swapped Math.random
+
+The queue builder shuffles with `Math.random` and takes no generator
+argument. The self test swaps in a seeded generator for the duration of each
+check and restores the real one after, rather than threading an `rng`
+parameter through `buildQueue` and `shuffle` for the test's sake. The app's
+signature stays what the app needs, the same seed builds the same queue, and
+a failure prints as a seed number that reproduces it. Two defects fell out on
+the first run: a shuffled pair could arrive as "2 of 2" before "1 of 2", and a
+weak-spot session with one slot left pushed the pair past the end and served
+half of it. A pair now needs two whole slots and is sorted back into order.

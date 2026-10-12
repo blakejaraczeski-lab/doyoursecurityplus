@@ -59,15 +59,11 @@ function keepPairsAdjacent(queue) {
   const taken = new Set();
   for (const entry of queue) {
     if (taken.has(entry)) continue;
-    out.push(entry);
-    taken.add(entry);
-    if (entry.contrastDrill) {
-      const partners = queue.filter(
-        (e) => e !== entry && !taken.has(e) &&
-               e.contrastDrill && e.targetMisconception === entry.targetMisconception
-      );
-      for (const p of partners) { out.push(p); taken.add(p); }
-    }
+    const group = entry.contrastDrill
+      ? queue.filter((e) => !taken.has(e) && e.contrastDrill && e.targetMisconception === entry.targetMisconception)
+             .sort((a, b) => a.contrastDrill.index - b.contrastDrill.index)
+      : [entry];
+    for (const e of group) { out.push(e); taken.add(e); }
   }
   return out;
 }
@@ -197,9 +193,11 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
     }
 
     // Third strike: stop re-serving the explanation and force the distinction.
+    // A pair needs two whole slots: pushed past the end, the final slice would
+    // serve half of it, which teaches the answer rather than the difference.
     if (mentor.tierFor(d.rec) >= 3) {
       const pair = mentor.contrastPair(d.id, content, state);
-      if (pair && queue.length + 2 <= mcSlots + 1) {
+      if (pair && queue.length + 2 <= mcSlots) {
         pair.items.forEach((item, i) => {
           queue.push({
             kind: "item",

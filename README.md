@@ -291,7 +291,10 @@ objective has graded material), the repository shape, the state shape, the
 materials, the README counts, and the self test headless in the Chrome on this
 machine. The self test page runs every PBQ's reference answer through the real
 graders, exercises the misconception loop end to end, asserts every blueprint
-topic is reached, and checks every action in the templates has a handler. The
+topic is reached, checks every action in the templates has a handler, and
+builds queues under a seeded random: a contrast pair stays adjacent and in
+order, an open prerequisite is routed to first, no review lands past the exam
+date, and vocabulary gets its floor and never more than its cap. The
 headless runner then drives the real `serve.py` and the real app through the
 persistence story, each scenario on its own throwaway data directory: a stale
 save refused with 412 over HTTP and through the client, a corrupt `state.json`
