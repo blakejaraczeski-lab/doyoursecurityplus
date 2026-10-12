@@ -938,7 +938,7 @@ window.addEventListener("pagehide", () => {
     // loser is never silently discarded: the server keeps snapshots either way.
     const remote = await sync.pull();
     if (remote && (remote.updatedAt || 0) > (App.state.updatedAt || 0)) {
-      App.state = { ...remote };
+      App.state = store.migrate(remote);
       store.flush(App.state);
       console.info("Restored newer progress from the study server.");
     } else if (App.state.updatedAt) {
@@ -958,15 +958,19 @@ window.addEventListener("pagehide", () => {
     startSession("drill");
     render();
   } catch (err) {
-    // Nothing loaded, so there is no app to render: one sentence on why, and
-    // the one thing that can be done about it from here. A page opened as a
-    // file never reaches this, because the browser refuses the module script
+    // There is no app to render: one sentence on which stage failed, and the
+    // one thing that can be done about it from here. A page opened as a file
+    // never reaches this, because the browser refuses the module script
     // itself; index.html's placeholder covers that case.
+    const noContent = !App.content;
     document.getElementById("app").innerHTML =
       `<main><h1>Could not start</h1><div class="card">
-       <p>The study server at ${esc(location.host)} is not answering, so no content can load.</p>
-       <p class="faint">Start it with <span class="mono">python3 serve.py</span> or
-       <span class="mono">./scripts/service.sh restart</span>, then reload.
+       <p>${noContent
+         ? `The study server at ${esc(location.host)} is not answering, so no content can load.`
+         : "The content loaded, but the saved progress broke the start. Nothing has been written; the snapshots on disk are intact."}</p>
+       <p class="faint">${noContent
+         ? `Start it with <span class="mono">python3 serve.py</span> or <span class="mono">./scripts/service.sh restart</span>, then reload.`
+         : `Reload once; if it happens again, restore a backup with <span class="mono">scripts/backup.py restore</span>.`}
        <span class="mono">${esc(err.message)}</span></p>
        <button class="btn" data-action="reload">Reload</button></div></main>`;
     console.warn("Could not start:", err);

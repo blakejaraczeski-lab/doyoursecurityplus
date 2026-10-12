@@ -12,6 +12,10 @@
 #   ./scripts/service.sh uninstall
 #   ./scripts/service.sh hooks              install the pre-commit hook that runs bin/check
 #
+# Backups are not launchd's business and work on any platform:
+#   python3 scripts/backup.py backup        dated tarball to ~/.doyoursecurityplus-backups
+#   python3 scripts/backup.py restore FILE  put one back, after a typed yes
+#
 # macOS launchd is used rather than a container: it is native, needs nothing
 # installed, starts at login without a daemon of its own, and restarts the
 # server if it ever exits. A container would add a dependency for what is a

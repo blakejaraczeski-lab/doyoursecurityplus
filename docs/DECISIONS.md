@@ -217,3 +217,16 @@ set on a node that was recreated each time and so said nothing. The pass was
 run against Chrome's accessibility tree over DevTools with real key events,
 which is what VoiceOver reads; VoiceOver itself was not run, and the table on
 `selftest.html` says so and says how.
+
+## A restore is a new write
+
+Restoring a backup by copying three files into place does not restore
+anything while a browser tab is open: the tab's localStorage copy carries a
+newer `updatedAt`, wins the reconcile on the next load, and pushes the data
+you just replaced straight back. The persistence scenarios showed exactly
+this losing path. So `scripts/backup.py restore` writes the restored document
+back through the server's own writer with a fresh `updatedAt`. The restored
+copy is then the newest anywhere: a reloaded tab takes it, and a tab that is
+never reloaded is refused with 412 on its next save, which is the one path
+the conditional replace already guards. A safety backup of what was on disk
+is taken first and named so it can never land on the archive being read.

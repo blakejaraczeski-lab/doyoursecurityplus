@@ -8,6 +8,8 @@
 // Scratch mode: open the app with ?scratch=1 and it keeps its progress under a
 // separate key and never talks to the server. It exists because driving the real
 // app to test it writes real reviews into real study data.
+import { newCard } from "./fsrs.js";
+
 export const SCRATCH =
   typeof location !== "undefined" && new URLSearchParams(location.search).has("scratch");
 const KEY = SCRATCH ? "dysp.scratch" : "dysp.v1";
@@ -68,11 +70,26 @@ export function streakStatus(state, now = new Date()) {
   };
 }
 
-function migrate(parsed) {
+/**
+ * Bring any saved document, from localStorage, the server, an import or a
+ * restored backup, up to the shape every reader assumes. A misconception
+ * record from an older or hand-edited document may lack its card or its
+ * pass list; filling those in here is cheaper than guarding every reader,
+ * and a missing field must never take the whole app down at boot.
+ */
+export function migrate(parsed) {
   const s = { ...structuredClone(DEFAULT_STATE), ...parsed };
   s.profile = { ...DEFAULT_STATE.profile, ...(parsed.profile || {}) };
   s.streak = { ...DEFAULT_STATE.streak, ...(parsed.streak || {}) };
   s.version = DEFAULT_STATE.version;
+  for (const rec of Object.values(s.misconceptions || {})) {
+    rec.fsrs ||= newCard();
+    rec.cleanPasses ||= [];
+    rec.hits ??= 0;
+    rec.step ??= 0;
+    rec.due ??= 0;
+    rec.retired = !!rec.retired;
+  }
   // Fields that earlier versions wrote and nothing reads.
   delete s.session;
   delete s.profile.dailyNewTarget;

@@ -255,6 +255,14 @@ On start-up the newer copy wins. Settings shows the file path and what is on
 disk. Open the app with `?scratch=1` to test it without touching your
 progress: separate keys, no server writes, and a banner saying so.
 
+`python3 scripts/backup.py backup` writes a dated tarball of the state
+document, the log and the snapshots to `~/.doyoursecurityplus-backups`, and
+`python3 scripts/backup.py restore FILE` puts one back after a typed yes and a
+safety backup of what is there. A restore is a new write: the restored
+document gets a fresh `updatedAt`, so a tab that still holds the copy it
+replaced takes the restored one on reload instead of pushing the old data
+back, and a tab that is not reloaded is refused on its next save.
+
 `./scripts/service.sh install` runs the server under **macOS launchd** so the
 port, and therefore the browser origin, never changes; `--remind 18:30` adds a
 daily notification that reads the log and stays quiet once you have hit your
@@ -319,6 +327,7 @@ scripts/
   check_state_shape.py       the state document never grows per answer
   check_materials.py         no shadow, gradient or blur; every colour a token
   check_docs.py              README counts come from the content (--write)
+  backup.py                  dated tarball of the study data, and a confirmed restore
   selftest.py                selftest.html plus the persistence scenarios, headless, non-zero exit on failure
   derive_mcq.py              recall cards -> discrimination questions (--retag)
   import_anki.py             .apkg -> tagged recall items
