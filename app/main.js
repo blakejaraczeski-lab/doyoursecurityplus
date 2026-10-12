@@ -888,11 +888,11 @@ window.addEventListener("pagehide", () => {
       sync.push(App.state);
     }
 
+    const moved = store.migrateIds(App.state, App.content);
     const pruned = store.pruneOrphans(App.state, App.content);
-    if (pruned) {
-      console.info(`Dropped ${pruned} progress record(s) for items no longer in the bank.`);
-      save();
-    }
+    if (moved) console.info(`Moved ${moved} progress record(s) to renamed items.`);
+    if (pruned) console.info(`Dropped ${pruned} progress record(s) for items no longer in the bank.`);
+    if (moved || pruned) save();
     sync.health().then((h) => { App.health = h; if (App.screen === "settings") render(); });
 
     startSession("drill");

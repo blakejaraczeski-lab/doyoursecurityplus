@@ -55,11 +55,76 @@
         ["Exists because", "The control you wanted is not possible", "An incident happened"],
         ["Timing", "Before, as a substitute", "After, as a repair"],
         ["Example", "Legacy system cannot be patched, so it is isolated on its own VLAN", "Restoring from backup after ransomware"],
-        ["Paired with", "An exception in the risk register", "The recovery phase"]
+        ["Paired with", "An exception in the risk register", "The recovery phase"],
+        ["Classified by", "What it substitutes for, not its own mechanism: session recording standing in for missing audit logs is compensating even though it detects", "The damage it repairs"]
       ],
       "rule": "Compensating substitutes for a missing control. Corrective repairs after the event.",
       "tell": "'Cannot be patched', 'vendor no longer supports it', 'business will not accept the downtime' all set up a compensating control.",
-      "trap": "Both are the answer to 'we have a problem', so both sound reactive. Compensating is chosen in advance and documented."
+      "trap": "Both are the answer to 'we have a problem', so both sound reactive. Compensating is chosen in advance and documented. And when the stem says a control was put in because the required one could not be, it is compensating, whatever its mechanism."
+    }
+  },
+  {
+    "id": "detective-vs-preventive",
+    "label": "Detective vs preventive control",
+    "objective": "1.1",
+    "topics": ["detective", "preventive", "corrective", "technical-controls"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You picked a control that stops or fixes for one that only finds out. A detective control tells you something happened; it does not block it and it does not repair it.",
+      "contrast": [
+        ["Control", "Type", "Why"],
+        ["Log review, SIEM alert", "Detective", "Reports after the fact"],
+        ["IDS on a tap", "Detective", "Watches a copy of the traffic and raises an alert"],
+        ["IPS inline", "Preventive", "Drops the packet"],
+        ["CCTV recording", "Detective", "Evidence afterwards; the visible camera is the deterrent"],
+        ["Firewall rule, full-disk encryption", "Preventive", "Blocks the action or the disclosure"],
+        ["Restore from backup", "Corrective", "Repairs the damage"]
+      ],
+      "rule": "If the control's output is an alert, a log or a recording, it is detective. If its output is a blocked action, it is preventive. If its output is a repaired system, it is corrective.",
+      "tell": "'alerts', 'audits', 'reviews', 'monitors', 'records' set up detective; 'blocks', 'prevents', 'requires' set up preventive; 'restores', 'rebuilds' set up corrective.",
+      "trap": "A detective control usually triggers a preventive or corrective response, so the pair gets collapsed. The exam classifies the control named in the stem, not the process around it."
+    }
+  },
+  {
+    "id": "directive-vs-deterrent",
+    "label": "Directive vs deterrent: a rule is not a barrier",
+    "objective": "1.1",
+    "topics": ["directive", "deterrent", "preventive", "managerial-controls", "operational-controls"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated a rule that tells people what to do as a threat that discourages attackers, or as a barrier that stops them. A directive control instructs the compliant; a deterrent discourages the hostile; neither one physically prevents anything.",
+      "contrast": [
+        ["Control", "Type", "Why"],
+        ["Acceptable use policy", "Directive", "Tells staff what is expected"],
+        ["'Visitors must sign in at reception' sign", "Directive", "Instructs who may proceed and how"],
+        ["'This area is under CCTV' sign", "Deterrent", "Warns a would-be intruder off"],
+        ["Security awareness training, clean desk policy", "Directive", "Tells people how to behave"],
+        ["Visible guard, bright lighting", "Deterrent", "Discourages by presence"],
+        ["A DLP rule that blocks the upload the policy forbids", "Preventive", "The policy said no; the DLP makes no possible"]
+      ],
+      "rule": "Directive is aimed at people who intend to comply and tells them how. Deterrent is aimed at people who intend not to and makes them reconsider. Preventive stops it regardless of intent.",
+      "tell": "Policies, procedures, training and signs that give an instruction are directive. Signs, lighting and cameras that announce a consequence are deterrent.",
+      "trap": "Both can be a sign on a door. Read what the sign says: an instruction is directive, a warning is deterrent. And a policy forbidding something has not prevented it; a control that enforces the policy has."
+    }
+  },
+  {
+    "id": "managerial-vs-operational",
+    "label": "Managerial vs operational vs technical control category",
+    "objective": "1.1",
+    "topics": ["managerial-controls", "operational-controls", "technical-controls", "physical-controls"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You put a control in the category of the thing it protects or the team that owns it, rather than the kind of thing it is. Category is about the mechanism: a decision, a person doing something, or a system enforcing something.",
+      "contrast": [
+        ["Category", "Mechanism", "Examples"],
+        ["Managerial", "A decision or a document that governs", "Risk assessment, security policy, a written procedure, vendor review, change approval"],
+        ["Operational", "People performing a process", "Guard patrols, awareness training, an analyst reviewing logs, following the incident response procedure"],
+        ["Technical", "A system enforcing without a person in the loop", "Firewall, encryption, MFA, IDS"],
+        ["Physical", "Something tangible in the way", "Fence, bollard, lock, badge reader"]
+      ],
+      "rule": "Ask who or what carries the control out. Management deciding is managerial, people doing is operational, a system doing is technical, matter in the way is physical.",
+      "tell": "'Policy', 'assessment', 'plan', 'documented procedure' point to managerial; 'training', 'patrol', 'review', 'performs', 'follows the procedure' point to operational.",
+      "trap": "Training is about technical topics and is delivered by IT, so it reads as technical. It is people performing a process, which is operational. A procedure document is managerial; carrying it out is operational."
     }
   }
 ]

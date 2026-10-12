@@ -98,5 +98,118 @@
       {"id": "e", "text": "A corporate acceptable use policy", "misconception": "control-category-vs-type", "why": "A policy is directive in type and managerial in category. It instructs, it does not prevent."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "sec-1.1-010",
+    "type": "mcq",
+    "objective": "1.1",
+    "topics": ["detective", "preventive", "corrective", "technical-controls"],
+    "difficulty": 3,
+    "stem": "A SIEM rule raises an alert when the same user authenticates from two countries within an hour. Which control type is the rule?",
+    "options": [
+      {"id": "a", "text": "Detective: it identifies the event after it has happened and raises it for action", "correct": true, "why": "An alert is the signature output of a detective control. Both logins already succeeded; the rule found out."},
+      {"id": "b", "text": "Preventive: the alert stops the second login", "misconception": "detective-vs-preventive", "why": "An alert stops nothing. Had the system refused the second login, that refusal would be preventive; raising it afterwards is detective."},
+      {"id": "c", "text": "Corrective: it returns the account to a safe state", "misconception": "detective-vs-preventive", "why": "Nothing was repaired. Disabling the account or forcing a reset after the alert would be corrective; the rule itself only reports."},
+      {"id": "d", "text": "Technical: it is implemented in software", "misconception": "control-category-vs-type", "why": "Technical is the category, and it is correct on that axis. The question asked for the type, which is what the control does about the event."}
+    ]
+  },
+  {
+    "id": "sec-1.1-011",
+    "type": "mcq",
+    "objective": "1.1",
+    "topics": ["preventive", "detective", "deterrent", "physical-controls"],
+    "difficulty": 2,
+    "stem": "A badge reader refuses entry to anyone without a valid card, and a camera system records the lobby. Which control types are these, in that order?",
+    "options": [
+      {"id": "a", "text": "Preventive, then detective", "correct": true, "why": "The reader physically stops entry. The recording stops nobody; it gives you evidence afterwards."},
+      {"id": "b", "text": "Deterrent, then detective", "misconception": "deterrent-vs-preventive", "why": "The reader does not merely discourage; a determined person without a card is still stopped, which makes it preventive."},
+      {"id": "c", "text": "Preventive, then preventive", "misconception": "detective-vs-preventive", "why": "A recording prevents nothing. It is reviewed after the event, which is the definition of detective."},
+      {"id": "d", "text": "Physical, then technical", "misconception": "control-category-vs-type", "why": "Those are categories. The question asks for types."}
+    ]
+  },
+  {
+    "id": "sec-1.1-012",
+    "type": "mcq",
+    "objective": "1.1",
+    "topics": ["directive", "deterrent", "preventive", "managerial-controls"],
+    "difficulty": 3,
+    "stem": "An organisation updates its acceptable use policy to state that personal cloud storage must not be used for company files, and every employee signs the new version. Which control type is the policy?",
+    "options": [
+      {"id": "a", "text": "Directive: it instructs staff on the behaviour expected of them", "correct": true, "why": "A policy tells people who intend to comply what to do. That is a directive control, whatever topic it covers."},
+      {"id": "b", "text": "Deterrent: it discourages employees from using personal storage", "misconception": "directive-vs-deterrent", "why": "A deterrent is aimed at someone who intends to do harm and warns them off. The policy is aimed at the compliant and tells them the rule."},
+      {"id": "c", "text": "Preventive: with the policy in force, files cannot reach personal storage", "misconception": "directive-vs-deterrent", "why": "A policy prevents nothing by itself. A DLP rule that blocks the upload would be the preventive control enforcing it."},
+      {"id": "d", "text": "Managerial: it is a document approved by management", "misconception": "control-category-vs-type", "why": "Managerial is the right category. The question asked for the type."}
+    ]
+  },
+  {
+    "id": "sec-1.1-013",
+    "type": "mcq",
+    "objective": "1.1",
+    "topics": ["operational-controls", "managerial-controls", "technical-controls"],
+    "difficulty": 3,
+    "stem": "Which control is operational rather than managerial or technical?",
+    "options": [
+      {"id": "a", "text": "Security guards performing hourly patrols of the data centre", "correct": true, "why": "People performing a process on a schedule is the operational category."},
+      {"id": "b", "text": "The annual risk assessment approved by the chief information security officer", "misconception": "managerial-vs-operational", "why": "A risk assessment is a governing decision document. That is managerial."},
+      {"id": "c", "text": "The access control policy requiring multifactor authentication for administrators", "misconception": "managerial-vs-operational", "why": "A policy is managerial. It governs; it does not carry anything out."},
+      {"id": "d", "text": "The multifactor authentication system enforcing the second factor", "misconception": "managerial-vs-operational", "why": "A system enforcing with no person in the loop is technical."}
+    ]
+  },
+  {
+    "id": "sec-1.1-014",
+    "type": "mcq",
+    "objective": "1.1",
+    "topics": ["compensating", "detective", "corrective", "technical-controls"],
+    "difficulty": 4,
+    "stem": "A payment application is required to log every administrative action, but the vendor's software cannot write audit logs. The team places a network tap and records every administrative session to the application instead. Which control type is the session recording?",
+    "options": [
+      {"id": "a", "text": "Compensating: it stands in for the audit logging the application cannot provide", "correct": true, "why": "The stem says the required control could not be implemented and this one was put in its place. That makes it compensating, whatever its own mechanism."},
+      {"id": "b", "text": "Detective: a recording identifies what happened after the fact", "misconception": "compensating-vs-corrective", "why": "By mechanism it does detect, but the exam classifies a substitute for a required control as compensating. The stem spelled out the substitution."},
+      {"id": "c", "text": "Corrective: it fixes the application's missing capability", "misconception": "compensating-vs-corrective", "why": "Nothing was repaired and no incident happened. A control chosen in advance because the wanted one is impossible is compensating."},
+      {"id": "d", "text": "Physical: a tap is a piece of hardware", "misconception": "control-category-vs-type", "why": "That is a category argument, and a weak one; the question asks for the type."}
+    ]
+  },
+  {
+    "id": "sec-1.1-015",
+    "type": "mcq-multi",
+    "objective": "1.1",
+    "topics": ["detective", "deterrent", "preventive"],
+    "difficulty": 2,
+    "stem": "Which TWO are detective controls? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "An analyst reviewing firewall logs every morning", "correct": true, "missedMisconception": "detective-vs-preventive", "why": "Reviewing logs finds out what happened. It stops nothing and fixes nothing, which is exactly detective."},
+      {"id": "b", "text": "An intrusion detection system on a network tap", "correct": true, "missedMisconception": "detective-vs-preventive", "why": "An IDS watches a copy of the traffic and raises an alert. Detection is in the name."},
+      {"id": "c", "text": "A warning sign at the perimeter fence", "misconception": "deterrent-vs-preventive", "why": "A sign notices nothing. It discourages, which is deterrent."},
+      {"id": "d", "text": "Full-disk encryption on laptops", "misconception": "detective-vs-preventive", "why": "Encryption prevents disclosure. It reports nothing, so it cannot be detective."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "sec-1.1-016",
+    "type": "mcq",
+    "objective": "1.1",
+    "topics": ["deterrent", "directive", "operational-controls"],
+    "difficulty": 2,
+    "stem": "Which control is deterrent rather than directive?",
+    "options": [
+      {"id": "a", "text": "A sign stating that the premises are patrolled by guard dogs", "correct": true, "why": "It is aimed at someone considering an intrusion and warns them off. That is a deterrent."},
+      {"id": "b", "text": "A sign instructing visitors to sign in at reception", "misconception": "directive-vs-deterrent", "why": "That sign gives an instruction to people who intend to comply. It is directive."},
+      {"id": "c", "text": "Mandatory annual security awareness training", "misconception": "directive-vs-deterrent", "why": "Training tells people how to behave. Directive."},
+      {"id": "d", "text": "A clean desk policy", "misconception": "directive-vs-deterrent", "why": "A policy instructs. It threatens nobody, so it is directive, not deterrent."}
+    ]
+  },
+  {
+    "id": "sec-1.1-017",
+    "type": "mcq",
+    "objective": "1.1",
+    "topics": ["managerial-controls", "operational-controls"],
+    "difficulty": 3,
+    "stem": "A company documents a procedure for provisioning new starters, and the help desk follows it every Monday morning. Which categories do the written procedure and the weekly execution belong to?",
+    "options": [
+      {"id": "a", "text": "Managerial, then operational", "correct": true, "why": "The document governs how the work is done, which is managerial. People carrying it out is operational."},
+      {"id": "b", "text": "Operational, then operational", "misconception": "managerial-vs-operational", "why": "The procedure document carries nothing out. A written control that governs is managerial; only its execution is operational."},
+      {"id": "c", "text": "Technical, then operational", "misconception": "managerial-vs-operational", "why": "A procedure is not a system enforcing anything. Technical controls act without a person in the loop."},
+      {"id": "d", "text": "Managerial, then managerial", "misconception": "managerial-vs-operational", "why": "The help desk performing the steps is people doing a process. That is operational, not a management decision."}
+    ]
   }
 ]

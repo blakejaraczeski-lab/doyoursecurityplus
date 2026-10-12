@@ -43,5 +43,66 @@
       "tell": "Any question listing several plausible ways in and asking which vector or attack surface it is.",
       "trap": "The damage is memorable and the route is not, so people answer with the outcome. Ransomware is not a vector, it is what arrived."
     }
+  },
+  {
+    "id": "supply-chain-roles",
+    "label": "Vendor vs supplier vs managed service provider as a threat vector",
+    "objective": "2.2",
+    "topics": ["managed-service-providers", "vendors", "suppliers"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated every third party as the same vector. The exam separates them by what you handed over: a product, a component, or the keys.",
+      "contrast": [
+        ["Party", "What they give you", "Why it is a vector", "Tell in the stem"],
+        ["Vendor", "A finished product or service you bought", "Their update or their support access reaches inside", "'the vendor's update', 'signed by the maker', 'vendor support portal'"],
+        ["Supplier", "Parts, materials or components that go into what you build or run", "A tampered component arrives already inside the product", "'a batch of network cards', 'arrived with modified firmware'"],
+        ["Managed service provider", "Operates something for you, with standing privileged access", "Their compromise is your compromise, through credentials you granted", "'remote management agent', 'reached dozens of clients at once'"]
+      ],
+      "rule": "Vendor sells it, supplier makes the parts of it, MSP runs it for you. The one with standing access is the one whose breach reaches you fastest and widest.",
+      "tell": "Any stem where the attacker never touched your network directly and arrived through a trusted third party's product, component or access.",
+      "trap": "Vendor and supplier are interchangeable in ordinary speech. The exam uses supplier for upstream components and vendor for the product you bought. And a third party's credentials are not an insider: the person is not your employee."
+    }
+  },
+  {
+    "id": "misinformation-vs-disinformation",
+    "label": "Misinformation vs disinformation, and impersonation vs brand impersonation vs typosquatting",
+    "objective": "2.2",
+    "topics": ["misinformation-disinformation", "impersonation", "brand-impersonation", "typosquatting"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You named the effect rather than the intent, or the technique rather than the thing being faked. These five are separated by whether the falsehood is deliberate and by what is counterfeited.",
+      "contrast": [
+        ["Term", "What is faked", "Deliberate?", "Example"],
+        ["Misinformation", "The facts, unknowingly", "No, spread in good faith", "An employee reshares a false outage report they believed"],
+        ["Disinformation", "The facts, on purpose", "Yes, to deceive", "Coordinated accounts invent a product recall"],
+        ["Impersonation", "A person", "Yes", "A caller claiming to be the help desk"],
+        ["Brand impersonation", "An organisation's identity", "Yes", "A login page styled as the bank"],
+        ["Typosquatting", "A domain name", "Yes", "examp1e.com, registered to catch mistyped visitors"]
+      ],
+      "rule": "Mis- is a mistake, dis- is deliberate. Impersonation fakes a person, brand impersonation fakes an organisation, typosquatting fakes an address.",
+      "tell": "'coordinated', 'campaign', 'fabricated' signal disinformation; 'reshared', 'believed' signal misinformation; a near-miss domain is typosquatting.",
+      "trap": "A typosquatted domain usually serves a brand impersonation page, so both are present. The question asks which technique the stem is describing, and a one-character-off address is the typosquatting part."
+    }
+  },
+  {
+    "id": "unsecure-network-vectors",
+    "label": "Unsecure wireless vs wired vs Bluetooth, and open ports vs default credentials",
+    "objective": "2.2",
+    "topics": ["unsecure-wireless-networks", "unsecure-wired-networks", "bluetooth", "open-service-ports", "default-credentials"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You collapsed every network-side opening into 'the network'. The exam names the specific opening, because each one is closed by a different control.",
+      "contrast": [
+        ["Vector", "The opening", "Closed by"],
+        ["Unsecure wireless", "A network reachable from outside the walls with weak or no authentication", "WPA3, 802.1X, protected management frames"],
+        ["Unsecure wired", "A live port in a public area", "802.1X on the switch port, disabling unused ports, NAC"],
+        ["Bluetooth", "Discoverable devices accepting pairings", "Non-discoverable mode, pairing confirmation, off when unused"],
+        ["Open service port", "A listening service nobody needs", "Disable the service, host firewall"],
+        ["Default credentials", "A service anyone can log into with the factory password", "Change on commissioning, enforce at provisioning"]
+      ],
+      "rule": "Name the opening, then the control that closes exactly that opening. If your answer would also close three other openings, it is the wrong level.",
+      "tell": "'socket in reception', 'unknown device paired', 'factory password', 'listening on port' are each a different vector.",
+      "trap": "Default credentials are not a flaw in the software; the software is working as designed. They are a configuration the attacker counts on, and no patch fixes them."
+    }
   }
 ]

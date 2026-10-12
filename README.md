@@ -57,9 +57,9 @@ confidently wrong some of the time, with no way to tell which time.
 | | |
 |---|---|
 | Objectives | 5 domains, 28 objectives, 684 sub-topics from CompTIA's official objectives document, every one covered by at least one graded item |
-| Misconceptions | 176, each with diagnosis, contrast table, rule of thumb, what to look for in the stem, and why the wrong answer looked right |
-| Multiple choice | 449 original items, every distractor mapped to a misconception |
-| Multiple select | 37 "choose two/three" items, scored all or nothing like the exam |
+| Misconceptions | 180, each with diagnosis, contrast table, rule of thumb, what to look for in the stem, and why the wrong answer looked right |
+| Multiple choice | 465 original items, every distractor mapped to a misconception |
+| Multiple select | 38 "choose two/three" items, scored all or nothing like the exam |
 | Derived discrimination | 82 generated from imported vocabulary: "which term is being described", with sibling terms as distractors |
 | Recall vocabulary | 546 imported cards, capped at about 12% of a session |
 | PBQs | 21 across four engines, graded per subtask with partial credit |
@@ -176,7 +176,8 @@ not for redistribution.
 ## Known gaps
 
 - Depth, not breadth. Every topic is touched; the thinnest objectives by item
-  count are 2.2 (7 graded units over 28 topics) and 1.1 (8 over 10).
+  count are now 5.5, 5.3 and 5.6. 2.2 and 1.1, which were thinnest, hold
+  16 and 16 graded units.
 - The bank leans over on domain 4 and under on domain 2. Mocks draw by exam
   weight regardless, and the drill routes by what you have seen, so little of
   this reaches you.

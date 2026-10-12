@@ -143,19 +143,6 @@
     }
   },
   {
-    "id": "terminology-4-9",
-    "label": "Confusing neighbouring terms in 4.9",
-    "objective": "4.9",
-    "severity": "medium",
-    "mentor": {
-      "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 4.9 (data sources to support an investigation) contains families of terms that sound interchangeable and are separated by one attribute each.",
-      "contrast": [],
-      "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
-      "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
-      "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    }
-  },
-  {
     "id": "terminology-5-1",
     "label": "Confusing neighbouring terms in 5.1",
     "objective": "5.1",

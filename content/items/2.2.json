@@ -82,5 +82,131 @@
       {"id": "c", "text": "A denial of service attack", "misconception": "threat-vector-families", "why": "The support desk is overwhelmed by real people reacting to a story. No traffic is being directed at a service to exhaust it."},
       {"id": "d", "text": "Pretexting", "misconception": "phishing-variants", "why": "Pretexting builds a false scenario to extract something from a specific target. This is broadcast, and it asks nobody for anything."}
     ]
+  },
+  {
+    "id": "sec-2.2-033",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["removable-device", "file-based", "email"],
+    "difficulty": 3,
+    "stem": "A USB drive labelled 'Q3 salaries' is found in the car park. An employee plugs it in and opens the spreadsheet on it, which runs a macro. Which threat vector did the attacker use to get the payload onto the workstation?",
+    "options": [
+      {"id": "a", "text": "Removable device: the drive crossing the boundary is the route in", "correct": true, "why": "The vector is how the attacker first reached the machine. Physical media carried across the perimeter is the removable device vector; everything after that is payload."},
+      {"id": "b", "text": "Email, because the labelled drive works like a phishing lure", "misconception": "threat-vector-families", "why": "No message was sent. A lure can ride any vector; this one was physical."},
+      {"id": "c", "text": "File-based, because the macro in the spreadsheet is the weapon", "misconception": "threat-vector-families", "why": "File-based describes the payload. The question asked how it got onto the workstation, and the stem says so."},
+      {"id": "d", "text": "Vulnerable software, because the spreadsheet application ran the macro", "misconception": "threat-vector-families", "why": "Nothing was exploited. The application did what it was asked to do by a user who opened the file."}
+    ]
+  },
+  {
+    "id": "sec-2.2-034",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["unsupported-systems-and-applications", "vulnerable-software", "default-credentials"],
+    "difficulty": 3,
+    "stem": "An attacker gains a foothold through a building management controller running an operating system whose vendor ended support four years ago. No credential was guessed and no user was tricked. Which threat vector is this?",
+    "options": [
+      {"id": "a", "text": "Unsupported system: a weakness that will never be patched", "correct": true, "why": "The stem rules out credentials and people and names an end-of-support system. That is the unsupported systems and applications vector."},
+      {"id": "b", "text": "Default credentials", "misconception": "unsecure-network-vectors", "why": "The stem says no credential was guessed. Default credentials are a configuration the attacker logs in with; nothing was logged into here."},
+      {"id": "c", "text": "Vulnerable software with a patch available", "misconception": "threat-vector-families", "why": "A supported system with a patch waiting is vulnerable software. One whose vendor ended support can never be patched, which is why the exam lists it separately and why it is the worse case."},
+      {"id": "d", "text": "Pretexting against the facilities team", "misconception": "phishing-variants", "why": "No one was tricked. Pretexting needs a person to believe a story."}
+    ]
+  },
+  {
+    "id": "sec-2.2-035",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["unsecure-wired-networks", "unsecure-wireless-networks", "bluetooth", "open-service-ports"],
+    "difficulty": 3,
+    "stem": "A visitor in reception plugs a laptop into a wall socket behind a plant and receives an internal address. Which threat vector is this, and which control closes it?",
+    "options": [
+      {"id": "a", "text": "Unsecure wired network; enable 802.1X on the switch ports or disable the unused ones", "correct": true, "why": "A live jack in a public area is the unsecure wired vector, and port authentication or shutting the port is the control that closes exactly that opening."},
+      {"id": "b", "text": "Unsecure wireless network; move the access points to WPA3", "misconception": "unsecure-network-vectors", "why": "The visitor used a cable. WPA3 closes a wireless opening and leaves this one wide open."},
+      {"id": "c", "text": "Bluetooth; set devices to non-discoverable", "misconception": "unsecure-network-vectors", "why": "No pairing happened. Bluetooth is a device-to-device opening, not a wall socket."},
+      {"id": "d", "text": "Open service port; close the port on the server", "misconception": "unsecure-network-vectors", "why": "A switch port is a physical jack. An open service port is a listening service on a host, a different opening with a different fix."}
+    ]
+  },
+  {
+    "id": "sec-2.2-036",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["vendors", "managed-service-providers", "suppliers"],
+    "difficulty": 4,
+    "stem": "Three organisations are breached in the same week. In the first, a firmware update signed by the maker of their firewalls carried a backdoor. In the second, an attacker used a remote management tool's credentials to reach dozens of client networks at once. In the third, network cards bought for a new data centre arrived with modified firmware. Which supply chain vectors are these, in order?",
+    "options": [
+      {"id": "a", "text": "Vendor, managed service provider, supplier", "correct": true, "why": "A product's own update is the vendor; standing remote access across many clients is an MSP; tampered components arriving upstream is a supplier."},
+      {"id": "b", "text": "Supplier, vendor, managed service provider", "misconception": "supply-chain-roles", "why": "The firewall maker sold a finished product, which makes them a vendor; the component maker is the supplier; the remote tool with standing access is the MSP."},
+      {"id": "c", "text": "Vendor, vendor, vendor", "misconception": "supply-chain-roles", "why": "The exam separates them because each is closed differently: vendor updates by validation, MSP access by least privilege and monitoring, supplier components by inspection before deployment."},
+      {"id": "d", "text": "Managed service provider, supplier, vendor", "misconception": "supply-chain-roles", "why": "A signed firmware update is the product vendor's, and the remote management tool reaching many clients at once is the signature of an MSP."}
+    ]
+  },
+  {
+    "id": "sec-2.2-037",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["short-message-service", "instant-messaging", "voice-call", "smishing", "vishing"],
+    "difficulty": 2,
+    "stem": "Staff receive a text message with a link to 'reset your expiring password'. Which threat vector and which attack are these?",
+    "options": [
+      {"id": "a", "text": "SMS; smishing", "correct": true, "why": "A text message is the SMS vector, and phishing over SMS is smishing."},
+      {"id": "b", "text": "Instant messaging; phishing", "misconception": "threat-vector-families", "why": "The stem names a text message. Instant messaging is a different message vector with a different name for the attack."},
+      {"id": "c", "text": "Voice call; vishing", "misconception": "phishing-variants", "why": "Nobody called. Vishing is phishing by voice."},
+      {"id": "d", "text": "Email; phishing", "misconception": "phishing-variants", "why": "Phishing is defensible as the family, but the channel named is SMS, and the exam wants the precise term."}
+    ]
+  },
+  {
+    "id": "sec-2.2-038",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["typosquatting", "brand-impersonation", "misinformation-disinformation", "watering-hole"],
+    "difficulty": 3,
+    "stem": "A domain one character away from the company's own hosts a login page copied from the real one, and the address is circulated in posts claiming the company has been breached. Which technique best describes the domain itself?",
+    "options": [
+      {"id": "a", "text": "Typosquatting", "correct": true, "why": "A near-miss domain registered to catch mistypes and look legitimate is typosquatting. The page it serves and the posts promoting it are other techniques."},
+      {"id": "b", "text": "Brand impersonation", "misconception": "misinformation-vs-disinformation", "why": "The copied login page is brand impersonation. The question asked about the domain, and the one-character-off address is the typosquatting part."},
+      {"id": "c", "text": "Disinformation", "misconception": "misinformation-vs-disinformation", "why": "The breach posts are disinformation. The domain is a counterfeit address, not a false claim."},
+      {"id": "d", "text": "Watering hole", "misconception": "threat-vector-families", "why": "A watering hole compromises a legitimate site the targets already visit. This is a lure to a site the attacker built."}
+    ]
+  },
+  {
+    "id": "sec-2.2-039",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["misinformation-disinformation", "impersonation", "instant-messaging"],
+    "difficulty": 3,
+    "stem": "During a merger announcement an employee forwards an article to the whole company that falsely claims the deal has collapsed; the employee believed it. Separately, an account styled as the chief executive's posts the same claim with fabricated figures. Which is misinformation and which is disinformation?",
+    "options": [
+      {"id": "a", "text": "The forward is misinformation; the posts are disinformation", "correct": true, "why": "The employee spread a falsehood in good faith, which is misinformation. The fabricated, impersonating posts were made to deceive, which is disinformation."},
+      {"id": "b", "text": "Both are disinformation", "misconception": "misinformation-vs-disinformation", "why": "Disinformation is deliberate. The employee believed the article, so their forward is misinformation."},
+      {"id": "c", "text": "Both are misinformation", "misconception": "misinformation-vs-disinformation", "why": "Fabricated figures under a counterfeit identity are deliberate deception. That is disinformation."},
+      {"id": "d", "text": "The forward is impersonation; the posts are misinformation", "misconception": "misinformation-vs-disinformation", "why": "The employee impersonated nobody. The posts are the impersonation, and their content is disinformation."}
+    ]
+  },
+  {
+    "id": "sec-2.2-040",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["image-based", "file-based", "email", "vulnerable-software"],
+    "difficulty": 3,
+    "stem": "An attacker embeds a script inside an SVG image attached to an email. The script runs when the image is previewed. The question asks which vector carries the payload. Which is it?",
+    "options": [
+      {"id": "a", "text": "Image-based", "correct": true, "why": "The image is the carrier. Email delivered it, but the stem asks what carries the payload, and an image with executable content inside it is the image-based vector."},
+      {"id": "b", "text": "Email, because that is what arrived", "misconception": "threat-vector-families", "why": "Email is the delivery channel. When the stem asks what carries the payload rather than how it was delivered, it is asking for the file or image vector."},
+      {"id": "c", "text": "Vulnerable software, because the preview rendered it", "misconception": "threat-vector-families", "why": "Rendering an image is the software working as designed. Nothing was exploited; the content did the work."},
+      {"id": "d", "text": "Removable device", "misconception": "threat-vector-families", "why": "Nothing physical crossed the boundary. The image arrived over the network."}
+    ]
+  },
+  {
+    "id": "sec-2.2-041",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["managed-service-providers", "vendors"],
+    "difficulty": 3,
+    "stem": "An organisation outsources monitoring of its firewalls to a third party that holds administrative credentials and connects through a remote management agent. The third party is breached. Which threat vector is this, and what makes it more dangerous than a compromised software vendor?",
+    "options": [
+      {"id": "a", "text": "Managed service provider; it holds standing privileged access, so the breach reaches you without any update or user action", "correct": true, "why": "An MSP operates your systems with credentials you granted. Their attacker is already inside, which a vendor's attacker is not until you install something."},
+      {"id": "b", "text": "Vendor; the danger is the same as any compromised product", "misconception": "supply-chain-roles", "why": "A vendor sold a product; it reaches you when you take an update. An MSP already has the keys, which is a different and faster route."},
+      {"id": "c", "text": "Supplier; the agent is a component they supplied", "misconception": "supply-chain-roles", "why": "A supplier provides parts that go into what you run. The agent is the MSP's access path, not a component of your product."},
+      {"id": "d", "text": "Insider threat; the credentials belong to an internal account", "misconception": "supply-chain-roles", "why": "Access you granted to an outside party is a supply chain vector. The people using it are not your employees."}
+    ]
   }
 ]

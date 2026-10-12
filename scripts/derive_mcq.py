@@ -19,6 +19,13 @@ confused with it, drawn from the same objective. A wrong answer is told exactly
 which term it actually picked, which is the correction that matters.
 
 Usage: python3 scripts/derive_mcq.py [--target 250]
+       python3 scripts/derive_mcq.py --retag
+
+--retag re-points the questions that already exist at the authored
+misconceptions and gives them term-based ids, without regenerating them. Their
+source cards leave recall.json once a question supersedes them, so a full
+regeneration would derive a different set and orphan the progress recorded
+against this one.
 """
 import json, re, random, argparse, pathlib
 from collections import defaultdict
@@ -81,6 +88,88 @@ def _norm(text):
             w = w[:-1]
         toks.append(w)
     return " ".join(toks)
+
+
+# A distractor that is a known sibling of the answer banks the authored
+# misconception for that family, so a derived question feeds the same
+# correction the hand-written items do instead of a per-objective bucket. Terms
+# are matched after _norm(); only a pair inside one family resolves, and PAIRS
+# names the cross-family confusions worth routing somewhere specific.
+FAMILIES = {
+    "cia-triad-tradeoffs": ["confidentiality", "integrity", "availability", "non-repudiation"],
+    "obfuscation-methods": ["data masking", "tokenization", "steganography"],
+    "root-of-trust-hardware": ["hardware security module", "secure enclave", "trusted platform module"],
+    "key-management-essentials": ["key exchange", "key length", "key stretching", "key management system", "key escrow"],
+    "crl-vs-ocsp": ["online certificate status protocol", "certificate revocation list"],
+    "threat-actor-attributes": ["organized crime", "hacktivist", "nation-state", "unskilled attacker", "insider threat",
+                                "shadow it", "level of sophistication/capability", "resources/funding"],
+    "threat-actor-motivations": ["data exfiltration", "service disruption", "espionage", "blackmail", "financial gain",
+                                 "revenge", "disruption/chaos", "war", "philosophical/political beliefs", "ethical"],
+    "sqli-vs-xss": ["sql injection", "cross-site scripting"],
+    "race-condition-toctou": ["race condition", "time-of-check", "time-of-use"],
+    "impossible-travel-indicators": ["impossible travel", "concurrent session usage", "account lockout", "credential replay"],
+    "worm-vs-virus": ["worm", "virus"],
+    "trojan-vs-rootkit-vs-backdoor": ["trojan", "rootkit", "backdoor"],
+    "spyware-vs-bloatware-vs-pup": ["spyware", "bloatware", "keylogger"],
+    "spraying-vs-brute-force": ["password spraying", "password brute force", "credential stuffing"],
+    "app-attack-types": ["privilege escalation", "directory traversal", "forgery", "injection"],
+    "containers-vs-virtualization": ["containerization", "virtualization", "microservices"],
+    "air-gap-vs-logical-segmentation": ["air-gapped", "logical segmentation", "software-defined networking", "physical isolation"],
+    "architecture-tradeoffs": ["scalability", "resilience", "responsiveness", "compute", "cost", "ease of deployment",
+                               "ease of recovery", "availability", "power"],
+    "specialised-system-constraints": ["embedded system", "real-time operating system", "iot", "ics/scada"],
+    "ids-vs-ips-placement": ["intrusion detection system", "intrusion prevention system", "sensor"],
+    "waf-vs-ngfw-vs-utm": ["unified threat management", "next-generation firewall", "web application firewall"],
+    "fail-open-vs-fail-closed": ["fail-open", "fail-closed"],
+    "sdwan-vs-sase": ["secure access service edge", "software-defined wide area network", "virtual private network", "remote access"],
+    "site-types-hot-warm-cold": ["hot site", "warm site", "cold site"],
+    "backup-methods": ["replication", "journaling", "snapshot", "backup"],
+    "diversity-and-multicloud": ["geographic dispersion", "platform diversity", "multi-cloud system"],
+    "tabletop-vs-simulation": ["tabletop exercise", "simulation", "fail over", "parallel processing"],
+    "static-vs-dynamic-analysis": ["static analysis", "dynamic analysis", "package monitoring"],
+    "vuln-prioritization-inputs": ["common vulnerability scoring system", "environmental variable", "risk tolerance",
+                                   "exposure factor", "industry/organizational impact"],
+    "vuln-identification-sources": ["open-source intelligence", "proprietary/third-party threat feed",
+                                    "information-sharing organization", "dark web", "penetration testing",
+                                    "responsible disclosure program", "bug bounty program"],
+    "monitoring-capability-selection": ["endpoint detection and response", "file integrity monitoring",
+                                        "network access control", "data loss prevention", "user behavior analytic"],
+    "authenticator-types": ["passwordless", "security key", "hard/soft authentication token", "biometric"],
+    "sso-federation-protocols": ["single sign-on", "security assertion markup language", "open authorization",
+                                 "federation", "lightweight directory access protocol"],
+    "log-source-selection": ["endpoint log", "network log", "firewall log", "application log", "os-specific security log",
+                             "ips/ids log", "metadata", "packet capture"],
+    "policy-standard-procedure-guideline": ["information security policy", "guideline", "playbook", "standard", "procedure"],
+    "qualitative-vs-quantitative": ["qualitative risk analysis", "quantitative risk analysis"],
+    "sle-ale-aro": ["single loss expectancy", "annualized loss expectancy", "annualized rate of occurrence"],
+    "bia-vs-risk-assessment": ["business impact analysis", "risk assessment"],
+    "rto-vs-rpo": ["mean time to repair", "recovery time objective", "recovery point objective", "mean time between failure"],
+    "risk-appetite-vs-tolerance": ["risk appetite", "risk tolerance", "risk threshold"],
+}
+PAIRS = {
+    frozenset({"replication", "geographic dispersion"}): "diversity-and-multicloud",
+}
+
+
+def misconception_for(oid, answer, distractor):
+    a, d = _norm(answer), _norm(distractor)
+    if (mc := PAIRS.get(frozenset({a, d}))):
+        return mc
+    fam = {_norm(t): mid for mid, terms in FAMILIES.items() for t in terms}
+    if fam.get(a) and fam.get(a) == fam.get(d):
+        return fam[a]
+    return f"terminology-{oid.replace('.', '-')}"
+
+
+def slug_id(term, used):
+    """A readable id from the term itself, so it never changes under a
+    regeneration: d-hot-site, not the Anki note number it came from."""
+    base = "d-" + re.sub(r"[^a-z0-9]+", "-", re.sub(r"\([^)]*\)", " ", term.lower())).strip("-")
+    sid, n = base, 2
+    while sid in used:
+        sid = f"{base}-{n}"; n += 1
+    used[sid] = term
+    return sid
 
 
 def official_vocabulary():
@@ -152,6 +241,7 @@ def build(target_total):
         usable[oid].append({**it, "objective": oid, "_w": words(d)})
 
     derived, skipped_thin, weak = [], 0, 0
+    ids = {}
     for oid, pool in sorted(usable.items()):
         if len(pool) < 4:
             skipped_thin += len(pool)
@@ -209,13 +299,13 @@ def build(target_total):
                     entry["correct"] = True
                     entry["why"] = f"{o['term']} is the term for this."
                 else:
-                    entry["misconception"] = f"terminology-{oid.replace('.', '-')}"
+                    entry["misconception"] = misconception_for(oid, it["term"], o["term"])
                     entry["why"] = f"That is {o['term']}: {o['definition'].rstrip('.')}."
                 options.append(entry)
 
             made += 1
             derived.append({
-                "id": f"d-{it['id'].replace('anki-', '')}",
+                "id": slug_id(it["term"], ids),
                 "type": "mcq",
                 "source": "derived-from-recall",
                 "sourceItem": it["id"],
@@ -279,7 +369,30 @@ def build(target_total):
     print(f"  recall cards left as vocabulary only: {len(items) - len(derived)}")
 
 
+def retag():
+    items = json.loads(OUT_ITEMS.read_text())
+    ids = {}
+    for it in items:
+        answer = next(o["text"] for o in it["options"] if o.get("correct"))
+        it["id"] = slug_id(answer, ids)
+        for o in it["options"]:
+            if not o.get("correct"):
+                o["misconception"] = misconception_for(it["objective"], answer, o["text"])
+    OUT_ITEMS.write_text(json.dumps(items, indent=2, ensure_ascii=False) + "\n")
+    # A bucket nothing routes to any more cannot be retired, so it goes.
+    live = {o["misconception"] for it in items for o in it["options"] if not o.get("correct")}
+    mentors = [m for m in json.loads(OUT_MENTOR.read_text()) if m["id"] in live]
+    OUT_MENTOR.write_text(json.dumps(mentors, indent=2, ensure_ascii=False) + "\n")
+    routed = sum(1 for it in items for o in it["options"]
+                 if not o.get("correct") and not o["misconception"].startswith("terminology-"))
+    total = sum(1 for it in items for o in it["options"] if not o.get("correct"))
+    print(f"retagged {len(items)} derived questions: {routed} of {total} distractors now bank an "
+          f"authored misconception, {total - routed} stay in a terminology bucket")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--target", type=int, default=250)
-    build(ap.parse_args().target)
+    ap.add_argument("--retag", action="store_true")
+    a = ap.parse_args()
+    retag() if a.retag else build(a.target)

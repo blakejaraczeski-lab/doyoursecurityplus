@@ -163,6 +163,42 @@ export function resetState() {
 }
 
 /**
+ * Derived questions used to be filed under their source card's Anki note
+ * number (d-1748014780429); they are filed under the term now (d-hot-site).
+ * Progress recorded against the old id moves to the new one, everywhere an
+ * item id is kept, so a rename never costs a review. Idempotent and cheap.
+ */
+export function migrateIds(state, content) {
+  const renames = {};
+  for (const it of content.items) {
+    if (it.sourceItem?.startsWith("anki-")) {
+      const old = `d-${it.sourceItem.slice(5)}`;
+      if (old !== it.id) renames[old] = it.id;
+    }
+  }
+  const map = (id) => renames[id] || id;
+  let moved = 0;
+  for (const [oldId, newId] of Object.entries(renames)) {
+    if (state.items[oldId] && !state.items[newId]) {
+      state.items[newId] = state.items[oldId];
+      delete state.items[oldId];
+      moved += 1;
+    }
+  }
+  if (!moved) return 0;
+  for (const r of state.reviews || []) {
+    if (r.kind === "item") r.id = map(r.id);
+    if (r.item) r.item = map(r.item);
+  }
+  for (const m of Object.values(state.misconceptions || {})) {
+    if (m.cleanPasses) m.cleanPasses = m.cleanPasses.map(map);
+    if (m.lastItem) m.lastItem = map(m.lastItem);
+    if (m.firstItem) m.firstItem = map(m.firstItem);
+  }
+  return moved;
+}
+
+/**
  * Drop progress records whose item or PBQ no longer exists in the bank.
  * Regenerating derived content can change ids, and a record pointing at
  * nothing is dead weight: the scheduler cannot serve it and readiness cannot

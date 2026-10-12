@@ -1,6 +1,6 @@
 [
   {
-    "id": "d-1748014780429",
+    "id": "d-access-badges",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014780429",
@@ -16,7 +16,7 @@
     ]
   },
   {
-    "id": "d-1748014729539",
+    "id": "d-access-control-vestibule",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014729539",
@@ -32,7 +32,7 @@
     ]
   },
   {
-    "id": "d-1747959002433",
+    "id": "d-integrity",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1747959002433",
@@ -41,14 +41,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“Data is stored and transferred as intended and any modification is authorized”",
     "options": [
-      {"id": "a", "text": "Confidentiality", "misconception": "terminology-1-2", "definition": "Information should only be read by authorized persons", "why": "That is Confidentiality: Information should only be read by authorized persons."},
-      {"id": "b", "text": "Non-Repudiation", "misconception": "terminology-1-2", "definition": "Persons cannot deny creating or modifying data", "why": "That is Non-Repudiation: Persons cannot deny creating or modifying data."},
+      {"id": "a", "text": "Confidentiality", "misconception": "cia-triad-tradeoffs", "definition": "Information should only be read by authorized persons", "why": "That is Confidentiality: Information should only be read by authorized persons."},
+      {"id": "b", "text": "Non-Repudiation", "misconception": "cia-triad-tradeoffs", "definition": "Persons cannot deny creating or modifying data", "why": "That is Non-Repudiation: Persons cannot deny creating or modifying data."},
       {"id": "c", "text": "Integrity", "correct": true, "definition": "Data is stored and transferred as intended and any modification is authorized", "why": "Integrity is the term for this."},
       {"id": "d", "text": "Availability", "misconception": "terminology-1-2", "definition": "Information is accessible to those authorized to view or modify it", "why": "That is Availability: Information is accessible to those authorized to view or modify it."}
     ]
   },
   {
-    "id": "d-1747959012220",
+    "id": "d-availability",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1747959012220",
@@ -64,7 +64,7 @@
     ]
   },
   {
-    "id": "d-1747959074191",
+    "id": "d-non-repudiation",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1747959074191",
@@ -73,14 +73,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“Persons cannot deny creating or modifying data”",
     "options": [
-      {"id": "a", "text": "Confidentiality", "misconception": "terminology-1-2", "definition": "Information should only be read by authorized persons", "why": "That is Confidentiality: Information should only be read by authorized persons."},
+      {"id": "a", "text": "Confidentiality", "misconception": "cia-triad-tradeoffs", "definition": "Information should only be read by authorized persons", "why": "That is Confidentiality: Information should only be read by authorized persons."},
       {"id": "b", "text": "Authentication, Authorization, and Accounting", "misconception": "terminology-1-2", "definition": "A security concept where a centralized platform verifies subject identification, ensures the subject is assigned relevant permissions, and then logs these actions to create an audit trail", "why": "That is Authentication, Authorization, and Accounting: A security concept where a centralized platform verifies subject identification, ensures the subject is assigned relevant permissions, and then logs these actions to create an audit trail."},
-      {"id": "c", "text": "Integrity", "misconception": "terminology-1-2", "definition": "Data is stored and transferred as intended and any modification is authorized", "why": "That is Integrity: Data is stored and transferred as intended and any modification is authorized."},
+      {"id": "c", "text": "Integrity", "misconception": "cia-triad-tradeoffs", "definition": "Data is stored and transferred as intended and any modification is authorized", "why": "That is Integrity: Data is stored and transferred as intended and any modification is authorized."},
       {"id": "d", "text": "Non-Repudiation", "correct": true, "definition": "Persons cannot deny creating or modifying data", "why": "Non-Repudiation is the term for this."}
     ]
   },
   {
-    "id": "d-1747958995376",
+    "id": "d-confidentiality",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1747958995376",
@@ -89,14 +89,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“Information should only be read by authorized persons”",
     "options": [
-      {"id": "a", "text": "Non-Repudiation", "misconception": "terminology-1-2", "definition": "Persons cannot deny creating or modifying data", "why": "That is Non-Repudiation: Persons cannot deny creating or modifying data."},
-      {"id": "b", "text": "Integrity", "misconception": "terminology-1-2", "definition": "Data is stored and transferred as intended and any modification is authorized", "why": "That is Integrity: Data is stored and transferred as intended and any modification is authorized."},
+      {"id": "a", "text": "Non-Repudiation", "misconception": "cia-triad-tradeoffs", "definition": "Persons cannot deny creating or modifying data", "why": "That is Non-Repudiation: Persons cannot deny creating or modifying data."},
+      {"id": "b", "text": "Integrity", "misconception": "cia-triad-tradeoffs", "definition": "Data is stored and transferred as intended and any modification is authorized", "why": "That is Integrity: Data is stored and transferred as intended and any modification is authorized."},
       {"id": "c", "text": "Availability", "misconception": "terminology-1-2", "definition": "Information is accessible to those authorized to view or modify it", "why": "That is Availability: Information is accessible to those authorized to view or modify it."},
       {"id": "d", "text": "Confidentiality", "correct": true, "definition": "Information should only be read by authorized persons", "why": "Confidentiality is the term for this."}
     ]
   },
   {
-    "id": "d-1748010461497",
+    "id": "d-key-stretching",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748010461497",
@@ -105,14 +105,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A technique that strengthens potentially weak input for cryptographic key generation, such as passwords or passphrases created by people, against brute force attacks”",
     "options": [
-      {"id": "a", "text": "Key Management System", "misconception": "terminology-1-4", "definition": "In PKI, procedures and tools that centralizes generation and storage of cryptographic keys", "why": "That is Key Management System: In PKI, procedures and tools that centralizes generation and storage of cryptographic keys."},
+      {"id": "a", "text": "Key Management System", "misconception": "key-management-essentials", "definition": "In PKI, procedures and tools that centralizes generation and storage of cryptographic keys", "why": "That is Key Management System: In PKI, procedures and tools that centralizes generation and storage of cryptographic keys."},
       {"id": "b", "text": "Hardware Security Module", "misconception": "terminology-1-4", "definition": "An appliance for generating and storing cryptographic keys", "why": "That is Hardware Security Module: An appliance for generating and storing cryptographic keys."},
-      {"id": "c", "text": "Key Length", "misconception": "terminology-1-4", "definition": "Size of a cryptographic key in bits", "why": "That is Key Length: Size of a cryptographic key in bits."},
+      {"id": "c", "text": "Key Length", "misconception": "key-management-essentials", "definition": "Size of a cryptographic key in bits", "why": "That is Key Length: Size of a cryptographic key in bits."},
       {"id": "d", "text": "Key Stretching", "correct": true, "definition": "A technique that strengthens potentially weak input for cryptographic key generation, such as passwords or passphrases created by people, against brute force attacks", "why": "Key Stretching is the term for this."}
     ]
   },
   {
-    "id": "d-1748010555292",
+    "id": "d-data-masking",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748010555292",
@@ -124,11 +124,11 @@
       {"id": "a", "text": "Key Exchange", "misconception": "terminology-1-4", "definition": "Any method by which cryptographic keys are transferred among users", "why": "That is Key Exchange: Any method by which cryptographic keys are transferred among users."},
       {"id": "b", "text": "Data Masking", "correct": true, "definition": "A de-identification method where generic or placeholder labels are substituted for real data while preserving the structure or format of the original data", "why": "Data Masking is the term for this."},
       {"id": "c", "text": "Secure Enclave", "misconception": "terminology-1-4", "definition": "CPU extensions that protect data stored in system memory so that an untrusted process cannot read it", "why": "That is Secure Enclave: CPU extensions that protect data stored in system memory so that an untrusted process cannot read it."},
-      {"id": "d", "text": "Tokenization", "misconception": "terminology-1-4", "definition": "A de-identification method where a unique token is substituted for real data", "why": "That is Tokenization: A de-identification method where a unique token is substituted for real data."}
+      {"id": "d", "text": "Tokenization", "misconception": "obfuscation-methods", "definition": "A de-identification method where a unique token is substituted for real data", "why": "That is Tokenization: A de-identification method where a unique token is substituted for real data."}
     ]
   },
   {
-    "id": "d-1748009597359",
+    "id": "d-private-key",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009597359",
@@ -144,7 +144,7 @@
     ]
   },
   {
-    "id": "d-1748009584449",
+    "id": "d-public-key",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009584449",
@@ -160,7 +160,7 @@
     ]
   },
   {
-    "id": "d-1748009691166",
+    "id": "d-certificate-authority",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009691166",
@@ -176,7 +176,7 @@
     ]
   },
   {
-    "id": "d-1748009660571",
+    "id": "d-digital-signature",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009660571",
@@ -192,7 +192,7 @@
     ]
   },
   {
-    "id": "d-1748009960916",
+    "id": "d-online-certificate-status-protocol",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009960916",
@@ -208,7 +208,7 @@
     ]
   },
   {
-    "id": "d-1748010562093",
+    "id": "d-tokenization",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748010562093",
@@ -220,11 +220,11 @@
       {"id": "a", "text": "Secure Enclave", "misconception": "terminology-1-4", "definition": "CPU extensions that protect data stored in system memory so that an untrusted process cannot read it", "why": "That is Secure Enclave: CPU extensions that protect data stored in system memory so that an untrusted process cannot read it."},
       {"id": "b", "text": "Key Exchange", "misconception": "terminology-1-4", "definition": "Any method by which cryptographic keys are transferred among users", "why": "That is Key Exchange: Any method by which cryptographic keys are transferred among users."},
       {"id": "c", "text": "Tokenization", "correct": true, "definition": "A de-identification method where a unique token is substituted for real data", "why": "Tokenization is the term for this."},
-      {"id": "d", "text": "Data Masking", "misconception": "terminology-1-4", "definition": "A de-identification method where generic or placeholder labels are substituted for real data while preserving the structure or format of the original data", "why": "That is Data Masking: A de-identification method where generic or placeholder labels are substituted for real data while preserving the structure or format of the original data."}
+      {"id": "d", "text": "Data Masking", "misconception": "obfuscation-methods", "definition": "A de-identification method where generic or placeholder labels are substituted for real data while preserving the structure or format of the original data", "why": "That is Data Masking: A de-identification method where generic or placeholder labels are substituted for real data while preserving the structure or format of the original data."}
     ]
   },
   {
-    "id": "d-1748009102450",
+    "id": "d-data-exfiltration",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009102450",
@@ -234,13 +234,13 @@
     "stem": "Which term is being described?\n\n“The process by which an attacker takes data that is stored inside of a private network and moves it to an external network”",
     "options": [
       {"id": "a", "text": "Shadow IT", "misconception": "terminology-2-1", "definition": "Computer hardware, software, or services used on a private network without authorization from the system owner", "why": "That is Shadow IT: Computer hardware, software, or services used on a private network without authorization from the system owner."},
-      {"id": "b", "text": "Service Disruption", "misconception": "terminology-2-1", "definition": "A type of attack that compromises the availability of an asset or business process", "why": "That is Service Disruption: A type of attack that compromises the availability of an asset or business process."},
+      {"id": "b", "text": "Service Disruption", "misconception": "threat-actor-motivations", "definition": "A type of attack that compromises the availability of an asset or business process", "why": "That is Service Disruption: A type of attack that compromises the availability of an asset or business process."},
       {"id": "c", "text": "Data Exfiltration", "correct": true, "definition": "The process by which an attacker takes data that is stored inside of a private network and moves it to an external network", "why": "Data Exfiltration is the term for this."},
       {"id": "d", "text": "Organized Crime", "misconception": "terminology-2-1", "definition": "A type of threat actor that uses hacking and computer fraud for commercial gain", "why": "That is Organized Crime: A type of threat actor that uses hacking and computer fraud for commercial gain."}
     ]
   },
   {
-    "id": "d-1748009228406",
+    "id": "d-organized-crime",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009228406",
@@ -251,12 +251,12 @@
     "options": [
       {"id": "a", "text": "Service Disruption", "misconception": "terminology-2-1", "definition": "A type of attack that compromises the availability of an asset or business process", "why": "That is Service Disruption: A type of attack that compromises the availability of an asset or business process."},
       {"id": "b", "text": "Organized Crime", "correct": true, "definition": "A type of threat actor that uses hacking and computer fraud for commercial gain", "why": "Organized Crime is the term for this."},
-      {"id": "c", "text": "Level of Sophistication/Capability", "misconception": "terminology-2-1", "definition": "Refers to a threat actor's ability to use advanced exploit techniques and tools", "why": "That is Level of Sophistication/Capability: Refers to a threat actor's ability to use advanced exploit techniques and tools."},
-      {"id": "d", "text": "Hacktivists", "misconception": "terminology-2-1", "definition": "A threat actor that is motivated by a social issue or political cause", "why": "That is Hacktivists: A threat actor that is motivated by a social issue or political cause."}
+      {"id": "c", "text": "Level of Sophistication/Capability", "misconception": "threat-actor-attributes", "definition": "Refers to a threat actor's ability to use advanced exploit techniques and tools", "why": "That is Level of Sophistication/Capability: Refers to a threat actor's ability to use advanced exploit techniques and tools."},
+      {"id": "d", "text": "Hacktivists", "misconception": "threat-actor-attributes", "definition": "A threat actor that is motivated by a social issue or political cause", "why": "That is Hacktivists: A threat actor that is motivated by a social issue or political cause."}
     ]
   },
   {
-    "id": "d-1748009269136",
+    "id": "d-shadow-it",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009269136",
@@ -265,14 +265,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“Computer hardware, software, or services used on a private network without authorization from the system owner”",
     "options": [
-      {"id": "a", "text": "Level of Sophistication/Capability", "misconception": "terminology-2-1", "definition": "Refers to a threat actor's ability to use advanced exploit techniques and tools", "why": "That is Level of Sophistication/Capability: Refers to a threat actor's ability to use advanced exploit techniques and tools."},
-      {"id": "b", "text": "Organized Crime", "misconception": "terminology-2-1", "definition": "A type of threat actor that uses hacking and computer fraud for commercial gain", "why": "That is Organized Crime: A type of threat actor that uses hacking and computer fraud for commercial gain."},
+      {"id": "a", "text": "Level of Sophistication/Capability", "misconception": "threat-actor-attributes", "definition": "Refers to a threat actor's ability to use advanced exploit techniques and tools", "why": "That is Level of Sophistication/Capability: Refers to a threat actor's ability to use advanced exploit techniques and tools."},
+      {"id": "b", "text": "Organized Crime", "misconception": "threat-actor-attributes", "definition": "A type of threat actor that uses hacking and computer fraud for commercial gain", "why": "That is Organized Crime: A type of threat actor that uses hacking and computer fraud for commercial gain."},
       {"id": "c", "text": "Shadow IT", "correct": true, "definition": "Computer hardware, software, or services used on a private network without authorization from the system owner", "why": "Shadow IT is the term for this."},
       {"id": "d", "text": "Data Exfiltration", "misconception": "terminology-2-1", "definition": "The process by which an attacker takes data that is stored inside of a private network and moves it to an external network", "why": "That is Data Exfiltration: The process by which an attacker takes data that is stored inside of a private network and moves it to an external network."}
     ]
   },
   {
-    "id": "d-1748009070102",
+    "id": "d-level-of-sophistication-capability",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009070102",
@@ -283,12 +283,12 @@
     "options": [
       {"id": "a", "text": "Data Exfiltration", "misconception": "terminology-2-1", "definition": "The process by which an attacker takes data that is stored inside of a private network and moves it to an external network", "why": "That is Data Exfiltration: The process by which an attacker takes data that is stored inside of a private network and moves it to an external network."},
       {"id": "b", "text": "Level of Sophistication/Capability", "correct": true, "definition": "Refers to a threat actor's ability to use advanced exploit techniques and tools", "why": "Level of Sophistication/Capability is the term for this."},
-      {"id": "c", "text": "Organized Crime", "misconception": "terminology-2-1", "definition": "A type of threat actor that uses hacking and computer fraud for commercial gain", "why": "That is Organized Crime: A type of threat actor that uses hacking and computer fraud for commercial gain."},
-      {"id": "d", "text": "Hacktivists", "misconception": "terminology-2-1", "definition": "A threat actor that is motivated by a social issue or political cause", "why": "That is Hacktivists: A threat actor that is motivated by a social issue or political cause."}
+      {"id": "c", "text": "Organized Crime", "misconception": "threat-actor-attributes", "definition": "A type of threat actor that uses hacking and computer fraud for commercial gain", "why": "That is Organized Crime: A type of threat actor that uses hacking and computer fraud for commercial gain."},
+      {"id": "d", "text": "Hacktivists", "misconception": "threat-actor-attributes", "definition": "A threat actor that is motivated by a social issue or political cause", "why": "That is Hacktivists: A threat actor that is motivated by a social issue or political cause."}
     ]
   },
   {
-    "id": "d-1748009204127",
+    "id": "d-hacktivists",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748009204127",
@@ -297,14 +297,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A threat actor that is motivated by a social issue or political cause”",
     "options": [
-      {"id": "a", "text": "Organized Crime", "misconception": "terminology-2-1", "definition": "A type of threat actor that uses hacking and computer fraud for commercial gain", "why": "That is Organized Crime: A type of threat actor that uses hacking and computer fraud for commercial gain."},
+      {"id": "a", "text": "Organized Crime", "misconception": "threat-actor-attributes", "definition": "A type of threat actor that uses hacking and computer fraud for commercial gain", "why": "That is Organized Crime: A type of threat actor that uses hacking and computer fraud for commercial gain."},
       {"id": "b", "text": "Hacktivists", "correct": true, "definition": "A threat actor that is motivated by a social issue or political cause", "why": "Hacktivists is the term for this."},
       {"id": "c", "text": "Data Exfiltration", "misconception": "terminology-2-1", "definition": "The process by which an attacker takes data that is stored inside of a private network and moves it to an external network", "why": "That is Data Exfiltration: The process by which an attacker takes data that is stored inside of a private network and moves it to an external network."},
-      {"id": "d", "text": "Level of Sophistication/Capability", "misconception": "terminology-2-1", "definition": "Refers to a threat actor's ability to use advanced exploit techniques and tools", "why": "That is Level of Sophistication/Capability: Refers to a threat actor's ability to use advanced exploit techniques and tools."}
+      {"id": "d", "text": "Level of Sophistication/Capability", "misconception": "threat-actor-attributes", "definition": "Refers to a threat actor's ability to use advanced exploit techniques and tools", "why": "That is Level of Sophistication/Capability: Refers to a threat actor's ability to use advanced exploit techniques and tools."}
     ]
   },
   {
-    "id": "d-1748014858268",
+    "id": "d-race-condition",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014858268",
@@ -320,7 +320,7 @@
     ]
   },
   {
-    "id": "d-1748014889211",
+    "id": "d-memory-injection",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014889211",
@@ -336,7 +336,7 @@
     ]
   },
   {
-    "id": "d-1748014946615",
+    "id": "d-malicious-update",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014946615",
@@ -352,7 +352,7 @@
     ]
   },
   {
-    "id": "d-1748015047603",
+    "id": "d-sql-injection",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748015047603",
@@ -363,12 +363,12 @@
     "options": [
       {"id": "a", "text": "Buffer Overflow", "misconception": "terminology-2-3", "definition": "An attack in which data goes past the boundary of the destination buffer and begins to corrupt adjacent memory", "why": "That is Buffer Overflow: An attack in which data goes past the boundary of the destination buffer and begins to corrupt adjacent memory."},
       {"id": "b", "text": "Zero-Day", "misconception": "terminology-2-3", "definition": "A vulnerability in software that is unpatched by the developer or an attack that exploits such a vulnerability", "why": "That is Zero-Day: A vulnerability in software that is unpatched by the developer or an attack that exploits such a vulnerability."},
-      {"id": "c", "text": "Cross-Site Scripting", "misconception": "terminology-2-3", "definition": "A malicious script hosted on the attacker's site or coded in a link injected onto a trusted site designed to compromise clients browsing the trusted site, circumventing the browser's security model of trusted zones", "why": "That is Cross-Site Scripting: A malicious script hosted on the attacker's site or coded in a link injected onto a trusted site designed to compromise clients browsing the trusted site, circumventing the browser's security model of trusted zones."},
+      {"id": "c", "text": "Cross-Site Scripting", "misconception": "sqli-vs-xss", "definition": "A malicious script hosted on the attacker's site or coded in a link injected onto a trusted site designed to compromise clients browsing the trusted site, circumventing the browser's security model of trusted zones", "why": "That is Cross-Site Scripting: A malicious script hosted on the attacker's site or coded in a link injected onto a trusted site designed to compromise clients browsing the trusted site, circumventing the browser's security model of trusted zones."},
       {"id": "d", "text": "SQL Injection", "correct": true, "definition": "An attack that injects a database query into the input data directed at a server by accessing the client side of the application", "why": "SQL Injection is the term for this."}
     ]
   },
   {
-    "id": "d-1748014905994",
+    "id": "d-buffer-overflow",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014905994",
@@ -384,7 +384,7 @@
     ]
   },
   {
-    "id": "d-1748014828235",
+    "id": "d-zero-day",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014828235",
@@ -400,7 +400,7 @@
     ]
   },
   {
-    "id": "d-1748018117894",
+    "id": "d-blocked-content",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018117894",
@@ -416,7 +416,7 @@
     ]
   },
   {
-    "id": "d-1748017875187",
+    "id": "d-virus",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748017875187",
@@ -432,7 +432,7 @@
     ]
   },
   {
-    "id": "d-1748018022985",
+    "id": "d-ransomware",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018022985",
@@ -448,7 +448,7 @@
     ]
   },
   {
-    "id": "d-1748018087085",
+    "id": "d-resource-consumption",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018087085",
@@ -464,7 +464,7 @@
     ]
   },
   {
-    "id": "d-1748018158292",
+    "id": "d-impossible-travel",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018158292",
@@ -480,7 +480,7 @@
     ]
   },
   {
-    "id": "d-1748018500984",
+    "id": "d-credential-replay",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018500984",
@@ -490,13 +490,13 @@
     "stem": "Which term is being described?\n\n“An attack that uses a captured authentication token to start an unauthorized session without having to discover the plaintext password for an account”",
     "options": [
       {"id": "a", "text": "Password Spraying", "misconception": "terminology-2-4", "definition": "A brute force attack in which multiple user accounts are tested with a dictionary of common passwords", "why": "That is Password Spraying: A brute force attack in which multiple user accounts are tested with a dictionary of common passwords."},
-      {"id": "b", "text": "Account Lockout", "misconception": "terminology-2-4", "definition": "Policy that prevents access to an account under certain conditions, such as an excessive number of failed authentication attempts", "why": "That is Account Lockout: Policy that prevents access to an account under certain conditions, such as an excessive number of failed authentication attempts."},
-      {"id": "c", "text": "Concurrent Session Usage", "misconception": "terminology-2-4", "definition": "A potential indicator of malicious activity where an account has started multiple sessions on one or more hosts", "why": "That is Concurrent Session Usage: A potential indicator of malicious activity where an account has started multiple sessions on one or more hosts."},
+      {"id": "b", "text": "Account Lockout", "misconception": "impossible-travel-indicators", "definition": "Policy that prevents access to an account under certain conditions, such as an excessive number of failed authentication attempts", "why": "That is Account Lockout: Policy that prevents access to an account under certain conditions, such as an excessive number of failed authentication attempts."},
+      {"id": "c", "text": "Concurrent Session Usage", "misconception": "impossible-travel-indicators", "definition": "A potential indicator of malicious activity where an account has started multiple sessions on one or more hosts", "why": "That is Concurrent Session Usage: A potential indicator of malicious activity where an account has started multiple sessions on one or more hosts."},
       {"id": "d", "text": "Credential Replay", "correct": true, "definition": "An attack that uses a captured authentication token to start an unauthorized session without having to discover the plaintext password for an account", "why": "Credential Replay is the term for this."}
     ]
   },
   {
-    "id": "d-1748018698898",
+    "id": "d-privilege-escalation",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018698898",
@@ -512,7 +512,7 @@
     ]
   },
   {
-    "id": "d-1748017892132",
+    "id": "d-worm",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748017892132",
@@ -528,7 +528,7 @@
     ]
   },
   {
-    "id": "d-1748018136480",
+    "id": "d-account-lockout",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018136480",
@@ -537,14 +537,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“Policy that prevents access to an account under certain conditions, such as an excessive number of failed authentication attempts”",
     "options": [
-      {"id": "a", "text": "Credential Replay", "misconception": "terminology-2-4", "definition": "An attack that uses a captured authentication token to start an unauthorized session without having to discover the plaintext password for an account", "why": "That is Credential Replay: An attack that uses a captured authentication token to start an unauthorized session without having to discover the plaintext password for an account."},
-      {"id": "b", "text": "Impossible Travel", "misconception": "terminology-2-4", "definition": "A potential indicator of malicious activity where authentication attempts are made from different geographical locations within a short timeframe", "why": "That is Impossible Travel: A potential indicator of malicious activity where authentication attempts are made from different geographical locations within a short timeframe."},
+      {"id": "a", "text": "Credential Replay", "misconception": "impossible-travel-indicators", "definition": "An attack that uses a captured authentication token to start an unauthorized session without having to discover the plaintext password for an account", "why": "That is Credential Replay: An attack that uses a captured authentication token to start an unauthorized session without having to discover the plaintext password for an account."},
+      {"id": "b", "text": "Impossible Travel", "misconception": "impossible-travel-indicators", "definition": "A potential indicator of malicious activity where authentication attempts are made from different geographical locations within a short timeframe", "why": "That is Impossible Travel: A potential indicator of malicious activity where authentication attempts are made from different geographical locations within a short timeframe."},
       {"id": "c", "text": "Logic Bomb", "misconception": "terminology-2-4", "definition": "A malicious program or script that is set to run under particular circumstances or in response to a defined event", "why": "That is Logic Bomb: A malicious program or script that is set to run under particular circumstances or in response to a defined event."},
       {"id": "d", "text": "Account Lockout", "correct": true, "definition": "Policy that prevents access to an account under certain conditions, such as an excessive number of failed authentication attempts", "why": "Account Lockout is the term for this."}
     ]
   },
   {
-    "id": "d-1748018149066",
+    "id": "d-concurrent-session-usage",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018149066",
@@ -560,7 +560,7 @@
     ]
   },
   {
-    "id": "d-1748018048963",
+    "id": "d-logic-bomb",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018048963",
@@ -576,7 +576,7 @@
     ]
   },
   {
-    "id": "d-1748011991926",
+    "id": "d-logical-segmentation",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748011991926",
@@ -587,12 +587,12 @@
     "options": [
       {"id": "a", "text": "Compute", "misconception": "terminology-3-1", "definition": "resources that allow a host or network appliance to handle a given workload", "why": "That is Compute: resources that allow a host or network appliance to handle a given workload."},
       {"id": "b", "text": "Logical Segmentation", "correct": true, "definition": "Network topology enforced by switch, router, and firewall configuration where hosts on one network segment are prevented from or restricted in communicating with hosts on other segments", "why": "Logical Segmentation is the term for this."},
-      {"id": "c", "text": "Software-Defined Networking", "misconception": "terminology-3-1", "definition": "APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems", "why": "That is Software-Defined Networking: APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems."},
-      {"id": "d", "text": "Air-Gapped", "misconception": "terminology-3-1", "definition": "A type of network isolation that physically separates a host from other hosts or a network from all other networks", "why": "That is Air-Gapped: A type of network isolation that physically separates a host from other hosts or a network from all other networks."}
+      {"id": "c", "text": "Software-Defined Networking", "misconception": "air-gap-vs-logical-segmentation", "definition": "APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems", "why": "That is Software-Defined Networking: APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems."},
+      {"id": "d", "text": "Air-Gapped", "misconception": "air-gap-vs-logical-segmentation", "definition": "A type of network isolation that physically separates a host from other hosts or a network from all other networks", "why": "That is Air-Gapped: A type of network isolation that physically separates a host from other hosts or a network from all other networks."}
     ]
   },
   {
-    "id": "d-1748013679386",
+    "id": "d-virtualization",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748013679386",
@@ -601,14 +601,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously”",
     "options": [
-      {"id": "a", "text": "Containerization", "misconception": "terminology-3-1", "definition": "An operating system virtualization deployment containing everything required to run a service, application, or microservice", "why": "That is Containerization: An operating system virtualization deployment containing everything required to run a service, application, or microservice."},
+      {"id": "a", "text": "Containerization", "misconception": "containers-vs-virtualization", "definition": "An operating system virtualization deployment containing everything required to run a service, application, or microservice", "why": "That is Containerization: An operating system virtualization deployment containing everything required to run a service, application, or microservice."},
       {"id": "b", "text": "Virtualization", "correct": true, "definition": "A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously", "why": "Virtualization is the term for this."},
       {"id": "c", "text": "Software-Defined Networking", "misconception": "terminology-3-1", "definition": "APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems", "why": "That is Software-Defined Networking: APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems."},
-      {"id": "d", "text": "Microservices", "misconception": "terminology-3-1", "definition": "An independent, single-function module with well-defined and lightweight interfaces and operations", "why": "That is Microservices: An independent, single-function module with well-defined and lightweight interfaces and operations."}
+      {"id": "d", "text": "Microservices", "misconception": "containers-vs-virtualization", "definition": "An independent, single-function module with well-defined and lightweight interfaces and operations", "why": "That is Microservices: An independent, single-function module with well-defined and lightweight interfaces and operations."}
     ]
   },
   {
-    "id": "d-1748013730245",
+    "id": "d-containerization",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748013730245",
@@ -617,14 +617,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“An operating system virtualization deployment containing everything required to run a service, application, or microservice”",
     "options": [
-      {"id": "a", "text": "Virtualization", "misconception": "terminology-3-1", "definition": "A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously", "why": "That is Virtualization: A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously."},
+      {"id": "a", "text": "Virtualization", "misconception": "containers-vs-virtualization", "definition": "A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously", "why": "That is Virtualization: A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously."},
       {"id": "b", "text": "Responsiveness", "misconception": "terminology-3-1", "definition": "The ability of a system to process a task or workload within an acceptable amount of time", "why": "That is Responsiveness: The ability of a system to process a task or workload within an acceptable amount of time."},
       {"id": "c", "text": "Containerization", "correct": true, "definition": "An operating system virtualization deployment containing everything required to run a service, application, or microservice", "why": "Containerization is the term for this."},
       {"id": "d", "text": "Embedded Systems", "misconception": "terminology-3-1", "definition": "An electronic system that is designed to perform a specific, dedicated function", "why": "That is Embedded Systems: An electronic system that is designed to perform a specific, dedicated function."}
     ]
   },
   {
-    "id": "d-1748012187309",
+    "id": "d-scalability",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012187309",
@@ -640,7 +640,7 @@
     ]
   },
   {
-    "id": "d-1748012201228",
+    "id": "d-resilience",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012201228",
@@ -649,14 +649,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“The ability of a system or network to recover quickly from failure events with no or minimal manual intervention”",
     "options": [
-      {"id": "a", "text": "Responsiveness", "misconception": "terminology-3-1", "definition": "The ability of a system to process a task or workload within an acceptable amount of time", "why": "That is Responsiveness: The ability of a system to process a task or workload within an acceptable amount of time."},
+      {"id": "a", "text": "Responsiveness", "misconception": "architecture-tradeoffs", "definition": "The ability of a system to process a task or workload within an acceptable amount of time", "why": "That is Responsiveness: The ability of a system to process a task or workload within an acceptable amount of time."},
       {"id": "b", "text": "Embedded Systems", "misconception": "terminology-3-1", "definition": "An electronic system that is designed to perform a specific, dedicated function", "why": "That is Embedded Systems: An electronic system that is designed to perform a specific, dedicated function."},
       {"id": "c", "text": "Air-Gapped", "misconception": "terminology-3-1", "definition": "A type of network isolation that physically separates a host from other hosts or a network from all other networks", "why": "That is Air-Gapped: A type of network isolation that physically separates a host from other hosts or a network from all other networks."},
       {"id": "d", "text": "Resilience", "correct": true, "definition": "The ability of a system or network to recover quickly from failure events with no or minimal manual intervention", "why": "Resilience is the term for this."}
     ]
   },
   {
-    "id": "d-1748013759264",
+    "id": "d-microservices",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748013759264",
@@ -665,14 +665,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“An independent, single-function module with well-defined and lightweight interfaces and operations”",
     "options": [
-      {"id": "a", "text": "Virtualization", "misconception": "terminology-3-1", "definition": "A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously", "why": "That is Virtualization: A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously."},
+      {"id": "a", "text": "Virtualization", "misconception": "containers-vs-virtualization", "definition": "A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously", "why": "That is Virtualization: A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously."},
       {"id": "b", "text": "Microservices", "correct": true, "definition": "An independent, single-function module with well-defined and lightweight interfaces and operations", "why": "Microservices is the term for this."},
       {"id": "c", "text": "Real-Time Operating Systems", "misconception": "terminology-3-1", "definition": "A type of OS that prioritizes deterministic execution of operations to ensure consistent response for time-critical tasks", "why": "That is Real-Time Operating Systems: A type of OS that prioritizes deterministic execution of operations to ensure consistent response for time-critical tasks."},
       {"id": "d", "text": "Embedded Systems", "misconception": "terminology-3-1", "definition": "An electronic system that is designed to perform a specific, dedicated function", "why": "That is Embedded Systems: An electronic system that is designed to perform a specific, dedicated function."}
     ]
   },
   {
-    "id": "d-1748013792510",
+    "id": "d-software-defined-networking",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748013792510",
@@ -682,13 +682,13 @@
     "stem": "Which term is being described?\n\n“APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems”",
     "options": [
       {"id": "a", "text": "Virtualization", "misconception": "terminology-3-1", "definition": "A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously", "why": "That is Virtualization: A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously."},
-      {"id": "b", "text": "Air-Gapped", "misconception": "terminology-3-1", "definition": "A type of network isolation that physically separates a host from other hosts or a network from all other networks", "why": "That is Air-Gapped: A type of network isolation that physically separates a host from other hosts or a network from all other networks."},
+      {"id": "b", "text": "Air-Gapped", "misconception": "air-gap-vs-logical-segmentation", "definition": "A type of network isolation that physically separates a host from other hosts or a network from all other networks", "why": "That is Air-Gapped: A type of network isolation that physically separates a host from other hosts or a network from all other networks."},
       {"id": "c", "text": "Compute", "misconception": "terminology-3-1", "definition": "resources that allow a host or network appliance to handle a given workload", "why": "That is Compute: resources that allow a host or network appliance to handle a given workload."},
       {"id": "d", "text": "Software-Defined Networking", "correct": true, "definition": "APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems", "why": "Software-Defined Networking is the term for this."}
     ]
   },
   {
-    "id": "d-1748012159033",
+    "id": "d-air-gapped",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012159033",
@@ -697,14 +697,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A type of network isolation that physically separates a host from other hosts or a network from all other networks”",
     "options": [
-      {"id": "a", "text": "Software-Defined Networking", "misconception": "terminology-3-1", "definition": "APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems", "why": "That is Software-Defined Networking: APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems."},
+      {"id": "a", "text": "Software-Defined Networking", "misconception": "air-gap-vs-logical-segmentation", "definition": "APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems", "why": "That is Software-Defined Networking: APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems."},
       {"id": "b", "text": "Air-Gapped", "correct": true, "definition": "A type of network isolation that physically separates a host from other hosts or a network from all other networks", "why": "Air-Gapped is the term for this."},
       {"id": "c", "text": "Compute", "misconception": "terminology-3-1", "definition": "resources that allow a host or network appliance to handle a given workload", "why": "That is Compute: resources that allow a host or network appliance to handle a given workload."},
-      {"id": "d", "text": "Logical Segmentation", "misconception": "terminology-3-1", "definition": "Network topology enforced by switch, router, and firewall configuration where hosts on one network segment are prevented from or restricted in communicating with hosts on other segments", "why": "That is Logical Segmentation: Network topology enforced by switch, router, and firewall configuration where hosts on one network segment are prevented from or restricted in communicating with hosts on other segments."}
+      {"id": "d", "text": "Logical Segmentation", "misconception": "air-gap-vs-logical-segmentation", "definition": "Network topology enforced by switch, router, and firewall configuration where hosts on one network segment are prevented from or restricted in communicating with hosts on other segments", "why": "That is Logical Segmentation: Network topology enforced by switch, router, and firewall configuration where hosts on one network segment are prevented from or restricted in communicating with hosts on other segments."}
     ]
   },
   {
-    "id": "d-1748012164887",
+    "id": "d-compute",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012164887",
@@ -715,12 +715,12 @@
     "options": [
       {"id": "a", "text": "Infrastructure as Code", "misconception": "terminology-3-1", "definition": "Provisioning architecture in which deployment of resources is performed by scripted automation and orchestration", "why": "That is Infrastructure as Code: Provisioning architecture in which deployment of resources is performed by scripted automation and orchestration."},
       {"id": "b", "text": "Compute", "correct": true, "definition": "resources that allow a host or network appliance to handle a given workload", "why": "Compute is the term for this."},
-      {"id": "c", "text": "Responsiveness", "misconception": "terminology-3-1", "definition": "The ability of a system to process a task or workload within an acceptable amount of time", "why": "That is Responsiveness: The ability of a system to process a task or workload within an acceptable amount of time."},
+      {"id": "c", "text": "Responsiveness", "misconception": "architecture-tradeoffs", "definition": "The ability of a system to process a task or workload within an acceptable amount of time", "why": "That is Responsiveness: The ability of a system to process a task or workload within an acceptable amount of time."},
       {"id": "d", "text": "Air-Gapped", "misconception": "terminology-3-1", "definition": "A type of network isolation that physically separates a host from other hosts or a network from all other networks", "why": "That is Air-Gapped: A type of network isolation that physically separates a host from other hosts or a network from all other networks."}
     ]
   },
   {
-    "id": "d-1748012183307",
+    "id": "d-responsiveness",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012183307",
@@ -731,12 +731,12 @@
     "options": [
       {"id": "a", "text": "Responsiveness", "correct": true, "definition": "The ability of a system to process a task or workload within an acceptable amount of time", "why": "Responsiveness is the term for this."},
       {"id": "b", "text": "Embedded Systems", "misconception": "terminology-3-1", "definition": "An electronic system that is designed to perform a specific, dedicated function", "why": "That is Embedded Systems: An electronic system that is designed to perform a specific, dedicated function."},
-      {"id": "c", "text": "Resilience", "misconception": "terminology-3-1", "definition": "The ability of a system or network to recover quickly from failure events with no or minimal manual intervention", "why": "That is Resilience: The ability of a system or network to recover quickly from failure events with no or minimal manual intervention."},
-      {"id": "d", "text": "Compute", "misconception": "terminology-3-1", "definition": "resources that allow a host or network appliance to handle a given workload", "why": "That is Compute: resources that allow a host or network appliance to handle a given workload."}
+      {"id": "c", "text": "Resilience", "misconception": "architecture-tradeoffs", "definition": "The ability of a system or network to recover quickly from failure events with no or minimal manual intervention", "why": "That is Resilience: The ability of a system or network to recover quickly from failure events with no or minimal manual intervention."},
+      {"id": "d", "text": "Compute", "misconception": "architecture-tradeoffs", "definition": "resources that allow a host or network appliance to handle a given workload", "why": "That is Compute: resources that allow a host or network appliance to handle a given workload."}
     ]
   },
   {
-    "id": "d-1748012660844",
+    "id": "d-unified-threat-management",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012660844",
@@ -752,7 +752,7 @@
     ]
   },
   {
-    "id": "d-1748012232586",
+    "id": "d-device-placement",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012232586",
@@ -768,7 +768,7 @@
     ]
   },
   {
-    "id": "d-1748013037086",
+    "id": "d-remote-access",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748013037086",
@@ -784,7 +784,7 @@
     ]
   },
   {
-    "id": "d-1748012605947",
+    "id": "d-intrusion-detection-system",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012605947",
@@ -794,13 +794,13 @@
     "stem": "Which term is being described?\n\n“A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules”",
     "options": [
       {"id": "a", "text": "Unified Threat Management", "misconception": "terminology-3-2", "definition": "All-in-one security appliances and agents that combine the functions of a firewall, malware scanner, intrusion detection, vulnerability scanner, data-loss prevention, content filtering, and so on", "why": "That is Unified Threat Management: All-in-one security appliances and agents that combine the functions of a firewall, malware scanner, intrusion detection, vulnerability scanner, data-loss prevention, content filtering, and so on."},
-      {"id": "b", "text": "Sensors", "misconception": "terminology-3-2", "definition": "A component in an alarm system that identifies unauthorized entry via infrared-, ultrasonic-, microwave-, or pressure-based detection of thermal changes or movement", "why": "That is Sensors: A component in an alarm system that identifies unauthorized entry via infrared-, ultrasonic-, microwave-, or pressure-based detection of thermal changes or movement."},
-      {"id": "c", "text": "Intrusion Prevention System", "misconception": "terminology-3-2", "definition": "A security appliance or software that combines detection capabilities with functions that can actively block attacks", "why": "That is Intrusion Prevention System: A security appliance or software that combines detection capabilities with functions that can actively block attacks."},
+      {"id": "b", "text": "Sensors", "misconception": "ids-vs-ips-placement", "definition": "A component in an alarm system that identifies unauthorized entry via infrared-, ultrasonic-, microwave-, or pressure-based detection of thermal changes or movement", "why": "That is Sensors: A component in an alarm system that identifies unauthorized entry via infrared-, ultrasonic-, microwave-, or pressure-based detection of thermal changes or movement."},
+      {"id": "c", "text": "Intrusion Prevention System", "misconception": "ids-vs-ips-placement", "definition": "A security appliance or software that combines detection capabilities with functions that can actively block attacks", "why": "That is Intrusion Prevention System: A security appliance or software that combines detection capabilities with functions that can actively block attacks."},
       {"id": "d", "text": "Intrusion Detection System", "correct": true, "definition": "A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules", "why": "Intrusion Detection System is the term for this."}
     ]
   },
   {
-    "id": "d-1748013844734",
+    "id": "d-secure-access-service-edge",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748013844734",
@@ -816,7 +816,7 @@
     ]
   },
   {
-    "id": "d-1748012272652",
+    "id": "d-sensor",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012272652",
@@ -826,13 +826,13 @@
     "stem": "Which term is being described?\n\n“A monitor that records (or \"sniffs\") data from frames as they pass over network media”",
     "options": [
       {"id": "a", "text": "Security Zone", "misconception": "terminology-3-2", "definition": "An area of the network (or of a connected network) where the security configuration is the same for all hosts within it", "why": "That is Security Zone: An area of the network (or of a connected network) where the security configuration is the same for all hosts within it."},
-      {"id": "b", "text": "Intrusion Detection System", "misconception": "terminology-3-2", "definition": "A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules", "why": "That is Intrusion Detection System: A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules."},
+      {"id": "b", "text": "Intrusion Detection System", "misconception": "ids-vs-ips-placement", "definition": "A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules", "why": "That is Intrusion Detection System: A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules."},
       {"id": "c", "text": "Sensor", "correct": true, "definition": "A monitor that records (or \"sniffs\") data from frames as they pass over network media", "why": "Sensor is the term for this."},
       {"id": "d", "text": "Remote Access", "misconception": "terminology-3-2", "definition": "Infrastructure, protocols, and software that allow a host to join a local network from a physically remote location, or that allow a session on a host to be established over a network", "why": "That is Remote Access: Infrastructure, protocols, and software that allow a host to join a local network from a physically remote location, or that allow a session on a host to be established over a network."}
     ]
   },
   {
-    "id": "d-1748012631126",
+    "id": "d-intrusion-prevention-system",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012631126",
@@ -843,12 +843,12 @@
     "options": [
       {"id": "a", "text": "Unified Threat Management", "misconception": "terminology-3-2", "definition": "All-in-one security appliances and agents that combine the functions of a firewall, malware scanner, intrusion detection, vulnerability scanner, data-loss prevention, content filtering, and so on", "why": "That is Unified Threat Management: All-in-one security appliances and agents that combine the functions of a firewall, malware scanner, intrusion detection, vulnerability scanner, data-loss prevention, content filtering, and so on."},
       {"id": "b", "text": "Intrusion Prevention System", "correct": true, "definition": "A security appliance or software that combines detection capabilities with functions that can actively block attacks", "why": "Intrusion Prevention System is the term for this."},
-      {"id": "c", "text": "Intrusion Detection System", "misconception": "terminology-3-2", "definition": "A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules", "why": "That is Intrusion Detection System: A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules."},
-      {"id": "d", "text": "Sensors", "misconception": "terminology-3-2", "definition": "A component in an alarm system that identifies unauthorized entry via infrared-, ultrasonic-, microwave-, or pressure-based detection of thermal changes or movement", "why": "That is Sensors: A component in an alarm system that identifies unauthorized entry via infrared-, ultrasonic-, microwave-, or pressure-based detection of thermal changes or movement."}
+      {"id": "c", "text": "Intrusion Detection System", "misconception": "ids-vs-ips-placement", "definition": "A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules", "why": "That is Intrusion Detection System: A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules."},
+      {"id": "d", "text": "Sensors", "misconception": "ids-vs-ips-placement", "definition": "A component in an alarm system that identifies unauthorized entry via infrared-, ultrasonic-, microwave-, or pressure-based detection of thermal changes or movement", "why": "That is Sensors: A component in an alarm system that identifies unauthorized entry via infrared-, ultrasonic-, microwave-, or pressure-based detection of thermal changes or movement."}
     ]
   },
   {
-    "id": "d-1748012327495",
+    "id": "d-fail-open",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012327495",
@@ -857,14 +857,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A security control configuration that ensures continued access to the resource in the event of failure”",
     "options": [
-      {"id": "a", "text": "Fail-closed", "misconception": "terminology-3-2", "definition": "A security control configuration that blocks access to a resource in the event of failure", "why": "That is Fail-closed: A security control configuration that blocks access to a resource in the event of failure."},
+      {"id": "a", "text": "Fail-closed", "misconception": "fail-open-vs-fail-closed", "definition": "A security control configuration that blocks access to a resource in the event of failure", "why": "That is Fail-closed: A security control configuration that blocks access to a resource in the event of failure."},
       {"id": "b", "text": "Fail-open", "correct": true, "definition": "A security control configuration that ensures continued access to the resource in the event of failure", "why": "Fail-open is the term for this."},
       {"id": "c", "text": "Secure Access Service Edge", "misconception": "terminology-3-2", "definition": "A networking and security architecture that provides secure access to cloud applications and services while reducing complexity", "why": "That is Secure Access Service Edge: A networking and security architecture that provides secure access to cloud applications and services while reducing complexity."},
       {"id": "d", "text": "Security Zone", "misconception": "terminology-3-2", "definition": "An area of the network (or of a connected network) where the security configuration is the same for all hosts within it", "why": "That is Security Zone: An area of the network (or of a connected network) where the security configuration is the same for all hosts within it."}
     ]
   },
   {
-    "id": "d-1748012034824",
+    "id": "d-security-zone",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012034824",
@@ -880,7 +880,7 @@
     ]
   },
   {
-    "id": "d-1748012333389",
+    "id": "d-fail-closed",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748012333389",
@@ -890,13 +890,13 @@
     "stem": "Which term is being described?\n\n“A security control configuration that blocks access to a resource in the event of failure”",
     "options": [
       {"id": "a", "text": "Fail-closed", "correct": true, "definition": "A security control configuration that blocks access to a resource in the event of failure", "why": "Fail-closed is the term for this."},
-      {"id": "b", "text": "Fail-open", "misconception": "terminology-3-2", "definition": "A security control configuration that ensures continued access to the resource in the event of failure", "why": "That is Fail-open: A security control configuration that ensures continued access to the resource in the event of failure."},
+      {"id": "b", "text": "Fail-open", "misconception": "fail-open-vs-fail-closed", "definition": "A security control configuration that ensures continued access to the resource in the event of failure", "why": "That is Fail-open: A security control configuration that ensures continued access to the resource in the event of failure."},
       {"id": "c", "text": "Secure Access Service Edge", "misconception": "terminology-3-2", "definition": "A networking and security architecture that provides secure access to cloud applications and services while reducing complexity", "why": "That is Secure Access Service Edge: A networking and security architecture that provides secure access to cloud applications and services while reducing complexity."},
       {"id": "d", "text": "Security Zone", "misconception": "terminology-3-2", "definition": "An area of the network (or of a connected network) where the security configuration is the same for all hosts within it", "why": "That is Security Zone: An area of the network (or of a connected network) where the security configuration is the same for all hosts within it."}
     ]
   },
   {
-    "id": "d-1748014499120",
+    "id": "d-hot-site",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014499120",
@@ -908,11 +908,11 @@
       {"id": "a", "text": "Continuity of Operations", "misconception": "terminology-3-4", "definition": "Identifies how business processes should deal with both minor and disaster-level disruption by ensuring that there is processing redundancy supporting the workflow", "why": "That is Continuity of Operations: Identifies how business processes should deal with both minor and disaster-level disruption by ensuring that there is processing redundancy supporting the workflow."},
       {"id": "b", "text": "Hot Site", "correct": true, "definition": "A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster", "why": "Hot Site is the term for this."},
       {"id": "c", "text": "Replication", "misconception": "terminology-3-4", "definition": "Automatically copying data between two processing systems", "why": "That is Replication: Automatically copying data between two processing systems."},
-      {"id": "d", "text": "Cold Site", "misconception": "terminology-3-4", "definition": "A predetermined alternate location where a network can be rebuilt after a disaster", "why": "That is Cold Site: A predetermined alternate location where a network can be rebuilt after a disaster."}
+      {"id": "d", "text": "Cold Site", "misconception": "site-types-hot-warm-cold", "definition": "A predetermined alternate location where a network can be rebuilt after a disaster", "why": "That is Cold Site: A predetermined alternate location where a network can be rebuilt after a disaster."}
     ]
   },
   {
-    "id": "d-1748014526825",
+    "id": "d-geographic-dispersion",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014526825",
@@ -921,14 +921,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A resiliency mechanism where processing and data storage resources are replicated between physically distant sites”",
     "options": [
-      {"id": "a", "text": "Replication", "misconception": "terminology-3-4", "definition": "Automatically copying data between two processing systems", "why": "That is Replication: Automatically copying data between two processing systems."},
+      {"id": "a", "text": "Replication", "misconception": "diversity-and-multicloud", "definition": "Automatically copying data between two processing systems", "why": "That is Replication: Automatically copying data between two processing systems."},
       {"id": "b", "text": "Geographic Dispersion", "correct": true, "definition": "A resiliency mechanism where processing and data storage resources are replicated between physically distant sites", "why": "Geographic Dispersion is the term for this."},
       {"id": "c", "text": "Hot Site", "misconception": "terminology-3-4", "definition": "A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster", "why": "That is Hot Site: A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster."},
       {"id": "d", "text": "Cold Site", "misconception": "terminology-3-4", "definition": "A predetermined alternate location where a network can be rebuilt after a disaster", "why": "That is Cold Site: A predetermined alternate location where a network can be rebuilt after a disaster."}
     ]
   },
   {
-    "id": "d-1748014518883",
+    "id": "d-cold-site",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748014518883",
@@ -939,12 +939,12 @@
     "options": [
       {"id": "a", "text": "Geographic Dispersion", "misconception": "terminology-3-4", "definition": "A resiliency mechanism where processing and data storage resources are replicated between physically distant sites", "why": "That is Geographic Dispersion: A resiliency mechanism where processing and data storage resources are replicated between physically distant sites."},
       {"id": "b", "text": "Simulations", "misconception": "terminology-3-4", "definition": "A testing technique that replicates the conditions of a real-world disaster scenario or security incident", "why": "That is Simulations: A testing technique that replicates the conditions of a real-world disaster scenario or security incident."},
-      {"id": "c", "text": "Hot Site", "misconception": "terminology-3-4", "definition": "A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster", "why": "That is Hot Site: A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster."},
+      {"id": "c", "text": "Hot Site", "misconception": "site-types-hot-warm-cold", "definition": "A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster", "why": "That is Hot Site: A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster."},
       {"id": "d", "text": "Cold Site", "correct": true, "definition": "A predetermined alternate location where a network can be rebuilt after a disaster", "why": "Cold Site is the term for this."}
     ]
   },
   {
-    "id": "d-1748013714826",
+    "id": "d-replication",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748013714826",
@@ -954,13 +954,13 @@
     "stem": "Which term is being described?\n\n“Automatically copying data between two processing systems”",
     "options": [
       {"id": "a", "text": "Hot Site", "misconception": "terminology-3-4", "definition": "A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster", "why": "That is Hot Site: A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster."},
-      {"id": "b", "text": "Geographic Dispersion", "misconception": "terminology-3-4", "definition": "A resiliency mechanism where processing and data storage resources are replicated between physically distant sites", "why": "That is Geographic Dispersion: A resiliency mechanism where processing and data storage resources are replicated between physically distant sites."},
+      {"id": "b", "text": "Geographic Dispersion", "misconception": "diversity-and-multicloud", "definition": "A resiliency mechanism where processing and data storage resources are replicated between physically distant sites", "why": "That is Geographic Dispersion: A resiliency mechanism where processing and data storage resources are replicated between physically distant sites."},
       {"id": "c", "text": "Replication", "correct": true, "definition": "Automatically copying data between two processing systems", "why": "Replication is the term for this."},
-      {"id": "d", "text": "Journaling", "misconception": "terminology-3-4", "definition": "A method used by file systems to record changes not yet made to the file system in an object called a journal", "why": "That is Journaling: A method used by file systems to record changes not yet made to the file system in an object called a journal."}
+      {"id": "d", "text": "Journaling", "misconception": "backup-methods", "definition": "A method used by file systems to record changes not yet made to the file system in an object called a journal", "why": "That is Journaling: A method used by file systems to record changes not yet made to the file system in an object called a journal."}
     ]
   },
   {
-    "id": "d-1748015480994",
+    "id": "d-common-vulnerability-scoring-system",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748015480994",
@@ -970,13 +970,13 @@
     "stem": "Which term is being described?\n\n“A risk management approach to quantifying vulnerability data and then taking into account the degree of risk to different types of systems or information”",
     "options": [
       {"id": "a", "text": "Open-Source intelligence", "misconception": "terminology-4-3", "definition": "Publicly available information plus the tools used to aggregate and search it", "why": "That is Open-Source intelligence: Publicly available information plus the tools used to aggregate and search it."},
-      {"id": "b", "text": "Environmental Variables", "misconception": "terminology-4-3", "definition": "In vulnerability assessment, factors or metrics due to local network or host configuration that increase or decrease the base likelihood and impact risk level", "why": "That is Environmental Variables: In vulnerability assessment, factors or metrics due to local network or host configuration that increase or decrease the base likelihood and impact risk level."},
+      {"id": "b", "text": "Environmental Variables", "misconception": "vuln-prioritization-inputs", "definition": "In vulnerability assessment, factors or metrics due to local network or host configuration that increase or decrease the base likelihood and impact risk level", "why": "That is Environmental Variables: In vulnerability assessment, factors or metrics due to local network or host configuration that increase or decrease the base likelihood and impact risk level."},
       {"id": "c", "text": "Risk Tolerance", "misconception": "terminology-4-3", "definition": "Determines the thresholds that separate different levels of risk", "why": "That is Risk Tolerance: Determines the thresholds that separate different levels of risk."},
       {"id": "d", "text": "Common Vulnerability Scoring System", "correct": true, "definition": "A risk management approach to quantifying vulnerability data and then taking into account the degree of risk to different types of systems or information", "why": "Common Vulnerability Scoring System is the term for this."}
     ]
   },
   {
-    "id": "d-1748015165258",
+    "id": "d-package-monitoring",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748015165258",
@@ -986,13 +986,13 @@
     "stem": "Which term is being described?\n\n“Techniques and tools designed to mitigate risks from application vulnerabilities in third-party code”",
     "options": [
       {"id": "a", "text": "Package Monitoring", "correct": true, "definition": "Techniques and tools designed to mitigate risks from application vulnerabilities in third-party code", "why": "Package Monitoring is the term for this."},
-      {"id": "b", "text": "Dynamic Analysis", "misconception": "terminology-4-3", "definition": "Software testing that examines code behavior during runtime", "why": "That is Dynamic Analysis: Software testing that examines code behavior during runtime."},
-      {"id": "c", "text": "Static Analysis", "misconception": "terminology-4-3", "definition": "The process of reviewing uncompiled source code either manually or using automated tools", "why": "That is Static Analysis: The process of reviewing uncompiled source code either manually or using automated tools."},
+      {"id": "b", "text": "Dynamic Analysis", "misconception": "static-vs-dynamic-analysis", "definition": "Software testing that examines code behavior during runtime", "why": "That is Dynamic Analysis: Software testing that examines code behavior during runtime."},
+      {"id": "c", "text": "Static Analysis", "misconception": "static-vs-dynamic-analysis", "definition": "The process of reviewing uncompiled source code either manually or using automated tools", "why": "That is Static Analysis: The process of reviewing uncompiled source code either manually or using automated tools."},
       {"id": "d", "text": "Open-Source intelligence", "misconception": "terminology-4-3", "definition": "Publicly available information plus the tools used to aggregate and search it", "why": "That is Open-Source intelligence: Publicly available information plus the tools used to aggregate and search it."}
     ]
   },
   {
-    "id": "d-1748015143759",
+    "id": "d-static-analysis",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748015143759",
@@ -1001,14 +1001,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“The process of reviewing uncompiled source code either manually or using automated tools”",
     "options": [
-      {"id": "a", "text": "Package Monitoring", "misconception": "terminology-4-3", "definition": "Techniques and tools designed to mitigate risks from application vulnerabilities in third-party code", "why": "That is Package Monitoring: Techniques and tools designed to mitigate risks from application vulnerabilities in third-party code."},
+      {"id": "a", "text": "Package Monitoring", "misconception": "static-vs-dynamic-analysis", "definition": "Techniques and tools designed to mitigate risks from application vulnerabilities in third-party code", "why": "That is Package Monitoring: Techniques and tools designed to mitigate risks from application vulnerabilities in third-party code."},
       {"id": "b", "text": "Static Analysis", "correct": true, "definition": "The process of reviewing uncompiled source code either manually or using automated tools", "why": "Static Analysis is the term for this."},
-      {"id": "c", "text": "Dynamic Analysis", "misconception": "terminology-4-3", "definition": "Software testing that examines code behavior during runtime", "why": "That is Dynamic Analysis: Software testing that examines code behavior during runtime."},
+      {"id": "c", "text": "Dynamic Analysis", "misconception": "static-vs-dynamic-analysis", "definition": "Software testing that examines code behavior during runtime", "why": "That is Dynamic Analysis: Software testing that examines code behavior during runtime."},
       {"id": "d", "text": "Open-Source intelligence", "misconception": "terminology-4-3", "definition": "Publicly available information plus the tools used to aggregate and search it", "why": "That is Open-Source intelligence: Publicly available information plus the tools used to aggregate and search it."}
     ]
   },
   {
-    "id": "d-1748019597103",
+    "id": "d-risk-tolerance",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019597103",
@@ -1024,7 +1024,7 @@
     ]
   },
   {
-    "id": "d-1748016096879",
+    "id": "d-endpoint-detection-and-response",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748016096879",
@@ -1034,13 +1034,13 @@
     "stem": "Which term is being described?\n\n“A software agent that collects system data and logs for analysis by a monitoring system to provide early detection of threats”",
     "options": [
       {"id": "a", "text": "Screened Subnet", "misconception": "terminology-4-5", "definition": "A segment isolated from the rest of a private network by one or more firewalls that accepts connections from the Internet over designated ports", "why": "That is Screened Subnet: A segment isolated from the rest of a private network by one or more firewalls that accepts connections from the Internet over designated ports."},
-      {"id": "b", "text": "Network Access Control", "misconception": "terminology-4-5", "definition": "A general term for the collected protocols, policies, and hardware that authenticate and authorize access to a network at the device level", "why": "That is Network Access Control: A general term for the collected protocols, policies, and hardware that authenticate and authorize access to a network at the device level."},
+      {"id": "b", "text": "Network Access Control", "misconception": "monitoring-capability-selection", "definition": "A general term for the collected protocols, policies, and hardware that authenticate and authorize access to a network at the device level", "why": "That is Network Access Control: A general term for the collected protocols, policies, and hardware that authenticate and authorize access to a network at the device level."},
       {"id": "c", "text": "Endpoint Detection and Response", "correct": true, "definition": "A software agent that collects system data and logs for analysis by a monitoring system to provide early detection of threats", "why": "Endpoint Detection and Response is the term for this."},
-      {"id": "d", "text": "File Integrity Monitoring", "misconception": "terminology-4-5", "definition": "A type of software that reviews system files to ensure that they have not been tampered with", "why": "That is File Integrity Monitoring: A type of software that reviews system files to ensure that they have not been tampered with."}
+      {"id": "d", "text": "File Integrity Monitoring", "misconception": "monitoring-capability-selection", "definition": "A type of software that reviews system files to ensure that they have not been tampered with", "why": "That is File Integrity Monitoring: A type of software that reviews system files to ensure that they have not been tampered with."}
     ]
   },
   {
-    "id": "d-1748016174255",
+    "id": "d-file-integrity-monitoring",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748016174255",
@@ -1049,14 +1049,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A type of software that reviews system files to ensure that they have not been tampered with”",
     "options": [
-      {"id": "a", "text": "Network Access Control", "misconception": "terminology-4-5", "definition": "A general term for the collected protocols, policies, and hardware that authenticate and authorize access to a network at the device level", "why": "That is Network Access Control: A general term for the collected protocols, policies, and hardware that authenticate and authorize access to a network at the device level."},
+      {"id": "a", "text": "Network Access Control", "misconception": "monitoring-capability-selection", "definition": "A general term for the collected protocols, policies, and hardware that authenticate and authorize access to a network at the device level", "why": "That is Network Access Control: A general term for the collected protocols, policies, and hardware that authenticate and authorize access to a network at the device level."},
       {"id": "b", "text": "Screened Subnet", "misconception": "terminology-4-5", "definition": "A segment isolated from the rest of a private network by one or more firewalls that accepts connections from the Internet over designated ports", "why": "That is Screened Subnet: A segment isolated from the rest of a private network by one or more firewalls that accepts connections from the Internet over designated ports."},
       {"id": "c", "text": "File Integrity Monitoring", "correct": true, "definition": "A type of software that reviews system files to ensure that they have not been tampered with", "why": "File Integrity Monitoring is the term for this."},
-      {"id": "d", "text": "Endpoint Detection and Response", "misconception": "terminology-4-5", "definition": "A software agent that collects system data and logs for analysis by a monitoring system to provide early detection of threats", "why": "That is Endpoint Detection and Response: A software agent that collects system data and logs for analysis by a monitoring system to provide early detection of threats."}
+      {"id": "d", "text": "Endpoint Detection and Response", "misconception": "monitoring-capability-selection", "definition": "A software agent that collects system data and logs for analysis by a monitoring system to provide early detection of threats", "why": "That is Endpoint Detection and Response: A software agent that collects system data and logs for analysis by a monitoring system to provide early detection of threats."}
     ]
   },
   {
-    "id": "d-1748010817398",
+    "id": "d-passwordless",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748010817398",
@@ -1066,13 +1066,13 @@
     "stem": "Which term is being described?\n\n“Multifactor authentication scheme that uses ownership and biometric factors, but not knowledge factors”",
     "options": [
       {"id": "a", "text": "Passwordless", "correct": true, "definition": "Multifactor authentication scheme that uses ownership and biometric factors, but not knowledge factors", "why": "Passwordless is the term for this."},
-      {"id": "b", "text": "Security Key", "misconception": "terminology-4-6", "definition": "Portable HSM with a computer interface used for multifactor authentication", "why": "That is Security Key: Portable HSM with a computer interface used for multifactor authentication."},
+      {"id": "b", "text": "Security Key", "misconception": "authenticator-types", "definition": "Portable HSM with a computer interface used for multifactor authentication", "why": "That is Security Key: Portable HSM with a computer interface used for multifactor authentication."},
       {"id": "c", "text": "Security Assertion Markup Language", "misconception": "terminology-4-6", "definition": "An XML-based data format used to exchange authentication information between a client and a service", "why": "That is Security Assertion Markup Language: An XML-based data format used to exchange authentication information between a client and a service."},
       {"id": "d", "text": "Single Sign-On", "misconception": "terminology-4-6", "definition": "Authentication technology that enables a user to authenticate once and receive authorizations for multiple services", "why": "That is Single Sign-On: Authentication technology that enables a user to authenticate once and receive authorizations for multiple services."}
     ]
   },
   {
-    "id": "d-1748010797321",
+    "id": "d-security-key",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748010797321",
@@ -1083,12 +1083,12 @@
     "options": [
       {"id": "a", "text": "Security Key", "correct": true, "definition": "Portable HSM with a computer interface used for multifactor authentication", "why": "Security Key is the term for this."},
       {"id": "b", "text": "Security Assertion Markup Language", "misconception": "terminology-4-6", "definition": "An XML-based data format used to exchange authentication information between a client and a service", "why": "That is Security Assertion Markup Language: An XML-based data format used to exchange authentication information between a client and a service."},
-      {"id": "c", "text": "Passwordless", "misconception": "terminology-4-6", "definition": "Multifactor authentication scheme that uses ownership and biometric factors, but not knowledge factors", "why": "That is Passwordless: Multifactor authentication scheme that uses ownership and biometric factors, but not knowledge factors."},
+      {"id": "c", "text": "Passwordless", "misconception": "authenticator-types", "definition": "Multifactor authentication scheme that uses ownership and biometric factors, but not knowledge factors", "why": "That is Passwordless: Multifactor authentication scheme that uses ownership and biometric factors, but not knowledge factors."},
       {"id": "d", "text": "Single Sign-On", "misconception": "terminology-4-6", "definition": "Authentication technology that enables a user to authenticate once and receive authorizations for multiple services", "why": "That is Single Sign-On: Authentication technology that enables a user to authenticate once and receive authorizations for multiple services."}
     ]
   },
   {
-    "id": "d-1748017577717",
+    "id": "d-endpoint-log",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748017577717",
@@ -1097,14 +1097,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A target for security-related events generated by host-based malware and intrusion detection agents”",
     "options": [
-      {"id": "a", "text": "Application Log", "misconception": "terminology-4-9", "definition": "A target for event data relating to a specific software app or package", "why": "That is Application Log: A target for event data relating to a specific software app or package."},
-      {"id": "b", "text": "Network Log", "misconception": "terminology-4-9", "definition": "A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router", "why": "That is Network Log: A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router."},
+      {"id": "a", "text": "Application Log", "misconception": "log-source-selection", "definition": "A target for event data relating to a specific software app or package", "why": "That is Application Log: A target for event data relating to a specific software app or package."},
+      {"id": "b", "text": "Network Log", "misconception": "log-source-selection", "definition": "A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router", "why": "That is Network Log: A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router."},
       {"id": "c", "text": "Endpoint Log", "correct": true, "definition": "A target for security-related events generated by host-based malware and intrusion detection agents", "why": "Endpoint Log is the term for this."},
-      {"id": "d", "text": "Firewall Log", "misconception": "terminology-4-9", "definition": "A target for event data related to access rules that have been configured for logging", "why": "That is Firewall Log: A target for event data related to access rules that have been configured for logging."}
+      {"id": "d", "text": "Firewall Log", "misconception": "log-source-selection", "definition": "A target for event data related to access rules that have been configured for logging", "why": "That is Firewall Log: A target for event data related to access rules that have been configured for logging."}
     ]
   },
   {
-    "id": "d-1748017587747",
+    "id": "d-network-log",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748017587747",
@@ -1113,14 +1113,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router”",
     "options": [
-      {"id": "a", "text": "Firewall Log", "misconception": "terminology-4-9", "definition": "A target for event data related to access rules that have been configured for logging", "why": "That is Firewall Log: A target for event data related to access rules that have been configured for logging."},
-      {"id": "b", "text": "Metadata", "misconception": "terminology-4-9", "definition": "Information stored or recorded as a property of an object, state of a system, or transaction", "why": "That is Metadata: Information stored or recorded as a property of an object, state of a system, or transaction."},
+      {"id": "a", "text": "Firewall Log", "misconception": "log-source-selection", "definition": "A target for event data related to access rules that have been configured for logging", "why": "That is Firewall Log: A target for event data related to access rules that have been configured for logging."},
+      {"id": "b", "text": "Metadata", "misconception": "log-source-selection", "definition": "Information stored or recorded as a property of an object, state of a system, or transaction", "why": "That is Metadata: Information stored or recorded as a property of an object, state of a system, or transaction."},
       {"id": "c", "text": "Network Log", "correct": true, "definition": "A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router", "why": "Network Log is the term for this."},
-      {"id": "d", "text": "Endpoint Log", "misconception": "terminology-4-9", "definition": "A target for security-related events generated by host-based malware and intrusion detection agents", "why": "That is Endpoint Log: A target for security-related events generated by host-based malware and intrusion detection agents."}
+      {"id": "d", "text": "Endpoint Log", "misconception": "log-source-selection", "definition": "A target for security-related events generated by host-based malware and intrusion detection agents", "why": "That is Endpoint Log: A target for security-related events generated by host-based malware and intrusion detection agents."}
     ]
   },
   {
-    "id": "d-1748017600848",
+    "id": "d-firewall-log",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748017600848",
@@ -1130,13 +1130,13 @@
     "stem": "Which term is being described?\n\n“A target for event data related to access rules that have been configured for logging”",
     "options": [
       {"id": "a", "text": "Firewall Log", "correct": true, "definition": "A target for event data related to access rules that have been configured for logging", "why": "Firewall Log is the term for this."},
-      {"id": "b", "text": "Application Log", "misconception": "terminology-4-9", "definition": "A target for event data relating to a specific software app or package", "why": "That is Application Log: A target for event data relating to a specific software app or package."},
-      {"id": "c", "text": "Network Log", "misconception": "terminology-4-9", "definition": "A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router", "why": "That is Network Log: A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router."},
-      {"id": "d", "text": "Endpoint Log", "misconception": "terminology-4-9", "definition": "A target for security-related events generated by host-based malware and intrusion detection agents", "why": "That is Endpoint Log: A target for security-related events generated by host-based malware and intrusion detection agents."}
+      {"id": "b", "text": "Application Log", "misconception": "log-source-selection", "definition": "A target for event data relating to a specific software app or package", "why": "That is Application Log: A target for event data relating to a specific software app or package."},
+      {"id": "c", "text": "Network Log", "misconception": "log-source-selection", "definition": "A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router", "why": "That is Network Log: A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router."},
+      {"id": "d", "text": "Endpoint Log", "misconception": "log-source-selection", "definition": "A target for security-related events generated by host-based malware and intrusion detection agents", "why": "That is Endpoint Log: A target for security-related events generated by host-based malware and intrusion detection agents."}
     ]
   },
   {
-    "id": "d-1748017566806",
+    "id": "d-application-log",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748017566806",
@@ -1146,13 +1146,13 @@
     "stem": "Which term is being described?\n\n“A target for event data relating to a specific software app or package”",
     "options": [
       {"id": "a", "text": "Application Log", "correct": true, "definition": "A target for event data relating to a specific software app or package", "why": "Application Log is the term for this."},
-      {"id": "b", "text": "Endpoint Log", "misconception": "terminology-4-9", "definition": "A target for security-related events generated by host-based malware and intrusion detection agents", "why": "That is Endpoint Log: A target for security-related events generated by host-based malware and intrusion detection agents."},
-      {"id": "c", "text": "Firewall Log", "misconception": "terminology-4-9", "definition": "A target for event data related to access rules that have been configured for logging", "why": "That is Firewall Log: A target for event data related to access rules that have been configured for logging."},
-      {"id": "d", "text": "Network Log", "misconception": "terminology-4-9", "definition": "A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router", "why": "That is Network Log: A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router."}
+      {"id": "b", "text": "Endpoint Log", "misconception": "log-source-selection", "definition": "A target for security-related events generated by host-based malware and intrusion detection agents", "why": "That is Endpoint Log: A target for security-related events generated by host-based malware and intrusion detection agents."},
+      {"id": "c", "text": "Firewall Log", "misconception": "log-source-selection", "definition": "A target for event data related to access rules that have been configured for logging", "why": "That is Firewall Log: A target for event data related to access rules that have been configured for logging."},
+      {"id": "d", "text": "Network Log", "misconception": "log-source-selection", "definition": "A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router", "why": "That is Network Log: A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router."}
     ]
   },
   {
-    "id": "d-1748018927229",
+    "id": "d-information-security-policy",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748018927229",
@@ -1162,13 +1162,13 @@
     "stem": "Which term is being described?\n\n“A document or series of documents that are backed by senior management and that detail requirements for protecting technology and information assets from threats and misuse”",
     "options": [
       {"id": "a", "text": "Owner", "misconception": "terminology-5-1", "definition": "A senior (executive) role with ultimate responsibility for maintaining the confidentiality, integrity, and availability of an information asset", "why": "That is Owner: A senior (executive) role with ultimate responsibility for maintaining the confidentiality, integrity, and availability of an information asset."},
-      {"id": "b", "text": "Guidelines", "misconception": "terminology-5-1", "definition": "Best practice recommendations and advice for configuration items where detailed, strictly enforceable policies and standards are impractical", "why": "That is Guidelines: Best practice recommendations and advice for configuration items where detailed, strictly enforceable policies and standards are impractical."},
+      {"id": "b", "text": "Guidelines", "misconception": "policy-standard-procedure-guideline", "definition": "Best practice recommendations and advice for configuration items where detailed, strictly enforceable policies and standards are impractical", "why": "That is Guidelines: Best practice recommendations and advice for configuration items where detailed, strictly enforceable policies and standards are impractical."},
       {"id": "c", "text": "Information Security Policy", "correct": true, "definition": "A document or series of documents that are backed by senior management and that detail requirements for protecting technology and information assets from threats and misuse", "why": "Information Security Policy is the term for this."},
-      {"id": "d", "text": "Playbook", "misconception": "terminology-5-1", "definition": "A checklist of actions to perform to detect and respond to a specific type of incident", "why": "That is Playbook: A checklist of actions to perform to detect and respond to a specific type of incident."}
+      {"id": "d", "text": "Playbook", "misconception": "policy-standard-procedure-guideline", "definition": "A checklist of actions to perform to detect and respond to a specific type of incident", "why": "That is Playbook: A checklist of actions to perform to detect and respond to a specific type of incident."}
     ]
   },
   {
-    "id": "d-1748019065406",
+    "id": "d-owner",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019065406",
@@ -1184,7 +1184,7 @@
     ]
   },
   {
-    "id": "d-1748019299103",
+    "id": "d-qualitative-risk-analysis",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019299103",
@@ -1196,11 +1196,11 @@
       {"id": "a", "text": "Annualized Rate of Occurrence", "misconception": "terminology-5-2", "definition": "In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur", "why": "That is Annualized Rate of Occurrence: In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur."},
       {"id": "b", "text": "Risk Assessment", "misconception": "terminology-5-2", "definition": "The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact", "why": "That is Risk Assessment: The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact."},
       {"id": "c", "text": "Qualitative Risk Analysis", "correct": true, "definition": "The process of determining the probability of occurrence and the impact of identified risks by using logical reasoning when numeric data is not readily available", "why": "Qualitative Risk Analysis is the term for this."},
-      {"id": "d", "text": "Quantitative Risk Analysis", "misconception": "terminology-5-2", "definition": "A numerical method that is used to assess the probability and impact of risk and measure the impact", "why": "That is Quantitative Risk Analysis: A numerical method that is used to assess the probability and impact of risk and measure the impact."}
+      {"id": "d", "text": "Quantitative Risk Analysis", "misconception": "qualitative-vs-quantitative", "definition": "A numerical method that is used to assess the probability and impact of risk and measure the impact", "why": "That is Quantitative Risk Analysis: A numerical method that is used to assess the probability and impact of risk and measure the impact."}
     ]
   },
   {
-    "id": "d-1748019224545",
+    "id": "d-risk-assessment",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019224545",
@@ -1209,14 +1209,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact”",
     "options": [
-      {"id": "a", "text": "Business Impact Analysis", "misconception": "terminology-5-2", "definition": "Systematic activity that identifies organizational risks and determines their effect on ongoing, mission critical operations", "why": "That is Business Impact Analysis: Systematic activity that identifies organizational risks and determines their effect on ongoing, mission critical operations."},
+      {"id": "a", "text": "Business Impact Analysis", "misconception": "bia-vs-risk-assessment", "definition": "Systematic activity that identifies organizational risks and determines their effect on ongoing, mission critical operations", "why": "That is Business Impact Analysis: Systematic activity that identifies organizational risks and determines their effect on ongoing, mission critical operations."},
       {"id": "b", "text": "Risk Assessment", "correct": true, "definition": "The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact", "why": "Risk Assessment is the term for this."},
       {"id": "c", "text": "Quantitative Risk Analysis", "misconception": "terminology-5-2", "definition": "A numerical method that is used to assess the probability and impact of risk and measure the impact", "why": "That is Quantitative Risk Analysis: A numerical method that is used to assess the probability and impact of risk and measure the impact."},
       {"id": "d", "text": "Qualitative Risk Analysis", "misconception": "terminology-5-2", "definition": "The process of determining the probability of occurrence and the impact of identified risks by using logical reasoning when numeric data is not readily available", "why": "That is Qualitative Risk Analysis: The process of determining the probability of occurrence and the impact of identified risks by using logical reasoning when numeric data is not readily available."}
     ]
   },
   {
-    "id": "d-1748019265951",
+    "id": "d-annualized-loss-expectancy",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019265951",
@@ -1225,14 +1225,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“The total cost of a risk to an organization on an annual basis. This is determined by multiplying the SLE by the annual rate of occurrence (ARO)”",
     "options": [
-      {"id": "a", "text": "Single Loss Expectancy", "misconception": "terminology-5-2", "definition": "The amount that would be lost in a single occurrence of a particular risk factor", "why": "That is Single Loss Expectancy: The amount that would be lost in a single occurrence of a particular risk factor."},
+      {"id": "a", "text": "Single Loss Expectancy", "misconception": "sle-ale-aro", "definition": "The amount that would be lost in a single occurrence of a particular risk factor", "why": "That is Single Loss Expectancy: The amount that would be lost in a single occurrence of a particular risk factor."},
       {"id": "b", "text": "Annualized Loss Expectancy", "correct": true, "definition": "The total cost of a risk to an organization on an annual basis. This is determined by multiplying the SLE by the annual rate of occurrence (ARO)", "why": "Annualized Loss Expectancy is the term for this."},
-      {"id": "c", "text": "Annualized Rate of Occurrence", "misconception": "terminology-5-2", "definition": "In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur", "why": "That is Annualized Rate of Occurrence: In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur."},
+      {"id": "c", "text": "Annualized Rate of Occurrence", "misconception": "sle-ale-aro", "definition": "In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur", "why": "That is Annualized Rate of Occurrence: In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur."},
       {"id": "d", "text": "Risk Appetite", "misconception": "terminology-5-2", "definition": "A strategic assessment of what level of residual risk is tolerable for an organization", "why": "That is Risk Appetite: A strategic assessment of what level of residual risk is tolerable for an organization."}
     ]
   },
   {
-    "id": "d-1748019620735",
+    "id": "d-business-impact-analysis",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019620735",
@@ -1241,14 +1241,14 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“Systematic activity that identifies organizational risks and determines their effect on ongoing, mission critical operations”",
     "options": [
-      {"id": "a", "text": "Risk Assessment", "misconception": "terminology-5-2", "definition": "The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact", "why": "That is Risk Assessment: The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact."},
+      {"id": "a", "text": "Risk Assessment", "misconception": "bia-vs-risk-assessment", "definition": "The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact", "why": "That is Risk Assessment: The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact."},
       {"id": "b", "text": "Qualitative Risk Analysis", "misconception": "terminology-5-2", "definition": "The process of determining the probability of occurrence and the impact of identified risks by using logical reasoning when numeric data is not readily available", "why": "That is Qualitative Risk Analysis: The process of determining the probability of occurrence and the impact of identified risks by using logical reasoning when numeric data is not readily available."},
       {"id": "c", "text": "Quantitative Risk Analysis", "misconception": "terminology-5-2", "definition": "A numerical method that is used to assess the probability and impact of risk and measure the impact", "why": "That is Quantitative Risk Analysis: A numerical method that is used to assess the probability and impact of risk and measure the impact."},
       {"id": "d", "text": "Business Impact Analysis", "correct": true, "definition": "Systematic activity that identifies organizational risks and determines their effect on ongoing, mission critical operations", "why": "Business Impact Analysis is the term for this."}
     ]
   },
   {
-    "id": "d-1748019725384",
+    "id": "d-mean-time-to-repair",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019725384",
@@ -1259,12 +1259,12 @@
     "options": [
       {"id": "a", "text": "Qualitative Risk Analysis", "misconception": "terminology-5-2", "definition": "The process of determining the probability of occurrence and the impact of identified risks by using logical reasoning when numeric data is not readily available", "why": "That is Qualitative Risk Analysis: The process of determining the probability of occurrence and the impact of identified risks by using logical reasoning when numeric data is not readily available."},
       {"id": "b", "text": "Mean Time to Repair", "correct": true, "definition": "Metric representing average time taken for a device or component to be repaired, replaced, or otherwise recover from a failure", "why": "Mean Time to Repair is the term for this."},
-      {"id": "c", "text": "Recovery Time Objective", "misconception": "terminology-5-2", "definition": "The maximum time allowed to restore a system after a failure event", "why": "That is Recovery Time Objective: The maximum time allowed to restore a system after a failure event."},
+      {"id": "c", "text": "Recovery Time Objective", "misconception": "rto-vs-rpo", "definition": "The maximum time allowed to restore a system after a failure event", "why": "That is Recovery Time Objective: The maximum time allowed to restore a system after a failure event."},
       {"id": "d", "text": "Risk Assessment", "misconception": "terminology-5-2", "definition": "The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact", "why": "That is Risk Assessment: The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact."}
     ]
   },
   {
-    "id": "d-1748019526605",
+    "id": "d-key-risk-indicator",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019526605",
@@ -1280,7 +1280,7 @@
     ]
   },
   {
-    "id": "d-1748019217137",
+    "id": "d-risk-identification",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019217137",
@@ -1296,7 +1296,7 @@
     ]
   },
   {
-    "id": "d-1748019255170",
+    "id": "d-single-loss-expectancy",
     "type": "mcq",
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019255170",
@@ -1305,9 +1305,9 @@
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“The amount that would be lost in a single occurrence of a particular risk factor”",
     "options": [
-      {"id": "a", "text": "Annualized Loss Expectancy", "misconception": "terminology-5-2", "definition": "The total cost of a risk to an organization on an annual basis. This is determined by multiplying the SLE by the annual rate of occurrence (ARO)", "why": "That is Annualized Loss Expectancy: The total cost of a risk to an organization on an annual basis. This is determined by multiplying the SLE by the annual rate of occurrence (ARO)."},
+      {"id": "a", "text": "Annualized Loss Expectancy", "misconception": "sle-ale-aro", "definition": "The total cost of a risk to an organization on an annual basis. This is determined by multiplying the SLE by the annual rate of occurrence (ARO)", "why": "That is Annualized Loss Expectancy: The total cost of a risk to an organization on an annual basis. This is determined by multiplying the SLE by the annual rate of occurrence (ARO)."},
       {"id": "b", "text": "Single Loss Expectancy", "correct": true, "definition": "The amount that would be lost in a single occurrence of a particular risk factor", "why": "Single Loss Expectancy is the term for this."},
-      {"id": "c", "text": "Annualized Rate of Occurrence", "misconception": "terminology-5-2", "definition": "In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur", "why": "That is Annualized Rate of Occurrence: In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur."},
+      {"id": "c", "text": "Annualized Rate of Occurrence", "misconception": "sle-ale-aro", "definition": "In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur", "why": "That is Annualized Rate of Occurrence: In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur."},
       {"id": "d", "text": "Quantitative Risk Analysis", "misconception": "terminology-5-2", "definition": "A numerical method that is used to assess the probability and impact of risk and measure the impact", "why": "That is Quantitative Risk Analysis: A numerical method that is used to assess the probability and impact of risk and measure the impact."}
     ]
   }

@@ -115,3 +115,18 @@ Where the discrimination is "which term is this", a PBQ is a slower multiple
 choice question with more authoring surface to get wrong. Eleven of 28
 objectives have one; the seventeen without are the ones whose content is
 definitional.
+
+## Derived questions bank the authored correction, not a bucket
+
+The 82 questions derived from imported vocabulary mapped every wrong answer to
+one per-objective bucket ("confusing neighbouring terms in 3.4"), so a miss
+on hot site vs cold site banked a generic card when a hand-written correction
+for exactly that pair already existed. `derive_mcq.py` now carries the term
+families behind the authored misconceptions: a distractor that is a known
+sibling of the answer banks that misconception, and the derived question
+feeds the same retirement count as the authored items. A third of the derived
+distractors route that way; the rest stay in buckets, which the mentor card
+redeems at read time by building its table from the pairs you actually
+confused. The questions are also filed under the term (`d-hot-site`) rather
+than an Anki note number, and the app moves any progress recorded under the
+old id, so a regeneration never costs a review again.
