@@ -5,7 +5,7 @@ import * as sync from "./sync.js";
 import * as reviews from "./reviews.js";
 import * as fsrs from "./fsrs.js";
 import * as mentor from "./mentor.js";
-import { buildQueue, buildMock, FORMATS, PBQ_WEIGHT, weightOf, toScaled } from "./scheduler.js";
+import { buildQueue, buildMock, blockFit, FORMATS, PBQ_WEIGHT, weightOf, toScaled } from "./scheduler.js";
 import { gradePbq } from "./grade.js";
 import {
   drillHomeView, drillRunView, drillDoneView, labListView, labRunView,
@@ -693,12 +693,13 @@ const ACTIONS = {
   "multi-submit": answerMcqMulti,
   "mock-start": (el) => {
     const fmt = el.dataset.format;
-    const f = FORMATS[fmt];
-    const items = buildMock(App.content, { pbqCount: f.pbqCount, total: f.total });
+    const fit = blockFit(App.content, FORMATS[fmt]);
+    const items = buildMock(App.content, { pbqCount: fit.pbqs, total: fit.total });
+    if (!items.length) return;   // the screen already says there is nothing to run
     App.mock = {
-      format: fmt, minutes: f.minutes, items, idx: 0,
+      format: fmt, minutes: fit.minutes, items, idx: 0,
       answers: {}, flagged: new Set(),
-      startedAt: Date.now(), endsAt: Date.now() + f.minutes * 60000, result: null,
+      startedAt: Date.now(), endsAt: Date.now() + fit.minutes * 60000, result: null,
     };
     for (const e of items) if (e.kind === "pbq") App.answers[e.pbq.id] = emptyAnswers(e.pbq);
     App.screen = "mock-run";
@@ -730,6 +731,7 @@ const ACTIONS = {
   },
   "mock-done": () => { App.mock = null; App.screen = "mock-home"; },
   "expand-mc": (el) => { App.expanded = App.expanded === el.dataset.id ? null : el.dataset.id; },
+  reload: () => location.reload(),
   export: () => {
     const blob = new Blob([store.exportState(App.state)], { type: "application/json" });
     const a = document.createElement("a");
@@ -921,10 +923,17 @@ window.addEventListener("pagehide", () => {
     startSession("drill");
     render();
   } catch (err) {
+    // Nothing loaded, so there is no app to render: one sentence on why, and
+    // the one thing that can be done about it from here. A page opened as a
+    // file never reaches this, because the browser refuses the module script
+    // itself; index.html's placeholder covers that case.
     document.getElementById("app").innerHTML =
-      `<main><h1>Could not start</h1><div class="card"><p>${esc(err.message)}</p>
-       <p class="faint">This app must be served over http, not opened as a file.
-       Run <span class="mono">python3 serve.py</span> and open the address it prints.</p></div></main>`;
-    console.error(err);
+      `<main><h1>Could not start</h1><div class="card">
+       <p>The study server at ${esc(location.host)} is not answering, so no content can load.</p>
+       <p class="faint">Start it with <span class="mono">python3 serve.py</span> or
+       <span class="mono">./scripts/service.sh restart</span>, then reload.
+       <span class="mono">${esc(err.message)}</span></p>
+       <button class="btn" data-action="reload">Reload</button></div></main>`;
+    console.warn("Could not start:", err);
   }
 })();

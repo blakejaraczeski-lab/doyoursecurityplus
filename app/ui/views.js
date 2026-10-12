@@ -1,8 +1,9 @@
 import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyState, optionButton, KEYS } from "./common.js";
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
-import { readiness, coverageDeficit, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
+import { readiness, coverageDeficit, blockFit, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
 import { streakStatus, today } from "../state.js";
+import { isGraded } from "../content.js";
 import * as reviews from "../reviews.js";
 
 const humanise = (ms) => {
@@ -217,20 +218,28 @@ function mentorOnlyHtml(App, entry) {
   <div class="row"><button class="btn" data-action="mentor-ack">Got it</button></div>`;
 }
 
+/**
+ * The app boots straight into a session, so this screen is only ever reached
+ * when a session could not be built: the bank is empty, or everything in it
+ * has been seen and nothing is due yet. It says which.
+ */
 export function drillHomeView(App) {
-  const due = mentor.due(App.state, App.content).length;
+  const loaded = App.content.items.filter(isGraded).length + App.content.pbqs.length;
   return `<h1>Drill</h1>
     ${examBarHtml(App)}
-    ${emptyState({
-      glyph: "&#9678;",
-      title: due ? `${due} correction${due === 1 ? "" : "s"} are due` : "Ready when you are",
-      body: due
-        ? "Each one comes back on a different question from the one you missed, so you cannot pass by remembering the question."
-        : "A session mixes due corrections, items coming up for review, and new coverage weighted toward the heaviest exam domains.",
-      actions: `<div class="row center">
-        <button class="btn" data-action="start-drill">Start a session</button>
-        <button class="btn ghost" data-action="start-weak">Weak spots only</button></div>`,
-    })}`;
+    ${loaded
+      ? emptyState({
+          glyph: "&#9678;",
+          title: "Nothing to serve right now",
+          body: "Everything in the bank has been seen and nothing is due yet. Reviews come due on their own schedule; a mock is the other way to spend the time.",
+          actions: `<button class="btn" data-action="nav" data-section="mock">Run a mock</button>`,
+        })
+      : emptyState({
+          glyph: "&#9634;",
+          title: "No items are loaded",
+          body: "The content directory holds no graded items, so there is nothing to drill. Add JSON under content/items and reload.",
+          actions: `<button class="btn" data-action="reload">Reload</button>`,
+        })}`;
 }
 
 export function drillRunView(App) {
@@ -349,9 +358,18 @@ export function labListView(App) {
     })
     .join("");
 
+  // Listed so the file is not silently missing, never served anywhere.
+  const orphans = (App.content.pbqsWithoutEngine || []).map((p) => `<div class="card tight flag"><div class="spread">
+      <div><b>${esc(p.title || p.id)}</b>
+        <div class="faint">${esc(p.id)} &middot; kind <span class="mono">${esc(String(p.kind))}</span> has no engine in this build, so it cannot be worked or scored. It is not in the queue or in any mock.</div>
+      </div>
+      <span class="tag bad">no engine</span>
+    </div></div>`).join("");
+
   return `<h1>PBQ lab</h1>
     <p class="sub">Performance-based questions, graded per subtask with partial credit. Four to five of these open the real exam, and they are worth more than a multiple choice item, so the eight minute target matters.</p>
-    ${groups || emptyState({ title: "No PBQs loaded", body: "Add JSON files under content/pbq and reload." })}`;
+    ${groups || emptyState({ title: "No PBQs loaded", body: "Add JSON files under content/pbq and reload." })}
+    ${orphans ? `<h2>Without an engine</h2>${orphans}` : ""}`;
 }
 
 // --- mentor bank -----------------------------------------------------------
@@ -635,20 +653,34 @@ export function mockStartView(App) {
   const mocks = reviews.rows("mock");
   const best = mocks.length ? Math.max(...mocks.map((m) => m.scaled)) : null;
   const history = mocks.slice(-5).reverse();
+  const fits = Object.entries(FORMATS).map(([k, f]) => [k, f, blockFit(App.content, f)]);
+  const graded = App.content.items.filter(isGraded).length;
+  const short = fits.some(([, , fit]) => fit.short);
+
+  // A bank that cannot fill a block says so on the button, with the count a
+  // block will actually run, and a bank with nothing graded has no button.
+  const blocks = graded + App.content.pbqs.length === 0
+    ? emptyState({
+        glyph: "&#9634;",
+        title: "Nothing to run a mock on",
+        body: "No graded items or PBQs are loaded, so there is nothing to put on the clock. Add JSON under content/items or content/pbq and reload.",
+        actions: `<button class="btn" data-action="reload">Reload</button>`,
+      })
+    : `<div class="card">
+    <h2 class="eyebrow">Choose a block</h2>
+    <div class="row">
+      ${fits.map(([k, f, fit]) => `
+        <button class="btn ${k === "full" ? "" : "ghost"}" data-action="mock-start" data-format="${k}">
+          ${esc(f.label)} <span class="faint">${fit.total}q / ${fit.minutes}m</span>
+        </button>`).join("")}
+    </div>
+    ${short ? `<p class="note">The bank holds ${graded} graded item${graded === 1 ? "" : "s"} and ${App.content.pbqs.length} PBQ${App.content.pbqs.length === 1 ? "" : "s"}, fewer than a full block wants, so a block runs with what exists and keeps the exam's minute per question.</p>` : ""}
+    <p class="note">Everything you miss is banked as a correction afterwards, exactly as it would be in a drill. A mock that does not feed the rest of the system is just a number.</p>
+  </div>`;
 
   return `<h1>Mock exam</h1>
   <p class="sub">Format faithful: performance-based questions first, no feedback until you submit, and a clock that does not stop. The point is not the score, it is finding out what falls apart under time pressure.</p>
-
-  <div class="card">
-    <h2 class="eyebrow">Choose a block</h2>
-    <div class="row">
-      ${Object.entries(FORMATS).map(([k, f]) => `
-        <button class="btn ${k === "full" ? "" : "ghost"}" data-action="mock-start" data-format="${k}">
-          ${esc(f.label)} <span class="faint">${f.total}q / ${f.minutes}m</span>
-        </button>`).join("")}
-    </div>
-    <p class="note">Everything you miss is banked as a correction afterwards, exactly as it would be in a drill. A mock that does not feed the rest of the system is just a number.</p>
-  </div>
+  ${blocks}
 
   ${history.length ? `<h2>Previous attempts</h2>
     <div class="card"><div class="scroll-x"><table class="grid">

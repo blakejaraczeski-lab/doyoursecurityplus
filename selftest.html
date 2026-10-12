@@ -29,6 +29,17 @@
     <tr><td>Longest strings</td><td>Objective titles clamp to two lines in heat cells, option text and mentor labels wrap at full width, PBQ titles wrap in the header row.</td></tr>
   </tbody>
 </table>
+
+<h2>Error and empty states</h2>
+<p class="sub">Every screen in the <code>SCREENS</code> table walked under four conditions, by hand on 2026-10-12 and on every run by <code>scripts/selftest.py</code>. Each condition shows a heading, one sentence and one action; nothing throws.</p>
+<table class="grid">
+  <tbody>
+    <tr><td>Server down on first boot</td><td>No content can load, so every screen is the same one: <b>Could not start</b>, "The study server at <i>host</i> is not answering, so no content can load", the two commands that start it, the error text in mono, and a Reload button. Found on this run: the old screen printed the raw "Failed to fetch", told an http user the page must be served over http, and logged a console error. A page opened as a file never runs the module script at all, so the placeholder in <code>index.html</code> carries that sentence.</td></tr>
+    <tr><td>Empty review log</td><td>The ring reads 0/40 and the app boots straight into a session. Bank: "Nothing banked yet" and Start drilling. Readiness: "Low confidence so far: 0 reviews across 0 of 28 objectives", no calibration card, no root causes. Settings: 0 rows in the log, 0 reviews today. Mock: no previous attempts table. Drill home, which is only reached when no session can be built: "Nothing to serve right now" and Run a mock. Found on this run: drill home said "Ready when you are" with a Start button that led straight back to it.</td></tr>
+    <tr><td>A PBQ whose kind has no engine</td><td>The lab lists it under <b>Without an engine</b> with its kind, the sentence that it cannot be worked or scored, and no Start button. It is in no queue, no mock, and not counted by readiness. Found on this run: the file was drawn into the bank, and opening it fell through to the diagram renderer and threw.</td></tr>
+    <tr><td>A mock with fewer items than the block wants</td><td>Each block button shows the count it will run and keeps the exam's minute per question: ten items and one PBQ read "11q / 11m" on every block, with a note saying why. The run says "of 11". With nothing graded at all: "Nothing to run a mock on" and Reload, and drill home says "No items are loaded" and Reload. Found on this run: the buttons promised 90q / 90m regardless, and an empty bank started a mock with no items.</td></tr>
+  </tbody>
+</table>
 </main>
 <script type="module">
 import { loadContent, isGraded } from "./app/content.js";

@@ -479,6 +479,9 @@ const GRADERS = {
   "drag-order": gradeOrder,
 };
 
+/** Can this PBQ be worked and scored in this build? A kind with no engine is listed, never served. */
+export const hasGrader = (pbq) => Object.prototype.hasOwnProperty.call(GRADERS, pbq.kind);
+
 export function gradePbq(pbq, answers) {
   const grader = GRADERS[pbq.kind];
   if (!grader) throw new Error(`No grader for PBQ kind "${pbq.kind}"`);

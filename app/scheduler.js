@@ -20,6 +20,18 @@ export const FORMATS = {
 export const PBQ_WEIGHT = 3; // a PBQ is worth roughly three multiple choice items
 
 /**
+ * What a block can run against this bank. A bank smaller than the block is
+ * honest about it: the count is what exists and the clock keeps the exam's
+ * minute per question rather than giving ninety minutes to eleven items.
+ */
+export function blockFit(content, format) {
+  const pbqs = Math.min(format.pbqCount, content.pbqs.length);
+  const total = Math.min(format.total, content.items.filter(isGraded).length + pbqs);
+  const minutes = total < format.total ? Math.max(5, Math.round(format.minutes * total / format.total)) : format.minutes;
+  return { pbqs, total, minutes, short: total < format.total };
+}
+
+/**
  * Item weight for scoring. CompTIA says items carry different weights by
  * difficulty and keeps the model confidential, so this is an approximation: a
  * hard item is worth about twice an easy one. A flat count would reward

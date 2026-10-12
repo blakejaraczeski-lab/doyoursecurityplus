@@ -4,6 +4,8 @@
 
 // Resolved against this module's own URL, so the app works no matter where the
 // page that loads it lives.
+import { hasGrader } from "./grade.js";
+
 const CONTENT = new URL("../content/", import.meta.url);
 
 /**
@@ -49,7 +51,11 @@ export async function loadContent() {
   for (const m of mentorFiles.flat()) misconceptions[m.id] = m;
 
   const items = itemFiles.flat();
-  const pbqs = pbqFiles.flat();
+  // A PBQ whose kind has no engine in this build is listed in the lab, with
+  // the reason, and nothing else ever sees it: not the queue, not a mock, not
+  // readiness. The validator refuses such a file; this is for one added by hand.
+  const pbqs = pbqFiles.flat().filter(hasGrader);
+  const pbqsWithoutEngine = pbqFiles.flat().filter((p) => !hasGrader(p));
 
   const objectiveById = {};
   const domainOf = {};
@@ -77,7 +83,7 @@ export async function loadContent() {
     objectives, objectiveById, domainOf,
     misconceptions, items, pbqs, glossary,
     referenceSources: sources, notesByObjective,
-    prerequisites,
+    prerequisites, pbqsWithoutEngine,
     itemsById: Object.fromEntries(items.map((i) => [i.id, i])),
     pbqsById: Object.fromEntries(pbqs.map((p) => [p.id, p])),
   };

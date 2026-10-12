@@ -256,7 +256,6 @@ h3, .eyebrow {
 .card > :last-child { margin-bottom: 0; }
 
 .row { display: flex; gap: var(--s3); align-items: center; flex-wrap: wrap; }
-.row.center { justify-content: center; }
 .row.between { justify-content: space-between; }
 .row.nowrap { flex-wrap: nowrap; }
 .row.tight { gap: var(--s1); flex-wrap: nowrap; }

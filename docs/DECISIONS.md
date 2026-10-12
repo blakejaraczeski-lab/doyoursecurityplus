@@ -188,3 +188,18 @@ a failure prints as a seed number that reproduces it. Two defects fell out on
 the first run: a shuffled pair could arrive as "2 of 2" before "1 of 2", and a
 weak-spot session with one slot left pushed the pair past the end and served
 half of it. A pair now needs two whole slots and is sorted back into order.
+
+## An empty state says which empty it is
+
+The app boots straight into a session, so the drill home screen is only ever
+reached when a session could not be built. It used to say "Ready when you
+are" with a Start button that led straight back to itself. It now says which
+of the two reasons applies, nothing is due and everything has been seen, or
+nothing is loaded, and offers the one action that fits. The same rule shapes
+the other three: a PBQ whose kind has no engine is listed in the lab with the
+reason rather than hidden or served, because the person who dropped the file
+in looks there; a mock block shows the count it can actually run and keeps
+the exam's minute per question rather than giving ninety minutes to eleven
+items; and the boot failure names the server and offers Reload rather than
+printing the fetch error. `scripts/selftest.py` walks all twelve screens
+under the four conditions on every run.
