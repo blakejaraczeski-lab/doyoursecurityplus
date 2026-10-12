@@ -203,3 +203,17 @@ the exam's minute per question rather than giving ninety minutes to eleven
 items; and the boot failure names the server and offers Reload rather than
 printing the fetch error. `scripts/selftest.py` walks all twelve screens
 under the four conditions on every run.
+
+## Focus is restored by what a control is, not by identity
+
+Every render replaces the DOM, which is the simplest possible view layer and
+was costing every keyboard user their place: focus fell to the body after
+each answer, and the next Tab started again from the nav. The fix keeps the
+render model and remembers the focused control by tag, id and data
+attributes, then focuses the same control after the render; if it is gone or
+disabled, the verdict; failing that, main. Announcements go through one live
+region in `index.html` that outlives every render, instead of a `role=status`
+set on a node that was recreated each time and so said nothing. The pass was
+run against Chrome's accessibility tree over DevTools with real key events,
+which is what VoiceOver reads; VoiceOver itself was not run, and the table on
+`selftest.html` says so and says how.

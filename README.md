@@ -302,7 +302,9 @@ read from its snapshot, an outbox replayed after the server was down, and a
 pre-resource document absorbed into the log. It then walks all twelve
 screens under four conditions, the server down, an empty log, a PBQ whose
 kind has no engine, and a bank too small for a mock block, and fails on a
-missing heading, a blank panel or anything thrown. It refuses to run against
+missing heading, a blank panel or anything thrown. Last, it presses real
+keys and reads Chrome's accessibility tree: focus survives every render,
+every control under main has a name, and a state change is announced. It refuses to run against
 any server that does not report a throwaway directory. Without Chrome the page is
 manual: open http://localhost:8777/selftest.html, which also lists the by-hand
 checks from the interface skill.

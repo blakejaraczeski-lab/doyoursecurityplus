@@ -34,9 +34,12 @@ export const KEYS = ["A", "B", "C", "D", "E", "F"];
  * drill, multiple select, the mock, and the choice tasks inside a diagram PBQ.
  * Full width and 56px tall, because it is hit hundreds of times a session.
  */
-export function optionButton({ key, text, action, data = {}, cls = "", verdict = "", disabled = false, checked = null }) {
+export function optionButton({ key, text, action, data = {}, cls = "", verdict = "", disabled = false, checked = null, pressed = null }) {
   const attrs = Object.entries(data).map(([k, v]) => `data-${k}="${esc(v)}"`).join(" ");
-  const role = checked == null ? "" : ` role="checkbox" aria-checked="${checked}"`;
+  // A choose-N option is a checkbox; a chosen-but-not-yet-scored option (the
+  // mock, a diagram task) is a pressed button. Either way the state is spoken.
+  const role = checked != null ? ` role="checkbox" aria-checked="${checked}"`
+    : pressed != null ? ` aria-pressed="${pressed}"` : "";
   return `<button class="opt ${cls}" data-action="${action}" ${attrs}${role} ${disabled ? "disabled" : ""}>
     <span class="key" aria-hidden="true">${key}</span>
     <span>${gloss(text)}</span>
@@ -146,7 +149,7 @@ export function sessionBarHtml({ index, total, label, right }) {
       <span>${esc(label)} &middot; <b>${done + 1}</b> of ${total}</span>
       <span>${right || ""}</span>
     </div>
-    <div class="track" role="progressbar" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${total}">
+    <div class="track" role="progressbar" aria-label="${esc(label)} progress" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${total}">
       <i style="--w:${total ? (done / total) * 100 : 0}%"></i>
     </div>
   </div>`;

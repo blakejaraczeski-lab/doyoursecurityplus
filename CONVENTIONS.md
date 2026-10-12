@@ -48,9 +48,11 @@ pre-commit hook.
    panel replaces every shadow, gradient and blur. Enforced:
    `scripts/check_materials.py` fails on box-shadow, gradients,
    backdrop-filter and any colour literal outside the token blocks;
-   `selftest.html` fails on inline styling in a template. Manual: the glyph
-   rule itself, checked against `.claude/skills/study-ui/SKILL.md` before a
-   screen ships.
+   `selftest.html` fails on inline styling in a template; `scripts/selftest.py`
+   reads Chrome's accessibility tree and fails on any control under main
+   without a name, on focus lost across a render, and on a state change that
+   is not announced. Manual: the glyph rule itself, checked against
+   `.claude/skills/study-ui/SKILL.md` before a screen ships, and VoiceOver.
 
 8. **Every number in the README comes from a script.** A count written by
    hand is wrong within a week. Enforced: `scripts/check_docs.py` regenerates

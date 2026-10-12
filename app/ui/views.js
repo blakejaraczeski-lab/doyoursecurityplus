@@ -24,8 +24,8 @@ const mentorCards = (App, ids) =>
 function examBarHtml(App) {
   if (App.state.profile.examDate) return "";
   return `<div class="exam-bar">
-    <label for="exam-date-inline"><b>No exam date set.</b> Every review interval compresses toward it; until then the scheduler is planning for a decade.</label>
-    <input id="exam-date-inline" type="date" data-setting="examDate" min="${today()}">
+    <label for="exam-date-inline" id="exam-date-why"><b>No exam date set.</b> Every review interval compresses toward it; until then the scheduler is planning for a decade.</label>
+    <input id="exam-date-inline" type="date" data-setting="examDate" min="${today()}" aria-label="Exam date" aria-describedby="exam-date-why">
   </div>`;
 }
 
@@ -77,7 +77,7 @@ function mcqMultiHtml(App, entry) {
 function multiFeedbackHtml(App, it, chosenWrong, missed) {
   const good = App.answer.correct;
   return `
-  <div class="verdict-banner ${good ? "yes" : "no"}">
+  <div class="verdict-banner ${good ? "yes" : "no"}" tabindex="-1">
     <div class="mark" aria-hidden="true">${good ? "&check;" : "&times;"}</div>
     <div>
       <b>${good ? "Correct" : chosenWrong.length && missed.length ? "Partly right, and the exam scores this as wrong"
@@ -143,7 +143,7 @@ function feedbackHtml(App, chosen, correct) {
   const good = chosen?.correct;
   const a = App.answer;
   return `
-  <div class="verdict-banner ${good ? "yes" : "no"}">
+  <div class="verdict-banner ${good ? "yes" : "no"}" tabindex="-1">
     <div class="mark" aria-hidden="true">${good ? "&check;" : "&times;"}</div>
     <div>
       <b>${good ? "Correct" : "Not correct"}</b>
@@ -715,7 +715,8 @@ export function mockReviewView(App) {
     const state = answeredOf(e);
     const flagged = m.flagged.has(id);
     return `<button class="rv ${state} ${flagged ? "flagged" : ""} ${i === m.idx ? "here" : ""}"
-      data-action="mock-goto" data-i="${i}"
+      data-action="mock-goto" data-i="${i}" ${i === m.idx ? 'aria-current="true"' : ""}
+      aria-label="Question ${i + 1}${e.kind === "pbq" ? ", performance based" : ""}, ${state}${flagged ? ", flagged" : ""}"
       title="${e.kind === "pbq" ? esc(e.pbq.title) : "Question " + (i + 1)}${flagged ? " (flagged)" : ""}">
       <span class="n">${i + 1}</span>${e.kind === "pbq" ? `<span class="pb">PBQ</span>` : ""}
     </button>`;
@@ -793,6 +794,7 @@ function mockMcqHtml(item, chosen, flagged) {
       ${item.options.map((o, i) => optionButton({
         key: KEYS[i], text: o.text, action: "mock-answer", data: { opt: o.id },
         cls: chosen === o.id ? "chosen" : "", verdict: chosen === o.id ? "&#9679;" : "",
+        pressed: chosen === o.id,
       })).join("")}
     </div>
   </div>`;

@@ -125,6 +125,7 @@ function inspectNode(id) {
   const a = answersFor(pbq);
   a.inspected = def.id;
   a.seenNodes = [...new Set([...(a.seenNodes || []), def.id])];
+  announce(`${def.label}: evidence shown below the diagram.`);
   render();
 }
 
@@ -174,7 +175,7 @@ function goalRing(done, goal) {
   const r = 22, c = 2 * Math.PI * r;
   const frac = Math.max(0, Math.min(1, goal ? done / goal : 0));
   const tone = frac >= 1 ? "var(--good)" : frac >= 0.5 ? "var(--accent)" : "var(--warn)";
-  return `<div class="goal-ring">
+  return `<div class="goal-ring" role="img" aria-label="${done} of ${goal} reviews today">
     <svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true">
       <circle cx="27" cy="27" r="${r}" fill="none" stroke="var(--panel-3)" stroke-width="5"/>
       <circle cx="27" cy="27" r="${r}" fill="none" stroke="${tone}" stroke-width="5"
@@ -259,8 +260,37 @@ function refreshAclReadout() {
   el.outerHTML = aclReadoutHtml(pbq.config, answersFor(pbq).rules || []);
 }
 
+/**
+ * Every render replaces the DOM, which would drop keyboard focus to the body
+ * and send the next Tab back to the top of the page. So the focused control
+ * is remembered by what it is, not by identity, and focus goes back to the
+ * same control after the render; if that control is gone or disabled (the
+ * option you just answered), to the verdict, and failing that to main.
+ */
+const focusKey = (el) =>
+  el && el !== document.body ? `${el.tagName}|${el.id || ""}|${JSON.stringify(el.dataset)}` : null;
+
+function restoreFocus(key) {
+  if (!key) return;
+  const [tag, id, data] = key.split("|");
+  const same = [...document.querySelectorAll(tag.toLowerCase())]
+    .find((e) => (e.id || "") === id && JSON.stringify(e.dataset) === data);
+  const target = same && !same.disabled ? same
+    : document.querySelector(".verdict-banner") || document.getElementById("main");
+  if (target) target.focus({ preventScroll: true });
+}
+
+/** Say something to a screen reader without moving focus. */
+function announce(text) {
+  const el = document.getElementById("live");
+  if (!el) return;
+  el.textContent = "";
+  setTimeout(() => { el.textContent = text; }, 30);
+}
+
 function render() {
   const root = document.getElementById("app");
+  const had = focusKey(document.activeElement);
   root.className = "";
 
   // Focus mode: chrome recedes while a question is actually in front of you,
@@ -268,14 +298,9 @@ function render() {
   const drilling = ["drill-run", "mock-run", "mock-review"].includes(App.screen);
   document.body.classList.toggle("drilling", drilling);
 
-  root.innerHTML = sidebarHtml() + `<main id="main">${SCREENS[App.screen](App)}</main>`;
+  root.innerHTML = sidebarHtml() + `<main id="main" tabindex="-1">${SCREENS[App.screen](App)}</main>`;
   shownSync = sync.getStatus();
-
-  // Announce the result to assistive tech without moving focus away from the
-  // option the user just activated.
-  const banner = root.querySelector(".verdict-banner");
-  if (banner) { banner.setAttribute("role", "status"); banner.setAttribute("aria-live", "polite"); }
-
+  restoreFocus(had);
   tickTimer();
 }
 
@@ -418,6 +443,7 @@ function answerMcq(optId) {
   tally(out, entry.item);
   App.answer = { chosen: optId, ...out };
   App.markedGuess = false;
+  announce(out.correct ? "Correct." : `Not correct. The answer: ${entry.item.options.find((o) => o.correct)?.text || ""}`);
   save();
 }
 
@@ -430,6 +456,7 @@ function answerMcqMulti() {
   tally(out, entry.item);
   App.answer = out;
   App.markedGuess = false;
+  announce(out.correct ? "Correct." : "Not correct. The exam scores a choose-two as all or nothing.");
   save();
 }
 
@@ -472,6 +499,7 @@ function submitPbq() {
   }
   g.mentorHtml = mentorCards(banked);
   App.graded = g;
+  announce(`Scored ${g.earned} of ${g.max}, ${g.percent} percent.`);
   save();
 }
 
@@ -661,6 +689,7 @@ const ACTIONS = {
     order[i] = a.held;
     a.order = order;
     a.held = null;
+    announce(`Placed in position ${i + 1}.`);
   },
   "order-unplace": (el) => {
     const a = answersFor(currentPbq());
@@ -674,21 +703,27 @@ const ACTIONS = {
   "order-hold": (el) => {
     const a = answersFor(currentPbq());
     a.held = a.held === el.dataset.item ? null : el.dataset.item;
+    announce(a.held ? `Holding ${el.textContent.trim()}. Choose where it goes.` : "Released.");
   },
   "order-drop": (el) => {
     const a = answersFor(currentPbq());
     if (!a.held) return;
     (a.placements ||= {})[a.held] = el.dataset.bucket;
     a.held = null;
+    announce(`Placed in ${currentPbq().config.buckets.find((b) => b.id === el.dataset.bucket)?.label || "the column"}.`);
   },
   "order-remove": (el) => {
     const a = answersFor(currentPbq());
     delete (a.placements ||= {})[el.dataset.item];
   },
-  "toggle-guess": () => { App.markedGuess = !App.markedGuess; },
+  "toggle-guess": () => {
+    App.markedGuess = !App.markedGuess;
+    announce(App.markedGuess ? "Marked as a guess." : "No longer marked as a guess.");
+  },
   "multi-toggle": (el) => {
     const id = el.dataset.opt;
     App.multiPicked.has(id) ? App.multiPicked.delete(id) : App.multiPicked.add(id);
+    announce(`${App.multiPicked.size} of ${App.queue[App.idx].item.selectCount || 2} selected.`);
   },
   "multi-submit": answerMcqMulti,
   "mock-start": (el) => {

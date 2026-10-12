@@ -107,6 +107,9 @@ body {
   outline-offset: 2px;
   border-radius: var(--r1);
 }
+/* main takes focus after a render when the control that had it is gone; a
+   ring around the whole column would say nothing, so the next Tab says it. */
+#main:focus-visible { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }

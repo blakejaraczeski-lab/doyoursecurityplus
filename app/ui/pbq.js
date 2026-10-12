@@ -42,23 +42,27 @@ function aclHtml(pbq, answers, locked) {
   const portOpts = (sel) => opt(cfg.portOptions, sel, (o) => [o.value, o.label]);
   const protoOpts = (sel) => opt(cfg.protocols, sel, (p) => [p, p.toUpperCase()]);
 
+  // A select in a grid takes its name from nothing: the column header does
+  // not label it, so a screen reader would hear "PERMIT, pop up button" six
+  // times a row. Each one says which rule and which column it is.
+  const sel = (i, k, label, options) =>
+    `<select data-acl="${i}" data-k="${k}" aria-label="Rule ${i + 1} ${label}" ${locked ? "disabled" : ""}>${options}</select>`;
   const body = rules
     .map(
       (r, i) => `<tr>
       <td class="mono">${i + 1}</td>
-      <td><select data-acl="${i}" data-k="action" ${locked ? "disabled" : ""}>
+      <td>${sel(i, "action", "action", `
         <option value="permit" ${r.action === "permit" ? "selected" : ""}>PERMIT</option>
-        <option value="deny" ${r.action === "deny" ? "selected" : ""}>DENY</option>
-      </select></td>
-      <td><select data-acl="${i}" data-k="protocol" ${locked ? "disabled" : ""}>${protoOpts(r.protocol)}</select></td>
-      <td><select data-acl="${i}" data-k="src" ${locked ? "disabled" : ""}>${addrOpts(r.src)}</select></td>
-      <td><select data-acl="${i}" data-k="srcPort" ${locked ? "disabled" : ""}>${portOpts(r.srcPort)}</select></td>
-      <td><select data-acl="${i}" data-k="dst" ${locked ? "disabled" : ""}>${addrOpts(r.dst)}</select></td>
-      <td><select data-acl="${i}" data-k="dstPort" ${locked ? "disabled" : ""}>${portOpts(r.dstPort)}</select></td>
+        <option value="deny" ${r.action === "deny" ? "selected" : ""}>DENY</option>`)}</td>
+      <td>${sel(i, "protocol", "protocol", protoOpts(r.protocol))}</td>
+      <td>${sel(i, "src", "source", addrOpts(r.src))}</td>
+      <td>${sel(i, "srcPort", "source port", portOpts(r.srcPort))}</td>
+      <td>${sel(i, "dst", "destination", addrOpts(r.dst))}</td>
+      <td>${sel(i, "dstPort", "destination port", portOpts(r.dstPort))}</td>
       <td><div class="row tight">
-        <button class="btn ghost small" data-action="acl-up" data-i="${i}" title="Move up" ${locked || i === 0 ? "disabled" : ""}>&uarr;</button>
-        <button class="btn ghost small" data-action="acl-down" data-i="${i}" title="Move down" ${locked || i === rules.length - 1 ? "disabled" : ""}>&darr;</button>
-        <button class="btn ghost small" data-action="acl-del" data-i="${i}" title="Delete rule" ${locked ? "disabled" : ""}>&times;</button>
+        <button class="btn ghost small" data-action="acl-up" data-i="${i}" aria-label="Move rule ${i + 1} up" ${locked || i === 0 ? "disabled" : ""}>&uarr;</button>
+        <button class="btn ghost small" data-action="acl-down" data-i="${i}" aria-label="Move rule ${i + 1} down" ${locked || i === rules.length - 1 ? "disabled" : ""}>&darr;</button>
+        <button class="btn ghost small" data-action="acl-del" data-i="${i}" aria-label="Delete rule ${i + 1}" ${locked ? "disabled" : ""}>&times;</button>
       </div></td>
     </tr>`
     )
@@ -173,8 +177,13 @@ function diagramHtml(pbq, answers, locked) {
       const dot = n.selectable !== false && seen.has(n.id) && inspected !== n.id
         ? `<circle cx="${n.x + 7.4}" cy="${n.y - 3.4}" r="0.9" fill="var(--accent)" />`
         : "";
-      return `<g class="${cls}" data-node="${n.id}" tabindex="0" role="button"
-                 aria-pressed="${selected.has(n.id)}" aria-label="${esc(n.label)}">
+      // A host is a button that opens its evidence; marking it compromised is
+      // the roster below. So its spoken name carries the state and it claims
+      // no pressed state of its own. A host with nothing to open is not a control.
+      const state = selected.has(n.id) ? ", marked compromised" : seen.has(n.id) ? ", reviewed" : "";
+      const control = n.selectable === false ? "" : ` tabindex="0" role="button"`;
+      return `<g class="${cls}" data-node="${n.id}"${control}
+                 aria-label="${esc(n.label)}${n.ip ? `, ${esc(n.ip)}` : ""}${state}">
         ${shape}${dot}
         <text x="${n.x}" y="${n.y + 0.9}">${esc(n.label)}</text>
         ${n.ip ? `<text class="ip" x="${n.x}" y="${n.y + 7.6}">${esc(n.ip)}</text>` : ""}
@@ -224,13 +233,13 @@ function diagramHtml(pbq, answers, locked) {
           ${t.options.map((o, i) => optionButton({
             key: KEYS[i], text: o.label, action: "diagram-choice",
             data: { task: t.id, value: o.value },
-            cls: val === o.value ? "chosen" : "", disabled: locked,
+            cls: val === o.value ? "chosen" : "", disabled: locked, pressed: val === o.value,
           })).join("")}
         </div></div>`;
     })
     .join("");
 
-  return `<svg class="diagram" viewBox="0 0 100 92" role="img" aria-label="Network topology">${links}${nodes}</svg>
+  return `<svg class="diagram" viewBox="0 0 100 92" role="group" aria-label="Network diagram. Each host opens its evidence.">${links}${nodes}</svg>
     ${evHtml}${tasks}`;
 }
 
@@ -253,7 +262,7 @@ function orderHtml(pbq, answers, locked) {
       <h2 class="eyebrow">Steps to place${heldItem ? ` &middot; pick a position for "${esc(heldItem.label)}"` : ""}</h2>
       ${remaining.length
         ? `<div class="chip-pool">${remaining.map((i, k) => `
-            <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
+            <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" aria-pressed="${held === i.id}" ${locked ? "disabled" : ""}>
               <span class="key" aria-hidden="true">${KEYS_10[k]}</span>${esc(i.label)}</button>`).join("")}</div>`
         : `<p class="faint m0">All steps placed. Click one in the sequence to take it back.</p>`}
       ${remaining.length && !held
@@ -269,8 +278,8 @@ function orderHtml(pbq, answers, locked) {
           return `<li class="${item ? "filled" : "empty"}">
             <span class="pos">${i + 1}</span>
             ${item
-              ? `<button class="chip placed" data-action="order-unplace" data-i="${i}" ${locked ? "disabled" : ""}>${esc(item.label)}</button>`
-              : `<button class="slot" data-action="order-place-at" data-i="${i}" ${locked || !held ? "disabled" : ""}>
+              ? `<button class="chip placed" data-action="order-unplace" data-i="${i}" aria-label="Position ${i + 1}: ${esc(item.label)}. Take it back" ${locked ? "disabled" : ""}>${esc(item.label)}</button>`
+              : `<button class="slot" data-action="order-place-at" data-i="${i}" aria-label="Position ${i + 1}: ${held ? `place ${esc(heldItem?.label || "")} here` : "empty"}" ${locked || !held ? "disabled" : ""}>
                    ${held ? "place here" : "empty"}</button>`}
           </li>`;
         }).join("")}
@@ -281,12 +290,13 @@ function orderHtml(pbq, answers, locked) {
   // categorize
   const placements = answers.placements || {};
   const unplaced = cfg.items.filter((i) => !placements[i.id]);
+  const heldLabel = cfg.items.find((i) => i.id === held)?.label || "";
   return `
   <div class="card">
     <h2 class="eyebrow">Items to classify${held ? ` &middot; pick a column for "${esc(cfg.items.find((i) => i.id === held)?.label || "")}"` : ""}</h2>
     ${unplaced.length
       ? `<div class="chip-pool">${unplaced.map((i, k) => `
-          <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
+          <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" aria-pressed="${held === i.id}" ${locked ? "disabled" : ""}>
             <span class="key" aria-hidden="true">${KEYS_10[k]}</span>${esc(i.label)}</button>`).join("")}</div>`
       : `<p class="faint m0">Everything placed. Click an item in a column to take it back.</p>`}
     ${unplaced.length && !held
@@ -296,12 +306,12 @@ function orderHtml(pbq, answers, locked) {
   <div class="buckets">
     ${cfg.buckets.map((b, k) => `
       <div class="bucket">
-        <button class="bucket-head" data-action="order-drop" data-bucket="${esc(b.id)}" ${locked || !held ? "disabled" : ""}>
+        <button class="bucket-head" data-action="order-drop" data-bucket="${esc(b.id)}" aria-label="${esc(b.label)}${held ? `: place ${esc(heldLabel)} here` : ""}" ${locked || !held ? "disabled" : ""}>
           <span class="key" aria-hidden="true">${k + 1}</span>${esc(b.label)}${held ? " &larr; place here" : ""}
         </button>
         <div class="bucket-body">
           ${cfg.items.filter((i) => placements[i.id] === b.id).map((i) => `
-            <button class="chip placed" data-action="order-remove" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
+            <button class="chip placed" data-action="order-remove" data-item="${esc(i.id)}" aria-label="${esc(i.label)}, in ${esc(b.label)}. Take it back" ${locked ? "disabled" : ""}>
               ${esc(i.label)}</button>`).join("") || `<span class="faint">empty</span>`}
         </div>
       </div>`).join("")}
