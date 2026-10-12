@@ -2,8 +2,10 @@
 //
 // Conflict rule: last write wins by `updatedAt`, decided at start-up. Mid
 // session the browser is always authoritative, because it is the only thing
-// making changes. The server refuses a push that would overwrite something
-// newer, which only happens if two tabs or two browsers were both studying.
+// making changes. Every push is a conditional replace: it names the server
+// version it was built on (If-Match), and the server answers 412 with its
+// newer copy if another tab or browser has saved since. An unconditional
+// replace is what resolving that conflict in this browser's favour means.
 
 import { SCRATCH } from "./state.js";
 
@@ -13,6 +15,7 @@ const DEBOUNCE_MS = 1500;
 let timer = null;
 let inFlight = false;
 let pending = null;
+let version = null;   // the server's updatedAt as last seen, the base of the next conditional put
 
 const SYNC = {
   UNKNOWN: "unknown",
@@ -35,6 +38,7 @@ export async function pull() {
     if (res.status === 404) { setStatus(SYNC.SAVED); return null; }
     if (!res.ok) { setStatus(SYNC.OFFLINE); return null; }
     const { state } = await res.json();
+    version = state.updatedAt || 0;
     setStatus(SYNC.SAVED);
     return state;
   } catch {
@@ -43,17 +47,21 @@ export async function pull() {
   }
 }
 
-async function put(state, force = false) {
+async function put(state, { unconditional = false } = {}) {
   const res = await fetch(ENDPOINT, {
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...(force ? { "X-Dysp-Force": "1" } : {}) },
+    headers: {
+      "Content-Type": "application/json",
+      ...(unconditional || version == null ? {} : { "If-Match": String(version) }),
+    },
     body: JSON.stringify(state),
   });
-  if (res.status === 409) {
+  if (res.status === 412) {
     setStatus(SYNC.CONFLICT);
     return false;
   }
   if (!res.ok) throw new Error(`save failed: ${res.status}`);
+  version = state.updatedAt;
   setStatus(SYNC.SAVED);
   return true;
 }
@@ -82,9 +90,9 @@ export function push(state) {
   timer = setTimeout(drain, DEBOUNCE_MS);
 }
 
-/** Resolve a conflict by declaring this browser the winner. */
+/** Resolve a conflict by declaring this browser the winner: an unconditional replace. */
 export async function forcePush(state) {
-  try { return await put(state, true); } catch { setStatus(SYNC.OFFLINE); return false; }
+  try { return await put(state, { unconditional: true }); } catch { setStatus(SYNC.OFFLINE); return false; }
 }
 
 /**

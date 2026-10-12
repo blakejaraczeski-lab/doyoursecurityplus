@@ -10,6 +10,7 @@ from pathlib import Path
 
 DATA_DIR = Path(os.environ.get("DYSP_DATA", Path.home() / ".doyoursecurityplus"))
 STATE = DATA_DIR / "state.json"
+REVIEWS = DATA_DIR / "reviews.jsonl"
 PORT = os.environ.get("DYSP_PORT", "8777")
 
 
@@ -36,9 +37,20 @@ def main():
         if not m.get("retired") and (m.get("due") or (m.get("fsrs") or {}).get("due") or 0) <= now
     )
 
-    # Reviews already logged today, so a finished day stays quiet.
+    # Answers already logged today, so a finished day stays quiet. The log is
+    # append only, so today's rows are at the end.
     midnight = time.mktime(time.localtime()[:3] + (0, 0, 0, 0, 0, -1)) * 1000
-    done = sum(1 for r in (state.get("reviews") or []) if r.get("at", 0) >= midnight)
+    done = 0
+    if REVIEWS.exists():
+        for line in reversed(REVIEWS.read_text().splitlines()):
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if r.get("at", 0) < midnight:
+                break
+            if r.get("kind") == "item":
+                done += 1
     goal = (state.get("profile") or {}).get("dailyReviewGoal", 40)
 
     exam = (state.get("profile") or {}).get("examDate")

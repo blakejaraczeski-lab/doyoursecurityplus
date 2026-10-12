@@ -5,7 +5,7 @@ Same keys in the same order in every record, defaults left out, one option or
 contrast row per line. Run after any content edit so the files stay legible
 and a diff shows the change rather than the formatting.
 """
-import json, pathlib
+import json, pathlib, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ITEM_KEYS = ["id", "type", "source", "sourceItem", "objective", "topics", "difficulty",
@@ -76,23 +76,33 @@ def fmt_record(rec, pad="  "):
     return "\n".join(lines)
 
 
-def write(path, records):
-    body = ",\n".join(fmt_record(r) for r in records)
-    path.write_text("[\n" + body + "\n]\n")
+def render(records):
+    return "[\n" + ",\n".join(fmt_record(r) for r in records) + "\n]\n"
 
 
-def main():
+def main(check=False):
     n_items = n_mentor = 0
-    for f in sorted((ROOT / "content" / "items").glob("*.json")):
-        recs = [clean_item(it) for it in json.loads(f.read_text())]
-        write(f, recs)
-        n_items += len(recs)
-    for f in sorted((ROOT / "content" / "mentor").glob("*.json")):
-        recs = [clean_mentor(m) for m in json.loads(f.read_text())]
-        write(f, recs)
-        n_mentor += len(recs)
-    print(f"formatted {n_items} items and {n_mentor} misconceptions")
+    stale = []
+    for sub, clean in (("items", clean_item), ("mentor", clean_mentor)):
+        for f in sorted((ROOT / "content" / sub).glob("*.json")):
+            text = f.read_text()
+            out = render([clean(r) for r in json.loads(text)])
+            n = out.count('\n  {')
+            if sub == "items": n_items += n
+            else: n_mentor += n
+            if out != text:
+                stale.append(f.relative_to(ROOT))
+                if not check:
+                    f.write_text(out)
+    if check:
+        if stale:
+            print("not in canonical shape: " + ", ".join(map(str, stale)))
+            print("run: python3 scripts/format_content.py")
+            raise SystemExit(1)
+        print(f"canonical shape: {n_items} items and {n_mentor} misconceptions")
+    else:
+        print(f"formatted {n_items} items and {n_mentor} misconceptions ({len(stale)} file(s) changed)")
 
 
 if __name__ == "__main__":
-    main()
+    main(check="--check" in sys.argv)

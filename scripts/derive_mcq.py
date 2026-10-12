@@ -200,7 +200,7 @@ def official_vocabulary():
     return vocab
 
 
-def load():
+def load_cards():
     items = json.loads(SRC.read_text())
     tax = json.loads((ROOT / "content" / "objectives.json").read_text())
     weights, objectives_in_domain, obj_title = {}, defaultdict(int), {}
@@ -216,7 +216,7 @@ def load():
 
 
 def build(target_total):
-    items, share, obj_title = load()
+    items, share, obj_title = load_cards()
     vocab = official_vocabulary()
     rng = random.Random(20260922)
     off_syllabus = retagged = 0

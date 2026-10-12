@@ -2,7 +2,8 @@ import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyS
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
 import { readiness, coverageDeficit, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
-import { streakStatus, reviewsToday, calibration, today } from "../state.js";
+import { streakStatus, today } from "../state.js";
+import * as reviews from "../reviews.js";
 
 const humanise = (ms) => {
   const mins = Math.round(ms / 60000);
@@ -326,8 +327,9 @@ export function labListView(App) {
     .map(([kind, list]) => {
       const cards = list
         .map((p) => {
-          const att = App.state.pbq[p.id]?.attempts || [];
-          const best = att.length ? Math.max(...att.map((a) => a.percent)) : null;
+          const done = App.state.pbq[p.id];
+          const att = done?.attempts || 0;
+          const best = att ? done.best : null;
           const badge =
             best === null ? `<span class="tag">not attempted</span>`
             : `<span class="tag ${best >= 90 ? "good" : best >= 70 ? "warn" : "bad"}">best ${best}%</span>`;
@@ -336,10 +338,10 @@ export function labListView(App) {
               <b>${esc(p.title)}</b>
               <div class="faint">objective ${esc(p.objective)} &middot; ${Math.round(p.targetSeconds / 60)} min target &middot; difficulty ${p.difficulty}/5</div>
               <div class="row mt2">${badge}${
-                att.length ? `<span class="faint">${att.length} attempt${att.length === 1 ? "" : "s"}</span>` : ""
+                att ? `<span class="faint">${att} attempt${att === 1 ? "" : "s"}</span>` : ""
               }</div>
             </div>
-            <button class="btn ${best === null ? "" : "ghost"} small" data-action="open-pbq" data-id="${esc(p.id)}">${att.length ? "Retry" : "Start"}</button>
+            <button class="btn ${best === null ? "" : "ghost"} small" data-action="open-pbq" data-id="${esc(p.id)}">${att ? "Retry" : "Start"}</button>
           </div></div>`;
         })
         .join("");
@@ -409,7 +411,7 @@ export function mentorView(App) {
 
 // --- readiness -------------------------------------------------------------
 export function readinessView(App) {
-  const r = readiness(App.state, App.content);
+  const r = readiness(App.state, App.content, Date.now(), reviews.count());
   const cov = coverageDeficit(App.state, App.content);
   const posOf = (score) => ((score - 100) / 800) * 100;
 
@@ -450,7 +452,7 @@ export function readinessView(App) {
     .sort((a, b) => a.mastery - b.mastery)
     .slice(0, 3);
 
-  const c = calibration(App.state);
+  const c = reviews.calibration();
   const tone = c.overconfidence > 0.3 ? "bad" : c.overconfidence > 0.15 ? "warn" : "good";
   const roots = mentor.sharedRootCauses(App.state, App.content);
 
@@ -578,7 +580,7 @@ export function settingsView(App) {
       ? `<table class="grid"><tbody>
           <tr><td>Durable copy</td><td class="mono">${esc(h.stateFile || "")}</td></tr>
           <tr><td>Snapshots kept</td><td class="mono">${h.snapshots ?? 0}${h.newestSnapshot ? ` &middot; newest ${esc(h.newestSnapshot)}` : ""}</td></tr>
-          <tr><td>Reviews on disk</td><td class="mono">${h.reviews ?? 0}</td></tr>
+          <tr><td>Rows in the review log</td><td class="mono">${h.reviews ?? 0}</td></tr>
           <tr><td>Open / cleared</td><td class="mono">${h.misconceptionsOpen ?? 0} / ${h.misconceptionsRetired ?? 0}</td></tr>
         </tbody></table>
         <p class="note">The browser keeps a fast copy and mirrors it to that file a second or two behind. Clearing site data does not lose your history.</p>`
@@ -596,7 +598,7 @@ export function settingsView(App) {
       <div class="stat"><dt>Current streak</dt><dd class="${st.current ? "good" : ""}">${st.current} d</dd></div>
       <div class="stat"><dt>Best streak</dt><dd>${st.best} d</dd></div>
       <div class="stat"><dt>Days studied</dt><dd>${(App.state.streak?.days || []).length}</dd></div>
-      <div class="stat"><dt>Reviews today</dt><dd>${reviewsToday(App.state)}</dd></div>
+      <div class="stat"><dt>Reviews today</dt><dd>${reviews.today()}</dd></div>
     </dl>
   </div>
 
@@ -630,10 +632,9 @@ export const pbqAnswered = (a) =>
     (Array.isArray(v) ? v.length : v && typeof v === "object" ? Object.keys(v).length : !!v));
 
 export function mockStartView(App) {
-  const best = App.state.mockHistory?.length
-    ? Math.max(...App.state.mockHistory.map((m) => m.scaled))
-    : null;
-  const history = (App.state.mockHistory || []).slice(-5).reverse();
+  const mocks = reviews.rows("mock");
+  const best = mocks.length ? Math.max(...mocks.map((m) => m.scaled)) : null;
+  const history = mocks.slice(-5).reverse();
 
   return `<h1>Mock exam</h1>
   <p class="sub">Format faithful: performance-based questions first, no feedback until you submit, and a clock that does not stop. The point is not the score, it is finding out what falls apart under time pressure.</p>
@@ -759,7 +760,7 @@ function mockMcqHtml(item, chosen, flagged) {
     <div class="opts">
       ${item.options.map((o, i) => optionButton({
         key: KEYS[i], text: o.text, action: "mock-answer", data: { opt: o.id },
-        cls: chosen === o.id ? "chosen" : "",
+        cls: chosen === o.id ? "chosen" : "", verdict: chosen === o.id ? "&#9679;" : "",
       })).join("")}
     </div>
   </div>`;

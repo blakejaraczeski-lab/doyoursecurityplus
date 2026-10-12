@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Installed by ./scripts/service.sh hooks. Every rule in CONVENTIONS.md that
+# can be checked is checked here, before the commit exists.
+exec "$(git rev-parse --show-toplevel)/bin/check"

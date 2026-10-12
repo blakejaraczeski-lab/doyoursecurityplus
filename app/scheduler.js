@@ -158,7 +158,7 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
   const queue = [];
 
   if (mode === "pbq") {
-    const attempted = (id) => state.pbq[id]?.attempts?.length || 0;
+    const attempted = (id) => state.pbq[id]?.attempts || 0;
     return shuffle(content.pbqs)
       .sort((a, b) => attempted(a.id) - attempted(b.id))
       .slice(0, size)
@@ -283,8 +283,12 @@ export function buildMock(content, { pbqCount = 5, total = 90 } = {}) {
 
 const laplace = (correct, seenCount) => (correct + 2) / (seenCount + 4);
 
-/** Mastery 0..1 per objective, and the projected scaled score. */
-export function readiness(state, content, now = Date.now()) {
+/**
+ * Mastery 0..1 per objective, and the projected scaled score. `reviewCount` is
+ * how many answers the review log holds for the recent window; it sets the
+ * width of the band, not the estimate.
+ */
+export function readiness(state, content, now = Date.now(), reviewCount = 0) {
   const perObjective = {};
   for (const d of content.objectives.domains) {
     for (const o of d.objectives) {
@@ -301,9 +305,7 @@ export function readiness(state, content, now = Date.now()) {
   // objective's blueprint it reaches. Both are properties of the bank, not of
   // the learner, and keeping them apart is the whole point: an objective with
   // two items is not an objective you are bad at.
-  // Resolve topic tags the same way scripts/validate_content.py does, aliases
-  // included, so the app and the gate cannot drift apart and report different
-  // coverage for the same bank.
+  // Topic tags resolve through aliases; this is the one place that does it.
   // A canonical topic id always wins over another topic's alias: "segmentation"
   // is 2.5's own topic and only an alias of 3.3's segmentation-2, so the bare
   // word must credit 2.5. Canonical ids are seeded first for that reason.
@@ -378,11 +380,10 @@ export function readiness(state, content, now = Date.now()) {
 
   // PBQ performance folds into the objective the PBQ belongs to.
   for (const p of content.pbqs) {
-    const att = state.pbq[p.id]?.attempts || [];
+    const done = state.pbq[p.id];
     const rec = perObjective[p.objective];
-    if (!rec || !att.length) continue;
-    const best = Math.max(...att.map((a) => a.percent)) / 100;
-    rec.pbqBest = best;
+    if (!rec || !done?.attempts) continue;
+    rec.pbqBest = done.best / 100;
   }
 
   const totals = { itemsSeen: 0, weightedMastery: 0, sampled: 0 };
@@ -408,8 +409,7 @@ export function readiness(state, content, now = Date.now()) {
     // result on an unrepresentative sample, so it is labelled rather than
     // silently discounted.
     rec.bankDepth = rec.topics ? rec.topicsCovered / rec.topics : 0;
-    // Same thresholds as the validator's "thin objectives" report, counting the
-    // same units, so the two agree on which objectives are underbuilt.
+    // Thin: under 35% of the blueprint reached, or fewer than four graded units.
     const units = rec.itemsAvailable + rec.pbqAvailable;
     rec.thin = units > 0 && (rec.bankDepth < 0.35 || units < 4);
 
@@ -429,7 +429,7 @@ export function readiness(state, content, now = Date.now()) {
   const p = Math.max(0, Math.min(1, totals.weightedMastery));
   const scaled = toScaled(p);
 
-  const n = state.reviews.length;
+  const n = reviewCount;
   // Uncertainty, not the estimate, carries the cost of a shallow bank. The
   // point estimate is an honest read of how you did on what exists; how far it
   // might be from your real exam score depends on how much of the blueprint

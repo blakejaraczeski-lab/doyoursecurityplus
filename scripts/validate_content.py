@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Validate the content bank. Run after any content edit.
+"""Validate the content bank: structure and reference integrity. Run after any
+content edit, or let bin/check run it.
 
-Enforces the rules in docs/CONTENT-SCHEMA.md, most importantly: every wrong MCQ
-option and every PBQ subtask must name a misconception that exists. A distractor
-without one is wasted teaching surface, and a dangling reference means the mentor
-engine silently drops the correction.
+Most importantly: every wrong MCQ option and every PBQ subtask must name a
+misconception that exists. A distractor without one is wasted teaching surface,
+and a dangling reference means the mentor engine silently drops the correction.
+
+What this deliberately does not do: grade anything, or compute blueprint
+coverage. Both exist once, in JavaScript, and selftest.html asserts them. A
+second implementation here would be a place for the two to disagree.
 """
 import json, glob, sys, pathlib
 from collections import defaultdict
@@ -17,89 +21,24 @@ def err(m): errors.append(m)
 def warn(m): warnings.append(m)
 
 
-def _ip(a):
-    return int.from_bytes(bytes(int(o) for o in a.split(".")), "big")
-
-
-def _addr_match(rule_addr, ip):
-    if not rule_addr or rule_addr == "any":
-        return True
-    if "/" in rule_addr:
-        net, bits = rule_addr.split("/")
-        bits = int(bits)
-        if bits == 0:
-            return True
-        mask = (0xFFFFFFFF << (32 - bits)) & 0xFFFFFFFF
-        return (_ip(net) & mask) == (_ip(ip) & mask)
-    return rule_addr == ip
-
-
-def _val_match(rv, pv):
-    return not rv or rv == "any" or str(rv) == str(pv)
-
-
-def _addr_covers(a, b):
-    """Is address spec `a` at least as broad as address spec `b`?
-    Mirrors addrCovers() in app/grade/acl.js. Unlike _addr_match, the second
-    argument may itself be a CIDR block rather than a single host."""
-    if a == "any":
-        return True
-    if a == b:
-        return True
-    if "/" in a and "/" not in b:
-        return _addr_match(a, b)
-    if "/" in a and "/" in b:
-        a_bits = int(a.split("/")[1])
-        b_bits = int(b.split("/")[1])
-        return a_bits <= b_bits and _addr_match(a, b.split("/")[0])
-    return False
-
-
-def _evaluate(rules, pkt):
-    """Mirror of app/grade/acl.js evaluate(): first match wins, implicit deny."""
-    for i, r in enumerate(rules):
-        if (_val_match(r.get("protocol"), pkt["protocol"])
-                and _addr_match(r.get("src"), pkt["src"])
-                and _val_match(r.get("srcPort"), pkt["srcPort"])
-                and _addr_match(r.get("dst"), pkt["dst"])
-                and _val_match(r.get("dstPort"), pkt["dstPort"])):
-            return r["action"], i
-    return "deny", -1
-
-
 def verify_references(pbqs):
     """A PBQ whose own reference answer does not score full marks is a broken
     PBQ: either the answer or the test cases are wrong. This is the check that
     catches an unsatisfiable requirement."""
     for p in pbqs:
         if p["kind"] == "acl-table":
-            ref = p["solution"].get("reference")
-            if not ref:
-                warn(f"{p['id']}: no reference rule list, cannot self-verify")
-                continue
-            for tc in p["solution"]["testCases"]:
-                got, idx = _evaluate(ref, tc["packet"])
-                if got != tc["expect"]:
-                    err(f"{p['id']}/{tc['id']}: reference answer yields '{got}' but the "
-                        f"test expects '{tc['expect']}' ({tc['label'][:60]}). The test case "
-                        f"is unsatisfiable alongside the other requirements.")
-            last = ref[-1]
-            for ck in p["solution"]["checks"]:
-                if ck["type"] == "explicit-deny-last" and not (
-                        last["action"] == "deny" and last["src"] == "any" and last["dst"] == "any"):
-                    err(f"{p['id']}: reference answer fails its own explicit-deny-last check")
-                if ck["type"] == "no-permit-any-any" and any(
-                        r["action"] == "permit" and r["src"] == "any" and r["dst"] == "any"
-                        and r.get("dstPort", "any") == "any" for r in ref):
-                    err(f"{p['id']}: reference answer fails its own no-permit-any-any check")
-                if ck["type"] == "source-not-broad":
-                    for r in ref:
-                        if (r["action"] == "permit"
-                                and _addr_covers(r["dst"], ck["match"]["dst"])
-                                and _val_match(r.get("dstPort"), ck["match"]["dstPort"])
-                                and r["src"] not in ck["allowedSources"]):
-                            err(f"{p['id']}: reference answer fails its own least privilege check "
-                                f"(source {r['src']})")
+            # Whether the reference rule set actually scores full marks is
+            # decided by the real grader, in selftest.html. Here: is there one,
+            # and does every test case say what it expects.
+            sol = p["solution"]
+            if not sol.get("reference"):
+                err(f"{p['id']}: no reference rule list; the self test cannot verify it")
+            for tc in sol.get("testCases", []):
+                if tc.get("expect") not in ("permit", "deny") or not isinstance(tc.get("packet"), dict):
+                    err(f"{p['id']}/{tc.get('id')}: test case needs a packet and expect permit|deny")
+            for ck in sol.get("checks", []):
+                if ck.get("type") not in ("no-permit-any-any", "explicit-deny-last", "no-shadowed-rules", "source-not-broad"):
+                    err(f"{p['id']}/{ck.get('id')}: unknown check type {ck.get('type')}")
 
         elif p["kind"] == "wireless-config":
             opts = {f["id"]: {o["value"] for o in f.get("options", [])}
@@ -132,8 +71,7 @@ def verify_references(pbqs):
 def main():
     tax = json.loads((ROOT / "content" / "objectives.json").read_text())
     objectives = {o["id"] for d in tax["domains"] for o in d["objectives"]}
-    # `topics` accepts alias spellings too, but `topic_count` is the real number
-    # of distinct sub-topics in the taxonomy.
+    # Topic tags may use alias spellings; the set below is only for validating tags.
     topics, topic_count = set(), 0
     for d in tax["domains"]:
         for o in d["objectives"]:
@@ -351,104 +289,23 @@ def main():
     print(f"  (recall column is {recall_total} imported vocabulary items, counted separately:")
     print("   they build recognition, they do not test discrimination)")
 
-    # --- blueprint coverage -------------------------------------------------
-    # Domain percentages are a RATIO and are blind to size: a domain can sit at
-    # exactly its exam weight while three of its objectives have no items at
-    # all. That is precisely what happened, so coverage is reported in absolute
-    # terms, per objective, and a zero-item objective is an error.
-    # A canonical topic id ALWAYS wins over another topic's alias.
-    #
-    # Where the same CompTIA bullet appears under two objectives, the generator
-    # suffixes the later one (segmentation-2) and records the bare word as its
-    # alias. Building one flat map let that alias overwrite the canonical entry
-    # of the objective that legitimately owns the bare id, so tagging an item
-    # "segmentation" credited 3.3 and never 2.5. Eighteen topics were affected,
-    # and the coverage report was confidently wrong about all of them.
-    topics_of = {}
-    canonical_ids = set()
-    for d in tax["domains"]:
-        for o in d["objectives"]:
-            topics_of[o["id"]] = [t["id"] for t in o["topics"]]
-            canonical_ids.update(t["id"] for t in o["topics"])
-    alias = {t: t for t in canonical_ids}
-    shadowed = []
-    for d in tax["domains"]:
-        for o in d["objectives"]:
-            for t in o["topics"]:
-                for a in t.get("aliases", []):
-                    if a in canonical_ids:
-                        shadowed.append((a, t["id"]))
-                    else:
-                        alias[a] = t["id"]
-    if shadowed:
-        print(f"\nnote: {len(shadowed)} alias(es) are shadowed by a canonical topic of the "
-              f"same name and can never match; the canonical owner takes the credit")
-        for a, owner in sorted(shadowed)[:6]:
-            print(f"  '{a}' declared on {owner}")
-        if len(shadowed) > 6:
-            print(f"  ... and {len(shadowed) - 6} more")
-
-    touched = defaultdict(int)
-    per_obj_items = defaultdict(int)
+    # --- every objective has graded material ---------------------------
+    # Whether every blueprint TOPIC is reached is computed once, in JS, and
+    # asserted by selftest.html. Here only the count that needs no alias
+    # resolution: an objective with nothing graded in it is an error.
+    per_obj_units = defaultdict(int)
     for it in items:
-        if it["type"] == "recall":
-            continue
-        if it.get("objective"):
-            per_obj_items[it["objective"]] += 1
-        for t in (it.get("topics") or []):
-            if t in alias:
-                touched[alias[t]] += 1
-    for pq in pbqs:
-        if pq.get("objective"):
-            per_obj_items[pq["objective"]] += 1
-        for t in (pq.get("topics") or []):
-            if t in alias:
-                touched[alias[t]] += 1
-
-    all_topics = [t for ts in topics_of.values() for t in ts]
-    hit = sum(1 for t in all_topics if touched[t])
-    print(f"\nblueprint coverage: {hit}/{len(all_topics)} topics touched "
-          f"({hit / len(all_topics):.0%}); {len(all_topics) - hit} with none")
-
-    thin = []
+        if it["type"] != "recall" and it.get("objective"):
+            per_obj_units[it["objective"]] += 1
+    for p in pbqs:
+        if p.get("objective"):
+            per_obj_units[p["objective"]] += 1
     for d in tax["domains"]:
         for o in d["objectives"]:
-            ts = topics_of[o["id"]]
-            c = sum(1 for t in ts if touched[t])
-            n = per_obj_items[o["id"]]
-            if n == 0:
+            if per_obj_units[o["id"]] == 0:
                 err(f"objective {o['id']} has NO graded items ({o['title'][:48]})")
-            elif c / len(ts) < 0.35 or n < 4:
-                thin.append((o["id"], c, len(ts), n))
-    if thin:
-        print(f"  thin objectives ({len(thin)}): topics covered / total, items")
-        for oid, c, t, n in thin:
-            print(f"    {oid}  {c:3d}/{t:3d}  {c/t:4.0%}  {n:2d} items")
-
-    # Pin the gate's reading of the bank so selftest.html can check that
-    # readiness() in JS agrees with it. The two are written independently, so a
-    # mismatch means one of them has drifted, which is exactly how the flat
-    # coverage denominator survived as long as it did.
-    (ROOT / "content" / "coverage.json").write_text(
-        json.dumps(
-            {
-                "topicsCovered": hit,
-                "topicsTotal": len(all_topics),
-                "thin": sorted(oid for oid, _, _, _ in thin),
-                "perObjective": {
-                    o["id"]: {
-                        "topicsCovered": sum(1 for t in topics_of[o["id"]] if touched[t]),
-                        "topics": len(topics_of[o["id"]]),
-                        "units": per_obj_items[o["id"]],
-                    }
-                    for d in tax["domains"]
-                    for o in d["objectives"]
-                },
-            },
-            indent=2,
-        )
-        + "\n"
-    )
+    thinnest = sorted(per_obj_units.items(), key=lambda kv: kv[1])[:3]
+    print("\nthinnest objectives by graded units: " + ", ".join(f"{o} ({n})" for o, n in thinnest))
 
     print(f"\nmisconception reachability:")
     print(f"  retirable now (enough distinct items): {len(mis) - len(unreachable) - len(single)}")

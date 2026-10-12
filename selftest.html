@@ -32,10 +32,11 @@
 </main>
 <script type="module">
 import { loadContent, isGraded } from "./app/content.js";
-import { gradePbq } from "./app/grade/index.js";
+import { gradePbq } from "./app/grade.js";
 import * as mentor from "./app/mentor.js";
 import { buildQueue, readiness, coverageDeficit } from "./app/scheduler.js";
 import { DEFAULT_STATE } from "./app/state.js";
+import { calibrationOf, todayOf } from "./app/reviews.js";
 
 const lines = [];
 let failures = 0;
@@ -177,18 +178,15 @@ say('  <span class="dim">a small bank must not read as a weakness in the learner
         `every stocked objective can reach coverage 1`,
         unreachable.length ? `(${unreachable.map((o) => `${o.objective}:${o.coverage.toFixed(2)}`).join(", ")})` : "");
 
-  // Cross-language pin. content/coverage.json is written by the Python gate;
-  // readiness() computes the same thing independently in JS. They agreeing is
-  // the guard that stopped existing when the two definitions drifted.
-  const gate = await fetch("./content/coverage.json").then((x) => x.json());
-  check(r.topicsCovered === gate.topicsCovered && r.topicsTotal === gate.topicsTotal,
-        `blueprint coverage matches the validator (${r.topicsCovered}/${r.topicsTotal})`,
-        `(gate says ${gate.topicsCovered}/${gate.topicsTotal})`);
-
-  const thin = withItems.filter((o) => o.thin).map((o) => o.objective).sort();
-  check(thin.join(",") === gate.thin.join(","),
-        `the same ${gate.thin.length} objectives read thin in the app and the gate: ${gate.thin.join(", ")}`,
-        `(app says ${thin.join(", ") || "none"})`);
+  // This is the one coverage calculation. It is asserted here, not mirrored.
+  const thin = withItems.filter((o) => o.thin).map((o) => o.objective);
+  check(r.topicsCovered === r.topicsTotal,
+        `every blueprint topic has a graded item (${r.topicsCovered}/${r.topicsTotal})`,
+        `(${r.topicsTotal - r.topicsCovered} topics have none)`);
+  check(thin.length === 0, `no objective reads thin`, `(${thin.join(", ")})`);
+  const units = withItems.map((o) => ({ id: o.objective, n: o.itemsAvailable + o.pbqAvailable }))
+    .sort((a, b) => a.n - b.n).slice(0, 3);
+  say(`  <span class="dim">     thinnest by graded units: ${units.map((u) => `${u.id} (${u.n})`).join(", ")}</span>`);
 
   const deficit = coverageDeficit(perfect, content);
   const stillPulling = Object.entries(deficit).filter(([, d]) => d.remaining === 0 && d.deficit !== 0);
@@ -210,6 +208,27 @@ say("<b>A revealed vocabulary card does not cover a domain</b>");
   check(counted === 0,
         `${recall.length} revealed recall cards contribute 0 to domain coverage`,
         counted ? `(counted ${counted})` : "");
+}
+
+say("");
+say("<b>The review log answers the questions the state document no longer can</b>");
+{
+  const d = new Date(2026, 9, 12, 15, 0, 0);
+  const t0 = new Date(2026, 9, 12, 0, 0, 0).getTime();
+  const rows = [
+    { at: t0 - 1000, kind: "item", grade: 3, conf: "sure" },          // yesterday
+    { at: t0 + 1000, kind: "item", grade: 3, conf: "sure" },
+    { at: t0 + 2000, kind: "item", grade: 1, conf: "sure" },
+    { at: t0 + 3000, kind: "item", grade: 3, conf: "guess" },
+    { at: t0 + 4000, kind: "item", grade: 1, mock: true },             // no conf: not calibration
+    { at: t0 + 5000, kind: "misconception", grade: 1 },               // not an answer
+    { at: t0 + 6000, kind: "mock", scaled: 700 },
+  ];
+  check(todayOf(rows, d) === 4, `today counts answers only: 4 of ${rows.length} rows`, `(got ${todayOf(rows, d)})`);
+  const c = calibrationOf(rows);
+  check(c.sureRight === 2 && c.sureWrong === 1 && c.guessRight === 1 && c.answered === 4,
+        `calibration counts declared confidence only: ${c.sureRight}/${c.sureWrong}/${c.guessRight}/${c.guessWrong}`);
+  check(!("reviews" in DEFAULT_STATE), "the state document has no reviews array");
 }
 
 say("");

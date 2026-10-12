@@ -140,3 +140,39 @@ decision is to keep the type at a small share rather than retire it. The share
 is now a real floor as well as a cap: at least one card in any session with
 room for new coverage, which the old `floor(n * 0.08)` only delivered in
 sessions with thirteen or more new slots.
+
+## One grader, one coverage calculation
+
+`validate_content.py` carried a Python mirror of the ACL grader so the gate
+could run from the command line, and a Python coverage calculation pinned to
+the JavaScript one through `content/coverage.json`. The pin did not catch the
+alias bug, because both sides shared it. Both mirrors are gone: grading and
+coverage exist once, in JavaScript, and `scripts/selftest.py` runs
+`selftest.html` headless in the Chrome on this machine, so the command line
+still gets a non-zero exit. The validator checks structure and references.
+
+## Reviews are a resource
+
+The state document carried every review row, so it grew with every answer and
+was shipped whole on every save; that is how it crossed the 64 KB keepalive
+limit. Reviews, PBQ attempts and mock results are now rows in
+`~/.doyoursecurityplus/reviews.jsonl`, behind `GET` and `POST /api/reviews`,
+and the document holds only what is keyed by item or misconception. The app
+reads back the recent window: today's count, a month of calibration, the mock
+history. A pre-resource document is absorbed on first load, and the server
+absorbs one too if an old client ever sends it.
+
+## A conditional replace, not a force header
+
+`PUT /api/state` used to mean two things depending on an `X-Dysp-Force`
+header. It now means one: replace. A client that wants the server to refuse a
+stale write sends `If-Match` with the version it built on and gets `412` with
+the newer copy; a client resolving the conflict in its own favour sends no
+precondition. That is standard HTTP, and a second client would already know it.
+
+## The checks are the rules
+
+`CONVENTIONS.md` is ten rules; `bin/check` is the ones a machine can hold,
+and the hook makes it run before a commit exists. A rule nobody can lint is a
+wish, and the two that stay manual (no hardcoded item in `app/`, the glyph
+beside every colour) are listed as weaknesses rather than hidden.

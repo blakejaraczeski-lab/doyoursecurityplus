@@ -2,10 +2,11 @@ import { loadContent } from "./content.js";
 import { aclReadoutHtml } from "./ui/pbq.js";
 import * as store from "./state.js";
 import * as sync from "./sync.js";
+import * as reviews from "./reviews.js";
 import * as fsrs from "./fsrs.js";
 import * as mentor from "./mentor.js";
 import { buildQueue, buildMock, FORMATS, PBQ_WEIGHT, weightOf, toScaled } from "./scheduler.js";
-import { gradePbq } from "./grade/index.js";
+import { gradePbq } from "./grade.js";
 import {
   drillHomeView, drillRunView, drillDoneView, labListView, labRunView,
   mockStartView, mockRunnerView, mockReviewView, mockResultView,
@@ -187,7 +188,7 @@ function goalRing(done, goal) {
 function sidebarHtml() {
   const due = mentor.due(App.state, App.content).length;
   const st = store.streakStatus(App.state);
-  const done = store.reviewsToday(App.state);
+  const done = reviews.today();
   const goal = App.state.profile.dailyReviewGoal || 40;
   const days = App.state.profile.examDate ? mentor.daysUntilExam(App.state) : null;
   const here = section();
@@ -315,11 +316,22 @@ function recordItem(item, grade, now = Date.now(), { responseMs = null, conf = n
     desiredRetention: App.state.profile.desiredRetention,
     maxIntervalDays: mentor.daysUntilExam(App.state, now),
   });
-  App.state.reviews.push({ at: now, kind: "item", id: item.id, grade,
-                           ...(responseMs != null ? { ms: responseMs } : {}),
-                           ...(conf != null ? { conf: conf ? "sure" : "guess" } : {}),
-                           ...(mock ? { mock: true } : {}) });
+  reviews.log({ at: now, kind: "item", id: item.id, grade,
+                ...(responseMs != null ? { ms: responseMs } : {}),
+                ...(conf != null ? { conf: conf ? "sure" : "guess" } : {}),
+                ...(mock ? { mock: true } : {}) });
   store.touchStreak(App.state);
+}
+
+/** Bank or pass a misconception, and log the event. The one place both happen. */
+function bankMc(mc, itemId, now, detail = null, confident = true) {
+  mentor.bank(App.state, mc, itemId, now, detail, confident);
+  reviews.log({ at: now, kind: "misconception", id: mc, item: itemId, grade: 1 });
+}
+function passMc(mc, itemId, now, confident = true) {
+  const res = mentor.pass(App.state, mc, itemId, App.content, now, confident);
+  if (res) reviews.log({ at: now, kind: "misconception", id: mc, item: itemId, grade: 3 });
+  return res;
 }
 
 /**
@@ -346,7 +358,7 @@ function recordOutcome(entry, picked, { confident = true, responseMs = null, moc
   const banked = [];
   const retired = [];
   const bank = (mc, detail = null) => {
-    mentor.bank(App.state, mc, item.id, now, detail, confident);
+    bankMc(mc, item.id, now, detail, confident);
     if (!banked.includes(mc)) banked.push(mc);
   };
 
@@ -354,7 +366,7 @@ function recordOutcome(entry, picked, { confident = true, responseMs = null, moc
     const tested = new Set(item.options.filter((o) => o.misconception).map((o) => o.misconception));
     if (entry.targetMisconception) tested.add(entry.targetMisconception);
     for (const mc of tested) {
-      const res = mentor.pass(App.state, mc, item.id, App.content, now, confident);
+      const res = passMc(mc, item.id, now, confident);
       if (res?.retired) retired.push({ id: mc, have: res.have });
     }
   } else {
@@ -421,17 +433,24 @@ function answerMcqMulti() {
   save();
 }
 
-/** Record a graded PBQ attempt and bank or pass every subtask. Returns the banked ids. */
+/**
+ * Record a graded PBQ attempt and bank or pass every subtask. The state keeps
+ * a bounded summary per PBQ; the attempt itself is a row in the review log.
+ * Returns the banked ids.
+ */
 function recordPbq(pbq, g, now, { seconds = null, mock = false } = {}) {
-  const rec = (App.state.pbq[pbq.id] ||= { attempts: [] });
-  rec.attempts.push({ at: now, earned: g.earned, max: g.max, percent: g.percent,
-                      ...(seconds != null ? { seconds } : {}), ...(mock ? { mock: true } : {}) });
+  const rec = (App.state.pbq[pbq.id] ||= { attempts: 0, best: 0, lastAt: 0 });
+  rec.attempts += 1;
+  rec.best = Math.max(rec.best, g.percent);
+  rec.lastAt = now;
+  reviews.log({ at: now, kind: "pbq", id: pbq.id, percent: g.percent, earned: g.earned, max: g.max,
+                ...(seconds != null ? { seconds } : {}), ...(mock ? { mock: true } : {}) });
   const banked = [];
   for (const r of g.results) {
     if (!r.misconception) continue;
-    if (r.pass) mentor.pass(App.state, r.misconception, pbq.id, App.content, now);
+    if (r.pass) passMc(r.misconception, pbq.id, now);
     else {
-      mentor.bank(App.state, r.misconception, pbq.id, now);
+      bankMc(r.misconception, pbq.id, now);
       if (!banked.includes(r.misconception)) banked.push(r.misconception);
     }
   }
@@ -533,9 +552,7 @@ function gradeMock() {
         : "You are holding up on the harder items, which is the right way round."}`);
   }
 
-  (App.state.mockHistory ||= []).push({
-    at: now, format: m.format, raw, scaled, seconds, unanswered, banked: banked.length,
-  });
+  reviews.log({ at: now, kind: "mock", format: m.format, raw, scaled, seconds, unanswered, banked: banked.length });
   return {
     at: now, format: m.format, raw, flatRaw, scaled, seconds, minutes: m.minutes,
     unanswered, banked: banked.length,
@@ -594,7 +611,8 @@ const ACTIONS = {
     next();
   },
   "mentor-ack": () => {
-    mentor.pass(App.state, App.queue[App.idx].targetMisconception, `mentor:${Date.now()}`, App.content);
+    const now = Date.now();
+    passMc(App.queue[App.idx].targetMisconception, `mentor:${now}`, now);
     store.touchStreak(App.state);
     save();
     next();
@@ -863,11 +881,13 @@ document.addEventListener("visibilitychange", () => {
   if (document.visibilityState !== "hidden") return;
   store.flush(App.state);
   sync.flushNow(App.state);
+  reviews.flush();
 });
 
 window.addEventListener("pagehide", () => {
   store.flush(App.state);
   sync.flushBeacon(App.state);
+  reviews.flush();
 });
 
 // --- boot -----------------------------------------------------------------
@@ -888,11 +908,14 @@ window.addEventListener("pagehide", () => {
       sync.push(App.state);
     }
 
+    await reviews.load();
+    const absorbed = reviews.absorb(App.state);
     const moved = store.migrateIds(App.state, App.content);
     const pruned = store.pruneOrphans(App.state, App.content);
+    if (absorbed) console.info(`Moved ${absorbed} review row(s) out of the state document into the log.`);
     if (moved) console.info(`Moved ${moved} progress record(s) to renamed items.`);
     if (pruned) console.info(`Dropped ${pruned} progress record(s) for items no longer in the bank.`);
-    if (moved || pruned) save();
+    if (absorbed || moved || pruned) save();
     sync.health().then((h) => { App.health = h; if (App.screen === "settings") render(); });
 
     startSession("drill");

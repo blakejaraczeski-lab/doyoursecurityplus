@@ -24,9 +24,10 @@ export const DEFAULT_STATE = {
   items: {},
   misconceptions: {},
   pbq: {},
-  reviews: [],
   streak: { days: [], current: 0, best: 0, lastStudied: null },
 };
+// Nothing above grows per answer. The review log is its own resource, see
+// reviews.js; streak.days is capped at 120 entries.
 
 export const today = (d = new Date()) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -65,43 +66,6 @@ export function streakStatus(state, now = new Date()) {
     studiedToday: s.lastStudied === t,
     alive,
   };
-}
-
-/**
- * Confidence calibration.
- *
- * Two numbers matter and they are not symmetrical. Confident-and-wrong is the
- * dangerous quadrant: you will not look it up, because you do not know you are
- * wrong. Guessed-and-right is the fragile quadrant: the score says you know it
- * and you do not.
- */
-export function calibration(state) {
-  let sureRight = 0, sureWrong = 0, guessRight = 0, guessWrong = 0;
-  for (const r of state.reviews || []) {
-    if (r.kind !== "item" || !r.conf) continue;
-    const right = r.grade >= 2;
-    if (r.conf === "sure") right ? sureRight++ : sureWrong++;
-    else right ? guessRight++ : guessWrong++;
-  }
-  const sure = sureRight + sureWrong;
-  const guess = guessRight + guessWrong;
-  return {
-    sureRight, sureWrong, guessRight, guessWrong,
-    answered: sure + guess,
-    overconfidence: sure ? sureWrong / sure : 0,   // claimed sure, got it wrong
-    fragile: guess ? guessRight / guess : 0,       // guessed, got it right
-    // Well calibrated means you are right when you say you are sure, and you
-    // say you are guessing when you are. Perfect is 0.
-    error: sure || guess ? (sure ? sureWrong / sure : 0) * 0.7 + (guess ? guessRight / guess : 0) * 0.3 : null,
-  };
-}
-
-/** Reviews logged today, for the daily goal ring. */
-export function reviewsToday(state, now = new Date()) {
-  const start = new Date(now);
-  start.setHours(0, 0, 0, 0);
-  const from = start.getTime();
-  return (state.reviews || []).reduce((n, r) => n + (r.at >= from ? 1 : 0), 0);
 }
 
 function migrate(parsed) {
@@ -186,10 +150,6 @@ export function migrateIds(state, content) {
     }
   }
   if (!moved) return 0;
-  for (const r of state.reviews || []) {
-    if (r.kind === "item") r.id = map(r.id);
-    if (r.item) r.item = map(r.item);
-  }
   for (const m of Object.values(state.misconceptions || {})) {
     if (m.cleanPasses) m.cleanPasses = m.cleanPasses.map(map);
     if (m.lastItem) m.lastItem = map(m.lastItem);

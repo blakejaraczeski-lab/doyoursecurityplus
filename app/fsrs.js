@@ -7,7 +7,7 @@
 //
 // The published default parameters below were trained on a very large public
 // review corpus. They are good out of the box; once this user has a few hundred
-// reviews logged, `reviews` in the store is exactly the input an optimiser needs.
+// reviews logged, the review log (reviews.jsonl) is exactly what an optimiser needs.
 
 const DEFAULT_W = [
   0.40255, 1.18385, 3.173, 15.69105, 7.1949, 0.5345, 1.4604, 0.0046,

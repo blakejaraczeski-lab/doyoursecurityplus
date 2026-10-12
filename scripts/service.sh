@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Run doyoursecurityplus as a background service, so the study server is always
-# up and the durable state file is always being written.
+# macOS only. Run doyoursecurityplus as a launchd user agent, so the study
+# server is always up and the durable state file is always being written. On
+# Linux run `python3 serve.py` under your own supervisor; a systemd unit is on
+# the ship list and not written yet.
 #
 #   ./scripts/service.sh install            start at login, keep alive
 #   ./scripts/service.sh install --remind 18:30   also nudge daily at 18:30
@@ -8,6 +10,7 @@
 #   ./scripts/service.sh logs
 #   ./scripts/service.sh restart
 #   ./scripts/service.sh uninstall
+#   ./scripts/service.sh hooks              install the pre-commit hook that runs bin/check
 #
 # macOS launchd is used rather than a container: it is native, needs nothing
 # installed, starts at login without a daemon of its own, and restarts the
@@ -148,11 +151,17 @@ print("health          -> reachable, %d reviews, %d open, %d cleared, %d snapsho
 
 cmd_logs() { tail -n "${1:-40}" "$LOG_DIR/server.log" "$LOG_DIR/server.err.log" 2>/dev/null || echo "no logs yet"; }
 
+cmd_hooks() {
+  ln -sf ../../scripts/hooks/pre-commit "$APP_DIR/.git/hooks/pre-commit"
+  echo "pre-commit hook  -> $APP_DIR/.git/hooks/pre-commit (runs bin/check)"
+}
+
 case "${1:-}" in
   install)   shift; cmd_install "$@" ;;
   uninstall) cmd_uninstall ;;
   restart)   cmd_restart ;;
   status)    cmd_status ;;
   logs)      shift; cmd_logs "${1:-40}" ;;
-  *) sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
+  hooks)     cmd_hooks ;;
+  *) sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
 esac

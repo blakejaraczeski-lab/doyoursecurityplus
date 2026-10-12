@@ -1,5 +1,5 @@
 import { esc, gloss, resultsHtml, optionButton, KEYS } from "./common.js";
-import { fieldVisible } from "../grade/wireless.js";
+import { fieldVisible } from "../grade.js";
 
 // Chip letters for the click-to-place PBQs; a pool never holds more than ten.
 const KEYS_10 = "ABCDEFGHIJ";

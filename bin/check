@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# The one command to run before committing. Every rule in CONVENTIONS.md that
+# a machine can enforce, in the order that fails fastest. Stdlib Python, bash,
+# and the browser on this machine; Node is not installed and is not wanted.
+set -u
+cd "$(dirname "$0")/.."
+status=0
+run() {
+  local name="$1"; shift
+  if out="$("$@" 2>&1)"; then
+    printf '  ok   %-18s %s\n' "$name" "$(printf '%s' "$out" | tail -n 1)"
+  else
+    status=1
+    printf '  FAIL %-18s\n%s\n' "$name" "$(printf '%s' "$out" | sed 's/^/         /')"
+  fi
+}
+run "content shape"   python3 scripts/format_content.py --check
+run "content"         python3 scripts/validate_content.py
+run "repo shape"      python3 scripts/check_shape.py
+run "state shape"     python3 scripts/check_state_shape.py
+run "materials"       python3 scripts/check_materials.py
+run "readme counts"   python3 scripts/check_docs.py
+run "self test"       python3 scripts/selftest.py
+if [ "$status" -eq 0 ]; then echo "all checks passed"; else echo "checks failed"; fi
+exit "$status"

@@ -76,7 +76,7 @@ export function bank(state, mcId, itemId, now = Date.now(), detail = null, confi
     rec.confusions = (rec.confusions || []).filter(
       (c) => !(c.picked === detail.picked && c.answer === detail.answer)
     );
-    rec.confusions.push({ ...detail, at: now });
+    rec.confusions.push({ ...detail, at: now });   // bounded: sliced to the last six
     rec.confusions = rec.confusions.slice(-6);
   }
   rec.fsrs = fsrs.review(rec.fsrs, fsrs.RATING.AGAIN, {
@@ -85,7 +85,6 @@ export function bank(state, mcId, itemId, now = Date.now(), detail = null, confi
     maxIntervalDays: daysUntilExam(state, now),
   });
   scheduleStep(state, rec, now);
-  state.reviews.push({ at: now, kind: "misconception", id: mcId, item: itemId, grade: 1 });
   return rec;
 }
 
@@ -100,7 +99,7 @@ export function pass(state, mcId, itemId, content, now = Date.now(), confident =
   // A guessed right answer is not evidence that the misconception is gone. It
   // still counts as a review, it just does not count toward retirement.
   const distinct = confident && !rec.cleanPasses.includes(itemId);
-  if (distinct) rec.cleanPasses.push(itemId);
+  if (distinct) rec.cleanPasses.push(itemId);   // bounded: distinct items only, reset on every miss
   if (!confident) rec.luckyPasses = (rec.luckyPasses || 0) + 1;
 
   rec.fsrs = fsrs.review(rec.fsrs, confident ? fsrs.RATING.GOOD : fsrs.RATING.HARD, {
@@ -112,7 +111,6 @@ export function pass(state, mcId, itemId, content, now = Date.now(), confident =
   // correctly proves you remember that question, not that you fixed the belief.
   if (distinct) rec.step = (rec.step ?? 0) + 1;
   scheduleStep(state, rec, now);
-  state.reviews.push({ at: now, kind: "misconception", id: mcId, item: itemId, grade: 3 });
 
   const needed = content.misconceptions[mcId]?.retireAfter ?? 2;
   if (rec.cleanPasses.length >= needed) {
