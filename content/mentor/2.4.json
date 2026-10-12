@@ -1,0 +1,226 @@
+[
+  {
+    "id": "spraying-vs-brute-force",
+    "label": "Password spraying vs brute force vs credential stuffing",
+    "objective": "2.4",
+    "topics": ["password-spraying", "password-brute-force", "account-lockout", "credential-replay"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You called a low and slow attack brute force. The tell is the direction of the attempts and the lockout behaviour.",
+      "contrast": [
+        ["Attack", "Method", "Log signature"],
+        ["Brute force", "Many passwords against one account", "One account, huge failure count, locked out fast"],
+        ["Password spraying", "One common password against many accounts", "Many accounts, one or two failures each, no lockouts"],
+        ["Credential stuffing", "Username and password pairs leaked from another breach", "Successes mixed with failures, often from unusual locations"]
+      ],
+      "rule": "Spraying is wide and shallow, deliberately staying under the lockout threshold. Brute force is narrow and deep.",
+      "tell": "'A single failed login against each of two hundred accounts, no accounts locked' is spraying.",
+      "trap": "Account lockout stops brute force and does nothing against spraying, which is why spraying is used. Answering lockout to a spraying scenario is the paired error."
+    }
+  },
+  {
+    "id": "worm-vs-virus",
+    "label": "Worm vs virus",
+    "objective": "2.4",
+    "topics": ["worm", "virus", "ransomware", "trojan"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You called self propagating malware a virus. The exam separates them on exactly one point: whether it needs a user or a host file.",
+      "contrast": [
+        ["Aspect", "Virus", "Worm"],
+        ["Needs a host file", "Yes", "No, it is a standalone program"],
+        ["Needs user action", "Yes, someone runs the infected file", "No, it spreads itself"],
+        ["Spread", "As fast as users share files", "Across the network on its own, often in minutes"],
+        ["Classic sign", "Infected documents or executables", "Many hosts compromised quickly with no user involvement"]
+      ],
+      "rule": "If it spread across the network with nobody clicking anything, it is a worm.",
+      "tell": "'Dozens of hosts infected within the hour with no reported user action' is a worm, and it is why containment by segmentation comes first.",
+      "trap": "Virus is the everyday word for all malware, so it is the reflex answer. The exam uses it strictly."
+    }
+  },
+  {
+    "id": "trojan-vs-rootkit-vs-backdoor",
+    "label": "Trojan vs rootkit vs backdoor",
+    "objective": "2.4",
+    "topics": ["trojan", "rootkit", "keylogger", "logic-bomb"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You matched on the outcome rather than on the defining behaviour. Each of these names a different stage.",
+      "contrast": [
+        ["Type", "Defining behaviour", "Tell in the stem"],
+        ["Trojan", "Pretends to be something the user wants", "The user installed a useful looking tool"],
+        ["Rootkit", "Hides itself, often below the OS", "Tools show nothing wrong but the behaviour persists, or it survives a reinstall"],
+        ["Backdoor", "Provides ongoing unauthorised access", "The attacker keeps returning after the password was reset"],
+        ["Logic bomb", "Waits for a condition, then fires", "Triggered on a date, or after an employee was removed from payroll"]
+      ],
+      "rule": "Trojan is how it arrived. Rootkit is how it hides. Backdoor is how the attacker returns. Logic bomb is when it fires.",
+      "tell": "'Antivirus reports the system as clean but the behaviour continues' is a rootkit. The only reliable remedy is to reimage.",
+      "trap": "A rootkit usually arrives as a trojan and installs a backdoor, so all three are present in the story. Answer the part the question actually asks about."
+    }
+  },
+  {
+    "id": "spyware-vs-bloatware-vs-pup",
+    "label": "Spyware vs bloatware, and when unwanted software is actually malicious",
+    "objective": "2.4",
+    "topics": ["spyware", "bloatware", "keylogger", "trojan"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You judged by how annoying the software is rather than by what it does and whether it was meant to be there. Bloatware is unwanted; spyware is hostile. Only one of them is an attack.",
+      "contrast": [
+        ["", "Bloatware", "Spyware"],
+        ["How it arrives", "Preinstalled by a vendor, or bundled with a wanted install", "Installed covertly, often by a trojan or a drive-by"],
+        ["Intent", "Commercial: trials, promotions, vendor utilities", "Surveillance: credentials, browsing, keystrokes, files"],
+        ["Is it malicious", "No, though it enlarges the attack surface", "Yes"],
+        ["Response", "Remove it as part of hardening a build", "Treat as an incident: investigate scope and persistence"]
+      ],
+      "rule": "Bloatware wastes resources and adds unpatched software you never chose. Spyware exfiltrates. If the stem mentions data leaving, it is not bloatware.",
+      "tell": "Preinstalled vendor utilities on a new fleet points to bloatware. Credentials appearing elsewhere points to spyware.",
+      "trap": "Bloatware is a real security problem for an unglamorous reason: it is third-party software, running with privilege, that nobody is patching. Dismissing it as a performance complaint is the error."
+    }
+  },
+  {
+    "id": "physical-and-environmental-attacks",
+    "label": "Physical brute force, RFID cloning and environmental attacks",
+    "objective": "2.4",
+    "topics": ["physical-brute-force", "rfid-cloning", "environmental-attacks", "resource-inaccessibility", "distributed-denial-of-service"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You looked for a network path. Several indicators in this objective are physical, and an attacker who can reach the building or its power does not need one.",
+      "contrast": [
+        ["Attack", "What the attacker does", "Indicator you would see"],
+        ["Physical brute force", "Forces a door, cabinet or lock", "Damage, forced entry, a device missing or added"],
+        ["RFID cloning", "Reads a badge at close range and reproduces it", "One badge used in two places, or outside its holder's pattern"],
+        ["Environmental", "Attacks power, cooling or fire suppression", "Thermal shutdown, a tripped supply, equipment failing together"],
+        ["Resource inaccessibility", "Denies access to a resource by any means", "Users cannot reach a service that is otherwise healthy"],
+        ["Resource consumption", "Exhausts a resource so it cannot serve", "Saturated link, exhausted connections, filled storage"]
+      ],
+      "rule": "An environmental attack targets the conditions equipment needs rather than the equipment. Disabling cooling in a server room takes the estate down without touching a single packet.",
+      "tell": "A cloned badge seen in two buildings, a room running hot, or a failure affecting everything in one location at once.",
+      "trap": "RFID cloning needs only proximity, often seconds in a lift or a queue. Treating badge possession as proof of identity is what makes it work, which is why badges pair with a second factor on sensitive doors."
+    }
+  },
+  {
+    "id": "ddos-amplified-vs-reflected",
+    "label": "Amplified vs reflected distributed denial of service",
+    "objective": "2.4",
+    "topics": ["distributed-denial-of-service-ddos", "amplified-ddos", "reflected-ddos", "dns-attacks"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You used the two terms as if they were one. Most large attacks are both, and the exam still separates them.",
+      "contrast": [
+        ["Term", "Mechanism", "What it buys the attacker"],
+        ["Reflected", "Spoof the victim's address, send requests to third parties, replies land on the victim", "Hides the source and uses innocent servers"],
+        ["Amplified", "Choose a protocol where a small request produces a large reply", "Multiplies traffic, often 50x or more"],
+        ["Both together", "Spoofed requests to open DNS or NTP resolvers", "The common large scale attack"],
+        ["Protocols abused", "DNS, NTP, memcached, SSDP", "All UDP, since UDP does not verify the source"]
+      ],
+      "rule": "Reflection is about who appears to send it. Amplification is about how much comes back. Spoofing the source makes reflection possible.",
+      "tell": "'A 60 byte query producing a 3,000 byte response' is amplification. 'Traffic arriving from thousands of legitimate DNS servers' is reflection.",
+      "trap": "They almost always appear together in real attacks, so both options look correct. Read whether the question emphasises the size multiplier or the disguised origin."
+    }
+  },
+  {
+    "id": "on-path-vs-replay",
+    "label": "On-path attack vs replay vs session hijacking",
+    "objective": "2.4",
+    "topics": ["on-path", "replay", "credential-replay", "forgery"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You matched on 'the attacker was in the middle' without checking whether they modified traffic live or resent it later.",
+      "contrast": [
+        ["Attack", "What the attacker does", "Defence"],
+        ["On-path", "Sits between the parties and can read or alter traffic in real time", "Mutual TLS, certificate validation, HSTS"],
+        ["Replay", "Captures a valid message and sends it again later", "Nonces, timestamps, sequence numbers"],
+        ["Session hijacking", "Takes over an established session, usually with a stolen token", "Secure and HttpOnly cookies, rebinding the session, short lifetimes"],
+        ["Credential replay", "Reuses captured authentication material", "One time values, Kerberos timestamps, MFA"]
+      ],
+      "rule": "On-path is live interception. Replay is a recording played back. A nonce or timestamp defeats replay and does nothing about on-path.",
+      "tell": "'The captured authentication request was submitted again an hour later and was accepted' is replay, and the fix is a nonce or timestamp.",
+      "trap": "Replay usually requires an on-path position to capture the traffic in the first place, so both are present in the story. Answer the mechanism the question describes."
+    }
+  },
+  {
+    "id": "impossible-travel-indicators",
+    "label": "Reading indicators of compromise in authentication data",
+    "objective": "2.4",
+    "topics": ["impossible-travel", "concurrent-session-usage", "account-lockout", "out-of-cycle-logging", "missing-logs", "resource-consumption"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You read a single log line instead of the pattern. Each of these indicators names a specific shape in the data.",
+      "contrast": [
+        ["Indicator", "What it looks like", "Usually means"],
+        ["Impossible travel", "Successful logins from distant locations closer together than travel allows", "Credential compromise, or a VPN in use"],
+        ["Concurrent session usage", "One account active in two places at once", "Shared or stolen credentials"],
+        ["Account lockout", "Many failures on one account", "Brute force, or a stale saved password"],
+        ["Out-of-cycle logging", "Activity at a time this account never works", "Compromise, or automation nobody documented"],
+        ["Missing logs", "A gap where events should be", "Anti-forensics, log tampering"],
+        ["Resource inaccessibility", "Files or services suddenly unavailable", "Ransomware or destructive action"]
+      ],
+      "rule": "Missing logs are an indicator, not an absence of one. A gap is evidence that something removed it.",
+      "tell": "'Authenticated from London at 09:02 and from Singapore at 09:20' is impossible travel, and the first response is to verify with the user.",
+      "trap": "Impossible travel has a high false positive rate from VPNs and cloud egress. It is still the correct name for the indicator."
+    }
+  },
+  {
+    "id": "crypto-attacks",
+    "label": "Downgrade vs collision vs birthday attack",
+    "objective": "2.4",
+    "topics": ["downgrade-attack", "collision", "birthday-attack", "hashing", "cryptographic-vulnerabilities"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You grouped these as 'crypto attacks' without separating what each one actually targets.",
+      "contrast": [
+        ["Attack", "Target", "Mechanism"],
+        ["Downgrade", "The negotiation", "Force both parties to agree on a weaker cipher or protocol version"],
+        ["Collision", "The hash function", "Find two different inputs producing the same digest"],
+        ["Birthday", "The hash function", "Exploit probability so collisions are found far faster than brute force suggests"],
+        ["Defence", "Downgrade: disable legacy versions, require minimum TLS", "Collision: use SHA-256 or better, retire MD5 and SHA-1"]
+      ],
+      "rule": "Downgrade attacks the negotiation, not the algorithm. Collision and birthday attack the hash, with birthday describing why collisions are cheaper than intuition suggests.",
+      "tell": "'The client and server were forced to negotiate SSL 3.0' is a downgrade. 'Two different documents produced the same MD5 digest' is a collision.",
+      "trap": "A downgrade attack ends with weak cryptography being broken, so it looks like an algorithm weakness. The flaw is that the weak option was still offered."
+    }
+  },
+  {
+    "id": "app-attack-types",
+    "label": "Privilege escalation vs directory traversal vs forgery vs injection",
+    "objective": "2.4",
+    "topics": ["privilege-escalation", "directory-traversal", "forgery", "injection", "buffer-overflow"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You named an application attack by its outcome rather than by the mechanism the stem described.",
+      "contrast": [
+        ["Attack", "Mechanism", "Signature in the stem"],
+        ["Privilege escalation", "Gaining rights beyond those granted", "A standard user ended up with administrative access"],
+        ["Directory traversal", "Escaping the intended path to read other files", "Sequences such as ../../ in a file parameter"],
+        ["Request forgery", "Making a victim's browser or server send a request the attacker chose", "The action ran as the victim, who never intended it"],
+        ["Injection", "Input interpreted as code by a downstream interpreter", "SQL fragments, commands, LDAP filters in a parameter"],
+        ["Buffer overflow", "Writing past the end of allocated memory", "Oversized input, crash, then controlled execution"]
+      ],
+      "rule": "Name the mechanism, not the consequence. Most of these can end in the attacker gaining control, so the outcome does not identify them.",
+      "tell": "Path sequences in a parameter are traversal. A parameter interpreted by another system is injection. Extra rights obtained afterwards are escalation.",
+      "trap": "Privilege escalation is the result of many different attacks, so it is always defensible and usually not the specific answer wanted."
+    }
+  },
+  {
+    "id": "evil-twin-vs-rogue-ap",
+    "label": "Evil twin vs rogue access point",
+    "objective": "2.4",
+    "topics": ["wireless-attacks", "on-path", "unsecure-wireless-networks"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You used the two terms interchangeably. They overlap, but the exam separates them by intent and by whether the name is cloned.",
+      "contrast": [
+        ["Aspect", "Rogue access point", "Evil twin"],
+        ["What it is", "Any unauthorised AP on the network", "An AP impersonating a legitimate SSID"],
+        ["Usual source", "An employee plugging in their own AP", "An attacker"],
+        ["Clones the real SSID", "Not necessarily", "Yes, that is the point"],
+        ["Goal", "Often just convenience", "Get clients to associate so traffic can be captured or modified"],
+        ["Detection", "Wireless scanning, NAC, port security", "Wireless IPS looking for duplicate SSIDs"]
+      ],
+      "rule": "Every evil twin is a rogue AP. Not every rogue AP is an evil twin. The cloned SSID is the tell.",
+      "tell": "'Same SSID as corporate, stronger signal, users reconnected automatically' is an evil twin, usually leading to an on-path attack.",
+      "trap": "Rogue AP is the broader and safer sounding term, so it attracts the answer. If the SSID was impersonated, evil twin is the more precise answer and the exam wants precision."
+    }
+  }
+]

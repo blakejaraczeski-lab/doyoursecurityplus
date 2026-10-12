@@ -1,0 +1,214 @@
+[
+  {
+    "id": "a-001",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["cloud-responsibility-matrix"],
+    "difficulty": 3,
+    "stem": "A company runs virtual machines on a public cloud provider's IaaS platform. Who is responsible for applying operating system security patches to those VMs?",
+    "options": [
+      {"id": "a", "text": "The customer", "correct": true, "why": "Under IaaS the provider supplies compute, storage and network. Everything from the guest operating system upward belongs to the customer."},
+      {"id": "b", "text": "The cloud provider", "misconception": "cloud-responsibility-matrix", "why": "The provider patches the hypervisor and the physical infrastructure. The guest OS inside your VM is yours."},
+      {"id": "c", "text": "Shared equally between both parties", "misconception": "cloud-responsibility-matrix", "why": "The matrix assigns each layer to one party. It does not split a single layer."},
+      {"id": "d", "text": "Whichever party the contract names, with no default", "misconception": "cloud-responsibility-matrix", "why": "The service model sets the default division, which is precisely what the responsibility matrix documents."}
+    ]
+  },
+  {
+    "id": "a-002",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["cloud-responsibility-matrix", "misconfiguration"],
+    "difficulty": 3,
+    "stem": "Customer records stored in a SaaS CRM were exposed because a sharing permission was set to 'anyone with the link'. Who is responsible?",
+    "options": [
+      {"id": "a", "text": "The customer, because configuration and access are never transferred to the provider", "correct": true, "why": "Data, identity and configuration remain the customer's responsibility in every service model, SaaS included."},
+      {"id": "b", "text": "The provider, because in SaaS they manage the entire stack", "misconception": "cloud-responsibility-matrix", "why": "They manage the application, the runtime and the infrastructure. They do not choose your sharing settings."},
+      {"id": "c", "text": "The provider, because the exposure was through their application's feature", "misconception": "cloud-responsibility-matrix", "why": "The feature worked as designed. The customer configured it to share publicly."},
+      {"id": "d", "text": "Neither, since no system was breached", "misconception": "cloud-responsibility-matrix", "why": "A data exposure is a security incident whether or not anything was technically compromised."}
+    ]
+  },
+  {
+    "id": "a-014",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["containerization", "virtualization", "virtual-machine-vm-escape"],
+    "difficulty": 3,
+    "stem": "Which statement correctly compares containers with virtual machines?",
+    "options": [
+      {"id": "a", "text": "Containers share the host kernel, which makes them lighter and their isolation weaker", "correct": true, "why": "The shared kernel explains both the millisecond startup and the fact that a kernel flaw affects every container on the host."},
+      {"id": "b", "text": "Containers each run a full guest operating system, like a lightweight VM", "misconception": "containers-vs-virtualization", "why": "That is what a virtual machine does. A container packages only the application and its dependencies."},
+      {"id": "c", "text": "Containers provide stronger isolation than virtual machines because of their smaller attack surface", "misconception": "containers-vs-virtualization", "why": "The image is smaller and the isolation boundary is weaker, because the kernel is shared rather than virtualised."},
+      {"id": "d", "text": "Containers require a hypervisor, virtual machines do not", "misconception": "containers-vs-virtualization", "why": "Reversed. Virtual machines run on a hypervisor; containers run on a container runtime over the shared kernel."}
+    ]
+  },
+  {
+    "id": "a-015",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["virtual-machine-vm-escape", "resource-reuse", "virtualization"],
+    "difficulty": 3,
+    "stem": "An attacker breaks out of a guest virtual machine and executes code on the hypervisor. What is this called, and why does it matter so much?",
+    "options": [
+      {"id": "a", "text": "VM escape, because it exposes every other guest on that host", "correct": true, "why": "The hypervisor is the isolation boundary for all guests. Compromising it collapses the separation between every tenant on the machine."},
+      {"id": "b", "text": "Resource reuse, because memory is shared between guests", "misconception": "containers-vs-virtualization", "why": "Resource reuse is when data lingers in memory or storage reallocated to another tenant. That is a leak, not a breakout."},
+      {"id": "c", "text": "Container escape, because the kernel is shared", "misconception": "containers-vs-virtualization", "why": "Container escape breaks out to a shared host kernel. Virtual machines do not share a kernel."},
+      {"id": "d", "text": "Privilege escalation, confined to the affected guest", "misconception": "containers-vs-virtualization", "why": "The defining feature is that it is not confined to the guest. It reaches the host."}
+    ]
+  },
+  {
+    "id": "a-020",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["air-gapped", "logical-segmentation", "physical-isolation"],
+    "difficulty": 3,
+    "stem": "An engineering team states that their SCADA network is air gapped. An audit finds a single firewalled link to the corporate network used for historian data. How should this be assessed?",
+    "options": [
+      {"id": "a", "text": "It is not air gapped; it is logically segmented and should be described and defended as such", "correct": true, "why": "An air gap means no connection exists. One firewalled link is a controlled path, and treating it as an air gap leads to weaker controls than a connected network requires."},
+      {"id": "b", "text": "It remains air gapped, because the link is firewalled", "misconception": "air-gap-vs-logical-segmentation", "why": "A firewall filters a connection. It does not remove one."},
+      {"id": "c", "text": "It is physically isolated, since the SCADA hardware is separate", "misconception": "air-gap-vs-logical-segmentation", "why": "Separate hardware with a network link between them is not isolation."},
+      {"id": "d", "text": "It is microsegmented", "misconception": "air-gap-vs-logical-segmentation", "why": "Microsegmentation applies policy per workload. One perimeter link between two networks is not that."}
+    ]
+  },
+  {
+    "id": "a-021",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["air-gapped", "removable-device", "physical-isolation"],
+    "difficulty": 3,
+    "stem": "A genuinely air gapped system was infected with malware. What is the most likely vector?",
+    "options": [
+      {"id": "a", "text": "Removable media carried across the gap", "correct": true, "why": "With no network path, data still has to move somehow, and USB media is the classic route into an air gapped environment."},
+      {"id": "b", "text": "A phishing email opened by an operator", "misconception": "air-gap-vs-logical-segmentation", "why": "An air gapped system has no mail connectivity, which is what the gap means."},
+      {"id": "c", "text": "Exploitation of an internet facing service", "misconception": "air-gap-vs-logical-segmentation", "why": "There is no internet facing service. If there were, it would not be air gapped."},
+      {"id": "d", "text": "A compromised VPN credential", "misconception": "air-gap-vs-logical-segmentation", "why": "A VPN is a network path, which an air gapped system by definition does not have."}
+    ]
+  },
+  {
+    "id": "a-022",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["infrastructure-as-code-iac", "serverless", "microservices"],
+    "difficulty": 3,
+    "stem": "An organisation defines its entire cloud environment in version controlled templates that are applied automatically. What is the main security benefit?",
+    "options": [
+      {"id": "a", "text": "Configuration is consistent, reviewable and reproducible, so drift and one-off mistakes are prevented", "correct": true, "why": "Infrastructure as code makes the environment auditable and repeatable, and changes go through review like any other code."},
+      {"id": "b", "text": "The cloud provider becomes responsible for the resulting configuration", "misconception": "cloud-responsibility-matrix", "why": "Configuration is the customer's responsibility in every service model. Automating it does not transfer it."},
+      {"id": "c", "text": "It removes the need to patch the resulting systems", "misconception": "cloud-responsibility-matrix", "why": "It makes rebuilding patched systems easier. It does not remove the requirement."},
+      {"id": "d", "text": "It provides isolation equivalent to an air gap", "misconception": "air-gap-vs-logical-segmentation", "why": "IaC describes how infrastructure is defined. It says nothing about network separation."}
+    ]
+  },
+  {
+    "id": "am-001",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["ics-scada", "availability-2", "inability-to-patch"],
+    "difficulty": 4,
+    "stem": "In a SCADA environment controlling a water treatment process, how do the usual security priorities change?",
+    "options": [
+      {"id": "a", "text": "Availability and safety come first, because an outage is a physical consequence rather than an inconvenience", "correct": true, "why": "Operational technology inverts the familiar ordering. A control system that stops can mean a process out of control, so measures that risk availability are weighed very differently."},
+      {"id": "b", "text": "Confidentiality comes first, because process data is highly sensitive", "misconception": "specialised-system-constraints", "why": "Setpoints and sensor readings are rarely the crown jewels. Keeping the process running safely is."},
+      {"id": "c", "text": "The priorities are identical to corporate IT", "misconception": "specialised-system-constraints", "why": "They are not, which is why the objectives treat these systems separately."},
+      {"id": "d", "text": "Integrity is irrelevant because the data is only telemetry", "misconception": "specialised-system-constraints", "why": "Integrity is critical: falsified readings cause operators or logic to act wrongly on a physical process."}
+    ]
+  },
+  {
+    "id": "am-002",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["real-time-operating-system", "embedded-systems"],
+    "difficulty": 4,
+    "stem": "A proposal is made to install an endpoint detection agent on controllers running a real-time operating system. Why is this likely to be rejected?",
+    "options": [
+      {"id": "a", "text": "A real-time system guarantees deterministic timing; an agent consuming unpredictable CPU can cause the system to miss deadlines, which is a functional failure", "correct": true, "why": "Determinism is a requirement, not a preference. Added latency is a fault in a way it never is on a general-purpose host, which is why these systems are protected from the network instead."},
+      {"id": "b", "text": "Real-time systems have no network connectivity to monitor", "misconception": "specialised-system-constraints", "why": "Many are networked, which is precisely why they need protecting."},
+      {"id": "c", "text": "Endpoint agents cannot detect threats on embedded platforms", "misconception": "specialised-system-constraints", "why": "The obstacle is the effect on timing and the usual absence of a supported build, not detection capability in principle."},
+      {"id": "d", "text": "The agent would violate the vendor's data protection obligations", "misconception": "specialised-system-constraints", "why": "Vendor certification is an obstacle for different reasons: changing the configuration can void support."}
+    ]
+  },
+  {
+    "id": "am-003",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["iot", "embedded-systems", "patch-availability"],
+    "difficulty": 3,
+    "stem": "What architectural characteristic do IoT devices, embedded systems and industrial controllers most commonly share that shapes how they must be secured?",
+    "options": [
+      {"id": "a", "text": "Limited or absent update mechanisms and very long service lives, so they outlive vendor support", "correct": true, "why": "A controller installed for twenty years will spend most of that unsupported. The design has to assume the device will not be fixed, which pushes everything onto network controls."},
+      {"id": "b", "text": "They all run full general-purpose operating systems", "misconception": "specialised-system-constraints", "why": "Most run minimal or real-time systems with no capacity for conventional tooling."},
+      {"id": "c", "text": "They are always air gapped", "misconception": "air-gap-vs-logical-segmentation", "why": "Rarely true in practice, and assuming it is the reason many of these environments are reachable."},
+      {"id": "d", "text": "They hold little data, so compromise has limited impact", "misconception": "specialised-system-constraints", "why": "Impact is physical: they control processes. The data they hold is not the measure."}
+    ]
+  },
+  {
+    "id": "am-004",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["centralized-vs-decentralized"],
+    "difficulty": 4,
+    "stem": "An organisation consolidates security management of forty offices into one central platform. What does it gain, and what does it accept?",
+    "options": [
+      {"id": "a", "text": "Consistent policy and a single view, at the cost of a larger blast radius if the centre is compromised or unavailable", "correct": true, "why": "Centralisation concentrates control and consequence together. The trade is real in both directions, which is why the exam asks what was accepted rather than which is better."},
+      {"id": "b", "text": "Both better consistency and better resilience, with no meaningful trade-off", "misconception": "centralized-vs-decentralized", "why": "Resilience generally worsens: the centre becomes a single point of failure for all forty sites."},
+      {"id": "c", "text": "Better resilience at the cost of consistency", "misconception": "centralized-vs-decentralized", "why": "Reversed. Consistency is what centralisation buys."},
+      {"id": "d", "text": "Lower cost with no change to the security posture", "misconception": "architecture-tradeoffs", "why": "The posture changes substantially in both directions, whatever happens to cost."}
+    ]
+  },
+  {
+    "id": "am-005",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["cost", "ease-of-deployment", "scalability"],
+    "difficulty": 4,
+    "stem": "A team must stand up a new service in three weeks with minimal capital expenditure, accepting higher running costs later. Which architectural property is being prioritised?",
+    "options": [
+      {"id": "a", "text": "Ease of deployment, traded against long-run operating cost", "correct": true, "why": "Speed to stand up is being bought, and the stem states the price: higher ongoing cost. That is the shape of every architecture trade-off question."},
+      {"id": "b", "text": "Ease of recovery", "misconception": "architecture-tradeoffs", "why": "That concerns how quickly you restore after failure, which the stem does not mention."},
+      {"id": "c", "text": "Responsiveness", "misconception": "architecture-tradeoffs", "why": "Latency to the user, which is also not in the stem."},
+      {"id": "d", "text": "Risk transference", "misconception": "architecture-tradeoffs", "why": "Moving risk to a provider may be a side effect, and the stated requirement is time and capital."}
+    ]
+  },
+  {
+    "id": "am-006",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["ease-of-recovery", "availability-2", "resilience"],
+    "difficulty": 4,
+    "stem": "Two designs are compared. A: stateless containers rebuilt from images in minutes. B: a long-lived stateful server restored from backup over several hours. Which property distinguishes them, and why does it matter for security?",
+    "options": [
+      {"id": "a", "text": "Ease of recovery; a design you can rebuild quickly makes reimaging after compromise cheap, so the secure response stops being the expensive one", "correct": true, "why": "Recovery cost shapes behaviour. When rebuilding takes minutes, nobody argues for cleaning a compromised host in place."},
+      {"id": "b", "text": "Scalability, since containers scale more easily", "misconception": "architecture-tradeoffs", "why": "True and not what the stem contrasts, which is restoration time."},
+      {"id": "c", "text": "Responsiveness, since containers start faster", "misconception": "architecture-tradeoffs", "why": "Responsiveness is latency in serving requests, not time to restore."},
+      {"id": "d", "text": "Cost, since containers are cheaper to run", "misconception": "architecture-tradeoffs", "why": "Not stated, and not the distinction being drawn."}
+    ]
+  },
+  {
+    "id": "am-007",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["risk-transference", "third-party-vendors", "cloud-responsibility-matrix"],
+    "difficulty": 4,
+    "stem": "A company moves its payroll system to a managed SaaS provider, citing risk transference. A breach later exposes employee records. What has actually transferred?",
+    "options": [
+      {"id": "a", "text": "Operational responsibility and some financial consequence; the accountability to employees and regulators remains with the company", "correct": true, "why": "You can contract away work and some liability. The obligation to notify, and the reputational and regulatory exposure, stay where the data subjects' relationship is."},
+      {"id": "b", "text": "Full accountability, since the provider now controls the system", "misconception": "architecture-tradeoffs", "why": "Accountability cannot be purchased away. The company remains the controller of its employees' data."},
+      {"id": "c", "text": "Nothing: risk transference is not possible in cloud arrangements", "misconception": "architecture-tradeoffs", "why": "Overcorrection. Real operational risk and contractual liability do move."},
+      {"id": "d", "text": "Only the cost of running the system", "misconception": "architecture-tradeoffs", "why": "Genuine operational risk transfers too, which is a legitimate reason to do it."}
+    ]
+  },
+  {
+    "id": "am-008",
+    "type": "mcq-multi",
+    "objective": "3.1",
+    "topics": ["ics-scada", "real-time-operating-system", "centralized-vs-decentralized", "cost"],
+    "difficulty": 4,
+    "stem": "Which TWO statements about specialised and distributed architectures are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "In operational technology, availability and safety typically outrank confidentiality", "correct": true, "why": "An outage in a physical process is a safety event, which reorders the usual priorities."},
+      {"id": "b", "text": "Centralising management concentrates both control and the consequences of failure", "correct": true, "why": "The same property that delivers consistency makes the centre a single point of failure."},
+      {"id": "c", "text": "Endpoint agents are the primary control for real-time controllers", "misconception": "specialised-system-constraints", "why": "They threaten the timing guarantees these systems exist to provide; network isolation is the usual answer."},
+      {"id": "d", "text": "Decentralised architectures are inherently more secure", "misconception": "centralized-vs-decentralized", "why": "They contain failures better and drift more. Neither is inherently more secure."},
+      {"id": "e", "text": "Moving to a managed service transfers accountability for a breach", "misconception": "architecture-tradeoffs", "why": "Responsibility and some liability move; accountability to regulators and data subjects does not."}
+    ],
+    "selectCount": 2
+  }
+]

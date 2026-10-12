@@ -1,6 +1,9 @@
 # Content schema
 
-Three content types. All are plain JSON, validated by `scripts/validate_content.py`.
+Three content types. All are plain JSON, validated by `scripts/validate_content.py`
+and written in one canonical shape by `scripts/format_content.py`: items and
+misconceptions live in one file per objective (`content/items/4.1.json`,
+`content/mentor/4.1.json`), keys in a fixed order, defaults left out.
 
 ## Misconception (`content/mentor/*.json`)
 
@@ -24,7 +27,7 @@ actually got wrong, independent of which item exposed it.
     "tell": "The words in the question stem that should trigger this rule.",
     "trap": "Why the wrong answer looked right. Optional but high value."
   },
-  "retireAfter": 2                 // clean passes on DISTINCT items to retire it
+  "retireAfter": 3                 // clean passes on DISTINCT items to retire it; 2 is the default and is left out
 }
 ```
 
@@ -48,7 +51,7 @@ cannot pass by memorising one card's shape.
     { "id": "b", "text": "...", "misconception": "wpa3-sae-vs-enterprise",
       "why": "Correction aimed at THIS error, not a restatement of the answer." }
   ],
-  "selectCount": 1                 // >1 for mcq-multi
+  "selectCount": 2                 // mcq-multi only; absent on mcq
 }
 ```
 

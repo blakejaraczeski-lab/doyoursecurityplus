@@ -3,7 +3,6 @@
     "id": "terminology-1-2",
     "label": "Confusing neighbouring terms in 1.2",
     "objective": "1.2",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 1.2 (fundamental security concepts) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -11,14 +10,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-1-4",
     "label": "Confusing neighbouring terms in 1.4",
     "objective": "1.4",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 1.4 (the importance of using appropriate cryptographic solutions) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -26,14 +23,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-2-1",
     "label": "Confusing neighbouring terms in 2.1",
     "objective": "2.1",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 2.1 (common threat actors and motivations) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -41,14 +36,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-2-3",
     "label": "Confusing neighbouring terms in 2.3",
     "objective": "2.3",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 2.3 (various types of vulnerabilities) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -56,14 +49,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-2-4",
     "label": "Confusing neighbouring terms in 2.4",
     "objective": "2.4",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 2.4 (indicators of malicious activity) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -71,14 +62,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-3-1",
     "label": "Confusing neighbouring terms in 3.1",
     "objective": "3.1",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 3.1 (security implications of different architecture models) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -86,14 +75,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-3-2",
     "label": "Confusing neighbouring terms in 3.2",
     "objective": "3.2",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 3.2 (security principles to secure enterprise infrastructure) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -101,14 +88,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-3-4",
     "label": "Confusing neighbouring terms in 3.4",
     "objective": "3.4",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 3.4 (the importance of resilience and recovery in security architecture) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -116,14 +101,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-4-3",
     "label": "Confusing neighbouring terms in 4.3",
     "objective": "4.3",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 4.3 (various activities associated with vulnerability management) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -131,14 +114,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-4-5",
     "label": "Confusing neighbouring terms in 4.5",
     "objective": "4.5",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 4.5 (enterprise capabilities to enhance security) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -146,14 +127,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-4-6",
     "label": "Confusing neighbouring terms in 4.6",
     "objective": "4.6",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 4.6 (identity and access management) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -161,14 +140,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-4-9",
     "label": "Confusing neighbouring terms in 4.9",
     "objective": "4.9",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 4.9 (data sources to support an investigation) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -176,14 +153,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-5-1",
     "label": "Confusing neighbouring terms in 5.1",
     "objective": "5.1",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 5.1 (elements of effective security governance) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -191,14 +166,12 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   },
   {
     "id": "terminology-5-2",
     "label": "Confusing neighbouring terms in 5.2",
     "objective": "5.2",
-    "topics": [],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You picked a term that belongs to a neighbour of the one described. Objective 5.2 (elements of the risk management process) contains families of terms that sound interchangeable and are separated by one attribute each.",
@@ -206,7 +179,6 @@
       "rule": "When two terms in the same family feel interchangeable, do not memorise both definitions. Find the single attribute the exam uses to tell them apart, and learn that attribute.",
       "tell": "The exam rarely asks you to define a term. It gives you a scenario and offers you the whole family, so the only thing that earns the mark is the difference.",
       "trap": "Reading a definition and recognising it feels like knowing it. Recognition is much easier than discrimination, which is why a flashcard you reveal to yourself overstates how ready you are."
-    },
-    "retireAfter": 2
+    }
   }
 ]

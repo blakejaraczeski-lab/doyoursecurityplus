@@ -27,6 +27,23 @@ export function objectiveLabel(content, id) {
   return o ? `${id} ${o.title}` : id || "untagged";
 }
 
+export const KEYS = ["A", "B", "C", "D", "E", "F"];
+
+/**
+ * One answer option. The same control everywhere an option is chosen: the
+ * drill, multiple select, the mock, and the choice tasks inside a diagram PBQ.
+ * Full width and 56px tall, because it is hit hundreds of times a session.
+ */
+export function optionButton({ key, text, action, data = {}, cls = "", verdict = "", disabled = false, checked = null }) {
+  const attrs = Object.entries(data).map(([k, v]) => `data-${k}="${esc(v)}"`).join(" ");
+  const role = checked == null ? "" : ` role="checkbox" aria-checked="${checked}"`;
+  return `<button class="opt ${cls}" data-action="${action}" ${attrs}${role} ${disabled ? "disabled" : ""}>
+    <span class="key" aria-hidden="true">${key}</span>
+    <span>${gloss(text)}</span>
+    <span class="verdict" aria-hidden="true">${verdict}</span>
+  </button>`;
+}
+
 /** Retirement progress as filled pips. Discrete progress reads faster than a bar. */
 function pipsHtml(have, needed) {
   return `<span class="pips" role="img" aria-label="${have} of ${needed} clean passes">${
@@ -43,7 +60,7 @@ function pipsHtml(have, needed) {
  * because that is the single sentence you need to retrieve under time pressure
  * and isolated items are remembered far better than items inside a paragraph.
  */
-export function mentorCardHtml(card, { compact = false } = {}) {
+export function mentorCardHtml(card) {
   if (!card) return "";
   const m = card.mentor;
   const rows = m.contrast || [];
@@ -55,7 +72,7 @@ export function mentorCardHtml(card, { compact = false } = {}) {
     : "";
 
   const refs = (card.reviewIn || [])
-    .map((s) => `<li>${esc(s.source || "Notes")} &mdash; ${esc(s.title)}, p.${s.page}</li>`)
+    .map((s) => `<li>${esc(s.source || "Notes")}: ${esc(s.title)}, p.${s.page}</li>`)
     .join("");
 
   const p = card.progress;
@@ -80,7 +97,7 @@ export function mentorCardHtml(card, { compact = false } = {}) {
     ${tier ? `<div class="tier-banner t-${tier[0]}"><b>${esc(tier[1])}</b><span>${esc(tier[2])}</span></div>` : ""}
     <div class="spread mentor-head">
       <div>
-        <h4>${esc(card.label)}</h4>
+        <h3>${esc(card.label)}</h3>
         <div class="faint">${esc(card.objectiveTitle || "")}</div>
       </div>
       ${badge}
@@ -88,14 +105,14 @@ export function mentorCardHtml(card, { compact = false } = {}) {
     <p class="diag">${esc(m.diagnosis)}</p>
     ${(card.blockers || []).length ? `<div class="blockers">
       <b>This sits on top of something still open</b>
-      <ul>${card.blockers.map((b) => `<li><b>${esc(b.def.label)}</b> &mdash; ${esc(b.why)}</li>`).join("")}</ul>
+      <ul>${card.blockers.map((b) => `<li><b>${esc(b.def.label)}</b>: ${esc(b.why)}</li>`).join("")}</ul>
       <span class="faint">Expect this one to keep slipping until that is solid. The queue will route you there first.</span>
     </div>` : ""}
     ${table}
     <div class="rule-of-thumb"><span class="lbl">Rule of thumb</span>${esc(m.rule)}</div>
     <div class="kv"><b>What to look for in the stem</b>${esc(m.tell)}</div>
     ${m.trap ? `<div class="kv"><b>Why the wrong answer looked right</b>${esc(m.trap)}</div>` : ""}
-    ${refs && !compact
+    ${refs
       ? `<details class="refs"><summary>Read more in your own materials</summary><ul>${refs}</ul></details>`
       : ""}
   </article>`;
@@ -130,7 +147,7 @@ export function sessionBarHtml({ index, total, label, right }) {
       <span>${right || ""}</span>
     </div>
     <div class="track" role="progressbar" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${total}">
-      <i style="width:${total ? (done / total) * 100 : 0}%"></i>
+      <i style="--w:${total ? (done / total) * 100 : 0}%"></i>
     </div>
   </div>`;
 }

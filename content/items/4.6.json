@@ -1,0 +1,328 @@
+[
+  {
+    "id": "c-019",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["multifactor-authentication", "something-you-know", "something-you-have"],
+    "difficulty": 2,
+    "stem": "A bank requires a password plus the answer to a security question. Is this multifactor authentication?",
+    "options": [
+      {"id": "a", "text": "No, because both are something you know", "correct": true, "why": "Multifactor means factors from different categories. Two knowledge based credentials are still one factor."},
+      {"id": "b", "text": "Yes, because two separate credentials are required", "misconception": "mfa-same-factor", "why": "Counting credentials is the error. You count categories: know, have, are, and somewhere you are."},
+      {"id": "c", "text": "Yes, because the security question is something you are", "misconception": "mfa-same-factor", "why": "Something you are means a biometric. A remembered fact about your life is knowledge."},
+      {"id": "d", "text": "No, because security questions are not a recognised authentication method", "misconception": "mfa-same-factor", "why": "They are recognised, just weak, and the reason this fails as MFA is the shared category."}
+    ]
+  },
+  {
+    "id": "c-020",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["multifactor-authentication", "something-you-are", "somewhere-you-are"],
+    "difficulty": 3,
+    "stem": "Which combination is genuine multifactor authentication?",
+    "options": [
+      {"id": "a", "text": "A smart card and the PIN that unlocks it", "correct": true, "why": "The card is something you have and the PIN is something you know. Two categories, so it is multifactor."},
+      {"id": "b", "text": "A password and a PIN", "misconception": "mfa-same-factor", "why": "Both are something you know."},
+      {"id": "c", "text": "A fingerprint and a retina scan", "misconception": "mfa-same-factor", "why": "Both are something you are. Two biometrics are still one factor."},
+      {"id": "d", "text": "A password and the answer to a memorable date question", "misconception": "mfa-same-factor", "why": "Both are knowledge, which is the most commonly offered fake second factor."}
+    ]
+  },
+  {
+    "id": "c-021",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["attribute-based-access-control-abac", "role-based-access-control-rbac"],
+    "difficulty": 3,
+    "stem": "A policy states that contractors may open design documents only from a managed device, during business hours, and while inside the country. Which access control model is this?",
+    "options": [
+      {"id": "a", "text": "Attribute-based access control", "correct": true, "why": "The decision combines several attributes at once: employment type, device state, time and location. That combination is ABAC."},
+      {"id": "b", "text": "Role-based access control", "misconception": "access-control-models", "why": "RBAC decides on job function alone. It cannot express device posture, time of day and location together."},
+      {"id": "c", "text": "Mandatory access control", "misconception": "access-control-models", "why": "MAC decides by security labels and clearances assigned centrally, which is not what is described."},
+      {"id": "d", "text": "Discretionary access control", "misconception": "access-control-models", "why": "DAC leaves the decision to the resource owner. Here a central policy decides."}
+    ]
+  },
+  {
+    "id": "c-022",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["discretionary-access-control-dac", "mandatory-access-control-mac"],
+    "difficulty": 3,
+    "stem": "On a file server, the creator of a folder can grant other users access to it at their own discretion. Which model is in use?",
+    "options": [
+      {"id": "a", "text": "Discretionary access control", "correct": true, "why": "The owner of the resource decides who may access it. That discretion is the defining feature."},
+      {"id": "b", "text": "Mandatory access control", "misconception": "access-control-models", "why": "Under MAC the system enforces labels and users cannot override them, which is the opposite of owner discretion."},
+      {"id": "c", "text": "Role-based access control", "misconception": "access-control-models", "why": "RBAC assigns access by job function, administered centrally, not granted ad hoc by whoever made the folder."},
+      {"id": "d", "text": "Rule-based access control", "misconception": "access-control-models", "why": "Rule-based applies global conditions to everyone, such as a time restriction, regardless of owner."}
+    ]
+  },
+  {
+    "id": "c-023",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["least-privilege", "permission-assignments-and-implications"],
+    "difficulty": 3,
+    "stem": "An accounts payable clerk can both create a new supplier record and approve payments to it. Which principle is violated?",
+    "options": [
+      {"id": "a", "text": "Separation of duties", "correct": true, "why": "One person can complete an entire sensitive transaction alone, which is the fraud scenario separation of duties exists to prevent."},
+      {"id": "b", "text": "Least privilege", "misconception": "least-privilege-vs-need-to-know", "why": "Least privilege is arguably implicated, and the precise principle is that a single process must be split between people."},
+      {"id": "c", "text": "Need to know", "misconception": "least-privilege-vs-need-to-know", "why": "Need to know restricts which data you may see. The problem here is which actions one person may complete."},
+      {"id": "d", "text": "Job rotation", "misconception": "least-privilege-vs-need-to-know", "why": "Job rotation limits how long one person holds a role. It does not address combining two duties today."}
+    ]
+  },
+  {
+    "id": "c-024",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["least-privilege", "permission-assignments-and-implications"],
+    "difficulty": 3,
+    "stem": "An analyst is cleared to access case files but is found browsing cases unrelated to any assignment. Which principle should be enforced?",
+    "options": [
+      {"id": "a", "text": "Need to know", "correct": true, "why": "Clearance establishes that they may handle this class of data. Need to know restricts them to the specific records their work requires."},
+      {"id": "b", "text": "Least privilege", "misconception": "least-privilege-vs-need-to-know", "why": "Least privilege concerns the permissions and actions granted. Here the permission level is correct and the data scope is not."},
+      {"id": "c", "text": "Separation of duties", "misconception": "least-privilege-vs-need-to-know", "why": "No single process is being completed by one person. Nothing about duties is at issue."},
+      {"id": "d", "text": "Mandatory vacation", "misconception": "least-privilege-vs-need-to-know", "why": "A detective control for long running fraud, unrelated to scoping data access."}
+    ]
+  },
+  {
+    "id": "id-001",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["open-authorization", "security-assertions-markup-language", "single-sign-on"],
+    "difficulty": 4,
+    "stem": "A photo printing site asks to access a user's cloud storage. The user is redirected to the storage provider, approves access to one folder, and the printing site receives a token. It never sees the user's storage password. Which standard is doing this work?",
+    "options": [
+      {"id": "a", "text": "OAuth 2.0, which delegates authorisation to a resource without sharing credentials", "correct": true, "why": "Scoped, delegated access to a resource by token is exactly what OAuth was designed for. Note that it says nothing about who the user is to the printing site."},
+      {"id": "b", "text": "SAML, which passes an authentication assertion to the service provider", "misconception": "sso-federation-protocols", "why": "SAML carries an assertion about identity between an identity provider and a service provider. Here the question is what the app may touch, not who the user is."},
+      {"id": "c", "text": "LDAP, which authenticates the user against the directory", "misconception": "sso-federation-protocols", "why": "LDAP queries a directory inside an organisation. It is not a cross-service delegation protocol."},
+      {"id": "d", "text": "Kerberos, which issues a service ticket for the storage resource", "misconception": "sso-federation-protocols", "why": "Kerberos works inside a realm with a ticket granting service. It is not how two unrelated internet services share scoped access."}
+    ]
+  },
+  {
+    "id": "id-002",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["federation", "single-sign-on", "security-assertions-markup-language", "interoperability"],
+    "difficulty": 4,
+    "stem": "Staff at a university sign in with their university account and are admitted to a research consortium's systems run by a different institution, without an account being created there. What describes this arrangement?",
+    "options": [
+      {"id": "a", "text": "Federation, in which one organisation's identity provider is trusted by another's service provider", "correct": true, "why": "The defining feature is trust across an organisational boundary. The home institution authenticates and asserts; the consortium consumes the assertion."},
+      {"id": "b", "text": "Single sign-on within the consortium's directory", "misconception": "sso-federation-protocols", "why": "SSO means one login across multiple applications, typically inside one trust domain. The point here is that the boundary is crossed and no local account exists."},
+      {"id": "c", "text": "Directory replication between the two institutions", "misconception": "sso-federation-protocols", "why": "Replication would copy accounts across, which is precisely what federation avoids."},
+      {"id": "d", "text": "Delegated authorisation using OAuth scopes", "misconception": "sso-federation-protocols", "why": "OAuth grants an application access to a resource. It does not establish who the person is to the receiving institution."}
+    ]
+  },
+  {
+    "id": "id-003",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["lightweight-directory-access-protocol", "single-sign-on"],
+    "difficulty": 3,
+    "stem": "An internal application needs to look up which security groups a user belongs to in the company's on-premises directory. Which protocol is designed for this?",
+    "options": [
+      {"id": "a", "text": "LDAP", "correct": true, "why": "LDAP is a directory access protocol: querying users, groups and attributes, and authenticating by bind. Internal, hierarchical, and not a federation standard."},
+      {"id": "b", "text": "SAML", "misconception": "sso-federation-protocols", "why": "SAML carries assertions between organisations. It is not how an application queries a local directory for group membership."},
+      {"id": "c", "text": "OAuth 2.0", "misconception": "sso-federation-protocols", "why": "OAuth issues tokens for delegated resource access. It has no directory query semantics."},
+      {"id": "d", "text": "RADIUS", "misconception": "sso-federation-protocols", "why": "RADIUS centralises authentication for network access such as VPN and 802.1X, not directory attribute lookups by an application."}
+    ]
+  },
+  {
+    "id": "id-004",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["identity-proofing", "provisioning-user-accounts"],
+    "difficulty": 3,
+    "stem": "Before a new remote contractor is issued any account, the organisation verifies government-issued identification against a live video check and confirms the engagement with the hiring manager. What is this step called?",
+    "options": [
+      {"id": "a", "text": "Identity proofing", "correct": true, "why": "Establishing that the person is who they claim to be, before any credential exists. It is the foundation everything else rests on, and remote onboarding is where it is weakest."},
+      {"id": "b", "text": "Provisioning", "misconception": "identity-lifecycle", "why": "Provisioning is creating the account and assigning entitlements. It comes after you have established who the person is."},
+      {"id": "c", "text": "Attestation", "misconception": "identity-lifecycle", "why": "Attestation is the periodic re-justification of access someone already holds."},
+      {"id": "d", "text": "Authentication", "misconception": "identity-lifecycle", "why": "Authentication proves a returning user controls an existing credential. No credential exists yet."}
+    ]
+  },
+  {
+    "id": "id-005",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["attestation", "de-provisioning-user-accounts", "permission-assignments-and-implications"],
+    "difficulty": 4,
+    "stem": "An employee has moved from the warehouse to finance to procurement over eight years. She can still approve goods receipts, raise purchase orders and release payments. No single grant was improper at the time. Which control was missing?",
+    "options": [
+      {"id": "a", "text": "Access attestation: a periodic review in which an owner re-justifies each entitlement", "correct": true, "why": "Privilege creep comes from legitimate grants that were never revisited. Attestation is the control designed to catch exactly this, and it also surfaces the separation of duties breach that has formed."},
+      {"id": "b", "text": "Identity proofing at the point of each role change", "misconception": "identity-lifecycle", "why": "Her identity was never in doubt. The problem is accumulated entitlements, not who she is."},
+      {"id": "c", "text": "De-provisioning, since her old accounts should have been deleted", "misconception": "identity-lifecycle", "why": "De-provisioning applies when someone leaves. She is still employed; her rights should have been adjusted, not closed."},
+      {"id": "d", "text": "Stronger authentication on the finance system", "misconception": "identity-lifecycle", "why": "Authentication confirms she is herself. The issue is that being herself now grants too much."}
+    ]
+  },
+  {
+    "id": "id-006",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["provisioning-user-accounts", "least-privilege-2", "permission-assignments-and-implications"],
+    "difficulty": 3,
+    "stem": "To speed onboarding, an administrator creates new analyst accounts by copying the permissions of an existing analyst who has been in post for six years. What is the security problem?",
+    "options": [
+      {"id": "a", "text": "The new accounts inherit every entitlement the existing analyst accumulated, which nobody has reviewed", "correct": true, "why": "Cloning copies history, not the role. It propagates privilege creep to everyone onboarded this way and makes the excess harder to see each time."},
+      {"id": "b", "text": "Copied accounts share the same password by default", "misconception": "identity-lifecycle", "why": "Not implied, and not the issue the question is about. The entitlements are the problem."},
+      {"id": "c", "text": "Copying permissions is a form of discretionary access control, which is prohibited", "misconception": "access-control-models", "why": "DAC is a model, not a prohibited practice, and this is about provisioning hygiene rather than the model in use."},
+      {"id": "d", "text": "The new accounts cannot be attested because their origin is undocumented", "misconception": "identity-lifecycle", "why": "They can be attested. The point is that without attestation the inherited excess goes unnoticed."}
+    ]
+  },
+  {
+    "id": "id-007",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["password-length", "password-complexity"],
+    "difficulty": 4,
+    "stem": "An organisation is concerned about offline cracking after a password hash database is stolen. Which policy change most effectively increases the cost of cracking?",
+    "options": [
+      {"id": "a", "text": "Increasing minimum password length substantially", "correct": true, "why": "Each additional character multiplies the search space. Length is the dominant factor against offline attack, which is why modern guidance leads with it."},
+      {"id": "b", "text": "Requiring at least one uppercase letter, one digit and one symbol", "misconception": "password-policy-levers", "why": "Complexity rules produce predictable substitutions that cracking rules already model. The gain is far smaller than the same effort spent on length."},
+      {"id": "c", "text": "Reducing maximum password age to 30 days", "misconception": "password-policy-levers", "why": "Rotation limits how long a compromise stays useful but does nothing to the cost of cracking, and frequent forced changes drive weaker choices."},
+      {"id": "d", "text": "Increasing the password history to 24 previous passwords", "misconception": "password-policy-levers", "why": "History stops returning to an old password. It does not make any password harder to crack."}
+    ]
+  },
+  {
+    "id": "id-008",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["password-age", "password-reuse", "password-expiration"],
+    "difficulty": 4,
+    "stem": "Users are required to change their password every 60 days and may not reuse their last 10. Several change their password ten times in one afternoon to return to the one they like. Which setting prevents this specific behaviour?",
+    "options": [
+      {"id": "a", "text": "A minimum password age", "correct": true, "why": "Minimum age sets how long a password must be kept before it can be changed again, which makes cycling through the history impractical. This is the only purpose it serves."},
+      {"id": "b", "text": "A longer password history", "misconception": "password-policy-levers", "why": "It raises the number of cycles needed and does not stop the technique. Users will simply script it or spend longer."},
+      {"id": "c", "text": "Stricter complexity requirements", "misconception": "password-policy-levers", "why": "Complexity constrains which passwords are valid, not how often they may be changed."},
+      {"id": "d", "text": "A shorter maximum password age", "misconception": "password-policy-levers", "why": "That makes them change more often, which increases the incentive to cycle rather than removing the ability."}
+    ]
+  },
+  {
+    "id": "id-009",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["password-managers", "password-reuse", "passwordless"],
+    "difficulty": 3,
+    "stem": "An organisation deploys a password manager to every member of staff. Which risk does this most directly reduce?",
+    "options": [
+      {"id": "a", "text": "Credential stuffing, because each site gets a long unique password instead of a shared one", "correct": true, "why": "Reuse across sites is what makes one breach everyone's breach. A manager removes the human reason to reuse: nobody has to remember any of them."},
+      {"id": "b", "text": "Phishing, because the manager verifies the legitimacy of the site", "misconception": "authenticator-types", "why": "Most managers decline to autofill on a domain that does not match, which helps, but the user can still override it and paste. Origin binding in FIDO2 is what actually resists phishing."},
+      {"id": "c", "text": "Insider misuse of privileged accounts", "misconception": "privileged-access-techniques", "why": "That is the domain of privileged access management: vaulting, just-in-time elevation and session recording."},
+      {"id": "d", "text": "Offline cracking of the organisation's own password hashes", "misconception": "password-policy-levers", "why": "It helps indirectly by enabling longer passwords, but the direct and intended benefit is unique credentials per site."}
+    ]
+  },
+  {
+    "id": "id-010",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["security-keys", "hard-soft-authentication-tokens", "passwordless", "multifactor-authentication"],
+    "difficulty": 5,
+    "stem": "Staff using an authenticator app are being phished: a convincing lookalike site asks for the six-digit code and the attacker relays it to the real site within the time window. Which change actually defeats this?",
+    "options": [
+      {"id": "a", "text": "Issue FIDO2 security keys, whose signatures are bound to the site's real origin", "correct": true, "why": "A security key signs a challenge tied to the genuine domain. On a lookalike domain the signature is useless, so there is nothing the user can be tricked into handing over."},
+      {"id": "b", "text": "Shorten the code's validity window from 30 seconds to 15", "misconception": "authenticator-types", "why": "Real-time relay happens in seconds. Shortening the window inconveniences users and barely troubles the attacker."},
+      {"id": "c", "text": "Move from a soft token app to a hard token device", "misconception": "authenticator-types", "why": "Both produce a code the user reads and types, so both are relayable. The form factor is not the weakness; the readable code is."},
+      {"id": "d", "text": "Add SMS as a second delivery channel for the code", "misconception": "authenticator-types", "why": "SMS is weaker still: relayable in the same way, and additionally exposed to number porting."}
+    ]
+  },
+  {
+    "id": "id-011",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["biometrics", "something-you-are", "multifactor-authentication"],
+    "difficulty": 3,
+    "stem": "A phone unlocks with a fingerprint, and the banking app on it then requires a PIN. Which factors are in use?",
+    "options": [
+      {"id": "a", "text": "Something you are and something you know", "correct": true, "why": "A fingerprint is an inherence factor and a PIN is a knowledge factor, so two distinct categories are present."},
+      {"id": "b", "text": "Something you are and something you have", "misconception": "mfa-same-factor", "why": "The phone is something you have, but the PIN typed into the app is knowledge. The question asks about the two challenges described."},
+      {"id": "c", "text": "Two instances of something you are", "misconception": "mfa-same-factor", "why": "Only the fingerprint is inherence. A PIN is not a physical trait."},
+      {"id": "d", "text": "Something you know and somewhere you are", "misconception": "mfa-same-factor", "why": "No location signal appears in the scenario."}
+    ]
+  },
+  {
+    "id": "id-012",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["just-in-time-permissions", "password-vaulting", "privileged-access-management-tools"],
+    "difficulty": 4,
+    "stem": "Administrators hold permanent domain admin rights. The organisation deploys a vault so the shared admin password must be checked out and is rotated after each use. An auditor says standing privilege has not been addressed. Is the auditor right?",
+    "options": [
+      {"id": "a", "text": "Yes. Vaulting controls distribution of the password; the account remains privileged at all times", "correct": true, "why": "Checkout and rotation give accountability and limit password sprawl. The entitlement itself is unchanged, so a stolen session or a checked-out credential still yields full rights."},
+      {"id": "b", "text": "No. Rotating after each use means the privilege is effectively temporary", "misconception": "privileged-access-techniques", "why": "The password changes; the account's rights do not. Anyone holding a live session keeps everything."},
+      {"id": "c", "text": "No. Vaulting is the control the objectives name for standing privilege", "misconception": "privileged-access-techniques", "why": "Just-in-time permissions are that control. Vaulting is listed separately precisely because it solves a different problem."},
+      {"id": "d", "text": "Yes, but only because the vault does not record sessions", "misconception": "privileged-access-techniques", "why": "Session recording is a useful feature and not the issue. The issue is permanent entitlement."}
+    ]
+  },
+  {
+    "id": "id-013",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["ephemeral-credentials", "just-in-time-permissions"],
+    "difficulty": 4,
+    "stem": "A deployment pipeline requests a credential at the start of each run. The credential is minted on demand, scoped to that job, and expires fifteen minutes later. Nothing is stored in the pipeline configuration. What is this?",
+    "options": [
+      {"id": "a", "text": "Ephemeral credentials", "correct": true, "why": "Issued per session and expiring on their own, so there is no durable secret to leak, rotate or find in a repository months later."},
+      {"id": "b", "text": "Password vaulting", "misconception": "privileged-access-techniques", "why": "Vaulting stores a long-lived secret and controls who may retrieve it. Here nothing long-lived exists to store."},
+      {"id": "c", "text": "Just-in-time permissions", "misconception": "privileged-access-techniques", "why": "Close, and the distinction is what is temporary: JIT elevates an existing identity for a window, while this mints the credential itself per run."},
+      {"id": "d", "text": "Federation", "misconception": "sso-federation-protocols", "why": "Federation establishes trust between organisations' identity systems, not the lifetime of a pipeline secret."}
+    ]
+  },
+  {
+    "id": "id-014",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["rule-based-access-control", "time-of-day-restrictions", "attribute-based-access-control"],
+    "difficulty": 4,
+    "stem": "A system denies all access to the payroll application between 20:00 and 06:00, for everyone, regardless of role. Which access control approach is this?",
+    "options": [
+      {"id": "a", "text": "Rule-based access control, applying a time-of-day restriction", "correct": true, "why": "Rule-based control applies system-wide rules independent of the individual. A blanket time window that ignores role is the textbook example."},
+      {"id": "b", "text": "Role-based access control", "misconception": "access-control-models", "why": "RBAC grants by role, and this rule explicitly disregards role: it applies to everyone equally."},
+      {"id": "c", "text": "Discretionary access control", "misconception": "access-control-models", "why": "DAC lets the resource owner decide who gets access. No owner discretion appears here."},
+      {"id": "d", "text": "Mandatory access control", "misconception": "access-control-models", "why": "MAC enforces access through labels and clearances set by policy. A clock is not a classification label."}
+    ]
+  },
+  {
+    "id": "id-015",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["de-provisioning-user-accounts", "federation", "single-sign-on"],
+    "difficulty": 4,
+    "stem": "An employee leaves. Her directory account is disabled the same day. Two weeks later she still accesses a cloud marketing tool. What is the most likely explanation?",
+    "options": [
+      {"id": "a", "text": "The tool holds a local account that was never federated to the directory, so disabling the directory account did not touch it", "correct": true, "why": "De-provisioning is only as complete as your inventory of where identities live. Applications adopted outside the SSO estate are the standard gap, and the reason federating everything is worth the effort."},
+      {"id": "b", "text": "Her SAML assertion is still valid because assertions do not expire", "misconception": "sso-federation-protocols", "why": "Assertions are short-lived by design and could not cover two weeks."},
+      {"id": "c", "text": "Disabling an account does not prevent authentication; it must be deleted", "misconception": "identity-lifecycle", "why": "A disabled account cannot authenticate. Disabling is in fact preferred initially, so evidence and file ownership are preserved."},
+      {"id": "d", "text": "Attestation had not yet been run for that quarter", "misconception": "identity-lifecycle", "why": "Attestation is a periodic review of existing access. A leaver is a de-provisioning event and should not wait for a review cycle."}
+    ]
+  },
+  {
+    "id": "id-016",
+    "type": "mcq-multi",
+    "objective": "4.6",
+    "topics": ["single-sign-on", "federation", "security-assertions-markup-language", "open-authorization", "interoperability"],
+    "difficulty": 5,
+    "stem": "Which TWO statements about identity standards are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "OAuth 2.0 is an authorisation framework and does not by itself authenticate a user", "correct": true, "why": "OAuth issues tokens for delegated resource access. OpenID Connect is the identity layer added on top to carry authentication."},
+      {"id": "b", "text": "SAML exchanges XML assertions between an identity provider and a service provider", "correct": true, "why": "That is precisely what SAML does, and it is why it remains the common enterprise federation protocol."},
+      {"id": "c", "text": "LDAP is the standard protocol for federating identity between organisations", "misconception": "sso-federation-protocols", "why": "LDAP is an internal directory access protocol. Federation across organisations uses SAML or OIDC."},
+      {"id": "d", "text": "Single sign-on and federation are two names for the same thing", "misconception": "sso-federation-protocols", "why": "SSO is one login across many applications. Federation is trust across organisational boundaries. You can have either without the other."},
+      {"id": "e", "text": "OpenID Connect replaces OAuth 2.0", "misconception": "sso-federation-protocols", "why": "It is built on top of OAuth 2.0 and extends it with identity. It does not replace it."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "m-003",
+    "type": "mcq-multi",
+    "objective": "4.6",
+    "topics": ["multifactor-authentication", "something-you-know", "something-you-have", "something-you-are"],
+    "difficulty": 3,
+    "stem": "Which TWO combinations qualify as multifactor authentication? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "A smart card plus the PIN that unlocks it", "correct": true, "why": "Something you have plus something you know. Two categories, so it is multifactor."},
+      {"id": "b", "text": "A fingerprint plus a hardware security key", "correct": true, "why": "Something you are plus something you have."},
+      {"id": "c", "text": "A password plus a security question", "misconception": "mfa-same-factor", "why": "Both are something you know. Two prompts, one factor."},
+      {"id": "d", "text": "A password plus a PIN", "misconception": "mfa-same-factor", "why": "Also both knowledge. This is the exam's favourite fake second factor."},
+      {"id": "e", "text": "A fingerprint plus a retina scan", "misconception": "mfa-same-factor", "why": "Both are something you are. Two biometrics are still one factor."}
+    ],
+    "selectCount": 2
+  }
+]

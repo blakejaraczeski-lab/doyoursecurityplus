@@ -1,0 +1,47 @@
+[
+  {
+    "id": "awareness-topic-coverage",
+    "label": "What a security awareness programme has to cover, and why each topic is listed",
+    "objective": "5.6",
+    "topics": ["policy-handbooks", "password-management", "social-engineering-awareness", "removable-media-and-cables", "operational-security", "situational-awareness", "hybrid-remote-work-environments", "insider-threat-awareness", "user-guidance-and-training"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated awareness training as one block of content about phishing. The objectives enumerate distinct topics because each addresses a behaviour that technical controls cannot reach.",
+      "contrast": [
+        ["Topic", "The behaviour it targets", "Why a control cannot do it instead"],
+        ["Policy handbooks", "Knowing what is expected and acknowledging it", "You cannot enforce a rule nobody has read"],
+        ["Password management", "Reuse, sharing, weak choices, manager adoption", "Policy sets limits; habits decide what happens inside them"],
+        ["Social engineering awareness", "Being manipulated by urgency and authority", "No filter catches a persuasive phone call"],
+        ["Removable media and cables", "Plugging in found or gifted hardware", "Port control helps; people still carry things in"],
+        ["Operational security", "What staff disclose publicly about systems and roles", "Nothing technical stops an informative conference talk"],
+        ["Situational awareness", "Noticing tailgating, shoulder surfing, an unfamiliar face", "Cameras record it; people have to act on it"],
+        ["Hybrid and remote work", "Home networks, shared spaces, personal devices", "The perimeter does not extend to a kitchen table"],
+        ["Insider threat awareness", "Recognising and reporting concerning behaviour in colleagues", "Monitoring sees actions, not the context around them"]
+      ],
+      "rule": "Awareness exists for the part of the attack surface that is a person making a decision. If the stem describes a judgement call rather than a configuration, the answer is a training topic.",
+      "tell": "A control already exists and was bypassed by someone doing something reasonable-seeming.",
+      "trap": "Hybrid and remote work is listed in its own right. Training written for an office assumes a perimeter, a physical security posture and a network that remote staff do not have."
+    }
+  },
+  {
+    "id": "awareness-program-elements",
+    "label": "Security awareness: campaigns, reporting, and anomalous behaviour recognition",
+    "objective": "5.6",
+    "topics": ["phishing-campaigns", "recognizing-a-phishing-attempt", "responding-to-reported-suspicious-messages", "risky-behavior", "initial-reporting", "recurring-reporting", "user-guidance-and-training"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered a human behaviour problem with a technical control, or measured the wrong thing.",
+      "contrast": [
+        ["Goal", "The awareness answer", "Not the answer"],
+        ["Users click simulated phishing links", "Targeted follow-up training for those users", "Blocking all external email"],
+        ["Users do not report suspicious messages", "A one-click report button plus recognition for reporting", "Disciplining people who report"],
+        ["Measure programme effectiveness", "Report rate and time to report, not just click rate", "Click rate alone"],
+        ["New starters", "Initial training at onboarding", "Waiting for the annual cycle"],
+        ["Everyone else", "Recurring training, with the content refreshed", "Repeating the same deck annually"]
+      ],
+      "rule": "A rising report rate is a better signal than a falling click rate. Someone has to click eventually; what matters is how fast you hear about it.",
+      "tell": "'Users are not reporting' means make reporting easy and rewarded. Punishing reporters guarantees silence.",
+      "trap": "Click rate is the number every phishing platform puts on the dashboard, so it looks like the metric. It measures the attack, not your response capability."
+    }
+  }
+]

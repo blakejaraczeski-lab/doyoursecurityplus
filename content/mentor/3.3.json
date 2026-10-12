@@ -1,0 +1,82 @@
+[
+  {
+    "id": "data-states",
+    "label": "Data at rest, in transit and in use",
+    "objective": "3.3",
+    "topics": ["data-at-rest", "data-in-transit", "data-in-use", "encryption", "secure-enclave"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You applied a protection that does not cover the state the data was actually in.",
+      "contrast": [
+        ["State", "Where the data is", "Protection"],
+        ["At rest", "On disk, in a database, in object storage", "Full disk, volume, database or field encryption"],
+        ["In transit", "Crossing a network", "TLS, IPSec, a VPN tunnel"],
+        ["In use", "Loaded into memory, being processed", "Secure enclave, confidential computing, homomorphic encryption"]
+      ],
+      "rule": "Data in use is the hard one. It has to be decrypted to be processed, which is why it needs a hardware enclave rather than ordinary encryption.",
+      "tell": "'Protect the data even from the administrator of the server while the application is processing it' is data in use.",
+      "trap": "Full disk encryption is the reflex answer and it protects a powered off device. Once the system is running and the volume is mounted, it protects nothing against a live attacker."
+    }
+  },
+  {
+    "id": "data-type-vs-classification",
+    "label": "Data type vs data classification",
+    "objective": "3.3",
+    "topics": ["regulated-data", "trade-secret", "intellectual-property", "sensitive", "confidential", "restricted", "critical", "public"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered with a classification level when the question asked what kind of data it is, or the reverse.",
+      "contrast": [
+        ["Axis", "Question", "Values"],
+        ["Data type", "What kind of information is this", "Regulated, trade secret, intellectual property, legal, financial, human readable"],
+        ["Classification", "How sensitive is it to us", "Public, private, sensitive, confidential, restricted, critical"],
+        ["Example", "Card numbers are regulated data", "and are classified restricted"],
+        ["Example", "A recipe is a trade secret", "and is classified confidential"]
+      ],
+      "rule": "Type describes the nature of the data and often who regulates it. Classification describes the handling level your organisation assigns.",
+      "tell": "If the options are Public, Private, Confidential and Restricted, the question wants a classification. If they are Regulated, Trade secret and Intellectual property, it wants a type.",
+      "trap": "Both axes appear in the same option list, so a word that sounds right is always available on the wrong axis. This is the same trick as control category versus control type."
+    }
+  },
+  {
+    "id": "data-classification-levels",
+    "label": "Public, private, sensitive, confidential, restricted and critical",
+    "objective": "3.3",
+    "topics": ["public", "private", "sensitive", "confidential", "restricted", "critical", "regulated-data", "trade-secret", "intellectual-property", "legal-information", "financial-information"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You ranked the labels by how severe the words sound. Classification levels are defined by the harm released data would cause and by who may see it, and an organisation's scheme is its own.",
+      "contrast": [
+        ["Level", "Who may see it", "Harm if released"],
+        ["Public", "Anyone, deliberately", "None; it was published on purpose"],
+        ["Private", "Internal, and the individual it concerns", "Personal intrusion, and often a regulatory breach"],
+        ["Sensitive", "A defined internal audience", "Material damage to the organisation or a person"],
+        ["Confidential", "A named group, usually under agreement", "Significant commercial or legal damage"],
+        ["Restricted", "A very small named set, often need to know", "Severe; frequently the highest tier in a commercial scheme"],
+        ["Critical", "Scoped by operational necessity rather than secrecy", "Loss stops the business, whoever may read it"]
+      ],
+      "rule": "Public and private describe audience. Sensitive, confidential and restricted describe increasing harm. Critical is about availability, not secrecy, which is why it does not sit on the same ladder.",
+      "tell": "A stem describing the consequence of disclosure, or naming an audience.",
+      "trap": "Critical is the odd one out. Data can be entirely public and still critical, because losing it stops operations. Ranking it alongside confidential and restricted is the common error."
+    }
+  },
+  {
+    "id": "sovereignty-and-geographic-controls",
+    "label": "Data sovereignty vs geolocation vs geographic restrictions",
+    "objective": "3.3",
+    "topics": ["data-sovereignty", "geolocation", "geographic-restrictions", "permission-restrictions"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated these as one idea about where data lives. One is a legal fact, one is a signal you measure, one is a control you apply.",
+      "contrast": [
+        ["Term", "What it is", "Who decides it"],
+        ["Data sovereignty", "Data is subject to the laws of the country it resides in or is processed in", "Legislators; you cannot opt out by contract"],
+        ["Geolocation", "Determining where a user, device or dataset actually is", "A technical measurement, and it can be wrong or spoofed"],
+        ["Geographic restriction", "A control enforcing where data may go or be accessed from", "You, as a configuration decision"]
+      ],
+      "rule": "Sovereignty is the obligation, geolocation is how you detect position, and geographic restriction is the control you implement because of the obligation.",
+      "tell": "Laws naming a country point to sovereignty. Blocking access from certain regions points to geographic restriction. Determining where a login came from points to geolocation.",
+      "trap": "Geolocation is evidence, not enforcement, and it is not reliable on its own. A VPN or a proxy defeats it, so geographic restriction built only on IP location is a weak control."
+    }
+  }
+]

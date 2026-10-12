@@ -1,0 +1,356 @@
+[
+  {
+    "id": "c-025",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["single-loss-expectancy-sle", "annualized-loss-expectancy-ale", "annualized-rate-of-occurrence-aro", "exposure-factor"],
+    "difficulty": 4,
+    "stem": "A data centre is valued at 2,000,000. A flood would destroy 25% of it, and floods are expected once every four years. What is the ALE?",
+    "options": [
+      {"id": "a", "text": "125,000", "correct": true, "why": "SLE is 2,000,000 times 0.25, which is 500,000. ARO for once in four years is 0.25. ALE is 500,000 times 0.25, which is 125,000."},
+      {"id": "b", "text": "500,000", "misconception": "sle-ale-aro", "why": "That is the SLE, the cost of one event. ALE is the annualised figure, so it must be multiplied by the ARO."},
+      {"id": "c", "text": "2,000,000", "misconception": "sle-ale-aro", "why": "That is the asset value. The exposure factor of 25% has not been applied."},
+      {"id": "d", "text": "2,000,000", "misconception": "sle-ale-aro", "why": "Treating once in four years as an ARO of 4 rather than 0.25 inverts the rate and inflates the result enormously."}
+    ]
+  },
+  {
+    "id": "c-026",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["single-loss-expectancy-sle", "annualized-loss-expectancy-ale", "risk-management-strategies"],
+    "difficulty": 3,
+    "stem": "A control costing 40,000 per year would eliminate a risk with an ALE of 25,000. What does quantitative analysis suggest?",
+    "options": [
+      {"id": "a", "text": "Do not buy the control; it costs more than the loss it prevents", "correct": true, "why": "Spending 40,000 a year to avoid 25,000 a year of expected loss destroys value. The organisation would accept or otherwise treat the risk."},
+      {"id": "b", "text": "Buy the control, because eliminating risk always justifies the cost", "misconception": "sle-ale-aro", "why": "Risk management is economic. A control that costs more than the exposure is not justified on those grounds."},
+      {"id": "c", "text": "Buy the control, because the SLE will exceed 40,000", "misconception": "sle-ale-aro", "why": "The SLE is not given, and the annualised comparison is the relevant one for an annual cost."},
+      {"id": "d", "text": "Recalculate, since ALE cannot be lower than the control cost", "misconception": "sle-ale-aro", "why": "There is no such constraint. ALE frequently comes out below the cost of eliminating it."}
+    ]
+  },
+  {
+    "id": "c-027",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["recovery-point-objective-rpo", "recovery-time-objective-rto", "business-impact-analysis"],
+    "difficulty": 3,
+    "stem": "A business impact analysis states that the order system may lose no more than 15 minutes of transactions. Which metric is this, and what does it drive?",
+    "options": [
+      {"id": "a", "text": "RPO, which sets the backup or replication frequency", "correct": true, "why": "RPO looks backwards from the outage and defines acceptable data loss, so backups must run at least that often."},
+      {"id": "b", "text": "RTO, which sets how quickly service must be restored", "misconception": "rto-vs-rpo", "why": "RTO looks forwards and concerns downtime. This statement is about lost data, not elapsed time."},
+      {"id": "c", "text": "MTTR, which measures average repair time", "misconception": "rto-vs-rpo", "why": "MTTR is an observed measurement of repairs, not a target set by the business."},
+      {"id": "d", "text": "MTBF, which measures time between failures", "misconception": "rto-vs-rpo", "why": "MTBF describes reliability across an asset's life and says nothing about acceptable data loss."}
+    ]
+  },
+  {
+    "id": "c-028",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["mean-time-to-repair-mttr", "mean-time-between-failures-mtbf", "recovery-time-objective-rto"],
+    "difficulty": 3,
+    "stem": "Which pair correctly separates a target the business sets from a metric the organisation observes?",
+    "options": [
+      {"id": "a", "text": "RTO is a target; MTTR is an observed measurement", "correct": true, "why": "RTO is chosen by the business as the maximum tolerable downtime. MTTR is measured from actual repairs."},
+      {"id": "b", "text": "MTTR is a target; RTO is an observed measurement", "misconception": "rto-vs-rpo", "why": "Reversed. You do not observe an RTO, you commit to it."},
+      {"id": "c", "text": "RPO and RTO are both observed measurements", "misconception": "rto-vs-rpo", "why": "Both are targets set in the business impact analysis."},
+      {"id": "d", "text": "MTBF is a target; RPO is an observed measurement", "misconception": "rto-vs-rpo", "why": "Both are reversed. MTBF is measured, RPO is set."}
+    ]
+  },
+  {
+    "id": "c-029",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-appetite", "risk-tolerance", "risk-threshold"],
+    "difficulty": 2,
+    "stem": "A board resolution states the organisation will pursue aggressive growth into new markets and accepts elevated risk in doing so. Which term does this describe?",
+    "options": [
+      {"id": "a", "text": "An expansionary risk appetite", "correct": true, "why": "Risk appetite is the strategic level of risk an organisation is willing to take to pursue its objectives, and expansionary is one of the three named stances."},
+      {"id": "b", "text": "A high risk tolerance", "misconception": "risk-appetite-vs-tolerance", "why": "Tolerance is the acceptable variation around the appetite, set by management per risk, not the board level strategic stance."},
+      {"id": "c", "text": "A raised risk threshold", "misconception": "risk-appetite-vs-tolerance", "why": "A threshold is the specific trip wire recorded in the risk register that triggers action."},
+      {"id": "d", "text": "Risk transference", "misconception": "risk-appetite-vs-tolerance", "why": "Transference is a treatment strategy, such as insurance. This statement sets a posture, not a treatment."}
+    ]
+  },
+  {
+    "id": "c-030",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-register", "key-risk-indicators", "risk-threshold", "risk-owners"],
+    "difficulty": 2,
+    "stem": "Where are individual risks, their owners, their current scores and the levels that trigger escalation recorded?",
+    "options": [
+      {"id": "a", "text": "The risk register", "correct": true, "why": "The register is the working record of identified risks, owners, key risk indicators and thresholds."},
+      {"id": "b", "text": "The risk appetite statement", "misconception": "risk-appetite-vs-tolerance", "why": "The appetite statement sets the overall posture. It does not track individual risks."},
+      {"id": "c", "text": "The business impact analysis", "misconception": "rto-vs-rpo", "why": "The BIA determines the impact of disruption to processes and produces RTO and RPO figures."},
+      {"id": "d", "text": "The statement of applicability", "misconception": "risk-appetite-vs-tolerance", "why": "That documents which controls apply and why, not the risks themselves."}
+    ]
+  },
+  {
+    "id": "g-008",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["transfer", "insurance", "mitigate"],
+    "difficulty": 2,
+    "stem": "An organisation purchases a cyber insurance policy covering breach response costs. Which risk management strategy is this?",
+    "options": [
+      {"id": "a", "text": "Transfer", "correct": true, "why": "The financial impact is moved to the insurer. The likelihood of the breach is unchanged, and accountability stays with the organisation."},
+      {"id": "b", "text": "Mitigate", "misconception": "risk-treatment-strategies", "why": "Mitigation reduces likelihood or impact through controls. Insurance changes neither, it changes who pays."},
+      {"id": "c", "text": "Avoid", "misconception": "risk-treatment-strategies", "why": "Avoidance means ceasing the activity that creates the risk. The organisation carries on exactly as before."},
+      {"id": "d", "text": "Accept", "misconception": "risk-treatment-strategies", "why": "Acceptance means taking no action. Buying a policy is an action."}
+    ]
+  },
+  {
+    "id": "g-009",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["avoid", "transfer", "mitigate"],
+    "difficulty": 3,
+    "stem": "After assessing the risk of storing card data, a retailer stops handling cards entirely and redirects customers to a hosted payment page run by its processor. Which strategy is this?",
+    "options": [
+      {"id": "a", "text": "Avoid", "correct": true, "why": "The activity that created the risk has been discontinued, so the risk no longer applies to the retailer."},
+      {"id": "b", "text": "Transfer", "misconception": "risk-treatment-strategies", "why": "Tempting, because a third party is now involved. The distinguishing fact is that the retailer no longer performs the activity at all, rather than paying someone to absorb the loss."},
+      {"id": "c", "text": "Mitigate", "misconception": "risk-treatment-strategies", "why": "Mitigation would mean continuing to store card data with stronger controls around it."},
+      {"id": "d", "text": "Accept", "misconception": "risk-treatment-strategies", "why": "Acceptance means continuing as before and documenting the exposure."}
+    ]
+  },
+  {
+    "id": "g-010",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["accept", "exception", "risk-owners"],
+    "difficulty": 2,
+    "stem": "A low impact risk would cost far more to remediate than it could ever cause in losses. Management signs off on leaving it as it is and records the decision. What is this?",
+    "options": [
+      {"id": "a", "text": "Acceptance, documented as an exception", "correct": true, "why": "The organisation knowingly takes no further action, and the decision is recorded with an owner so it can be reviewed later."},
+      {"id": "b", "text": "Avoidance", "misconception": "risk-treatment-strategies", "why": "Nothing has been stopped. The activity continues unchanged."},
+      {"id": "c", "text": "Mitigation, because documenting reduces the risk", "misconception": "risk-treatment-strategies", "why": "Documentation is governance, not a control. The risk is exactly as large as it was."},
+      {"id": "d", "text": "Transfer, because management now owns it", "misconception": "risk-treatment-strategies", "why": "Assigning an internal risk owner is not transfer. Transfer moves financial impact outside the organisation."}
+    ]
+  },
+  {
+    "id": "g-011",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["quantitative-risk-analysis", "qualitative-risk-analysis"],
+    "difficulty": 3,
+    "stem": "A risk team produces a 5 by 5 matrix rating each risk's likelihood and impact as low, medium or high, based on workshops with subject matter experts. Which method is this?",
+    "options": [
+      {"id": "a", "text": "Qualitative", "correct": true, "why": "The output is descriptive categories derived from expert judgement rather than currency figures."},
+      {"id": "b", "text": "Quantitative", "misconception": "qualitative-vs-quantitative", "why": "Quantitative analysis produces monetary values such as SLE and ALE. A rating scale is not a monetary value even when it uses numbers."},
+      {"id": "c", "text": "A business impact analysis", "misconception": "bia-vs-risk-assessment", "why": "A BIA measures the consequence of a process stopping and produces RTO and RPO, not likelihood ratings."},
+      {"id": "d", "text": "A gap analysis", "misconception": "qualitative-vs-quantitative", "why": "A gap analysis compares current state against a target state such as a framework."}
+    ]
+  },
+  {
+    "id": "g-012",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["quantitative-risk-analysis", "annualized-loss-expectancy-ale"],
+    "difficulty": 3,
+    "stem": "Which situation makes quantitative risk analysis the better choice?",
+    "options": [
+      {"id": "a", "text": "Deciding whether a 60,000 per year control is justified against a measurable expected loss", "correct": true, "why": "A direct cost comparison needs monetary figures on both sides, which is what quantitative analysis produces."},
+      {"id": "b", "text": "Assessing reputational damage from a privacy incident", "misconception": "qualitative-vs-quantitative", "why": "Reputational harm resists reliable pricing. Forcing a number onto it produces false precision, which is when qualitative is correct."},
+      {"id": "c", "text": "Ranking thirty newly identified risks quickly for a board paper", "misconception": "qualitative-vs-quantitative", "why": "Speed and breadth favour qualitative ratings. Quantitative analysis is slow and data hungry."},
+      {"id": "d", "text": "Assessing risks where no historical frequency data exists", "misconception": "qualitative-vs-quantitative", "why": "Without frequency data you cannot calculate an ARO, so the quantitative result would be invented."}
+    ]
+  },
+  {
+    "id": "g-021",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["business-impact-analysis", "recovery-time-objective-rto", "risk-assessment"],
+    "difficulty": 3,
+    "stem": "An exercise works through each business process, asking what it costs per hour of downtime and how quickly it must be restored. Which exercise is this?",
+    "options": [
+      {"id": "a", "text": "A business impact analysis", "correct": true, "why": "A BIA starts from business processes, assumes disruption, and produces criticality rankings plus RTO and RPO."},
+      {"id": "b", "text": "A risk assessment", "misconception": "bia-vs-risk-assessment", "why": "A risk assessment starts from threats and vulnerabilities and asks how likely they are. The BIA is deliberately indifferent to cause."},
+      {"id": "c", "text": "A gap analysis", "misconception": "bia-vs-risk-assessment", "why": "A gap analysis compares the current state against a target such as a framework."},
+      {"id": "d", "text": "A tabletop exercise", "misconception": "tabletop-vs-simulation", "why": "A tabletop tests whether a plan works by talking it through. It does not produce the underlying impact figures."}
+    ]
+  },
+  {
+    "id": "g-022",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-identification", "risk-assessment", "business-impact-analysis"],
+    "difficulty": 3,
+    "stem": "Which output belongs to a risk assessment rather than a business impact analysis?",
+    "options": [
+      {"id": "a", "text": "A register of threats with likelihood and impact ratings", "correct": true, "why": "Identifying what could go wrong and how likely it is, is the risk assessment's job."},
+      {"id": "b", "text": "Recovery time objectives for each business process", "misconception": "bia-vs-risk-assessment", "why": "RTO comes from the BIA, which measures the consequence of disruption regardless of what caused it."},
+      {"id": "c", "text": "Maximum tolerable downtime per function", "misconception": "bia-vs-risk-assessment", "why": "Also a BIA output, derived from how long the business can survive without the function."},
+      {"id": "d", "text": "A criticality ranking of business processes", "misconception": "bia-vs-risk-assessment", "why": "Ranking processes by criticality is the central deliverable of a BIA."}
+    ]
+  },
+  {
+    "id": "m-010",
+    "type": "mcq-multi",
+    "objective": "5.2",
+    "topics": ["business-impact-analysis", "recovery-time-objective-rto", "recovery-point-objective-rpo"],
+    "difficulty": 3,
+    "stem": "Which TWO outputs come from a business impact analysis rather than a risk assessment? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Recovery time objective for each business process", "correct": true, "why": "The BIA establishes how long each process can be down, which sets the RTO."},
+      {"id": "b", "text": "Maximum tolerable downtime per function", "correct": true, "why": "Also a BIA output, derived from how long the business survives without the function."},
+      {"id": "c", "text": "A register of threats with likelihood ratings", "misconception": "bia-vs-risk-assessment", "why": "Likelihood of a threat is a risk assessment output. The BIA is deliberately indifferent to cause."},
+      {"id": "d", "text": "Annualized loss expectancy for a named asset", "misconception": "sle-ale-aro", "why": "ALE comes from quantitative risk analysis, not from the BIA."},
+      {"id": "e", "text": "The organisation's stated risk appetite", "misconception": "risk-appetite-vs-tolerance", "why": "Appetite is set by the board as a strategic posture, not produced by either exercise."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "rk-001",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["ad-hoc-assessment", "recurring-assessment", "one-time-assessment", "continuous-assessment"],
+    "difficulty": 4,
+    "stem": "A company acquires a competitor and immediately commissions a security risk assessment of the acquired estate, outside its normal annual cycle. Which assessment type is this?",
+    "options": [
+      {"id": "a", "text": "Ad hoc", "correct": true, "why": "Triggered by an event rather than by the calendar or a planned scope. An acquisition is the textbook trigger for an unscheduled assessment."},
+      {"id": "b", "text": "One-time", "misconception": "risk-assessment-cadence", "why": "A one-time assessment is deliberately scoped and planned for a defined purpose. This one is a reaction to something that just happened, which is the distinction between the two."},
+      {"id": "c", "text": "Recurring", "misconception": "risk-assessment-cadence", "why": "Recurring runs on a schedule. The stem says this falls outside the annual cycle."},
+      {"id": "d", "text": "Continuous", "misconception": "risk-assessment-cadence", "why": "Continuous assessment is automated and always on, not a commissioned exercise."}
+    ]
+  },
+  {
+    "id": "rk-002",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["continuous-assessment", "recurring-assessment"],
+    "difficulty": 3,
+    "stem": "A cloud posture management tool evaluates every resource against policy as configurations change, raising findings automatically. Which assessment cadence does this represent?",
+    "options": [
+      {"id": "a", "text": "Continuous", "correct": true, "why": "Always on and automated, with findings produced as state changes rather than at review points. This is what the objectives mean by continuous assessment."},
+      {"id": "b", "text": "Recurring", "misconception": "risk-assessment-cadence", "why": "Recurring runs at defined intervals. The gap between runs is exactly what continuous assessment removes."},
+      {"id": "c", "text": "Ad hoc", "misconception": "risk-assessment-cadence", "why": "Ad hoc is event-driven and unscheduled, commissioned by a person."},
+      {"id": "d", "text": "One-time", "misconception": "risk-assessment-cadence", "why": "A one-time assessment has a defined end. This has none."}
+    ]
+  },
+  {
+    "id": "rk-003",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["expansionary-risk-appetite", "conservative-risk-appetite", "neutral-risk-appetite"],
+    "difficulty": 4,
+    "stem": "A board states that it will accept materially higher security risk over the next eighteen months in order to reach a new market first. How should this be characterised?",
+    "options": [
+      {"id": "a", "text": "An expansionary risk appetite, set deliberately at board level", "correct": true, "why": "Appetite is a governance position about how much risk the organisation will take to meet its objectives. Expansionary means accepting more of it in pursuit of opportunity."},
+      {"id": "b", "text": "A governance failure, since appetite should always be conservative", "misconception": "risk-appetite-postures", "why": "Conservative suits regulated and safety-critical contexts. It is not universally correct, and the exam treats expansionary as a legitimate stated posture."},
+      {"id": "c", "text": "A risk tolerance decision", "misconception": "risk-appetite-vs-tolerance", "why": "Tolerance is the acceptable variation around the appetite in practice. This statement sets the appetite itself."},
+      {"id": "d", "text": "Risk acceptance as a treatment strategy", "misconception": "risk-treatment-strategies", "why": "Acceptance applies to a specific identified risk. This is a standing posture across the whole programme."}
+    ]
+  },
+  {
+    "id": "rk-004",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["exception", "exemption", "accept"],
+    "difficulty": 4,
+    "stem": "A legacy system cannot meet the encryption standard. The platform is being retired in nine months, so a departure from policy is approved with a compensating control and a review date. What has been granted?",
+    "options": [
+      {"id": "a", "text": "An exception", "correct": true, "why": "Temporary, with a compensating control and an expiry. The review date is the signal: an exception is expected to end."},
+      {"id": "b", "text": "An exemption", "misconception": "exception-vs-exemption", "why": "An exemption is ongoing, for a case the policy was never intended to cover. Here there is a date by which the gap closes."},
+      {"id": "c", "text": "Risk avoidance", "misconception": "risk-treatment-strategies", "why": "Avoidance means not doing the activity at all. The system continues to run."},
+      {"id": "d", "text": "Risk transfer", "misconception": "risk-treatment-strategies", "why": "Transfer moves the financial consequence elsewhere, typically through insurance or contract."}
+    ]
+  },
+  {
+    "id": "rk-005",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["exemption", "exception", "risk-owners"],
+    "difficulty": 4,
+    "stem": "An exception to the password standard for an industrial control system has been renewed every six months for four years, with no remediation plan at any point. What has actually happened?",
+    "options": [
+      {"id": "a", "text": "It has become an exemption in substance without anyone approving one, so the risk is being carried permanently under a temporary label", "correct": true, "why": "Renewal without remediation converts an exception into an undocumented permanent acceptance. If the departure is genuinely permanent it should be approved as an exemption, at the right level, with an owner."},
+      {"id": "b", "text": "The control is working as intended, since each renewal was approved", "misconception": "exception-vs-exemption", "why": "Approving the same temporary measure eight times is how a process stops being a control."},
+      {"id": "c", "text": "The risk has been avoided", "misconception": "risk-treatment-strategies", "why": "Nothing has been avoided; the system runs and the standard is not met."},
+      {"id": "d", "text": "It should be recorded as a false positive and closed", "misconception": "false-positive-vs-negative", "why": "The gap is real and acknowledged. A false positive is a finding that was never true."}
+    ]
+  },
+  {
+    "id": "rk-006",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["likelihood", "probability", "qualitative-risk-analysis", "quantitative-risk-analysis"],
+    "difficulty": 4,
+    "stem": "A risk register records a risk as 'likelihood: possible, impact: major'. Which analysis method is in use, and what would the quantitative equivalent look like?",
+    "options": [
+      {"id": "a", "text": "Qualitative, using a descriptive scale; the quantitative equivalent would express probability as a rate and impact as a monetary figure", "correct": true, "why": "Words and a matrix are qualitative. Quantitative replaces them with ARO and SLE, producing ALE in currency."},
+      {"id": "b", "text": "Quantitative, because likelihood and impact are both being measured", "misconception": "likelihood-probability-impact", "why": "Measuring on a descriptive scale is still qualitative. Quantitative analysis produces numbers you can arithmetic with."},
+      {"id": "c", "text": "Qualitative, and it should always be replaced by quantitative analysis", "misconception": "likelihood-probability-impact", "why": "Qualitative is the right method where reliable data does not exist. Manufacturing numbers to look rigorous is the worse error."},
+      {"id": "d", "text": "Neither; a risk register does not record analysis", "misconception": "likelihood-probability-impact", "why": "Recording likelihood and impact per risk is precisely what a register is for."}
+    ]
+  },
+  {
+    "id": "rk-007",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["exposure-factor-2", "single-loss-expectancy", "impact"],
+    "difficulty": 4,
+    "stem": "An asset is valued at 400,000. A realistic incident would destroy 25% of that value. What is the single loss expectancy, and which input did the 25% supply?",
+    "options": [
+      {"id": "a", "text": "100,000; the 25% is the exposure factor", "correct": true, "why": "SLE equals asset value multiplied by exposure factor. The exposure factor is the proportion of value lost per occurrence, which only exists on the quantitative side."},
+      {"id": "b", "text": "100,000; the 25% is the annualised rate of occurrence", "misconception": "sle-ale-aro", "why": "ARO is how often it happens per year, not how much is lost each time."},
+      {"id": "c", "text": "400,000; the 25% is the likelihood", "misconception": "likelihood-probability-impact", "why": "Likelihood is a qualitative judgement of how probable it is, not a fraction of value, and SLE is not the whole asset."},
+      {"id": "d", "text": "25,000; the 25% is the risk tolerance", "misconception": "likelihood-probability-impact", "why": "Tolerance is acceptable variation around appetite. The arithmetic here is simply value multiplied by exposure factor."}
+    ]
+  },
+  {
+    "id": "rk-008",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-reporting", "key-risk-indicators", "risk-register", "risk-owners"],
+    "difficulty": 3,
+    "stem": "What distinguishes risk reporting from maintaining the risk register?",
+    "options": [
+      {"id": "a", "text": "The register is the record of risks and their treatment; reporting puts the state of those risks in front of the people accountable for deciding about them", "correct": true, "why": "A register nobody reports from is an archive. Reporting is what converts recorded risk into a decision by an owner or a board."},
+      {"id": "b", "text": "Reporting is the technical output of vulnerability scanning", "misconception": "risk-assessment-cadence", "why": "That is vulnerability reporting within 4.3. Risk reporting here operates at the programme level."},
+      {"id": "c", "text": "The register is produced by reporting, not the other way round", "misconception": "risk-assessment-cadence", "why": "The register is maintained continuously; reports are drawn from it."},
+      {"id": "d", "text": "They are the same activity under two names", "misconception": "risk-assessment-cadence", "why": "The objectives list them separately because recording a risk and escalating it are different acts."}
+    ]
+  },
+  {
+    "id": "rk-009",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-tolerance-2", "risk-appetite", "risk-threshold"],
+    "difficulty": 4,
+    "stem": "A board sets a neutral risk appetite. Operationally the organisation permits individual risks to sit up to a score of 12, and anything at 15 or above must be escalated immediately. Which terms describe the 12 and the 15?",
+    "options": [
+      {"id": "a", "text": "12 is the risk tolerance, 15 is the risk threshold", "correct": true, "why": "Tolerance is the acceptable variation around the stated appetite; the threshold is the line that triggers a defined action. Appetite is the board's posture that both sit beneath."},
+      {"id": "b", "text": "12 is the risk appetite, 15 is the risk tolerance", "misconception": "risk-appetite-vs-tolerance", "why": "Appetite is the stated posture, here described as neutral. It is not a numeric operating limit."},
+      {"id": "c", "text": "Both are expressions of risk appetite at different levels", "misconception": "risk-appetite-vs-tolerance", "why": "The objectives name three distinct terms, and the exam tests the ability to separate them."},
+      {"id": "d", "text": "12 is the exposure factor, 15 is the impact rating", "misconception": "likelihood-probability-impact", "why": "Neither is a quantitative loss input; both are governance limits."}
+    ]
+  },
+  {
+    "id": "rk-010",
+    "type": "mcq-multi",
+    "objective": "5.2",
+    "topics": ["one-time-assessment", "ad-hoc-assessment", "continuous-assessment", "recurring-assessment"],
+    "difficulty": 4,
+    "stem": "Which TWO statements about risk assessment cadence are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "An ad hoc assessment is triggered by an event rather than by a schedule", "correct": true, "why": "A breach, an acquisition or a new regulation prompts it, outside any planned cycle."},
+      {"id": "b", "text": "A one-time assessment is planned for a defined purpose and has a defined end", "correct": true, "why": "Scoped deliberately, such as for a single supplier or migration, which is what separates it from ad hoc."},
+      {"id": "c", "text": "Continuous assessment removes the need for recurring assessment", "misconception": "risk-assessment-cadence", "why": "Continuous tooling watches technical posture. It does not replace periodic review of the register with risk owners."},
+      {"id": "d", "text": "Recurring assessment means repeating the same assessment after each incident", "misconception": "risk-assessment-cadence", "why": "That is ad hoc. Recurring runs on the calendar."},
+      {"id": "e", "text": "One-time and ad hoc assessments are the same thing", "misconception": "risk-assessment-cadence", "why": "The pair people swap. One is planned, the other is a reaction."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "rk-011",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["conservative-risk-appetite", "expansionary-risk-appetite", "neutral-risk-appetite", "risk-appetite"],
+    "difficulty": 3,
+    "stem": "A hospital trust states that where a choice exists between a faster deployment and a lower risk of patient data exposure, it will take the lower risk option even at significant cost to delivery timelines. Which risk appetite does this describe?",
+    "options": [
+      {"id": "a", "text": "Conservative", "correct": true, "why": "Minimising risk even at the cost of opportunity. Regulated and safety-critical contexts routinely set appetite here, and the giveaway is accepting a worse delivery outcome by policy."},
+      {"id": "b", "text": "Neutral", "misconception": "risk-appetite-postures", "why": "Neutral balances the two, accepting risk where the return justifies it. This statement pre-commits to one side."},
+      {"id": "c", "text": "Expansionary", "misconception": "risk-appetite-postures", "why": "Expansionary accepts more risk in pursuit of opportunity, which is the opposite of what is described."},
+      {"id": "d", "text": "This describes risk tolerance rather than appetite", "misconception": "risk-appetite-vs-tolerance", "why": "Tolerance is the acceptable variation around the appetite in practice. A standing statement of how the organisation chooses is the appetite itself."}
+    ]
+  }
+]

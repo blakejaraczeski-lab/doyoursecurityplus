@@ -13,7 +13,6 @@ const DEBOUNCE_MS = 1500;
 let timer = null;
 let inFlight = false;
 let pending = null;
-let listener = () => {};
 
 const SYNC = {
   UNKNOWN: "unknown",
@@ -23,13 +22,10 @@ const SYNC = {
   CONFLICT: "conflict",
 };
 
+// The UI polls this once a second for its status dot; nothing subscribes.
 let status = SYNC.UNKNOWN;
-const setStatus = (s, detail) => {
-  status = s;
-  listener(s, detail);
-};
+const setStatus = (s) => { status = s; };
 export const getStatus = () => status;
-export const onStatusChange = (fn) => { listener = fn; };
 
 /** Read the durable copy. Returns null when the server has nothing or is down. */
 export async function pull() {
@@ -54,8 +50,7 @@ async function put(state, force = false) {
     body: JSON.stringify(state),
   });
   if (res.status === 409) {
-    const body = await res.json();
-    setStatus(SYNC.CONFLICT, body);
+    setStatus(SYNC.CONFLICT);
     return false;
   }
   if (!res.ok) throw new Error(`save failed: ${res.status}`);

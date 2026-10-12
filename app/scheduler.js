@@ -8,6 +8,32 @@
 
 import * as fsrs from "./fsrs.js";
 import * as mentor from "./mentor.js";
+import { isGraded } from "./content.js";
+
+// The exam's shape: 90 questions in 90 minutes with PBQs front loaded, scored
+// 100-900 with 750 to pass. The blocks are fractions of it.
+export const FORMATS = {
+  full:  { label: "Full exam",   total: 90, pbqCount: 5, minutes: 90 },
+  half:  { label: "Half block",  total: 45, pbqCount: 3, minutes: 45 },
+  short: { label: "Short block", total: 20, pbqCount: 1, minutes: 20 },
+};
+export const PBQ_WEIGHT = 3; // a PBQ is worth roughly three multiple choice items
+
+/**
+ * Item weight for scoring. CompTIA says items carry different weights by
+ * difficulty and keeps the model confidential, so this is an approximation: a
+ * hard item is worth about twice an easy one. A flat count would reward
+ * farming easy items, and a run of difficulty-1 recognition would read as
+ * readiness.
+ */
+export const weightOf = (it) => 0.6 + 0.2 * Math.max(1, Math.min(5, it.difficulty || 2));
+
+/**
+ * A 0..1 fraction onto CompTIA's 100-900 scale, anchored so that 750, the pass
+ * line, sits at 0.75. An estimate, not a predicted score.
+ */
+export const toScaled = (p) =>
+  p <= 0.75 ? Math.round(100 + (650 / 0.75) * p) : Math.round(750 + (150 / 0.25) * (p - 0.75));
 
 // `maxRecallShare` caps plain vocabulary cards as a fraction of a session.
 // The exam is multiple choice and PBQs, never free text, so a card you reveal
@@ -19,13 +45,6 @@ const PACE = {
   balanced:  { mixMisconception: 0.4, mixReview: 0.3, maxRecallShare: 0.15 },
   longhaul:  { mixMisconception: 0.3, mixReview: 0.4, maxRecallShare: 0.20 },
 };
-
-/**
- * Graded practice: an item that makes you choose between options and marks you
- * right or wrong. A revealed vocabulary card is not this, so it cannot stand in
- * for exam-shaped coverage of a domain.
- */
-const isGraded = (it) => typeof it.type === "string" && it.type.startsWith("mcq");
 
 const itemState = (state, id) => state.items[id] || null;
 const seen = (state, id) => !!state.items[id]?.seen;
@@ -241,9 +260,7 @@ export function buildMock(content, { pbqCount = 5, total = 90 } = {}) {
   // The real exam is single-select, multi-select and PBQs, so a mock that draws
   // only plain "mcq" is narrower than the thing it is imitating. Multi-select
   // and the derived discrimination items are exam-shaped and belong in the pool.
-  const mcqs = content.items.filter(
-    (i) => typeof i.type === "string" && i.type.startsWith("mcq")
-  );
+  const mcqs = content.items.filter(isGraded);
   const byDomain = {};
   for (const m of mcqs) (byDomain[content.domainOf[m.objective]] ||= []).push(m);
 
@@ -279,11 +296,6 @@ export function readiness(state, content, now = Date.now()) {
       };
     }
   }
-
-  // Weighted the same way the mock scores: a difficulty-1 recognition item and
-  // a difficulty-5 scenario should not move the projection equally, or a run of
-  // easy items reads as readiness.
-  const weightOf = (it) => 0.6 + 0.2 * Math.max(1, Math.min(5, it.difficulty || 2));
 
   // How much graded material exists per objective, and how much of the
   // objective's blueprint it reaches. Both are properties of the bank, not of
@@ -415,11 +427,7 @@ export function readiness(state, content, now = Date.now()) {
   }
 
   const p = Math.max(0, Math.min(1, totals.weightedMastery));
-  // Anchored piecewise mapping onto CompTIA's 100-900 scale: 750 is the pass line
-  // and sits at roughly 75% mastery. This is an estimate, not a predicted score.
-  const scaled = p <= 0.75
-    ? Math.round(100 + (650 / 0.75) * p)
-    : Math.round(750 + (150 / 0.25) * (p - 0.75));
+  const scaled = toScaled(p);
 
   const n = state.reviews.length;
   // Uncertainty, not the estimate, carries the cost of a shallow bank. The

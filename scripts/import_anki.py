@@ -129,10 +129,10 @@ def main(apkg):
             "difficulty": 2,
             "term": front,
             "definition": back,
-            "aka": extra[0] if extra else None,
+            **({"aka": extra[0]} if extra else {}),
         })
 
-    out = ROOT / "content" / "items" / "anki-imported.json"
+    out = ROOT / "content" / "items" / "recall.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(items, indent=2) + "\n")
 

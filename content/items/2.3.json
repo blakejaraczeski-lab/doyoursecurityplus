@@ -1,0 +1,228 @@
+[
+  {
+    "id": "c-039",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["sql-injection-sqli", "input-validation"],
+    "difficulty": 3,
+    "stem": "A web application concatenates a user supplied search term directly into a database query. What is the most effective fix?",
+    "options": [
+      {"id": "a", "text": "Use parameterised queries so input is never treated as code", "correct": true, "why": "Parameterisation separates the query structure from the data, which removes the class of vulnerability rather than filtering symptoms."},
+      {"id": "b", "text": "Apply input validation to reject suspicious characters", "misconception": "sqli-vs-xss", "why": "Worth doing as defence in depth, and filters are routinely bypassed. Parameterisation is the structural fix."},
+      {"id": "c", "text": "HTML encode the search term before displaying it", "misconception": "sqli-vs-xss", "why": "Output encoding defends against cross site scripting. It does nothing about the query sent to the database."},
+      {"id": "d", "text": "Set the HttpOnly flag on the session cookie", "misconception": "sqli-vs-xss", "why": "HttpOnly limits the damage of cross site scripting. It is unrelated to SQL injection."}
+    ]
+  },
+  {
+    "id": "c-040",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["cross-site-scripting-xss", "input-validation", "secure-cookies"],
+    "difficulty": 3,
+    "stem": "An attacker stores a script in a forum post. When other users view the thread, their session cookies are sent to the attacker's server. What is the attack, and who is the victim?",
+    "options": [
+      {"id": "a", "text": "Stored cross site scripting; the victims are the other users viewing the page", "correct": true, "why": "The payload executes in each visitor's browser under the site's origin, which is why it can read their session."},
+      {"id": "b", "text": "SQL injection; the victim is the database", "misconception": "sqli-vs-xss", "why": "Nothing is being interpreted by the database. The payload runs in a browser."},
+      {"id": "c", "text": "Cross site request forgery; the victim is the forum server", "misconception": "sqli-vs-xss", "why": "CSRF makes a victim's browser perform an action, it does not execute attacker script to steal cookies."},
+      {"id": "d", "text": "Directory traversal; the victims are other users", "misconception": "sqli-vs-xss", "why": "Traversal reads files outside the intended path on the server. No script runs in anyone's browser."}
+    ]
+  },
+  {
+    "id": "t-011",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["race-conditions", "time-of-check-toc", "time-of-use-tou"],
+    "difficulty": 4,
+    "stem": "An application checks that a file is owned by the user, then opens it. An attacker replaces the file with a symbolic link to a system file between those two operations. What is this flaw?",
+    "options": [
+      {"id": "a", "text": "A time-of-check to time-of-use race condition", "correct": true, "why": "The verification was accurate when made and stale when used. The vulnerability is the window between the two operations."},
+      {"id": "b", "text": "Directory traversal", "misconception": "app-attack-types", "why": "Traversal uses path sequences in input to escape the intended directory. Here the input is unchanged and the file behind it is swapped."},
+      {"id": "c", "text": "A buffer overflow", "misconception": "app-attack-types", "why": "No memory boundary is being exceeded. The flaw is one of timing."},
+      {"id": "d", "text": "Privilege escalation through misconfiguration", "misconception": "race-condition-toctou", "why": "Escalation may be the outcome, and the mechanism the question asks about is the timing window."}
+    ]
+  },
+  {
+    "id": "t-012",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["race-conditions", "time-of-use-tou"],
+    "difficulty": 3,
+    "stem": "Which fix genuinely addresses a time-of-check to time-of-use vulnerability?",
+    "options": [
+      {"id": "a", "text": "Make the check and the use a single atomic operation, or hold a lock across both", "correct": true, "why": "Only removing the window closes the flaw. Atomicity means no other process can intervene between verifying and acting."},
+      {"id": "b", "text": "Perform the validation a second time immediately before use", "misconception": "race-condition-toctou", "why": "This narrows the window and creates a new one. The gap still exists, just smaller."},
+      {"id": "c", "text": "Validate the input more strictly at the entry point", "misconception": "race-condition-toctou", "why": "Input validation is unrelated. The input was legitimate; the resource behind it changed."},
+      {"id": "d", "text": "Run the process with reduced privileges", "misconception": "race-condition-toctou", "why": "Sound defence in depth that limits the damage and leaves the race condition intact."}
+    ]
+  },
+  {
+    "id": "t-013",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["software-provider-supply-chain", "malicious-update", "patching"],
+    "difficulty": 3,
+    "stem": "A company applies a correctly signed update from a trusted network monitoring vendor. The update contains a backdoor inserted after the vendor's build system was compromised. How is this best classified?",
+    "options": [
+      {"id": "a", "text": "A software supply chain compromise", "correct": true, "why": "The attack arrived through a legitimate, trusted distribution channel, which is why signature checking and prompt patching approved it."},
+      {"id": "b", "text": "A failure of the company's patch management process", "misconception": "supply-chain-vectors", "why": "The company did the right thing. Applying signed vendor updates promptly is correct behaviour and is exactly what the attacker relied on."},
+      {"id": "c", "text": "A zero-day vulnerability in the monitoring product", "misconception": "zero-day-vs-unpatched", "why": "No vulnerability was exploited. Malicious code was shipped as a legitimate feature of the update."},
+      {"id": "d", "text": "An insider threat at the customer", "misconception": "threat-actor-attributes", "why": "The compromise occurred at the vendor. Nobody inside the customer acted improperly."}
+    ]
+  },
+  {
+    "id": "t-017",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["zero-day", "patching", "misconfiguration"],
+    "difficulty": 3,
+    "stem": "A breach exploited a vulnerability for which the vendor released a patch four months earlier. The company had not applied it. How should this be described?",
+    "options": [
+      {"id": "a", "text": "Exploitation of a known unpatched vulnerability, which is a vulnerability management failure", "correct": true, "why": "A fix existed and was not deployed. Naming it accurately matters, because the remediation is a patching process, not new detection technology."},
+      {"id": "b", "text": "A zero-day attack", "misconception": "zero-day-vs-unpatched", "why": "Zero-day means no patch exists. A patch had been available for four months."},
+      {"id": "c", "text": "A supply chain compromise", "misconception": "supply-chain-vectors", "why": "The vendor did its part by shipping a fix. Nothing arrived through a trusted channel."},
+      {"id": "d", "text": "An end of life vulnerability", "misconception": "zero-day-vs-unpatched", "why": "End of life means the vendor no longer issues patches. This vendor issued one."}
+    ]
+  },
+  {
+    "id": "t-018",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["zero-day", "compensating-controls"],
+    "difficulty": 3,
+    "stem": "A critical zero-day is disclosed for an internet facing application, with no patch available. What is the appropriate immediate response?",
+    "options": [
+      {"id": "a", "text": "Apply compensating controls such as virtual patching, restricted access and enhanced monitoring", "correct": true, "why": "With no patch to deploy, the objective must be met another way until the vendor ships a fix."},
+      {"id": "b", "text": "Apply the vendor patch as soon as it is tested", "misconception": "zero-day-vs-unpatched", "why": "There is no patch. That is what makes it a zero-day."},
+      {"id": "c", "text": "Wait, since exploitation is unlikely before a patch exists", "misconception": "zero-day-vs-unpatched", "why": "Public disclosure of an internet facing flaw is followed by mass scanning within hours."},
+      {"id": "d", "text": "Reclassify the system as end of life", "misconception": "zero-day-vs-unpatched", "why": "The product is supported; the fix simply does not exist yet."}
+    ]
+  },
+  {
+    "id": "t-021",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["jailbreaking", "mobile-device-management-mdm"],
+    "difficulty": 2,
+    "stem": "An MDM report flags a corporate phone whose operating system restrictions have been removed, giving the user privileged control of the device. What is this, and why does it matter most?",
+    "options": [
+      {"id": "a", "text": "Jailbreaking, because it invalidates the platform security model every other control depends on", "correct": true, "why": "Once the OS restrictions are gone, containerisation, encryption enforcement and MDM policy can all be subverted."},
+      {"id": "b", "text": "Sideloading, because apps can now be installed from outside the store", "misconception": "jailbreak-vs-sideload", "why": "Sideloading may follow, and the finding described is the removal of the OS restrictions themselves."},
+      {"id": "c", "text": "A supply chain compromise of the device", "misconception": "supply-chain-vectors", "why": "Nothing was tampered with before delivery. The user modified the device."},
+      {"id": "d", "text": "A zero-day in the mobile operating system", "misconception": "zero-day-vs-unpatched", "why": "Jailbreak tools often use known exploits, and either way the finding is the device's modified state."}
+    ]
+  },
+  {
+    "id": "t-022",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["side-loading", "jailbreaking", "mobile-device-vulnerabilities"],
+    "difficulty": 2,
+    "stem": "A user installs an application package downloaded from a website rather than from the official app store, on an otherwise unmodified device. What is this called?",
+    "options": [
+      {"id": "a", "text": "Sideloading", "correct": true, "why": "Installing an app from outside the official distribution channel, so it has not been through store review."},
+      {"id": "b", "text": "Jailbreaking", "misconception": "jailbreak-vs-sideload", "why": "The device is explicitly unmodified. Jailbreaking means removing the OS restrictions."},
+      {"id": "c", "text": "Rooting", "misconception": "jailbreak-vs-sideload", "why": "Rooting is the Android term for gaining privileged control, which is not what happened here."},
+      {"id": "d", "text": "A malicious update", "misconception": "supply-chain-vectors", "why": "A malicious update arrives through the legitimate vendor channel. This app bypassed the channel entirely."}
+    ]
+  },
+  {
+    "id": "vt-001",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["memory-injection", "operating-system-based"],
+    "difficulty": 4,
+    "stem": "An attacker writes code into the address space of a running, trusted process and causes that process to execute it, so the activity appears to come from a legitimate application. Which vulnerability type is being exploited?",
+    "options": [
+      {"id": "a", "text": "Memory injection", "correct": true, "why": "Writing into another process's memory and executing from there is the defining behaviour. It is attractive because the malicious code inherits the host process's trust and often its privileges."},
+      {"id": "b", "text": "An operating system based vulnerability", "misconception": "vulnerability-by-layer", "why": "The OS may provide the mechanism abused, and the weakness being exploited sits in the application process."},
+      {"id": "c", "text": "A firmware vulnerability", "misconception": "vulnerability-by-layer", "why": "Firmware sits beneath the operating system, in the device itself."},
+      {"id": "d", "text": "A cloud-specific vulnerability", "misconception": "vulnerability-by-layer", "why": "Cloud-specific issues are overwhelmingly configuration and identity, not in-process memory manipulation."}
+    ]
+  },
+  {
+    "id": "vt-002",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["firmware", "operating-system-based", "end-of-life"],
+    "difficulty": 4,
+    "stem": "A flaw lets an attacker persist beneath the operating system, surviving a full reinstall and remaining invisible to endpoint protection. Where does this vulnerability sit?",
+    "options": [
+      {"id": "a", "text": "Firmware", "correct": true, "why": "Firmware loads before the OS, so it survives reinstallation and sits below anything the OS can inspect. That persistence and invisibility is exactly why firmware flaws matter disproportionately."},
+      {"id": "b", "text": "The operating system", "misconception": "vulnerability-by-layer", "why": "An OS flaw would not survive wiping and reinstalling the OS."},
+      {"id": "c", "text": "The application layer", "misconception": "vulnerability-by-layer", "why": "Applications sit above the OS and are removed with it."},
+      {"id": "d", "text": "A supply chain compromise of the software provider", "misconception": "vulnerability-by-layer", "why": "Possible as the delivery route, and the question asks where the weakness resides."}
+    ]
+  },
+  {
+    "id": "vt-003",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["cloud-specific", "operating-system-based"],
+    "difficulty": 4,
+    "stem": "A cloud storage bucket holding customer exports is readable by anyone on the internet. The provider's platform is fully patched. What kind of vulnerability is this, and what fixes it?",
+    "options": [
+      {"id": "a", "text": "Cloud-specific, arising from configuration and identity rather than software, and fixed by correcting the resource policy", "correct": true, "why": "The overwhelming majority of cloud incidents are customer misconfiguration. There is no patch to apply because nothing is unpatched."},
+      {"id": "b", "text": "An operating system vulnerability in the storage service, fixed by patching", "misconception": "vulnerability-by-layer", "why": "The provider maintains the service and the stem says it is current. Reaching for patching here is the instinct this topic exists to correct."},
+      {"id": "c", "text": "A firmware vulnerability in the provider's hardware", "misconception": "vulnerability-by-layer", "why": "Nothing about the scenario involves device firmware, and it would be the provider's responsibility regardless."},
+      {"id": "d", "text": "A zero-day, since no patch is available", "misconception": "zero-day-vs-unpatched", "why": "A zero-day is an unknown flaw with no patch yet. A permission you set incorrectly is neither unknown nor awaiting a fix."}
+    ]
+  },
+  {
+    "id": "vt-004",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["hardware-provider-supply-chain", "firmware"],
+    "difficulty": 4,
+    "stem": "Network appliances are found to contain an undocumented administrative account, present from manufacture and not introduced by anyone in the buying organisation. Which vulnerability type is this?",
+    "options": [
+      {"id": "a", "text": "A hardware provider supply chain vulnerability", "correct": true, "why": "The weakness arrived with the product. No action by the purchaser introduced it, and no action after delivery would have prevented it, which is why the control is procurement, vendor assessment and verification."},
+      {"id": "b", "text": "A misconfiguration by the purchasing organisation", "misconception": "vulnerability-by-layer", "why": "The stem rules this out explicitly: the account was there from manufacture."},
+      {"id": "c", "text": "An end-of-life vulnerability", "misconception": "vulnerability-by-layer", "why": "End of life means support has ceased. Nothing here says the product is unsupported."},
+      {"id": "d", "text": "A cloud-specific vulnerability", "misconception": "vulnerability-by-layer", "why": "These are physical appliances in the purchaser's estate."}
+    ]
+  },
+  {
+    "id": "vt-005",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["end-of-life", "zero-day-vs-unpatched", "firmware"],
+    "difficulty": 4,
+    "stem": "A critical flaw is published for a product whose vendor ceased support two years ago. How should this be classified and handled?",
+    "options": [
+      {"id": "a", "text": "An end-of-life vulnerability: no patch will ever exist, so the response is compensating controls or replacement", "correct": true, "why": "End of life is called out separately because it removes the usual remedy. Isolation, access restriction and monitoring carry the system until it is replaced."},
+      {"id": "b", "text": "A zero-day, because no patch is available", "misconception": "zero-day-vs-unpatched", "why": "A zero-day is unknown to the vendor with no patch yet available. Here the vendor is known and simply no longer producing patches."},
+      {"id": "c", "text": "An unpatched vulnerability, remediated by applying the latest update", "misconception": "zero-day-vs-unpatched", "why": "There is no latest update. That is the whole difficulty."},
+      {"id": "d", "text": "A configuration vulnerability, remediated by hardening alone", "misconception": "vulnerability-by-layer", "why": "Hardening reduces exposure and does not remove the flaw in the code, which is why isolation and a replacement plan are needed too."}
+    ]
+  },
+  {
+    "id": "vt-006",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["operating-system-based", "memory-injection", "firmware"],
+    "difficulty": 3,
+    "stem": "A vendor publishes a kernel update fixing a local privilege escalation flaw affecting all supported versions. Which vulnerability category does this fall into?",
+    "options": [
+      {"id": "a", "text": "Operating system based", "correct": true, "why": "The kernel is the operating system. The fix comes from the OS vendor and is applied through normal patch management."},
+      {"id": "b", "text": "Firmware", "misconception": "vulnerability-by-layer", "why": "Firmware sits below the OS in the device and is updated separately, usually far less often."},
+      {"id": "c", "text": "Application based", "misconception": "vulnerability-by-layer", "why": "Applications run above the OS. A kernel flaw affects everything on the host."},
+      {"id": "d", "text": "Supply chain", "misconception": "vulnerability-by-layer", "why": "A flaw written by the vendor in its own code is an ordinary defect, not a supply chain compromise."}
+    ]
+  },
+  {
+    "id": "vt-007",
+    "type": "mcq-multi",
+    "objective": "2.3",
+    "topics": ["cloud-specific", "firmware", "end-of-life", "hardware-provider-supply-chain"],
+    "difficulty": 4,
+    "stem": "Which TWO vulnerability types cannot be resolved by applying a vendor patch? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "End-of-life products, where the vendor no longer issues updates", "correct": true, "why": "No patch is coming, so the response is compensating controls and replacement planning."},
+      {"id": "b", "text": "Cloud misconfiguration, such as an over-permissive resource policy", "correct": true, "why": "Nothing is unpatched. The fix is configuration, which is why patching is the wrong instinct in cloud."},
+      {"id": "c", "text": "An operating system kernel flaw", "misconception": "vulnerability-by-layer", "why": "Resolved by the OS vendor's patch."},
+      {"id": "d", "text": "A buffer overflow in a vendor application", "misconception": "vulnerability-by-layer", "why": "Fixed in code and delivered as an update."},
+      {"id": "e", "text": "A firmware flaw in a current, supported device", "misconception": "vulnerability-by-layer", "why": "Firmware updates are rarer and riskier to apply, and for a supported device one does exist."}
+    ],
+    "selectCount": 2
+  }
+]

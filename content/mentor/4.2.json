@@ -1,0 +1,63 @@
+[
+  {
+    "id": "retention-vs-disposal",
+    "label": "Retention schedules, disposal and the hold that overrides both",
+    "objective": "4.2",
+    "topics": ["data-retention", "disposal-decommissioning", "sanitization", "destruction", "certification"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated retention as a storage decision. A retention schedule says both how long you must keep data and when you must stop keeping it, and a legal hold overrides the second half.",
+      "contrast": [
+        ["Concept", "What it requires", "Risk of getting it wrong"],
+        ["Retention period", "Keep for a defined minimum, usually set by law or contract", "Deleting early breaches an obligation"],
+        ["Disposal at end of life", "Destroy or sanitise once the period expires", "Keeping it forever is a liability, not prudence"],
+        ["Legal hold", "Preserve everything relevant, suspending normal deletion", "Automated deletion continuing during litigation is spoliation"],
+        ["Decommissioning", "Retiring the asset itself: remove from service, from inventory, from access", "A forgotten server still running, unpatched and unmonitored"],
+        ["Certification", "Documented evidence that media was sanitised or destroyed", "No proof, so the obligation is unmet even if the work was done"]
+      ],
+      "rule": "Retention sets a floor and a ceiling. Data kept past the ceiling is pure liability, and a legal hold is the one thing that lifts the ceiling.",
+      "tell": "Litigation or an investigation in progress points to legal hold. An expired period with data still present points to a disposal failure.",
+      "trap": "Keeping everything indefinitely feels safe and is not. Data you no longer need is still discoverable, still breachable and still your responsibility."
+    }
+  },
+  {
+    "id": "asset-lifecycle",
+    "label": "Acquisition, assignment, monitoring, disposal",
+    "objective": "4.2",
+    "topics": ["acquisition-procurement-process", "ownership", "classification", "monitoring-asset-tracking", "inventory", "enumeration", "disposal-decommissioning", "data-retention"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You named a stage of the asset lifecycle that does not match where the failure happened. The lifecycle is procurement, assignment, tracking, disposal, and each has its own failure.",
+      "contrast": [
+        ["Stage", "What it establishes", "The failure it prevents"],
+        ["Acquisition and procurement", "Security requirements before you buy", "Buying something that cannot meet policy"],
+        ["Assignment and ownership", "A named owner and a classification", "Nobody accountable when a decision is needed"],
+        ["Monitoring and asset tracking", "A current inventory of what exists", "Defending an estate you cannot enumerate"],
+        ["Disposal and decommissioning", "Data destroyed, asset removed from the register", "A sold laptop carrying readable company data"]
+      ],
+      "rule": "You cannot secure, patch, or decommission an asset you do not know you own. The inventory is the control everything else depends on.",
+      "tell": "'Devices were found running unsupported software nobody knew existed' is an inventory and tracking failure, before it is a patching one.",
+      "trap": "Patching is the instinctive answer to anything about out-of-date systems. You cannot patch what is not in the inventory, which is why asset management sits underneath vulnerability management."
+    }
+  },
+  {
+    "id": "sanitization-vs-destruction",
+    "label": "Sanitization, destruction, and certification",
+    "objective": "4.2",
+    "topics": ["sanitization", "destruction", "certification", "disposal-decommissioning", "data-retention"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose a disposal method that does not match whether the asset is being reused, and you may have skipped the evidence step.",
+      "contrast": [
+        ["Method", "Asset afterwards", "Use when"],
+        ["Sanitization: wipe, overwrite, crypto-erase", "Reusable", "The device is being redeployed, sold or returned on lease"],
+        ["Destruction: shred, degauss, incinerate", "Gone", "The data is too sensitive to risk, or the media has failed"],
+        ["Certification", "Evidence either happened", "Always, when a third party did the work or an auditor will ask"],
+        ["Deleting files or formatting", "Data is still recoverable", "Never, as a disposal control"]
+      ],
+      "rule": "Reuse means sanitize. No reuse and high sensitivity means destroy. Either way, get the certificate, because without it you cannot prove it happened.",
+      "tell": "'The drives were sent to a disposal vendor' should make you look for certification. The control is not complete without evidence.",
+      "trap": "Degaussing is a destruction method for magnetic media and does nothing to an SSD, which stores no magnetic domains. Media type decides which destruction method is real."
+    }
+  }
+]

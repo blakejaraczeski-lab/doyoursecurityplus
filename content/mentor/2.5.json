@@ -1,0 +1,107 @@
+[
+  {
+    "id": "segmentation-as-containment",
+    "label": "Segmentation as a containment control",
+    "objective": "2.5",
+    "topics": ["segmentation", "isolation", "network-access-control-nac", "quarantine"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You answered a spreading infection with a host level fix. When malware moves laterally, the control that stops it is at the network layer.",
+      "contrast": [
+        ["Control", "Stops lateral movement", "Scope"],
+        ["Network segmentation or VLAN isolation", "Yes", "Whole subnet, stops the spread now"],
+        ["NAC quarantine VLAN", "Yes", "Per host, automatic on failed posture check"],
+        ["Host based firewall", "Partly", "One host at a time, too slow during an outbreak"],
+        ["Antivirus scan", "No", "Cleans, does not contain"],
+        ["Patching", "No, not immediately", "Prevents the next outbreak, not this one"]
+      ],
+      "rule": "Containment is a network decision during an active incident. Patching and cleaning are what you do once the bleeding has stopped.",
+      "tell": "'Prevent further spread' or 'limit the blast radius' means isolate or segment, not scan or patch.",
+      "trap": "Patching the vulnerability addresses the root cause, which makes it the intellectually correct answer to a different question. It does nothing about hosts already infected."
+    }
+  },
+  {
+    "id": "mitigation-technique-selection",
+    "label": "Choosing the mitigation that addresses the failure described",
+    "objective": "2.5",
+    "topics": ["segmentation", "access-control-list", "permissions", "patching", "encryption", "monitoring", "least-privilege", "endpoint-protection-installation", "isolation", "configuration-enforcement", "decommissioning"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You picked the strongest-sounding control rather than the one that acts on the weakness in the stem. Every technique in this objective is correct somewhere and wrong almost everywhere else.",
+      "contrast": [
+        ["Technique", "Addresses", "Does nothing about"],
+        ["Patching", "A known software flaw with a fix available", "Misconfiguration, excess rights, or a flaw with no patch"],
+        ["Segmentation", "How far an intruder can move once inside", "Getting in; the first host still falls"],
+        ["Access control lists", "Which traffic or which principals may reach a resource", "What an authorised principal then does"],
+        ["Permissions and least privilege", "How much an authorised account can do", "An unauthenticated attacker on the network"],
+        ["Encryption", "Disclosure if the data or traffic is obtained", "Availability, integrity of a running system, or misuse by an authorised reader"],
+        ["Monitoring", "Noticing that something happened", "Preventing it; this is the only detective control in the list"],
+        ["Endpoint protection", "Malicious code executing on a host", "A valid account doing permitted things"],
+        ["Isolation and decommissioning", "A system that cannot be fixed or should not exist", "Systems you still need"]
+      ],
+      "rule": "Name what actually failed: unpatched code, too much access, traffic that should not have been permitted, or data that should not have been readable. The technique follows from that, and monitoring never prevents anything.",
+      "tell": "A scenario with one clear failure and four controls that all sound responsible.",
+      "trap": "Monitoring is the attractive answer because it looks like diligence. If the stem asks how to prevent recurrence, a detective control is the wrong category of answer."
+    }
+  },
+  {
+    "id": "least-privilege-vs-permissions",
+    "label": "Least privilege as a principle, permissions as the implementation, ACLs as the mechanism",
+    "objective": "2.5",
+    "topics": ["least-privilege", "permissions", "access-control-list"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated these as three names for restricting access. They sit at different levels: one is a principle you apply, one is the state you configure, one is the structure that holds it.",
+      "contrast": [
+        ["Term", "Level", "What it is"],
+        ["Least privilege", "Principle", "Grant only what the role requires, for only as long as it is required"],
+        ["Permissions", "Configuration", "The actual rights an account holds on a resource right now"],
+        ["Access control list", "Mechanism", "The structure attached to a resource that records who may do what"]
+      ],
+      "rule": "Least privilege is a decision about how much to grant. Permissions are what was granted. The ACL is where that is written down. A question asking why an account could do something is about permissions; one asking what rule should have governed the grant is about least privilege.",
+      "tell": "Accounts with more access than their role requires point to least privilege. A specific resource someone should not have reached points to permissions or the ACL.",
+      "trap": "Least privilege is a design principle, so it is not something you switch on. If the stem asks for an immediate action, the answer is usually to correct the permissions, with least privilege as the reason."
+    }
+  },
+  {
+    "id": "allow-list-vs-deny-list",
+    "label": "Application allow list vs deny list",
+    "objective": "2.5",
+    "topics": ["application-allow-list", "configuration-enforcement", "least-privilege", "monitoring"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You picked the list that has to enumerate everything bad. Only one of these two is possible to finish.",
+      "contrast": [
+        ["Approach", "You must enumerate", "Unknown software"],
+        ["Allow list", "Everything permitted", "Blocked by default"],
+        ["Deny list", "Everything forbidden", "Permitted by default"],
+        ["Effort", "Allow list: high up front, stable after", "Deny list: endless, and always behind"],
+        ["Against a zero-day or new malware", "Allow list holds", "Deny list has no entry for it yet"]
+      ],
+      "rule": "Enumerating badness is a losing game because the list is infinite and grows. Allow listing is the same logic as a firewall's implicit deny, applied to software.",
+      "tell": "'Prevent any unapproved software from executing, including software we have not seen' is an allow list. A deny list cannot make that promise.",
+      "trap": "Allow listing is operationally painful, so the easier answer feels more realistic. The exam rewards the control that actually meets the stated requirement."
+    }
+  },
+  {
+    "id": "hardening-vs-patching",
+    "label": "Hardening a host vs patching it",
+    "objective": "2.5",
+    "topics": ["disabling-ports-protocols", "default-password-changes", "removal-of-unnecessary-software", "host-based-firewall", "host-based-intrusion-prevention-system-hips", "endpoint-protection-installation", "configuration-enforcement", "decommissioning"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered an attack surface problem with a patch. Patching fixes known flaws in software you are running; hardening reduces how much you are running and what it exposes.",
+      "contrast": [
+        ["Technique", "What it removes", "Still needed if fully patched"],
+        ["Removing unnecessary software", "Whole classes of future flaws", "Yes: tomorrow's CVE in software you did not need"],
+        ["Disabling unused ports and protocols", "Reachable services", "Yes"],
+        ["Changing default passwords", "The most-tried credential there is", "Yes: no patch fixes a default password"],
+        ["Host based firewall and HIPS", "Unexpected inbound and outbound paths", "Yes"],
+        ["Patching", "Known flaws in what remains", "This is the part patching does"]
+      ],
+      "rule": "Patching fixes what you run. Hardening reduces what you run. A fully patched host with default credentials and every service enabled is still trivially owned.",
+      "tell": "'The device cannot be patched' makes hardening and isolation the only moves left, which is also when they become compensating controls.",
+      "trap": "Patching is the default answer to every vulnerability question, and it is often also correct, which trains the reflex. Read whether the flaw is a missing fix or an unnecessary exposure."
+    }
+  }
+]

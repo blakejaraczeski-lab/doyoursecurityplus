@@ -1,0 +1,131 @@
+[
+  {
+    "id": "cloud-responsibility-matrix",
+    "label": "Shared responsibility across IaaS, PaaS and SaaS",
+    "objective": "3.1",
+    "topics": ["cloud-responsibility-matrix", "hybrid-considerations", "third-party-vendors"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You assigned a responsibility to the wrong party. The dividing line moves with the service model, and the exam picks the model deliberately.",
+      "contrast": [
+        ["Layer", "IaaS", "PaaS", "SaaS"],
+        ["Physical and network", "Provider", "Provider", "Provider"],
+        ["Hypervisor", "Provider", "Provider", "Provider"],
+        ["Operating system patching", "You", "Provider", "Provider"],
+        ["Runtime and middleware", "You", "Provider", "Provider"],
+        ["Application code", "You", "You", "Provider"],
+        ["Data, access and configuration", "You", "You", "You"]
+      ],
+      "rule": "Your data, your accounts and your configuration are yours in every model, without exception. Everything else shifts to the provider as you move from IaaS toward SaaS.",
+      "tell": "'Who is responsible for patching the guest operating system' is IaaS only. A misconfigured storage bucket or an over-permissioned account is always the customer, whatever the model.",
+      "trap": "SaaS feels like the provider handles everything, which is why public data exposure through a misconfigured SaaS permission is such a common real world breach. Configuration never transfers."
+    }
+  },
+  {
+    "id": "containers-vs-virtualization",
+    "label": "Containerisation vs virtualisation, and VM escape vs container escape",
+    "objective": "3.1",
+    "topics": ["containerization", "virtualization", "virtual-machine-vm-escape", "resource-reuse", "microservices"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated a container as a lightweight virtual machine. They isolate at different layers, which changes the blast radius.",
+      "contrast": [
+        ["Aspect", "Virtual machine", "Container"],
+        ["Isolation boundary", "The hypervisor", "The host kernel"],
+        ["Each instance runs", "Its own full OS", "Only the application and its dependencies"],
+        ["Start time", "Seconds to minutes", "Milliseconds"],
+        ["Escape means", "Breaking the hypervisor to reach the host or other VMs", "Breaking out to the shared host kernel"],
+        ["Relative isolation", "Stronger", "Weaker, because the kernel is shared"]
+      ],
+      "rule": "Containers share the host kernel, virtual machines do not. That single fact explains the speed advantage and the weaker isolation.",
+      "tell": "'Strong isolation is required between untrusted tenants' favours virtual machines or dedicated hosts. Density and fast startup favour containers.",
+      "trap": "Containers are described as isolated, and they are, at a weaker boundary. A kernel vulnerability affects every container on the host at once."
+    }
+  },
+  {
+    "id": "air-gap-vs-logical-segmentation",
+    "label": "Air gap vs logical segmentation vs microsegmentation",
+    "objective": "3.1",
+    "topics": ["air-gapped", "physical-isolation", "logical-segmentation", "software-defined-networking-sdn", "segmentation"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You called a VLAN an air gap, or proposed an air gap where the system genuinely needs connectivity.",
+      "contrast": [
+        ["Approach", "Separation", "Defeated by"],
+        ["Air gap", "Physical: no network connection at all", "Removable media, or someone quietly adding a link"],
+        ["Physical isolation", "Separate hardware and cabling", "A bridging device"],
+        ["Logical segmentation", "VLANs and ACLs on shared hardware", "Misconfiguration, VLAN hopping"],
+        ["Microsegmentation", "Policy per workload, often software defined", "Policy errors"]
+      ],
+      "rule": "An air gap means no connection exists. If data still has to move, it is not an air gap, whatever the design document calls it.",
+      "tell": "'The system must never touch the corporate network under any circumstances' is an air gap. 'Must be reachable only by the SCADA management server' is segmentation.",
+      "trap": "Air gaps degrade quietly in practice. The moment someone adds a management link or walks a USB drive across, the protection is gone, and the design still claims it."
+    }
+  },
+  {
+    "id": "specialised-system-constraints",
+    "label": "IoT, ICS/SCADA, embedded and real-time systems, and why the usual advice fails",
+    "objective": "3.1",
+    "topics": ["iot", "ics-scada", "real-time-operating-system", "embedded-systems", "availability-2", "patch-availability", "inability-to-patch"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You applied an IT answer to an operational technology question. These systems invert the usual priorities, and the advice that is right for a server is often unavailable or actively harmful here.",
+      "contrast": [
+        ["", "Conventional IT", "ICS, SCADA, embedded, RTOS, IoT"],
+        ["Priority order", "Confidentiality, integrity, availability", "Availability and safety first; an outage can be physical harm"],
+        ["Patching", "Routine, scheduled, expected", "Rare: vendor certification, no maintenance window, often no patch at all"],
+        ["Lifespan", "Three to five years", "Fifteen to thirty years, long past vendor support"],
+        ["Rebooting", "Acceptable in a window", "May halt a process that cannot simply be restarted"],
+        ["Timing", "Best effort", "Deterministic: an agent that adds latency breaks the function"],
+        ["Usual answer", "Patch, agent, endpoint protection", "Segment, restrict reachability, monitor passively"]
+      ],
+      "rule": "If the system runs a physical process, availability and safety outrank confidentiality, and the control that fits is almost always network isolation rather than anything installed on the device.",
+      "tell": "A production line, a utility, a medical device, a building system, or any stem mentioning that downtime is unacceptable.",
+      "trap": "Installing an endpoint agent on a real-time system is the answer that looks most diligent and is the one that breaks it. Determinism is a functional requirement, and extra latency is a fault."
+    }
+  },
+  {
+    "id": "architecture-tradeoffs",
+    "label": "The axes an architecture is traded on: cost, deployment, recovery, availability, scalability",
+    "objective": "3.1",
+    "topics": ["cost", "ease-of-deployment", "ease-of-recovery", "availability-2", "responsiveness", "scalability", "risk-transference", "resilience"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You judged architectures as better or worse. The objectives list them as trade-offs, so the exam asks what you gave up, not which one wins.",
+      "contrast": [
+        ["Axis", "What it asks", "What it usually costs"],
+        ["Cost", "Capital versus operating, and at what scale", "Cloud is cheap to start and expensive at steady state"],
+        ["Ease of deployment", "How fast can we stand it up", "Fast to deploy often means less control over the substrate"],
+        ["Ease of recovery", "How quickly can we restore after failure", "Snapshot and redeploy is fast; stateful systems are not"],
+        ["Availability", "What uptime does the design support", "Redundancy and dispersion both cost money and complexity"],
+        ["Responsiveness", "Latency to the user or process", "Centralising improves control and adds distance"],
+        ["Scalability", "Can it grow with demand", "Elastic designs add moving parts and new failure modes"],
+        ["Risk transference", "Can some risk move to a provider", "Responsibility transfers; accountability does not"]
+      ],
+      "rule": "Every architecture question is a trade. Name what the option improves and what it costs, and the answer is the one whose cost the stem has said is acceptable.",
+      "tell": "A stem that states a constraint such as a tight budget, a short timeline, or an uptime requirement.",
+      "trap": "Risk transference is the one people overread. Buying a managed service moves the work and some of the financial consequence. If the data is breached it is still your breach to report."
+    }
+  },
+  {
+    "id": "centralized-vs-decentralized",
+    "label": "Centralised vs decentralised architecture, and what each concentrates",
+    "objective": "3.1",
+    "topics": ["centralized-vs-decentralized", "on-premises", "hybrid-considerations", "third-party-vendors"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You assumed centralised means more secure because it means more control. It concentrates control and it concentrates consequence, which is the trade the exam is testing.",
+      "contrast": [
+        ["", "Centralised", "Decentralised"],
+        ["Control", "One place to set and enforce policy", "Policy must be propagated and verified everywhere"],
+        ["Visibility", "One view of everything", "Fragmented, with gaps between the pieces"],
+        ["Consistency", "High, by construction", "Drifts without deliberate effort"],
+        ["Blast radius", "Compromise or outage of the centre reaches everything", "Contained to the part that failed"],
+        ["Resilience", "The centre is a single point of failure", "Survives the loss of any one component"]
+      ],
+      "rule": "Centralised buys consistency and visibility and pays in blast radius. Decentralised buys containment and pays in drift and blind spots.",
+      "tell": "A stem asking what is gained or lost by consolidating management, or by letting regions run their own.",
+      "trap": "Both are defensible and the exam's answer follows the stated requirement. A question emphasising consistent policy wants centralised; one emphasising survival of a regional outage wants decentralised."
+    }
+  }
+]

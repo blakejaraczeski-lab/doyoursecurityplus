@@ -1,0 +1,312 @@
+[
+  {
+    "id": "a-013",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["secure-access-service-edge-sase", "software-defined-wide-area-network-sd-wan"],
+    "difficulty": 3,
+    "stem": "A distributed workforce must receive identical web filtering, CASB and zero trust access policy wherever they connect, without routing traffic back to headquarters. Which architecture fits?",
+    "options": [
+      {"id": "a", "text": "SASE", "correct": true, "why": "SASE delivers network and security services together from the cloud edge, so policy follows the user rather than the office."},
+      {"id": "b", "text": "SD-WAN", "misconception": "sdwan-vs-sase", "why": "SD-WAN intelligently routes traffic between sites. It is connectivity, and it does not inherently carry the security stack."},
+      {"id": "c", "text": "A site to site IPSec VPN mesh", "misconception": "sdwan-vs-sase", "why": "That provides encrypted connectivity between fixed sites and no policy enforcement for roaming users."},
+      {"id": "d", "text": "A reverse proxy at headquarters", "misconception": "jump-server-vs-proxy", "why": "A reverse proxy fronts inbound traffic to your servers. It does not govern users' outbound access from anywhere."}
+    ]
+  },
+  {
+    "id": "a-017",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["jump-server", "security-zones", "device-placement"],
+    "difficulty": 3,
+    "stem": "All administrative access to the production segment must pass through one hardened, heavily monitored host. What is this called?",
+    "options": [
+      {"id": "a", "text": "A jump server", "correct": true, "why": "A jump server, or bastion host, is the single controlled and audited entry point administrators use to reach a protected zone."},
+      {"id": "b", "text": "A reverse proxy", "misconception": "jump-server-vs-proxy", "why": "A reverse proxy fronts servers for external users arriving at published services, not administrators entering a zone."},
+      {"id": "c", "text": "A forward proxy", "misconception": "jump-server-vs-proxy", "why": "A forward proxy handles internal users going outbound to the internet."},
+      {"id": "d", "text": "A screened subnet", "misconception": "screened-subnet-direction", "why": "A screened subnet is a network zone for publicly reachable services, not a single administrative entry host."}
+    ]
+  },
+  {
+    "id": "a-018",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["fail-closed", "fail-open", "availability"],
+    "difficulty": 3,
+    "stem": "An electronically controlled door secures a server room. Fire regulations require occupants to be able to leave during a power failure. How should the door fail?",
+    "options": [
+      {"id": "a", "text": "Fail-open, so occupants can evacuate", "correct": true, "why": "Life safety overrides security. A door that traps people during a fire is not an acceptable control at any sensitivity level."},
+      {"id": "b", "text": "Fail-closed, because the server room is highly sensitive", "misconception": "fail-open-vs-fail-closed", "why": "The reflexive security answer, and here it is dangerous and prohibited by fire regulations."},
+      {"id": "c", "text": "Fail-closed, with a manual override key held by security", "misconception": "fail-open-vs-fail-closed", "why": "Depending on someone locating a key during a fire is not an evacuation route."},
+      {"id": "d", "text": "It should remain in whatever state it was in", "misconception": "fail-open-vs-fail-closed", "why": "Undefined behaviour is not a failure mode. The design must choose one deliberately."}
+    ]
+  },
+  {
+    "id": "a-019",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["fail-closed", "fail-open", "resilience"],
+    "difficulty": 3,
+    "stem": "A firewall protecting a cardholder data environment loses power. Which failure mode is appropriate?",
+    "options": [
+      {"id": "a", "text": "Fail-closed, denying traffic until the device is restored", "correct": true, "why": "For a regulated, highly sensitive segment, an outage is preferable to passing uninspected and unfiltered traffic."},
+      {"id": "b", "text": "Fail-open, to preserve availability of the payment service", "misconception": "fail-open-vs-fail-closed", "why": "That leaves the cardholder environment exposed with no filtering, which is the outcome the control exists to prevent."},
+      {"id": "c", "text": "Fail-open, since a firewall outage is a safety issue", "misconception": "fail-open-vs-fail-closed", "why": "Life safety considerations apply to physical egress, not to network filtering."},
+      {"id": "d", "text": "Either is acceptable provided it is documented", "misconception": "fail-open-vs-fail-closed", "why": "Documentation does not make an inappropriate failure mode appropriate for a regulated segment."}
+    ]
+  },
+  {
+    "id": "f-005",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["firewall-types", "firewall-rules"],
+    "difficulty": 3,
+    "stem": "On a stateful firewall you permit internal clients outbound to TCP 443. A colleague asks whether a second rule is needed to permit the replies back in. What is the correct answer?",
+    "options": [
+      {"id": "a", "text": "No. The firewall tracks the connection in its state table and permits the return traffic automatically", "correct": true, "why": "That is the defining behaviour of a stateful firewall: one rule per connection, written in the direction it is initiated."},
+      {"id": "b", "text": "Yes, a matching inbound rule from any port 443 to the internal subnet is required", "misconception": "stateful-return-traffic", "why": "On a stateful device this is an unnecessary inbound opening, and it permits unsolicited inbound traffic from anything sourcing port 443."},
+      {"id": "c", "text": "Yes, but only if the connection uses TLS", "misconception": "stateful-return-traffic", "why": "State tracking is independent of the application protocol carried inside the connection."},
+      {"id": "d", "text": "No, because the implicit deny does not apply to return traffic", "misconception": "acl-implicit-deny", "why": "The right answer, wrong reason. Return traffic is permitted by the state table, not by an exception to the implicit deny."}
+    ]
+  },
+  {
+    "id": "f-006",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["screened-subnets", "security-zones"],
+    "difficulty": 4,
+    "stem": "A public web server in the screened subnet needs to query an internal database. Which rule best satisfies the requirement without weakening the zone design?",
+    "options": [
+      {"id": "a", "text": "permit tcp WEB-SRV any -> DB-SRV port 1433", "correct": true, "why": "One host, one destination, one port. The screened subnet is permitted exactly the one flow the application needs and nothing else."},
+      {"id": "b", "text": "permit tcp DMZ-NET any -> INTERNAL-NET any", "misconception": "screened-subnet-direction", "why": "This lets any compromised host in the screened subnet reach anything inside, which is the exact pivot the zone exists to prevent."},
+      {"id": "c", "text": "permit tcp WEB-SRV any -> INTERNAL-NET port 1433", "misconception": "acl-overbroad-any", "why": "Closer, but it permits the web server to reach every internal host on 1433, not just the one database it needs."},
+      {"id": "d", "text": "permit ip any any between the screened subnet and the internal network", "misconception": "screened-subnet-direction", "why": "This removes the boundary entirely and makes the screened subnet an extension of the internal network."}
+    ]
+  },
+  {
+    "id": "f-007",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["security-zones", "segmentation"],
+    "difficulty": 3,
+    "stem": "Which traffic direction should normally be denied in a screened subnet design?",
+    "options": [
+      {"id": "a", "text": "Screened subnet hosts initiating connections into the internal network", "correct": true, "why": "Public facing hosts are the most likely to be compromised, so they must not be able to open connections toward the more trusted zone except for narrowly named flows."},
+      {"id": "b", "text": "Internal hosts initiating connections into the screened subnet", "misconception": "screened-subnet-direction", "why": "Trust flows from more trusted to less trusted. Internal administrators and users routinely need to reach these servers."},
+      {"id": "c", "text": "The internet initiating connections to published services in the screened subnet", "misconception": "screened-subnet-direction", "why": "That is the entire purpose of the zone. Blocking it would take the public services offline."},
+      {"id": "d", "text": "Screened subnet hosts initiating connections to the internet", "misconception": "screened-subnet-direction", "why": "This is often restricted, but it is not the defining rule of the design. The critical denial is toward the internal network."}
+    ]
+  },
+  {
+    "id": "f-009",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["web-application-firewall-waf", "next-generation-firewall-ngfw"],
+    "difficulty": 3,
+    "stem": "A public web application is being targeted by SQL injection and cross site scripting attempts against its search parameter. Which control is designed for this?",
+    "options": [
+      {"id": "a", "text": "A web application firewall", "correct": true, "why": "A WAF inspects HTTP requests, parameters and payloads, which is the layer these attacks operate at."},
+      {"id": "b", "text": "A next-generation firewall with application awareness", "misconception": "waf-vs-ngfw-vs-utm", "why": "An NGFW is the broader and more capable perimeter device, and its IPS may catch some attempts. For attacks against one application's parameters, the specialised device is correct."},
+      {"id": "c", "text": "A unified threat management appliance", "misconception": "waf-vs-ngfw-vs-utm", "why": "UTM bundles many functions for a small site. It is a breadth answer to a depth problem."},
+      {"id": "d", "text": "A stateful firewall permitting only 443 to the server", "misconception": "waf-vs-ngfw-vs-utm", "why": "The attack arrives inside permitted HTTPS traffic. A port based rule cannot see it."}
+    ]
+  },
+  {
+    "id": "f-010",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["intrusion-prevention-system-ips", "intrusion-detection-system-ids", "inline-vs-tap-monitor"],
+    "difficulty": 3,
+    "stem": "Management requires that known exploit traffic be blocked in real time before reaching internal servers. Which deployment meets the requirement?",
+    "options": [
+      {"id": "a", "text": "An IPS deployed inline in the traffic path", "correct": true, "why": "Only a device that the traffic actually passes through can drop it. Inline placement is what makes prevention possible."},
+      {"id": "b", "text": "An IDS connected to a SPAN port on the core switch", "misconception": "ids-vs-ips-placement", "why": "A SPAN port delivers a copy of the traffic after the fact. The device can alert but the original packets have already been delivered."},
+      {"id": "c", "text": "An IDS inline with alerting configured to page the on-call engineer", "misconception": "ids-vs-ips-placement", "why": "An IDS detects. Placing it inline does not give it the ability to drop traffic, and it adds a failure point."},
+      {"id": "d", "text": "A passive network tap feeding a SIEM with automated ticket creation", "misconception": "ids-vs-ips-placement", "why": "Passive means out of band. Tickets are created after the traffic has already arrived."}
+    ]
+  },
+  {
+    "id": "f-011",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["firewall-types", "attack-surface"],
+    "difficulty": 2,
+    "stem": "A small business owner states that their office is safe from inbound attacks because the router performs NAT. How should this be assessed?",
+    "options": [
+      {"id": "a", "text": "NAT is not a security control; a firewall policy is still required", "correct": true, "why": "NAT translates addresses. Unsolicited inbound connections have nowhere to land by default, but nothing is being evaluated against a policy, and any forwarded port bypasses the effect entirely."},
+      {"id": "b", "text": "Correct, NAT provides equivalent protection to a stateful firewall", "misconception": "nat-as-security-control", "why": "NAT makes no policy decisions, logs nothing, and does not restrict outbound traffic at all."},
+      {"id": "c", "text": "Correct for inbound traffic, though outbound filtering should be added", "misconception": "nat-as-security-control", "why": "This concedes the premise. The inbound protection is a side effect of address translation, not an enforced policy."},
+      {"id": "d", "text": "NAT is a compensating control that satisfies the firewall requirement", "misconception": "nat-as-security-control", "why": "A compensating control must actually achieve the objective by another means. NAT does not evaluate traffic against a policy."}
+    ]
+  },
+  {
+    "id": "f-014",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["firewall-types", "layer-4-layer-7-firewall"],
+    "difficulty": 3,
+    "stem": "Which capability distinguishes a next-generation firewall from a traditional stateful firewall?",
+    "options": [
+      {"id": "a", "text": "It identifies the application and the user behind the traffic, not merely the port and protocol", "correct": true, "why": "Application and identity awareness, usually with integrated intrusion prevention, is what defines an NGFW."},
+      {"id": "b", "text": "It tracks connection state so return traffic is permitted automatically", "misconception": "stateful-return-traffic", "why": "That is the definition of a stateful firewall, which an NGFW also does. It is not what makes it next generation."},
+      {"id": "c", "text": "It performs address translation for internal hosts", "misconception": "nat-as-security-control", "why": "NAT is available on almost any router or firewall and is not a security differentiator."},
+      {"id": "d", "text": "It provides deep inspection of one web application's parameters", "misconception": "waf-vs-ngfw-vs-utm", "why": "That depth on a single application is a WAF's specialisation."}
+    ]
+  },
+  {
+    "id": "f-016",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["intrusion-prevention-system-ips", "fail-open", "fail-closed"],
+    "difficulty": 4,
+    "stem": "An inline IPS protects a payment processing segment. The security team must decide its behaviour if the appliance fails. Which consideration is most relevant?",
+    "options": [
+      {"id": "a", "text": "Fail-closed protects the segment but causes an outage; fail-open preserves availability but leaves traffic uninspected", "correct": true, "why": "This is the core trade-off of inline placement, and the right answer depends on whether confidentiality or availability dominates for that segment."},
+      {"id": "b", "text": "The question does not arise, because an IPS is deployed out of band", "misconception": "ids-vs-ips-placement", "why": "An IPS must be inline to drop traffic. Out of band placement describes an IDS."},
+      {"id": "c", "text": "Failure has no effect because the stateful firewall continues to filter", "misconception": "ids-vs-ips-placement", "why": "The firewall filters by policy. It does not perform the signature and behaviour inspection the IPS was deployed for."},
+      {"id": "d", "text": "Fail-open should always be selected to maintain availability", "misconception": "ids-vs-ips-placement", "why": "For a payment segment, uninspected traffic may be the less acceptable risk. There is no universal default."}
+    ]
+  },
+  {
+    "id": "f-018",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["firewall-types", "unified-threat-management-utm"],
+    "difficulty": 2,
+    "stem": "A 20 person office with no IT staff needs perimeter filtering, antivirus, web filtering, VPN termination and intrusion prevention, managed through one interface and one licence. Which is the best fit?",
+    "options": [
+      {"id": "a", "text": "A unified threat management appliance", "correct": true, "why": "UTM exists exactly for this case: many security functions consolidated into a single box and a single management surface for a small site."},
+      {"id": "b", "text": "A web application firewall", "misconception": "waf-vs-ngfw-vs-utm", "why": "A WAF protects a web application the organisation publishes. It does none of the perimeter functions listed."},
+      {"id": "c", "text": "Separate best of breed appliances for each function", "misconception": "waf-vs-ngfw-vs-utm", "why": "Technically stronger and unmanageable for an office with no IT staff, which is the constraint in the stem."},
+      {"id": "d", "text": "A stateless packet filtering router", "misconception": "stateful-return-traffic", "why": "It provides none of the listed functions and would require reverse rules for every flow."}
+    ]
+  },
+  {
+    "id": "t-023",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["secure-access-service-edge-sase", "software-defined-wide-area-network-sd-wan"],
+    "difficulty": 3,
+    "stem": "A company deploys SD-WAN across its branches and then asks why it still needs a separate security stack. What is the correct explanation?",
+    "options": [
+      {"id": "a", "text": "SD-WAN optimises connectivity between sites; it does not inherently inspect or filter traffic", "correct": true, "why": "SD-WAN chooses paths intelligently across available circuits. Security services have to be added, which is what moving to SASE provides."},
+      {"id": "b", "text": "SD-WAN includes a full security stack, so no separate controls are needed", "misconception": "sdwan-vs-sase", "why": "That describes SASE. Confusing them leaves branches connected and unprotected."},
+      {"id": "c", "text": "SD-WAN encrypts all traffic, which removes the need for filtering", "misconception": "sdwan-vs-sase", "why": "Encryption protects traffic in transit. It does not decide what traffic should be permitted."},
+      {"id": "d", "text": "SD-WAN replaces the need for a VPN and therefore for perimeter security", "misconception": "sdwan-vs-sase", "why": "Replacing the tunnel technology says nothing about inspecting what travels through it."}
+    ]
+  },
+  {
+    "id": "tn-001",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["tls-tunneling", "ipsec-tunneling", "remote-access"],
+    "difficulty": 4,
+    "stem": "A consultant must reach internal systems from hotel and conference networks that block everything except HTTP and HTTPS. Which remote access approach is most likely to work?",
+    "options": [
+      {"id": "a", "text": "A TLS-based VPN operating over port 443", "correct": true, "why": "TLS VPNs ride the one port restrictive networks almost always permit. That practical reachability is the main reason they displaced IPsec for roaming users."},
+      {"id": "b", "text": "An IPsec VPN in tunnel mode", "misconception": "tunneling-protocols", "why": "IPsec needs IKE and ESP, which restrictive guest networks commonly block. NAT traversal helps and is not guaranteed."},
+      {"id": "c", "text": "A site-to-site IPsec tunnel from the hotel", "misconception": "tunneling-protocols", "why": "Site-to-site joins two networks you control. You do not control the hotel."},
+      {"id": "d", "text": "A jump server reachable over SSH", "misconception": "jump-server-vs-proxy", "why": "A jump server controls access once inside. It is not the transport that gets you there, and SSH is often blocked too."}
+    ]
+  },
+  {
+    "id": "tn-002",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["ipsec-tunneling", "virtual-private-network"],
+    "difficulty": 4,
+    "stem": "Two branch offices are joined so that hosts in each can address hosts in the other directly, with the original IP headers protected in transit. Which IPsec mode is in use?",
+    "options": [
+      {"id": "a", "text": "Tunnel mode, which encapsulates the entire original packet between the gateways", "correct": true, "why": "Tunnel mode wraps the whole packet including its headers in a new one addressed gateway to gateway. That encapsulation is what makes two networks behave as one."},
+      {"id": "b", "text": "Transport mode, which is the standard for site-to-site links", "misconception": "tunneling-protocols", "why": "Transport mode protects the payload and leaves the original headers exposed. It suits host to host, not gateway to gateway."},
+      {"id": "c", "text": "TLS tunnelling, since the traffic is encrypted", "misconception": "tunneling-protocols", "why": "TLS operates above the transport layer and does not encapsulate arbitrary IP packets between networks."},
+      {"id": "d", "text": "Split tunnelling", "misconception": "tunneling-protocols", "why": "That describes which traffic is sent through a VPN, not how the packets are encapsulated."}
+    ]
+  },
+  {
+    "id": "tn-003",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["virtual-private-network", "tls-tunneling", "remote-access"],
+    "difficulty": 4,
+    "stem": "A VPN is configured so that corporate traffic traverses the tunnel while all other traffic goes direct to the internet. What is the security consequence?",
+    "options": [
+      {"id": "a", "text": "Split tunnelling: the device is simultaneously on the corporate network and the open internet, and its general browsing is outside corporate inspection", "correct": true, "why": "Bandwidth and latency improve, and the trade is that the endpoint becomes a bridge between two networks, with half its traffic unfiltered and unlogged."},
+      {"id": "b", "text": "No consequence, since corporate traffic remains encrypted", "misconception": "tunneling-protocols", "why": "The encrypted half is fine. The risk is the unmonitored half and the bridge the device now forms."},
+      {"id": "c", "text": "The VPN is operating in transport mode", "misconception": "tunneling-protocols", "why": "Mode concerns IPsec encapsulation, not which routes are sent through the tunnel."},
+      {"id": "d", "text": "It prevents the device from reaching the internet at all", "misconception": "tunneling-protocols", "why": "That describes full tunnelling with no direct egress, which is the opposite configuration."}
+    ]
+  },
+  {
+    "id": "tn-004",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["active-vs-passive", "sensors", "intrusion-detection-system"],
+    "difficulty": 4,
+    "stem": "A monitoring device receives a copy of traffic from a span port and raises alerts. It is not in the forwarding path. How is it described, and what is the limitation?",
+    "options": [
+      {"id": "a", "text": "Passive: it can detect and alert but cannot block, because the traffic has already passed", "correct": true, "why": "Passive placement observes a copy. It adds no latency and introduces no failure point, and it cannot stop anything."},
+      {"id": "b", "text": "Active, because it is actively analysing traffic", "misconception": "ids-vs-ips-placement", "why": "Active and passive describe position in the path, not effort. Active means inline and able to act."},
+      {"id": "c", "text": "Passive, and it can block by sending reset packets, which is equivalent to inline blocking", "misconception": "ids-vs-ips-placement", "why": "Resets are a partial mitigation that often arrives too late, and they are not equivalent to dropping the packet inline."},
+      {"id": "d", "text": "Active, because a span port is a form of inline tap", "misconception": "ids-vs-ips-placement", "why": "A span port copies traffic. The device is not in the forwarding path."}
+    ]
+  },
+  {
+    "id": "tn-005",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["proxy-server", "jump-server", "centralized-proxy"],
+    "difficulty": 4,
+    "stem": "Which statement correctly distinguishes a forward proxy from a reverse proxy?",
+    "options": [
+      {"id": "a", "text": "A forward proxy acts on behalf of internal clients reaching out; a reverse proxy acts on behalf of internal servers being reached", "correct": true, "why": "Direction is the distinction. Forward proxies enforce policy and log outbound browsing; reverse proxies terminate inbound connections, hiding and protecting the servers behind."},
+      {"id": "b", "text": "A forward proxy encrypts traffic and a reverse proxy decrypts it", "misconception": "jump-server-vs-proxy", "why": "Both can terminate TLS. Encryption is not what separates them."},
+      {"id": "c", "text": "A forward proxy is hardware and a reverse proxy is software", "misconception": "jump-server-vs-proxy", "why": "Either can be either."},
+      {"id": "d", "text": "A reverse proxy is another name for a jump server", "misconception": "jump-server-vs-proxy", "why": "A jump server is a controlled host administrators connect through to reach managed systems. Different purpose entirely."}
+    ]
+  },
+  {
+    "id": "tn-006",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["sensors", "active-vs-passive", "inline-vs-tap-monitor"],
+    "difficulty": 3,
+    "stem": "Where should sensors be placed to give visibility of lateral movement between internal segments?",
+    "options": [
+      {"id": "a", "text": "At internal segment boundaries, not only at the perimeter, since east-west traffic never crosses the internet gateway", "correct": true, "why": "Perimeter-only sensing sees traffic entering and leaving. An attacker moving between internal hosts produces nothing the perimeter can observe."},
+      {"id": "b", "text": "At the internet perimeter only, since all traffic eventually passes it", "misconception": "ids-vs-ips-placement", "why": "Internal host-to-host traffic does not pass the perimeter at all, which is exactly the blind spot."},
+      {"id": "c", "text": "On the public side of the firewall only", "misconception": "ids-vs-ips-placement", "why": "That position sees unfiltered internet noise and nothing internal."},
+      {"id": "d", "text": "Sensors are unnecessary where an IPS is deployed inline at the edge", "misconception": "ids-vs-ips-placement", "why": "An edge IPS has the same blind spot for east-west traffic."}
+    ]
+  },
+  {
+    "id": "tn-007",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["selection-of-effective-controls", "fail-open", "fail-closed"],
+    "difficulty": 4,
+    "stem": "A control is being selected for a door on a medical ward. In a fire alarm the door must release; for everyday access it must stay locked. Which principle governs the choice, and what is the answer?",
+    "options": [
+      {"id": "a", "text": "Selection of effective controls weighs safety against security: the door fails open, because life safety outranks access control", "correct": true, "why": "Choosing a control means deciding which failure mode you can live with. On an escape route the answer is always life safety, and the access control is compensated elsewhere."},
+      {"id": "b", "text": "It should fail closed, since security must be maintained during an incident", "misconception": "fail-open-vs-fail-closed", "why": "A locked escape route during a fire is a fatality risk. No security requirement outweighs it."},
+      {"id": "c", "text": "It should fail closed, with staff issued override keys", "misconception": "fail-open-vs-fail-closed", "why": "Depends on people acting correctly under emergency conditions, which is precisely when they do not."},
+      {"id": "d", "text": "The choice is governed by the screened subnet principle", "misconception": "screened-subnet-direction", "why": "That concerns which direction network traffic may be initiated."}
+    ]
+  },
+  {
+    "id": "tn-008",
+    "type": "mcq-multi",
+    "objective": "3.2",
+    "topics": ["tls-tunneling", "ipsec-tunneling", "active-vs-passive", "proxy-server"],
+    "difficulty": 4,
+    "stem": "Which TWO statements about secure infrastructure are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "IPsec tunnel mode encapsulates the whole original packet, which is what joins two networks", "correct": true, "why": "Transport mode protects only the payload and leaves the original headers visible, suiting host-to-host."},
+      {"id": "b", "text": "A passively placed sensor cannot drop traffic, because it only sees a copy", "correct": true, "why": "Passive placement adds no latency and no failure point, at the cost of being unable to act."},
+      {"id": "c", "text": "A reverse proxy is deployed to control outbound browsing by staff", "misconception": "jump-server-vs-proxy", "why": "That is a forward proxy. Reverse proxies front inbound connections to your servers."},
+      {"id": "d", "text": "Split tunnelling improves security by reducing VPN load", "misconception": "tunneling-protocols", "why": "It improves performance and removes your visibility of everything not routed through the tunnel."},
+      {"id": "e", "text": "TLS VPNs are blocked more often than IPsec on restrictive networks", "misconception": "tunneling-protocols", "why": "The reverse: TLS on 443 passes almost everywhere, which is why roaming users favour it."}
+    ],
+    "selectCount": 2
+  }
+]

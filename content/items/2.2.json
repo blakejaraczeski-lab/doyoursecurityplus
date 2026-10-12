@@ -1,0 +1,86 @@
+[
+  {
+    "id": "c-035",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["vishing", "phishing", "smishing"],
+    "difficulty": 2,
+    "stem": "An employee receives a phone call from someone claiming to be from the IT service desk, asking them to read out the code that just arrived on their phone. What is this?",
+    "options": [
+      {"id": "a", "text": "Vishing", "correct": true, "why": "The channel is a voice call, which makes it vishing, and the goal is to defeat the second factor."},
+      {"id": "b", "text": "Phishing", "misconception": "phishing-variants", "why": "Technically part of the phishing family, and the exam wants the channel specific term when the channel is stated."},
+      {"id": "c", "text": "Smishing", "misconception": "phishing-variants", "why": "Smishing arrives by SMS. The code arrived by SMS, the attack arrived by phone call."},
+      {"id": "d", "text": "Whaling", "misconception": "phishing-variants", "why": "Whaling targets an executive. Nothing indicates the employee is one."}
+    ]
+  },
+  {
+    "id": "c-036",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["business-email-compromise", "impersonation", "pretexting"],
+    "difficulty": 3,
+    "stem": "Finance receives an email from the CFO's genuine mailbox, in their usual style, asking for an urgent wire transfer to a new account. Mail authentication passes because the message really did come from that mailbox. What is this?",
+    "options": [
+      {"id": "a", "text": "Business email compromise", "correct": true, "why": "The attacker controls a real, legitimate mailbox, which is why SPF, DKIM and DMARC all pass and the message reads as authentic."},
+      {"id": "b", "text": "Whaling", "misconception": "phishing-variants", "why": "Whaling targets an executive. Here the executive's account is the weapon, and finance staff are the target."},
+      {"id": "c", "text": "Spoofing", "misconception": "phishing-variants", "why": "Nothing is spoofed. The message genuinely originates from the CFO's account, which is what makes it so effective."},
+      {"id": "d", "text": "Smishing", "misconception": "phishing-variants", "why": "The channel is email, not SMS."}
+    ]
+  },
+  {
+    "id": "t-014",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["managed-service-providers-msps", "service-provider-supply-chain", "vendors"],
+    "difficulty": 3,
+    "stem": "An attacker compromises a managed service provider and uses its remote management tooling to deploy ransomware to 200 of its clients simultaneously. Which risk does this illustrate?",
+    "options": [
+      {"id": "a", "text": "Third-party and supply chain risk through a service provider's privileged access", "correct": true, "why": "The MSP holds trusted administrative access into every client, so compromising it once reaches all of them."},
+      {"id": "b", "text": "Insider threat at each of the 200 clients", "misconception": "supply-chain-vectors", "why": "No client employee acted. The trusted access came from outside each organisation."},
+      {"id": "c", "text": "Shadow IT", "misconception": "threat-actor-attributes", "why": "The MSP relationship is sanctioned and contracted, which is the opposite of shadow IT."},
+      {"id": "d", "text": "A zero-day in the clients' endpoint protection", "misconception": "zero-day-vs-unpatched", "why": "The deployment used legitimate management tooling with legitimate credentials, so no exploit was needed."}
+    ]
+  },
+  {
+    "id": "sec-2.2-030",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["watering-hole", "typosquatting", "brand-impersonation", "email"],
+    "difficulty": 3,
+    "stem": "Staff at an engineering firm are compromised after visiting a small industry standards site they all read daily. The site itself was breached a week earlier and now serves a malicious script to visitors from that firm's address range. Which threat vector is this?",
+    "options": [
+      {"id": "a", "text": "A watering hole attack", "correct": true, "why": "The attacker compromised a site the target population is already known to visit, then waited. No message was sent to anyone."},
+      {"id": "b", "text": "Typosquatting", "misconception": "threat-vector-families", "why": "Typosquatting registers a lookalike domain and relies on a mistyped address. Here the victims reached exactly the site they meant to visit."},
+      {"id": "c", "text": "Brand impersonation", "misconception": "threat-vector-families", "why": "Brand impersonation forges the appearance of a trusted organisation. The site here was genuine and genuinely compromised, which is why nothing looked wrong."},
+      {"id": "d", "text": "Business email compromise", "misconception": "phishing-variants", "why": "BEC runs through a real or spoofed mailbox to push a transaction. No email was involved in this chain."}
+    ]
+  },
+  {
+    "id": "sec-2.2-031",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["vulnerable-software", "client-based-vs-agentless", "open-service-ports", "default-credentials"],
+    "difficulty": 4,
+    "stem": "A vulnerability review finds a reporting service reachable on the network whose web console still accepts the vendor's shipped administrator password. No user interaction is needed to exploit it. Which description fits the vector best?",
+    "options": [
+      {"id": "a", "text": "An open service port exposing software with default credentials", "correct": true, "why": "The opening is the exposed service plus an unchanged shipped credential. It is reached directly, with nobody tricked into anything."},
+      {"id": "b", "text": "A message-based vector, because the console is reached over the web", "misconception": "threat-vector-families", "why": "Message-based means a human is addressed and asked to act: email, SMS, instant message, voice call. Browsing to a service is not that."},
+      {"id": "c", "text": "A supply chain vector, because the vendor shipped the password", "misconception": "threat-vector-families", "why": "Supply chain means the attacker uses trust you extended to a supplier. Here the vendor's default is simply a configuration you failed to change on your own estate."},
+      {"id": "d", "text": "A zero-day, because no patch has been applied", "misconception": "zero-day-vs-unpatched", "why": "Nothing is unknown to the vendor here and no patch is missing. A password that was never changed is a hardening failure, not a vulnerability awaiting a fix."}
+    ]
+  },
+  {
+    "id": "sec-2.2-032",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["misinformation-disinformation", "impersonation", "brand-impersonation", "instant-messaging"],
+    "difficulty": 3,
+    "stem": "During a product recall, coordinated accounts post fabricated claims that a company's safety certificates were withdrawn. Share price falls and the support desk is overwhelmed. Nothing on the company network is touched. Which best describes what is being used against the company?",
+    "options": [
+      {"id": "a", "text": "A misinformation and disinformation campaign", "correct": true, "why": "The objectives list this as a human vector in its own right. The asset under attack is trust, and no system has to be breached to damage it."},
+      {"id": "b", "text": "Brand impersonation", "misconception": "threat-vector-families", "why": "Brand impersonation means posing as the company. These accounts are speaking about the company, not pretending to be it."},
+      {"id": "c", "text": "A denial of service attack", "misconception": "threat-vector-families", "why": "The support desk is overwhelmed by real people reacting to a story. No traffic is being directed at a service to exhaust it."},
+      {"id": "d", "text": "Pretexting", "misconception": "phishing-variants", "why": "Pretexting builds a false scenario to extract something from a specific target. This is broadcast, and it asks nobody for anything."}
+    ]
+  }
+]

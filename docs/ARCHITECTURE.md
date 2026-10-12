@@ -141,12 +141,14 @@ origin stable, which is what makes the fast tier survive too.
 ```
 content/
   objectives.json        # taxonomy: 5 domains, 28 objectives, 684 topics  [DONE]
-  items/<domain>.json    # MCQ bank, tagged to objective + topics
+  items/<objective>.json # one file per objective, plus derived.json and recall.json
   pbq/<id>.json          # PBQ definitions with subtasks and graders
-  mentor/<id>.json       # misconception -> mentor guide
+  mentor/<objective>.json# misconception -> mentor guide, one file per objective
+  glossary.json          # acronym -> expansion, shown inline in stems
 scripts/
-  build_objectives.py    # regenerates the taxonomy                        [DONE]
+  build_objectives.py    # regenerates the taxonomy
   validate_content.py    # schema + coverage + orphan misconception check
+  format_content.py      # one canonical shape for every item and mentor file
 ```
 
 Coverage gate: no objective ships with zero items, and domain item counts track

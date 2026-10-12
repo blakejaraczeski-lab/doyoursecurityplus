@@ -6,6 +6,13 @@
 // page that loads it lives.
 const CONTENT = new URL("../content/", import.meta.url);
 
+/**
+ * Graded practice: an item that makes you choose between options and marks you
+ * right or wrong. A revealed vocabulary card is not this, so it cannot stand in
+ * for exam-shaped coverage of a domain.
+ */
+export const isGraded = (it) => typeof it.type === "string" && it.type.startsWith("mcq");
+
 async function j(path) {
   const res = await fetch(new URL(path, CONTENT), { cache: "no-store" });
   if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);

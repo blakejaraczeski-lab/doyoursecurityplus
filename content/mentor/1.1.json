@@ -1,0 +1,65 @@
+[
+  {
+    "id": "control-category-vs-type",
+    "label": "Control category (technical, managerial, operational, physical) vs control type (preventive, detective, ...)",
+    "objective": "1.1",
+    "topics": ["technical-controls", "managerial-controls", "operational-controls", "physical-controls", "preventive", "detective", "deterrent", "corrective", "compensating", "directive"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You answered with the wrong axis. Every control has both a category and a type, and the question always asks for exactly one of them.",
+      "contrast": [
+        ["Axis", "Question it answers", "Values"],
+        ["Category", "What kind of thing is it", "Technical, Managerial, Operational, Physical"],
+        ["Type", "What does it do about the event", "Preventive, Deterrent, Detective, Corrective, Compensating, Directive"],
+        ["Example: security guard", "Category: Physical", "Type: could be deterrent, preventive or detective"],
+        ["Example: security policy", "Category: Managerial", "Type: Directive"],
+        ["Example: backups", "Category: Technical", "Type: Corrective"]
+      ],
+      "rule": "Category is what it is made of. Type is when it acts relative to the incident: before, during, or after.",
+      "tell": "The words 'category' and 'type' in the stem are literal. Read which one is being asked before scanning the options.",
+      "trap": "Both axes appear in the option list together, so a correct sounding word is always available on the wrong axis."
+    }
+  },
+  {
+    "id": "deterrent-vs-preventive",
+    "label": "Deterrent vs preventive control",
+    "objective": "1.1",
+    "topics": ["deterrent", "preventive", "physical-controls"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You picked preventive for a control that only discourages. A deterrent changes the attacker's mind, a preventive changes what is physically possible.",
+      "contrast": [
+        ["Control", "Type", "Why"],
+        ["Warning sign, 'CCTV in use'", "Deterrent", "Persuades, blocks nothing"],
+        ["Bollard", "Preventive", "The vehicle physically cannot pass"],
+        ["Lighting", "Deterrent", "Makes attackers feel exposed"],
+        ["Locked door", "Preventive", "Stops entry"],
+        ["Fence, low", "Deterrent", "Easily climbed, marks a boundary"],
+        ["Fence, tall with razor wire", "Preventive", "Actually stops entry"]
+      ],
+      "rule": "Ask whether a determined attacker who ignores it is still stopped. If yes it is preventive, if no it is deterrent.",
+      "tell": "Signs, lighting and visible cameras are the classic deterrent set.",
+      "trap": "Deterrents do reduce incidents, so they feel preventive in effect. The exam classifies by mechanism, not by outcome."
+    }
+  },
+  {
+    "id": "compensating-vs-corrective",
+    "label": "Compensating vs corrective control",
+    "objective": "1.1",
+    "topics": ["compensating", "corrective", "exceptions-and-exemptions"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You confused the control that stands in for another with the control that fixes damage afterwards.",
+      "contrast": [
+        ["Aspect", "Compensating", "Corrective"],
+        ["Exists because", "The control you wanted is not possible", "An incident happened"],
+        ["Timing", "Before, as a substitute", "After, as a repair"],
+        ["Example", "Legacy system cannot be patched, so it is isolated on its own VLAN", "Restoring from backup after ransomware"],
+        ["Paired with", "An exception in the risk register", "The recovery phase"]
+      ],
+      "rule": "Compensating substitutes for a missing control. Corrective repairs after the event.",
+      "tell": "'Cannot be patched', 'vendor no longer supports it', 'business will not accept the downtime' all set up a compensating control.",
+      "trap": "Both are the answer to 'we have a problem', so both sound reactive. Compensating is chosen in advance and documented."
+    }
+  }
+]

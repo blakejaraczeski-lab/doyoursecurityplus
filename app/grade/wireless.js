@@ -2,7 +2,8 @@
 // fields (EAP method, RADIUS address) only score when the mode you chose makes
 // them meaningful, so one wrong mode does not cascade into losing everything.
 
-function fieldVisible(field, answers) {
+/** Is this field reachable given the mode chosen? The renderer uses the same rule. */
+export function fieldVisible(field, answers) {
   if (!field?.dependsOn) return true;
   return field.dependsOn.in.includes(answers[field.dependsOn.field]);
 }

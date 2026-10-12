@@ -1,0 +1,286 @@
+[
+  {
+    "id": "a-003",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["hot-site", "warm-site", "cold-site", "recovery-time-objective-rto"],
+    "difficulty": 3,
+    "stem": "A trading platform has an RTO of 30 minutes. Which recovery site is appropriate?",
+    "options": [
+      {"id": "a", "text": "A hot site", "correct": true, "why": "Only a hot site, with hardware, software and current data already running, can restore service inside 30 minutes."},
+      {"id": "b", "text": "A warm site", "misconception": "site-types-hot-warm-cold", "why": "A warm site has the equipment but not current data. Restoring and validating it takes hours at best."},
+      {"id": "c", "text": "A cold site", "misconception": "site-types-hot-warm-cold", "why": "A cold site is space, power and connectivity. Standing it up takes days or weeks."},
+      {"id": "d", "text": "An offsite backup vault", "misconception": "backup-methods", "why": "Storing media offsite protects the data. It provides nowhere to run the platform."}
+    ]
+  },
+  {
+    "id": "a-004",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["warm-site", "cold-site", "hot-site"],
+    "difficulty": 3,
+    "stem": "A charity can tolerate several days of downtime and has a very limited budget. Which recovery option fits?",
+    "options": [
+      {"id": "a", "text": "A cold site", "correct": true, "why": "With a tolerant RTO and a tight budget, paying only for space, power and connectivity is the appropriate trade."},
+      {"id": "b", "text": "A hot site", "misconception": "site-types-hot-warm-cold", "why": "A hot site is the most expensive option by a wide margin, and the RTO does not require it."},
+      {"id": "c", "text": "A warm site", "misconception": "site-types-hot-warm-cold", "why": "Reasonable in the middle of the range, and it still means paying to keep hardware and software standing by."},
+      {"id": "d", "text": "Clustering across two data centres", "misconception": "ha-vs-load-balancing-vs-clustering", "why": "That is a high availability design, the most expensive approach of all, for an organisation that can accept days of downtime."}
+    ]
+  },
+  {
+    "id": "a-005",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["load-balancing-vs-clustering", "high-availability"],
+    "difficulty": 3,
+    "stem": "A database must continue serving requests with its session state intact if one node fails. Which design meets this?",
+    "options": [
+      {"id": "a", "text": "Clustering, so the nodes act as one logical system sharing state", "correct": true, "why": "Clustering is defined by shared state and workload takeover, which is what preserving sessions across a node failure requires."},
+      {"id": "b", "text": "A load balancer distributing connections across independent nodes", "misconception": "ha-vs-load-balancing-vs-clustering", "why": "Load balancing spreads requests and the nodes do not share state, so the sessions on the failed node are lost."},
+      {"id": "c", "text": "Replication to a standby copy", "misconception": "backup-methods", "why": "Replication keeps a second copy current. On its own it does not provide automatic takeover with live session state."},
+      {"id": "d", "text": "Nightly backups to a second data centre", "misconception": "backup-methods", "why": "Backups restore data eventually. They provide no continuity at all."}
+    ]
+  },
+  {
+    "id": "a-006",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["load-balancer", "high-availability", "scalability"],
+    "difficulty": 2,
+    "stem": "A web farm is struggling under traffic growth. Requests must be spread across all available servers. Which device is required?",
+    "options": [
+      {"id": "a", "text": "A load balancer", "correct": true, "why": "Distributing incoming requests across a pool of servers for capacity is exactly what a load balancer does."},
+      {"id": "b", "text": "A cluster manager", "misconception": "ha-vs-load-balancing-vs-clustering", "why": "Clustering makes servers act as one logical system with shared state, which is not what spreading stateless web requests needs."},
+      {"id": "c", "text": "A jump server", "misconception": "jump-server-vs-proxy", "why": "A jump server is a controlled entry point for administrators, not a traffic distributor."},
+      {"id": "d", "text": "A forward proxy", "misconception": "jump-server-vs-proxy", "why": "A forward proxy handles internal users going out to the internet, the opposite direction."}
+    ]
+  },
+  {
+    "id": "a-007",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["replication", "snapshots", "onsite-offsite-backups"],
+    "difficulty": 3,
+    "stem": "A company replicates its file server continuously to a second data centre. Ransomware encrypts the primary. What happens?",
+    "options": [
+      {"id": "a", "text": "The encrypted files replicate to the secondary, so both copies are unusable", "correct": true, "why": "Replication faithfully copies every change, including malicious ones. It protects against hardware and site failure, not against corruption."},
+      {"id": "b", "text": "The secondary is unaffected because replication is one way", "misconception": "backup-methods", "why": "One way is the direction of the copy, which is exactly why the encryption travels from primary to secondary."},
+      {"id": "c", "text": "The secondary retains previous versions and can be rolled back", "misconception": "backup-methods", "why": "That is versioned backup or snapshot behaviour. Plain replication keeps only the current state."},
+      {"id": "d", "text": "Replication halts automatically when corruption is detected", "misconception": "backup-methods", "why": "Replication does not evaluate whether changes are legitimate. It has no idea the file was encrypted rather than edited."}
+    ]
+  },
+  {
+    "id": "a-008",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["journaling", "replication", "recovery-point-objective-rpo"],
+    "difficulty": 3,
+    "stem": "A transaction system must be recoverable to any moment, not just to the last backup. Which method supports this?",
+    "options": [
+      {"id": "a", "text": "Journaling every change so the log can be replayed to a chosen point", "correct": true, "why": "A change journal allows point in time recovery at very fine granularity, which is how a near zero RPO is achieved."},
+      {"id": "b", "text": "Hourly snapshots", "misconception": "backup-methods", "why": "Snapshots give you the hourly points, and nothing between them."},
+      {"id": "c", "text": "Nightly full backups", "misconception": "backup-methods", "why": "That gives you one recovery point per day, which is an RPO of up to 24 hours."},
+      {"id": "d", "text": "Continuous replication to a standby", "misconception": "backup-methods", "why": "Replication gives you the current state at the standby. It does not let you choose an earlier moment."}
+    ]
+  },
+  {
+    "id": "a-016",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["uninterruptible-power-supply-ups", "generators", "power"],
+    "difficulty": 2,
+    "stem": "A data centre must experience no interruption at all during a mains failure and must stay running for at least 48 hours. What is required?",
+    "options": [
+      {"id": "a", "text": "A UPS and a generator together", "correct": true, "why": "The UPS carries the load instantly through the seconds the generator needs to start, and the generator sustains the site for as long as there is fuel."},
+      {"id": "b", "text": "A generator alone", "misconception": "ups-vs-generator", "why": "A generator has a start delay. Without a UPS, everything drops for those seconds, which violates 'no interruption at all'."},
+      {"id": "c", "text": "A UPS alone, sized for 48 hours", "misconception": "ups-vs-generator", "why": "Battery capacity at data centre load is measured in minutes. Sizing one for 48 hours is not practical."},
+      {"id": "d", "text": "Dual mains feeds from the same substation", "misconception": "ups-vs-generator", "why": "Two feeds from one substation share its failure. It is not a substitute for local generation."}
+    ]
+  },
+  {
+    "id": "c-033",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["tabletop-exercises", "fail-over", "simulation"],
+    "difficulty": 3,
+    "stem": "A retailer must validate its disaster recovery plan before the holiday season without any impact on production. Which test is appropriate?",
+    "options": [
+      {"id": "a", "text": "A tabletop exercise", "correct": true, "why": "Participants talk through the plan in a room. It has no production impact, which the requirement demands."},
+      {"id": "b", "text": "A full failover test to the recovery site", "misconception": "tabletop-vs-simulation", "why": "The most conclusive test and the most disruptive. The stem forbids production impact."},
+      {"id": "c", "text": "A parallel processing test", "misconception": "tabletop-vs-simulation", "why": "Lower impact than failover and still brings up recovery systems alongside production, so it is not zero impact."},
+      {"id": "d", "text": "A simulation with systems partially engaged", "misconception": "tabletop-vs-simulation", "why": "Simulations touch systems and carry some risk. Discussion only means tabletop."}
+    ]
+  },
+  {
+    "id": "c-034",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["fail-over", "parallel-processing", "tabletop-exercises"],
+    "difficulty": 3,
+    "stem": "Which test provides the strongest evidence that the recovery site can genuinely carry production load?",
+    "options": [
+      {"id": "a", "text": "A full failover test with production cut over to the recovery site", "correct": true, "why": "Only actually running production at the recovery site proves it can. Everything else is inference."},
+      {"id": "b", "text": "A tabletop exercise attended by all system owners", "misconception": "tabletop-vs-simulation", "why": "Discussion validates the plan on paper and proves nothing about the systems."},
+      {"id": "c", "text": "A walkthrough of the runbooks with the operations team", "misconception": "tabletop-vs-simulation", "why": "A walkthrough checks the procedure is complete and correct, not that the infrastructure works."},
+      {"id": "d", "text": "Reviewing the recovery site's capacity documentation", "misconception": "tabletop-vs-simulation", "why": "Documentation review is the weakest form of assurance available."}
+    ]
+  },
+  {
+    "id": "m-007",
+    "type": "mcq-multi",
+    "objective": "3.4",
+    "topics": ["onsite-offsite-backups", "replication", "snapshots"],
+    "difficulty": 4,
+    "stem": "A company's backups were encrypted by ransomware along with production. Which TWO design properties would have preserved a usable copy? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "An offline copy the production systems cannot reach", "correct": true, "why": "Ransomware can only encrypt what the compromised host can write to. An air-gapped copy is out of reach."},
+      {"id": "b", "text": "Immutable storage where written objects cannot be altered for a retention period", "correct": true, "why": "Even with credentials, the attacker cannot overwrite an object under an immutability lock."},
+      {"id": "c", "text": "Continuous replication to a second data centre", "misconception": "backup-methods", "why": "Replication copies the encryption as faithfully as it copies the data. It protects against site loss, not corruption."},
+      {"id": "d", "text": "Encrypting the backup files at rest", "misconception": "backup-methods", "why": "That protects their confidentiality. The ransomware encrypts them again regardless."},
+      {"id": "e", "text": "Running the backup job twice as often", "misconception": "backup-methods", "why": "More frequent copies to a reachable share means more encrypted copies."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "rs-001",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["platform-diversity", "high-availability-2"],
+    "difficulty": 4,
+    "stem": "A critical service runs on six identical load-balanced servers with the same operating system, same version and same configuration. A single vendor advisory takes all six offline simultaneously. Which design principle was missing?",
+    "options": [
+      {"id": "a", "text": "Platform diversity, so a flaw common to one platform cannot affect every node at once", "correct": true, "why": "Redundancy protects against one instance failing independently. Six identical nodes share every flaw, so a common vulnerability is a single point of failure wearing a disguise."},
+      {"id": "b", "text": "More redundancy: a seventh identical server", "misconception": "diversity-and-multicloud", "why": "A seventh copy of the same thing fails for the same reason at the same moment."},
+      {"id": "c", "text": "Geographic dispersion across two sites", "misconception": "diversity-and-multicloud", "why": "That protects against a site-level event. A software flaw travels to the second site unchanged."},
+      {"id": "d", "text": "A warm recovery site", "misconception": "site-types-hot-warm-cold", "why": "A recovery site is for restoring after a disaster. It does not stop a fleet-wide flaw, and a warm site built identically inherits it."}
+    ]
+  },
+  {
+    "id": "rs-002",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["multi-cloud-systems", "platform-diversity"],
+    "difficulty": 4,
+    "stem": "An organisation moves to a multi-cloud design across two providers. Which risk does this address, and which does it not?",
+    "options": [
+      {"id": "a", "text": "It addresses a single provider's outage or regional failure; it does not address the organisation's own misconfiguration, which can be replicated to both", "correct": true, "why": "Provider independence is the benefit. Your own identity and configuration mistakes travel with you, and most cloud incidents are customer misconfigurations."},
+      {"id": "b", "text": "It addresses misconfiguration risk, because two providers validate each other", "misconception": "diversity-and-multicloud", "why": "Providers do not review your configuration. Nothing cross-checks the two deployments unless you build it."},
+      {"id": "c", "text": "It addresses all availability risk, removing the need for backups", "misconception": "backup-parameters", "why": "Availability design does not replace backups. Deleted or corrupted data replicates to both providers promptly."},
+      {"id": "d", "text": "It addresses nothing, since both providers run the same hardware", "misconception": "diversity-and-multicloud", "why": "Independent control planes, operations teams and failure domains are the point, whatever the hardware underneath."}
+    ]
+  },
+  {
+    "id": "rs-003",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["capacity-planning-people", "continuity-of-operations"],
+    "difficulty": 4,
+    "stem": "A disaster recovery plan is tested successfully. During a real incident six months later it stalls because the only engineer who knows the failover procedure is on leave and unreachable. Which aspect of capacity planning failed?",
+    "options": [
+      {"id": "a", "text": "People: there was no trained cover for a role the plan depended on", "correct": true, "why": "Capacity planning covers people as well as kit. A plan with a single point of human failure has not been planned for capacity, however well the technology performs."},
+      {"id": "b", "text": "Technology: the failover systems were insufficient", "misconception": "capacity-planning-dimensions", "why": "The stem says the test succeeded, so the technology was adequate."},
+      {"id": "c", "text": "Infrastructure: power and cooling at the recovery site", "misconception": "capacity-planning-dimensions", "why": "Nothing indicates a facility constraint."},
+      {"id": "d", "text": "The plan should have been tested more frequently", "misconception": "tabletop-vs-simulation", "why": "More testing with the same single engineer reproduces the same dependency."}
+    ]
+  },
+  {
+    "id": "rs-004",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["capacity-planning-infrastructure", "capacity-planning-technology"],
+    "difficulty": 4,
+    "stem": "A secondary site holds enough servers to carry full production load, but its electrical supply and cooling are sized for 40% of it. What has been overlooked?",
+    "options": [
+      {"id": "a", "text": "Infrastructure capacity: power, cooling and space must carry the load the technology is sized for", "correct": true, "why": "Servers that cannot be powered or cooled are inventory. Infrastructure is named separately precisely because it is assessed separately and often forgotten."},
+      {"id": "b", "text": "Technology capacity", "misconception": "capacity-planning-dimensions", "why": "The compute is correctly sized. The constraint sits beneath it."},
+      {"id": "c", "text": "People capacity", "misconception": "capacity-planning-dimensions", "why": "No staffing constraint is described."},
+      {"id": "d", "text": "The site should be reclassified as cold rather than warm", "misconception": "site-types-hot-warm-cold", "why": "Site classification describes readiness of equipment and data, not whether the facility can power what is installed."}
+    ]
+  },
+  {
+    "id": "rs-005",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["backup-frequency", "recovery"],
+    "difficulty": 4,
+    "stem": "A business states it can tolerate losing at most one hour of transactions. Backups currently run nightly at 23:00. What must change, and which metric is being expressed?",
+    "options": [
+      {"id": "a", "text": "Backup frequency must increase to hourly or continuous; the stated tolerance is the recovery point objective", "correct": true, "why": "RPO is how much data loss is acceptable, and backup frequency is what sets it. A nightly schedule can lose up to twenty-four hours."},
+      {"id": "b", "text": "Recovery speed must improve; the tolerance is the recovery time objective", "misconception": "backup-parameters", "why": "RTO is how long until service returns. The stem talks about lost transactions, which is data, so it is RPO."},
+      {"id": "c", "text": "Retention must be extended so older copies are available", "misconception": "backup-parameters", "why": "Retention is how far back you can go. It does not reduce the gap since the last copy."},
+      {"id": "d", "text": "Backups must be encrypted to protect the lost transactions", "misconception": "backup-parameters", "why": "Encryption addresses disclosure. The requirement here is about how much work disappears."}
+    ]
+  },
+  {
+    "id": "rs-006",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["backup-encryption", "onsite-offsite-backups"],
+    "difficulty": 3,
+    "stem": "Offsite backup media are transported by a third-party courier to a storage facility. Which control most directly limits the impact if a cartridge is lost in transit?",
+    "options": [
+      {"id": "a", "text": "Encrypting the backup media, with keys held separately from the media", "correct": true, "why": "Once media leaves your control, encryption is the remaining control. Keys travelling with the cartridge would defeat it, which is why separation is part of the answer."},
+      {"id": "b", "text": "Increasing backup frequency", "misconception": "backup-parameters", "why": "That reduces potential data loss and does nothing about a copy in someone else's hands."},
+      {"id": "c", "text": "Using a courier with better insurance", "misconception": "backup-parameters", "why": "Insurance transfers financial loss. It does not prevent disclosure or a notification obligation."},
+      {"id": "d", "text": "Keeping an additional onsite copy", "misconception": "backup-parameters", "why": "Helps availability, and the lost cartridge remains readable by whoever has it."}
+    ]
+  },
+  {
+    "id": "rs-007",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["recovery", "snapshots", "onsite-offsite-backups"],
+    "difficulty": 4,
+    "stem": "A team has run nightly backups for two years and has never performed a restore. What is the correct characterisation of their position?",
+    "options": [
+      {"id": "a", "text": "They have an untested hypothesis: until a restore succeeds, there is no evidence the backups are usable or that recovery fits the RTO", "correct": true, "why": "Backup jobs reporting success routinely produce unreadable or incomplete sets. Recovery testing is the only thing that converts a backup into a control."},
+      {"id": "b", "text": "They are adequately protected, since the jobs report success", "misconception": "backup-parameters", "why": "A successful job means the software finished. It does not mean the output can be restored."},
+      {"id": "c", "text": "They need snapshots in addition, which do not require testing", "misconception": "backup-parameters", "why": "Snapshots need testing too, and typically share storage with production, so they do not survive what takes the array or the site."},
+      {"id": "d", "text": "They should increase retention before testing anything", "misconception": "backup-parameters", "why": "Keeping more unverified copies for longer multiplies the hypothesis rather than testing it."}
+    ]
+  },
+  {
+    "id": "rs-008",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["simulation", "tabletop-exercises", "fail-over"],
+    "difficulty": 3,
+    "stem": "An organisation wants to validate its incident response under realistic pressure, with responders using actual tooling against an injected scenario, without taking production down. Which exercise type fits?",
+    "options": [
+      {"id": "a", "text": "A simulation", "correct": true, "why": "A simulation runs a realistic scenario with real tooling and real decisions, sitting between a discussion-based tabletop and an actual failover that moves production."},
+      {"id": "b", "text": "A tabletop exercise", "misconception": "tabletop-vs-simulation", "why": "A tabletop is discussion-based around a table. Nobody touches tooling, which is what the stem asks for."},
+      {"id": "c", "text": "A failover test", "misconception": "tabletop-vs-simulation", "why": "A failover test actually moves production to the secondary, which the stem rules out."},
+      {"id": "d", "text": "A penetration test", "misconception": "tabletop-vs-simulation", "why": "That assesses technical exploitability, not the response process."}
+    ]
+  },
+  {
+    "id": "rs-009",
+    "type": "mcq-multi",
+    "objective": "3.4",
+    "topics": ["platform-diversity", "multi-cloud-systems", "capacity-planning-people", "backup-frequency", "continuity-of-operations"],
+    "difficulty": 4,
+    "stem": "Which TWO statements about resilience design are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Redundant identical systems share every flaw those systems have, so diversity addresses a risk redundancy cannot", "correct": true, "why": "A common vulnerability across a fleet is a single point of failure however many instances exist."},
+      {"id": "b", "text": "Continuity of operations planning covers people and facilities, not only technology", "correct": true, "why": "The objectives split capacity planning across people, technology and infrastructure for exactly this reason."},
+      {"id": "c", "text": "A multi-cloud design removes the risk of customer misconfiguration", "misconception": "diversity-and-multicloud", "why": "Your configuration errors replicate to every provider you deploy to."},
+      {"id": "d", "text": "Snapshots stored on the production array are an adequate substitute for offsite backups", "misconception": "backup-parameters", "why": "They do not survive loss of the array, the site, or ransomware that can reach the storage."},
+      {"id": "e", "text": "Platform diversity reduces operational complexity", "misconception": "diversity-and-multicloud", "why": "It increases it. More platforms means more expertise, patching and ways to misconfigure, which is the trade being made."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "t-024",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["uninterruptible-power-supply-ups", "generators"],
+    "difficulty": 2,
+    "stem": "During a brief 8 second mains dip, which device keeps equipment running with no interruption?",
+    "options": [
+      {"id": "a", "text": "The UPS", "correct": true, "why": "A UPS carries the load instantly from battery, which is what covers short dips and bridges to a generator during longer outages."},
+      {"id": "b", "text": "The generator", "misconception": "ups-vs-generator", "why": "A generator needs time to start and stabilise. For an 8 second dip it would barely have begun."},
+      {"id": "c", "text": "Dual power supplies in each server", "misconception": "ups-vs-generator", "why": "Redundant supplies protect against a failed supply unit. If both feeds lose mains power, both go down."},
+      {"id": "d", "text": "Power distribution units with surge protection", "misconception": "ups-vs-generator", "why": "Surge protection handles voltage spikes. It stores no energy to carry a loss of supply."}
+    ]
+  }
+]

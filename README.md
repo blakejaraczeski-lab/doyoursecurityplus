@@ -136,11 +136,12 @@ book already on your shelf. Build one with `scripts/build_reference_index.py`.
 
 ## Adding content
 
-Drop JSON under `content/items`, `content/mentor` or `content/pbq`. The server
-lists the directory, so there is nothing to register. Then:
+Items and misconceptions live in one file per objective (`content/items/4.1.json`,
+`content/mentor/4.1.json`); PBQs are one file each under `content/pbq`. The
+server lists the directory, so there is nothing to register. After an edit:
 
 ```bash
-python3 scripts/validate_content.py
+python3 scripts/format_content.py && python3 scripts/validate_content.py
 ```
 
 and open http://localhost:8777/selftest.html. The validator checks structure:
@@ -155,6 +156,7 @@ misconception loop end to end. Run both. The schema is in
 scripts/
   build_objectives.py        regenerate the taxonomy from the official objectives
   build_glossary.py          regenerate the acronym glossary from the same document
+  format_content.py          one canonical shape for every item and mentor file
   validate_content.py        structure, integrity, reference answers, coverage
   derive_mcq.py              recall cards -> discrimination questions
   import_anki.py             .apkg -> tagged recall items

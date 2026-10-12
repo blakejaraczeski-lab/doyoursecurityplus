@@ -1,0 +1,66 @@
+[
+  {
+    "id": "log-pipeline-stages",
+    "label": "Collection, aggregation, correlation, archiving and reporting",
+    "objective": "4.4",
+    "topics": ["log-aggregation", "archiving", "reporting-2", "security-information-and-event-management", "monitoring-systems"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated the SIEM as one undifferentiated thing. The pipeline has stages, and questions usually point at exactly one of them.",
+      "contrast": [
+        ["Stage", "What happens", "Fails as"],
+        ["Collection", "Agents or forwarders gather events from sources", "A source nobody onboarded, so the evidence never existed"],
+        ["Aggregation", "Events from many sources are normalised into one searchable store", "Different time zones and formats, so nothing lines up"],
+        ["Correlation", "Rules combine events across sources into a single meaningful alert", "Thousands of raw events and no alert anyone acts on"],
+        ["Archiving", "Older data moved to cheaper storage for retention and legal need", "Retention shorter than the time it takes to detect a breach"],
+        ["Reporting", "Summaries and trends for operations and for compliance", "Reports nobody reads, mistaken for monitoring"]
+      ],
+      "rule": "Aggregation puts everything in one place; correlation is what turns many events into one alert. A question about seeing a pattern across firewall, endpoint and directory logs is a correlation question.",
+      "tell": "Several sources that must be combined, or a retention period that ended before anyone looked.",
+      "trap": "Archiving is treated as housekeeping. If the mean time to detect a breach exceeds your retention window, the evidence is gone before the investigation starts."
+    }
+  },
+  {
+    "id": "monitoring-tool-selection",
+    "label": "SIEM vs SCAP vs NetFlow vs SNMP traps",
+    "objective": "4.4",
+    "topics": ["security-information-and-event-management-siem", "security-content-automation-protocol-scap", "netflow", "snmp-traps", "vulnerability-scanners", "benchmarks", "agents-agentless"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You reached for the tool you know rather than the one that produces the data the question needs. Each of these answers a different question.",
+      "contrast": [
+        ["Tool", "Answers", "Does not"],
+        ["SIEM", "What happened across everything, correlated, with alerts", "Tell you whether a host meets a configuration standard"],
+        ["SCAP", "Is this host configured to the benchmark", "Watch live traffic or correlate events"],
+        ["NetFlow", "Who talked to whom, how much, for how long", "Show you packet contents"],
+        ["Packet capture", "Exactly what was said on the wire", "Scale: it is expensive to keep"],
+        ["SNMP traps", "A device reporting its own state change", "Give security context"],
+        ["Vulnerability scanner", "Which known flaws are present", "Tell you whether one was exploited"]
+      ],
+      "rule": "Correlation across sources is SIEM. Configuration against a standard is SCAP. Conversation metadata at scale is NetFlow. Contents is packet capture.",
+      "tell": "'Which data source identifies which internal hosts talked to the command and control address, over weeks' is NetFlow: you need metadata at volume, not payloads.",
+      "trap": "A SIEM ingests all of these, so it reads as the answer to everything. The question is usually which SOURCE produces the evidence, not where you would look at it."
+    }
+  },
+  {
+    "id": "alert-tuning-vs-quarantine",
+    "label": "Alert tuning, alert response, and the cost of noise",
+    "objective": "4.4",
+    "topics": ["alerting", "alert-tuning", "alert-response-and-remediation-validation", "quarantine", "log-aggregation", "archiving", "reporting"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered an alert quality problem with more alerting, or a containment problem with tuning. They are opposite moves.",
+      "contrast": [
+        ["Symptom", "Correct response", "Why not the other"],
+        ["Hundreds of alerts a day, nearly all benign", "Alert tuning: raise thresholds, suppress known-good", "More alerting makes the real one less likely to be seen"],
+        ["A confirmed malicious file on an endpoint", "Quarantine it", "Tuning does nothing about a live threat"],
+        ["Alerts fire and nothing happens afterwards", "Alert response and remediation workflow", "The detection worked; the process after it did not"],
+        ["Fixed, but was it really fixed", "Validation, by rescanning or reverifying", "Closing on the responder's word is how issues reopen"],
+        ["Logs scattered across hosts", "Aggregation", "You cannot correlate what you cannot see together"]
+      ],
+      "rule": "Tuning is a quality fix for too much noise. Quarantine is a containment action on one confirmed thing. Alert fatigue is a real failure mode and the cure is fewer, better alerts.",
+      "tell": "'Analysts have begun ignoring the alerts' is alert tuning, and it is the finding, not a complaint about the analysts.",
+      "trap": "Suppressing alerts feels like hiding problems, so tuning reads as the irresponsible answer. Untuned alerting hides problems far more effectively, by burying them."
+    }
+  }
+]

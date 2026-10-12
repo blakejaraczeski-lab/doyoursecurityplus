@@ -1,11 +1,8 @@
-import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyState } from "./common.js";
+import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyState, optionButton, KEYS } from "./common.js";
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
-import { readiness, coverageDeficit } from "../scheduler.js";
-import * as fsrs from "../fsrs.js";
+import { readiness, coverageDeficit, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
 import { streakStatus, reviewsToday, calibration } from "../state.js";
-
-const KEYS = ["A", "B", "C", "D", "E", "F"];
 
 const humanise = (ms) => {
   const mins = Math.round(ms / 60000);
@@ -13,6 +10,9 @@ const humanise = (ms) => {
   if (mins < 60 * 36) return `${Math.round(mins / 60)} h`;
   return `${Math.round(mins / 1440)} d`;
 };
+
+const mentorCards = (App, ids) =>
+  (ids || []).map((id) => mentorCardHtml(mentor.card(id, App.content, App.state))).join("");
 
 // --- drill ----------------------------------------------------------------
 /**
@@ -27,28 +27,22 @@ function mcqMultiHtml(App, entry) {
   const need = it.selectCount || 2;
   const picked = App.multiPicked || new Set();
 
-  const opts = it.options
-    .map((o, i) => {
-      let cls = "";
-      let mark = picked.has(o.id) ? "&check;" : "";
-      if (ans) {
-        if (o.correct) { cls = "correct"; mark = "&check;"; }
-        else if (picked.has(o.id)) { cls = "wrong"; mark = "&times;"; }
-      } else if (picked.has(o.id)) cls = "chosen";
-      return `<button class="opt ${cls}" data-action="multi-toggle" data-opt="${esc(o.id)}" ${ans ? "disabled" : ""}
-        role="checkbox" aria-checked="${picked.has(o.id)}">
-        <span class="key" aria-hidden="true">${KEYS[i]}</span>
-        <span>${gloss(o.text)}</span>
-        <span class="verdict" aria-hidden="true">${mark}</span>
-      </button>`;
-    })
-    .join("");
+  const opts = it.options.map((o, i) => {
+    let cls = "";
+    let verdict = picked.has(o.id) ? "&check;" : "";
+    if (ans) {
+      if (o.correct) { cls = "correct"; verdict = "&check;"; }
+      else if (picked.has(o.id)) { cls = "wrong"; verdict = "&times;"; }
+    } else if (picked.has(o.id)) cls = "chosen";
+    return optionButton({ key: KEYS[i], text: o.text, action: "multi-toggle", data: { opt: o.id },
+                          cls, verdict, disabled: !!ans, checked: picked.has(o.id) });
+  }).join("");
 
   const chosenWrong = ans ? it.options.filter((o) => !o.correct && picked.has(o.id)) : [];
   const missed = ans ? it.options.filter((o) => o.correct && !picked.has(o.id)) : [];
 
   return `
-  <div class="row" style="margin-bottom:var(--s3)">
+  <div class="row mb3">
     <span class="tag">${esc(objectiveLabel(App.content, it.objective))}</span>
     <span class="tag warn">choose ${need}</span>
     ${entry.reason ? `<span class="tag reason">${esc(entry.reason)}</span>` : ""}
@@ -56,7 +50,7 @@ function mcqMultiHtml(App, entry) {
   <div class="card">
     <p class="stem">${gloss(it.stem)}</p>
     <div class="opts" role="group" aria-label="Select ${need}">${opts}</div>
-    ${ans ? "" : `<div class="row" style="margin-top:var(--s4);justify-content:space-between">
+    ${ans ? "" : `<div class="row mt4 between">
       <span class="faint">${picked.size} of ${need} selected</span>
       <button class="btn" data-action="multi-submit" ${picked.size === need ? "" : "disabled"}>
         Submit ${need}
@@ -67,9 +61,6 @@ function mcqMultiHtml(App, entry) {
 
 function multiFeedbackHtml(App, it, chosenWrong, missed) {
   const good = App.answer.correct;
-  const cards = (App.answer.mentorIds || [])
-    .map((id) => mentorCardHtml(mentor.card(id, App.content, App.state)))
-    .join("");
   return `
   <div class="verdict-banner ${good ? "yes" : "no"}">
     <div class="mark" aria-hidden="true">${good ? "&check;" : "&times;"}</div>
@@ -82,7 +73,7 @@ function multiFeedbackHtml(App, it, chosenWrong, missed) {
       ${!good ? `<p class="faint">A choose-two is all or nothing. One right answer plus one wrong one scores the same as two wrong ones.</p>` : ""}
     </div>
   </div>
-  ${cards}
+  ${mentorCards(App, App.answer.banked)}
   <div class="row"><button class="btn" data-action="next">Next</button>
     <span class="hint"><span class="kbd">&crarr;</span> to continue</span></div>`;
 }
@@ -90,22 +81,16 @@ function multiFeedbackHtml(App, it, chosenWrong, missed) {
 function mcqHtml(App, entry) {
   const it = entry.item;
   const ans = App.answer;
-  const opts = it.options
-    .map((o, i) => {
-      let cls = "";
-      let verdict = "";
-      if (ans) {
-        if (o.correct) { cls = "correct"; verdict = "&check;"; }
-        else if (o.id === ans.chosen) { cls = "wrong"; verdict = "&times;"; }
-      }
-      return `<button class="opt ${cls} ${ans?.chosen === o.id ? "chosen" : ""}"
-        data-action="answer" data-opt="${esc(o.id)}" ${ans ? "disabled" : ""}>
-        <span class="key" aria-hidden="true">${KEYS[i]}</span>
-        <span>${gloss(o.text)}</span>
-        <span class="verdict" aria-hidden="true">${verdict}</span>
-      </button>`;
-    })
-    .join("");
+  const opts = it.options.map((o, i) => {
+    let cls = ans?.chosen === o.id ? "chosen" : "";
+    let verdict = "";
+    if (ans) {
+      if (o.correct) { cls = "correct"; verdict = "&check;"; }
+      else if (o.id === ans.chosen) { cls = "wrong chosen"; verdict = "&times;"; }
+    }
+    return optionButton({ key: KEYS[i], text: o.text, action: "answer", data: { opt: o.id },
+                          cls, verdict, disabled: !!ans });
+  }).join("");
 
   const chosen = ans && it.options.find((o) => o.id === ans.chosen);
   const correct = it.options.find((o) => o.correct);
@@ -121,14 +106,14 @@ function mcqHtml(App, entry) {
       <b>Contrast drill &middot; ${drill.index + 1} of ${drill.of}</b>
       <span>${esc(drill.label)}. These two questions look alike and the answers are not the same. Read what each one is actually asking for.</span>
     </div>` : ""}
-  <div class="row" style="margin-bottom:var(--s3)">
+  <div class="row mb3">
     <span class="tag">${esc(objectiveLabel(App.content, it.objective))}</span>
     ${entry.reason && !drill ? `<span class="tag reason">${esc(entry.reason)}</span>` : ""}
   </div>
   <div class="card">
     <p class="stem">${gloss(it.stem)}</p>
     <div class="opts">${opts}</div>
-    ${ans ? "" : `<div class="row" style="margin-top:var(--s4);justify-content:space-between">
+    ${ans ? "" : `<div class="row mt4 between">
        <div class="hint">
          <span class="kbd">A</span><span class="kbd">B</span><span class="kbd">C</span><span class="kbd">D</span>
          <span>to answer</span></div>
@@ -141,10 +126,7 @@ function mcqHtml(App, entry) {
 
 function feedbackHtml(App, chosen, correct) {
   const good = chosen?.correct;
-  const cards = (App.answer.mentorIds || [])
-    .map((id) => mentorCardHtml(mentor.card(id, App.content, App.state)))
-    .join("");
-
+  const a = App.answer;
   return `
   <div class="verdict-banner ${good ? "yes" : "no"}">
     <div class="mark" aria-hidden="true">${good ? "&check;" : "&times;"}</div>
@@ -154,29 +136,29 @@ function feedbackHtml(App, chosen, correct) {
       ${!good ? `<p><b>The answer:</b> ${esc(correct.text)}</p>` : ""}
     </div>
   </div>
-  ${App.answer.overconfident
-    ? `<div class="verdict-banner" style="border-color:var(--bad);background:var(--bad-soft)">
-        <div class="mark" style="background:var(--bad)" aria-hidden="true">!</div>
+  ${a.overconfident
+    ? `<div class="verdict-banner bad">
+        <div class="mark" aria-hidden="true">!</div>
         <div><b>You were sure, and you were wrong</b>
         <p>This is the quadrant that costs marks on exam day. A gap you know about gets looked up; a belief you hold confidently does not. This correction is escalated and will come back sooner.</p></div></div>`
     : ""}
-  ${App.answer.lucky
-    ? `<div class="verdict-banner" style="border-color:var(--warn);background:var(--warn-soft)">
-        <div class="mark" style="background:var(--warn)" aria-hidden="true">~</div>
+  ${a.lucky
+    ? `<div class="verdict-banner warn">
+        <div class="mark" aria-hidden="true">~</div>
         <div><b>Right, but you called it a guess</b>
         <p>Scored as correct and not counted toward clearing anything. A lucky answer is not evidence, so this comes back on a shorter interval than a confident one would.</p></div></div>`
     : ""}
-  ${App.answer.rushed
-    ? `<div class="verdict-banner" style="border-color:var(--warn);background:var(--warn-soft)">
-        <div class="mark" style="background:var(--warn)" aria-hidden="true">!</div>
-        <div><b>That took ${(App.answer.responseMs / 1000).toFixed(1)} seconds</b>
+  ${a.rushed
+    ? `<div class="verdict-banner warn">
+        <div class="mark" aria-hidden="true">!</div>
+        <div><b>That took ${(a.responseMs / 1000).toFixed(1)} seconds</b>
         <p>Too fast to have read the stem properly on a question at this difficulty. The constraint that decides these is usually in the second sentence, and pattern matching the options is exactly how the exam catches people.</p></div></div>`
     : ""}
-  ${App.answer.retiredNote
+  ${a.retiredNote
     ? `<div class="verdict-banner yes"><div class="mark" aria-hidden="true">&starf;</div>
-       <div><b>Misconception cleared</b><p>${esc(App.answer.retiredNote)}</p></div></div>`
+       <div><b>Misconception cleared</b><p>${esc(a.retiredNote)}</p></div></div>`
     : ""}
-  ${cards}
+  ${mentorCards(App, a.banked)}
   <div class="row">
     <button class="btn" data-action="next">Next</button>
     <span class="hint"><span class="kbd">&crarr;</span> to continue</span>
@@ -187,7 +169,7 @@ function recallHtml(App, entry) {
   const it = entry.item;
   const shown = App.answer?.revealed;
   return `
-  <div class="row" style="margin-bottom:var(--s3)">
+  <div class="row mb3">
     <span class="tag">${esc(objectiveLabel(App.content, it.objective))}</span>
     <span class="tag">recall</span>
     ${entry.reason ? `<span class="tag reason">${esc(entry.reason)}</span>` : ""}
@@ -195,10 +177,10 @@ function recallHtml(App, entry) {
   <div class="card">
     <p class="stem">${esc(it.term)}</p>
     ${shown
-      ? `<p class="muted" style="margin:0">${esc(it.definition)}</p>
+      ? `<p class="muted m0">${esc(it.definition)}</p>
          ${it.aka ? `<p class="faint">Also written: ${esc(it.aka)}</p>` : ""}`
       : `<button class="btn ghost" data-action="reveal">Show answer</button>
-         <div class="hint" style="margin-top:var(--s3)"><span class="kbd">Space</span><span>to reveal</span></div>`}
+         <div class="hint mt3"><span class="kbd">Space</span><span>to reveal</span></div>`}
   </div>
   ${shown
     ? `<div class="row">
@@ -206,7 +188,7 @@ function recallHtml(App, entry) {
         <button class="btn ghost" data-action="grade" data-g="2">Hard</button>
         <button class="btn" data-action="grade" data-g="3">Good</button>
         <button class="btn ghost" data-action="grade" data-g="4">Easy</button>
-        <span class="hint"><span class="kbd">1</span>&ndash;<span class="kbd">4</span></span>
+        <span class="hint"><span class="kbd">1</span> to <span class="kbd">4</span></span>
       </div>`
     : ""}`;
 }
@@ -215,7 +197,7 @@ function mentorOnlyHtml(App, entry) {
   const card = mentor.card(entry.targetMisconception, App.content, App.state);
   return `
   <h1 class="sr-only">Correction: ${esc(card?.label || "")}</h1>
-  <div class="row" style="margin-bottom:var(--s3)"><span class="tag reason">${esc(entry.reason)}</span></div>
+  <div class="row mb3"><span class="tag reason">${esc(entry.reason)}</span></div>
   <p class="sub">No other question in the bank tests this distinction yet, so here is the correction itself. Read it and it goes back into the schedule.</p>
   ${mentorCardHtml(card)}
   <div class="row"><button class="btn" data-action="mentor-ack">Got it</button></div>`;
@@ -231,7 +213,7 @@ export function drillView(App) {
         body: due
           ? "Each one comes back on a different question from the one you missed, so you cannot pass by remembering the question."
           : "A session mixes due corrections, items coming up for review, and new coverage weighted toward the heaviest exam domains.",
-        actions: `<div class="row" style="justify-content:center">
+        actions: `<div class="row center">
           <button class="btn" data-action="start-drill">Start a session</button>
           <button class="btn ghost" data-action="start-weak">Weak spots only</button></div>`,
       })}`;
@@ -282,7 +264,7 @@ function debriefHtml(App) {
   }
   if (!notes.length) return "";
   return `<div class="card tight"><h2 class="eyebrow">What this session showed</h2>
-    <ul class="req" style="margin:0">${notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></div>`;
+    <ul class="req m0">${notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></div>`;
 }
 
 function sessionSummary(App) {
@@ -293,10 +275,10 @@ function sessionSummary(App) {
   <div class="card">
     <div class="spread">
       <div>
-        <div class="score-big">${s.correct}<span class="faint" style="font-size:var(--t-xl)">/${s.answered}</span></div>
+        <div class="score-big">${s.correct}<small>/${s.answered}</small></div>
         <div class="faint">${pct(acc)} correct</div>
       </div>
-      <dl class="side-stats" style="margin:0;min-width:230px">
+      <dl class="side-stats inline">
         <div class="stat"><dt>Banked</dt><dd class="${s.banked ? "warn" : ""}">${s.banked}</dd></div>
         <div class="stat"><dt>Cleared</dt><dd class="${s.retired ? "good" : ""}">${s.retired}</dd></div>
         <div class="stat"><dt>Streak</dt><dd>${st.current} day${st.current === 1 ? "" : "s"}</dd></div>
@@ -312,6 +294,13 @@ function sessionSummary(App) {
 }
 
 // --- PBQ lab ---------------------------------------------------------------
+const KIND_LABEL = {
+  "acl-table": "Firewall and ACL",
+  "wireless-config": "Wireless configuration",
+  "network-diagram": "Network diagram analysis",
+  "drag-order": "Order and classify",
+};
+
 export function pbqLabView(App) {
   if (App.queue.length && App.queue[App.idx]?.kind === "pbq" && App.mode === "pbq") {
     return pbqHtml(App.queue[App.idx].pbq, App.pbqAnswers, {
@@ -321,12 +310,6 @@ export function pbqLabView(App) {
 
   const byKind = {};
   for (const p of App.content.pbqs) (byKind[p.kind] ||= []).push(p);
-  const KIND_LABEL = {
-    "acl-table": "Firewall and ACL",
-    "wireless-config": "Wireless configuration",
-    "network-diagram": "Network diagram analysis",
-    "drag-order": "Order and classify",
-  };
 
   const groups = Object.entries(byKind)
     .map(([kind, list]) => {
@@ -336,14 +319,12 @@ export function pbqLabView(App) {
           const best = att.length ? Math.max(...att.map((a) => a.percent)) : null;
           const badge =
             best === null ? `<span class="tag">not attempted</span>`
-            : best >= 90 ? `<span class="tag" style="border-color:var(--good);color:var(--good);background:var(--good-soft)">best ${best}%</span>`
-            : best >= 70 ? `<span class="tag warn">best ${best}%</span>`
-            : `<span class="tag" style="border-color:var(--bad);color:var(--bad);background:var(--bad-soft)">best ${best}%</span>`;
+            : `<span class="tag ${best >= 90 ? "good" : best >= 70 ? "warn" : "bad"}">best ${best}%</span>`;
           return `<div class="card tight"><div class="spread">
             <div>
               <b>${esc(p.title)}</b>
               <div class="faint">objective ${esc(p.objective)} &middot; ${Math.round(p.targetSeconds / 60)} min target &middot; difficulty ${p.difficulty}/5</div>
-              <div class="row" style="margin-top:var(--s2)">${badge}${
+              <div class="row mt2">${badge}${
                 att.length ? `<span class="faint">${att.length} attempt${att.length === 1 ? "" : "s"}</span>` : ""
               }</div>
             </div>
@@ -385,12 +366,12 @@ export function mentorView(App) {
     .map((x) => {
       const overdue = now >= x.due;
       const needed = x.def.retireAfter ?? 2;
-      return `<div class="card tight" style="border-left:3px solid ${overdue ? "var(--bad)" : "var(--line)"}">
+      return `<div class="card tight flag ${overdue ? "bad" : "quiet"}">
         <div class="spread">
           <div>
             <b>${esc(x.def.label)}</b>
             <div class="faint">${esc(objectiveLabel(App.content, x.def.objective))}</div>
-            <div class="row" style="margin-top:var(--s2)">
+            <div class="row mt2">
               <span class="tag ${x.def.severity === "high" ? "warn" : ""}">${esc(x.def.severity)} impact</span>
               <span class="tag">missed ${x.rec.hits}&times;</span>
               <span class="tag">${x.rec.cleanPasses.length}/${needed} clean</span>
@@ -406,7 +387,7 @@ export function mentorView(App) {
 
   return `<h1>Mentor bank</h1>
     <p class="sub">${openList.length} open, ${dueNow} due now, ${retired.length} cleared. A correction is only cleared after clean passes on <b>different</b> questions, so you cannot clear it by memorising the one you failed.</p>
-    ${dueNow ? `<div class="row" style="margin-bottom:var(--s4)"><button class="btn" data-action="start-weak">Drill the ${dueNow} due now</button></div>` : ""}
+    ${dueNow ? `<div class="row mb4"><button class="btn" data-action="start-weak">Drill the ${dueNow} due now</button></div>` : ""}
     ${cards}
     ${retired.length
       ? `<h2>Cleared</h2><div class="card tight"><div class="row">${retired
@@ -426,7 +407,7 @@ export function readinessView(App) {
     .map(
       (o) => `<div class="cell s-${o.status}${o.thin ? " is-thin" : ""}">
         <div class="spread"><b>${esc(o.objective)}</b><small>${o.status === "no-items" ? "&mdash;" : pct(o.mastery)}</small></div>
-        <div class="bar"><span style="width:${Math.round(o.mastery * 100)}%"></span></div>
+        <div class="bar"><span style="--w:${Math.round(o.mastery * 100)}%"></span></div>
         <small>${o.status === "no-items" ? "no items in the bank" : o.status}${
           o.itemsSeen ? ` &middot; ${o.itemsSeen}/${o.itemsAvailable} seen` : ""}${
           o.openMisconceptions ? ` &middot; ${o.openMisconceptions} open` : ""}</small>
@@ -458,43 +439,43 @@ export function readinessView(App) {
     .sort((a, b) => a.mastery - b.mastery)
     .slice(0, 3);
 
+  const c = calibration(App.state);
+  const tone = c.overconfidence > 0.3 ? "bad" : c.overconfidence > 0.15 ? "warn" : "good";
+  const roots = mentor.sharedRootCauses(App.state, App.content);
+
   return `<h1>Readiness</h1>
   <p class="sub">${r.confident
       ? "Based on enough reviews to mean something."
       : `Low confidence so far: ${r.reviewCount} reviews across ${r.objectivesSampled} of 28 objectives. The band narrows as you drill.`}</p>
 
-  ${r.bankDepth < 0.8 ? `<div class="card tight" style="border-left:3px solid var(--warn)">
+  ${r.bankDepth < 0.8 ? `<div class="card tight flag">
     <h2 class="eyebrow">What this score can and cannot see</h2>
-    <p style="margin:0">Graded items reach <b>${r.topicsCovered} of ${r.topicsTotal}</b> blueprint topics (${pct(r.bankDepth)}).${
+    <p class="m0">Graded items reach <b>${r.topicsCovered} of ${r.topicsTotal}</b> blueprint topics (${pct(r.bankDepth)}).${
       r.emptyObjectives ? ` ${r.emptyObjectives} objective${r.emptyObjectives === 1 ? " has" : "s have"} no items at all.` : ""
     } ${r.thinObjectives} of 28 objectives are marked thin below. The estimate is an honest read of how you did on what exists, and the band is widened to carry the rest. A thin objective reading "strong" means you answered its items correctly, not that the topic is covered.</p>
   </div>` : ""}
 
   <div class="card">
-    <div class="spread" style="align-items:flex-start">
+    <div class="spread top">
       <div>
-        <div class="score-big">${r.low}<span class="faint" style="font-size:var(--t-xl)"> to </span>${r.high}</div>
+        <div class="score-big">${r.low}<small> to </small>${r.high}</div>
         <div class="faint">estimated scaled score &middot; pass line 750</div>
       </div>
-      <dl class="side-stats" style="margin:0;min-width:220px">
+      <dl class="side-stats inline">
         <div class="stat"><dt>Weighted mastery</dt><dd class="${r.scaled >= 750 ? "good" : "warn"}">${pct(r.mastery)}</dd></div>
         ${r.daysLeft != null ? `<div class="stat"><dt>Days to exam</dt><dd>${r.daysLeft}</dd></div>` : ""}
         <div class="stat"><dt>Reviews</dt><dd>${r.reviewCount}</dd></div>
       </dl>
     </div>
     <div class="gauge">
-      <div class="band" style="left:${posOf(r.low)}%;width:${Math.max(1.5, posOf(r.high) - posOf(r.low))}%"></div>
-      <div class="pass" style="left:${posOf(750)}%"></div>
+      <div class="band" style="--l:${posOf(r.low)}%;--w:${Math.max(1.5, posOf(r.high) - posOf(r.low))}%"></div>
+      <div class="pass" style="--l:${posOf(750)}%"></div>
     </div>
     <div class="gauge-scale"><span>100</span><span>750 pass</span><span>900</span></div>
-    <p class="faint" style="margin:var(--s3) 0 0">An estimate from your own drilling, not a predicted exam score. It weights each objective by its real exam weight and drags on open misconceptions.</p>
+    <p class="note">An estimate from your own drilling, not a predicted exam score. It weights each objective by its real exam weight and drags on open misconceptions.</p>
   </div>
 
-  ${(() => {
-    const c = calibration(App.state);
-    if (c.answered < 8) return "";
-    const tone = c.overconfidence > 0.3 ? "bad" : c.overconfidence > 0.15 ? "warn" : "good";
-    return `<div class="card">
+  ${c.answered >= 8 ? `<div class="card">
       <h2 class="eyebrow">Confidence calibration</h2>
       <div class="cal-grid">
         <div class="quad q-good"><b>${c.sureRight}</b><span>Sure and right</span><small>Secure</small></div>
@@ -502,22 +483,17 @@ export function readinessView(App) {
         <div class="quad q-warn"><b>${c.guessRight}</b><span>Guessed and right</span><small>Fragile: the score flatters you</small></div>
         <div class="quad"><b>${c.guessWrong}</b><span>Guessed and wrong</span><small>Honest gap, cheapest to fix</small></div>
       </div>
-      <p class="faint" style="margin:var(--s3) 0 0">When you say you are sure you are wrong <b style="color:var(--${tone})">${pct(c.overconfidence)}</b> of the time, and ${pct(c.fragile)} of your guesses land. Both numbers should fall as you get ready; the first one matters more.</p>
-    </div>`;
-  })()}
-  ${(() => {
-    const roots = mentor.sharedRootCauses(App.state, App.content);
-    if (!roots.length) return "";
-    return `<div class="card tight" style="border-left:3px solid var(--warn)">
+      <p class="note">When you say you are sure you are wrong <b class="c-${tone}">${pct(c.overconfidence)}</b> of the time, and ${pct(c.fragile)} of your guesses land. Both numbers should fall as you get ready; the first one matters more.</p>
+    </div>` : ""}
+  ${roots.length ? `<div class="card tight flag">
       <h2 class="eyebrow">One cause under several misses</h2>
       ${roots.slice(0, 3).map((r) => `<div class="root-cause">
         <b>${esc(r.def.label)}</b>
         <span>is still open and sits underneath ${r.blocks.length} other correction${r.blocks.length === 1 ? "" : "s"} you are carrying:
         ${r.blocks.slice(0, 4).map((b) => esc(App.content.misconceptions[b]?.label || b)).join("; ")}.</span>
       </div>`).join("")}
-      <p class="faint" style="margin:var(--s3) 0 0">Repairing the one underneath is worth more than drilling the ${roots[0].blocks.length} on top of it, and the queue will route you there first.</p>
-    </div>`;
-  })()}
+      <p class="note">Repairing the one underneath is worth more than drilling the ${roots[0].blocks.length} on top of it, and the queue will route you there first.</p>
+    </div>` : ""}
   ${weakest.length
     ? `<div class="card tight"><h2 class="eyebrow">Spend your next session here</h2>
        <ol class="next-up">${weakest
@@ -537,7 +513,7 @@ export function readinessView(App) {
     <div class="scroll-x"><table class="grid">
       <thead><tr><th>Domain</th><th>Exam weight</th><th>Your share</th><th></th><th>Graded items seen</th></tr></thead>
       <tbody>${domains}</tbody></table></div>
-    <p class="faint" style="margin:var(--s3) 0 0">The drill queue biases new items toward whichever domain is furthest under its exam weight. Only graded practice counts here: a revealed vocabulary card does not cover a domain, because the exam never asks you to reveal anything.</p>
+    <p class="note">The drill queue biases new items toward whichever domain is furthest under its exam weight. Only graded practice counts here: a revealed vocabulary card does not cover a domain, because the exam never asks you to reveal anything.</p>
   </div>`;
 }
 
@@ -578,7 +554,7 @@ export function settingsView(App) {
         ${[20, 30, 40, 60, 80, 120].map((v) =>
           `<option value="${v}" ${p.dailyReviewGoal === v ? "selected" : ""}>${v} reviews</option>`).join("")}
       </select></div>
-    <p class="faint" style="margin:var(--s3) 0 0">No review is ever scheduled past your exam date. As the date approaches, every interval compresses to fit inside the time left.</p>
+    <p class="note">No review is ever scheduled past your exam date. As the date approaches, every interval compresses to fit inside the time left.</p>
   </div>
 
   <h2 class="eyebrow">Where your progress lives</h2>
@@ -590,9 +566,9 @@ export function settingsView(App) {
           <tr><td>Reviews on disk</td><td class="mono">${h.reviews ?? 0}</td></tr>
           <tr><td>Open / cleared</td><td class="mono">${h.misconceptionsOpen ?? 0} / ${h.misconceptionsRetired ?? 0}</td></tr>
         </tbody></table>
-        <p class="faint" style="margin:var(--s3) 0 0">The browser keeps a fast copy and mirrors it to that file a second or two behind. Clearing site data does not lose your history.</p>`
-      : `<p class="muted" style="margin:0">The study server is not reachable, so progress is only in this browser right now. Start it with <span class="mono">python3 serve.py</span> and reload.</p>`}
-    <div class="row" style="margin-top:var(--s4)">
+        <p class="note">The browser keeps a fast copy and mirrors it to that file a second or two behind. Clearing site data does not lose your history.</p>`
+      : `<p class="muted m0">The study server is not reachable, so progress is only in this browser right now. Start it with <span class="mono">python3 serve.py</span> and reload.</p>`}
+    <div class="row mt4">
       <button class="btn ghost" data-action="export">Export a copy</button>
       <button class="btn ghost" data-action="import">Import</button>
       <button class="btn danger" data-action="reset">Reset everything</button>
@@ -601,7 +577,7 @@ export function settingsView(App) {
 
   <h2 class="eyebrow">Consistency</h2>
   <div class="card">
-    <dl class="side-stats" style="margin:0;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));display:grid">
+    <dl class="side-stats wrap">
       <div class="stat"><dt>Current streak</dt><dd class="${st.current ? "good" : ""}">${st.current} d</dd></div>
       <div class="stat"><dt>Best streak</dt><dd>${st.best} d</dd></div>
       <div class="stat"><dt>Days studied</dt><dd>${(App.state.streak?.days || []).length}</dd></div>
@@ -621,7 +597,198 @@ export function settingsView(App) {
       <tr><td>Objectives / tagged topics</td><td class="mono">${c.objectives.counts.objectives} / ${c.objectives.counts.topics}</td></tr>
     </tbody></table>
     ${c.referenceSources?.length
-      ? `<p class="faint" style="margin:var(--s3) 0 0">Page references available from: ${c.referenceSources.map(esc).join("; ")}</p>`
+      ? `<p class="note">Page references available from: ${c.referenceSources.map(esc).join("; ")}</p>`
       : ""}
   </div>`;
+}
+
+// --- mock exam -------------------------------------------------------------
+// The exam is 90 questions in 90 minutes with PBQs front loaded, scored 100-900
+// with 750 to pass. A mock is only useful if it is faithful about the things
+// that actually catch people: no feedback until the end, a clock you cannot
+// pause, and PBQs eating your time before you have banked any easy marks.
+
+/** Has this PBQ answer sheet been touched? Inspection state is not an answer. */
+export const pbqAnswered = (a) =>
+  Object.entries(a || {}).some(([k, v]) =>
+    !["seenNodes", "inspected", "held"].includes(k) &&
+    (Array.isArray(v) ? v.length : v && typeof v === "object" ? Object.keys(v).length : !!v));
+
+export function mockStartView(App) {
+  const best = App.state.mockHistory?.length
+    ? Math.max(...App.state.mockHistory.map((m) => m.scaled))
+    : null;
+  const history = (App.state.mockHistory || []).slice(-5).reverse();
+
+  return `<h1>Mock exam</h1>
+  <p class="sub">Format faithful: performance-based questions first, no feedback until you submit, and a clock that does not stop. The point is not the score, it is finding out what falls apart under time pressure.</p>
+
+  <div class="card">
+    <h2 class="eyebrow">Choose a block</h2>
+    <div class="row">
+      ${Object.entries(FORMATS).map(([k, f]) => `
+        <button class="btn ${k === "full" ? "" : "ghost"}" data-action="mock-start" data-format="${k}">
+          ${esc(f.label)} <span class="faint">${f.total}q / ${f.minutes}m</span>
+        </button>`).join("")}
+    </div>
+    <p class="note">Everything you miss is banked as a correction afterwards, exactly as it would be in a drill. A mock that does not feed the rest of the system is just a number.</p>
+  </div>
+
+  ${history.length ? `<h2>Previous attempts</h2>
+    <div class="card"><div class="scroll-x"><table class="grid">
+      <thead><tr><th>When</th><th>Block</th><th>Raw</th><th>Scaled</th><th>Verdict</th><th>Time used</th></tr></thead>
+      <tbody>${history.map((m) => `<tr>
+        <td class="faint">${new Date(m.at).toLocaleDateString()}</td>
+        <td>${esc(FORMATS[m.format]?.label || m.format)}</td>
+        <td class="mono">${pct(m.raw)}</td>
+        <td class="mono ${m.scaled >= 750 ? "c-good" : "c-bad"}">${m.scaled}</td>
+        <td>${m.scaled >= 750 ? "pass" : "below"}</td>
+        <td class="mono">${Math.round(m.seconds / 60)}m</td>
+      </tr>`).join("")}</tbody></table></div>
+      ${best ? `<p class="note">Best so far ${best}. One mock above 750 is not readiness; a margin above it across independent blocks is.</p>` : ""}
+    </div>` : ""}`;
+}
+
+/**
+ * The review screen the real exam ends with.
+ *
+ * Without it, "submit" is a leap: you cannot see which of 90 items you left
+ * blank or flagged, so people either submit with blanks or burn minutes paging
+ * back through everything. Blank matters because there is no penalty for a
+ * wrong guess, so an unanswered item is a thrown-away mark and nothing else.
+ */
+export function mockReviewView(App) {
+  const m = App.mock;
+  const answeredOf = (e) =>
+    (e.kind === "pbq" ? pbqAnswered(m.pbqAnswers[e.pbq.id]) : !!m.answers[e.item.id]) ? "answered" : "blank";
+
+  const cells = m.items.map((e, i) => {
+    const id = e.item?.id || e.pbq?.id;
+    const state = answeredOf(e);
+    const flagged = m.flagged.has(id);
+    return `<button class="rv ${state} ${flagged ? "flagged" : ""} ${i === m.idx ? "here" : ""}"
+      data-action="mock-goto" data-i="${i}"
+      title="${e.kind === "pbq" ? esc(e.pbq.title) : "Question " + (i + 1)}${flagged ? " (flagged)" : ""}">
+      <span class="n">${i + 1}</span>${e.kind === "pbq" ? `<span class="pb">PBQ</span>` : ""}
+    </button>`;
+  }).join("");
+
+  const blanks = m.items.filter((e) => answeredOf(e) === "blank").length;
+  const flagged = m.flagged.size;
+
+  return `
+  <div class="session-bar">
+    <div class="meta">
+      <span><b>Review</b> &middot; ${m.items.length} questions</span>
+      <span id="mock-timer" data-ends="${m.endsAt}" class="mono">--:--</span>
+    </div>
+    <div class="track"><i style="--w:100%"></i></div>
+  </div>
+  <h1>Review before submitting</h1>
+  <p class="sub">Click any question to go back to it. ${blanks
+      ? `<b>${blanks} unanswered.</b> There is no penalty for a wrong guess on the real exam, so a blank is a mark you have thrown away.`
+      : "Nothing left blank."}${flagged ? ` ${flagged} flagged for another look.` : ""}</p>
+
+  <div class="card">
+    <div class="rv-legend">
+      <span><i class="sw answered"></i> answered</span>
+      <span><i class="sw blank"></i> blank</span>
+      <span><i class="sw flagged"></i> flagged</span>
+    </div>
+    <div class="review-grid">${cells}</div>
+  </div>
+
+  <div class="row">
+    <button class="btn ghost" data-action="mock-resume">Back to question ${m.idx + 1}</button>
+    ${blanks ? `<button class="btn ghost" data-action="mock-first-blank">Go to first blank</button>` : ""}
+    <button class="btn danger" data-action="mock-submit">Submit exam</button>
+  </div>`;
+}
+
+export function mockRunnerView(App) {
+  const m = App.mock;
+  const entry = m.items[m.idx];
+  const answered = Object.keys(m.answers).filter((k) => m.answers[k] != null).length;
+
+  const body = entry.kind === "pbq"
+    ? pbqHtml(entry.pbq, m.pbqAnswers[entry.pbq.id] || {}, { locked: false, graded: null, inExam: true })
+    : mockMcqHtml(entry.item, m.answers[entry.item.id], m.flagged.has(entry.item.id));
+
+  return `
+  <div class="session-bar">
+    <div class="meta">
+      <span>Question <b>${m.idx + 1}</b> of ${m.items.length} &middot; ${answered} answered</span>
+      <span id="mock-timer" data-ends="${m.endsAt}" class="mono">--:--</span>
+    </div>
+    <div class="track"><i style="--w:${((m.idx + 1) / m.items.length) * 100}%"></i></div>
+  </div>
+  ${body}
+  <div class="row mt5 between">
+    <div class="row">
+      <button class="btn ghost" data-action="mock-prev" ${m.idx === 0 ? "disabled" : ""}>Back</button>
+      <button class="btn" data-action="mock-next" ${m.idx === m.items.length - 1 ? "disabled" : ""}>Next</button>
+      <button class="btn ghost small" data-action="mock-flag">${m.flagged.has(entry.item?.id || entry.pbq?.id) ? "Unflag" : "Flag for review"}</button>
+    </div>
+    <button class="btn ghost" data-action="mock-review">Review all ${m.items.length}</button>
+  </div>`;
+}
+
+function mockMcqHtml(item, chosen, flagged) {
+  return `
+  <div class="row mb3">
+    <span class="tag">objective ${esc(item.objective || "")}</span>
+    ${flagged ? `<span class="tag warn">flagged</span>` : ""}
+  </div>
+  <div class="card">
+    <p class="stem">${gloss(item.stem)}</p>
+    <div class="opts">
+      ${item.options.map((o, i) => optionButton({
+        key: KEYS[i], text: o.text, action: "mock-answer", data: { opt: o.id },
+        cls: chosen === o.id ? "chosen" : "",
+      })).join("")}
+    </div>
+  </div>`;
+}
+
+export function mockResultView(App) {
+  const r = App.mock.result;
+  const tone = r.scaled >= 750 ? "good" : r.scaled >= 680 ? "warn" : "bad";
+
+  const domains = r.byDomain.map((d) => `<tr>
+      <td>${d.id}.0 ${esc(d.title)}</td>
+      <td class="mono">${d.correct}/${d.total}</td>
+      <td class="mono">${d.total ? pct(d.correct / d.total) : "&mdash;"}</td>
+      <td class="mono">${pct(d.weight)}</td>
+      <td class="faint">${d.total && d.correct / d.total < 0.7 ? "below the line" : "holding"}</td>
+    </tr>`).join("");
+
+  const notes = r.notes.map((n) => `<li>${esc(n)}</li>`).join("");
+
+  return `<h1>Mock exam result</h1>
+  <div class="card">
+    <div class="spread top">
+      <div>
+        <div class="score-big c-${tone}">${r.scaled}</div>
+        <div class="faint">estimated scaled score &middot; pass line 750 &middot; ${pct(r.raw)} raw</div>
+      </div>
+      <dl class="side-stats inline">
+        <div class="stat"><dt>Time used</dt><dd>${Math.round(r.seconds / 60)}m of ${r.minutes}m</dd></div>
+        <div class="stat"><dt>Unanswered</dt><dd class="${r.unanswered ? "warn" : ""}">${r.unanswered}</dd></div>
+        <div class="stat"><dt>Banked</dt><dd class="${r.banked ? "warn" : ""}">${r.banked}</dd></div>
+      </dl>
+    </div>
+    <p class="note">An estimate on CompTIA's 100-900 scale, weighting each PBQ as roughly ${PBQ_WEIGHT} multiple choice items. One result above 750 is not readiness. A margin above it, across separate blocks, on different days, is.</p>
+  </div>
+
+  ${notes ? `<div class="card tight"><h2 class="eyebrow">What this exposed</h2><ul class="req m0">${notes}</ul></div>` : ""}
+
+  <h2>By domain</h2>
+  <div class="card"><div class="scroll-x"><table class="grid">
+    <thead><tr><th>Domain</th><th>Correct</th><th>Score</th><th>Exam weight</th><th></th></tr></thead>
+    <tbody>${domains}</tbody></table></div></div>
+
+  ${r.mentorHtml ? `<h2>Corrections banked</h2>
+    <p class="sub">These are now in your schedule and will come back on different questions.</p>${r.mentorHtml}` : ""}
+
+  <div class="row"><button class="btn" data-action="mock-done">Back to the lab</button></div>`;
 }

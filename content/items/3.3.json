@@ -1,0 +1,186 @@
+[
+  {
+    "id": "a-009",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["data-in-use", "data-at-rest", "secure-enclave"],
+    "difficulty": 4,
+    "stem": "A bank must process sensitive records on a cloud host such that even a privileged administrator of that host cannot read them during processing. Which protection is required?",
+    "options": [
+      {"id": "a", "text": "A secure enclave or confidential computing environment", "correct": true, "why": "Data in use must be decrypted to be processed. A hardware enclave keeps it protected from the host OS and its administrators even then."},
+      {"id": "b", "text": "Full disk encryption on the host", "misconception": "data-states", "why": "That protects data at rest on a powered off disk. Once the system is running and the volume is mounted, an administrator reads it freely."},
+      {"id": "c", "text": "TLS 1.3 for all connections to the host", "misconception": "data-states", "why": "TLS protects data in transit. It ends at the host, where the data is decrypted."},
+      {"id": "d", "text": "Tokenising the records before storage", "misconception": "data-states", "why": "Useful, and the application still has to detokenise to process the real values, which returns you to the data in use problem."}
+    ]
+  },
+  {
+    "id": "a-010",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["data-at-rest", "data-in-transit", "encryption"],
+    "difficulty": 2,
+    "stem": "A laptop is stolen from a car while powered off. Which control protected the data on it?",
+    "options": [
+      {"id": "a", "text": "Full disk encryption, which protects data at rest", "correct": true, "why": "A powered off encrypted disk is unreadable without the key, which is exactly the data at rest scenario."},
+      {"id": "b", "text": "TLS on all the laptop's connections", "misconception": "data-states", "why": "TLS protects data in transit across a network. It is irrelevant to a disk in a thief's hands."},
+      {"id": "c", "text": "A secure enclave protecting data in use", "misconception": "data-states", "why": "Data in use means data loaded in memory during processing. The machine is off."},
+      {"id": "d", "text": "A host based firewall", "misconception": "data-states", "why": "A firewall filters network traffic. It does nothing for physical possession of the disk."}
+    ]
+  },
+  {
+    "id": "a-011",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["regulated-data", "trade-secret", "restricted", "confidential"],
+    "difficulty": 3,
+    "stem": "A company holds payment card numbers. Asked to state the DATA TYPE, which answer is correct?",
+    "options": [
+      {"id": "a", "text": "Regulated data", "correct": true, "why": "Card data is governed by external requirements, which makes its type regulated. Its classification would be a separate label such as restricted."},
+      {"id": "b", "text": "Restricted", "misconception": "data-type-vs-classification", "why": "Restricted is a classification level, describing handling sensitivity. The question asked for the type."},
+      {"id": "c", "text": "Confidential", "misconception": "data-type-vs-classification", "why": "Also a classification level, on the wrong axis for this question."},
+      {"id": "d", "text": "Critical", "misconception": "data-type-vs-classification", "why": "Another classification level. All three of these distractors are on the classification axis."}
+    ]
+  },
+  {
+    "id": "a-012",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["trade-secret", "intellectual-property", "regulated-data"],
+    "difficulty": 3,
+    "stem": "A beverage company's unpublished formula, protected by secrecy rather than by registration, is best described as which data type?",
+    "options": [
+      {"id": "a", "text": "A trade secret", "correct": true, "why": "Its value depends on it remaining unknown, and it is protected by keeping it secret rather than by a registered right."},
+      {"id": "b", "text": "Intellectual property protected by patent", "misconception": "data-type-vs-classification", "why": "A patent requires publication in exchange for a time limited monopoly, which is the opposite approach to a trade secret."},
+      {"id": "c", "text": "Regulated data", "misconception": "data-type-vs-classification", "why": "No external regulator governs a recipe. Regulated data means data whose handling is prescribed by law or standard."},
+      {"id": "d", "text": "Confidential", "misconception": "data-type-vs-classification", "why": "That is the classification you would assign it, not the type of data it is."}
+    ]
+  },
+  {
+    "id": "dp-001",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["critical", "confidential", "restricted", "public"],
+    "difficulty": 4,
+    "stem": "A transport operator's published timetable data is openly available on its website. The operations team argues it should be classified critical. Is that consistent with classification practice?",
+    "options": [
+      {"id": "a", "text": "Yes: critical describes the operational consequence of losing the data, which is independent of whether it is secret", "correct": true, "why": "Critical is about availability and business dependence, not confidentiality. Public data can absolutely be critical, which is why it does not sit on the same ladder as confidential and restricted."},
+      {"id": "b", "text": "No: public and critical are contradictory, since critical implies restricted access", "misconception": "data-classification-levels", "why": "This is the error the question targets. Secrecy and criticality are different axes."},
+      {"id": "c", "text": "No: critical applies only to regulated data", "misconception": "data-classification-levels", "why": "Regulated describes what the data is and which regime governs it, not how much the business depends on it."},
+      {"id": "d", "text": "Yes, but only if the data is also classified confidential", "misconception": "data-classification-levels", "why": "No such dependency exists. The two classifications answer different questions."}
+    ]
+  },
+  {
+    "id": "dp-002",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["trade-secret", "intellectual-property", "regulated-data"],
+    "difficulty": 4,
+    "stem": "A manufacturer's alloy formulation is unpatented, kept secret, and derives its commercial value from not being known. Which data type is this?",
+    "options": [
+      {"id": "a", "text": "A trade secret", "correct": true, "why": "Value derives from secrecy itself, and protection lasts only as long as it stays secret. The contrast with a patent is the trade: a patent publishes in exchange for a time-limited monopoly."},
+      {"id": "b", "text": "Regulated data", "misconception": "data-type-vs-classification", "why": "Regulated means a legal regime governs its handling, such as health or card data. Nothing here is imposed by a regulator."},
+      {"id": "c", "text": "Legal information", "misconception": "data-type-vs-classification", "why": "That covers contracts, case material and privileged communications."},
+      {"id": "d", "text": "Financial information", "misconception": "data-type-vs-classification", "why": "Accounts, transactions and payment data. A formulation is not financial."}
+    ]
+  },
+  {
+    "id": "dp-003",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["data-sovereignty", "geographic-restrictions"],
+    "difficulty": 4,
+    "stem": "A company is told that records about residents of a particular country must be stored and processed within that country's borders. What is this requirement an instance of, and what is the control that implements it?",
+    "options": [
+      {"id": "a", "text": "Data sovereignty is the requirement; geographic restriction is the control that enforces it", "correct": true, "why": "Sovereignty is the legal obligation arising from where data sits. The restriction is the configuration you apply in response, typically by pinning storage and processing to a region."},
+      {"id": "b", "text": "Geolocation is the requirement; data sovereignty is the control", "misconception": "sovereignty-and-geographic-controls", "why": "Reversed, and geolocation is neither. It is a measurement of where something is."},
+      {"id": "c", "text": "Both describe the same contractual obligation to a cloud provider", "misconception": "sovereignty-and-geographic-controls", "why": "Sovereignty arises from law, not from your contract. No agreement with a provider removes it."},
+      {"id": "d", "text": "It is a permission restriction, enforced through access control lists", "misconception": "sovereignty-and-geographic-controls", "why": "Permissions govern who may access. This requirement is about physical and jurisdictional location."}
+    ]
+  },
+  {
+    "id": "dp-004",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["geolocation", "geographic-restrictions"],
+    "difficulty": 4,
+    "stem": "An organisation blocks access to its admin portal from outside two countries, using IP-based location lookup. What is the main weakness of this control?",
+    "options": [
+      {"id": "a", "text": "IP geolocation is an inference and is readily defeated by a VPN or proxy in a permitted country", "correct": true, "why": "Geolocation is evidence, not enforcement. It raises the effort required and should be one signal among several rather than the gate itself."},
+      {"id": "b", "text": "Geographic restrictions are not permitted where data sovereignty rules apply", "misconception": "sovereignty-and-geographic-controls", "why": "Sovereignty rules generally push you toward such restrictions, not away from them."},
+      {"id": "c", "text": "It only works for data at rest, not for access control", "misconception": "data-states", "why": "It is applied to access attempts; data state is a separate concern."},
+      {"id": "d", "text": "It requires the data to be tokenised first", "misconception": "obfuscation-methods", "why": "No relationship between location controls and tokenisation."}
+    ]
+  },
+  {
+    "id": "dp-005",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["data-in-use", "data-at-rest", "data-in-transit"],
+    "difficulty": 4,
+    "stem": "An analytics process loads customer records into memory, decrypts them, and runs aggregation. Which data state is active, and what protects it?",
+    "options": [
+      {"id": "a", "text": "Data in use, protected by memory isolation such as a secure enclave or confidential computing, plus access control on the process", "correct": true, "why": "Data in use is the third state and the one most often forgotten. Once decrypted into ordinary memory it is exposed to anything able to read that memory."},
+      {"id": "b", "text": "Data at rest, protected by full disk encryption", "misconception": "data-states", "why": "At rest means stored. The records have been loaded and decrypted, which is a different state."},
+      {"id": "c", "text": "Data in transit, protected by TLS", "misconception": "data-states", "why": "In transit means moving across a network. The processing here is local."},
+      {"id": "d", "text": "No state applies once data is decrypted", "misconception": "data-states", "why": "Decrypted and in memory is precisely the in-use state, and it is where several real attacks live."}
+    ]
+  },
+  {
+    "id": "dp-006",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["human-and-non-human-readable", "obfuscation", "masking"],
+    "difficulty": 3,
+    "stem": "The objectives distinguish human-readable from non-human-readable data. Why does the distinction matter for protection decisions?",
+    "options": [
+      {"id": "a", "text": "Non-human-readable data such as binary records or serialised objects still contains the same sensitive values and needs the same protection, even though a casual reader sees nothing", "correct": true, "why": "Unreadability to a person is not a control. A database file, a memory dump or a serialised blob holds the real values and is trivially parsed by anyone who wants them."},
+      {"id": "b", "text": "Non-human-readable data is inherently protected by its format", "misconception": "obfuscation-methods", "why": "That is security by obscurity. Format is not encryption."},
+      {"id": "c", "text": "Only human-readable data can be classified", "misconception": "data-type-vs-classification", "why": "Classification follows the content and its consequences, not its encoding."},
+      {"id": "d", "text": "Non-human-readable data cannot be masked", "misconception": "obfuscation-methods", "why": "Masking can be applied wherever the value is rendered or extracted."}
+    ]
+  },
+  {
+    "id": "dp-007",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["permission-restrictions", "segmentation-2", "encryption-2"],
+    "difficulty": 4,
+    "stem": "A research dataset must be readable by one team, unreadable to all other staff including systems administrators, and must remain so if the storage array is removed from the building. Which combination meets all three requirements?",
+    "options": [
+      {"id": "a", "text": "Encryption with keys held by that team, plus permission restrictions on the share", "correct": true, "why": "Permissions handle who, encryption handles readability including by administrators who can bypass permissions, and it continues to hold once the hardware leaves."},
+      {"id": "b", "text": "Permission restrictions alone", "misconception": "data-type-vs-classification", "why": "Administrators can typically grant themselves access, and permissions mean nothing once the array is somewhere else."},
+      {"id": "c", "text": "Network segmentation of the research subnet", "misconception": "data-type-vs-classification", "why": "Limits reachability over the network and does nothing about an administrator on the system or a stolen array."},
+      {"id": "d", "text": "Masking the dataset for non-research users", "misconception": "obfuscation-methods", "why": "Masking is a presentation control. The underlying values remain in storage."}
+    ]
+  },
+  {
+    "id": "dp-008",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["sensitive", "private", "regulated-data", "confidential"],
+    "difficulty": 4,
+    "stem": "Staff home addresses and dates of birth are held in an HR system. Which description best fits this data?",
+    "options": [
+      {"id": "a", "text": "Private personal data, and regulated, because data protection law governs its handling", "correct": true, "why": "Two orthogonal statements: private describes the audience and the individual it concerns, regulated describes that a legal regime applies. Both are true at once."},
+      {"id": "b", "text": "Public, since addresses can often be found in other sources", "misconception": "data-classification-levels", "why": "Availability elsewhere does not change your obligations for the copy you hold."},
+      {"id": "c", "text": "Trade secret, since the organisation keeps it confidential", "misconception": "data-type-vs-classification", "why": "A trade secret derives commercial value from being secret. Employee records do not."},
+      {"id": "d", "text": "Critical, because HR cannot operate without it", "misconception": "data-classification-levels", "why": "Arguable on availability grounds and not the best description of what the data is."}
+    ]
+  },
+  {
+    "id": "dp-009",
+    "type": "mcq-multi",
+    "objective": "3.3",
+    "topics": ["data-at-rest", "data-in-transit", "data-in-use", "data-sovereignty", "critical"],
+    "difficulty": 4,
+    "stem": "Which TWO statements about protecting data are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Data in use is exposed in memory in plaintext, which is what secure enclaves address", "correct": true, "why": "The third state, and the one most designs ignore. Encryption at rest and in transit leaves it untouched."},
+      {"id": "b", "text": "Data sovereignty arises from law and cannot be contracted away with a provider", "correct": true, "why": "Jurisdiction attaches to where data resides and is processed, regardless of commercial terms."},
+      {"id": "c", "text": "Classifying data as critical implies it must also be confidential", "misconception": "data-classification-levels", "why": "Criticality concerns availability. Public data can be critical."},
+      {"id": "d", "text": "Geolocation reliably enforces where data may be accessed from", "misconception": "sovereignty-and-geographic-controls", "why": "It is an inference, defeated by a VPN. It informs a control rather than being one."},
+      {"id": "e", "text": "Non-human-readable formats do not require encryption", "misconception": "obfuscation-methods", "why": "Format is not protection. The values are still there and still parseable."}
+    ],
+    "selectCount": 2
+  }
+]

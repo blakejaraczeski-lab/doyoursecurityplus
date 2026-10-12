@@ -1,0 +1,47 @@
+[
+  {
+    "id": "phishing-variants",
+    "label": "Phishing vs vishing vs smishing vs whaling vs pretexting",
+    "objective": "2.2",
+    "topics": ["phishing", "vishing", "smishing", "pretexting", "business-email-compromise", "impersonation"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You named the family instead of the specific variant. The exam names the channel and the target.",
+      "contrast": [
+        ["Term", "Channel", "Target"],
+        ["Phishing", "Email", "Anyone, at scale"],
+        ["Spear phishing", "Email", "A named individual, researched"],
+        ["Whaling", "Email", "An executive"],
+        ["Vishing", "Voice call", "Anyone"],
+        ["Smishing", "SMS", "Anyone"],
+        ["Business email compromise", "Email from a real, compromised account", "Finance, usually a wire transfer"],
+        ["Pretexting", "Any channel", "Defined by the invented backstory, not the channel"]
+      ],
+      "rule": "Identify the channel first, then the target. Both are in the stem.",
+      "tell": "'A call from someone claiming to be IT' is vishing. If the message came from the CFO's genuine mailbox, it is business email compromise, not spoofing.",
+      "trap": "Phishing is technically true of most of these, so it is always defensible and rarely the most precise answer."
+    }
+  },
+  {
+    "id": "threat-vector-families",
+    "label": "Which family a threat vector belongs to: message, file, device, network, software or supply chain",
+    "objective": "2.2",
+    "topics": ["email", "short-message-service", "instant-messaging", "image-based", "file-based", "voice-call", "removable-device", "vulnerable-software", "unsupported-systems-and-applications", "unsecure-wireless-networks", "unsecure-wired-networks", "bluetooth", "open-service-ports", "default-credentials", "managed-service-providers", "vendors", "suppliers"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You classified the vector by the payload or by the eventual damage rather than by the route in. The vector is how the attacker first reaches you, not what happens afterwards.",
+      "contrast": [
+        ["Family", "The route in", "What makes it that family", "Typical tell in the stem"],
+        ["Message-based", "Email, SMS, instant message, voice call", "A human is addressed directly and asked to act", "'received a message', 'a caller claiming to be', a link or a request"],
+        ["File and image based", "A document, executable or image that carries the payload", "The content itself is the weapon, however it arrived", "macro, embedded script, 'opened the attachment'"],
+        ["Removable device", "USB drives, cables, peripherals", "Physical media crosses the boundary", "'found in the car park', 'handed out at a conference'"],
+        ["Unsecure network", "Wireless, wired ports, Bluetooth", "Connectivity itself is the opening", "open socket in reception, unknown pairing, rogue AP"],
+        ["Vulnerable or unsupported software", "Services and systems already running", "No one has to be tricked; it is exposed", "default credentials, unpatched, vendor ended support, listening port"],
+        ["Supply chain", "Suppliers, vendors, managed service providers", "Trust you granted is used against you", "'the MSP agent', 'a vendor update', third-party library"]
+      ],
+      "rule": "Ask how the attacker got their first foothold, not what they did with it. A macro-laden spreadsheet sent by email is file-based once you are judging the payload and message-based once you are judging delivery, so the stem will name the one it means.",
+      "tell": "Any question listing several plausible ways in and asking which vector or attack surface it is.",
+      "trap": "The damage is memorable and the route is not, so people answer with the outcome. Ransomware is not a vector, it is what arrived."
+    }
+  }
+]

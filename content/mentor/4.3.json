@@ -1,0 +1,109 @@
+[
+  {
+    "id": "false-positive-vs-negative",
+    "label": "False positive vs false negative",
+    "objective": "4.3",
+    "topics": ["false-positive", "false-negative", "alert-tuning", "vulnerability-scan"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You inverted the pair. Read positive as 'the tool raised an alarm' and false as 'the alarm was wrong'.",
+      "contrast": [
+        ["Term", "Tool said", "Reality", "Consequence"],
+        ["True positive", "Alarm", "Real", "Working as intended"],
+        ["False positive", "Alarm", "Nothing there", "Wasted effort, alert fatigue, tuning needed"],
+        ["False negative", "Silence", "Real attack", "The dangerous one, you never knew"],
+        ["True negative", "Silence", "Nothing there", "Working as intended"]
+      ],
+      "rule": "Positive means the tool spoke up. False means it was wrong. False negative is the one that gets you breached.",
+      "tell": "'The scanner reported a critical vulnerability but the patch is already installed' is a false positive.",
+      "trap": "Negative sounds bad and positive sounds good, which is backwards here. The words describe the tool's output, not the outcome."
+    }
+  },
+  {
+    "id": "vuln-identification-sources",
+    "label": "Where a vulnerability came from: scan, pentest, bug bounty, disclosure, feed, OSINT or audit",
+    "objective": "4.3",
+    "topics": ["vulnerability-scan", "penetration-testing", "bug-bounty-program", "responsible-disclosure-program", "proprietary-third-party-threat-feed", "open-source-intelligence", "dark-web", "information-sharing-organization", "system-process-audit", "audit", "package-monitoring"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You matched the answer to the word that sounded most like security testing. These sources differ by who looks, whether they exploit anything, and whether you are paying them.",
+      "contrast": [
+        ["Source", "Who looks", "Do they exploit it", "What it is good at"],
+        ["Vulnerability scan", "Your own tool, automated", "No, it infers from versions and responses", "Breadth across the estate, repeatable, noisy with false positives"],
+        ["Penetration test", "A human, scoped and authorised", "Yes, that is the point", "Proving real exploitability and chaining"],
+        ["Bug bounty", "Anyone, paid per valid finding", "Yes, within scope", "Continuous outside attention you could not hire"],
+        ["Responsible disclosure", "Whoever found it, unpaid", "Varies", "A safe channel so finders report instead of selling"],
+        ["Threat feed (commercial)", "A vendor you subscribe to", "No", "Curated, timely intelligence with support"],
+        ["OSINT", "Anyone, from public sources", "No", "Free and broad, unverified and sometimes stale"],
+        ["Dark web monitoring", "A service watching criminal forums", "No", "Your data or access already being traded"],
+        ["Information sharing org (ISAC)", "Peers in your sector", "No", "Sector-specific threats before they reach you"],
+        ["Audit", "An assessor against a standard", "No", "Whether the control exists and works as documented"]
+      ],
+      "rule": "Scans find what is probably there, penetration tests prove what is actually reachable, bounties and disclosure bring you other people's findings, and feeds and OSINT tell you what is happening elsewhere.",
+      "tell": "A stem describing how a weakness came to light and asking you to name the activity.",
+      "trap": "Bug bounty and responsible disclosure look identical until you ask about payment and structure: a bounty pays per finding, a disclosure programme simply promises not to prosecute the finder."
+    }
+  },
+  {
+    "id": "static-vs-dynamic-analysis",
+    "label": "Static analysis vs dynamic analysis vs package monitoring",
+    "objective": "4.3",
+    "topics": ["static-analysis", "dynamic-analysis", "package-monitoring", "vulnerability-scan"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You chose by how technical the option sounded rather than by whether the code was running at the time.",
+      "contrast": [
+        ["Technique", "Is the code running", "What it examines", "Classic blind spot"],
+        ["Static analysis (SAST)", "No", "Source or binary, read without executing", "Cannot see runtime or configuration-dependent behaviour; high false positive rate"],
+        ["Dynamic analysis (DAST)", "Yes", "The running application, probed from outside", "Only finds what it can reach; no view of the source"],
+        ["Package monitoring", "No", "The dependency manifest against known vulnerable versions", "Says nothing about your own code"],
+        ["Fuzzing", "Yes", "Behaviour under malformed input", "Finds crashes, not logic flaws"]
+      ],
+      "rule": "Static reads it, dynamic runs it, package monitoring reads the bill of materials rather than the code at all.",
+      "tell": "Anything about scanning code or applications, especially where the stem says whether the application is deployed or still in the repository.",
+      "trap": "Package monitoring is often described as scanning, which pulls people toward static analysis. It never looks at your code: it compares versions you declared against a vulnerability database."
+    }
+  },
+  {
+    "id": "vuln-prioritization-inputs",
+    "label": "Prioritising vulnerabilities: CVSS vs exposure vs environmental variables vs risk tolerance",
+    "objective": "4.3",
+    "topics": ["prioritize", "common-vulnerability-scoring-system", "vulnerability-classification", "exposure-factor", "environmental-variables", "industry-organizational-impact", "risk-tolerance"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You ranked by the CVSS number alone. CVSS base score describes the vulnerability in the abstract, not what it is worth to you, which is why the objectives list four further inputs beside it.",
+      "contrast": [
+        ["Input", "What it tells you", "Why the base score alone is not enough"],
+        ["CVSS base score", "Intrinsic severity, same for everyone", "Says nothing about whether you even run the thing"],
+        ["Vulnerability classification", "The kind of weakness it is", "Shapes the fix, not the urgency"],
+        ["Exposure factor", "How much of the asset's value is lost if exploited", "A 9.8 on a host holding nothing is not a 9.8 to you"],
+        ["Environmental variables", "Where it sits: internet-facing, segmented, compensating controls", "The same CVE is urgent at the edge and routine behind an air gap"],
+        ["Industry and organisational impact", "What this would mean in your sector", "Regulated data and safety systems change the calculus"],
+        ["Risk tolerance", "How much residual risk the organisation accepts", "Decides where the remediation line is drawn"]
+      ],
+      "rule": "CVSS ranks the vulnerability. Exposure, environment, sector and tolerance rank YOUR vulnerability. The exam answer is almost always the one that considers where the thing actually sits.",
+      "tell": "Two findings with different CVSS scores and a stem that describes where each asset lives.",
+      "trap": "The highest number is a comfortable answer and it is usually the distractor. Read for 'internet-facing', 'isolated', 'no sensitive data', 'regulated'."
+    }
+  },
+  {
+    "id": "remediation-validation",
+    "label": "Validating remediation: rescanning vs verification vs audit vs reporting",
+    "objective": "4.3",
+    "topics": ["rescanning", "verification", "audit", "reporting", "exceptions-and-exemptions"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated applying the fix as the end of the cycle. The objectives name validation and reporting as separate activities because an unverified fix is a belief, not a control.",
+      "contrast": [
+        ["Activity", "Question it answers", "Who does it"],
+        ["Rescanning", "Does the scanner still report it?", "The same automated tool, after remediation"],
+        ["Verification", "Is it genuinely fixed, not merely invisible to the scanner?", "A human confirming the condition is gone"],
+        ["Audit", "Did we follow our own process, and can we evidence it?", "An assessor, independent of the team"],
+        ["Reporting", "Who needs to know, and what is the trend?", "The programme, upward to risk owners"]
+      ],
+      "rule": "Rescan proves the scanner is quiet. Verification proves the weakness is gone. They are not the same claim, and a scanner silenced by a firewall rule passes the first and fails the second.",
+      "tell": "A fix applied, then a question about what comes next or why the vulnerability reappeared later.",
+      "trap": "An exception or exemption is a decision to accept the risk, with an owner and an expiry. Recording one is legitimate; using one as a way of never fixing anything is how the backlog becomes permanent."
+    }
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "automation-in-the-pipeline",
+    "label": "Where automation plugs in: APIs, CI testing, ticketing and escalation",
+    "objective": "4.7",
+    "topics": ["integrations-and-apis", "continuous-integration-and-testing", "ticket-creation", "escalation", "enabling-disabling-services-and-access"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated automation as one capability rather than as a set of integration points. The exam asks which point in the workflow the automation sits at.",
+      "contrast": [
+        ["Integration point", "What it automates", "What it buys"],
+        ["APIs and integrations", "Systems acting on each other without a human relaying", "The plumbing everything else depends on"],
+        ["Continuous integration and testing", "Security checks running on every commit and build", "Flaws found while they are cheap, before release"],
+        ["Ticket creation", "Raising a tracked work item from an alert or a finding", "Nothing is lost between detection and someone owning it"],
+        ["Escalation", "Routing onward automatically when nobody responds in time", "Removes the single point of failure of one unavailable person"],
+        ["Enabling and disabling access", "Provisioning and revoking as roles change or incidents require", "Revocation that happens in seconds rather than at someone's convenience"]
+      ],
+      "rule": "Ticket creation records that something needs doing. Escalation handles nobody doing it. They are adjacent and separately named, and the exam tests the difference.",
+      "tell": "An alert that generated no follow-up points to ticket creation. An alert that sat unactioned for a weekend points to escalation.",
+      "trap": "Automating ticket creation on a noisy alert source multiplies the noise into a backlog. Tuning has to come first, or automation industrialises the problem."
+    }
+  },
+  {
+    "id": "automation-benefits-vs-risks",
+    "label": "What automation buys, and what it costs",
+    "objective": "4.7",
+    "topics": ["efficiency-time-saving", "enforcing-baselines", "workforce-multiplier", "single-point-of-failure", "technical-debt", "ongoing-supportability", "complexity"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated automation as free upside. The exam tests the trade: the same property that makes it valuable is what makes it dangerous.",
+      "contrast": [
+        ["Benefit", "The same property, as a cost"],
+        ["Reaction time: it acts in seconds", "It acts wrongly in seconds too, at full scale"],
+        ["Enforcing baselines: every host identical", "One bad baseline is now on every host"],
+        ["Workforce multiplier: fewer hands needed", "Those hands also held the knowledge of how it works"],
+        ["Standard configurations", "Complexity and technical debt in the automation itself"],
+        ["One system does the provisioning", "That system is a single point of failure"]
+      ],
+      "rule": "Automation multiplies whatever you give it, including mistakes. Benefits scale and so does blast radius.",
+      "tell": "'Which is a drawback of automation' expects complexity, technical debt, single point of failure, or ongoing supportability, never 'it is slower'.",
+      "trap": "Every listed benefit is genuinely true, so a benefits answer always reads as correct. Check whether the stem asked for the cost."
+    }
+  },
+  {
+    "id": "automation-use-cases",
+    "label": "Guard rails vs ticket creation vs provisioning",
+    "objective": "4.7",
+    "topics": ["user-provisioning", "resource-provisioning", "guard-rails", "security-groups", "ticket-creation", "escalation", "continuous-integration-and-testing", "integrations-and-apis"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You named an automation use case that does not match what the scenario automates. Each one automates a different moment.",
+      "contrast": [
+        ["Use case", "What it automates", "Scenario wording"],
+        ["User provisioning", "Creating and removing accounts from an HR trigger", "'A leaver still had access three weeks later'"],
+        ["Resource provisioning", "Standing up infrastructure to a template", "'Each environment was built slightly differently'"],
+        ["Guard rails", "Blocking a non-compliant action as it is attempted", "'Engineers could create a public storage bucket'"],
+        ["Security groups", "Membership, and therefore access, from a rule", "'Access is granted by job role automatically'"],
+        ["Ticket creation and escalation", "Raising and routing the work item", "'Alerts were seen but nobody was assigned'"],
+        ["Continuous integration and testing", "Running checks on every change", "'A bad config reached production unreviewed'"]
+      ],
+      "rule": "Match the automation to the moment that failed. Access that lingered is provisioning; an action that should have been impossible is a guard rail; work nobody picked up is ticketing.",
+      "tell": "Onboarding and offboarding stories are almost always user provisioning, and the exam likes the offboarding half because the risk is clearer.",
+      "trap": "Guard rails and security groups both sound like preventing access. Guard rails stop an action; security groups decide membership."
+    }
+  }
+]

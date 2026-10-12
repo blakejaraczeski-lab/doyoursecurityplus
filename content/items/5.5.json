@@ -1,0 +1,186 @@
+[
+  {
+    "id": "g-015",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["independent-third-party-audit", "self-assessments", "internal-compliance-audit"],
+    "difficulty": 3,
+    "stem": "A prospective customer will not sign until it receives credible assurance about your security controls. Which is most appropriate to provide?",
+    "options": [
+      {"id": "a", "text": "An independent third-party audit report", "correct": true, "why": "External parties need assurance that does not depend on your own word. Independence is what gives the report weight outside the organisation."},
+      {"id": "b", "text": "A completed internal self-assessment", "misconception": "audit-vs-assessment", "why": "A self-assessment is the team assessing its own controls. It is useful internally and carries no weight with a customer."},
+      {"id": "c", "text": "An internal audit report from your audit function", "misconception": "audit-vs-assessment", "why": "Better, and it is still the organisation auditing itself. Customers normally require genuine third-party independence."},
+      {"id": "d", "text": "A copy of your information security policy", "misconception": "policy-standard-procedure-guideline", "why": "A policy states intent. It is no evidence that the controls actually operate."}
+    ]
+  },
+  {
+    "id": "g-016",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["attestation", "regulatory-examination", "self-assessments"],
+    "difficulty": 2,
+    "stem": "A regulator conducts a mandatory review of a bank's security controls and issues formal findings. What is this?",
+    "options": [
+      {"id": "a", "text": "A regulatory examination", "correct": true, "why": "A review performed by the regulator itself, which the organisation cannot decline, is an examination."},
+      {"id": "b", "text": "An independent third-party audit", "misconception": "audit-vs-assessment", "why": "A third-party audit is commissioned by the organisation from an audit firm. A regulator arrives on its own authority."},
+      {"id": "c", "text": "An internal audit", "misconception": "audit-vs-assessment", "why": "Internal audit is staffed by the organisation and reports to its audit committee."},
+      {"id": "d", "text": "An attestation", "misconception": "audit-vs-assessment", "why": "An attestation is a signed statement that something is true, not a review process."}
+    ]
+  },
+  {
+    "id": "g-017",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["unknown-environment", "known-environment", "partially-known-environment"],
+    "difficulty": 3,
+    "stem": "A penetration tester is engaged to simulate an external attacker and is given only the company name. Which type of engagement is this?",
+    "options": [
+      {"id": "a", "text": "Unknown environment testing", "correct": true, "why": "The tester receives no internal information and must discover everything, which is the modern term for a black box test."},
+      {"id": "b", "text": "Partially known environment testing", "misconception": "pentest-environments", "why": "That would mean the tester is given some information, such as network ranges or a standard user account."},
+      {"id": "c", "text": "Known environment testing", "misconception": "pentest-environments", "why": "Known environment testing supplies full information, including architecture diagrams, credentials and sometimes source code."},
+      {"id": "d", "text": "Passive reconnaissance", "misconception": "pentest-environments", "why": "That describes a technique the tester will use, not how much they were told. The two are separate axes."}
+    ]
+  },
+  {
+    "id": "g-018",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["passive-reconnaissance", "active-reconnaissance"],
+    "difficulty": 3,
+    "stem": "During the opening phase of an engagement the tester reviews WHOIS records, employee LinkedIn profiles and certificate transparency logs, without sending any traffic to the target. What is this?",
+    "options": [
+      {"id": "a", "text": "Passive reconnaissance", "correct": true, "why": "Information is gathered from third-party sources, so the target has no way to observe it."},
+      {"id": "b", "text": "Active reconnaissance", "misconception": "pentest-environments", "why": "Active reconnaissance interacts with the target directly, such as port scanning or banner grabbing, and is visible in the target's logs."},
+      {"id": "c", "text": "Unknown environment testing", "misconception": "pentest-environments", "why": "That describes how much the tester was told at the outset, not the technique being used now."},
+      {"id": "d", "text": "A vulnerability scan", "misconception": "pentest-environments", "why": "A scan sends probes to the target, making it very much active."}
+    ]
+  },
+  {
+    "id": "g-041",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["self-assessments", "internal-compliance-audit", "independent-third-party-audit"],
+    "difficulty": 3,
+    "stem": "Rank these from least to most independent: an internal audit, a team self-assessment, a third-party audit.",
+    "options": [
+      {"id": "a", "text": "Self-assessment, internal audit, third-party audit", "correct": true, "why": "The team assessing itself has no independence. Internal audit is independent of the team but not of the organisation. A third party is independent of both."},
+      {"id": "b", "text": "Internal audit, self-assessment, third-party audit", "misconception": "audit-vs-assessment", "why": "Internal audit is more independent than a self-assessment, not less. It reports to the audit committee rather than to the team."},
+      {"id": "c", "text": "Self-assessment, third-party audit, internal audit", "misconception": "audit-vs-assessment", "why": "An internal audit is never more independent than an external one."},
+      {"id": "d", "text": "They are equally independent if the same checklist is used", "misconception": "audit-vs-assessment", "why": "Independence is about who performs the review, not which checklist they hold."}
+    ]
+  },
+  {
+    "id": "g-042",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["passive-reconnaissance", "active-reconnaissance", "unknown-environment"],
+    "difficulty": 3,
+    "stem": "A tester runs a port scan against the target's public range during the first week of an engagement. How is this classified?",
+    "options": [
+      {"id": "a", "text": "Active reconnaissance", "correct": true, "why": "Scanning sends packets to the target and appears in its logs. Interacting with the target is what makes reconnaissance active."},
+      {"id": "b", "text": "Passive reconnaissance", "misconception": "pentest-environments", "why": "Passive means gathering from third-party sources without touching the target: WHOIS, OSINT, certificate transparency."},
+      {"id": "c", "text": "Unknown environment testing", "misconception": "pentest-environments", "why": "That describes how much the tester was told at the outset, not what they are doing now. The two are separate axes."},
+      {"id": "d", "text": "A vulnerability assessment rather than reconnaissance", "misconception": "pentest-environments", "why": "A scan during reconnaissance is still reconnaissance. The phase is defined by purpose, and it is active either way."}
+    ]
+  },
+  {
+    "id": "g-043",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["physical-penetration-testing", "offensive", "defensive", "integrated"],
+    "difficulty": 3,
+    "stem": "An exercise runs an attacking team and a defending team at the same time, with a third group coordinating both and feeding lessons back live. What is this called?",
+    "options": [
+      {"id": "a", "text": "An integrated exercise", "correct": true, "why": "Offensive and defensive running together with coordination between them is the integrated form, sometimes called purple teaming."},
+      {"id": "b", "text": "An offensive test", "misconception": "pentest-environments", "why": "Offensive describes the attacking side alone, with no defensive participation by design."},
+      {"id": "c", "text": "A defensive test", "misconception": "pentest-environments", "why": "Defensive describes the blue team's side alone."},
+      {"id": "d", "text": "A tabletop exercise", "misconception": "tabletop-vs-simulation", "why": "A tabletop is a discussion in a room. This exercise involves teams actually operating."}
+    ]
+  },
+  {
+    "id": "g-044",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["rules-of-engagement", "right-to-audit-clause", "work-order-wo-statement-of-work-sow"],
+    "difficulty": 4,
+    "stem": "Before a penetration test begins, which document states what the tester may and may not touch, the hours they may test, and who to contact if something breaks?",
+    "options": [
+      {"id": "a", "text": "The rules of engagement", "correct": true, "why": "Scope boundaries, permitted windows, prohibited techniques and escalation contacts are exactly what the rules of engagement fix before testing starts."},
+      {"id": "b", "text": "The statement of work", "misconception": "agreement-types", "why": "The SOW defines deliverables, timeline and price. It is commercial rather than operational."},
+      {"id": "c", "text": "The right-to-audit clause", "misconception": "vendor-assessment-methods", "why": "That is a contractual right to inspect a vendor. It does not scope a test of your own estate."},
+      {"id": "d", "text": "The non-disclosure agreement", "misconception": "agreement-types", "why": "An NDA governs what the tester may say afterwards, not what they may do."}
+    ]
+  },
+  {
+    "id": "fg-005",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["attestation-2", "internal-audit", "self-assessments"],
+    "difficulty": 4,
+    "stem": "A supplier provides a signed statement from its chief information security officer confirming that stated controls operated throughout the year. How much assurance does this carry compared with an independent audit?",
+    "options": [
+      {"id": "a", "text": "Less: attestation attaches personal accountability to a claim, but the claim is still the organisation's own and nobody independent tested it", "correct": true, "why": "A signature raises the stakes for the signer and does not introduce independence. It sits above a self-assessment and below an independent audit."},
+      {"id": "b", "text": "More, because a named officer is personally liable", "misconception": "audit-vs-assessment", "why": "Accountability strengthens the claim without verifying it. Independent testing is what verification means."},
+      {"id": "c", "text": "The same, since both result in a formal statement", "misconception": "audit-vs-assessment", "why": "The output format is similar; who performed the work is not."},
+      {"id": "d", "text": "None, since any statement from the supplier is worthless", "misconception": "audit-vs-assessment", "why": "Overcorrection. An attestation is meaningful evidence and is weaker than independent assurance."}
+    ]
+  },
+  {
+    "id": "fg-006",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["audit-committee", "internal-audit"],
+    "difficulty": 4,
+    "stem": "Why does an audit committee typically sit at board level and receive internal audit reports directly rather than through management?",
+    "options": [
+      {"id": "a", "text": "So that internal audit can report findings about management without those findings passing through the people they concern", "correct": true, "why": "Independence of the reporting line is what makes internal audit credible. Routing findings through management lets the subject of a finding edit it."},
+      {"id": "b", "text": "Because board members have more technical expertise than management", "misconception": "audit-vs-assessment", "why": "Usually the reverse. The committee provides independence and governance, not technical depth."},
+      {"id": "c", "text": "Because regulators require all audit findings to be published", "misconception": "audit-vs-assessment", "why": "Internal audit findings are generally not published, and the committee's purpose is oversight rather than disclosure."},
+      {"id": "d", "text": "To allow the committee to perform the audits itself", "misconception": "audit-vs-assessment", "why": "The committee oversees and directs the function; it does not carry out the work."}
+    ]
+  },
+  {
+    "id": "fg-007",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["external-assessment", "external-audit", "independent-assessments"],
+    "difficulty": 4,
+    "stem": "What distinguishes an external assessment from an external audit?",
+    "options": [
+      {"id": "a", "text": "An audit formally tests compliance against a defined standard and issues an opinion; an assessment evaluates posture more broadly and advises, without certifying", "correct": true, "why": "Audits produce an opinion against a specified standard with defined evidence. Assessments can be wider in scope and more useful for improvement, and they certify nothing."},
+      {"id": "b", "text": "An assessment is performed by regulators and an audit by consultants", "misconception": "audit-vs-assessment", "why": "Either can be performed by either. The distinction is the nature of the work and its output."},
+      {"id": "c", "text": "An audit is advisory and an assessment is binding", "misconception": "audit-vs-assessment", "why": "Reversed: the audit opinion is the formal output that others rely on."},
+      {"id": "d", "text": "They are the same, differing only in who commissions them", "misconception": "audit-vs-assessment", "why": "The objectives list both because the output and the level of formality differ."}
+    ]
+  },
+  {
+    "id": "fg-008",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["self-assessments", "attestation-2", "internal-audit", "external-audit"],
+    "difficulty": 4,
+    "stem": "Rank these from weakest to strongest assurance: external audit, self-assessment, attestation by a named officer, internal audit.",
+    "options": [
+      {"id": "a", "text": "Self-assessment, attestation, internal audit, external audit", "correct": true, "why": "Each step adds either accountability or independence. Self-assessment has neither, attestation adds a signature, internal audit adds an independent function inside the organisation, external audit adds independence from it entirely."},
+      {"id": "b", "text": "External audit, internal audit, attestation, self-assessment", "misconception": "audit-vs-assessment", "why": "Reversed. Independence strengthens assurance."},
+      {"id": "c", "text": "Attestation, self-assessment, external audit, internal audit", "misconception": "audit-vs-assessment", "why": "An attestation is stronger than an unsigned self-assessment, and external audit is the strongest of the four."},
+      {"id": "d", "text": "Internal audit, self-assessment, attestation, external audit", "misconception": "audit-vs-assessment", "why": "Internal audit is stronger than both a self-assessment and an attestation, not weaker."}
+    ]
+  },
+  {
+    "id": "fg-009",
+    "type": "mcq-multi",
+    "objective": "5.5",
+    "topics": ["audit-committee", "external-assessment", "attestation-2", "penetration-testing-2"],
+    "difficulty": 4,
+    "stem": "Which TWO statements about audits and assessments are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "An audit committee exists so internal audit can report without findings passing through the management they concern", "correct": true, "why": "The reporting line is what preserves independence."},
+      {"id": "b", "text": "An attestation adds accountability to a claim but does not add independence", "correct": true, "why": "A signature raises the stakes for the signer; verification requires someone with no stake."},
+      {"id": "c", "text": "An external assessment issues a formal compliance opinion", "misconception": "audit-vs-assessment", "why": "That is an audit. Assessments evaluate and advise without certifying."},
+      {"id": "d", "text": "A self-assessment carries the same weight as an internal audit", "misconception": "audit-vs-assessment", "why": "Internal audit is an independent function inside the organisation; a self-assessment is the team grading itself."},
+      {"id": "e", "text": "Internal audit reports to the chief information security officer to preserve independence", "misconception": "audit-vs-assessment", "why": "Reporting to the function it audits is precisely what destroys independence."}
+    ],
+    "selectCount": 2
+  }
+]

@@ -1,0 +1,284 @@
+[
+  {
+    "id": "g-001",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["password-standards", "information-security-policies", "guidelines"],
+    "difficulty": 2,
+    "stem": "A document states: 'All privileged account passwords must be at least 16 characters and rotated every 90 days.' What is this document?",
+    "options": [
+      {"id": "a", "text": "A standard", "correct": true, "why": "It specifies exact, measurable, mandatory values. That specificity is what makes it a standard rather than a policy."},
+      {"id": "b", "text": "A policy", "misconception": "policy-standard-procedure-guideline", "why": "A policy states the requirement and its intent without the specific numbers, for example that privileged accounts must use strong, regularly changed credentials."},
+      {"id": "c", "text": "A procedure", "misconception": "policy-standard-procedure-guideline", "why": "A procedure would be the numbered steps for actually rotating the password in the vault."},
+      {"id": "d", "text": "A guideline", "misconception": "policy-standard-procedure-guideline", "why": "Guidelines are recommendations. The word 'must' makes this mandatory."}
+    ]
+  },
+  {
+    "id": "g-002",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["playbooks", "change-management-procedures", "guidelines"],
+    "difficulty": 2,
+    "stem": "Which governance document is advisory rather than mandatory?",
+    "options": [
+      {"id": "a", "text": "A guideline", "correct": true, "why": "Guidelines recommend good practice. They are the only one of the four that you may reasonably choose not to follow."},
+      {"id": "b", "text": "A standard", "misconception": "policy-standard-procedure-guideline", "why": "Standards are mandatory and specify exactly what must be true."},
+      {"id": "c", "text": "A procedure", "misconception": "policy-standard-procedure-guideline", "why": "Procedures are mandatory steps for carrying out a task consistently."},
+      {"id": "d", "text": "A policy", "misconception": "policy-standard-procedure-guideline", "why": "Policy is the top level mandatory statement of what the organisation requires."}
+    ]
+  },
+  {
+    "id": "g-003",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["owners", "custodians-stewards", "classification"],
+    "difficulty": 3,
+    "stem": "Who is accountable for deciding the classification of the HR records and who may access them?",
+    "options": [
+      {"id": "a", "text": "The data owner", "correct": true, "why": "The owner is the senior business role accountable for the data, including its classification and access decisions."},
+      {"id": "b", "text": "The data custodian", "misconception": "data-roles", "why": "The custodian implements and maintains the controls the owner decides on, such as applying the permissions and running backups."},
+      {"id": "c", "text": "The data processor", "misconception": "data-roles", "why": "A processor handles data on behalf of the controller, following instructions. It does not set classification."},
+      {"id": "d", "text": "The data subject", "misconception": "data-roles", "why": "The data subject is the person the data describes. They have rights over it, not classification authority."}
+    ]
+  },
+  {
+    "id": "g-030",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["centralized-decentralized-governance", "boards", "committees"],
+    "difficulty": 3,
+    "stem": "A multinational lets each regional business unit set its own security standards within a global policy framework. What is this governance structure?",
+    "options": [
+      {"id": "a", "text": "Decentralised governance", "correct": true, "why": "Decision making is distributed to the units, which gives local responsiveness at the cost of consistency."},
+      {"id": "b", "text": "Centralised governance", "misconception": "policy-standard-procedure-guideline", "why": "Centralised means one authority sets standards for everyone, which is the opposite of what is described."},
+      {"id": "c", "text": "A right-to-audit arrangement", "misconception": "vendor-assessment-methods", "why": "That is a contractual term with a third party, not an internal governance structure."},
+      {"id": "d", "text": "Separation of duties", "misconception": "least-privilege-vs-need-to-know", "why": "Separation of duties splits a sensitive process between people. It is not a governance topology."}
+    ]
+  },
+  {
+    "id": "g-031",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["boards", "committees", "centralized-decentralized-governance"],
+    "difficulty": 3,
+    "stem": "A security steering group made up of the CISO, the heads of each business unit and a non-executive director meets quarterly to approve policy and review the risk register. What is this?",
+    "options": [
+      {"id": "a", "text": "A governance committee", "correct": true, "why": "A standing group with delegated authority to approve policy and oversee risk is a committee within the governance structure."},
+      {"id": "b", "text": "An audit", "misconception": "audit-vs-assessment", "why": "An audit is a review of whether controls operate. This group sets direction and approves policy."},
+      {"id": "c", "text": "A risk assessment", "misconception": "bia-vs-risk-assessment", "why": "A risk assessment is an exercise that identifies and rates risks. This is the body that reviews its output."},
+      {"id": "d", "text": "A business impact analysis", "misconception": "bia-vs-risk-assessment", "why": "A BIA measures the consequence of disruption to processes. It is not a governance body."}
+    ]
+  },
+  {
+    "id": "g-032",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["custodians-stewards", "owners", "processors"],
+    "difficulty": 3,
+    "stem": "A database administrator applies the permissions, runs the backups and maintains the encryption on a system holding HR records. Which role is this?",
+    "options": [
+      {"id": "a", "text": "Data custodian", "correct": true, "why": "The custodian implements and maintains the controls day to day. They execute what the owner decided."},
+      {"id": "b", "text": "Data owner", "misconception": "data-roles", "why": "The owner is accountable for classification and who may have access. They decide; the custodian implements."},
+      {"id": "c", "text": "Data controller", "misconception": "data-roles", "why": "Controller is the privacy law role that determines the purpose and means of processing, normally the organisation itself."},
+      {"id": "d", "text": "Data subject", "misconception": "data-roles", "why": "The data subject is the employee the records describe."}
+    ]
+  },
+  {
+    "id": "g-033",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["guidelines", "password-standards", "playbooks"],
+    "difficulty": 2,
+    "stem": "Which document would contain the numbered steps an analyst follows when a phishing report arrives?",
+    "options": [
+      {"id": "a", "text": "A playbook, which is a procedure", "correct": true, "why": "Procedures are the how: ordered steps for carrying out a task consistently. An incident playbook is exactly that."},
+      {"id": "b", "text": "The information security policy", "misconception": "policy-standard-procedure-guideline", "why": "Policy states what is required and why. It does not carry the steps."},
+      {"id": "c", "text": "The password standard", "misconception": "policy-standard-procedure-guideline", "why": "A standard specifies measurable values that must hold. Wrong document and wrong subject."},
+      {"id": "d", "text": "A guideline on recognising phishing", "misconception": "policy-standard-procedure-guideline", "why": "Guidelines recommend. An analyst responding to a live report follows a mandatory procedure, not a suggestion."}
+    ]
+  },
+  {
+    "id": "gv-001",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["business-continuity-policy", "disaster-recovery-policy", "incident-response-policy"],
+    "difficulty": 4,
+    "stem": "A flood closes the primary office for three weeks. Staff must keep serving customers from elsewhere while systems are restored at a secondary site. Which two documents govern this, and how do they divide?",
+    "options": [
+      {"id": "a", "text": "Business continuity covers keeping the organisation operating; disaster recovery covers restoring the technology and data", "correct": true, "why": "Continuity is the wider organisational plan including people, premises and suppliers. DR is the IT restoration inside it, carrying the RTO and RPO targets."},
+      {"id": "b", "text": "Incident response covers the flood; business continuity covers the restoration", "misconception": "policy-types", "why": "Incident response addresses security incidents, meaning an adversary. A flood is a disruption, not an attack."},
+      {"id": "c", "text": "Disaster recovery covers both, since a flood is a disaster", "misconception": "policy-types", "why": "DR is specifically the technology and data restoration. It says nothing about where staff sit or how customers are served meanwhile."},
+      {"id": "d", "text": "The acceptable use policy governs remote working during the disruption", "misconception": "policy-types", "why": "AUP governs what staff may do with systems. It is not a disruption plan."}
+    ]
+  },
+  {
+    "id": "gv-002",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["incident-response-policy", "business-continuity-policy", "acceptable-use-policy"],
+    "difficulty": 3,
+    "stem": "An employee installs an unapproved remote access tool on their workstation to work from home more easily. Which policy has been breached?",
+    "options": [
+      {"id": "a", "text": "The acceptable use policy", "correct": true, "why": "AUP governs what people may do with organisational systems. Installing unapproved software is the archetypal breach of it."},
+      {"id": "b", "text": "The incident response policy", "misconception": "policy-types", "why": "That policy defines what the organisation does once an incident is detected. It governs the response, not the employee's conduct."},
+      {"id": "c", "text": "The software development lifecycle policy", "misconception": "policy-types", "why": "The SDLC governs how the organisation builds software, not what staff install."},
+      {"id": "d", "text": "The change management policy", "misconception": "policy-types", "why": "Arguably engaged, and the direct and intended breach is the one governing employee use of systems."}
+    ]
+  },
+  {
+    "id": "gv-003",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["software-development-lifecycle-policy", "change-management-policy"],
+    "difficulty": 3,
+    "stem": "Which policy would require that code be peer reviewed and pass a security scan before it can be merged and released?",
+    "options": [
+      {"id": "a", "text": "The software development lifecycle policy", "correct": true, "why": "The SDLC policy governs how software is designed, built, reviewed and released, including the gates that code must pass."},
+      {"id": "b", "text": "The change management policy", "misconception": "policy-types", "why": "Change management governs authorising and recording changes to production. The gates inside the development process belong to the SDLC."},
+      {"id": "c", "text": "The acceptable use policy", "misconception": "policy-types", "why": "AUP governs employee conduct with systems, not engineering practice."},
+      {"id": "d", "text": "The incident response policy", "misconception": "policy-types", "why": "Engaged only once something has gone wrong in production."}
+    ]
+  },
+  {
+    "id": "gv-004",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["encryption-standards", "information-security-policies", "guidelines"],
+    "difficulty": 4,
+    "stem": "A document states: 'Data at rest classified Confidential or above shall be encrypted using AES-256.' Which governance artefact is this?",
+    "options": [
+      {"id": "a", "text": "A standard", "correct": true, "why": "Mandatory and specific: it names the exact required choice. A policy would state the intent to protect data; the standard names the algorithm and key length."},
+      {"id": "b", "text": "A policy", "misconception": "standards-and-scope", "why": "A policy states intent and assigns authority. Naming AES-256 is the specific that a standard carries."},
+      {"id": "c", "text": "A guideline", "misconception": "standards-and-scope", "why": "'Shall' makes it mandatory. Guidelines are advisory and use language like 'should' or 'recommended'."},
+      {"id": "d", "text": "A procedure", "misconception": "standards-and-scope", "why": "A procedure gives ordered steps for carrying something out. This states a requirement, not a sequence."}
+    ]
+  },
+  {
+    "id": "gv-005",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["guidelines", "password-standards", "access-control-standards"],
+    "difficulty": 3,
+    "stem": "Which of these governance artefacts is advisory rather than mandatory?",
+    "options": [
+      {"id": "a", "text": "A guideline", "correct": true, "why": "Guidelines recommend. Where professional judgement is appropriate the organisation advises rather than compels, and knowing which one is optional is a recurring exam point."},
+      {"id": "b", "text": "A standard", "misconception": "standards-and-scope", "why": "Mandatory and specific. A standard is auditable as a yes or no."},
+      {"id": "c", "text": "A policy", "misconception": "standards-and-scope", "why": "Mandatory, approved at board or executive level, and the authority everything else derives from."},
+      {"id": "d", "text": "A procedure", "misconception": "standards-and-scope", "why": "Mandatory sequential instruction for carrying out a task."}
+    ]
+  },
+  {
+    "id": "gv-006",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["physical-security-standards", "access-control-standards"],
+    "difficulty": 3,
+    "stem": "A document specifies that server room doors must use a card reader plus PIN, that the room must be covered by video surveillance retained for 90 days, and that visitor access requires escort. What is this?",
+    "options": [
+      {"id": "a", "text": "A physical security standard", "correct": true, "why": "Mandatory and specific, scoped to physical protection. Specific retention periods and named mechanisms are the signature of a standard."},
+      {"id": "b", "text": "An access control standard", "misconception": "standards-and-scope", "why": "Closer, and access control standards concern logical access to systems and data. This one is about the building."},
+      {"id": "c", "text": "A physical security policy", "misconception": "standards-and-scope", "why": "A policy would state that facilities holding sensitive systems must be physically protected. The named mechanisms make this a standard."},
+      {"id": "d", "text": "A playbook", "misconception": "governance-procedures", "why": "A playbook is a response procedure for a specific recurring scenario."}
+    ]
+  },
+  {
+    "id": "gv-007",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["industry-considerations", "regulatory-considerations", "legal-considerations"],
+    "difficulty": 4,
+    "stem": "An online retailer fails a PCI DSS assessment. What is the most accurate characterisation of its exposure?",
+    "options": [
+      {"id": "a", "text": "A contractual industry requirement: the card brands and acquirer may impose penalties or withdraw the ability to process card payments", "correct": true, "why": "PCI DSS is a scheme enforced through contracts with acquirers and card brands, not a statute. The consequence is commercial rather than criminal, and this distinction is specifically tested."},
+      {"id": "b", "text": "A regulatory breach that a government regulator will prosecute", "misconception": "external-considerations", "why": "No regulator enforces PCI DSS. It is the standard example of an industry requirement mistaken for law."},
+      {"id": "c", "text": "A legal breach giving rise to criminal liability for the directors", "misconception": "external-considerations", "why": "Failing the assessment is not itself a crime. Separate legal exposure can follow a breach, through different routes."},
+      {"id": "d", "text": "No exposure, since PCI DSS is a guideline", "misconception": "external-considerations", "why": "It is mandatory under the contracts the retailer signed to accept cards at all."}
+    ]
+  },
+  {
+    "id": "gv-008",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["global-considerations", "national-considerations", "local-regional-considerations", "regulatory-considerations"],
+    "difficulty": 4,
+    "stem": "A company with staff in three countries stores all employee records in a single cloud region. Which consideration most directly complicates this?",
+    "options": [
+      {"id": "a", "text": "Jurisdictional scope: each country's requirements may govern its own residents' data regardless of where it is stored", "correct": true, "why": "Obligations follow the data subject and the processing, not only the server. This is why national and regional considerations are listed separately from the general regulatory heading."},
+      {"id": "b", "text": "Industry considerations, since employee data is subject to sector schemes", "misconception": "external-considerations", "why": "Employment records are not generally governed by sector schemes the way card or health data are."},
+      {"id": "c", "text": "Nothing, provided the cloud region is in the company's home country", "misconception": "external-considerations", "why": "That is the assumption the question targets. Storing locally does not discharge another jurisdiction's claim over its residents' data."},
+      {"id": "d", "text": "Only the strictest country's law applies, so compliance is simplified", "misconception": "external-considerations", "why": "Convenient and untrue. Requirements can conflict, which is the actual difficulty."}
+    ]
+  },
+  {
+    "id": "gv-009",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["onboarding-offboarding"],
+    "difficulty": 3,
+    "stem": "Beyond revoking system access, what else does a complete offboarding procedure cover?",
+    "options": [
+      {"id": "a", "text": "Asset return, knowledge transfer, and acknowledgement of continuing obligations such as confidentiality", "correct": true, "why": "Offboarding is a governance procedure, not an account action. Devices, keys, badges and ongoing legal obligations all have to be closed out."},
+      {"id": "b", "text": "Nothing further; access revocation is the whole of offboarding", "misconception": "governance-procedures", "why": "The narrow reading that leaves laptops and door badges in circulation."},
+      {"id": "c", "text": "Re-running identity proofing on the departing employee", "misconception": "identity-lifecycle", "why": "Proofing happens before an account exists, not at departure."},
+      {"id": "d", "text": "Updating the business continuity plan", "misconception": "policy-types", "why": "Unrelated to an individual leaving, unless they held a named role in it."}
+    ]
+  },
+  {
+    "id": "gv-010",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["monitoring-and-revision", "information-security-policies"],
+    "difficulty": 4,
+    "stem": "An organisation's information security policy set was approved four years ago and has not been reviewed since. The company has since moved to cloud hosting and adopted remote working. Which governance element is missing?",
+    "options": [
+      {"id": "a", "text": "Monitoring and revision: policies must be reviewed and updated as the organisation and its risks change", "correct": true, "why": "It is the governance equivalent of maintaining a baseline. A policy nobody revisits describes an organisation that no longer exists, and staff learn to disregard it."},
+      {"id": "b", "text": "A gap analysis against the chosen framework", "misconception": "governance-procedures", "why": "Useful, and it measures control coverage against a target. The specific failure here is that nothing triggers a policy review at all."},
+      {"id": "c", "text": "Board approval of the original policy set", "misconception": "governance-procedures", "why": "The stem says it was approved. The gap is what happened in the four years afterwards."},
+      {"id": "d", "text": "Centralised rather than decentralised governance", "misconception": "governance-procedures", "why": "Either structure can keep policies current. Neither does so automatically."}
+    ]
+  },
+  {
+    "id": "gv-011",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["controllers", "processors", "owners", "custodians-stewards"],
+    "difficulty": 4,
+    "stem": "A retailer decides what customer data to collect and why, and engages a marketing agency to send campaigns on its instructions. In data protection terms, what are the two parties?",
+    "options": [
+      {"id": "a", "text": "The retailer is the controller; the agency is the processor", "correct": true, "why": "The controller determines the purposes and means of processing. A processor acts only on the controller's documented instructions, which is exactly the relationship described."},
+      {"id": "b", "text": "The retailer is the processor; the agency is the controller", "misconception": "data-roles", "why": "Reversed. Whoever decides why and how is the controller, and the stem says the retailer decides."},
+      {"id": "c", "text": "Both are controllers, since both handle the data", "misconception": "data-roles", "why": "Handling data does not make you a controller. Joint controllership requires shared decisions about purposes and means."},
+      {"id": "d", "text": "The retailer is the data owner; the agency is the custodian", "misconception": "data-roles", "why": "Owner and custodian are internal accountability roles. Controller and processor are the legal roles between organisations."}
+    ]
+  },
+  {
+    "id": "gv-012",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["government-entities", "regulatory-considerations", "national-considerations"],
+    "difficulty": 3,
+    "stem": "In the context of security governance, what role do government entities typically play?",
+    "options": [
+      {"id": "a", "text": "They set and enforce requirements through legislation and regulation, and may issue guidance that becomes a de facto standard", "correct": true, "why": "Government bodies legislate, regulate and publish guidance. Some of that guidance, such as national framework and benchmark documents, becomes an expected standard without being law."},
+      {"id": "b", "text": "They certify organisations against industry schemes such as PCI DSS", "misconception": "external-considerations", "why": "Industry schemes are assessed by qualified assessors appointed under the scheme, not by government."},
+      {"id": "c", "text": "They act as the data processor for regulated industries", "misconception": "data-roles", "why": "A processor acts on a controller's instructions. That is not a governmental role."},
+      {"id": "d", "text": "They have no role where an organisation operates only in the private sector", "misconception": "external-considerations", "why": "Private sector organisations are subject to data protection, sector regulation and national security requirements."}
+    ]
+  },
+  {
+    "id": "gv-013",
+    "type": "mcq-multi",
+    "objective": "5.1",
+    "topics": ["acceptable-use-policy", "disaster-recovery-policy", "incident-response-policy", "business-continuity-policy"],
+    "difficulty": 4,
+    "stem": "Ransomware encrypts production systems and the organisation invokes its secondary site. Which TWO documents are directly engaged? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "The incident response policy, because this is a security incident with an adversary", "correct": true, "why": "An attack triggers incident response: containment, eradication, evidence handling and notification."},
+      {"id": "b", "text": "The disaster recovery policy, because technology and data must be restored at an alternate site", "correct": true, "why": "Restoration to RTO and RPO targets is DR, and ransomware is one of the scenarios most likely to invoke it."},
+      {"id": "c", "text": "The acceptable use policy", "misconception": "policy-types", "why": "It governs staff conduct. It is not engaged by the response unless an employee's misuse caused the entry."},
+      {"id": "d", "text": "The software development lifecycle policy", "misconception": "policy-types", "why": "Governs how software is built, not how an incident is handled."},
+      {"id": "e", "text": "The change management policy, because the failover is a change", "misconception": "policy-types", "why": "Emergency changes during an incident usually run under a defined emergency path, and the policy is not the document governing the response."}
+    ],
+    "selectCount": 2
+  }
+]

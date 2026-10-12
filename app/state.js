@@ -125,13 +125,8 @@ export function load() {
 }
 
 let saveTimer = null;
-let onSaved = null;
 
-/** Register a callback invoked after each local save, so sync can push. */
-export function onLocalSave(fn) {
-  onSaved = fn;
-}
-
+/** Debounced write to the fast tier. The controller mirrors to the server. */
 export function save(state) {
   state.updatedAt = Date.now();
   clearTimeout(saveTimer);
@@ -141,7 +136,6 @@ export function save(state) {
     } catch (e) {
       console.warn("Could not persist study state locally", e);
     }
-    onSaved?.(state);
   }, 120);
 }
 

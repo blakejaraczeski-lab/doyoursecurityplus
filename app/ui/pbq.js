@@ -1,13 +1,11 @@
-import { esc, gloss, resultsHtml } from "./common.js";
-
-const visible = (field, answers) =>
-  !field.dependsOn || field.dependsOn.in.includes(answers[field.dependsOn.field]);
+import { esc, gloss, resultsHtml, optionButton, KEYS } from "./common.js";
+import { fieldVisible } from "../grade/wireless.js";
 
 // --- wireless --------------------------------------------------------------
 function wirelessHtml(pbq, answers, locked) {
   const fields = pbq.config.fields
     .map((f) => {
-      const on = visible(f, answers);
+      const on = fieldVisible(f, answers);
       const val = answers[f.id] ?? "";
       const dis = locked || !on ? "disabled" : "";
       const id = `pf-${f.id}`;
@@ -54,7 +52,7 @@ function aclHtml(pbq, answers, locked) {
       <td><select data-acl="${i}" data-k="srcPort" ${locked ? "disabled" : ""}>${portOpts(r.srcPort)}</select></td>
       <td><select data-acl="${i}" data-k="dst" ${locked ? "disabled" : ""}>${addrOpts(r.dst)}</select></td>
       <td><select data-acl="${i}" data-k="dstPort" ${locked ? "disabled" : ""}>${portOpts(r.dstPort)}</select></td>
-      <td><div class="row" style="gap:var(--s1);flex-wrap:nowrap">
+      <td><div class="row tight">
         <button class="btn ghost small" data-action="acl-up" data-i="${i}" title="Move up" ${locked || i === 0 ? "disabled" : ""}>&uarr;</button>
         <button class="btn ghost small" data-action="acl-down" data-i="${i}" title="Move down" ${locked || i === rules.length - 1 ? "disabled" : ""}>&darr;</button>
         <button class="btn ghost small" data-action="acl-del" data-i="${i}" title="Delete rule" ${locked ? "disabled" : ""}>&times;</button>
@@ -72,7 +70,7 @@ function aclHtml(pbq, answers, locked) {
   <div class="card tight">
     <h2 class="eyebrow">Network objects</h2>
     <div class="scroll-x"><table class="grid"><tbody>${objects}</tbody></table></div>
-    <p class="faint" style="margin:var(--s3) 0 0">
+    <p class="note">
       ${cfg.stateful
         ? "This firewall is <b>stateful</b>: return traffic for a permitted connection is handled for you."
         : "This is a <b>stateless</b> packet filter: it does not track connections, so each direction needs its own rule."}
@@ -80,15 +78,15 @@ function aclHtml(pbq, answers, locked) {
     </p>
   </div>
   <div class="card">
-    <div class="spread" style="margin-bottom:var(--s3)">
-      <h2 class="eyebrow" style="margin:0">Access control list</h2>
+    <div class="spread mb3">
+      <h2 class="eyebrow">Access control list</h2>
       <button class="btn ghost small" data-action="acl-add" ${locked || rules.length >= cfg.maxRules ? "disabled" : ""}>
         + Add rule <span class="faint">${rules.length}/${cfg.maxRules}</span>
       </button>
     </div>
     <div class="scroll-x"><table class="grid acl-grid">
       <thead><tr><th>#</th><th>Action</th><th>Proto</th><th>Source</th><th>Src port</th><th>Destination</th><th>Dst port</th><th></th></tr></thead>
-      <tbody>${body || `<tr><td colspan="8" class="faint" style="padding:var(--s5);text-align:center">No rules yet. With an empty list, everything is denied.</td></tr>`}</tbody>
+      <tbody>${body || `<tr><td colspan="8" class="faint empty-row">No rules yet. With an empty list, everything is denied.</td></tr>`}</tbody>
     </table></div>
     ${aclReadoutHtml(cfg, rules)}
   </div>`;
@@ -97,11 +95,10 @@ function aclHtml(pbq, answers, locked) {
 /**
  * The rule set as a firewall would print it.
  *
- * The editable grid is seven controls wide and each one is a native select that
- * truncates its own text, so at the widths the columns actually get you cannot
- * read a rule you just wrote, let alone scan eight of them for order. Reading
- * the policy top to bottom IS the task on this question type, so the policy is
- * also rendered as plain text, which is how it would appear on a real device.
+ * The editable grid is seven native selects wide, and a select truncates its
+ * own text, so you cannot read a rule you just wrote, let alone scan eight of
+ * them for order. Reading the policy top to bottom IS the task on this
+ * question type, so it is also rendered as plain text.
  */
 export function aclReadoutHtml(cfg, rules) {
   const label = (list, v) => list.find((o) => o.value === v)?.label || v;
@@ -131,16 +128,16 @@ export function aclReadoutHtml(cfg, rules) {
 
 function aclTraceHtml(trace) {
   return `<div class="card"><h2 class="eyebrow">Traffic simulation</h2>
-    <p class="faint" style="margin:0 0 var(--s3)">Your rule set was executed against each flow, the way the firewall would.</p>
+    <p class="faint m0 mb3">Your rule set was executed against each flow, the way the firewall would.</p>
     <div class="scroll-x"><table class="grid">
     <thead><tr><th></th><th>Flow</th><th>Required</th><th>Yours</th><th>Decided by</th></tr></thead>
     <tbody>${trace
       .map(
         (t) => `<tr>
-        <td><span class="mark ${t.pass ? "ok" : "no"}" style="display:grid;width:1.2rem;height:1.2rem;border-radius:50%;place-items:center;color:#fff;font-size:var(--t-xs)">${t.pass ? "&check;" : "&times;"}</span></td>
+        <td><span class="mark sm ${t.pass ? "ok" : "no"}">${t.pass ? "&check;" : "&times;"}</span></td>
         <td>${esc(t.label)}<div class="faint mono">${esc(t.packet.src)}:${esc(t.packet.srcPort)} &rarr; ${esc(t.packet.dst)}:${esc(t.packet.dstPort)} ${esc(t.packet.protocol)}</div></td>
         <td class="mono">${t.expect}</td>
-        <td class="mono" style="color:${t.pass ? "inherit" : "var(--bad)"}">${t.got}</td>
+        <td class="mono ${t.pass ? "" : "c-bad"}">${t.got}</td>
         <td class="faint">${t.implicit ? "implicit deny" : `rule ${t.ruleIndex + 1}`}</td>
       </tr>`
       )
@@ -150,7 +147,7 @@ function aclTraceHtml(trace) {
 // --- network diagram -------------------------------------------------------
 function diagramHtml(pbq, answers, locked) {
   const cfg = pbq.config;
-  const selected = new Set(answers["t-identify"] || answers.selectedNodes || []);
+  const selected = new Set(answers["t-identify"] || []);
   const inspected = answers.inspected;
   const pos = Object.fromEntries(cfg.nodes.map((n) => [n.id, n]));
   const seen = new Set(answers.seenNodes || []);
@@ -186,19 +183,19 @@ function diagramHtml(pbq, answers, locked) {
   const ev = inspected && cfg.evidence[inspected];
   const marked = selected.has(inspected);
   const evHtml = ev
-    ? `<div class="card"><div class="spread" style="margin-bottom:var(--s3)">
-         <h2 class="eyebrow" style="margin:0">${esc(pos[inspected].label)} &mdash; collected evidence</h2>
+    ? `<div class="card"><div class="spread mb3">
+         <h2 class="eyebrow">${esc(pos[inspected].label)}: collected evidence</h2>
          <span class="tag">${esc(pos[inspected].ip || "")}</span></div>
        <p class="muted">${esc(ev.summary)}</p>
        <div class="evidence">${esc(ev.lines.join("\n"))}</div>
-       ${selectTask ? `<div class="row" style="margin-top:var(--s4)">
+       ${selectTask ? `<div class="row mt4">
          <button class="btn ${marked ? "" : "ghost"}" data-action="node-toggle"
                  data-task="${esc(selectTask.id)}" data-host="${esc(inspected)}" ${locked ? "disabled" : ""}>
            ${marked ? "&check; Marked compromised" : "Mark this host compromised"}
          </button>
          <span class="hint">Reading the evidence does not mark anything. Decide after you have looked.</span>
        </div>` : ""}</div>`
-    : `<div class="card tight"><p class="faint" style="margin:0">Click a host to read the evidence collected from it. Hosts you have reviewed get a dot. Reading is safe: nothing is marked until you say so.</p></div>`;
+    : `<div class="card tight"><p class="faint m0">Click a host to read the evidence collected from it. Hosts you have reviewed get a dot. Reading is safe: nothing is marked until you say so.</p></div>`;
 
   const tasks = cfg.tasks
     .map((t) => {
@@ -215,23 +212,22 @@ function diagramHtml(pbq, answers, locked) {
           })
           .join("");
         return `<div class="card"><b>${esc(t.prompt)}</b>
-          <p class="faint" style="margin:var(--s2) 0 var(--s3)">${selected.size} selected. Click a host in the diagram to read its evidence first.</p>
+          <p class="faint m0 mt2 mb3">${selected.size} selected. Click a host in the diagram to read its evidence first.</p>
           <div class="host-picks">${roster}</div></div>`;
       }
       const val = answers[t.id];
       return `<div class="card"><b>${esc(t.prompt)}</b>
-        <div class="opts" style="margin-top:var(--s4)">
-          ${t.options
-            .map((o, i) => `<button class="opt ${val === o.value ? "chosen" : ""}"
-              data-action="diagram-choice" data-task="${t.id}" data-value="${esc(o.value)}" ${locked ? "disabled" : ""}>
-              <span class="key" aria-hidden="true">${"ABCDEF"[i]}</span><span>${esc(o.label)}</span><span class="verdict"></span></button>`)
-            .join("")}
+        <div class="opts mt4">
+          ${t.options.map((o, i) => optionButton({
+            key: KEYS[i], text: o.label, action: "diagram-choice",
+            data: { task: t.id, value: o.value },
+            cls: val === o.value ? "chosen" : "", disabled: locked,
+          })).join("")}
         </div></div>`;
     })
     .join("");
 
-  return `<svg class="diagram" viewBox="0 0 100 92" style="width:100%;height:auto;aspect-ratio:100/92"
-            role="img" aria-label="Network topology">${links}${nodes}</svg>
+  return `<svg class="diagram" viewBox="0 0 100 92" role="img" aria-label="Network topology">${links}${nodes}</svg>
     ${evHtml}${tasks}`;
 }
 
@@ -256,9 +252,9 @@ function orderHtml(pbq, answers, locked) {
         ? `<div class="chip-pool">${remaining.map((i) => `
             <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
               ${esc(i.label)}</button>`).join("")}</div>`
-        : `<p class="faint" style="margin:0">All steps placed. Click one in the sequence to take it back.</p>`}
+        : `<p class="faint m0">All steps placed. Click one in the sequence to take it back.</p>`}
       ${remaining.length && !held
-        ? `<p class="faint" style="margin:var(--s3) 0 0">Click a step, then click the position it belongs in. You can fill the positions in any order.</p>`
+        ? `<p class="note">Click a step, then click the position it belongs in. You can fill the positions in any order.</p>`
         : ""}
     </div>
     <div class="card">
@@ -289,7 +285,7 @@ function orderHtml(pbq, answers, locked) {
       ? `<div class="chip-pool">${unplaced.map((i) => `
           <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
             ${esc(i.label)}</button>`).join("")}</div>`
-      : `<p class="faint" style="margin:0">Everything placed. Click an item in a column to take it back.</p>`}
+      : `<p class="faint m0">Everything placed. Click an item in a column to take it back.</p>`}
   </div>
   <div class="buckets">
     ${cfg.buckets.map((b) => `
@@ -318,9 +314,9 @@ export function pbqHtml(pbq, answers, { locked = false, graded = null, inExam = 
   const target = Math.round((pbq.targetSeconds || 480) / 60);
 
   return `
-  <div class="spread" style="margin-bottom:var(--s2)">
-    <h1 style="margin:0">${esc(pbq.title)}</h1>
-    <div class="row" style="flex-wrap:nowrap">
+  <div class="spread mb2">
+    <h1>${esc(pbq.title)}</h1>
+    <div class="row nowrap">
       <span class="tag">objective ${esc(pbq.objective)}</span>
       ${inExam ? "" : `<span class="tag" id="pbq-timer" data-target="${pbq.targetSeconds || 480}">0:00 / ${target}:00</span>`}
     </div>
@@ -348,7 +344,7 @@ function gradedHtml(pbq, g) {
   <div class="card">
     <div class="spread">
       <div>
-        <div class="score-big" style="color:var(--${tone})">${g.earned}<span class="faint" style="font-size:var(--t-xl)">/${g.max}</span></div>
+        <div class="score-big c-${tone}">${g.earned}<small>/${g.max}</small></div>
         <div class="faint">${g.percent}% &middot; partial credit applied per subtask</div>
       </div>
       <button class="btn" data-action="pbq-continue">Continue</button>

@@ -1,0 +1,200 @@
+[
+  {
+    "id": "au-001",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["ticket-creation", "escalation", "alerting"],
+    "difficulty": 4,
+    "stem": "A high severity alert fires on Friday evening, a ticket is created automatically, and nobody looks at it until Monday. Which automation capability was missing?",
+    "options": [
+      {"id": "a", "text": "Escalation: automatic routing onward when a ticket is not acknowledged within a defined time", "correct": true, "why": "Ticket creation worked; the gap is what happens when nobody picks it up. Escalation exists to remove the dependency on one person being available."},
+      {"id": "b", "text": "Ticket creation", "misconception": "automation-in-the-pipeline", "why": "The stem says the ticket was created. The failure is downstream of that."},
+      {"id": "c", "text": "Alert tuning", "misconception": "alert-tuning-vs-quarantine", "why": "Tuning addresses alerts that should not have fired. This one was high severity and genuine."},
+      {"id": "d", "text": "Continuous integration testing", "misconception": "automation-in-the-pipeline", "why": "That runs checks on code changes and has nothing to do with alert handling."}
+    ]
+  },
+  {
+    "id": "au-002",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["continuous-integration-and-testing", "enforcing-baselines"],
+    "difficulty": 4,
+    "stem": "A team adds dependency checks, static analysis and secret scanning to run on every pull request, failing the build on a critical finding. Which automation use case is this, and what is its primary benefit?",
+    "options": [
+      {"id": "a", "text": "Continuous integration and testing, catching flaws while they are cheapest to fix and before they reach production", "correct": true, "why": "Shifting the check to commit time means the author fixes it with the context fresh, rather than it becoming a production finding someone else inherits months later."},
+      {"id": "b", "text": "Guard rails, preventing insecure resources from being created", "misconception": "automation-use-cases", "why": "Guard rails constrain what can be provisioned at deployment or runtime. These checks act on the code before anything is deployed."},
+      {"id": "c", "text": "Ticket creation, since failures generate work items", "misconception": "automation-in-the-pipeline", "why": "A side effect at most. The capability described is the testing gate."},
+      {"id": "d", "text": "Escalation, since the build failure notifies the team", "misconception": "automation-in-the-pipeline", "why": "Escalation routes onward when nobody responds. A failing build is immediate feedback to the author."}
+    ]
+  },
+  {
+    "id": "au-003",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["integrations-and-apis", "ticket-creation"],
+    "difficulty": 3,
+    "stem": "An orchestration platform enriches an alert with asset owner details, opens a ticket, and disables the affected account, all without a human relaying information between systems. What makes this possible?",
+    "options": [
+      {"id": "a", "text": "Integrations and APIs exposed by each system", "correct": true, "why": "APIs are the plumbing orchestration runs on. Without a programmatic interface on each system there is nothing to orchestrate and a person ends up copying values between consoles."},
+      {"id": "b", "text": "Guard rails configured on the cloud platform", "misconception": "automation-use-cases", "why": "Guard rails constrain what may be created. They do not connect tools to each other."},
+      {"id": "c", "text": "Continuous integration pipelines", "misconception": "automation-in-the-pipeline", "why": "CI concerns building and testing software, not connecting operational tooling."},
+      {"id": "d", "text": "Standard infrastructure configurations", "misconception": "automation-use-cases", "why": "Those make deployments consistent. They do not let one system call another."}
+    ]
+  },
+  {
+    "id": "au-004",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["cost-2", "complexity", "technical-debt", "ongoing-supportability"],
+    "difficulty": 4,
+    "stem": "A team automates a fragile manual process with a large set of custom scripts written by one engineer who then leaves. Which named risks of automation does this illustrate?",
+    "options": [
+      {"id": "a", "text": "Complexity, ongoing supportability and technical debt: the automation now needs maintaining by people who did not write it", "correct": true, "why": "The objectives list these as costs of automation precisely because undocumented bespoke tooling becomes a second system nobody understands, often less reliable than the process it replaced."},
+      {"id": "b", "text": "Only cost, since scripts are cheap to write", "misconception": "automation-benefits-vs-risks", "why": "The writing is cheap and the owning is not. Cost here means total cost over the lifetime."},
+      {"id": "c", "text": "A single point of failure in the network", "misconception": "automation-benefits-vs-risks", "why": "Single point of failure does appear in this objective, and it refers to the automation itself becoming one, not to network topology."},
+      {"id": "d", "text": "None: automation always reduces risk", "misconception": "automation-benefits-vs-risks", "why": "The objective explicitly lists its costs, which is why it asks about benefits and risks together."}
+    ]
+  },
+  {
+    "id": "au-005",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["single-point-of-failure", "complexity", "reaction-time"],
+    "difficulty": 4,
+    "stem": "An organisation routes all provisioning, access changes and incident response actions through one orchestration platform. What risk does this introduce?",
+    "options": [
+      {"id": "a", "text": "The platform becomes a single point of failure: its outage stops provisioning and response simultaneously, and its compromise grants all of those capabilities at once", "correct": true, "why": "Concentrating capability concentrates both the outage and the prize. The objectives name single point of failure as a cost of automation for exactly this reason."},
+      {"id": "b", "text": "Reaction time will increase", "misconception": "automation-benefits-vs-risks", "why": "Orchestration improves reaction time, which is one of its listed benefits."},
+      {"id": "c", "text": "Employee retention will fall", "misconception": "automation-benefits-vs-risks", "why": "Retention is listed as a benefit: removing repetitive work tends to keep people, not drive them away."},
+      {"id": "d", "text": "Baselines can no longer be enforced", "misconception": "automation-use-cases", "why": "Enforcing baselines is one of the things such a platform does well."}
+    ]
+  },
+  {
+    "id": "au-006",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["employee-retention", "workforce-multiplier", "efficiency-time-saving"],
+    "difficulty": 3,
+    "stem": "The objectives list employee retention as a benefit of automation. What is the reasoning?",
+    "options": [
+      {"id": "a", "text": "Automating repetitive low-value work lets skilled staff spend time on work that uses their judgement, which is what keeps them", "correct": true, "why": "Burnout in security operations is driven heavily by volume of repetitive triage. Removing it is both a workforce multiplier and a retention measure."},
+      {"id": "b", "text": "Automation reduces headcount, so fewer people need retaining", "misconception": "automation-benefits-vs-risks", "why": "The objectives frame automation as a workforce multiplier, making existing staff more effective rather than replacing them."},
+      {"id": "c", "text": "Automated systems do not require training", "misconception": "automation-benefits-vs-risks", "why": "They require different and often deeper skills to build and maintain."},
+      {"id": "d", "text": "Retention improves because automation reduces salary costs", "misconception": "automation-benefits-vs-risks", "why": "Reducing pay is not a retention mechanism."}
+    ]
+  },
+  {
+    "id": "au-007",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["ticket-creation", "alert-tuning", "escalation"],
+    "difficulty": 4,
+    "stem": "A team automates ticket creation from a detection source that currently produces a 70% false positive rate. What is the predictable outcome?",
+    "options": [
+      {"id": "a", "text": "A backlog of mostly worthless tickets that trains everyone to ignore the queue, so the real findings are buried faster than before", "correct": true, "why": "Automation scales whatever you point it at. Pointed at noise, it industrialises the noise, which is why tuning has to precede this kind of automation."},
+      {"id": "b", "text": "Improved response times, since every alert now has an owner", "misconception": "automation-in-the-pipeline", "why": "Ownership of noise is not improvement. Mean time to respond on genuine findings usually gets worse."},
+      {"id": "c", "text": "The false positive rate will fall as tickets are closed", "misconception": "alert-tuning-vs-quarantine", "why": "Closing tickets does not change the detection logic producing them."},
+      {"id": "d", "text": "Escalation will resolve the problem automatically", "misconception": "automation-in-the-pipeline", "why": "Escalation would route the same noise to more senior people faster."}
+    ]
+  },
+  {
+    "id": "au-008",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["enabling-disabling-services-and-access", "user-provisioning", "reaction-time"],
+    "difficulty": 3,
+    "stem": "Which security outcome most directly improves when account disablement is automated from the HR leaver feed rather than handled by ticket?",
+    "options": [
+      {"id": "a", "text": "Reaction time: access is revoked within minutes of the HR record changing rather than whenever someone processes the request", "correct": true, "why": "The window between departure and revocation is where dormant-account risk lives. Automation closes it to the latency of the feed."},
+      {"id": "b", "text": "Efficiency, because fewer tickets are raised overall", "misconception": "automation-benefits-vs-risks", "why": "True and secondary. The security outcome is the shortened window."},
+      {"id": "c", "text": "Baseline enforcement across endpoints", "misconception": "automation-use-cases", "why": "A different use case, concerning configuration rather than identity."},
+      {"id": "d", "text": "Reduced technical debt", "misconception": "automation-benefits-vs-risks", "why": "Building and owning the integration tends to add maintenance burden, not remove it."}
+    ]
+  },
+  {
+    "id": "au-009",
+    "type": "mcq-multi",
+    "objective": "4.7",
+    "topics": ["cost-2", "complexity", "single-point-of-failure", "workforce-multiplier", "reaction-time"],
+    "difficulty": 4,
+    "stem": "Which TWO are listed by the objectives as costs or risks of automation rather than benefits? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Technical debt and ongoing supportability", "correct": true, "why": "Automation is software, and software has to be maintained by whoever inherits it."},
+      {"id": "b", "text": "The automation platform becoming a single point of failure", "correct": true, "why": "Concentrating capability concentrates both outage impact and the value of compromising it."},
+      {"id": "c", "text": "Acting as a workforce multiplier", "misconception": "automation-benefits-vs-risks", "why": "A listed benefit: the same team covers more ground."},
+      {"id": "d", "text": "Improved reaction time", "misconception": "automation-benefits-vs-risks", "why": "A listed benefit, and often the main reason for doing it."},
+      {"id": "e", "text": "Enforcing baselines consistently", "misconception": "automation-use-cases", "why": "A use case and a benefit, not a cost."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "o-001",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["user-provisioning", "enabling-disabling-services-and-access"],
+    "difficulty": 3,
+    "stem": "An audit finds three leavers still had active accounts weeks after their last day. Which automation use case addresses this?",
+    "options": [
+      {"id": "a", "text": "User provisioning and de-provisioning driven by the HR system", "correct": true, "why": "Tying account lifecycle to the authoritative HR record removes the manual step that was missed, in both directions."},
+      {"id": "b", "text": "Guard rails on resource creation", "misconception": "automation-use-cases", "why": "Guard rails block a non-compliant action as it is attempted. Nobody attempted anything here; a step simply never happened."},
+      {"id": "c", "text": "Automated ticket creation for the service desk", "misconception": "automation-use-cases", "why": "Closer, and it still depends on a human picking the ticket up. The access is what should be removed automatically."},
+      {"id": "d", "text": "Continuous integration and testing", "misconception": "automation-use-cases", "why": "CI runs checks on code changes. It has no view of employment status."}
+    ]
+  },
+  {
+    "id": "o-002",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["guard-rails", "resource-provisioning", "security-groups"],
+    "difficulty": 3,
+    "stem": "Engineers keep creating cloud storage that is readable by anyone on the internet. Which automation concept prevents the action rather than reporting it afterwards?",
+    "options": [
+      {"id": "a", "text": "Guard rails", "correct": true, "why": "A guard rail refuses the non-compliant action at the moment it is attempted, so the exposure never exists."},
+      {"id": "b", "text": "Automated reporting to a dashboard", "misconception": "automation-use-cases", "why": "That tells you after the bucket is already public. The stem asks for prevention."},
+      {"id": "c", "text": "Security group membership automation", "misconception": "automation-use-cases", "why": "Security groups decide who belongs to what. They do not constrain how a resource is configured."},
+      {"id": "d", "text": "Ticket creation and escalation", "misconception": "automation-use-cases", "why": "Raises the work item once the problem exists. Still after the fact."}
+    ]
+  },
+  {
+    "id": "o-003",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["single-point-of-failure", "technical-debt", "complexity", "ongoing-supportability"],
+    "difficulty": 3,
+    "stem": "Which is a genuine drawback of heavily automating security operations?",
+    "options": [
+      {"id": "a", "text": "The orchestration platform becomes a single point of failure", "correct": true, "why": "When provisioning, access and response all route through one system, its outage or compromise is an outage or compromise of all of them."},
+      {"id": "b", "text": "Response times increase", "misconception": "automation-benefits-vs-risks", "why": "Reaction time is one of automation's clearest benefits. It acts in seconds."},
+      {"id": "c", "text": "Baselines become harder to enforce", "misconception": "automation-benefits-vs-risks", "why": "Enforcing baselines consistently is exactly what automation is good at."},
+      {"id": "d", "text": "Staff retention gets worse", "misconception": "automation-benefits-vs-risks", "why": "The objectives list employee retention as a benefit: removing repetitive work keeps people."}
+    ]
+  },
+  {
+    "id": "o-004",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["enforcing-baselines", "standard-infrastructure-configurations", "scaling-in-a-secure-manner"],
+    "difficulty": 4,
+    "stem": "A team automates host builds from a single template. A misconfiguration is later found in that template. What does this illustrate?",
+    "options": [
+      {"id": "a", "text": "Automation multiplies whatever it is given, so one bad baseline reaches every host", "correct": true, "why": "The property that makes automation valuable, perfect consistency at scale, is the same property that scales a mistake."},
+      {"id": "b", "text": "Automation is unsuitable for host builds", "misconception": "automation-benefits-vs-risks", "why": "Manual builds drift and are worse. The lesson is to review the template, not to stop automating."},
+      {"id": "c", "text": "Templates should be replaced by manual configuration", "misconception": "automation-benefits-vs-risks", "why": "That trades one consistent error for many inconsistent ones and loses enforceable baselines."},
+      {"id": "d", "text": "The misconfiguration proves the automation failed", "misconception": "automation-benefits-vs-risks", "why": "The automation did exactly what it was told. The failure is upstream, in what it was told."}
+    ]
+  },
+  {
+    "id": "o-005",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["workforce-multiplier", "efficiency-time-saving", "reaction-time"],
+    "difficulty": 2,
+    "stem": "A small security team automates triage of low-severity alerts. Which benefit does the exam call this?",
+    "options": [
+      {"id": "a", "text": "A workforce multiplier", "correct": true, "why": "The same number of people cover more ground. The objectives name this explicitly alongside efficiency and reaction time."},
+      {"id": "b", "text": "Risk transference", "misconception": "automation-benefits-vs-risks", "why": "Transference moves financial impact to a third party, such as insurance. Nothing moved outside the organisation."},
+      {"id": "c", "text": "A compensating control", "misconception": "compensating-vs-corrective", "why": "A compensating control substitutes for one you cannot implement. Automation here improves a control you already have."},
+      {"id": "d", "text": "Defence in depth", "misconception": "automation-benefits-vs-risks", "why": "Layering independent controls is a different idea. This is throughput."}
+    ]
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "id": "sdwan-vs-sase",
+    "label": "SD-WAN vs SASE vs VPN",
+    "objective": "3.2",
+    "topics": ["software-defined-wide-area-network-sd-wan", "secure-access-service-edge-sase", "virtual-private-network-vpn", "remote-access"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You picked a connectivity technology when the requirement was security delivered with the connectivity, or the reverse.",
+      "contrast": [
+        ["Technology", "Solves", "Includes security"],
+        ["VPN", "Encrypted tunnel for a user or a site", "Encryption only"],
+        ["SD-WAN", "Intelligent routing across multiple circuits between sites", "Not inherently"],
+        ["SASE", "Network and security delivered together from the cloud edge", "Yes: SWG, CASB, ZTNA, firewall as a service"]
+      ],
+      "rule": "SD-WAN is connectivity. SASE is SD-WAN plus the security stack, delivered from the cloud, applied wherever the user is.",
+      "tell": "'Remote and branch users must get consistent security policy without backhauling traffic to headquarters' is SASE.",
+      "trap": "SD-WAN improves branch connectivity and often ships alongside security features, which blurs them. If the stem emphasises policy following the user, it is SASE."
+    }
+  },
+  {
+    "id": "jump-server-vs-proxy",
+    "label": "Jump server vs proxy server vs reverse proxy",
+    "objective": "3.2",
+    "topics": ["jump-server", "proxy-server", "load-balancer", "device-placement", "security-zones"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose an intermediary device that faces the wrong direction for the scenario.",
+      "contrast": [
+        ["Device", "Who uses it", "Purpose"],
+        ["Jump server", "Administrators", "A single hardened, monitored entry point into a protected zone"],
+        ["Forward proxy", "Internal users going out", "Filtering, caching and logging outbound web traffic"],
+        ["Reverse proxy", "External users coming in", "Fronting internal servers, TLS termination, hiding the origin"],
+        ["Load balancer", "External users coming in", "Distributing requests across a pool for capacity"]
+      ],
+      "rule": "Jump server is for administrators entering. Forward proxy is for users leaving. Reverse proxy is for the public arriving.",
+      "tell": "'All administrative access to the production segment must pass through one auditable host' is a jump server, sometimes called a bastion host.",
+      "trap": "Every one of these sits in the middle of a connection, so all four read as plausible. Identify who is initiating and in which direction."
+    }
+  },
+  {
+    "id": "fail-open-vs-fail-closed",
+    "label": "Fail-open vs fail-closed",
+    "objective": "3.2",
+    "topics": ["fail-open", "fail-closed", "availability", "resilience"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose a failure mode without asking whether availability or security matters more for that specific system.",
+      "contrast": [
+        ["Mode", "On failure", "Favours", "Right for"],
+        ["Fail-open", "Traffic or access is permitted", "Availability", "A door that must release in a fire, a non-critical inspection point"],
+        ["Fail-closed", "Traffic or access is denied", "Security", "A firewall, a vault door, a payment segment"],
+        ["Also called", "Fail-safe in the life safety sense", "", "Terminology varies by context, so read the scenario"]
+      ],
+      "rule": "Fail-closed protects data and risks an outage. Fail-open protects availability and risks exposure. Life safety almost always overrides security: doors release.",
+      "tell": "'Personnel must be able to evacuate during a power failure' means fail-open, regardless of how sensitive the area is.",
+      "trap": "Fail-closed reads as the responsible security answer everywhere, and applied to an exit door it kills people. Check whether human safety is in scope."
+    }
+  },
+  {
+    "id": "stateful-return-traffic",
+    "label": "Writing return traffic rules on a stateful firewall",
+    "objective": "3.2",
+    "topics": ["firewall-types", "layer-4-layer-7-firewall", "firewall-rules"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You added a second rule to allow the replies. A stateful firewall tracks the connection and permits the return automatically.",
+      "contrast": [
+        ["Aspect", "Stateless (classic ACL)", "Stateful"],
+        ["Tracks connections", "No", "Yes, in a state table"],
+        ["Return traffic", "Needs its own rule", "Permitted automatically"],
+        ["Rules needed per flow", "Two", "One"],
+        ["Judges each packet", "In isolation", "In the context of its connection"]
+      ],
+      "rule": "On a stateful firewall write one rule per connection, in the direction it is initiated. The reply is free.",
+      "tell": "If the question describes a modern firewall or NGFW, do not write reverse rules. If it says stateless packet filter or classic router ACL, you must.",
+      "trap": "Adding the return rule seems safely thorough. On a stateful device it is an unnecessary opening and usually scores as an overbroad rule."
+    }
+  },
+  {
+    "id": "screened-subnet-direction",
+    "label": "What a screened subnet (DMZ) is allowed to initiate",
+    "objective": "3.2",
+    "topics": ["screened-subnets", "security-zones", "segmentation"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You allowed the DMZ host to open connections into the internal LAN. The entire point of the zone is that a compromised DMZ host cannot reach inside.",
+      "contrast": [
+        ["Direction", "Allowed", "Why"],
+        ["Internet to DMZ, specific service", "Yes", "That is what the DMZ is for"],
+        ["DMZ to internal LAN", "No, except one named flow if required", "A compromised public host must not pivot inward"],
+        ["Internal LAN to DMZ", "Yes", "Inside is more trusted than outside"],
+        ["Internet to internal LAN", "Never", "No direct path from untrusted to trusted"]
+      ],
+      "rule": "Trust flows inward to outward. The DMZ may be reached from the internet and from inside, but it initiates nothing into the internal network unless a requirement explicitly names that one flow.",
+      "tell": "'The web server must query the internal database' is that explicit exception. Permit exactly that one host, one port, nothing more.",
+      "trap": "The application genuinely needs the database, so a broad DMZ to LAN permit makes the app work. It also hands an attacker the pivot the design exists to prevent."
+    }
+  },
+  {
+    "id": "waf-vs-ngfw-vs-utm",
+    "label": "WAF vs NGFW vs UTM",
+    "objective": "3.2",
+    "topics": ["web-application-firewall-waf", "next-generation-firewall-ngfw", "unified-threat-management-utm"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You picked a general purpose firewall for an application specific attack, or the reverse.",
+      "contrast": [
+        ["Aspect", "WAF", "NGFW", "UTM"],
+        ["Protects", "One web application", "The whole network perimeter", "The whole network, small office"],
+        ["Understands", "HTTP requests, parameters, payloads", "Applications, users, plus IPS", "A bundle of everything"],
+        ["Stops SQLi and XSS", "Yes, this is its job", "Partly, via IPS signatures", "Partly"],
+        ["Selling point", "Depth on one protocol", "Application awareness plus identity", "One box, one licence, all features"]
+      ],
+      "rule": "Attack against the application logic means WAF. Broad perimeter control with application and user awareness means NGFW. One appliance doing everything for a small site means UTM.",
+      "tell": "The words SQL injection, cross site scripting, or OWASP in the stem point to a WAF.",
+      "trap": "An NGFW is more capable overall, so it reads like the stronger answer. For a targeted web application attack the specialised device is the correct one."
+    }
+  },
+  {
+    "id": "ids-vs-ips-placement",
+    "label": "IDS vs IPS, and inline vs tap placement",
+    "objective": "3.2",
+    "topics": ["intrusion-detection-system-ids", "intrusion-prevention-system-ips", "inline-vs-tap-monitor", "active-vs-passive"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You chose a device that can only watch when the requirement was to stop the traffic, or you placed a blocking device out of the traffic path.",
+      "contrast": [
+        ["Aspect", "IDS", "IPS"],
+        ["Placement", "Tap or SPAN port, out of band", "Inline, in the traffic path"],
+        ["Sees a copy or the real packets", "A copy", "The real packets"],
+        ["Can block", "No, alerts only", "Yes, drops the traffic"],
+        ["Risk of a false positive", "A noisy alert", "Legitimate traffic dropped"],
+        ["Risk if the device fails", "Monitoring stops", "The network may stop, so fail mode matters"]
+      ],
+      "rule": "To stop an attack the device must be inline, which makes it an IPS. If it is out of band it can only tell you afterwards.",
+      "tell": "'Prevent', 'block', 'stop in real time' means IPS. 'Alert', 'detect', 'no impact on traffic flow' means IDS.",
+      "trap": "An IDS is safer to deploy and tuning is less risky, which makes it attractive. It cannot satisfy a requirement that uses the word prevent."
+    }
+  },
+  {
+    "id": "nat-as-security-control",
+    "label": "NAT treated as a firewall",
+    "objective": "3.2",
+    "topics": ["firewall-types", "attack-surface", "connectivity"],
+    "severity": "low",
+    "mentor": {
+      "diagnosis": "You credited NAT with security it does not provide. Hiding addresses is a side effect, not a policy.",
+      "contrast": [
+        ["Aspect", "NAT", "Firewall"],
+        ["Purpose", "Address conservation and translation", "Enforce a traffic policy"],
+        ["Inspects traffic against rules", "No", "Yes"],
+        ["Blocks outbound connections", "No", "Yes, if you tell it to"],
+        ["Side effect", "Inbound connections have nowhere to land by default", "Explicit and auditable"]
+      ],
+      "rule": "NAT is not a security control. It makes unsolicited inbound connections awkward, which is not the same as denying them by policy.",
+      "tell": "Any option that answers a filtering requirement with 'enable NAT' is a distractor.",
+      "trap": "It is true that NAT makes inbound access harder, so the option contains a half truth. The exam wants the control that enforces the stated policy."
+    }
+  },
+  {
+    "id": "tunneling-protocols",
+    "label": "TLS tunnelling vs IPsec tunnelling, and transport vs tunnel mode",
+    "objective": "3.2",
+    "topics": ["tls-tunneling", "ipsec-tunneling", "virtual-private-network", "remote-access", "transport-method"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated VPN as one technology. The two families operate at different layers, which decides what they can carry, where they terminate, and what gets through a restrictive network.",
+      "contrast": [
+        ["", "TLS-based VPN", "IPsec VPN"],
+        ["Layer", "Transport and above", "Network layer"],
+        ["Typical use", "Remote access from anywhere, often clientless in a browser", "Site-to-site tunnels, and client remote access"],
+        ["Port behaviour", "Usually 443, so it passes most egress filtering and captive portals", "Needs ESP and IKE, which restrictive networks often block"],
+        ["What it carries", "Whatever the client is configured to route, often application-scoped", "Any IP traffic between the two networks"],
+        ["Modes", "Not applicable", "Transport mode protects the payload between two hosts; tunnel mode wraps the whole packet between gateways"]
+      ],
+      "rule": "IPsec tunnel mode wraps the entire original packet, including its headers, which is what lets two networks join as if they were one. Transport mode protects only the payload and leaves the original headers visible, so it suits host-to-host.",
+      "tell": "Joining two offices points to IPsec tunnel mode. A remote worker on a hotel network that blocks everything but 443 points to TLS.",
+      "trap": "Split tunnelling is the detail that costs marks. It sends only corporate traffic through the VPN and everything else direct, which preserves bandwidth and removes your inspection of the rest, so the device is simultaneously on your network and on the open internet."
+    }
+  }
+]

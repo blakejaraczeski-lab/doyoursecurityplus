@@ -8,6 +8,7 @@
 // You cannot retire a misconception by memorising the question that exposed it.
 
 import * as fsrs from "./fsrs.js";
+import { isGraded } from "./content.js";
 
 // Relearning steps for an open misconception.
 //
@@ -249,12 +250,10 @@ export function itemsFor(mcId, content, state, excludeItemId = null) {
   const used = new Set(rec?.cleanPasses || []);
   if (excludeItemId) used.add(excludeItemId);
 
-  // Both "mcq" and "mcq-multi": a choose-two item tests the same discrimination
-  // and the exam asks it the same way.
+  // Single and multiple select alike: a choose-two item tests the same
+  // discrimination and the exam asks it the same way.
   const mcqs = content.items.filter(
-    (it) => typeof it.type === "string" && it.type.startsWith("mcq") &&
-      it.options?.some((o) => o.misconception === mcId) &&
-      !used.has(it.id)
+    (it) => isGraded(it) && it.options?.some((o) => o.misconception === mcId) && !used.has(it.id)
   );
   const pbqs = content.pbqs.filter(
     (p) => p.subtasks?.some((s) => s.misconception === mcId) && !used.has(p.id)

@@ -1,0 +1,203 @@
+[
+  {
+    "id": "email-authentication-stack",
+    "label": "SPF vs DKIM vs DMARC, and what each one actually checks",
+    "objective": "4.5",
+    "topics": ["sender-policy-framework", "domainkeys-identified-mail", "domain-based-message-authentication-reporting-and-conformance", "email-gateway", "protocol-selection", "transport-method"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated the three as interchangeable anti-spoofing records. They check different things, and the one that enforces a policy is not the one that does either check.",
+      "contrast": [
+        ["Record", "What it checks", "What it is blind to", "Published as"],
+        ["SPF", "Is the sending IP authorised to send for this domain", "The From header the user actually sees; breaks on forwarding", "A DNS TXT record listing permitted senders"],
+        ["DKIM", "Was the message signed by the domain and unmodified in transit", "Whether the signing domain matches the visible From", "A public key in DNS, signature in the header"],
+        ["DMARC", "Does SPF or DKIM pass AND align with the visible From domain, then what to do about it", "Nothing new: it has no check of its own", "A DNS TXT policy: none, quarantine or reject, plus reporting"]
+      ],
+      "rule": "SPF checks the envelope sender's IP, DKIM checks the signature, DMARC checks that one of them aligns with the From address the human reads, and is the only one that can tell the receiver to reject.",
+      "tell": "A stem about spoofed messages that appear to come from your own domain, or about which record to publish to stop it.",
+      "trap": "SPF and DKIM both pass happily for a message whose visible From is forged, because neither looks at that header. Alignment is the gap, and DMARC exists solely to close it. Publishing SPF alone and expecting spoofing to stop is the classic mistake."
+    }
+  },
+  {
+    "id": "web-filter-mechanisms",
+    "label": "How web filtering is delivered and what it decides on",
+    "objective": "4.5",
+    "topics": ["agent-based-web-filter", "centralized-proxy", "url-scanning", "content-categorization", "block-rules", "reputation", "dns-filtering"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You mixed up where the filter runs with what it decides on. Delivery and decision are separate axes, and the exam asks about one or the other.",
+      "contrast": [
+        ["Aspect", "Option", "Strength", "Weakness"],
+        ["Delivery", "Agent-based, on the device", "Follows the laptop off the corporate network", "Needs an agent on every device; can be removed"],
+        ["Delivery", "Centralised proxy", "One enforcement point, full logging, no agent", "Only protects traffic routed through it"],
+        ["Delivery", "DNS filtering", "Trivial to deploy, blocks before connection", "Per-domain only, bypassed by hardcoded resolvers or direct IP"],
+        ["Decision", "URL scanning", "Inspects the specific address, not just the host", "Needs to see the URL, so TLS inspection or an agent"],
+        ["Decision", "Content categorisation", "Broad policy by category, such as gambling or webmail", "Miscategorised and brand new sites slip through"],
+        ["Decision", "Reputation", "Blocks newly registered or known-bad hosts with no category yet", "Scores are probabilistic, so false positives happen"],
+        ["Decision", "Block rules", "Explicit allow or deny for named destinations", "Manual, and does not scale alone"]
+      ],
+      "rule": "Agent, proxy and DNS are where it runs. URL, category, reputation and explicit rules are what it decides on. A stem about remote laptops is asking about delivery; a stem about brand new malicious domains is asking about reputation.",
+      "tell": "Mentions of staff working from home, or of a site too new to be categorised.",
+      "trap": "DNS filtering is cheap and popular and only sees the domain. It cannot distinguish one path on a site from another, so it cannot block a single abused page on an otherwise needed service."
+    }
+  },
+  {
+    "id": "ids-ips-detection-methods",
+    "label": "Signature-based vs trend and anomaly-based detection",
+    "objective": "4.5",
+    "topics": ["ids-ips-signatures", "ids-ips-trends", "intrusion-detection-system", "intrusion-prevention-system"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You judged by how advanced the option sounded. The real split is whether the system is comparing against something known or against what is normal here.",
+      "contrast": [
+        ["Method", "Compares against", "Catches", "Misses or costs"],
+        ["Signature-based", "A database of known patterns", "Known attacks, precisely, with low false positives", "Anything novel, and anything slightly altered"],
+        ["Trend or anomaly-based", "A learned baseline of normal behaviour", "Novel and zero-day activity, insider misuse", "Higher false positives, and needs a clean baseline to learn from"]
+      ],
+      "rule": "Signatures know what bad looks like. Trend analysis knows what normal looks like. If the stem says the attack was previously unseen, no signature could have matched it.",
+      "tell": "Phrases such as 'not previously seen', 'no signature exists', 'deviation from baseline', or complaints about false positive volume.",
+      "trap": "Baselines learn from whatever is happening while they learn. If the environment was already compromised during baselining, the malicious behaviour becomes the definition of normal."
+    }
+  },
+  {
+    "id": "host-hardening-enforcement",
+    "label": "Group Policy vs SELinux: two different kinds of enforcement",
+    "objective": "4.5",
+    "topics": ["group-policy", "selinux"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You read them as the Windows and Linux versions of the same thing. One distributes configuration centrally; the other enforces mandatory access control inside a single kernel.",
+      "contrast": [
+        ["", "Group Policy", "SELinux"],
+        ["Platform", "Windows, through Active Directory", "Linux, in the kernel"],
+        ["What it does", "Pushes configuration and security settings to domain members", "Enforces mandatory access control between processes and resources by label"],
+        ["Scope", "Centralised across the domain", "Local to the host, though policy can be distributed"],
+        ["Access model", "Configures discretionary controls and settings", "Mandatory: even root is bound by policy"],
+        ["Typical exam use", "Enforce a baseline across many machines at once", "Contain a compromised service so it cannot touch what it does not need"]
+      ],
+      "rule": "Group Policy is how you make a thousand Windows machines agree. SELinux is how you stop one Linux process doing something its label does not permit, including when it is running as root.",
+      "tell": "A stem about rolling a setting out across a domain, versus one about confining a service that has been exploited.",
+      "trap": "SELinux constraining root is the part people disbelieve. It is the whole point of mandatory access control: the policy sits above the account, not under it."
+    }
+  },
+  {
+    "id": "monitoring-capability-selection",
+    "label": "File integrity monitoring vs DLP vs user behaviour analytics",
+    "objective": "4.5",
+    "topics": ["file-integrity-monitoring", "dlp", "user-behavior-analytics", "endpoint-detection-and-response", "network-access-control"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You chose the capability with the most familiar name rather than the one watching the thing in the question. Each watches a different noun: files, data leaving, or people.",
+      "contrast": [
+        ["Capability", "Watches", "Fires when", "Does not"],
+        ["File integrity monitoring", "Specific files and their hashes", "A protected file changes unexpectedly", "Care where data goes"],
+        ["Data loss prevention", "Data in motion, in use and at rest, by content", "Sensitive content is sent, copied or uploaded against policy", "Care who the user is, beyond policy scope"],
+        ["User behaviour analytics", "Patterns of account activity against a baseline", "An account behaves unlike itself or unlike its peers", "Inspect content"],
+        ["EDR", "Process, file and network activity on the endpoint", "Malicious execution or persistence is observed", "Classify documents"],
+        ["NAC", "Devices joining the network and their posture", "An unknown or non-compliant device connects", "See anything after admission"]
+      ],
+      "rule": "FIM watches files, DLP watches data leaving, UBA watches people, EDR watches processes, NAC watches the door.",
+      "tell": "A stem naming what is being protected or observed: a configuration file, a spreadsheet of customer records, or an account suddenly behaving oddly.",
+      "trap": "A departing employee emailing customer data out is a DLP question. The same employee signing in at 03:00 from a new country is a UBA question. The scenario often contains both, so read what the control is being asked to catch."
+    }
+  },
+  {
+    "id": "acl-rule-order",
+    "label": "ACL rule order and first match wins",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "access-lists", "access-control-list-acl"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You wrote rules that are individually correct but in an order that makes some of them unreachable. An ACL is evaluated top to bottom and stops at the first match.",
+      "contrast": [
+        ["Aspect", "Correct ordering", "Broken ordering"],
+        ["Position of specific rules", "Above the broad rules", "Below a broad rule that already matched"],
+        ["A deny for one host", "Placed before the permit for its subnet", "Placed after, so it never runs"],
+        ["Result", "Every rule can fire", "Shadowed rules, silently dead"]
+      ],
+      "rule": "Specific before general, always. If a broader rule above already matches the traffic, everything below it for that traffic is dead code.",
+      "tell": "Any task mixing a subnet wide permit with a single host deny is testing ordering. Put the exception first.",
+      "trap": "The rule set looks complete because every required line is present. Graders simulate the traffic, so a shadowed rule scores as if you never wrote it."
+    }
+  },
+  {
+    "id": "acl-implicit-deny",
+    "label": "The implicit deny at the end of an ACL",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "access-lists", "screened-subnets"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You either added an explicit permit any at the end, or you assumed traffic not mentioned would be allowed. Firewalls deny by default.",
+      "contrast": [
+        ["Aspect", "Implicit deny", "Explicit deny any"],
+        ["Present automatically", "Yes, at the bottom of every ACL", "Only if you write it"],
+        ["Logs the dropped traffic", "Usually not", "Yes, which is why you add it"],
+        ["Effect on allowed traffic", "None", "None"],
+        ["Adding permit any at the end", "Destroys the whole rule set", "Never do this"]
+      ],
+      "rule": "Anything you did not explicitly permit is already denied. Write an explicit deny any at the bottom only to get logging, never a permit any.",
+      "tell": "'Deny all other traffic' in the requirements usually needs no rule at all. It is already true. Check whether the task wants it logged.",
+      "trap": "'Deny all other traffic' reads like an instruction to add a rule, and adding an explicit deny any is harmless. Adding permit any is the failure, and it is the option that makes the other requirements appear to pass."
+    }
+  },
+  {
+    "id": "acl-direction-and-ports",
+    "label": "Source vs destination, and which side holds the well known port",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "ports-protocols", "port-selection"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You put the service port on the wrong side of the rule, or reversed source and destination. The server listens on the well known port, the client uses a random high port.",
+      "contrast": [
+        ["Aspect", "Inbound to your web server", "Outbound from your client"],
+        ["Source", "Any, on an ephemeral port", "Your host, on an ephemeral port"],
+        ["Destination", "The server IP, port 443", "The remote server, port 443"],
+        ["Which side is fixed", "Destination port", "Destination port"],
+        ["Ephemeral range", "Roughly 49152 to 65535", "Roughly 49152 to 65535"]
+      ],
+      "rule": "The destination port is the service. The source port is almost always any. Write the rule in the direction the connection is initiated.",
+      "tell": "'Allow the internet to reach the web server' means destination is the server and destination port is 443. Never source port 443.",
+      "trap": "Source port 443 looks symmetric and tidy. It matches only the return traffic, which a stateful firewall already handles."
+    }
+  },
+  {
+    "id": "acl-overbroad-any",
+    "label": "Using any where the requirement named a specific host or port",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "least-privilege", "access-lists"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "Your rule permits the required traffic, but also a great deal more. Passing the functional test is not the same as passing least privilege.",
+      "contrast": [
+        ["Aspect", "Least privilege rule", "Overbroad rule"],
+        ["Scope", "Exactly the host, port and direction required", "any, or a whole subnet, or all ports"],
+        ["Required traffic works", "Yes", "Yes"],
+        ["Other traffic", "Blocked", "Also permitted, invisibly"],
+        ["PBQ scoring", "Full credit", "Partial credit at best, often zero for that subtask"]
+      ],
+      "rule": "Use any only where the requirement genuinely says any, which is usually only the source of inbound internet traffic.",
+      "tell": "If the scenario names a specific management workstation, the source must be that host's address, not its subnet and not any.",
+      "trap": "The traffic test passes, so the rule feels correct. Graders check breadth as well as function, exactly as a real auditor would."
+    }
+  },
+  {
+    "id": "edr-vs-antivirus",
+    "label": "EDR and XDR vs traditional antivirus",
+    "objective": "4.5",
+    "topics": ["endpoint-detection-and-response-edr", "extended-detection-and-response-xdr", "antivirus"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You reached for signature based antivirus against something with no signature.",
+      "contrast": [
+        ["Aspect", "Antivirus", "EDR", "XDR"],
+        ["Detects by", "Known signatures", "Behaviour, plus signatures", "Behaviour, correlated across sources"],
+        ["Catches a zero day", "Usually not", "Often, behaviour is still anomalous", "Often"],
+        ["Records what happened", "No", "Yes, a full process timeline", "Yes, across endpoint, network, mail and cloud"],
+        ["Can respond", "Quarantine the file", "Isolate the host, kill the process, roll back", "Same, and orchestrated"]
+      ],
+      "rule": "No signature yet means behaviour based detection, which means EDR. XDR is EDR correlated beyond the endpoint.",
+      "tell": "'Zero day', 'fileless', 'living off the land', or 'we need to see what the process did before it was caught' all point to EDR.",
+      "trap": "Updating antivirus definitions is a real and sensible action, which makes it a convincing distractor against a threat that has no definition to update."
+    }
+  }
+]

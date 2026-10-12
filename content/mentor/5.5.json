@@ -1,0 +1,44 @@
+[
+  {
+    "id": "audit-vs-assessment",
+    "label": "Internal audit vs external audit vs self-assessment vs attestation",
+    "objective": "5.5",
+    "topics": ["internal-compliance-audit", "audit-committee", "self-assessments", "independent-third-party-audit", "regulatory-examination", "attestation"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose a review type without checking who performs it and how independent they must be.",
+      "contrast": [
+        ["Type", "Performed by", "Independence", "Typical purpose"],
+        ["Self-assessment", "The team that owns the control", "None", "Cheap, frequent, internal improvement"],
+        ["Internal audit", "An internal audit function reporting to the audit committee", "Independent of the team, not of the organisation", "Assurance to management and the board"],
+        ["External or third-party audit", "An outside firm", "Fully independent", "Assurance to customers, partners and regulators"],
+        ["Regulatory examination", "The regulator", "Fully independent, and compulsory", "Confirm legal compliance"],
+        ["Attestation", "A signed formal statement that something is true", "Depends who signs", "Evidence a control or condition holds"]
+      ],
+      "rule": "The more independent the reviewer, the more weight the result carries outside the organisation. A customer asking for assurance will not accept your self-assessment.",
+      "tell": "'A customer requires evidence before renewing' means an independent third-party audit, not an internal one.",
+      "trap": "An internal audit is genuinely independent of the team being audited, which makes it feel sufficient. It is still the organisation auditing itself."
+    }
+  },
+  {
+    "id": "pentest-environments",
+    "label": "Known, partially known and unknown environment testing, and passive vs active reconnaissance",
+    "objective": "5.5",
+    "topics": ["known-environment", "partially-known-environment", "unknown-environment", "passive-reconnaissance", "active-reconnaissance", "offensive", "defensive"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You mixed up how much the tester was told with what the tester then did.",
+      "contrast": [
+        ["Term", "Meaning", "Old name"],
+        ["Known environment", "Tester is given full information: architecture, credentials, source", "White box"],
+        ["Partially known", "Tester is given limited information", "Grey box"],
+        ["Unknown environment", "Tester is given nothing and must discover it", "Black box"],
+        ["Passive reconnaissance", "Gathering information without touching the target: WHOIS, OSINT, social media", "n/a"],
+        ["Active reconnaissance", "Interacting with the target: scanning, enumeration, banner grabbing", "n/a"]
+      ],
+      "rule": "Known, partially known and unknown describe what the tester was told. Passive and active describe whether the target can see the tester.",
+      "tell": "'Simulates an external attacker with no inside knowledge' is unknown environment. 'Without alerting the target or touching its systems' is passive reconnaissance.",
+      "trap": "Unknown environment testing usually begins with passive reconnaissance, so the two appear together and get merged. They answer different questions."
+    }
+  }
+]

@@ -79,6 +79,9 @@ that PBQ. Neither surface is tapped on a phone.
 ## Smells
 
 - A new colour literal in a component. Use a token or add one.
+- A `style=` attribute carrying colour or spacing. Use a class; an inline style
+  may only set a custom property that carries data (`style="--w:42%"`), and
+  the self test fails on anything else.
 - A `<div>` with a click handler. Use a `<button>`.
 - Text at `--t-xs` carrying meaning the user must read.
 - A table wider than its container without `.scroll-x`.

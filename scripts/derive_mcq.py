@@ -24,8 +24,8 @@ import json, re, random, argparse, pathlib
 from collections import defaultdict
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SRC = ROOT / "content" / "items" / "anki-imported.json"
-OUT_ITEMS = ROOT / "content" / "items" / "derived-terminology.json"
+SRC = ROOT / "content" / "items" / "recall.json"
+OUT_ITEMS = ROOT / "content" / "items" / "derived.json"
 OUT_MENTOR = ROOT / "content" / "mentor" / "terminology.json"
 
 MIN_DEF_WORDS = 7          # anything shorter cannot carry a fair question
@@ -217,15 +217,13 @@ def build(target_total):
             derived.append({
                 "id": f"d-{it['id'].replace('anki-', '')}",
                 "type": "mcq",
-                "derived": True,
                 "source": "derived-from-recall",
                 "sourceItem": it["id"],
                 "objective": oid,
-                "topics": it.get("topics") or [],
+                **({"topics": it["topics"]} if it.get("topics") else {}),
                 "difficulty": 2,
                 "stem": f"Which term is being described?\n\n“{it['definition'].rstrip('.')}”",
                 "options": options,
-                "selectCount": 1,
             })
 
     # --- one terminology misconception per objective that produced questions ---
@@ -240,7 +238,6 @@ def build(target_total):
             "id": f"terminology-{oid.replace('.', '-')}",
             "label": f"Confusing neighbouring terms in {oid}",
             "objective": oid,
-            "topics": [],
             "severity": "medium",
             "mentor": {
                 "diagnosis": (
@@ -264,7 +261,6 @@ def build(target_total):
                     "yourself overstates how ready you are."
                 ),
             },
-            "retireAfter": 2,
         })
 
     OUT_ITEMS.write_text(json.dumps(derived, indent=2) + "\n")

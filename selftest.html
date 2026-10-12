@@ -19,7 +19,7 @@
 <pre id="out">Running...</pre>
 </main>
 <script type="module">
-import { loadContent } from "./app/content.js";
+import { loadContent, isGraded } from "./app/content.js";
 import { gradePbq } from "./app/grade/index.js";
 import * as mentor from "./app/mentor.js";
 import { buildQueue, readiness, coverageDeficit } from "./app/scheduler.js";
@@ -139,9 +139,7 @@ say("<b>Readiness measures the learner, not the size of the bank</b>");
 say('  <span class="dim">a small bank must not read as a weakness in the learner</span>');
 {
   const perfect = structuredClone(DEFAULT_STATE);
-  const graded = content.items.filter(
-    (i) => typeof i.type === "string" && i.type.startsWith("mcq")
-  );
+  const graded = content.items.filter(isGraded);
   for (const it of graded) {
     perfect.items[it.id] = { seen: 3, correct: 3, wrong: 0, lastSeen: Date.now(), fsrs: null };
   }
@@ -200,6 +198,15 @@ say("<b>A revealed vocabulary card does not cover a domain</b>");
   check(counted === 0,
         `${recall.length} revealed recall cards contribute 0 to domain coverage`,
         counted ? `(counted ${counted})` : "");
+}
+
+say("");
+say("<b>Templates carry no inline styling</b>");
+say('  <span class="dim">a style attribute may set custom properties (data), never colour or spacing</span>');
+for (const f of ["app/main.js", "app/ui/common.js", "app/ui/views.js", "app/ui/pbq.js"]) {
+  const src = await fetch(`./${f}`, { cache: "no-store" }).then((x) => x.text());
+  const bad = src.match(/style="(?!--)[^"]*"/g) || [];
+  check(bad.length === 0, `${f.padEnd(20)} ${bad.length} inline style(s)`, bad.slice(0, 3).join(" | "));
 }
 
 say("");

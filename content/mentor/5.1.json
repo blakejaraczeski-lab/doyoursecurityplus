@@ -1,0 +1,124 @@
+[
+  {
+    "id": "policy-types",
+    "label": "Which policy governs what: AUP, business continuity, disaster recovery, incident response, SDLC",
+    "objective": "5.1",
+    "topics": ["acceptable-use-policy", "business-continuity-policy", "disaster-recovery-policy", "incident-response-policy", "software-development-lifecycle-policy", "information-security-policies", "change-management-policy"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose the policy whose name shared a word with the scenario. These overlap at the edges, and the exam separates them by the question each one answers.",
+      "contrast": [
+        ["Policy", "Question it answers", "Boundary with its neighbour"],
+        ["Acceptable use", "What may staff do with organisational systems and data", "Governs people's behaviour, not the technology's configuration"],
+        ["Business continuity", "How does the business keep operating through a disruption", "Broader than IT: people, premises, suppliers, processes"],
+        ["Disaster recovery", "How do we restore technology and data after a disaster", "The IT subset of continuity, with RTO and RPO targets"],
+        ["Incident response", "What do we do when a security incident is detected", "An attack or breach, not a flood or a power cut"],
+        ["SDLC", "How is software designed, built, reviewed and released securely", "Covers the creation of systems, not their operation"]
+      ],
+      "rule": "Continuity keeps the business running, disaster recovery brings the technology back, incident response handles an adversary. A hurricane is continuity and recovery; ransomware is incident response and then recovery.",
+      "tell": "A natural disaster points to continuity and recovery. An intrusion points to incident response. Misuse by an employee points to acceptable use.",
+      "trap": "Business continuity and disaster recovery are routinely treated as one thing. Continuity is the wider plan for the organisation; DR is the technical restoration within it."
+    }
+  },
+  {
+    "id": "standards-and-scope",
+    "label": "What a standard specifies: access control, physical security, encryption, passwords",
+    "objective": "5.1",
+    "topics": ["access-control-standards", "physical-security-standards", "encryption-standards", "password-standards", "guidelines"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated standards as more detailed policies. A standard is the mandatory specific: the policy says protect data, the standard says which algorithm and key length.",
+      "contrast": [
+        ["Artefact", "Nature", "Example"],
+        ["Policy", "Mandatory, high level, states intent and assigns authority", "Data must be protected commensurate with its classification"],
+        ["Standard", "Mandatory, specific, states the required choice", "AES-256 for data at rest; TLS 1.2 or higher in transit"],
+        ["Procedure", "Mandatory, sequential, states how to carry it out", "Step by step: how to request and install a certificate"],
+        ["Guideline", "Advisory, states what is recommended", "Suggested approaches where judgement is permitted"]
+      ],
+      "rule": "If it can be audited as a yes or no about a specific setting, it is a standard. If it tells you the order to do things in, it is a procedure. If you may reasonably decline, it is a guideline.",
+      "tell": "A stem quoting a specific algorithm, key length, lock type or password length and asking which artefact it belongs in.",
+      "trap": "Guidelines are optional, and people assume everything in a security manual is mandatory. The exam tests whether you know the one that is advisory."
+    }
+  },
+  {
+    "id": "external-considerations",
+    "label": "Regulatory, legal, industry and geographic considerations",
+    "objective": "5.1",
+    "topics": ["regulatory-considerations", "legal-considerations", "industry-considerations", "local-regional-considerations", "national-considerations", "global-considerations", "government-entities"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You collapsed every outside requirement into compliance. The objectives separate them by who imposes the requirement and what happens if you ignore it.",
+      "contrast": [
+        ["Consideration", "Imposed by", "Consequence of ignoring"],
+        ["Regulatory", "A regulator with statutory authority over your sector", "Fines, enforcement action, loss of licence"],
+        ["Legal", "Statute and case law generally, including contracts", "Litigation, damages, criminal liability"],
+        ["Industry", "A sector body or scheme such as PCI DSS", "Loss of the ability to operate in that market"],
+        ["Local, regional, national, global", "Jurisdiction, which varies by where data and people sit", "Conflicting obligations across borders"]
+      ],
+      "rule": "Industry requirements are contractual rather than statutory: nobody is prosecuted for failing PCI DSS, they lose the right to process cards. Regulatory requirements carry the force of law.",
+      "tell": "A multinational with data in several countries points to jurisdictional scope. Card data points to industry. Health or financial records point to regulatory.",
+      "trap": "PCI DSS is the standard example of an industry requirement treated as a law. It is a contractual scheme enforced by the card brands, and the distinction is exactly what the question is testing."
+    }
+  },
+  {
+    "id": "governance-procedures",
+    "label": "Onboarding, offboarding, and monitoring and revision as governance procedures",
+    "objective": "5.1",
+    "topics": ["onboarding-offboarding", "monitoring-and-revision", "change-management-procedures", "playbooks"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You read these as HR administration. The objectives place them under governance because they are the procedures that keep every other control connected to reality.",
+      "contrast": [
+        ["Procedure", "What it covers", "What fails without it"],
+        ["Onboarding", "Identity proofing, account creation, equipment, policy acknowledgement, training", "People working before anyone decided what they should access"],
+        ["Offboarding", "Access revocation, asset return, knowledge transfer, exit acknowledgement", "Dormant accounts and unreturned devices"],
+        ["Monitoring and revision", "Reviewing whether policies still match the organisation, and updating them", "A policy set describing a company that no longer exists"],
+        ["Playbooks", "Step by step response for a specific recurring scenario", "Improvisation under pressure, inconsistently"]
+      ],
+      "rule": "Monitoring and revision is the governance equivalent of maintaining a baseline. A policy nobody revisits is a document, not a control.",
+      "tell": "A policy last reviewed years ago, or a leaver who kept access.",
+      "trap": "Offboarding is usually answered as account deletion. It also covers asset return, knowledge transfer and the acknowledgement of continuing obligations such as confidentiality."
+    }
+  },
+  {
+    "id": "policy-standard-procedure-guideline",
+    "label": "Policy vs standard vs procedure vs guideline",
+    "objective": "5.1",
+    "topics": ["guidelines", "information-security-policies", "password-standards", "change-management-procedures", "playbooks"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You picked the wrong level of the governance hierarchy. All four documents are real, and the exam decides between them on how specific the document is and whether following it is optional.",
+      "contrast": [
+        ["Document", "Answers", "Mandatory", "Example"],
+        ["Policy", "What we require and why", "Yes", "All access must be authenticated and authorised"],
+        ["Standard", "What specifically must be true", "Yes", "Passwords must be at least 14 characters"],
+        ["Procedure", "How to do it, step by step", "Yes", "The onboarding checklist, the incident playbook"],
+        ["Guideline", "What is recommended", "No", "Suggested practices for choosing a passphrase"]
+      ],
+      "rule": "Policy is the why, standard is the what, procedure is the how, guideline is the suggestion. Only the guideline is optional.",
+      "tell": "A specific measurable value such as a key length or a password length is a standard. Numbered steps are a procedure. The word 'should' or 'recommended' signals a guideline.",
+      "trap": "Policy is the broadest term and is loosely used for all four in everyday speech, so it feels safe. The exam uses the hierarchy strictly."
+    }
+  },
+  {
+    "id": "data-roles",
+    "label": "Data owner vs controller vs processor vs custodian or steward",
+    "objective": "5.1",
+    "topics": ["owners", "controllers", "processors", "custodians-stewards", "data-subject", "controller-vs-processor"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You assigned the wrong role. These are separated by who decides, who acts on instructions, and who keeps the systems running.",
+      "contrast": [
+        ["Role", "Responsibility", "Typical person"],
+        ["Data owner", "Accountable for the data: classification and who may access it", "A senior business leader, such as the head of HR"],
+        ["Data controller", "Decides the purpose and means of processing", "The organisation itself, in privacy law"],
+        ["Data processor", "Processes data on the controller's instructions", "A payroll bureau or cloud provider"],
+        ["Data custodian or steward", "Implements and maintains the controls day to day", "A database administrator"],
+        ["Data subject", "The living person the data is about", "The employee or customer"]
+      ],
+      "rule": "Owner is accountable, custodian is operational, controller decides the purpose, processor follows instructions.",
+      "tell": "'Decides why and how the data is used' is the controller. 'Runs the backups and applies the permissions' is the custodian. 'Sets the classification' is the owner.",
+      "trap": "Owner and controller sound interchangeable in plain English. Owner is the internal accountability role, controller is the privacy law role, and the exam uses both."
+    }
+  }
+]

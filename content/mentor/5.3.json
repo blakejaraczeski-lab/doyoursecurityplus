@@ -1,0 +1,69 @@
+[
+  {
+    "id": "agreement-types",
+    "label": "SLA vs MOU vs MOA vs MSA vs SOW vs NDA vs BPA",
+    "objective": "5.3",
+    "topics": ["service-level-agreement-sla", "memorandum-of-understanding-mou", "memorandum-of-agreement-moa", "master-service-agreement-msa", "work-order-wo-statement-of-work-sow", "non-disclosure-agreement-nda", "business-partners-agreement-bpa"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You matched on a vague sense of 'contract' rather than on what each document actually fixes.",
+      "contrast": [
+        ["Agreement", "What it establishes", "Binding"],
+        ["SLA", "Measurable service levels: uptime, response time, penalties", "Yes"],
+        ["MOU", "A shared understanding of intent between parties", "Usually not"],
+        ["MOA", "Agreed roles and responsibilities, more formal than an MOU", "Often"],
+        ["MSA", "The umbrella terms governing an ongoing relationship", "Yes"],
+        ["SOW or WO", "The specific deliverables and timeline for one piece of work", "Yes, under the MSA"],
+        ["NDA", "Confidentiality of information exchanged", "Yes"],
+        ["BPA", "How two businesses will operate a joint venture, including profit sharing", "Yes"]
+      ],
+      "rule": "MSA is the umbrella, SOW is the individual job under it. SLA is the measurable promise. MOU is intent without teeth.",
+      "tell": "Any number with a unit, such as 99.9% or four hours, means SLA. 'Deliverables and milestones for this project' means SOW.",
+      "trap": "MOU and MOA differ by one letter and are both about mutual understanding. MOU is intent, MOA adds defined responsibilities and is normally binding."
+    }
+  },
+  {
+    "id": "vendor-assessment-methods",
+    "label": "Right-to-audit clause vs independent assessment vs questionnaire vs supply chain analysis",
+    "objective": "5.3",
+    "topics": ["right-to-audit-clause", "independent-assessments", "evidence-of-internal-audits", "supply-chain-analysis", "questionnaires", "vendor-monitoring"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose a vendor assurance method that does not give the level of confidence the scenario asked for.",
+      "contrast": [
+        ["Method", "What you get", "Strength"],
+        ["Questionnaire", "The vendor's own answers about its controls", "Weakest, self-reported"],
+        ["Evidence of internal audits", "The vendor's own audit reports", "Better, still the vendor auditing itself"],
+        ["Independent assessment", "A third party's report, such as SOC 2", "Strong, and on the vendor's schedule and scope"],
+        ["Right-to-audit clause", "A contractual right for YOU to audit them", "Strongest, on your schedule and your scope"],
+        ["Supply chain analysis", "Visibility into the vendor's own suppliers", "Addresses fourth-party risk"]
+      ],
+      "rule": "A right-to-audit clause must be negotiated into the contract before signing. Afterwards you get whatever the vendor chooses to share.",
+      "tell": "'We must be able to inspect their controls ourselves, at a time of our choosing' is a right-to-audit clause.",
+      "trap": "A SOC 2 report is genuinely independent and is the usual answer, but its scope and timing are chosen by the vendor. When the stem stresses your control over the review, it is the right-to-audit clause."
+    }
+  },
+  {
+    "id": "vendor-lifecycle-and-independence",
+    "label": "Due diligence before, monitoring during, and who is independent enough to assess",
+    "objective": "5.3",
+    "topics": ["due-diligence", "vendor-monitoring", "independent-assessments", "evidence-of-internal-audits", "conflict-of-interest", "vendor-penetration-testing", "supply-chain-analysis"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated third-party risk as a thing you do once, at signing. The objectives split it across the relationship, and separately care about whether whoever assessed the vendor had a reason to be kind.",
+      "contrast": [
+        ["Activity", "When", "What it answers"],
+        ["Due diligence", "Before onboarding", "Should we engage this supplier at all"],
+        ["Questionnaires", "Before, and periodically", "What the vendor says about itself"],
+        ["Evidence of internal audits", "Periodically", "What the vendor's own assurance function found, graded by the vendor"],
+        ["Independent assessment", "Periodically", "What a third party with no stake found"],
+        ["Right-to-audit clause", "Contracted up front, exercised later", "Whether you may go and look yourself"],
+        ["Vendor penetration testing", "Periodically, by agreement", "Whether the vendor's controls survive an attacker"],
+        ["Vendor monitoring", "Continuously", "Has anything changed since we assessed them"]
+      ],
+      "rule": "Due diligence is a decision about entering a relationship. Monitoring is how you notice it has changed. A vendor assessed once at signing is a vendor you know nothing current about.",
+      "tell": "A supplier breached years into a relationship points to monitoring. A supplier being selected points to due diligence.",
+      "trap": "A conflict of interest invalidates the assessment regardless of its findings. An assessor paid by the vendor, or one who also sells them remediation, is not independent, and the exam expects you to notice that before reading the conclusion."
+    }
+  }
+]

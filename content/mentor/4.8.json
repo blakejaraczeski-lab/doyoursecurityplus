@@ -1,0 +1,168 @@
+[
+  {
+    "id": "ir-phase-order",
+    "label": "Incident response phase order",
+    "objective": "4.8",
+    "topics": ["preparation", "detection", "analysis", "containment", "eradication", "recovery", "lessons-learned"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You acted out of order, most often by cleaning or rebuilding before the spread was stopped.",
+      "contrast": [
+        ["Phase", "Question it answers", "Common error"],
+        ["Preparation", "Do we have a plan, tools and training", "Skipped, then improvised during the incident"],
+        ["Detection", "Did something happen", "Confused with analysis"],
+        ["Analysis", "What is it, how far has it spread", "Skipped, so the scope is guessed"],
+        ["Containment", "How do we stop it spreading right now", "Done after eradication, too late"],
+        ["Eradication", "How do we remove it", "Done first, while the worm keeps spreading"],
+        ["Recovery", "How do we get back to normal safely", "Restored before the hole was closed"],
+        ["Lessons learned", "How do we stop a repeat", "Never done"]
+      ],
+      "rule": "Contain first. You cannot meaningfully clean a network that is still actively spreading.",
+      "tell": "If a question offers both 'isolate the host' and 'run a full malware removal', isolation comes first every time.",
+      "trap": "Removing the malware feels like the decisive fix, and it is the satisfying answer. It is wasted work while neighbouring hosts keep reinfecting."
+    }
+  },
+  {
+    "id": "isolate-vs-power-off",
+    "label": "Isolating an infected host vs powering it off",
+    "objective": "4.8",
+    "topics": ["containment", "acquisition", "preservation", "quarantine"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You powered the machine down to contain it. That contains the malware and destroys the evidence at the same time.",
+      "contrast": [
+        ["Action", "Stops the spread", "Preserves evidence"],
+        ["Disconnect from the network or quarantine via NAC", "Yes", "Yes, memory stays live"],
+        ["Power off", "Yes", "No, RAM, running processes and network connections are gone"],
+        ["Do nothing and keep watching", "No", "Yes"],
+        ["Reimage immediately", "Yes", "No, everything is gone"]
+      ],
+      "rule": "Disconnect, do not power off. Isolation gives you containment without losing volatile evidence.",
+      "tell": "Any stem mentioning forensics, investigation, legal action or root cause means you must keep the host powered and isolated.",
+      "trap": "Powering off is the most complete way to stop the host doing anything, so it feels like the strongest containment. It is the one containment method that cannot be undone."
+    }
+  },
+  {
+    "id": "order-of-volatility",
+    "label": "Order of volatility when collecting evidence",
+    "objective": "4.8",
+    "topics": ["acquisition", "preservation", "chain-of-custody"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You collected the durable evidence first. Collect what disappears soonest, first.",
+      "contrast": [
+        ["Order", "Source", "Lifetime"],
+        ["1", "CPU registers and cache", "Nanoseconds"],
+        ["2", "RAM, running processes, network connections", "Until power is lost"],
+        ["3", "Temporary files and swap", "Until reboot or cleanup"],
+        ["4", "Disk", "Persistent"],
+        ["5", "Remote logs and monitoring data", "Persistent, held elsewhere"],
+        ["6", "Archives and backups", "Longest"]
+      ],
+      "rule": "Most volatile first. Memory before disk, always.",
+      "tell": "'Which should the analyst collect first' is nearly always asking for the most volatile item on the list.",
+      "trap": "A disk image feels like the serious forensic artefact, and it is the one people picture. It is also the one that will still be there in an hour."
+    }
+  },
+  {
+    "id": "chain-of-custody-vs-legal-hold",
+    "label": "Chain of custody vs legal hold",
+    "objective": "4.8",
+    "topics": ["chain-of-custody", "legal-hold", "e-discovery"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You used the two terms as if they were the same control. One documents handling, the other suspends deletion.",
+      "contrast": [
+        ["Aspect", "Chain of custody", "Legal hold"],
+        ["What it is", "A documented record of who had the evidence, when", "An instruction to preserve data and stop routine deletion"],
+        ["Starts when", "Evidence is collected", "Litigation is anticipated"],
+        ["Protects against", "Claims the evidence was altered", "Data being destroyed by normal retention"],
+        ["Owner", "The responder handling the item", "Legal, applied to custodians and systems"]
+      ],
+      "rule": "Chain of custody protects evidence you already hold. Legal hold stops the organisation destroying evidence you will need.",
+      "tell": "'Ensure the backup rotation does not overwrite the relevant mailboxes' is a legal hold, not chain of custody.",
+      "trap": "Both are the careful, legally minded answer, so both feel right. Decide by whether the risk is tampering or deletion."
+    }
+  },
+  {
+    "id": "clean-vs-reimage",
+    "label": "Cleaning an infected host vs reimaging it",
+    "objective": "4.8",
+    "topics": ["eradication", "recovery", "rootkit", "endpoint-detection-and-response-edr"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You trusted a cleaning tool on a host that had been deeply compromised. Once privilege was taken at the kernel level, no tool running on that host can be trusted to report truthfully.",
+      "contrast": [
+        ["Situation", "Right action", "Why"],
+        ["Commodity malware caught by EDR, no privilege escalation", "Clean and verify", "Contained early, integrity intact"],
+        ["Rootkit, or unknown persistence, or confirmed admin compromise", "Reimage from a known good image", "You cannot prove what else was changed"],
+        ["Ransomware encrypted the data", "Reimage, then restore from clean backup", "Decryptors and paying are not remediation"],
+        ["After any reimage", "Patch and change credentials before returning it to service", "Otherwise it is reinfected the same way"]
+      ],
+      "rule": "When integrity is in doubt, rebuild. Cleaning restores function, reimaging restores trust.",
+      "tell": "Rootkit, kernel level, or 'reappears after removal' all mean reimage.",
+      "trap": "Reimaging is disruptive and costs the user their machine for an afternoon, so the cheaper answer is tempting. The exam consistently prefers restoring trust."
+    }
+  },
+  {
+    "id": "ransomware-pay",
+    "label": "Responding to ransomware",
+    "objective": "4.8",
+    "topics": ["ransomware", "recovery", "backup-frequency", "onsite-offsite-backups"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated paying or decrypting as the recovery plan. The exam's recovery path for ransomware is always backups.",
+      "contrast": [
+        ["Option", "Exam view", "Why"],
+        ["Restore from offline or immutable backup", "Correct", "The only path that does not depend on the attacker"],
+        ["Pay the ransom", "Not the answer", "No guarantee of a key, funds the next attack, may be unlawful"],
+        ["Backups on a reachable network share", "Insufficient", "Modern ransomware encrypts those too"],
+        ["Negotiate for time", "Not a technical control", "Does nothing about the spread"]
+      ],
+      "rule": "The answer to ransomware is a tested, offline or immutable backup, restored after the host is rebuilt.",
+      "tell": "If the stem says backups are on a mapped drive, the finding is the backup design, not the malware.",
+      "trap": "Paying appears in the option list because organisations really do it. It is never the exam's answer."
+    }
+  },
+  {
+    "id": "threat-hunting-vs-detection",
+    "label": "Threat hunting vs monitoring and detection",
+    "objective": "4.8",
+    "topics": ["threat-hunting", "detection", "analysis", "preparation"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You read threat hunting as a better word for monitoring. Monitoring waits for a rule to fire. Hunting starts from a hypothesis and goes looking, specifically for what no rule would have caught.",
+      "contrast": [
+        ["", "Monitoring and detection", "Threat hunting"],
+        ["Trigger", "An alert fires from a rule, signature or baseline", "A human forms a hypothesis and investigates"],
+        ["Assumption", "We will be told when something is wrong", "Something is already here that nothing told us about"],
+        ["Input", "Rules, signatures, thresholds", "Threat intelligence, attacker tradecraft, an analyst's judgement"],
+        ["Output", "Alerts to triage", "Either a finding, or a new detection rule so it becomes monitoring next time"],
+        ["When it runs", "Continuously, automatically", "Deliberately scheduled, resource intensive"]
+      ],
+      "rule": "If an alert started it, that is detection. If a person started it on a theory, that is hunting. A successful hunt usually ends by producing the rule that would have caught it.",
+      "tell": "Phrases such as 'proactively search', 'assume compromise', or 'no alerts were generated'.",
+      "trap": "Hunting is not a tool you buy and not something a SIEM does by itself. It is an analyst-driven activity that uses the SIEM, which is why the objectives place it under incident response rather than under monitoring."
+    }
+  },
+  {
+    "id": "incident-reporting-and-recovery",
+    "label": "Recovery as an incident response activity, and who the incident must be reported to",
+    "objective": "4.8",
+    "topics": ["recovery-2", "reporting-3", "lessons-learned", "training", "tabletop-exercise", "simulation-2"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated the incident as over once the attacker was removed. Recovery, reporting and the lessons that follow are named activities, and two of them have deadlines set by someone other than you.",
+      "contrast": [
+        ["Activity", "What it means here", "Commonly missed"],
+        ["Recovery", "Returning systems to normal service and confirming they are clean and functioning", "Restoring before eradication is complete, so reinfection follows"],
+        ["Reporting", "Notifying those who must be told: management, regulators, customers, insurers, law enforcement", "Statutory deadlines, which can be as short as 72 hours"],
+        ["Lessons learned", "What changes so it does not happen again", "Skipped because the fire is out and everyone is tired"],
+        ["Training and exercises", "Preparation: tabletop discussion, simulation, full failover", "Treated as optional until the first real incident goes badly"]
+      ],
+      "rule": "Recovery restores the service, reporting discharges an obligation, and lessons learned changes the system. Reporting is the one with an external clock on it.",
+      "tell": "A stem mentioning personal data, a regulated sector, or a question about what is still outstanding after containment.",
+      "trap": "Reporting obligations usually run from when you became aware, not from when you finish investigating. Waiting until the picture is complete is how the deadline is missed."
+    }
+  }
+]

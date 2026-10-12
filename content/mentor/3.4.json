@@ -1,0 +1,161 @@
+[
+  {
+    "id": "site-types-hot-warm-cold",
+    "label": "Hot, warm and cold recovery sites",
+    "objective": "3.4",
+    "topics": ["hot-site", "warm-site", "cold-site", "geographic-dispersion", "recovery-time-objective-rto"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You matched a site type to the wrong recovery time or cost. The three differ only by how much is already running when you arrive.",
+      "contrast": [
+        ["Site", "What is there", "Time to operational", "Cost"],
+        ["Hot", "Hardware, software and current data, running", "Minutes", "Highest"],
+        ["Warm", "Hardware and software, data is stale or must be restored", "Hours to days", "Moderate"],
+        ["Cold", "Space, power and connectivity only", "Days to weeks", "Lowest"],
+        ["Cloud or mobile", "Provisioned on demand", "Varies", "Pay as used"]
+      ],
+      "rule": "Hot means data is already there and current. Warm means the kit is there and the data is not. Cold means an empty room.",
+      "tell": "Match to the RTO in the stem. An RTO of one hour rules out warm and cold immediately. A tight budget with a tolerant RTO points to cold.",
+      "trap": "Warm sites are described as having hardware and software ready, which sounds nearly instant. The missing current data is what costs you the hours or days."
+    }
+  },
+  {
+    "id": "ha-vs-load-balancing-vs-clustering",
+    "label": "High availability, load balancing and clustering",
+    "objective": "3.4",
+    "topics": ["high-availability", "load-balancing-vs-clustering", "load-balancer", "multi-cloud-systems"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated these as the same thing. They overlap and they solve different problems.",
+      "contrast": [
+        ["Concept", "Primary purpose", "If a node dies"],
+        ["Load balancing", "Spread requests across servers for capacity", "Traffic is directed to the remaining nodes"],
+        ["Clustering", "Servers act as one logical system, sharing state", "Another node takes over the workload and its state"],
+        ["High availability", "The outcome: minimal downtime", "Achieved by the above plus redundancy everywhere"],
+        ["Failover", "Switching to a standby", "The standby becomes active"]
+      ],
+      "rule": "Load balancing is about capacity and gives availability as a side effect. Clustering is about servers acting as one system with shared state. High availability is the goal, not the mechanism.",
+      "tell": "'Distribute incoming requests across the web farm' is load balancing. 'The database must keep running with its session state intact if a node fails' is clustering.",
+      "trap": "A load balancer does improve availability, so it answers many availability questions. When the stem stresses shared state or a single logical system, it is clustering."
+    }
+  },
+  {
+    "id": "backup-methods",
+    "label": "Snapshot vs replication vs journaling vs backup",
+    "objective": "3.4",
+    "topics": ["snapshots", "replication", "journaling", "onsite-offsite-backups", "backup-frequency"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose a data protection method that does not survive the scenario's failure mode. Replication in particular is not a backup.",
+      "contrast": [
+        ["Method", "What it gives you", "Protects against"],
+        ["Backup", "A separate copy retained over time", "Deletion, corruption, ransomware, going back in time"],
+        ["Snapshot", "A point in time view, usually on the same storage", "Bad change or upgrade, recent and fast"],
+        ["Replication", "A continuously updated second copy", "Hardware or site failure only"],
+        ["Journaling", "A record of every change, so you can replay to any moment", "Very small RPO, fine grained recovery"]
+      ],
+      "rule": "Replication copies your mistakes as fast as it copies your data. Only a retained, separated backup lets you go back to before the damage.",
+      "tell": "Ransomware or accidental deletion means backup, and it must be offline or immutable. Site loss means replication. Near zero RPO means journaling or continuous replication.",
+      "trap": "Replication sounds strictly better than backup because it is continuous. Continuity is exactly the problem: the encryption or the deletion replicates too."
+    }
+  },
+  {
+    "id": "ups-vs-generator",
+    "label": "UPS vs generator",
+    "objective": "3.4",
+    "topics": ["uninterruptible-power-supply-ups", "generators", "power"],
+    "severity": "low",
+    "mentor": {
+      "diagnosis": "You expected one device to cover the whole outage. They cover different parts of it and are designed to be used together.",
+      "contrast": [
+        ["Device", "Engages", "Runs for", "Purpose"],
+        ["UPS", "Instantly, no gap", "Minutes", "Ride through a brief dip, or bridge to the generator"],
+        ["Generator", "After a start delay", "Days, while fuel lasts", "Sustain the site through a long outage"]
+      ],
+      "rule": "The UPS covers the seconds the generator needs to start. Neither alone covers a long outage without interruption.",
+      "tell": "'No interruption at all, even momentarily' means a UPS must be present. 'Keep running for two days' means a generator.",
+      "trap": "A generator sounds like the complete answer because it lasts far longer. It cannot start instantly, so without a UPS everything still drops."
+    }
+  },
+  {
+    "id": "tabletop-vs-simulation",
+    "label": "Tabletop exercise vs simulation vs failover test",
+    "objective": "3.4",
+    "topics": ["tabletop-exercises", "simulation", "fail-over", "parallel-processing"],
+    "severity": "low",
+    "mentor": {
+      "diagnosis": "You chose a test that disrupts production when the stem asked for the low impact option, or the reverse.",
+      "contrast": [
+        ["Test", "What happens", "Disruption"],
+        ["Tabletop", "People talk through the plan in a room", "None"],
+        ["Walkthrough", "Step by step review of the procedure", "None"],
+        ["Simulation", "A realistic scenario is acted out, systems may be touched", "Low to moderate"],
+        ["Parallel processing", "Recovery site runs alongside production", "Low, production stays up"],
+        ["Failover", "Production is actually cut over to the recovery site", "High, and the most conclusive"]
+      ],
+      "rule": "Discussion only means tabletop. Proving it really works means a failover test. Parallel processing is the compromise.",
+      "tell": "'Without impacting production' rules out failover immediately.",
+      "trap": "Failover is the most thorough test, so it reads as the best practice answer when the stem has quietly forbidden downtime."
+    }
+  },
+  {
+    "id": "diversity-and-multicloud",
+    "label": "Platform diversity and multi-cloud as defences against correlated failure",
+    "objective": "3.4",
+    "topics": ["platform-diversity", "multi-cloud-systems", "geographic-dispersion", "high-availability-2"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated redundancy and diversity as the same thing. Two identical systems fail together for an identical reason, which is the failure mode diversity exists to break.",
+      "contrast": [
+        ["Approach", "Protects against", "Does not protect against"],
+        ["Redundancy (more of the same)", "One instance failing: hardware, a disk, a node", "A flaw, vulnerability or misconfiguration shared by all of them"],
+        ["Platform diversity", "A single vendor flaw or a common vulnerability taking everything at once", "Operational complexity, which it adds"],
+        ["Multi-cloud", "One provider's outage, pricing or regional failure", "Your own misconfiguration, which you can replicate everywhere"],
+        ["Geographic dispersion", "A site-level event: fire, flood, power, regional outage", "A logical fault replicated between sites"]
+      ],
+      "rule": "Redundancy answers 'what if this one breaks'. Diversity answers 'what if they all break for the same reason'. If the stem describes a single vulnerability affecting every node, more of the same node is not the answer.",
+      "tell": "A single vendor advisory taking down an entire fleet, or an outage at one cloud provider.",
+      "trap": "Diversity has a real cost: more platforms means more expertise, more patching and more ways to misconfigure. The exam expects you to recognise the trade, not to treat diversity as free."
+    }
+  },
+  {
+    "id": "capacity-planning-dimensions",
+    "label": "Capacity planning for people, technology and infrastructure",
+    "objective": "3.4",
+    "topics": ["capacity-planning-people", "capacity-planning-technology", "capacity-planning-infrastructure", "continuity-of-operations", "scalability"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You read capacity planning as a hardware sizing exercise. The objectives split it into three because the one that fails during an incident is usually not the technology.",
+      "contrast": [
+        ["Dimension", "What it covers", "How it fails in a real event"],
+        ["People", "Enough trained staff, with cover for absence and shift rotation", "One person knows the recovery process and is unreachable"],
+        ["Technology", "Compute, storage, licences, throughput", "Failover capacity exists but the licences do not cover the second site"],
+        ["Infrastructure", "Power, cooling, space, network, bandwidth", "The DR site has the servers and not the power to run them at full load"]
+      ],
+      "rule": "Continuity of operations planning asks whether the organisation can keep functioning, which means asking the people and infrastructure questions and not only the technology one.",
+      "tell": "A recovery plan that works on paper, with a stem hinting at a single expert, a licence limit, or a secondary site at reduced power.",
+      "trap": "People capacity is the one most often skipped and most often the real constraint. A plan requiring twenty responders when six are on call has not been capacity planned."
+    }
+  },
+  {
+    "id": "backup-parameters",
+    "label": "Backup frequency, encryption and proving recovery works",
+    "objective": "3.4",
+    "topics": ["backup-frequency", "backup-encryption", "recovery", "onsite-offsite-backups", "snapshots"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You judged a backup design by whether backups exist. What matters is how much work the frequency allows you to lose, whether the copy is readable by the wrong people, and whether anyone has ever restored from it.",
+      "contrast": [
+        ["Parameter", "Question it answers", "Consequence of getting it wrong"],
+        ["Frequency", "How much data can we afford to lose, the RPO", "Nightly backups mean up to a day of work is gone"],
+        ["Retention", "How far back can we go", "The only clean copy predates the compromise and was already overwritten"],
+        ["Encryption", "Is the copy safe outside our control", "A lost or stolen backup is a breach rather than an inconvenience"],
+        ["Offsite or offline", "Does it survive what hit production", "Ransomware encrypts the backups too, because it could reach them"],
+        ["Recovery testing", "Does restoring actually work, within the RTO", "You discover the backup is unreadable at the worst possible moment"]
+      ],
+      "rule": "Backup frequency sets the RPO and recovery speed sets the RTO. An untested backup is a hypothesis, and a backup reachable from the system it protects is a second copy waiting to be encrypted.",
+      "tell": "A stated tolerance for lost work points to frequency. A stolen tape points to encryption. A restore that failed points to testing.",
+      "trap": "Snapshots are frequently mistaken for backups. A snapshot usually lives on the same storage as the original, so it survives deletion and does not survive the array, the ransomware, or the site."
+    }
+  }
+]

@@ -1,0 +1,209 @@
+[
+  {
+    "id": "hashing-vs-encryption",
+    "label": "Hashing vs encryption",
+    "objective": "1.4",
+    "topics": ["hashing", "symmetric-encryption", "asymmetric-encryption", "digital-signatures"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You offered a hash where the requirement was confidentiality, or encryption where the requirement was integrity.",
+      "contrast": [
+        ["Aspect", "Hashing", "Encryption"],
+        ["Reversible", "No, one way by design", "Yes, with the key"],
+        ["Provides", "Integrity", "Confidentiality"],
+        ["Output size", "Fixed, whatever the input", "Roughly the input size"],
+        ["Uses a key", "No, unless it is an HMAC", "Always"],
+        ["Right for", "Verify a file was not altered, store passwords", "Keep data secret at rest or in transit"]
+      ],
+      "rule": "If the data must be read back, it must be encryption. If you only need to prove it did not change, it is a hash.",
+      "tell": "'Verify the download was not modified' is hashing. 'Protect the data if the laptop is stolen' is encryption.",
+      "trap": "Both are cryptography and both are correct sounding security answers. Decide by whether anybody ever needs the original back."
+    }
+  },
+  {
+    "id": "salting-purpose",
+    "label": "What salting actually defeats",
+    "objective": "1.4",
+    "topics": ["salting", "hashing", "key-stretching", "password-brute-force"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You said salting makes hashing slower or stronger. It does neither. It makes precomputation useless.",
+      "contrast": [
+        ["Attack", "Stopped by salt", "Stopped by key stretching"],
+        ["Rainbow table, precomputed hashes", "Yes", "Not the point"],
+        ["Two users with the same password producing the same hash", "Yes", "No"],
+        ["Brute force against one hash", "No", "Yes, each guess is made expensive"],
+        ["GPU cracking at scale", "No", "Yes"]
+      ],
+      "rule": "Salt defeats precomputation and reuse. Key stretching (bcrypt, PBKDF2, Argon2, scrypt) defeats speed. Real systems use both.",
+      "tell": "'Rainbow table' in the stem means salt. 'The attacker is running millions of guesses per second' means key stretching.",
+      "trap": "Salting genuinely improves password storage, so 'it makes the hash harder to crack' feels true. It is true only against precomputed tables."
+    }
+  },
+  {
+    "id": "crl-vs-ocsp",
+    "label": "CRL vs OCSP vs OCSP stapling",
+    "objective": "1.4",
+    "topics": ["certificate-revocation-lists-crls", "online-certificate-status-protocol-ocsp", "certificate-authorities"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated the three revocation checks as interchangeable. They differ in who asks and how current the answer is.",
+      "contrast": [
+        ["Aspect", "CRL", "OCSP", "OCSP stapling"],
+        ["Mechanism", "Download the whole list of revoked serials", "Ask the CA about one certificate", "The server attaches a recent signed CA response"],
+        ["Freshness", "As stale as the last publication", "Live", "Recent, refreshed by the server"],
+        ["Client privacy", "Fine, no per site lookup", "Poor, the CA learns every site you visit", "Fine, the client asks nobody"],
+        ["Performance", "Large download", "An extra round trip per certificate", "Best, no extra round trip"]
+      ],
+      "rule": "CRL is a list you fetch. OCSP is a question you ask. Stapling is the server answering it for you, in advance.",
+      "tell": "'Reduce latency' or 'avoid the client contacting the CA' means stapling.",
+      "trap": "OCSP is more current than a CRL, so it reads as the best answer whenever freshness is mentioned. If the stem mentions performance or privacy, stapling beats it."
+    }
+  },
+  {
+    "id": "digital-signature-properties",
+    "label": "What a digital signature does and does not provide",
+    "objective": "1.4",
+    "topics": ["digital-signatures", "non-repudiation", "confidentiality", "integrity"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You expected a signature to keep the message secret. Signing and encrypting are separate operations using opposite keys.",
+      "contrast": [
+        ["Property", "Digital signature", "Encryption with the recipient's public key"],
+        ["Confidentiality", "No, the message is still readable", "Yes"],
+        ["Integrity", "Yes", "No, not on its own"],
+        ["Authentication of sender", "Yes", "No"],
+        ["Non-repudiation", "Yes", "No"],
+        ["Key used", "Sender signs with their private key", "Sender encrypts with the recipient's public key"]
+      ],
+      "rule": "Sign with your private key so anyone can verify it was you. Encrypt with their public key so only they can read it. To get both, do both.",
+      "tell": "'Prove the sender cannot later deny it' is non-repudiation, which means a digital signature.",
+      "trap": "A signed message looks protected because the signature block is cryptographic. The body is plaintext."
+    }
+  },
+  {
+    "id": "encryption-scope-levels",
+    "label": "Full disk vs partition vs volume vs file vs database vs record encryption",
+    "objective": "1.4",
+    "topics": ["full-disk-encryption", "partition-encryption", "volume-encryption", "file-encryption", "database-encryption", "record-encryption", "transport-communication-encryption"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You chose by how much the option encrypts rather than by what threat the stem describes. Each level protects against a different moment, and the broadest is not the strongest.",
+      "contrast": [
+        ["Level", "Protects against", "Useless against"],
+        ["Full disk", "The device being stolen or lost while powered off", "Anyone who is logged in: once booted, everything is transparent"],
+        ["Partition / volume", "The same, scoped to part of the disk", "The same blind spot, plus whatever sits outside the protected volume"],
+        ["File", "Access to one file by someone who can otherwise read the disk", "Nothing, if the key is available to the same account"],
+        ["Database", "Theft of the database files or backups", "A legitimate query: the database decrypts for authorised sessions"],
+        ["Record / column", "Exposure of specific sensitive fields even to database users", "Fields you did not encrypt, and anyone with the key"],
+        ["Transport", "Interception on the wire", "Anything at either end, where it is plaintext"]
+      ],
+      "rule": "Full disk protects a powered-off device. Record-level protects a field from people who can legitimately read the database. If the stem has an authorised user misusing access, disk encryption is never the answer.",
+      "tell": "A lost laptop points to full disk. A DBA who should not see card numbers points to record or column level. A sniffed network points to transport.",
+      "trap": "Full disk encryption is the most familiar answer and does nothing once the machine is running and unlocked, which is the state it spends almost all its life in."
+    }
+  },
+  {
+    "id": "key-management-essentials",
+    "label": "Key exchange, key length, key escrow and the key management system",
+    "objective": "1.4",
+    "topics": ["key-exchange", "key-length", "algorithms", "key-escrow", "key-management-system"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You treated the key as a detail of the algorithm. Most real cryptographic failures are key management failures: how the key got there, how long it is, and who else holds a copy.",
+      "contrast": [
+        ["Concept", "What it addresses", "Failure mode"],
+        ["Key exchange", "Agreeing a shared secret over an untrusted channel, as with Diffie-Hellman", "Sending the key alongside the ciphertext"],
+        ["Key length", "The work an attacker must do to brute force", "Comparing lengths across algorithm families as if they were equivalent"],
+        ["Algorithm selection", "Using a primitive suited to the job and not deprecated", "Choosing by familiarity: DES, MD5, SHA-1 still get picked"],
+        ["Key escrow", "A third party holding a copy so data is recoverable", "The copy is a second place to steal the key from"],
+        ["Key management system", "Generation, distribution, rotation, revocation and destruction", "Keys living in source code and configuration files"]
+      ],
+      "rule": "Key lengths compare only inside an algorithm family. A 256-bit symmetric key and a 2048-bit RSA key are roughly comparable in strength, which is why the numbers look so different.",
+      "tell": "A stem about two parties with no prior contact establishing a shared secret, or about recovering data when an employee leaves.",
+      "trap": "Escrow sounds like a weakness and is a deliberate trade: it is how an organisation reads its own encrypted data after someone departs. The exam wants you to know the trade-off exists, not to reject it."
+    }
+  },
+  {
+    "id": "root-of-trust-hardware",
+    "label": "TPM vs HSM vs secure enclave vs key management system",
+    "objective": "1.4",
+    "topics": ["trusted-platform-module", "hardware-security-module", "secure-enclave", "key-management-system", "root-of-trust"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You matched on the word hardware. These differ by where they live, what they are for, and whether they serve one machine or many.",
+      "contrast": [
+        ["", "Scope", "Purpose", "Typical use"],
+        ["TPM", "Soldered to one machine's board", "Root of trust for that device: measured boot, sealed keys", "Full disk encryption key that only releases if boot state is unchanged"],
+        ["HSM", "A dedicated appliance or card serving many systems", "High-assurance key generation, storage and operations", "A certificate authority's private key; payment processing"],
+        ["Secure enclave", "An isolated region of the main processor", "Protecting keys and operations from the OS itself", "Phone biometrics and device keys"],
+        ["Key management system", "Software, often a service", "Lifecycle: generation, rotation, revocation, destruction, policy", "Managing thousands of keys across an estate"]
+      ],
+      "rule": "A TPM anchors one machine. An HSM serves many and is built to be tamper-evident and certified. An enclave protects against the operating system on the same chip. A KMS manages the lifecycle, usually backed by one of the others.",
+      "tell": "A stem about a key that must never leave hardware, or about disk encryption keys tied to a machine's boot state.",
+      "trap": "A TPM is not an HSM. It is cheap, soldered down, and scoped to its own host. Proposing a TPM to protect a CA's signing key is the classic wrong answer."
+    }
+  },
+  {
+    "id": "certificate-types-and-trust",
+    "label": "Self-signed vs third-party vs wildcard certificates, and the CSR",
+    "objective": "1.4",
+    "topics": ["self-signed-certificates", "third-party-certificates", "wildcard-certificates", "certificate-signing-request-generation", "certificate-authorities", "root-of-trust"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You judged certificates by the encryption they enable. All of these encrypt identically. What differs is who vouches for the identity, and for how many names.",
+      "contrast": [
+        ["Type", "Signed by", "Trusted by default", "Right use"],
+        ["Self-signed", "Itself", "Nothing", "Internal systems where you distribute the trust yourself"],
+        ["Private CA", "Your own internal CA", "Devices you enrolled", "Internal estate at scale"],
+        ["Third-party CA", "A publicly trusted CA", "Every browser and OS", "Anything the public reaches"],
+        ["Wildcard", "Either", "Per the signer", "Many subdomains at one level, such as *.example.com"]
+      ],
+      "rule": "A CSR is generated on the system that will hold the private key, and the private key never leaves it. You send the CSR, you receive a signed certificate, and only the public half ever travels.",
+      "tell": "Browser warnings on an internal site point to self-signed. A need to cover many subdomains points to wildcard. A key that was emailed anywhere points to a compromised process.",
+      "trap": "A wildcard certificate covers one level only: *.example.com does not cover a.b.example.com. It also means one compromised private key exposes every host using it, which is why spreading a wildcard across many servers is a trade rather than a convenience."
+    }
+  },
+  {
+    "id": "obfuscation-methods",
+    "label": "Steganography vs tokenisation vs data masking vs hashing",
+    "objective": "1.4",
+    "topics": ["steganography", "tokenization", "data-masking", "hashing", "obfuscation"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You grouped these as 'ways of hiding data' and stopped there. They differ on whether the original can come back and who is meant to be fooled.",
+      "contrast": [
+        ["Method", "Original recoverable", "Hides", "Typical use"],
+        ["Steganography", "Yes, by whoever knows it is there", "That any message exists at all", "Covert channels, exfiltration inside images"],
+        ["Tokenisation", "Yes, via a separate vault mapping", "The real value in the system holding it", "Card numbers that must still support refunds"],
+        ["Data masking", "Sometimes, depending on technique", "Part or all of the value from the viewer", "Showing only the last four digits to support staff"],
+        ["Hashing", "No, by design", "The input, irreversibly", "Password verification, integrity checking"],
+        ["Encryption", "Yes, with the key", "The content from anyone without the key", "Confidentiality anywhere"]
+      ],
+      "rule": "Ask whether the original value needs to come back, and to whom. Hashing is the only one of these that is one way. Steganography is the only one hiding the existence of the message rather than its content.",
+      "tell": "A stem about data that must remain usable for a business process while not being present in its real form.",
+      "trap": "Steganography is often misremembered as a form of encryption. It provides no confidentiality: find the payload and you have it. Its property is concealment, which is why it appears in exfiltration scenarios rather than protection ones."
+    }
+  },
+  {
+    "id": "blockchain-ledger-properties",
+    "label": "What a blockchain and an open public ledger actually provide",
+    "objective": "1.4",
+    "topics": ["blockchain", "open-public-ledger", "hashing", "digital-signatures"],
+    "severity": "low",
+    "mentor": {
+      "diagnosis": "You assumed a blockchain provides confidentiality. It is built from hashing and digital signatures, and what it delivers is integrity and a verifiable shared history, not secrecy.",
+      "contrast": [
+        ["Property", "Does a public blockchain provide it", "Why"],
+        ["Integrity", "Yes", "Each block commits to the previous one by hash, so altering history breaks every block after it"],
+        ["Non-repudiation", "Yes", "Entries are signed by the key that authorised them"],
+        ["Availability of the record", "Yes", "Replicated across many independent participants"],
+        ["Confidentiality", "No", "An open public ledger is readable by anyone, which is what open means"],
+        ["Anonymity", "No", "Pseudonymous at best; addresses are persistent and linkable"]
+      ],
+      "rule": "A blockchain is a tamper-evident append-only log maintained by people who do not trust each other. If the requirement is secrecy, it is the wrong tool.",
+      "tell": "A scenario needing a shared record several parties can verify without a central authority.",
+      "trap": "Immutable is shorthand, not a law of physics. The record is tamper-evident because changing it would be obvious to everyone holding a copy, not because the bytes cannot be edited."
+    }
+  }
+]

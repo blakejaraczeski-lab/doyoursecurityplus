@@ -1,0 +1,214 @@
+[
+  {
+    "id": "aw-001",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["hybrid-remote-work-environments", "situational-awareness", "operational-security"],
+    "difficulty": 4,
+    "stem": "An organisation's awareness training was written when all staff worked in the office. Half now work from home or from shared spaces. Which gap is most likely?",
+    "options": [
+      {"id": "a", "text": "It assumes a controlled perimeter, so it omits home network security, shared workspace shoulder surfing and household device separation", "correct": true, "why": "Hybrid and remote work is listed as its own topic because the assumptions change: there is no reception desk, no corporate network, and often no private space."},
+      {"id": "b", "text": "It will overemphasise phishing, which is less relevant remotely", "misconception": "awareness-topic-coverage", "why": "Phishing is at least as relevant remotely, since there is no colleague nearby to sanity check a suspicious message."},
+      {"id": "c", "text": "It cannot cover password management for remote staff", "misconception": "awareness-topic-coverage", "why": "Password management applies identically wherever someone works."},
+      {"id": "d", "text": "Remote staff do not require awareness training because they use managed devices", "misconception": "awareness-topic-coverage", "why": "A managed device does not make judgement calls about a convincing phone call or an overlooked screen."}
+    ]
+  },
+  {
+    "id": "aw-002",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["social-engineering-awareness", "recognizing-a-phishing-attempt"],
+    "difficulty": 4,
+    "stem": "A caller claiming to be from the IT service desk pressures a finance assistant to read back a one-time code, citing an urgent outage. Which awareness topic addresses this most directly?",
+    "options": [
+      {"id": "a", "text": "Social engineering awareness, which trains recognition of urgency, authority and pretext", "correct": true, "why": "No technical control intercepts a persuasive phone call. The defence is the person recognising the pattern and having a sanctioned way to refuse."},
+      {"id": "b", "text": "Password management", "misconception": "awareness-topic-coverage", "why": "Concerns how credentials are chosen and stored, not how someone is talked out of one."},
+      {"id": "c", "text": "Removable media and cables", "misconception": "awareness-topic-coverage", "why": "Covers physical media brought into the environment."},
+      {"id": "d", "text": "Operational security", "misconception": "awareness-topic-coverage", "why": "Concerns what staff disclose publicly about systems and roles, which can enable the pretext but is not the moment described."}
+    ]
+  },
+  {
+    "id": "aw-003",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["operational-security", "situational-awareness"],
+    "difficulty": 4,
+    "stem": "An engineer's conference talk names the organisation's EDR product, its SIEM, its cloud provider and its patch cadence. Which awareness topic does this concern?",
+    "options": [
+      {"id": "a", "text": "Operational security: limiting what is publicly disclosed about systems, tooling and process", "correct": true, "why": "Each detail narrows an attacker's work. OPSEC is about controlling the information an adversary would otherwise have to discover."},
+      {"id": "b", "text": "Insider threat awareness", "misconception": "awareness-topic-coverage", "why": "Nothing suggests malice or a concerning pattern of behaviour. This is an unintentional disclosure."},
+      {"id": "c", "text": "Situational awareness", "misconception": "awareness-topic-coverage", "why": "That concerns noticing what is happening around you physically, such as tailgating or shoulder surfing."},
+      {"id": "d", "text": "Policy handbooks", "misconception": "awareness-topic-coverage", "why": "A handbook might prohibit it; the topic the behaviour belongs to is operational security."}
+    ]
+  },
+  {
+    "id": "aw-004",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["policy-handbooks", "user-guidance-and-training", "attestation-and-acknowledgement"],
+    "difficulty": 3,
+    "stem": "Why do awareness programmes require staff to acknowledge policy handbooks rather than simply publishing them?",
+    "options": [
+      {"id": "a", "text": "Acknowledgement records that the individual was informed, which is what makes the expectation enforceable and the training auditable", "correct": true, "why": "A rule nobody has read cannot reasonably be enforced. The acknowledgement is the evidence that converts a published document into an expectation."},
+      {"id": "b", "text": "Because acknowledgement guarantees the policy has been understood", "misconception": "awareness-topic-coverage", "why": "It records receipt, not comprehension, which is why training sits alongside it rather than being replaced by it."},
+      {"id": "c", "text": "Because handbooks are a technical control", "misconception": "awareness-topic-coverage", "why": "They are directive administrative controls."},
+      {"id": "d", "text": "Because regulators require a signature on every policy", "misconception": "compliance-monitoring-and-attestation", "why": "Requirements vary and the underlying purpose is enforceability and evidence."}
+    ]
+  },
+  {
+    "id": "aw-005",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["password-management", "user-guidance-and-training"],
+    "difficulty": 3,
+    "stem": "An organisation deploys a password manager and sets a strong policy, yet reuse of work passwords on personal sites continues. What does the awareness programme need to address?",
+    "options": [
+      {"id": "a", "text": "Password management behaviour: why reuse across sites is dangerous, and how to use the manager for personal accounts too", "correct": true, "why": "Policy governs what the corporate system accepts. Reuse happens outside it, which is exactly the space awareness has to reach."},
+      {"id": "b", "text": "Nothing further; the technical control has solved it", "misconception": "awareness-topic-coverage", "why": "The control cannot see or prevent what staff do on sites it does not govern."},
+      {"id": "c", "text": "Social engineering awareness", "misconception": "awareness-topic-coverage", "why": "Relevant to credential theft by manipulation, not to voluntary reuse."},
+      {"id": "d", "text": "Operational security", "misconception": "awareness-topic-coverage", "why": "Concerns public disclosure of information about systems."}
+    ]
+  },
+  {
+    "id": "aw-006",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["removable-media-and-cables", "situational-awareness"],
+    "difficulty": 3,
+    "stem": "Staff return from a trade event with branded USB drives and charging cables. Which awareness topic covers the risk, and why is training needed when port control exists?",
+    "options": [
+      {"id": "a", "text": "Removable media and cables; port control reduces but does not eliminate the paths, and staff decide what they carry in and what they plug into personal equipment", "correct": true, "why": "The objectives name cables specifically because people who would refuse an unknown drive will happily accept a cable. Technical controls cover some ports, not every decision."},
+      {"id": "b", "text": "Insider threat awareness, since staff introduced the devices", "misconception": "awareness-topic-coverage", "why": "That topic concerns recognising and reporting concerning behaviour, not accidental introduction of hardware."},
+      {"id": "c", "text": "Policy handbooks alone are sufficient here", "misconception": "awareness-topic-coverage", "why": "A written rule without training is the situation that produces this behaviour."},
+      {"id": "d", "text": "Hybrid and remote work environments", "misconception": "awareness-topic-coverage", "why": "Relevant where staff work, not to hardware collected at an event."}
+    ]
+  },
+  {
+    "id": "aw-007",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["insider-threat-awareness", "risky-behavior", "unexpected-behavior"],
+    "difficulty": 4,
+    "stem": "Why do the objectives include insider threat awareness as a training topic for ordinary staff rather than only for security teams?",
+    "options": [
+      {"id": "a", "text": "Colleagues see context that monitoring cannot: escalating grievance, unusual interest in systems outside a role, or pressure that might make someone a target", "correct": true, "why": "Technical monitoring observes actions. The surrounding circumstances that make an action meaningful are visible to the people nearby, which is why the reporting route matters."},
+      {"id": "b", "text": "Because all staff should be treated as suspects", "misconception": "awareness-topic-coverage", "why": "The topic is recognising and reporting concerning indicators, including coercion of a colleague, not generalised suspicion."},
+      {"id": "c", "text": "Because insider threats are always malicious", "misconception": "awareness-topic-coverage", "why": "The objectives separately list unintentional and risky behaviour; negligence is a large share of insider incidents."},
+      {"id": "d", "text": "Because it replaces the need for user behaviour analytics", "misconception": "monitoring-capability-selection", "why": "They complement each other: UBA sees the pattern in the data, colleagues see the situation around it."}
+    ]
+  },
+  {
+    "id": "aw-008",
+    "type": "mcq-multi",
+    "objective": "5.6",
+    "topics": ["social-engineering-awareness", "hybrid-remote-work-environments", "password-management", "policy-handbooks"],
+    "difficulty": 4,
+    "stem": "Which TWO statements about security awareness programmes are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Awareness targets the part of the attack surface where a person makes a judgement, which technical controls cannot reach", "correct": true, "why": "No filter intercepts a persuasive phone call, and no policy decides what someone does on a site it does not govern."},
+      {"id": "b", "text": "Hybrid and remote working needs its own treatment because office-based training assumes a perimeter that is not there", "correct": true, "why": "It is listed as its own topic for this reason: home networks, shared spaces and household devices are different assumptions."},
+      {"id": "c", "text": "Acknowledging a policy handbook demonstrates that staff understood it", "misconception": "awareness-topic-coverage", "why": "It records that they were informed. Understanding is what the training is for."},
+      {"id": "d", "text": "Deploying a password manager removes the need to train password behaviour", "misconception": "awareness-topic-coverage", "why": "The tool cannot govern accounts outside it, which is where reuse happens."},
+      {"id": "e", "text": "Insider threat awareness is only relevant to the security team", "misconception": "awareness-topic-coverage", "why": "Colleagues observe the context that monitoring cannot."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "g-023",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["phishing-campaigns", "recognizing-a-phishing-attempt", "initial-reporting"],
+    "difficulty": 3,
+    "stem": "A phishing simulation shows a low click rate, but almost nobody reports the simulated messages. What should the security team conclude?",
+    "options": [
+      {"id": "a", "text": "Reporting is the weak point, and the programme should make reporting easy and recognised", "correct": true, "why": "Someone will eventually click. What determines the outcome is how quickly the security team hears about it, so report rate is the more useful measure."},
+      {"id": "b", "text": "The programme is effective, since the click rate is what matters", "misconception": "awareness-program-elements", "why": "Click rate measures the attack's success. It says nothing about whether your organisation can detect and respond."},
+      {"id": "c", "text": "The simulation was too easy and should be made harder before anything else", "misconception": "awareness-program-elements", "why": "Difficulty tuning is worth doing and does not address the finding, which is that nobody is reporting."},
+      {"id": "d", "text": "Users who failed to report should be formally disciplined", "misconception": "awareness-program-elements", "why": "Punishment suppresses reporting. The reliable way to raise report rates is to make reporting frictionless and to recognise people who do it."}
+    ]
+  },
+  {
+    "id": "g-024",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["user-guidance-and-training", "initial-reporting", "recurring-reporting"],
+    "difficulty": 2,
+    "stem": "Which combination best describes an effective security awareness programme?",
+    "options": [
+      {"id": "a", "text": "Initial training at onboarding plus recurring training with refreshed content, and targeted follow-up for users who need it", "correct": true, "why": "New starters are trained immediately, everyone is trained repeatedly, the content changes so it is not ignored, and weak spots get specific attention."},
+      {"id": "b", "text": "A single comprehensive session at onboarding", "misconception": "awareness-program-elements", "why": "Without recurring training, knowledge decays and new threats are never covered."},
+      {"id": "c", "text": "An annual repeat of the same training deck for everyone", "misconception": "awareness-program-elements", "why": "Recurring is right and unchanged content trains people to click through without reading."},
+      {"id": "d", "text": "Publishing the acceptable use policy on the intranet", "misconception": "policy-standard-procedure-guideline", "why": "Making a policy available is not training and does not change behaviour."}
+    ]
+  },
+  {
+    "id": "g-025",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["risky-behavior", "unexpected-behavior", "unintentional-behavior", "insider-threat-awareness"],
+    "difficulty": 3,
+    "stem": "A user emails a customer spreadsheet to their personal address so they can finish work at the weekend. How is this behaviour best characterised?",
+    "options": [
+      {"id": "a", "text": "Risky but unintentional, and best addressed with guidance and a sanctioned alternative", "correct": true, "why": "There is no malicious intent. The user has a legitimate need and no approved way to meet it, so the fix is training plus a usable remote access route."},
+      {"id": "b", "text": "A malicious insider threat requiring immediate termination", "misconception": "awareness-program-elements", "why": "Nothing indicates intent to harm. Treating well meant shortcuts as malice destroys the reporting culture you depend on."},
+      {"id": "c", "text": "Acceptable, since the user is working in the company's interest", "misconception": "awareness-program-elements", "why": "Good intent does not make it acceptable. Customer data has left the organisation's control entirely."},
+      {"id": "d", "text": "A technical control failure only, with no behavioural component", "misconception": "awareness-program-elements", "why": "DLP should have caught it, and the behaviour still needs addressing, or the user finds the next workaround."}
+    ]
+  },
+  {
+    "id": "g-045",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["phishing-campaigns", "responding-to-reported-suspicious-messages", "initial-reporting"],
+    "difficulty": 3,
+    "stem": "After a simulated phishing campaign, which metric best indicates the programme is working?",
+    "options": [
+      {"id": "a", "text": "The report rate and the time taken to report", "correct": true, "why": "Somebody will always eventually click. What decides the outcome is how quickly the security team hears about it, so reporting behaviour is the capability being built."},
+      {"id": "b", "text": "The click rate alone", "misconception": "awareness-program-elements", "why": "Click rate measures the attack's success. It says nothing about whether anyone would tell you."},
+      {"id": "c", "text": "The number of staff disciplined for clicking", "misconception": "awareness-program-elements", "why": "Punishment suppresses reporting, which destroys the measure that actually matters."},
+      {"id": "d", "text": "The percentage who completed the annual training module", "misconception": "awareness-program-elements", "why": "Completion measures attendance, not behaviour change."}
+    ]
+  },
+  {
+    "id": "g-046",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["risky-behavior", "unexpected-behavior", "unintentional-behavior", "insider-threat-awareness"],
+    "difficulty": 3,
+    "stem": "An employee repeatedly uses a personal file sharing account for work documents because the approved tool is slow. How should the programme classify and treat this?",
+    "options": [
+      {"id": "a", "text": "Risky but unintentional, treated with guidance and a usable sanctioned alternative", "correct": true, "why": "There is no intent to harm. The behaviour persists because the approved path is worse, so training alone will not change it."},
+      {"id": "b", "text": "Malicious insider activity, treated as a disciplinary matter", "misconception": "awareness-program-elements", "why": "Nothing indicates intent to harm. Treating well-meant shortcuts as malice ends the reporting culture you depend on."},
+      {"id": "c", "text": "Acceptable, since productivity improved", "misconception": "awareness-program-elements", "why": "Company documents have left the organisation's control. Good intent does not make that acceptable."},
+      {"id": "d", "text": "Purely a technical failure, treated by blocking the service", "misconception": "awareness-program-elements", "why": "Blocking without fixing the slow approved tool simply moves the behaviour to the next workaround."}
+    ]
+  },
+  {
+    "id": "g-047",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["initial-reporting", "recurring-reporting", "development", "execution"],
+    "difficulty": 2,
+    "stem": "A company trains new starters thoroughly at onboarding and never again. What is the gap?",
+    "options": [
+      {"id": "a", "text": "No recurring training, so knowledge decays and new threats are never covered", "correct": true, "why": "Awareness has an initial and a recurring component. Onboarding alone leaves everyone hired more than a year ago on out of date material."},
+      {"id": "b", "text": "No initial training", "misconception": "awareness-program-elements", "why": "Initial training is the part they do have."},
+      {"id": "c", "text": "Training should be replaced by technical controls", "misconception": "awareness-program-elements", "why": "Controls and awareness address different failure modes. Neither replaces the other."},
+      {"id": "d", "text": "Nothing, provided the onboarding module is comprehensive", "misconception": "awareness-program-elements", "why": "No module survives contact with a threat landscape that changes after it was recorded."}
+    ]
+  },
+  {
+    "id": "g-048",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["removable-media-and-cables", "situational-awareness", "operational-security"],
+    "difficulty": 3,
+    "stem": "Staff attending a conference are warned not to use charging cables or USB drives handed out on the exhibition floor. Which awareness topic is this?",
+    "options": [
+      {"id": "a", "text": "Removable media and cables", "correct": true, "why": "A named awareness topic in its own right, because a cable or drive can carry an implant and looks exactly like a free gift."},
+      {"id": "b", "text": "Phishing recognition", "misconception": "awareness-program-elements", "why": "Phishing arrives as a message. This threat arrives as hardware."},
+      {"id": "c", "text": "Password management", "misconception": "awareness-program-elements", "why": "Unrelated to the vector described."},
+      {"id": "d", "text": "Hybrid and remote work", "misconception": "awareness-program-elements", "why": "That topic covers home networks, shoulder surfing and shared spaces, not conference giveaways."}
+    ]
+  }
+]

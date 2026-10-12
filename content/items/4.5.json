@@ -1,0 +1,356 @@
+[
+  {
+    "id": "ec-001",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["sender-policy-framework", "domainkeys-identified-mail", "domain-based-message-authentication-reporting-and-conformance"],
+    "difficulty": 4,
+    "stem": "An organisation publishes an SPF record listing its mail servers. Attackers continue to send messages whose visible From address is the company's domain, and recipients still accept them. Why does SPF not stop this?",
+    "options": [
+      {"id": "a", "text": "SPF validates the envelope sender's IP, not the From header the recipient reads, so a forged From passes untouched", "correct": true, "why": "This is the gap DMARC exists to close. SPF can pass for a message whose visible sender is entirely fabricated, because it never looks at that header."},
+      {"id": "b", "text": "SPF records only take effect once DKIM signing is enabled", "misconception": "email-authentication-stack", "why": "They are independent. SPF works on its own; it simply checks something other than what the user sees."},
+      {"id": "c", "text": "The SPF record must be published as a CNAME rather than a TXT record", "misconception": "email-authentication-stack", "why": "SPF is published as a DNS TXT record. The record type is not the issue."},
+      {"id": "d", "text": "SPF only applies to inbound mail, not outbound", "misconception": "email-authentication-stack", "why": "You publish SPF so other receivers can check mail claiming to be from you. Direction is not the problem."}
+    ]
+  },
+  {
+    "id": "ec-002",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["domain-based-message-authentication-reporting-and-conformance", "sender-policy-framework", "domainkeys-identified-mail"],
+    "difficulty": 4,
+    "stem": "Which statement correctly describes what DMARC adds beyond SPF and DKIM?",
+    "options": [
+      {"id": "a", "text": "It requires that an SPF or DKIM pass align with the visible From domain, and tells receivers what to do when that fails", "correct": true, "why": "DMARC performs no check of its own. It adds alignment and a published policy of none, quarantine or reject, plus aggregate reporting back to the domain owner."},
+      {"id": "b", "text": "It encrypts the message in transit between mail servers", "misconception": "email-authentication-stack", "why": "That is TLS, negotiated by STARTTLS. DMARC is about authentication and policy, not confidentiality."},
+      {"id": "c", "text": "It performs a third independent check of the sending server's identity", "misconception": "email-authentication-stack", "why": "There is no third check. DMARC consumes the results of the other two and judges alignment."},
+      {"id": "d", "text": "It signs outbound messages so recipients can verify integrity", "misconception": "email-authentication-stack", "why": "Signing is DKIM. DMARC references the DKIM result rather than producing one."}
+    ]
+  },
+  {
+    "id": "ec-003",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["domainkeys-identified-mail", "email-gateway", "transport-method", "protocol-selection"],
+    "difficulty": 4,
+    "stem": "A message arrives with a valid DKIM signature from partner-domain.example and was delivered over an opportunistically encrypted connection. What has been established?",
+    "options": [
+      {"id": "a", "text": "The message was signed by that domain and was not modified after signing; the encryption protected it only between those two servers", "correct": true, "why": "DKIM gives origin authentication and integrity for the signed parts. STARTTLS protects a hop, not the message, so it says nothing about any earlier or later relay."},
+      {"id": "b", "text": "The message was encrypted end to end from sender to recipient", "misconception": "email-authentication-stack", "why": "Transport encryption covers one connection at a time. Each relay decrypts and re-encrypts, and opportunistic means it can silently fall back to plaintext."},
+      {"id": "c", "text": "The visible From address is guaranteed to belong to that domain", "misconception": "email-authentication-stack", "why": "Only if DMARC alignment is checked. DKIM alone can be valid for a signing domain that differs from the one shown to the user."},
+      {"id": "d", "text": "The sending server's IP address is authorised for that domain", "misconception": "email-authentication-stack", "why": "That is SPF's check. DKIM is indifferent to which IP sent the message."}
+    ]
+  },
+  {
+    "id": "ec-004",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["agent-based-web-filter", "centralized-proxy", "dns-filtering"],
+    "difficulty": 3,
+    "stem": "Most staff now work from home and connect directly to the internet without a VPN. Which web filtering approach maintains policy enforcement for them?",
+    "options": [
+      {"id": "a", "text": "An agent-based filter installed on each device", "correct": true, "why": "The agent travels with the laptop, so enforcement does not depend on traffic returning to a corporate egress point."},
+      {"id": "b", "text": "A centralised proxy at the head office", "misconception": "web-filter-mechanisms", "why": "A proxy only filters what is routed through it. Direct internet traffic from home never reaches it."},
+      {"id": "c", "text": "Firewall rules on the corporate perimeter", "misconception": "web-filter-mechanisms", "why": "Same problem: the perimeter is not in the path for a device browsing from home."},
+      {"id": "d", "text": "A screened subnet for the published web applications", "misconception": "web-filter-mechanisms", "why": "That concerns inbound access to your services, not outbound browsing by staff."}
+    ]
+  },
+  {
+    "id": "ec-005",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["reputation", "content-categorization", "url-scanning", "block-rules"],
+    "difficulty": 4,
+    "stem": "Users are being directed to domains registered within the last 48 hours that host credential harvesting pages. The domains have no category yet and are not on any block list. Which filtering mechanism addresses this best?",
+    "options": [
+      {"id": "a", "text": "Reputation-based filtering, which can act on domain age and hosting signals before a category exists", "correct": true, "why": "Reputation scores exist precisely for destinations nothing yet knows anything about. Newly registered domain is one of the strongest signals available."},
+      {"id": "b", "text": "Content categorisation", "misconception": "web-filter-mechanisms", "why": "Categorisation needs the site to have been assessed and classified. A 48-hour-old domain has not been."},
+      {"id": "c", "text": "Explicit block rules for the offending domains", "misconception": "web-filter-mechanisms", "why": "Reactive by nature: you can only block what you already know, and the attacker registers new domains faster than you list them."},
+      {"id": "d", "text": "URL scanning of the full path", "misconception": "web-filter-mechanisms", "why": "Useful for a page on a known host, but it still needs some basis for judging a host nobody has seen before."}
+    ]
+  },
+  {
+    "id": "ec-006",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["dns-filtering", "url-scanning", "centralized-proxy"],
+    "difficulty": 4,
+    "stem": "A business needs to allow a widely used file sharing service but block one specific folder path on it that is being abused. The organisation currently uses DNS filtering. What is the limitation?",
+    "options": [
+      {"id": "a", "text": "DNS filtering resolves at the domain level, so it can only allow or block the whole service, not one path within it", "correct": true, "why": "DNS answers a name query. It never sees the path, which is why path-level decisions need a proxy or an agent that can inspect the URL."},
+      {"id": "b", "text": "DNS filtering cannot block any destination that uses HTTPS", "misconception": "web-filter-mechanisms", "why": "It blocks by refusing to resolve the name, which works regardless of the protocol that would have followed."},
+      {"id": "c", "text": "DNS filtering requires an agent on each endpoint to function", "misconception": "web-filter-mechanisms", "why": "It works by pointing clients at a filtering resolver. No agent is required, which is part of its appeal."},
+      {"id": "d", "text": "DNS filtering only applies to inbound traffic", "misconception": "web-filter-mechanisms", "why": "It governs outbound name resolution by internal clients."}
+    ]
+  },
+  {
+    "id": "ec-007",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["ids-ips-signatures", "ids-ips-trends"],
+    "difficulty": 4,
+    "stem": "An organisation is breached using a technique with no published signature. Its IDS, configured purely for signature-based detection, recorded nothing. Which change would most likely have detected it?",
+    "options": [
+      {"id": "a", "text": "Adding trend and anomaly-based detection against a behavioural baseline", "correct": true, "why": "Anomaly detection does not need to know the attack. It needs to know normal, and flags deviation, which is the only route to catching something previously unseen."},
+      {"id": "b", "text": "Updating the signature database more frequently", "misconception": "ids-ips-detection-methods", "why": "No frequency helps when no signature exists for the technique anywhere."},
+      {"id": "c", "text": "Moving the IDS from a tap to an inline position", "misconception": "ids-ips-detection-methods", "why": "Inline placement lets it block rather than merely alert. It does not improve what it can recognise."},
+      {"id": "d", "text": "Lowering the alert threshold on existing signatures", "misconception": "ids-ips-detection-methods", "why": "That produces more alerts from the signatures you have, none of which match this traffic."}
+    ]
+  },
+  {
+    "id": "ec-008",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["ids-ips-trends", "ids-ips-signatures"],
+    "difficulty": 4,
+    "stem": "A team deploys anomaly-based detection and establishes its baseline over two weeks. Investigators later determine the network was already compromised throughout that period. What is the consequence?",
+    "options": [
+      {"id": "a", "text": "The attacker's traffic was learned as normal, so the very behaviour that should alert is now the baseline", "correct": true, "why": "Behavioural detection is only as good as the period it learned from. Baselining a compromised environment trains the system to accept the intrusion."},
+      {"id": "b", "text": "The baseline is unaffected, because anomaly detection ignores malicious traffic when learning", "misconception": "ids-ips-detection-methods", "why": "It has no way to tell malicious from normal while learning. That judgement is what it is trying to acquire."},
+      {"id": "c", "text": "Signature detection would have had the same problem", "misconception": "ids-ips-detection-methods", "why": "Signatures come from an external database and are unaffected by what your network was doing during setup."},
+      {"id": "d", "text": "The baseline will self-correct within a few days of normal traffic", "misconception": "ids-ips-detection-methods", "why": "Not without re-baselining deliberately. The malicious pattern is embedded in what the system considers normal."}
+    ]
+  },
+  {
+    "id": "ec-009",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["group-policy", "selinux"],
+    "difficulty": 4,
+    "stem": "A web service running as root on a Linux host is exploited. The attacker's code cannot read files outside the web content directories, even though it holds root privileges. Which control produced this result?",
+    "options": [
+      {"id": "a", "text": "SELinux enforcing mandatory access control by label", "correct": true, "why": "Mandatory access control sits above the account. A process confined by its label is bound by policy regardless of running as root, which is the entire reason it exists."},
+      {"id": "b", "text": "Group Policy restricting the service account", "misconception": "host-hardening-enforcement", "why": "Group Policy is a Windows mechanism delivered through Active Directory. It does not apply to a Linux host."},
+      {"id": "c", "text": "Discretionary access control through file permissions", "misconception": "host-hardening-enforcement", "why": "Under DAC root overrides file permissions. Something above the account had to be enforcing this."},
+      {"id": "d", "text": "The principle of least privilege applied to the service account", "misconception": "host-hardening-enforcement", "why": "Least privilege would have meant not running as root at all. The scenario states it was root and still confined."}
+    ]
+  },
+  {
+    "id": "ec-010",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["group-policy", "selinux"],
+    "difficulty": 3,
+    "stem": "An administrator must apply a consistent password policy, screen lock timeout and software restriction to four thousand domain-joined Windows workstations. Which capability is designed for this?",
+    "options": [
+      {"id": "a", "text": "Group Policy", "correct": true, "why": "Centralised distribution of configuration and security settings to domain members is precisely what Group Policy does, and at that scale nothing manual is viable."},
+      {"id": "b", "text": "SELinux policy modules", "misconception": "host-hardening-enforcement", "why": "SELinux is a Linux kernel mechanism and has no presence on Windows workstations."},
+      {"id": "c", "text": "Network access control posture checks", "misconception": "monitoring-capability-selection", "why": "NAC can test whether a device meets a posture before admitting it. It does not configure the setting in the first place."},
+      {"id": "d", "text": "Endpoint detection and response policies", "misconception": "monitoring-capability-selection", "why": "EDR observes and responds to activity. It is not a configuration management mechanism."}
+    ]
+  },
+  {
+    "id": "ec-011",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["file-integrity-monitoring", "dlp", "user-behavior-analytics"],
+    "difficulty": 4,
+    "stem": "A web server is compromised and the attacker quietly replaces a configuration file to add a redirect. No data leaves the host and no account behaves unusually. Which capability is designed to catch this?",
+    "options": [
+      {"id": "a", "text": "File integrity monitoring", "correct": true, "why": "FIM baselines specific files by hash and alerts on unexpected change. When the attack is a quiet modification rather than an exfiltration, it is the control that sees it."},
+      {"id": "b", "text": "Data loss prevention", "misconception": "monitoring-capability-selection", "why": "DLP watches sensitive content moving. Nothing is being sent out in this scenario."},
+      {"id": "c", "text": "User behaviour analytics", "misconception": "monitoring-capability-selection", "why": "UBA baselines account behaviour. The stem explicitly says no account behaved unusually."},
+      {"id": "d", "text": "Network access control", "misconception": "monitoring-capability-selection", "why": "NAC governs which devices may join the network. The server is already legitimately connected."}
+    ]
+  },
+  {
+    "id": "ec-012",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["dlp", "user-behavior-analytics", "file-integrity-monitoring"],
+    "difficulty": 4,
+    "stem": "An employee who has resigned uploads a spreadsheet of customer contact details to a personal cloud account during working hours, from their normal device and at their normal time. Which capability most directly detects this?",
+    "options": [
+      {"id": "a", "text": "Data loss prevention, which inspects content and blocks sensitive data leaving by policy", "correct": true, "why": "Everything about the behaviour is normal except what is inside the file. Only a content-aware control catches that."},
+      {"id": "b", "text": "User behaviour analytics", "misconception": "monitoring-capability-selection", "why": "UBA looks for deviation from a baseline, and this user is deviating from nothing: same device, same hours, same pattern."},
+      {"id": "c", "text": "File integrity monitoring on the file server", "misconception": "monitoring-capability-selection", "why": "FIM alerts on files changing. Reading a file and uploading a copy changes nothing."},
+      {"id": "d", "text": "Endpoint detection and response", "misconception": "monitoring-capability-selection", "why": "EDR looks for malicious execution. A browser uploading a file is ordinary endpoint activity."}
+    ]
+  },
+  {
+    "id": "ec-013",
+    "type": "mcq-multi",
+    "objective": "4.5",
+    "topics": ["user-behavior-analytics", "dlp", "file-integrity-monitoring", "endpoint-detection-and-response"],
+    "difficulty": 4,
+    "stem": "A finance account signs in at 03:40 from an unfamiliar country, accesses systems it has never touched, and does so while the employee is on leave. Which TWO capabilities are most relevant? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "User behaviour analytics, which flags an account behaving unlike itself and unlike its peers", "correct": true, "why": "Time, location and unusual resource access are the signals UBA is built on. Nothing about the content matters here."},
+      {"id": "b", "text": "Data loss prevention, if the session then moves sensitive data out", "correct": true, "why": "UBA detects the anomalous access; DLP is what stands between that session and the data leaving. They cover different halves."},
+      {"id": "c", "text": "File integrity monitoring on the finance workstation", "misconception": "monitoring-capability-selection", "why": "No protected file is being altered, and the activity is not on that workstation."},
+      {"id": "d", "text": "Network access control", "misconception": "monitoring-capability-selection", "why": "NAC admits or refuses devices at the door. This is a remote session with valid credentials."},
+      {"id": "e", "text": "Agent-based web filtering", "misconception": "web-filter-mechanisms", "why": "Web filtering governs which sites users may reach, not anomalous use of an internal account."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "f-001",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "access-lists"],
+    "difficulty": 3,
+    "stem": "An ACL contains, in order: (1) permit tcp 10.0.0.0/8 to 10.5.5.5 port 443, (2) deny tcp 10.1.2.3 to 10.5.5.5 port 443. Host 10.1.2.3 can still reach the server. Why?",
+    "options": [
+      {"id": "a", "text": "Rule 1 matches the traffic first, so rule 2 is never evaluated", "correct": true, "why": "ACLs are evaluated top to bottom and stop at the first match. The specific deny must be placed above the broader permit."},
+      {"id": "b", "text": "Deny rules require an explicit log keyword before they take effect", "misconception": "acl-rule-order", "why": "Logging is unrelated to enforcement. The rule never runs, which is an ordering problem."},
+      {"id": "c", "text": "The implicit deny at the end overrides explicit deny rules", "misconception": "acl-implicit-deny", "why": "The implicit deny only applies to traffic that matched nothing. It does not override anything."},
+      {"id": "d", "text": "Host rules cannot override subnet rules on a stateful firewall", "misconception": "acl-rule-order", "why": "They can, provided they are placed above the subnet rule. Position is what decides, not specificity."}
+    ]
+  },
+  {
+    "id": "f-002",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "access-lists"],
+    "difficulty": 3,
+    "stem": "You must permit an entire subnet to reach a file server, except one quarantined host. How should the rules be ordered?",
+    "options": [
+      {"id": "a", "text": "Deny the quarantined host first, then permit the subnet", "correct": true, "why": "Specific before general. The exception must be evaluated before the broad rule that would otherwise match it."},
+      {"id": "b", "text": "Permit the subnet first, then deny the quarantined host", "misconception": "acl-rule-order", "why": "The permit matches the quarantined host too, so the deny below it can never fire."},
+      {"id": "c", "text": "Order does not matter because deny always takes precedence over permit", "misconception": "acl-rule-order", "why": "There is no precedence by action. There is only position, and the first match wins."},
+      {"id": "d", "text": "Permit the subnet and rely on the implicit deny to exclude the host", "misconception": "acl-implicit-deny", "why": "The implicit deny catches only unmatched traffic. The quarantined host matches the permit."}
+    ]
+  },
+  {
+    "id": "f-003",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "screened-subnets"],
+    "difficulty": 2,
+    "stem": "A requirements document ends with 'all other traffic must be denied'. The firewall is a standard stateful device. What should the administrator do?",
+    "options": [
+      {"id": "a", "text": "Nothing is strictly required, though an explicit deny any at the bottom is worth adding so drops are logged", "correct": true, "why": "Every ACL already ends in an implicit deny. The explicit rule adds visibility, which is the real reason to write it."},
+      {"id": "b", "text": "Add a permit any any rule at the bottom to make the behaviour explicit", "misconception": "acl-implicit-deny", "why": "This permits everything the requirements forbid and renders the rest of the rule set meaningless."},
+      {"id": "c", "text": "Nothing, because denied traffic is logged automatically by the implicit deny", "misconception": "acl-implicit-deny", "why": "The implicit deny generally does not log. That is precisely why administrators add an explicit deny."},
+      {"id": "d", "text": "Set the firewall's default policy to permit and add individual deny rules", "misconception": "acl-implicit-deny", "why": "This inverts the security model, requiring you to enumerate every bad thing rather than permitting only what is needed."}
+    ]
+  },
+  {
+    "id": "f-004",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "ports-protocols"],
+    "difficulty": 3,
+    "stem": "Internet users must reach a public web server at 203.0.113.10 over HTTPS. Which rule is correct?",
+    "options": [
+      {"id": "a", "text": "permit tcp any any -> 203.0.113.10 port 443", "correct": true, "why": "The destination is the server and the destination port is the service. The client's source port is ephemeral, so it is any."},
+      {"id": "b", "text": "permit tcp any port 443 -> 203.0.113.10 any", "misconception": "acl-direction-and-ports", "why": "This puts the service port on the source side. It matches only traffic coming from something whose source port is 443, which is the server's replies, not client requests."},
+      {"id": "c", "text": "permit tcp 203.0.113.10 port 443 -> any any", "misconception": "acl-direction-and-ports", "why": "This is written in the reverse direction. Rules are written in the direction the connection is initiated."},
+      {"id": "d", "text": "permit tcp any any -> 203.0.113.10 any", "misconception": "acl-overbroad-any", "why": "This permits every TCP port on the server, not just HTTPS. It works, and it exposes SSH, RDP and everything else."}
+    ]
+  },
+  {
+    "id": "f-008",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "least-privilege"],
+    "difficulty": 3,
+    "stem": "A requirement states that the jump host at 10.20.5.15 is the only system permitted to administer servers over SSH. An engineer writes: permit tcp 10.20.0.0/16 any -> SERVERS port 22. An audit fails the rule. Why?",
+    "options": [
+      {"id": "a", "text": "It permits the whole internal network, not the single named host, violating least privilege", "correct": true, "why": "The required traffic works, which is why this error survives testing. Any workstation on the internal network can now administer the servers."},
+      {"id": "b", "text": "The destination port should be the source port for SSH", "misconception": "acl-direction-and-ports", "why": "The destination port is correct at 22. The defect is the breadth of the source."},
+      {"id": "c", "text": "SSH rules must specify UDP as well as TCP", "misconception": "acl-overbroad-any", "why": "SSH is TCP only. Adding UDP would broaden the rule further without purpose."},
+      {"id": "d", "text": "An explicit deny for all other hosts is missing below it", "misconception": "acl-implicit-deny", "why": "No such rule is needed. Anything not permitted is already denied. The problem is that too much has been permitted."}
+    ]
+  },
+  {
+    "id": "f-012",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "access-lists"],
+    "difficulty": 4,
+    "stem": "After a change, an administrator notices that the last four rules in a 30 rule ACL appear never to increment their hit counters. What is the most likely explanation?",
+    "options": [
+      {"id": "a", "text": "A broader rule higher in the list already matches that traffic, so those rules are unreachable", "correct": true, "why": "This is rule shadowing. The rules are present and correct in isolation, and they can never execute."},
+      {"id": "b", "text": "Hit counters do not increment on deny rules", "misconception": "acl-rule-order", "why": "Counters increment on any rule that matches, regardless of action."},
+      {"id": "c", "text": "The rules are below the implicit deny and are therefore skipped", "misconception": "acl-implicit-deny", "why": "The implicit deny is always last by definition. No configured rule can be below it."},
+      {"id": "d", "text": "The firewall only evaluates the first 16 rules of any ACL", "misconception": "acl-rule-order", "why": "There is no such limit. The behaviour is explained by ordering, not by a cap."}
+    ]
+  },
+  {
+    "id": "f-013",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "ports-protocols", "port-selection"],
+    "difficulty": 3,
+    "stem": "Internal workstations must be permitted to resolve names against an external DNS resolver at 9.9.9.9. Which rule is correct?",
+    "options": [
+      {"id": "a", "text": "permit udp INTERNAL-NET any -> 9.9.9.9 port 53", "correct": true, "why": "DNS queries are UDP 53 to the resolver. The client's source port is ephemeral."},
+      {"id": "b", "text": "permit udp INTERNAL-NET port 53 -> 9.9.9.9 any", "misconception": "acl-direction-and-ports", "why": "This places the service port on the source side. Clients do not source from port 53."},
+      {"id": "c", "text": "permit udp any any -> any port 53", "misconception": "acl-overbroad-any", "why": "This permits every host to query every DNS server on the internet, which defeats the point of naming a specific approved resolver."},
+      {"id": "d", "text": "permit tcp INTERNAL-NET any -> 9.9.9.9 port 53", "misconception": "acl-direction-and-ports", "why": "TCP 53 is used for zone transfers and large responses, not for ordinary client queries. Permitting only TCP would break normal resolution."}
+    ]
+  },
+  {
+    "id": "f-015",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "least-privilege", "access-lists"],
+    "difficulty": 3,
+    "stem": "During a firewall review, which finding indicates a least privilege problem rather than a functional problem?",
+    "options": [
+      {"id": "a", "text": "A rule permits the required flow and also permits a wide range of unrelated traffic", "correct": true, "why": "Everything works, so testing passes. The rule grants more than the requirement asked for, which is precisely a least privilege failure."},
+      {"id": "b", "text": "A required application is unreachable because no rule permits it", "misconception": "acl-overbroad-any", "why": "That is a functional gap. Nothing has been over-permitted."},
+      {"id": "c", "text": "A deny rule appears below a permit rule that already matches the same traffic", "misconception": "acl-rule-order", "why": "That is an ordering defect. It may cause over-permission, but the finding is that the rule is unreachable."},
+      {"id": "d", "text": "The ACL has no explicit deny statement at the end", "misconception": "acl-implicit-deny", "why": "That is a logging gap. The traffic is still denied implicitly."}
+    ]
+  },
+  {
+    "id": "f-017",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "access-lists", "screened-subnets"],
+    "difficulty": 4,
+    "stem": "An ACL begins with: permit ip any any, followed by twelve carefully scoped rules and an explicit deny. What is the effect?",
+    "options": [
+      {"id": "a", "text": "All traffic is permitted, and the remaining rules never execute", "correct": true, "why": "The first rule matches everything, so evaluation stops there for every packet. The rest of the list is decoration."},
+      {"id": "b", "text": "Traffic is permitted only if it also matches one of the twelve scoped rules", "misconception": "acl-implicit-deny", "why": "Evaluation stops at the first match. Rules are not combined."},
+      {"id": "c", "text": "The explicit deny at the end overrides the permit at the top", "misconception": "acl-implicit-deny", "why": "There is no precedence by position at the end. Only the first match matters."},
+      {"id": "d", "text": "The firewall rejects the configuration as contradictory", "misconception": "acl-rule-order", "why": "It is a valid configuration. It is simply a completely permissive one."}
+    ]
+  },
+  {
+    "id": "i-014",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["endpoint-detection-and-response-edr", "antivirus"],
+    "difficulty": 3,
+    "stem": "An attacker is using signed system utilities already present on the host to move laterally. No malicious file is written to disk. Which control is most likely to detect this?",
+    "options": [
+      {"id": "a", "text": "Endpoint detection and response, using behavioural analysis", "correct": true, "why": "There is no file and no signature. EDR detects the anomalous sequence of behaviour and records the process timeline for investigation."},
+      {"id": "b", "text": "Signature based antivirus with current definitions", "misconception": "edr-vs-antivirus", "why": "The utilities are legitimate and signed. There is no malicious signature to match, which is the point of the technique."},
+      {"id": "c", "text": "A host based firewall blocking outbound connections", "misconception": "edr-vs-antivirus", "why": "It may limit some movement, but it cannot distinguish this activity from legitimate administration."},
+      {"id": "d", "text": "File integrity monitoring on system directories", "misconception": "edr-vs-antivirus", "why": "Nothing on disk changed. That is exactly why the technique is used."}
+    ]
+  },
+  {
+    "id": "i-015",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["extended-detection-and-response-xdr", "endpoint-detection-and-response-edr"],
+    "difficulty": 2,
+    "stem": "What does XDR add over EDR?",
+    "options": [
+      {"id": "a", "text": "It correlates detections across endpoints, network, email and cloud rather than the endpoint alone", "correct": true, "why": "The extension is the breadth of telemetry correlated into one detection and response workflow."},
+      {"id": "b", "text": "It replaces behavioural detection with signature matching for accuracy", "misconception": "edr-vs-antivirus", "why": "That would be a step backwards. Both rely on behaviour, which is what catches threats with no signature."},
+      {"id": "c", "text": "It is an endpoint agent that also performs vulnerability scanning", "misconception": "edr-vs-antivirus", "why": "Vulnerability scanning is a separate discipline and is not what the X in XDR refers to."},
+      {"id": "d", "text": "It removes the need for a SIEM by storing logs indefinitely", "misconception": "edr-vs-antivirus", "why": "XDR and SIEM overlap but XDR is not defined by log retention."}
+    ]
+  },
+  {
+    "id": "m-009",
+    "type": "mcq-multi",
+    "objective": "4.5",
+    "topics": ["firewall-rules", "least-privilege", "acl-overbroad-any"],
+    "difficulty": 4,
+    "stem": "Outbound filtering must let only PROXY-01 reach the internet on 443. Which TWO rules violate least privilege even though the required traffic still works? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "permit tcp CORP-NET any -> any 443", "correct": true, "why": "The whole internal network gets outbound HTTPS, which is exactly the path malware uses to call home."},
+      {"id": "b", "text": "permit tcp PROXY-01 any -> any any", "correct": true, "why": "The right source and every port. The proxy can now reach anything, not just the web."},
+      {"id": "c", "text": "permit tcp PROXY-01 any -> any 443", "misconception": "acl-direction-and-ports", "why": "This is the correct rule: one named source, one destination port, written in the direction the connection is initiated."},
+      {"id": "d", "text": "deny ip any any at the bottom of the list", "misconception": "acl-implicit-deny", "why": "An explicit deny at the end permits nothing. It exists so the drops get logged."},
+      {"id": "e", "text": "permit udp DNS-SRV any -> APPROVED-DNS 53", "misconception": "acl-overbroad-any", "why": "A separate, correctly scoped rule for a different requirement. One source, one destination, one port."}
+    ],
+    "selectCount": 2
+  }
+]

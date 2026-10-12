@@ -1,0 +1,103 @@
+[
+  {
+    "id": "privacy-law-scope",
+    "label": "Local, regional, national and global privacy law, and which one reaches you",
+    "objective": "5.4",
+    "topics": ["local-regional-privacy-law", "national-privacy-law", "global-privacy-law", "data-subject", "controller-vs-processor", "ownership-3"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You assumed the law that applies is the law where your company is registered. Privacy regimes mostly attach to the people whose data it is and to where processing happens, which is why several can apply at once.",
+      "contrast": [
+        ["Scope", "What it covers", "Example of the catch"],
+        ["Local or regional", "A state, province or region within a country", "A state law can be stricter than the national one and still binding"],
+        ["National", "A whole country, often the primary regime", "Applies to residents' data wherever you process it"],
+        ["Global or extraterritorial", "Reaches organisations outside the territory when they handle residents' data", "Having no office there does not put you outside it"],
+        ["Sectoral", "A particular industry regardless of geography", "Overlaps with all of the above rather than replacing them"]
+      ],
+      "rule": "Ask whose data it is and where the processing happens, not where the company is incorporated. More than one regime can apply to the same record, and the answer is usually to meet the strictest obligation rather than to choose one.",
+      "tell": "Customers in several countries, a cloud region in a different country from the users, or an organisation with no local presence.",
+      "trap": "Extraterritorial reach surprises people. Modern privacy law routinely binds organisations with no office, no staff and no servers in the territory, purely because they process residents' data."
+    }
+  },
+  {
+    "id": "compliance-monitoring-and-attestation",
+    "label": "Internal vs external compliance monitoring, reporting and attestation",
+    "objective": "5.4",
+    "topics": ["internal-and-external-monitoring", "internal-compliance-reporting", "external-compliance-reporting", "attestation-and-acknowledgement", "automation"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You collapsed monitoring, reporting and attestation into one compliance activity. They differ by who performs them and who the output is for, which is the whole of the question.",
+      "contrast": [
+        ["Activity", "Performed by", "Output goes to"],
+        ["Internal monitoring", "Your own team, continuously", "Management, to correct drift before anyone outside notices"],
+        ["External monitoring", "A regulator, auditor or assessor", "Them, and whatever enforcement follows"],
+        ["Internal reporting", "Compliance function", "Board and risk owners"],
+        ["External reporting", "The organisation, under obligation", "Regulator, customers, certification body"],
+        ["Attestation", "A named person who signs", "Whoever relies on the signature, which creates personal accountability"]
+      ],
+      "rule": "Monitoring is observation, reporting is communication, attestation is somebody putting their name to it. Only the last one creates personal accountability, which is why it is named separately.",
+      "tell": "A signature or formal acknowledgement in the stem points to attestation. A regulator asking for figures points to external reporting.",
+      "trap": "Automation appears in this objective as a compliance capability: continuous evidence collection rather than a scramble before each audit. Compliance activity that only exists in the weeks before an assessment is not monitoring."
+    }
+  },
+  {
+    "id": "due-diligence-vs-due-care",
+    "label": "Due diligence vs due care",
+    "objective": "5.4",
+    "topics": ["due-diligence-care", "due-diligence", "vendor-monitoring", "conflict-of-interest"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You used the two as synonyms. One is investigating, the other is acting.",
+      "contrast": [
+        ["Term", "Meaning", "Example"],
+        ["Due diligence", "Investigating before you commit", "Reviewing a vendor's SOC 2 report and finances before signing"],
+        ["Due care", "Acting reasonably and continuously afterwards", "Patching, monitoring the vendor, reviewing access quarterly"]
+      ],
+      "rule": "Diligence is doing your homework. Care is doing your job. Diligence comes first and is a point in time; care is ongoing.",
+      "tell": "'Before entering the agreement' or 'during vendor selection' is due diligence. 'On an ongoing basis' is due care.",
+      "trap": "Both describe a responsible organisation being careful, so both read as correct. Decide by whether it happens before or after the commitment."
+    }
+  },
+  {
+    "id": "compliance-consequences",
+    "label": "Consequences of non-compliance, and who imposes them",
+    "objective": "5.4",
+    "topics": ["fines", "sanctions", "reputational-damage", "loss-of-license", "contractual-impacts", "internal-compliance-reporting", "external-compliance-reporting"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated every bad outcome of non-compliance as the same kind of thing. The exam separates them by who imposes them, because that decides who you have to satisfy.",
+      "contrast": [
+        ["Consequence", "Imposed by", "Note"],
+        ["Fines", "The regulator", "A direct statutory penalty"],
+        ["Sanctions", "The regulator or a government", "Can include restrictions on operating, not only money"],
+        ["Loss of licence", "The regulator or licensing body", "The most severe: you cannot trade in that market at all"],
+        ["Contractual impacts", "Your customers and partners", "Breach of contract, lost renewals, indemnity claims"],
+        ["Reputational damage", "The market", "Nobody imposes it; it arrives through customers leaving"]
+      ],
+      "rule": "Ask who hands out the penalty. Regulator means fines, sanctions or licence. A counterparty means contractual. Nobody in particular means reputational.",
+      "tell": "'Which is a direct regulatory consequence' excludes reputational damage and contractual impacts, even though both are real and expensive.",
+      "trap": "Reputational damage is usually the largest cost in practice, which makes it feel like the headline answer. It is an indirect market consequence, not one a regulator imposes."
+    }
+  },
+  {
+    "id": "privacy-rights-and-roles",
+    "label": "Data subject rights, and who answers them",
+    "objective": "5.4",
+    "topics": ["data-subject", "right-to-be-forgotten", "controller-vs-processor", "data-inventory-and-retention", "ownership"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You answered a privacy question with a security control. Subject rights are an operational capability question: can you find the data, and who is accountable for answering.",
+      "contrast": [
+        ["Request or duty", "What it actually requires", "Who answers it"],
+        ["Right to be forgotten", "Locating every copy, then deleting it", "The controller"],
+        ["Access request", "Producing everything held about one person", "The controller"],
+        ["Processing on instruction", "Doing only what the controller asked", "The processor"],
+        ["Retention limits", "Deleting on schedule, not keeping forever", "The controller, enforced through the inventory"],
+        ["The enabling capability", "A current data inventory", "Without it, none of the above can be answered"]
+      ],
+      "rule": "Every subject right reduces to the same prerequisite: knowing where the data is. Encryption, access control and backups do not answer a deletion request.",
+      "tell": "'A customer asks the company to erase everything it holds about them' is testing the data inventory, not the security stack.",
+      "trap": "Encryption is the reflex answer to any question with personal data in it. It protects confidentiality and makes locating and deleting data no easier."
+    }
+  }
+]
