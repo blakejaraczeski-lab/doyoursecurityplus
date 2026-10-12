@@ -112,17 +112,20 @@ export function flushNow(state) {
 /**
  * Genuine last resort, on pagehide, when there is no time left for a normal
  * request. Subject to the same 64 KB cap, so it is only attempted when the body
- * actually fits, and it is explicitly best effort.
+ * actually fits, and it is explicitly best effort. It carries the same
+ * precondition as every other save: a tab that was already refused as stale
+ * must not win on its way out just because nobody is left to read the 412.
  */
 export function flushBeacon(state) {
-  if (SCRATCH) return false;
+  if (SCRATCH || status === SYNC.CONFLICT) return false;
   clearTimeout(timer);
   try {
     const body = JSON.stringify(state);
     if (body.length > 60_000) return false;
     const blob = new Blob([body], { type: "application/json" });
     fetch(ENDPOINT, { method: "PUT", body: blob, keepalive: true,
-                      headers: { "Content-Type": "application/json" } })
+                      headers: { "Content-Type": "application/json",
+                                 ...(version == null ? {} : { "If-Match": String(version) }) } })
       .catch(() => {});
     return true;
   } catch { return false; }

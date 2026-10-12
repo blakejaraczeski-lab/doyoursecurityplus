@@ -289,11 +289,17 @@ python3 scripts/format_content.py && bin/check
 exists, every misconception has enough distinct items to be retired, every
 objective has graded material), the repository shape, the state shape, the
 materials, the README counts, and the self test headless in the Chrome on this
-machine. The self test runs every PBQ's reference answer through the real
+machine. The self test page runs every PBQ's reference answer through the real
 graders, exercises the misconception loop end to end, asserts every blueprint
-topic is reached, and checks every action in the templates has a handler.
-Without Chrome the self test is manual: open http://localhost:8777/selftest.html,
-which also lists the five by-hand checks from the interface skill.
+topic is reached, and checks every action in the templates has a handler. The
+headless runner then drives the real `serve.py` and the real app through the
+persistence story, each scenario on its own throwaway data directory: a stale
+save refused with 412 over HTTP and through the client, a corrupt `state.json`
+read from its snapshot, an outbox replayed after the server was down, and a
+pre-resource document absorbed into the log. It refuses to run against any
+server that does not report a throwaway directory. Without Chrome the page is
+manual: open http://localhost:8777/selftest.html, which also lists the by-hand
+checks from the interface skill.
 
 ```
 scripts/
@@ -305,7 +311,7 @@ scripts/
   check_state_shape.py       the state document never grows per answer
   check_materials.py         no shadow, gradient or blur; every colour a token
   check_docs.py              README counts come from the content (--write)
-  selftest.py                selftest.html, headless, non-zero exit on failure
+  selftest.py                selftest.html plus the persistence scenarios, headless, non-zero exit on failure
   derive_mcq.py              recall cards -> discrimination questions (--retag)
   import_anki.py             .apkg -> tagged recall items
   build_reference_index.py   study guide PDF -> page index (titles only)
