@@ -203,23 +203,22 @@ function mentorOnlyHtml(App, entry) {
   <div class="row"><button class="btn" data-action="mentor-ack">Got it</button></div>`;
 }
 
-export function drillView(App) {
-  if (!App.queue.length) {
-    const due = mentor.due(App.state, App.content).length;
-    return `<h1>Drill</h1>
-      ${emptyState({
-        glyph: "&#9678;",
-        title: due ? `${due} correction${due === 1 ? "" : "s"} are due` : "Ready when you are",
-        body: due
-          ? "Each one comes back on a different question from the one you missed, so you cannot pass by remembering the question."
-          : "A session mixes due corrections, items coming up for review, and new coverage weighted toward the heaviest exam domains.",
-        actions: `<div class="row center">
-          <button class="btn" data-action="start-drill">Start a session</button>
-          <button class="btn ghost" data-action="start-weak">Weak spots only</button></div>`,
-      })}`;
-  }
-  if (App.idx >= App.queue.length) return sessionSummary(App);
+export function drillHomeView(App) {
+  const due = mentor.due(App.state, App.content).length;
+  return `<h1>Drill</h1>
+    ${emptyState({
+      glyph: "&#9678;",
+      title: due ? `${due} correction${due === 1 ? "" : "s"} are due` : "Ready when you are",
+      body: due
+        ? "Each one comes back on a different question from the one you missed, so you cannot pass by remembering the question."
+        : "A session mixes due corrections, items coming up for review, and new coverage weighted toward the heaviest exam domains.",
+      actions: `<div class="row center">
+        <button class="btn" data-action="start-drill">Start a session</button>
+        <button class="btn ghost" data-action="start-weak">Weak spots only</button></div>`,
+    })}`;
+}
 
+export function drillRunView(App) {
   const entry = App.queue[App.idx];
   const s = App.sessionStats;
   const bar = sessionBarHtml({
@@ -233,7 +232,7 @@ export function drillView(App) {
 
   const body =
     entry.kind === "pbq"
-      ? pbqHtml(entry.pbq, App.pbqAnswers, { locked: !!App.pbqGraded, graded: App.pbqGraded })
+      ? pbqHtml(entry.pbq, App.answers[entry.pbq.id] || {}, { locked: !!App.graded, graded: App.graded })
       : entry.kind === "mentor"
       ? mentorOnlyHtml(App, entry)
       : entry.item.type === "recall"
@@ -267,7 +266,7 @@ function debriefHtml(App) {
     <ul class="req m0">${notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></div>`;
 }
 
-function sessionSummary(App) {
+export function drillDoneView(App) {
   const s = App.sessionStats;
   const acc = s.answered ? s.correct / s.answered : 0;
   const st = streakStatus(App.state);
@@ -301,13 +300,11 @@ const KIND_LABEL = {
   "drag-order": "Order and classify",
 };
 
-export function pbqLabView(App) {
-  if (App.queue.length && App.queue[App.idx]?.kind === "pbq" && App.mode === "pbq") {
-    return pbqHtml(App.queue[App.idx].pbq, App.pbqAnswers, {
-      locked: !!App.pbqGraded, graded: App.pbqGraded,
-    });
-  }
+export function labRunView(App) {
+  return pbqHtml(App.lab, App.answers[App.lab.id] || {}, { locked: !!App.graded, graded: App.graded });
+}
 
+export function labListView(App) {
   const byKind = {};
   for (const p of App.content.pbqs) (byKind[p.kind] ||= []).push(p);
 
@@ -660,7 +657,7 @@ export function mockStartView(App) {
 export function mockReviewView(App) {
   const m = App.mock;
   const answeredOf = (e) =>
-    (e.kind === "pbq" ? pbqAnswered(m.pbqAnswers[e.pbq.id]) : !!m.answers[e.item.id]) ? "answered" : "blank";
+    (e.kind === "pbq" ? pbqAnswered(App.answers[e.pbq.id]) : !!m.answers[e.item.id]) ? "answered" : "blank";
 
   const cells = m.items.map((e, i) => {
     const id = e.item?.id || e.pbq?.id;
@@ -711,7 +708,7 @@ export function mockRunnerView(App) {
   const answered = Object.keys(m.answers).filter((k) => m.answers[k] != null).length;
 
   const body = entry.kind === "pbq"
-    ? pbqHtml(entry.pbq, m.pbqAnswers[entry.pbq.id] || {}, { locked: false, graded: null, inExam: true })
+    ? pbqHtml(entry.pbq, App.answers[entry.pbq.id] || {}, { locked: false, graded: null, inExam: true })
     : mockMcqHtml(entry.item, m.answers[entry.item.id], m.flagged.has(entry.item.id));
 
   return `

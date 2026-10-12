@@ -210,6 +210,26 @@ for (const f of ["app/main.js", "app/ui/common.js", "app/ui/views.js", "app/ui/p
 }
 
 say("");
+say("<b>Every data-action in the templates has a handler, and every handler is used</b>");
+{
+  const main = await fetch("./app/main.js", { cache: "no-store" }).then((x) => x.text());
+  const block = main.slice(main.indexOf("const ACTIONS = {"), main.indexOf("\n};", main.indexOf("const ACTIONS = {")));
+  const defined = new Set([...block.matchAll(/^ {2}"?([a-z][a-z-]*)"?\s*[:,]/gm)].map((m) => m[1]));
+  const used = new Set();
+  for (const f of ["app/main.js", "app/ui/common.js", "app/ui/views.js", "app/ui/pbq.js"]) {
+    const src = await fetch(`./${f}`, { cache: "no-store" }).then((x) => x.text());
+    // Literal attributes everywhere; in the UI files also the `action:` that an
+    // optionButton() call is given.
+    const re = f.startsWith("app/ui/") ? /data-action="([a-z-]+)"|\baction:\s*"([a-z-]+)"/g : /data-action="([a-z-]+)"/g;
+    for (const m of src.matchAll(re)) used.add(m[1] || m[2]);
+  }
+  const undefinedUse = [...used].filter((a) => !defined.has(a));
+  const unusedDef = [...defined].filter((a) => !used.has(a) && a !== "grade");
+  check(undefinedUse.length === 0, `${used.size} actions used, all defined`, undefinedUse.join(", "));
+  check(unusedDef.length === 0, `${defined.size} actions defined, all used`, unusedDef.join(", "));
+}
+
+say("");
 say(failures === 0
   ? `<b class="ok">All checks passed.</b>`
   : `<b class="fail">${failures} check(s) failed.</b>`);

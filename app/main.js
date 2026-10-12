@@ -7,28 +7,35 @@ import * as mentor from "./mentor.js";
 import { buildQueue, buildMock, FORMATS, PBQ_WEIGHT, weightOf, toScaled } from "./scheduler.js";
 import { gradePbq } from "./grade/index.js";
 import {
-  drillView, pbqLabView, mentorView, readinessView, settingsView,
-  mockStartView, mockRunnerView, mockReviewView, mockResultView, pbqAnswered,
+  drillHomeView, drillRunView, drillDoneView, labListView, labRunView,
+  mockStartView, mockRunnerView, mockReviewView, mockResultView,
+  mentorView, readinessView, settingsView, pbqAnswered,
 } from "./ui/views.js";
 import { esc, pct, mentorCardHtml, setGlossary } from "./ui/common.js";
 
+// One routing variable. `screen` names exactly what is on screen; everything
+// else here is session data that the screens read.
 const App = {
   state: store.load(),
   content: null,
   health: null,
-  view: "drill",
-  mode: "drill",
+  screen: "drill-home",
+  // the drill session
+  mode: "drill",            // drill | weak: which queue the scheduler built
   queue: [],
   idx: 0,
   answer: null,
-  pbqAnswers: {},
-  pbqGraded: null,
-  pbqStartedAt: null,
-  expanded: null,
   questionShownAt: null,
   markedGuess: false,
   multiPicked: new Set(),
   sessionStats: { answered: 0, correct: 0, banked: 0, retired: 0, rushed: 0, missesByObjective: {} },
+  // PBQs, wherever they appear: one answer sheet per PBQ id
+  answers: {},
+  graded: null,             // the grade of the PBQ in front of you, in the drill or the lab
+  pbqStartedAt: null,
+  lab: null,                // the PBQ open in the lab
+  mock: null,               // { format, minutes, items, idx, answers, flagged, startedAt, endsAt, result }
+  expanded: null,
 };
 window.App = App;
 
@@ -36,14 +43,39 @@ window.App = App;
 // exam punishes exactly this: the options are written to be pattern matched.
 const RUSHED_MS = 6000;
 
+const SCREENS = {
+  "drill-home": drillHomeView,
+  "drill-run": drillRunView,
+  "drill-done": drillDoneView,
+  "lab-list": labListView,
+  "lab-run": labRunView,
+  "mock-home": mockStartView,
+  "mock-run": mockRunnerView,
+  "mock-review": mockReviewView,
+  "mock-result": mockResultView,
+  bank: mentorView,
+  readiness: readinessView,
+  settings: settingsView,
+};
+
 const NAV = [
   ["drill", "Drill"],
-  ["pbq", "PBQ lab"],
+  ["lab", "PBQ lab"],
   ["mock", "Mock exam"],
-  ["mentor", "Mentor bank"],
+  ["bank", "Mentor bank"],
   ["readiness", "Readiness"],
   ["settings", "Settings"],
 ];
+
+const section = () => App.screen.split("-")[0];
+
+/** Where a section's nav button lands: back into whatever is in progress there. */
+function sectionScreen(s) {
+  if (s === "drill") return !App.queue.length ? "drill-home" : App.idx < App.queue.length ? "drill-run" : "drill-done";
+  if (s === "lab") return App.lab ? "lab-run" : "lab-list";
+  if (s === "mock") return !App.mock ? "mock-home" : App.mock.result ? "mock-result" : "mock-run";
+  return s;
+}
 
 /** Both tiers: the fast local copy now, the durable server copy a moment later. */
 function save() {
@@ -53,6 +85,31 @@ function save() {
 
 const mentorCards = (ids) =>
   ids.map((id) => mentorCardHtml(mentor.card(id, App.content, App.state))).join("");
+
+// --- the PBQ in front of you ----------------------------------------------
+/** The blank answer sheet for a PBQ, shaped for its kind. */
+const emptyAnswers = (pbq) =>
+  pbq.kind === "acl-table" ? { rules: [] }
+  : pbq.kind === "network-diagram" ? { seenNodes: [] }
+  : pbq.kind === "drag-order"
+    ? (pbq.config.mode === "sequence" ? { order: [] } : { placements: {}, held: null })
+  : {};
+
+function currentPbq() {
+  if (App.screen === "lab-run") return App.lab;
+  if (App.screen === "mock-run") return App.mock.items[App.mock.idx].pbq || null;
+  if (App.screen === "drill-run") return App.queue[App.idx]?.pbq || null;
+  return null;
+}
+
+const answersFor = (pbq) => (App.answers[pbq.id] ||= emptyAnswers(pbq));
+
+/** A fresh sheet and a fresh clock for a PBQ about to be worked in the drill or the lab. */
+function openPbq(pbq) {
+  App.answers[pbq.id] = emptyAnswers(pbq);
+  App.graded = null;
+  App.pbqStartedAt = Date.now();
+}
 
 // --- chrome ---------------------------------------------------------------
 function goalRing(done, goal) {
@@ -76,15 +133,16 @@ function sidebarHtml() {
   const done = store.reviewsToday(App.state);
   const goal = App.state.profile.dailyReviewGoal || 40;
   const days = App.state.profile.examDate ? mentor.daysUntilExam(App.state) : null;
+  const here = section();
 
   const scratch = store.SCRATCH
     ? `<div class="scratch-flag">scratch session &middot; nothing here is saved to your real progress</div>`
     : "";
   const nav = NAV.map(([id, label]) => {
-    const badge = id === "mentor" && due
+    const badge = id === "bank" && due
       ? `<span class="badge ${due > 8 ? "hot" : ""}">${due}</span>` : "";
-    return `<button class="nav" ${App.view === id ? 'aria-current="page"' : ""}
-      data-action="nav" data-view="${id}">${label}${badge}</button>`;
+    return `<button class="nav" ${here === id ? 'aria-current="page"' : ""}
+      data-action="nav" data-section="${id}">${label}${badge}</button>`;
   }).join("");
 
   const stat = (label, value, tone = "") =>
@@ -139,37 +197,21 @@ function tickSync() {
 /** Keep the readable policy in step with the grid without re-rendering it. */
 function refreshAclReadout() {
   const el = document.getElementById("acl-readout");
-  if (!el) return;
-  const examPbq = App.view === "mock" && App.mock?.active && App.mock.items[App.mock.idx]?.pbq;
-  const pbq = examPbq || App.queue[App.idx]?.pbq;
-  if (pbq?.kind !== "acl-table") return;
-  el.outerHTML = aclReadoutHtml(pbq.config, examPbqStore().rules || []);
+  const pbq = currentPbq();
+  if (!el || pbq?.kind !== "acl-table") return;
+  el.outerHTML = aclReadoutHtml(pbq.config, answersFor(pbq).rules || []);
 }
 
 function render() {
-  const body =
-    App.view === "drill" ? drillView(App)
-    : App.view === "pbq" ? pbqLabView(App)
-    : App.view === "mock"
-      ? (App.mock?.result ? mockResultView(App)
-         : App.mock?.active && App.mock.reviewing ? mockReviewView(App)
-         : App.mock?.active ? mockRunnerView(App)
-         : mockStartView(App))
-    : App.view === "mentor" ? mentorView(App)
-    : App.view === "readiness" ? readinessView(App)
-    : settingsView(App);
-
   const root = document.getElementById("app");
   root.className = "";
 
   // Focus mode: chrome recedes while a question is actually in front of you,
   // and comes back for the lab, the bank and the summary screens.
-  const drilling =
-    (App.view === "drill" && App.queue.length && App.idx < App.queue.length) ||
-    (App.view === "mock" && App.mock?.active);
-  document.body.classList.toggle("drilling", !!drilling);
+  const drilling = ["drill-run", "mock-run", "mock-review"].includes(App.screen);
+  document.body.classList.toggle("drilling", drilling);
 
-  root.innerHTML = sidebarHtml() + `<main id="main">${body}</main>`;
+  root.innerHTML = sidebarHtml() + `<main id="main">${SCREENS[App.screen](App)}</main>`;
   shownSync = sync.getStatus();
 
   // Announce the result to assistive tech without moving focus away from the
@@ -196,7 +238,7 @@ function tickTimer() {
 }
 function tickMock() {
   const el = document.getElementById("mock-timer");
-  if (!el || !App.mock?.active) return;
+  if (!el || !["mock-run", "mock-review"].includes(App.screen)) return;
   const left = Math.max(0, Number(el.dataset.ends) - Date.now());
   const mm = Math.floor(left / 60000), ss = String(Math.floor((left % 60000) / 1000)).padStart(2, "0");
   el.textContent = `${mm}:${ss} left`;
@@ -343,17 +385,19 @@ function recordPbq(pbq, g, now, { seconds = null, mock = false } = {}) {
 }
 
 function submitPbq() {
-  const pbq = App.queue[App.idx].pbq;
+  const pbq = currentPbq();
   const now = Date.now();
-  const g = gradePbq(pbq, App.pbqAnswers);
+  const g = gradePbq(pbq, answersFor(pbq));
   const banked = recordPbq(pbq, g, now, {
     seconds: App.pbqStartedAt ? Math.round((now - App.pbqStartedAt) / 1000) : null,
   });
-  App.sessionStats.banked += banked.length;
-  App.sessionStats.answered += 1;
-  if (g.percent >= 80) App.sessionStats.correct += 1;
+  if (App.screen === "drill-run") {
+    App.sessionStats.banked += banked.length;
+    App.sessionStats.answered += 1;
+    if (g.percent >= 80) App.sessionStats.correct += 1;
+  }
   g.mentorHtml = mentorCards(banked);
-  App.pbqGraded = g;
+  App.graded = g;
   save();
 }
 
@@ -375,7 +419,7 @@ function gradeMock() {
 
   for (const entry of m.items) {
     if (entry.kind === "pbq") {
-      const g = gradePbq(entry.pbq, m.pbqAnswers[entry.pbq.id] || {});
+      const g = gradePbq(entry.pbq, App.answers[entry.pbq.id] || {});
       pbqEarned += g.earned; pbqMax += g.max; pbqCount += 1;
       const pw = PBQ_WEIGHT * weightOf(entry.pbq);
       wTotal += pw;
@@ -445,34 +489,25 @@ function gradeMock() {
 }
 
 function finishMock() {
-  if (!App.mock?.active) return;
-  App.mock.active = false;
+  if (!["mock-run", "mock-review"].includes(App.screen)) return;
   App.mock.result = gradeMock();
+  App.screen = "mock-result";
   save();
 }
 
 // --- session control ------------------------------------------------------
-/** The blank answer sheet for a PBQ, shaped for its kind. */
-const emptyAnswers = (pbq) =>
-  pbq.kind === "acl-table" ? { rules: [] }
-  : pbq.kind === "network-diagram" ? { seenNodes: [] }
-  : pbq.kind === "drag-order"
-    ? (pbq.config.mode === "sequence" ? { order: [] } : { placements: {}, held: null })
-  : {};
-
 function startSession(mode) {
   App.mode = mode;
   App.queue = buildQueue(App.state, App.content, { mode, size: mode === "weak" ? 15 : 25 });
   App.idx = 0;
   App.answer = null;
-  App.pbqAnswers = {};
-  App.pbqGraded = null;
+  App.graded = null;
   App.pbqStartedAt = null;
   App.multiPicked = new Set();
   App.sessionStats = { answered: 0, correct: 0, banked: 0, retired: 0, rushed: 0, missesByObjective: {} };
   App.questionShownAt = Date.now();
-  App.view = "drill";
-  if (App.queue[0]?.kind === "pbq") seedPbq(App.queue[0].pbq);
+  App.screen = App.queue.length ? "drill-run" : "drill-home";
+  if (App.queue[0]?.kind === "pbq") openPbq(App.queue[0].pbq);
 }
 
 function next() {
@@ -481,32 +516,18 @@ function next() {
   App.markedGuess = false;
   App.multiPicked = new Set();
   App.questionShownAt = Date.now();
-  App.pbqAnswers = {};
-  App.pbqGraded = null;
+  App.graded = null;
   App.pbqStartedAt = null;
-  if (App.queue[App.idx]?.kind === "pbq") seedPbq(App.queue[App.idx].pbq);
-}
-
-function seedPbq(pbq) {
-  App.pbqAnswers = emptyAnswers(pbq);
-  App.pbqStartedAt = Date.now();
-}
-
-/** PBQ answers live in the mock's own store while an exam is running. */
-function examPbqStore() {
-  if (App.view === "mock" && App.mock?.active) {
-    const e = App.mock.items[App.mock.idx];
-    return (App.mock.pbqAnswers[e.pbq.id] ||= emptyAnswers(e.pbq));
-  }
-  return App.pbqAnswers;
+  App.screen = App.idx < App.queue.length ? "drill-run" : "drill-done";
+  if (App.queue[App.idx]?.kind === "pbq") openPbq(App.queue[App.idx].pbq);
 }
 
 // --- actions --------------------------------------------------------------
 const ACTIONS = {
-  nav: (el) => { App.view = el.dataset.view; App.expanded = null; },
+  nav: (el) => { App.screen = sectionScreen(el.dataset.section); App.expanded = null; },
   "start-drill": () => startSession("drill"),
   "start-weak": () => startSession("weak"),
-  "go-readiness": () => { App.view = "readiness"; },
+  "go-readiness": () => { App.screen = "readiness"; },
   answer: (el) => answerMcq(el.dataset.opt),
   next,
   reveal: () => { App.answer = { revealed: true }; },
@@ -525,36 +546,32 @@ const ACTIONS = {
   },
   "pbq-submit": submitPbq,
   "pbq-continue": () => {
-    if (App.mode === "pbq") { App.view = "pbq"; App.queue = []; App.idx = 0; App.pbqGraded = null; }
+    if (App.screen === "lab-run") { App.lab = null; App.graded = null; App.screen = "lab-list"; }
     else next();
   },
   "open-pbq": (el) => {
-    const pbq = App.content.pbqsById[el.dataset.id];
-    App.mode = "pbq";
-    App.queue = [{ kind: "pbq", pbq }];
-    App.idx = 0;
-    App.pbqGraded = null;
-    seedPbq(pbq);
+    App.lab = App.content.pbqsById[el.dataset.id];
+    openPbq(App.lab);
+    App.screen = "lab-run";
   },
   "acl-add": () => {
-    const a = examPbqStore();
-    a.rules ||= [];
+    const a = answersFor(currentPbq());
     a.rules.push({ action: "permit", protocol: "tcp", src: "any", srcPort: "any", dst: "any", dstPort: "any" });
   },
-  "acl-del": (el) => examPbqStore().rules.splice(Number(el.dataset.i), 1),
+  "acl-del": (el) => answersFor(currentPbq()).rules.splice(Number(el.dataset.i), 1),
   "acl-up": (el) => {
-    const i = Number(el.dataset.i), r = examPbqStore().rules;
+    const i = Number(el.dataset.i), r = answersFor(currentPbq()).rules;
     [r[i - 1], r[i]] = [r[i], r[i - 1]];
   },
   "acl-down": (el) => {
-    const i = Number(el.dataset.i), r = examPbqStore().rules;
+    const i = Number(el.dataset.i), r = answersFor(currentPbq()).rules;
     [r[i + 1], r[i]] = [r[i], r[i + 1]];
   },
-  "diagram-choice": (el) => { examPbqStore()[el.dataset.task] = el.dataset.value; },
+  "diagram-choice": (el) => { answersFor(currentPbq())[el.dataset.task] = el.dataset.value; },
   // data-host, not data-node: the diagram's own click handler claims anything
   // carrying data-node before action dispatch ever runs.
   "node-toggle": (el) => {
-    const a = examPbqStore();
+    const a = answersFor(currentPbq());
     const list = (a[el.dataset.task] ||= []);
     const at = list.indexOf(el.dataset.host);
     if (at >= 0) list.splice(at, 1); else list.push(el.dataset.host);
@@ -564,7 +581,7 @@ const ACTIONS = {
   // and it does not lose the item when a drag wobbles. Positions fill in any
   // order, so the step you are sure is last can be committed first.
   "order-place-at": (el) => {
-    const a = examPbqStore();
+    const a = answersFor(currentPbq());
     const i = Number(el.dataset.i);
     const order = [...(a.order || [])];
     while (order.length <= i) order.push(undefined);
@@ -573,7 +590,7 @@ const ACTIONS = {
     a.held = null;
   },
   "order-unplace": (el) => {
-    const a = examPbqStore();
+    const a = answersFor(currentPbq());
     // Clear the position, do not splice it out: with positional placement,
     // splicing would silently shift every later step up by one.
     const order = [...(a.order || [])];
@@ -582,17 +599,17 @@ const ACTIONS = {
     a.order = order;
   },
   "order-hold": (el) => {
-    const a = examPbqStore();
+    const a = answersFor(currentPbq());
     a.held = a.held === el.dataset.item ? null : el.dataset.item;
   },
   "order-drop": (el) => {
-    const a = examPbqStore();
+    const a = answersFor(currentPbq());
     if (!a.held) return;
     (a.placements ||= {})[a.held] = el.dataset.bucket;
     a.held = null;
   },
   "order-remove": (el) => {
-    const a = examPbqStore();
+    const a = answersFor(currentPbq());
     delete (a.placements ||= {})[el.dataset.item];
   },
   "toggle-guess": () => { App.markedGuess = !App.markedGuess; },
@@ -606,12 +623,12 @@ const ACTIONS = {
     const f = FORMATS[fmt];
     const items = buildMock(App.content, { pbqCount: f.pbqCount, total: f.total });
     App.mock = {
-      active: true, format: fmt, minutes: f.minutes, items, idx: 0,
-      answers: {}, pbqAnswers: {}, flagged: new Set(),
-      startedAt: Date.now(), endsAt: Date.now() + f.minutes * 60000, result: null, reviewing: false,
+      format: fmt, minutes: f.minutes, items, idx: 0,
+      answers: {}, flagged: new Set(),
+      startedAt: Date.now(), endsAt: Date.now() + f.minutes * 60000, result: null,
     };
-    for (const e of items) if (e.kind === "pbq") App.mock.pbqAnswers[e.pbq.id] = emptyAnswers(e.pbq);
-    App.view = "mock";
+    for (const e of items) if (e.kind === "pbq") App.answers[e.pbq.id] = emptyAnswers(e.pbq);
+    App.screen = "mock-run";
   },
   "mock-answer": (el) => {
     const entry = App.mock.items[App.mock.idx];
@@ -624,21 +641,21 @@ const ACTIONS = {
     const id = e.item?.id || e.pbq?.id;
     App.mock.flagged.has(id) ? App.mock.flagged.delete(id) : App.mock.flagged.add(id);
   },
-  "mock-review": () => { App.mock.reviewing = true; },
-  "mock-resume": () => { App.mock.reviewing = false; },
-  "mock-goto": (el) => { App.mock.idx = Number(el.dataset.i); App.mock.reviewing = false; },
+  "mock-review": () => { App.screen = "mock-review"; },
+  "mock-resume": () => { App.screen = "mock-run"; },
+  "mock-goto": (el) => { App.mock.idx = Number(el.dataset.i); App.screen = "mock-run"; },
   "mock-first-blank": () => {
     const m = App.mock;
     const blank = m.items.findIndex((e) =>
-      e.kind === "pbq" ? !pbqAnswered(m.pbqAnswers[e.pbq.id]) : !m.answers[e.item.id]);
-    if (blank >= 0) { m.idx = blank; m.reviewing = false; }
+      e.kind === "pbq" ? !pbqAnswered(App.answers[e.pbq.id]) : !m.answers[e.item.id]);
+    if (blank >= 0) { m.idx = blank; App.screen = "mock-run"; }
   },
   "mock-submit": () => {
     const left = App.mock.items.length - Object.keys(App.mock.answers).length;
     if (left > 0 && !confirm(`${left} question${left === 1 ? " is" : "s are"} unanswered. There is no penalty for a wrong guess on the real exam. Submit anyway?`)) return;
     finishMock();
   },
-  "mock-done": () => { App.mock = null; App.view = "mock"; },
+  "mock-done": () => { App.mock = null; App.screen = "mock-home"; },
   "expand-mc": (el) => { App.expanded = App.expanded === el.dataset.id ? null : el.dataset.id; },
   export: () => {
     const blob = new Blob([store.exportState(App.state)], { type: "application/json" });
@@ -672,15 +689,14 @@ const ACTIONS = {
 
 document.addEventListener("click", (e) => {
   const node = e.target.closest("[data-node]");
-  const examPbq = App.view === "mock" && App.mock?.active && App.mock.items[App.mock.idx]?.pbq;
-  if (node && (examPbq || (App.queue[App.idx]?.kind === "pbq" && !App.pbqGraded))) {
-    const pbq = examPbq || App.queue[App.idx].pbq;
+  const pbq = node && currentPbq();
+  if (node && pbq && !App.graded) {
     const def = pbq.config.nodes.find((n) => n.id === node.dataset.node);
     if (def && def.selectable !== false) {
       // Inspecting a host is not accusing it. Clicking inspects; naming it
       // compromised is a separate, explicit act, because gathering evidence
       // before committing to a verdict is the skill this question trains.
-      const a = examPbqStore();
+      const a = answersFor(pbq);
       a.inspected = def.id;
       a.seenNodes = [...new Set([...(a.seenNodes || []), def.id])];
       render();
@@ -698,10 +714,10 @@ document.addEventListener("click", (e) => {
 document.addEventListener("change", (e) => {
   const t = e.target;
   if (t.dataset.pbqField) {
-    examPbqStore()[t.dataset.pbqField] = t.value;
+    answersFor(currentPbq())[t.dataset.pbqField] = t.value;
     render();
   } else if (t.dataset.acl) {
-    examPbqStore().rules[Number(t.dataset.acl)][t.dataset.k] = t.value;
+    answersFor(currentPbq()).rules[Number(t.dataset.acl)][t.dataset.k] = t.value;
     // A full render would rebuild the select you are still interacting with and
     // take the focus with it, so the plain-text policy is refreshed on its own.
     refreshAclReadout();
@@ -724,7 +740,7 @@ document.addEventListener("keydown", (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   const tag = document.activeElement?.tagName;
   if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
-  if (App.view !== "drill" || !App.queue.length) return;
+  if (App.screen !== "drill-run") return;
   const entry = App.queue[App.idx];
   if (!entry || entry.kind !== "item") return;
 
@@ -811,7 +827,7 @@ window.addEventListener("pagehide", () => {
       console.info(`Dropped ${pruned} progress record(s) for items no longer in the bank.`);
       save();
     }
-    sync.health().then((h) => { App.health = h; if (App.view === "settings") render(); });
+    sync.health().then((h) => { App.health = h; if (App.screen === "settings") render(); });
 
     startSession("drill");
     render();
