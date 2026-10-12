@@ -737,6 +737,12 @@ window.addEventListener("pagehide", () => {
 
     store.onLocalSave((s) => sync.push(s));
     sync.onStatusChange(() => updateSyncFoot());
+
+    const pruned = store.pruneOrphans(App.state, App.content);
+    if (pruned) {
+      console.info(`Dropped ${pruned} progress record(s) for items no longer in the bank.`);
+      store.save(App.state);
+    }
     sync.health().then((h) => { App.health = h; if (App.view === "settings") render(); });
 
     startSession("drill");

@@ -325,6 +325,7 @@ export function pbqLabView(App) {
     "acl-table": "Firewall and ACL",
     "wireless-config": "Wireless configuration",
     "network-diagram": "Network diagram analysis",
+    "drag-order": "Order and classify",
   };
 
   const groups = Object.entries(byKind)

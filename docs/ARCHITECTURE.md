@@ -29,7 +29,7 @@ pattern instead of at the question you happened to see.
 ## Data model
 
 ```
-Objective (28)  ->  Topic (682)  ->  Item (MCQ | PBQ)
+Objective (28)  ->  Topic (684)  ->  Item (MCQ | PBQ)
                          ^                 |
                          |            Distractor -> Misconception -> MentorCard
                          +---------------------------------------------+
@@ -50,17 +50,14 @@ One shared harness, pluggable graders. Each PBQ declares subtasks; each subtask
 scores independently so partial credit is real, and each subtask has its own
 misconception mapping so a half-right PBQ still generates precise remediation.
 
-Planned PBQ kinds for v1, matching what the exam actually uses:
+The four PBQ kinds, matching the formats that actually appear on the exam:
 
 | Kind | Interaction | Grader |
 |---|---|---|
 | `acl-table` | Add/order/edit firewall rules (src, dst, port, proto, action) | Simulates traffic against your rule set, checks each required flow permitted/denied, penalises overly broad rules and wrong ordering |
 | `wireless-config` | AP settings panel: mode, SAE vs Enterprise, EAP type, RADIUS, band, SSID broadcast, PSK | Per-field, with dependency checks (Enterprise requires RADIUS + EAP) |
 | `network-diagram` | Clickable topology, inspect host evidence, apply containment actions | Checks identification, correct action, correct order (contain before eradicate) |
-| `log-analysis` | Scrollable log pane + dropdown answers | Per-dropdown, plus "what is the attack" and "what is the fix" |
-| `drag-categorise` | Drag items into buckets or into ordered sequence | Per-placement |
-| `cert-inspect` | Certificate viewer, identify the defect, pick the remediation | Per-field |
-| `protocol-match` | Insecure protocol to secure replacement plus port | Per-pair |
+| `drag-order` | Click to place items into an ordered sequence or into buckets | Per item, with adjacent-pair credit reported on sequences |
 
 ## Study modes
 
@@ -143,15 +140,13 @@ origin stable, which is what makes the fast tier survive too.
 
 ```
 content/
-  objectives.json        # taxonomy: 5 domains, 28 objectives, 682 topics  [DONE]
+  objectives.json        # taxonomy: 5 domains, 28 objectives, 684 topics  [DONE]
   items/<domain>.json    # MCQ bank, tagged to objective + topics
   pbq/<id>.json          # PBQ definitions with subtasks and graders
   mentor/<id>.json       # misconception -> mentor guide
-schemas/                 # JSON Schema for all three, validated in CI
 scripts/
   build_objectives.py    # regenerates the taxonomy                        [DONE]
   validate_content.py    # schema + coverage + orphan misconception check
-  coverage_report.py     # topics with zero items, weighted by domain
 ```
 
 Coverage gate: no objective ships with zero items, and domain item counts track

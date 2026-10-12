@@ -32,7 +32,7 @@ Domains 2, 4, and 5 are 70% of the exam. Domain 4 alone is 28% and holds 9 of th
 28 objectives. The scheduler uses these weights so drilling time is spent where
 score actually moves.
 
-Full taxonomy: 28 objectives, 682 tagged sub-topics, in `content/objectives.json`.
+Full taxonomy: 28 objectives, 684 tagged sub-topics, in `content/objectives.json`.
 
 ## 3. Objective stems map to question style
 
@@ -73,11 +73,11 @@ PBQ engines to build.
 
 ## 5. Scheduling algorithm
 
-FSRS over SM-2. FSRS-6 models three variables per card (stability, difficulty,
+FSRS over SM-2. FSRS v5 models three variables per card (stability, difficulty,
 retrievability) against SM-2's single ease factor, is MIT licensed with reference
 implementations including JavaScript, and needs roughly 20 to 30% fewer reviews
 for the same retention. Default parameters were trained on ~700 million reviews,
-so it performs well before any personal optimisation. Decision: implement FSRS-6
+so it performs well before any personal optimisation. Decision: implement FSRS v5
 with default parameters, log every review so parameters can be optimised later.
 
 The twist for this build: the scheduler does not only schedule items, it

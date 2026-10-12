@@ -71,17 +71,17 @@ some of the time, and you would have no way to tell which time.
 | | |
 |---|---|
 | Objectives | All 5 domains, 28 objectives, 684 tagged sub-topics, from CompTIA's official objectives document |
-| Misconceptions | 108, each with a full mentor guide: diagnosis, side by side contrast table, rule of thumb, what to look for in the stem, and why the wrong answer looked right |
-| Multiple choice | 211 original items, every distractor mapped to a misconception |
-| Multiple select | 12 "choose two/three" items, scored all or nothing like the exam |
+| Misconceptions | 176, each with a full mentor guide: diagnosis, side by side contrast table, rule of thumb, what to look for in the stem, and why the wrong answer looked right |
+| Multiple choice | 449 original items, every distractor mapped to a misconception |
+| Multiple select | 37 "choose two/three" items, scored all or nothing like the exam |
 | Acronym recognition | 315, generated from CompTIA's own acronym list |
 | Derived discrimination | 82, generated from the imported vocabulary (see below) |
 | Recall vocabulary | 546 remaining after 82 were superseded, capped at ~12% of any session |
-| PBQs | 15, across four engines, graded per subtask with real partial credit |
+| PBQs | 21, across four engines, graded per subtask with real partial credit |
 
 ## The PBQ engines
 
-Three interactive engines, matching the formats that actually appear on SY0-701.
+Four interactive engines, matching the formats that actually appear on SY0-701.
 
 **`acl-table`** is not marked against a model answer. Your rule set is
 **executed**: synthetic packets are pushed through it top to bottom, first match
@@ -146,14 +146,14 @@ from the first requirement to the last rule is around 1300px in a 768px
 viewport, so the rules you are trying to satisfy were never on screen with the
 grid you satisfy them in. It collapses to one line when you want the room.
 
-### The twelve
+### The twenty-one
 
 | Engine | PBQs |
 |---|---|
-| `acl-table` | screened subnet, clinical segmentation with a quarantine ordering trap, perimeter egress filtering, and a **stateless** ICS filter where you must write both directions |
+| `acl-table` | screened subnet, clinical segmentation with a quarantine ordering trap, perimeter egress filtering, a **stateless** ICS filter where you must write both directions, and a management plane built around a jump server |
 | `wireless-config` | corporate branch, guest site with no servers, a retail store running three SSIDs at once, and a site where legacy devices cannot be upgraded |
-| `network-diagram` | worm outbreak, quiet intrusion and exfiltration, ransomware with a backup that was not one, and compromise arriving through a managed service provider |
-| `drag-order` | incident response phases in order, order of volatility, and classifying ten controls by type |
+| `network-diagram` | worm outbreak, quiet intrusion and exfiltration, ransomware with a backup that was not one, compromise arriving through a managed service provider, and four authentication patterns that are four different attacks |
+| `drag-order` | incident response phases in order, order of volatility, classifying ten controls by type, sorting openings by threat vector, who patches what across the service models, matching protections to data, and the vulnerability management cycle in order |
 
 Two pairs are deliberately built to invert each other. The retail PBQ asks for
 the EAP method twice and the correct answers differ, because the constraints
@@ -540,11 +540,6 @@ of their exam weight on graded practice.
   by anyone. Gating on the official vocabulary removes the off-syllabus material
   and fixes placement; it does **not** verify that a definition is correct. Treat
   derived questions as drilling, and your own notes as the authority.
-- 15 PBQs across four engines. Enough to drill every format without
-  memorising them. More drop straight in as JSON, and both the validator and the
-  self test check each one's reference answer scores full marks.
 - The imported recall bank is skewed toward domain 3 and thin on domain 5. It is
   vocabulary, so this matters much less than the graded balance, but a domain 5
   recall pass would help.
-- Progress lives in this browser's localStorage. Export it from Settings before
-  clearing site data.

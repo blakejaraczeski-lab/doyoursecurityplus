@@ -169,4 +169,22 @@ export function resetState() {
   return structuredClone(DEFAULT_STATE);
 }
 
+/**
+ * Drop progress records whose item or PBQ no longer exists in the bank.
+ * Regenerating derived content can change ids, and a record pointing at
+ * nothing is dead weight: the scheduler cannot serve it and readiness cannot
+ * see it. Reviews are kept, because they are history and nothing looks them up
+ * by id. Returns how many records were dropped.
+ */
+export function pruneOrphans(state, content) {
+  let n = 0;
+  for (const id of Object.keys(state.items || {})) {
+    if (!content.itemsById[id]) { delete state.items[id]; n += 1; }
+  }
+  for (const id of Object.keys(state.pbq || {})) {
+    if (!content.pbqsById[id]) { delete state.pbq[id]; n += 1; }
+  }
+  return n;
+}
+
 export { KEY };
