@@ -126,12 +126,12 @@ function pickNewItems(state, content, n, recallBudget = Infinity) {
   const core = unseen.filter((it) => it.type !== "recall").sort((a, b) => score(b) - score(a));
 
   // A floor as well as a cap, or vocabulary never appears while any exam-shaped
-  // item is left unseen. The floor is 8% of the new slots, which is zero in a
-  // session with fewer than 13 of them: vocabulary only enters sessions that
-  // still have room for new coverage.
+  // item is left unseen. 8% of the new slots, and at least one card in any
+  // session with room for new coverage at all: vocabulary gets in the door
+  // once a session, and never more than the pace profile's share.
   const out = [];
   const take = (pool, k) => { for (let i = 0; i < k && pool.length && out.length < n; i++) out.push(pool.shift()); };
-  take(recall, Math.min(recallBudget, Math.floor(n * 0.08)));
+  take(recall, Math.min(recallBudget, Math.max(n >= 4 ? 1 : 0, Math.floor(n * 0.08))));
   take(core, n - out.length);
   take(recall, Math.max(0, recallBudget - out.filter((it) => it.type === "recall").length));
   return out;

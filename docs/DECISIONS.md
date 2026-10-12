@@ -130,3 +130,13 @@ redeems at read time by building its table from the pairs you actually
 confused. The questions are also filed under the term (`d-hot-site`) rather
 than an Anki note number, and the app moves any progress recorded under the
 old id, so a regeneration never costs a review again.
+
+## Recall stays
+
+The term-and-definition cards are the wrong shape for this exam, and the
+README says so, but they are the only place vocabulary enters at all, and the
+live record showed they were being used: 64 of the first 290 reviews. The
+decision is to keep the type at a small share rather than retire it. The share
+is now a real floor as well as a cap: at least one card in any session with
+room for new coverage, which the old `floor(n * 0.08)` only delivered in
+sessions with thirteen or more new slots.

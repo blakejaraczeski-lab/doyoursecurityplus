@@ -61,7 +61,7 @@ confidently wrong some of the time, with no way to tell which time.
 | Multiple choice | 465 original items, every distractor mapped to a misconception |
 | Multiple select | 38 "choose two/three" items, scored all or nothing like the exam |
 | Derived discrimination | 82 generated from imported vocabulary: "which term is being described", with sibling terms as distractors |
-| Recall vocabulary | 546 imported cards, capped at about 12% of a session |
+| Recall vocabulary | 546 imported cards, at least one per session and never more than about 12% |
 | PBQs | 21 across four engines, graded per subtask with partial credit |
 | Glossary | CompTIA's own acronym list, expanded inline wherever one appears in a question |
 
