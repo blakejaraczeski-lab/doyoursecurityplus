@@ -111,6 +111,63 @@ function openPbq(pbq) {
   App.pbqStartedAt = Date.now();
 }
 
+/**
+ * Open a diagram host's evidence. Inspecting a host is not accusing it: naming
+ * it compromised is a separate, explicit act, because gathering evidence before
+ * committing to a verdict is the skill this question trains.
+ */
+function inspectNode(id) {
+  const pbq = currentPbq();
+  if (!pbq || App.graded) return;
+  const def = pbq.config.nodes.find((n) => n.id === id);
+  if (!def || def.selectable === false) return;
+  const a = answersFor(pbq);
+  a.inspected = def.id;
+  a.seenNodes = [...new Set([...(a.seenNodes || []), def.id])];
+  render();
+}
+
+/**
+ * Keyboard for the click-to-place PBQs: a letter holds a chip from the pool, a
+ * digit places it in that position or bucket. The letters and digits are drawn
+ * on the controls. Returns true if the key did something.
+ */
+function orderKey(e, pbq) {
+  if (pbq.kind !== "drag-order") return false;
+  const a = answersFor(pbq);
+  const cfg = pbq.config;
+  const letter = "abcdefghij".indexOf(e.key.toLowerCase());
+  const digit = "1234567890".indexOf(e.key);
+  const hold = (item) => { a.held = a.held === item.id ? null : item.id; return true; };
+  if (cfg.mode === "sequence") {
+    const order = a.order || [];
+    const pool = cfg.items.filter((i) => !order.includes(i.id));
+    if (letter >= 0 && pool[letter]) return hold(pool[letter]);
+    if (digit >= 0 && a.held && digit < cfg.items.length && order[digit] == null) {
+      ACTIONS["order-place-at"]({ dataset: { i: String(digit) } });
+      return true;
+    }
+    return false;
+  }
+  const pool = cfg.items.filter((i) => !(a.placements || {})[i.id]);
+  if (letter >= 0 && pool[letter]) return hold(pool[letter]);
+  if (digit >= 0 && a.held && cfg.buckets[digit]) {
+    ACTIONS["order-drop"]({ dataset: { bucket: cfg.buckets[digit].id } });
+    return true;
+  }
+  return false;
+}
+
+// `?` shows every acronym's expansion in place. A per-browser convenience, so
+// it lives in localStorage and the page works without it.
+let glossOpen = false;
+try { glossOpen = localStorage.getItem("dysp.gloss") === "1"; } catch {}
+function toggleGloss() {
+  glossOpen = !glossOpen;
+  try { localStorage.setItem("dysp.gloss", glossOpen ? "1" : "0"); } catch {}
+  document.body.classList.toggle("gloss-open", glossOpen);
+}
+
 // --- chrome ---------------------------------------------------------------
 function goalRing(done, goal) {
   const r = 22, c = 2 * Math.PI * r;
@@ -163,7 +220,6 @@ function sidebarHtml() {
         ${days != null
           ? stat("To exam", `${days}<span class="u">d</span>`, days <= 14 ? "warn" : "")
           : stat("Exam date", "not set", "warn")}
-        ${stat("Due now", due, due ? "warn" : "good")}
       </dl>
     </div>
     <div class="sidebar-foot" id="sync-foot">${syncFootHtml()}</div>
@@ -218,7 +274,6 @@ function render() {
   // option the user just activated.
   const banner = root.querySelector(".verdict-banner");
   if (banner) { banner.setAttribute("role", "status"); banner.setAttribute("aria-live", "polite"); }
-  if (drilling) root.querySelector("main > .card")?.classList.add("q-enter");
 
   tickTimer();
 }
@@ -689,20 +744,7 @@ const ACTIONS = {
 
 document.addEventListener("click", (e) => {
   const node = e.target.closest("[data-node]");
-  const pbq = node && currentPbq();
-  if (node && pbq && !App.graded) {
-    const def = pbq.config.nodes.find((n) => n.id === node.dataset.node);
-    if (def && def.selectable !== false) {
-      // Inspecting a host is not accusing it. Clicking inspects; naming it
-      // compromised is a separate, explicit act, because gathering evidence
-      // before committing to a verdict is the skill this question trains.
-      const a = answersFor(pbq);
-      a.inspected = def.id;
-      a.seenNodes = [...new Set([...(a.seenNodes || []), def.id])];
-      render();
-    }
-    return;
-  }
+  if (node) { inspectNode(node.dataset.node); return; }
   const el = e.target.closest("[data-action]");
   if (!el || el.disabled) return;
   const fn = ACTIONS[el.dataset.action];
@@ -738,8 +780,31 @@ document.addEventListener("change", (e) => {
 
 document.addEventListener("keydown", (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
-  const tag = document.activeElement?.tagName;
+  const active = document.activeElement;
+  const tag = active?.tagName;
   if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+
+  if (e.key === "?") { e.preventDefault(); toggleGloss(); return; }
+
+  // A focused diagram host opens on Enter or Space, as it would on a click.
+  const node = active?.closest?.("[data-node]");
+  if (node && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); inspectNode(node.dataset.node); return; }
+
+  // A PBQ in the drill or the lab. Enter on a focused button is the button's;
+  // Enter anywhere else submits, and then continues. The ACL grid and the
+  // wireless form are native controls reached by Tab and have no letter keys.
+  const pbq = App.screen === "mock-run" ? null : currentPbq();
+  if (pbq) {
+    if (tag === "BUTTON" && (e.key === "Enter" || e.key === " ")) return;
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (App.graded) ACTIONS["pbq-continue"](); else submitPbq();
+      return render();
+    }
+    if (!App.graded && orderKey(e, pbq)) { e.preventDefault(); return render(); }
+    return;
+  }
+
   if (App.screen !== "drill-run") return;
   const entry = App.queue[App.idx];
   if (!entry || entry.kind !== "item") return;
@@ -810,6 +875,7 @@ window.addEventListener("pagehide", () => {
   try {
     App.content = await loadContent();
     setGlossary(App.content.glossary);
+    document.body.classList.toggle("gloss-open", glossOpen);
 
     // Reconcile the fast local copy with the durable one. Newest wins, and the
     // loser is never silently discarded: the server keeps snapshots either way.

@@ -16,7 +16,8 @@
    ISOLATION The one sentence you must recall under exam pressure (the rule of
              thumb) is visually isolated from its explanation. Isolated items
              are remembered disproportionately well.
-   MOTION    120-180ms, and disabled entirely under prefers-reduced-motion.
+   MOTION    120-180ms, only on a state change, and disabled entirely under
+             prefers-reduced-motion. A new question arriving is not decorated.
    ========================================================================== */
 
 :root {
@@ -58,7 +59,6 @@
   --bad-soft: #fae6e3;
   --warn: #8a5a08;
   --warn-soft: #f8eedb;
-  --shadow-1: 0 1px 2px rgba(60, 50, 35, .07), 0 1px 3px rgba(60, 50, 35, .05);
 
   /* The evidence pane is a terminal, and a terminal is dark in both themes. */
   --term-bg: #0b0f15;
@@ -85,7 +85,6 @@
     --bad-soft: #2d1a17;
     --warn: #d99f3f;
     --warn-soft: #2b2113;
-    --shadow-1: 0 1px 2px rgba(0, 0, 0, .5);
   }
 }
 
@@ -129,8 +128,6 @@ body.drilling .sidebar:focus-within { opacity: 1; }
 body.drilling main { max-width: 780px; margin-inline: auto; }
 body.drilling .stem { font-size: var(--t-xl); line-height: 1.58; }
 
-@keyframes riseIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-.q-enter { animation: riseIn 220ms var(--ease) both; }
 
 /* ---------- sidebar ------------------------------------------------------ */
 .sidebar {
@@ -223,7 +220,10 @@ body.drilling .stem { font-size: var(--t-xl); line-height: 1.58; }
 }
 
 /* ---------- layout ------------------------------------------------------- */
-main { padding: var(--s6) var(--s7) var(--s7); max-width: 1080px; }
+/* min-width: 0, or the grid item takes the 880px minimum of the ACL table as
+   its own and pushes the whole page sideways on a phone; with it, .scroll-x
+   scrolls the table inside the card, which is what it is there for. */
+main { padding: var(--s6) var(--s7) var(--s7); max-width: 1080px; min-width: 0; }
 .prose, .stem, .sub, .mentor p, .result .body p { max-width: var(--measure); }
 
 h1 { font: 700 var(--t-2xl)/1.2 var(--sans); letter-spacing: -.025em; margin: 0 0 var(--s2); }
@@ -247,7 +247,7 @@ h3, .eyebrow {
 .card {
   background: var(--panel); border: 1px solid var(--line);
   border-radius: var(--r2); padding: var(--s5);
-  margin-bottom: var(--s4); box-shadow: var(--shadow-1);
+  margin-bottom: var(--s4);
 }
 .card.tight { padding: var(--s4); }
 .card > :first-child { margin-top: 0; }
@@ -297,8 +297,7 @@ button.btn.danger { background: var(--bad-soft); color: var(--bad); border-color
 /* ---------- session header ----------------------------------------------- */
 .session-bar {
   position: sticky; top: 0; z-index: 5;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(8px);
+  background: var(--bg);
   margin: calc(var(--s6) * -1) calc(var(--s7) * -1) var(--s5);
   padding: var(--s3) var(--s7);
   border-bottom: 1px solid var(--line);
@@ -313,6 +312,23 @@ button.btn.danger { background: var(--bad-soft); color: var(--bad); border-color
   display: block; height: 100%; width: var(--w, 0%);
   background: var(--accent); border-radius: 999px;
   transition: width 320ms var(--ease);
+}
+
+/* The one setting every interval depends on. Sits above the question until
+   it is set, then disappears. */
+.exam-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
+  flex-wrap: wrap; padding: var(--s3) var(--s4); margin-bottom: var(--s4);
+  border: 1px solid var(--warn); background: var(--warn-soft); border-radius: var(--r2);
+  font-size: var(--t-sm); color: var(--ink-dim);
+}
+.exam-bar b { color: var(--warn); }
+.exam-bar label { max-width: var(--measure); }
+
+/* `?` shows every acronym's expansion in place instead of on hover. */
+body.gloss-open abbr[title]::after {
+  content: " (" attr(title) ")"; color: var(--ink-faint); font-size: var(--t-sm);
+  text-decoration: none; display: inline;
 }
 
 /* ---------- question ----------------------------------------------------- */
@@ -335,8 +351,8 @@ abbr[title] {
 .opt:hover:not([disabled]) { border-color: var(--accent); background: var(--accent-soft); }
 .opt:active:not([disabled]) { transform: translateY(1px); }
 .opt[disabled] { cursor: default; }
-.opt .key {
-  width: 1.7rem; height: 1.7rem; border-radius: 6px; display: grid; place-items: center;
+.key {
+  flex: none; width: 1.7rem; height: 1.7rem; border-radius: 6px; display: grid; place-items: center;
   background: var(--panel); border: 1px solid var(--line);
   font: 640 var(--t-sm)/1 var(--mono); color: var(--ink-dim);
 }
@@ -666,6 +682,7 @@ dl.side-stats.wrap { margin: 0; display: grid; grid-template-columns: repeat(aut
 /* ---------- drag and order ------------------------------------------------ */
 .chip-pool { display: flex; flex-wrap: wrap; gap: var(--s2); }
 .chip {
+  display: inline-flex; align-items: center; gap: var(--s2);
   background: var(--panel-2); border: 1px solid var(--line-strong); color: var(--ink);
   border-radius: var(--r1); padding: var(--s2) var(--s3); min-height: 44px;
   font: 500 var(--t-sm)/1.4 var(--sans); cursor: pointer; text-align: left;
@@ -693,6 +710,7 @@ dl.side-stats.wrap { margin: 0; display: grid; grid-template-columns: repeat(aut
 .buckets { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--s3); margin-bottom: var(--s4); }
 .bucket { border: 1px solid var(--line); border-radius: var(--r2); background: var(--panel); overflow: hidden; }
 .bucket-head {
+  display: flex; align-items: center; gap: var(--s2);
   width: 100%; text-align: left; background: var(--panel-2); border: 0;
   border-bottom: 1px solid var(--line); padding: var(--s3); min-height: 44px;
   font: 650 var(--t-xs)/1.4 var(--sans); text-transform: uppercase; letter-spacing: .07em;

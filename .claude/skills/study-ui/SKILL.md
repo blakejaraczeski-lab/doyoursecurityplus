@@ -37,7 +37,13 @@ which keeps the small-caps look without inventing an `h3` under an `h1`.
 
 **Focus.** Every interactive element shows `:focus-visible`. The drill screen is
 fully keyboard operable: A-F answer, G marks a guess, Enter continues, 1-4 grade
-a recall card. New controls get a shortcut or a documented reason not to.
+a recall card, `?` toggles acronym expansions on every screen. On a PBQ, Enter
+submits and then continues; on the click-to-place PBQs a letter holds a chip
+and a digit places it in that position or bucket, with the letters and digits
+drawn on the controls; a focused diagram host opens on Enter or Space. The ACL
+grid and the wireless form are native controls reached by Tab, which is the
+documented reason they carry no letter keys. New controls get a shortcut or a
+documented reason not to.
 
 **Motion.** 120-180ms, `--ease` only, and everything inside
 `@media (prefers-reduced-motion: reduce)` is disabled. Motion signals state

@@ -1,6 +1,9 @@
 import { esc, gloss, resultsHtml, optionButton, KEYS } from "./common.js";
 import { fieldVisible } from "../grade/wireless.js";
 
+// Chip letters for the click-to-place PBQs; a pool never holds more than ten.
+const KEYS_10 = "ABCDEFGHIJ";
+
 // --- wireless --------------------------------------------------------------
 function wirelessHtml(pbq, answers, locked) {
   const fields = pbq.config.fields
@@ -249,12 +252,12 @@ function orderHtml(pbq, answers, locked) {
     <div class="card">
       <h2 class="eyebrow">Steps to place${heldItem ? ` &middot; pick a position for "${esc(heldItem.label)}"` : ""}</h2>
       ${remaining.length
-        ? `<div class="chip-pool">${remaining.map((i) => `
+        ? `<div class="chip-pool">${remaining.map((i, k) => `
             <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
-              ${esc(i.label)}</button>`).join("")}</div>`
+              <span class="key" aria-hidden="true">${KEYS_10[k]}</span>${esc(i.label)}</button>`).join("")}</div>`
         : `<p class="faint m0">All steps placed. Click one in the sequence to take it back.</p>`}
       ${remaining.length && !held
-        ? `<p class="note">Click a step, then click the position it belongs in. You can fill the positions in any order.</p>`
+        ? `<p class="note">Click a step, then click the position it belongs in, or press its letter and then the position's number. You can fill the positions in any order.</p>`
         : ""}
     </div>
     <div class="card">
@@ -282,16 +285,19 @@ function orderHtml(pbq, answers, locked) {
   <div class="card">
     <h2 class="eyebrow">Items to classify${held ? ` &middot; pick a column for "${esc(cfg.items.find((i) => i.id === held)?.label || "")}"` : ""}</h2>
     ${unplaced.length
-      ? `<div class="chip-pool">${unplaced.map((i) => `
+      ? `<div class="chip-pool">${unplaced.map((i, k) => `
           <button class="chip ${held === i.id ? "held" : ""}" data-action="order-hold" data-item="${esc(i.id)}" ${locked ? "disabled" : ""}>
-            ${esc(i.label)}</button>`).join("")}</div>`
+            <span class="key" aria-hidden="true">${KEYS_10[k]}</span>${esc(i.label)}</button>`).join("")}</div>`
       : `<p class="faint m0">Everything placed. Click an item in a column to take it back.</p>`}
+    ${unplaced.length && !held
+      ? `<p class="note">Click an item, then click its column, or press its letter and then the column's number.</p>`
+      : ""}
   </div>
   <div class="buckets">
-    ${cfg.buckets.map((b) => `
+    ${cfg.buckets.map((b, k) => `
       <div class="bucket">
         <button class="bucket-head" data-action="order-drop" data-bucket="${esc(b.id)}" ${locked || !held ? "disabled" : ""}>
-          ${esc(b.label)}${held ? " &larr; place here" : ""}
+          <span class="key" aria-hidden="true">${k + 1}</span>${esc(b.label)}${held ? " &larr; place here" : ""}
         </button>
         <div class="bucket-body">
           ${cfg.items.filter((i) => placements[i.id] === b.id).map((i) => `
@@ -334,7 +340,7 @@ export function pbqHtml(pbq, answers, { locked = false, graded = null, inExam = 
       ? `<p class="faint">Answer what you can and move on. Nothing is scored until you submit the exam, and you can come back to this with Back.</p>`
       : `<div class="row">
          <button class="btn" data-action="pbq-submit">Submit</button>
-         <span class="hint">Every subtask scores on its own, so answer all of them even where you are unsure.</span>
+         <span class="hint"><span class="kbd">&crarr;</span> to submit. Every subtask scores on its own, so answer all of them even where you are unsure.</span>
        </div>`}`;
 }
 
@@ -347,7 +353,8 @@ function gradedHtml(pbq, g) {
         <div class="score-big c-${tone}">${g.earned}<small>/${g.max}</small></div>
         <div class="faint">${g.percent}% &middot; partial credit applied per subtask</div>
       </div>
-      <button class="btn" data-action="pbq-continue">Continue</button>
+      <div class="row"><button class="btn" data-action="pbq-continue">Continue</button>
+        <span class="hint"><span class="kbd">&crarr;</span></span></div>
     </div>
   </div>
   ${g.trace ? aclTraceHtml(g.trace) : ""}

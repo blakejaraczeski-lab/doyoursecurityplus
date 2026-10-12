@@ -2,7 +2,7 @@ import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyS
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
 import { readiness, coverageDeficit, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
-import { streakStatus, reviewsToday, calibration } from "../state.js";
+import { streakStatus, reviewsToday, calibration, today } from "../state.js";
 
 const humanise = (ms) => {
   const mins = Math.round(ms / 60000);
@@ -13,6 +13,19 @@ const humanise = (ms) => {
 
 const mentorCards = (App, ids) =>
   (ids || []).map((id) => mentorCardHtml(mentor.card(id, App.content, App.state))).join("");
+
+/**
+ * The exam date is the one setting every interval depends on: nothing is ever
+ * scheduled past it, and without it the scheduler plans for a decade. So it is
+ * asked for on the drill screen itself until it is set.
+ */
+function examBarHtml(App) {
+  if (App.state.profile.examDate) return "";
+  return `<div class="exam-bar">
+    <label for="exam-date-inline"><b>No exam date set.</b> Every review interval compresses toward it; until then the scheduler is planning for a decade.</label>
+    <input id="exam-date-inline" type="date" data-setting="examDate" min="${today()}">
+  </div>`;
+}
 
 // --- drill ----------------------------------------------------------------
 /**
@@ -116,7 +129,7 @@ function mcqHtml(App, entry) {
     ${ans ? "" : `<div class="row mt4 between">
        <div class="hint">
          <span class="kbd">A</span><span class="kbd">B</span><span class="kbd">C</span><span class="kbd">D</span>
-         <span>to answer</span></div>
+         <span>to answer</span> <span class="kbd">?</span><span>acronyms</span></div>
        <button class="btn ghost small guess-toggle ${App.markedGuess ? "on" : ""}" data-action="toggle-guess">
          ${App.markedGuess ? "&check; Marked as a guess" : "I am guessing"} <span class="kbd">G</span>
        </button></div>`}
@@ -206,6 +219,7 @@ function mentorOnlyHtml(App, entry) {
 export function drillHomeView(App) {
   const due = mentor.due(App.state, App.content).length;
   return `<h1>Drill</h1>
+    ${examBarHtml(App)}
     ${emptyState({
       glyph: "&#9678;",
       title: due ? `${due} correction${due === 1 ? "" : "s"} are due` : "Ready when you are",
@@ -241,7 +255,7 @@ export function drillRunView(App) {
       ? mcqMultiHtml(App, entry)
       : mcqHtml(App, entry);
 
-  return bar + body;
+  return bar + examBarHtml(App) + body;
 }
 
 function debriefHtml(App) {
@@ -440,11 +454,28 @@ export function readinessView(App) {
   const tone = c.overconfidence > 0.3 ? "bad" : c.overconfidence > 0.15 ? "warn" : "good";
   const roots = mentor.sharedRootCauses(App.state, App.content);
 
+  // Order: the action first, then the per-objective picture it comes from,
+  // then the one number, then what qualifies it.
   return `<h1>Readiness</h1>
   <p class="sub">${r.confident
       ? "Based on enough reviews to mean something."
       : `Low confidence so far: ${r.reviewCount} reviews across ${r.objectivesSampled} of 28 objectives. The band narrows as you drill.`}</p>
 
+  ${weakest.length
+    ? `<div class="card tight"><h2 class="eyebrow">Spend your next session here</h2>
+       <ol class="next-up">${weakest
+         .map((o) => `<li>
+            <span class="code">${esc(o.objective)}</span>
+            <span class="what">${esc(o.title)}</span>
+            <span class="mastery s-${o.status}">${pct(o.mastery)}</span>
+          </li>`)
+         .join("")}</ol></div>`
+    : ""}
+
+  <h2>Per objective</h2>
+  <div class="heat">${cells}</div>
+
+  <h2>Estimated score</h2>
   ${r.bankDepth < 0.8 ? `<div class="card tight flag">
     <h2 class="eyebrow">What this score can and cannot see</h2>
     <p class="m0">Graded items reach <b>${r.topicsCovered} of ${r.topicsTotal}</b> blueprint topics (${pct(r.bankDepth)}).${
@@ -491,19 +522,6 @@ export function readinessView(App) {
       </div>`).join("")}
       <p class="note">Repairing the one underneath is worth more than drilling the ${roots[0].blocks.length} on top of it, and the queue will route you there first.</p>
     </div>` : ""}
-  ${weakest.length
-    ? `<div class="card tight"><h2 class="eyebrow">Spend your next session here</h2>
-       <ol class="next-up">${weakest
-         .map((o) => `<li>
-            <span class="code">${esc(o.objective)}</span>
-            <span class="what">${esc(o.title)}</span>
-            <span class="mastery s-${o.status}">${pct(o.mastery)}</span>
-          </li>`)
-         .join("")}</ol></div>`
-    : ""}
-
-  <h2>Per objective</h2>
-  <div class="heat">${cells}</div>
 
   <h2>Domain balance</h2>
   <div class="card">

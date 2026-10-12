@@ -17,6 +17,18 @@
 <h1>Self test</h1>
 <p class="sub">Runs every PBQ's reference answer through the real graders, the same code path the app uses, and checks it scores full marks. A PBQ that fails here has requirements that cannot all be satisfied at once. Also exercises the misconception loop end to end.</p>
 <pre id="out">Running...</pre>
+
+<h2>Manual checks</h2>
+<p class="sub">The five pre-ship steps from the study-ui skill, run by hand against every screen. Update this when you run them. Last run: 2026-10-12.</p>
+<table class="grid">
+  <tbody>
+    <tr><td>Tab through it</td><td>Every control is a button, select, input or a focusable SVG host, all with a focus ring. Diagram hosts open on Enter or Space. The click-to-place PBQs take a letter then a digit, drawn on the controls. Enter submits a PBQ and then continues.</td></tr>
+    <tr><td>Dark mode</td><td>Every colour is a token with a dark value; drill, PBQ lab and Readiness re-read in dark.</td></tr>
+    <tr><td>375 px</td><td>Nav stays a row, keyboard hints hide, the ACL table scrolls inside its card and the page does not scroll sideways. Found on this run: <code>main</code> was taking the table's 880 px minimum as its own and pushing the page to 1069 px; it now carries <code>min-width: 0</code>.</td></tr>
+    <tr><td>Reduce motion</td><td>Only state-change transitions remain and the media query disables all of them. The rise-in on every new question was removed.</td></tr>
+    <tr><td>Longest strings</td><td>Objective titles clamp to two lines in heat cells, option text and mentor labels wrap at full width, PBQ titles wrap in the header row.</td></tr>
+  </tbody>
+</table>
 </main>
 <script type="module">
 import { loadContent, isGraded } from "./app/content.js";
