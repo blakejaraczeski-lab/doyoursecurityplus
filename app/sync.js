@@ -15,7 +15,7 @@ let inFlight = false;
 let pending = null;
 let listener = () => {};
 
-export const SYNC = {
+const SYNC = {
   UNKNOWN: "unknown",
   SAVED: "saved",
   SAVING: "saving",
@@ -94,13 +94,10 @@ export async function forcePush(state) {
 
 /**
  * Write now rather than on the debounce. Called when the tab is hidden, which
- * is the last moment a normal request is still reliable.
- *
- * This used to be a keepalive fetch on beforeunload, and keepalive bodies are
- * capped at 64 KB by the spec. State passed that a while ago (it grows with
- * every review), so the browser rejected the request and the rejection was
- * never awaited: the last writes of every session were being dropped in
- * silence, with the status dot still reading "saved".
+ * is the last moment a normal request is still reliable. Not a keepalive fetch
+ * on beforeunload: keepalive bodies are capped at 64 KB by the spec, this state
+ * grows past that with every review, and a rejected keepalive is never awaited,
+ * so a session's last writes would vanish with the status dot reading "saved".
  */
 export function flushNow(state) {
   if (SCRATCH) return;

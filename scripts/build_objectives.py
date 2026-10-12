@@ -324,7 +324,6 @@ def build():
 
     total = sum(len(t["topics"]) for d in domains for t in d["objectives"])
     doc = {
-        "$schema": "./schemas/objectives.schema.json",
         "exam": EXAM,
         "source": "CompTIA Security+ SY0-701 Exam Objectives v5.0 (official, public PDF)",
         "counts": {

@@ -8,7 +8,7 @@ import { buildQueue, buildMock } from "./scheduler.js";
 import { gradePbq } from "./grade/index.js";
 import { drillView, pbqLabView, mentorView, readinessView, settingsView } from "./ui/views.js";
 import * as mock from "./ui/mock.js";
-import { esc, mentorCardHtml } from "./ui/common.js";
+import { esc, mentorCardHtml, setGlossary } from "./ui/common.js";
 
 const App = {
   state: store.load(),
@@ -473,10 +473,8 @@ const ACTIONS = {
   },
 
   // Click to place, rather than HTML5 drag: keyboard reachable, touch friendly,
-  // and it does not lose the item when a drag wobbles.
-  // Positions fill in any order now. The slots said "drop here" but were inert
-  // spans, and the only placement path appended to the end, so the sequence had
-  // to be built front to back with no way to say "this one is definitely last".
+  // and it does not lose the item when a drag wobbles. Positions fill in any
+  // order, so the step you are sure is last can be committed first.
   "order-place-at": (el) => {
     const st = examPbqStore();
     const i = Number(el.dataset.i);
@@ -601,11 +599,9 @@ document.addEventListener("click", (e) => {
     const pbq = examPbq || App.queue[App.idx].pbq;
     const def = pbq.config.nodes.find((n) => n.id === node.dataset.node);
     if (def && def.selectable !== false) {
-      // Inspecting a host is not accusing it. One click used to do both, so
-      // reading the evidence for a machine marked it compromised and reading it
-      // a second time cleared the mark: you could not investigate without
-      // committing, which is the opposite of the skill this question trains.
-      // Clicking inspects. Naming it compromised is a separate, explicit act.
+      // Inspecting a host is not accusing it. Clicking inspects; naming it
+      // compromised is a separate, explicit act, because gathering evidence
+      // before committing to a verdict is the skill this question trains.
       const store_ = examPbqStore();
       store_.inspected = def.id;
       store_.seenNodes = [...new Set([...(store_.seenNodes || []), def.id])];
@@ -723,6 +719,7 @@ window.addEventListener("pagehide", () => {
 (async () => {
   try {
     App.content = await loadContent();
+    setGlossary(App.content.glossary);
 
     // Reconcile the fast local copy with the durable one. Newest wins, and the
     // loser is never silently discarded: the server keeps snapshots either way.
@@ -751,7 +748,7 @@ window.addEventListener("pagehide", () => {
     document.getElementById("app").innerHTML =
       `<main><h1>Could not start</h1><div class="card"><p>${esc(err.message)}</p>
        <p class="faint">This app must be served over http, not opened as a file.
-       Run <span class="mono">./serve.sh</span> and open the address it prints.</p></div></main>`;
+       Run <span class="mono">python3 serve.py</span> and open the address it prints.</p></div></main>`;
     console.error(err);
   }
 })();

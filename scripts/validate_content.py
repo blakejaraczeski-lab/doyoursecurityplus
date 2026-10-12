@@ -391,7 +391,7 @@ def main():
     touched = defaultdict(int)
     per_obj_items = defaultdict(int)
     for it in items:
-        if it["type"] == "recall" or it.get("source") == "acronym-list":
+        if it["type"] == "recall":
             continue
         if it.get("objective"):
             per_obj_items[it["objective"]] += 1

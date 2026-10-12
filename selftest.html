@@ -140,7 +140,7 @@ say('  <span class="dim">a small bank must not read as a weakness in the learner
 {
   const perfect = structuredClone(DEFAULT_STATE);
   const graded = content.items.filter(
-    (i) => typeof i.type === "string" && i.type.startsWith("mcq") && i.source !== "acronym-list"
+    (i) => typeof i.type === "string" && i.type.startsWith("mcq")
   );
   for (const it of graded) {
     perfect.items[it.id] = { seen: 3, correct: 3, wrong: 0, lastSeen: Date.now(), fsrs: null };

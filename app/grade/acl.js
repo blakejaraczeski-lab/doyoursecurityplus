@@ -41,7 +41,7 @@ function ruleMatches(rule, pkt) {
 }
 
 /** Run one packet through the rule list. Returns the verdict and which rule decided it. */
-export function evaluate(rules, pkt) {
+function evaluate(rules, pkt) {
   for (let i = 0; i < rules.length; i++) {
     if (isBlank(rules[i])) continue;
     if (ruleMatches(rules[i], pkt)) {
@@ -75,7 +75,7 @@ const covers = (a, b) =>
   valCovers(a.dstPort, b.dstPort);
 
 /** Rules that can never fire because a broader rule sits above them. */
-export function findShadowed(rules) {
+function findShadowed(rules) {
   const out = [];
   const live = rules.map((r, i) => ({ r, i })).filter((x) => !isBlank(x.r));
   for (let a = 0; a < live.length; a++) {

@@ -1,4 +1,4 @@
-import { esc, resultsHtml } from "./common.js";
+import { esc, gloss, resultsHtml } from "./common.js";
 
 const visible = (field, answers) =>
   !field.dependsOn || field.dependsOn.in.includes(answers[field.dependsOn.field]);
@@ -325,7 +325,7 @@ export function pbqHtml(pbq, answers, { locked = false, graded = null, inExam = 
       ${inExam ? "" : `<span class="tag" id="pbq-timer" data-target="${pbq.targetSeconds || 480}">0:00 / ${target}:00</span>`}
     </div>
   </div>
-  <p class="sub">${esc(pbq.scenario)}</p>
+  <p class="sub">${gloss(pbq.scenario)}</p>
   ${reqs ? `<details class="card req-card" open>
       <summary><h2 class="eyebrow">Requirements</h2><span class="faint">${(pbq.requirements || []).length} to satisfy</span></summary>
       <ol class="req">${reqs}</ol>

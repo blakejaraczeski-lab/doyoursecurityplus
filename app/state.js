@@ -7,9 +7,7 @@
 
 // Scratch mode: open the app with ?scratch=1 and it keeps its progress under a
 // separate key and never talks to the server. It exists because driving the real
-// app to test it writes real reviews into real study data, which is not a
-// hypothetical: a round of UI testing once added eleven fabricated correct
-// answers and retired four misconceptions that had never been demonstrated.
+// app to test it writes real reviews into real study data.
 export const SCRATCH =
   typeof location !== "undefined" && new URLSearchParams(location.search).has("scratch");
 const KEY = SCRATCH ? "dysp.scratch" : "dysp.v1";
@@ -20,7 +18,6 @@ export const DEFAULT_STATE = {
   profile: {
     examDate: null,
     pace: "bootcamp",
-    dailyNewTarget: 40,
     desiredRetention: 0.92,
     dailyReviewGoal: 40,
   },
@@ -29,7 +26,6 @@ export const DEFAULT_STATE = {
   pbq: {},
   reviews: [],
   streak: { days: [], current: 0, best: 0, lastStudied: null },
-  session: { started: null, answered: 0 },
 };
 
 export const today = (d = new Date()) =>
@@ -113,6 +109,9 @@ function migrate(parsed) {
   s.profile = { ...DEFAULT_STATE.profile, ...(parsed.profile || {}) };
   s.streak = { ...DEFAULT_STATE.streak, ...(parsed.streak || {}) };
   s.version = DEFAULT_STATE.version;
+  // Fields that earlier versions wrote and nothing reads.
+  delete s.session;
+  delete s.profile.dailyNewTarget;
   return s;
 }
 
@@ -186,5 +185,3 @@ export function pruneOrphans(state, content) {
   }
   return n;
 }
-
-export { KEY };

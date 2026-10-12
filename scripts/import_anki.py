@@ -115,10 +115,8 @@ def main(apkg):
         seen.add(key)
         objective, matched, conf = tag(f"{front} {back} {' '.join(extra)}", topics)
         # A card the tagger cannot place has no objective, and the scheduler
-        # requires one: pickNewItems filters on `it.objective || isAcronym(it)`
-        # and buildMock takes only type "mcq". An untagged recall card is
-        # therefore reachable by no code path. Dropping it at import is the
-        # honest version of what the app was already doing silently.
+        # only serves tagged items, so an untagged card would never be reached.
+        # Dropping it at import says so instead of carrying it silently.
         if objective is None:
             untagged += 1
             continue

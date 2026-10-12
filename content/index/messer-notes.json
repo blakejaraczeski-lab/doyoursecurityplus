@@ -1,756 +1,608 @@
 {
   "source": {
     "title": "Professor Messer's SY0-701 CompTIA Security+ Course Notes",
-    "author": "James Messer",
     "note": "Index only. Section titles and page numbers, so the app can point at the user's own copy. No content reproduced."
   },
-  "domains": [
-    {
-      "domain": "1",
-      "title": "General Security Concepts",
-      "page": 1
-    },
-    {
-      "domain": "2",
-      "title": "Threats, Vulnerabilities, and Mitigations",
-      "page": 18
-    },
-    {
-      "domain": "3",
-      "title": "Security Architecture",
-      "page": 42
-    },
-    {
-      "domain": "4",
-      "title": "Operations and Incident Response",
-      "page": 59
-    },
-    {
-      "domain": "5",
-      "title": "Governance, Risk, and Compliance",
-      "page": 84
-    }
-  ],
   "sections": [
     {
       "objective": "1.1",
       "title": "Security Controls",
-      "page": 1,
-      "printedUnder": null
+      "page": 1
     },
     {
       "objective": "1.2",
       "title": "The CIA Triad",
-      "page": 2,
-      "printedUnder": null
+      "page": 2
     },
     {
       "objective": "1.2",
       "title": "Non-repudiation",
-      "page": 3,
-      "printedUnder": null
+      "page": 3
     },
     {
       "objective": "1.2",
       "title": "Authentication, Authorization, and Accounting",
-      "page": 4,
-      "printedUnder": null
+      "page": 4
     },
     {
       "objective": "1.2",
       "title": "Gap Analysis",
-      "page": 5,
-      "printedUnder": null
+      "page": 5
     },
     {
       "objective": "1.2",
       "title": "Zero Trust",
-      "page": 5,
-      "printedUnder": null
+      "page": 5
     },
     {
       "objective": "1.2",
       "title": "Physical Security",
-      "page": 7,
-      "printedUnder": null
+      "page": 7
     },
     {
       "objective": "1.2",
       "title": "Deception and Disruption",
-      "page": 7,
-      "printedUnder": null
+      "page": 7
     },
     {
       "objective": "1.3",
       "title": "Change Management",
-      "page": 8,
-      "printedUnder": null
+      "page": 8
     },
     {
       "objective": "1.3",
       "title": "Technical Change Management",
-      "page": 9,
-      "printedUnder": null
+      "page": 9
     },
     {
       "objective": "1.4",
       "title": "Public Key Infrastructure",
-      "page": 10,
-      "printedUnder": null
+      "page": 10
     },
     {
       "objective": "1.4",
       "title": "Encrypting Data",
-      "page": 11,
-      "printedUnder": null
+      "page": 11
     },
     {
       "objective": "1.4",
       "title": "Key Exchange",
-      "page": 11,
-      "printedUnder": null
+      "page": 11
     },
     {
       "objective": "1.4",
       "title": "Encryption Technologies",
-      "page": 12,
-      "printedUnder": null
+      "page": 12
     },
     {
       "objective": "1.4",
       "title": "Obfuscation",
-      "page": 13,
-      "printedUnder": null
+      "page": 13
     },
     {
       "objective": "1.4",
       "title": "Hashing and Digital Signatures",
-      "page": 14,
-      "printedUnder": null
+      "page": 14
     },
     {
       "objective": "1.4",
       "title": "Blockchain Technology",
-      "page": 15,
-      "printedUnder": null
+      "page": 15
     },
     {
       "objective": "1.4",
       "title": "Certificates",
-      "page": 16,
-      "printedUnder": null
+      "page": 16
     },
     {
       "objective": "2.1",
       "title": "Threat Actors",
-      "page": 18,
-      "printedUnder": null
+      "page": 18
     },
     {
       "objective": "2.2",
       "title": "Common Threat Vectors",
-      "page": 19,
-      "printedUnder": null
+      "page": 19
     },
     {
       "objective": "2.2",
       "title": "Phishing",
-      "page": 20,
-      "printedUnder": null
+      "page": 20
     },
     {
       "objective": "2.2",
       "title": "Impersonation",
-      "page": 21,
-      "printedUnder": null
+      "page": 21
     },
     {
       "objective": "2.2",
       "title": "Watering Hole Attacks",
-      "page": 21,
-      "printedUnder": null
+      "page": 21
     },
     {
       "objective": "2.2",
       "title": "Other Social Engineering Attacks",
-      "page": 22,
-      "printedUnder": null
+      "page": 22
     },
     {
       "objective": "2.3",
       "title": "Memory Injections",
-      "page": 22,
-      "printedUnder": null
+      "page": 22
     },
     {
       "objective": "2.3",
       "title": "Buffer Overflows",
-      "page": 23,
-      "printedUnder": null
+      "page": 23
     },
     {
       "objective": "2.3",
       "title": "Race Conditions",
-      "page": 23,
-      "printedUnder": null
+      "page": 23
     },
     {
       "objective": "2.3",
       "title": "Malicious Updates",
-      "page": 24,
-      "printedUnder": null
+      "page": 24
     },
     {
       "objective": "2.3",
       "title": "Operating System Vulnerabilities",
-      "page": 24,
-      "printedUnder": null
+      "page": 24
     },
     {
       "objective": "2.3",
       "title": "SQL Injection",
-      "page": 25,
-      "printedUnder": null
+      "page": 25
     },
     {
       "objective": "2.3",
       "title": "Cross-site Scripting",
-      "page": 25,
-      "printedUnder": null
+      "page": 25
     },
     {
       "objective": "2.3",
       "title": "Hardware Vulnerabilities",
-      "page": 26,
-      "printedUnder": null
+      "page": 26
     },
     {
       "objective": "2.3",
       "title": "Virtualization Vulnerabilities",
-      "page": 27,
-      "printedUnder": null
+      "page": 27
     },
     {
       "objective": "2.3",
       "title": "Cloud-specific Vulnerabilities",
-      "page": 27,
-      "printedUnder": null
+      "page": 27
     },
     {
       "objective": "2.3",
       "title": "Supply Chain Vulnerabilities",
-      "page": 28,
-      "printedUnder": null
+      "page": 28
     },
     {
       "objective": "2.3",
       "title": "Misconfiguration Vulnerabilities",
-      "page": 28,
-      "printedUnder": null
+      "page": 28
     },
     {
       "objective": "2.3",
       "title": "Mobile Device Vulnerabilities",
-      "page": 29,
-      "printedUnder": null
+      "page": 29
     },
     {
       "objective": "2.3",
       "title": "Zero-day Vulnerabilities",
-      "page": 29,
-      "printedUnder": null
+      "page": 29
     },
     {
       "objective": "2.4",
       "title": "An Overview of Malware",
-      "page": 30,
-      "printedUnder": null
+      "page": 30
     },
     {
       "objective": "2.4",
       "title": "Viruses and Worms",
-      "page": 30,
-      "printedUnder": null
+      "page": 30
     },
     {
       "objective": "2.4",
       "title": "Spyware and Bloatware",
-      "page": 31,
-      "printedUnder": null
+      "page": 31
     },
     {
       "objective": "2.4",
       "title": "Other Malware Types",
-      "page": 32,
-      "printedUnder": null
+      "page": 32
     },
     {
       "objective": "2.4",
       "title": "Physical Attacks",
-      "page": 32,
-      "printedUnder": null
+      "page": 32
     },
     {
       "objective": "2.4",
       "title": "Denial of Service",
-      "page": 33,
-      "printedUnder": null
+      "page": 33
     },
     {
       "objective": "2.4",
       "title": "DNS Attacks",
-      "page": 33,
-      "printedUnder": null
+      "page": 33
     },
     {
       "objective": "2.4",
       "title": "Wireless Attacks",
-      "page": 34,
-      "printedUnder": null
+      "page": 34
     },
     {
       "objective": "2.4",
       "title": "On-path Attacks",
-      "page": 34,
-      "printedUnder": null
+      "page": 34
     },
     {
       "objective": "2.4",
       "title": "Replay Attacks",
-      "page": 35,
-      "printedUnder": null
+      "page": 35
     },
     {
       "objective": "2.4",
       "title": "Malicious Code",
-      "page": 36,
-      "printedUnder": null
+      "page": 36
     },
     {
       "objective": "2.4",
       "title": "Application Attacks",
-      "page": 36,
-      "printedUnder": null
+      "page": 36
     },
     {
       "objective": "2.4",
       "title": "Cryptographic Attacks",
-      "page": 38,
-      "printedUnder": null
+      "page": 38
     },
     {
       "objective": "2.4",
       "title": "Password Attacks",
-      "page": 39,
-      "printedUnder": null
+      "page": 39
     },
     {
       "objective": "2.4",
       "title": "Indicators of Compromise",
-      "page": 39,
-      "printedUnder": null
+      "page": 39
     },
     {
       "objective": "2.5",
       "title": "Segmentation and Access Control",
-      "page": 40,
-      "printedUnder": null
+      "page": 40
     },
     {
       "objective": "2.5",
       "title": "Mitigation Techniques",
-      "page": 41,
-      "printedUnder": null
+      "page": 41
     },
     {
       "objective": "2.5",
       "title": "Hardening Techniques",
-      "page": 41,
-      "printedUnder": null
+      "page": 41
     },
     {
       "objective": "3.1",
       "title": "Cloud Infrastructures",
-      "page": 42,
-      "printedUnder": null
+      "page": 42
     },
     {
       "objective": "3.1",
       "title": "Network Infrastructure Concepts",
-      "page": 44,
-      "printedUnder": null
+      "page": 44
     },
     {
       "objective": "3.1",
       "title": "Other Infrastructure Concepts",
-      "page": 44,
-      "printedUnder": null
+      "page": 44
     },
     {
       "objective": "3.1",
       "title": "Infrastructure Considerations",
-      "page": 45,
-      "printedUnder": null
+      "page": 45
     },
     {
       "objective": "3.2",
       "title": "Secure Infrastructures",
-      "page": 47,
-      "printedUnder": null
+      "page": 47
     },
     {
       "objective": "3.2",
       "title": "Intrusion Prevention",
-      "page": 48,
-      "printedUnder": null
+      "page": 48
     },
     {
       "objective": "3.2",
       "title": "Network Appliances",
-      "page": 48,
-      "printedUnder": null
+      "page": 48
     },
     {
       "objective": "3.2",
       "title": "Port Security",
-      "page": 50,
-      "printedUnder": null
+      "page": 50
     },
     {
       "objective": "3.2",
       "title": "Firewall Types",
-      "page": 50,
-      "printedUnder": null
+      "page": 50
     },
     {
       "objective": "3.2",
       "title": "Secure Communication",
-      "page": 51,
-      "printedUnder": null
+      "page": 51
     },
     {
       "objective": "3.3",
       "title": "Data Types and Classifications",
-      "page": 53,
-      "printedUnder": null
+      "page": 53
     },
     {
       "objective": "3.3",
       "title": "States of Data",
-      "page": 53,
-      "printedUnder": null
+      "page": 53
     },
     {
       "objective": "3.3",
       "title": "Protecting Data",
-      "page": 54,
-      "printedUnder": null
+      "page": 54
     },
     {
       "objective": "3.4",
       "title": "Resiliency",
-      "page": 55,
-      "printedUnder": null
+      "page": 55
     },
     {
       "objective": "3.4",
       "title": "Capacity Planning",
-      "page": 56,
-      "printedUnder": null
+      "page": 56
     },
     {
       "objective": "3.4",
       "title": "Recovery Testing",
-      "page": 57,
-      "printedUnder": null
+      "page": 57
     },
     {
       "objective": "3.4",
       "title": "Backups",
-      "page": 57,
-      "printedUnder": null
+      "page": 57
     },
     {
       "objective": "3.4",
       "title": "Power Resiliency",
-      "page": 58,
-      "printedUnder": null
+      "page": 58
     },
     {
       "objective": "4.1",
       "title": "Secure Baselines",
-      "page": 59,
-      "printedUnder": null
+      "page": 59
     },
     {
       "objective": "4.1",
       "title": "Hardening Targets",
-      "page": 59,
-      "printedUnder": null
+      "page": 59
     },
     {
       "objective": "4.1",
       "title": "Securing Wireless and Mobile",
-      "page": 60,
-      "printedUnder": null
+      "page": 60
     },
     {
       "objective": "4.1",
       "title": "Wireless Security Settings",
-      "page": 61,
-      "printedUnder": null
+      "page": 61
     },
     {
       "objective": "4.1",
       "title": "Application Security",
-      "page": 62,
-      "printedUnder": null
+      "page": 62
     },
     {
       "objective": "4.2",
       "title": "Asset Management",
-      "page": 63,
-      "printedUnder": null
+      "page": 63
     },
     {
       "objective": "4.3",
       "title": "Vulnerability Scanning",
-      "page": 64,
-      "printedUnder": null
+      "page": 64
     },
     {
       "objective": "4.3",
       "title": "Threat Intelligence",
-      "page": 65,
-      "printedUnder": null
+      "page": 65
     },
     {
       "objective": "4.3",
       "title": "Penetration Testing",
-      "page": 65,
-      "printedUnder": null
+      "page": 65
     },
     {
       "objective": "4.3",
       "title": "Analyzing Vulnerabilities",
-      "page": 66,
-      "printedUnder": null
+      "page": 66
     },
     {
       "objective": "4.3",
       "title": "Vulnerability Remediation",
-      "page": 67,
-      "printedUnder": null
+      "page": 67
     },
     {
       "objective": "4.4",
       "title": "Security Monitoring",
-      "page": 68,
-      "printedUnder": null
+      "page": 68
     },
     {
       "objective": "4.4",
       "title": "Security Tools",
-      "page": 69,
-      "printedUnder": null
+      "page": 69
     },
     {
       "objective": "4.5",
       "title": "Firewalls",
-      "page": 70,
-      "printedUnder": null
+      "page": 70
     },
     {
       "objective": "4.5",
       "title": "Web Filtering",
-      "page": 71,
-      "printedUnder": null
+      "page": 71
     },
     {
       "objective": "4.5",
       "title": "Operating System Security",
-      "page": 72,
-      "printedUnder": null
+      "page": 72
     },
     {
       "objective": "4.5",
       "title": "Secure Protocols",
-      "page": 72,
-      "printedUnder": null
+      "page": 72
     },
     {
       "objective": "4.5",
       "title": "Email Security",
-      "page": 73,
-      "printedUnder": null
+      "page": 73
     },
     {
       "objective": "4.5",
       "title": "Monitoring Data",
-      "page": 73,
-      "printedUnder": null
+      "page": 73
     },
     {
       "objective": "4.5",
       "title": "Endpoint Security",
-      "page": 74,
-      "printedUnder": null
+      "page": 74
     },
     {
       "objective": "4.6",
       "title": "Identity and Access Management",
-      "page": 75,
-      "printedUnder": null
+      "page": 75
     },
     {
       "objective": "4.6",
       "title": "Access Controls",
-      "page": 77,
-      "printedUnder": null
+      "page": 77
     },
     {
       "objective": "4.6",
       "title": "Multifactor Authentication",
-      "page": 78,
-      "printedUnder": null
+      "page": 78
     },
     {
       "objective": "4.6",
       "title": "Password Security",
-      "page": 78,
-      "printedUnder": null
+      "page": 78
     },
     {
       "objective": "4.7",
       "title": "Scripting and Automation",
-      "page": 79,
-      "printedUnder": null
+      "page": 79
     },
     {
       "objective": "4.8",
       "title": "Incident Response",
-      "page": 80,
-      "printedUnder": null
+      "page": 80
     },
     {
       "objective": "4.8",
       "title": "Incident Planning",
-      "page": 81,
-      "printedUnder": null
+      "page": 81
     },
     {
       "objective": "4.8",
       "title": "Digital Forensics",
-      "page": 82,
-      "printedUnder": null
+      "page": 82
     },
     {
       "objective": "4.9",
       "title": "Log Data",
-      "page": 83,
-      "printedUnder": "4.8"
+      "page": 83
     },
     {
       "objective": "5.1",
       "title": "Security Policies",
-      "page": 84,
-      "printedUnder": null
+      "page": 84
     },
     {
       "objective": "5.1",
       "title": "Security Standards",
-      "page": 85,
-      "printedUnder": null
+      "page": 85
     },
     {
       "objective": "5.1",
       "title": "Security Procedures",
-      "page": 86,
-      "printedUnder": null
+      "page": 86
     },
     {
       "objective": "5.1",
       "title": "Security Considerations",
-      "page": 87,
-      "printedUnder": null
+      "page": 87
     },
     {
       "objective": "5.1",
       "title": "Data Roles and Responsibilities",
-      "page": 87,
-      "printedUnder": null
+      "page": 87
     },
     {
       "objective": "5.2",
       "title": "Risk Management",
-      "page": 88,
-      "printedUnder": null
+      "page": 88
     },
     {
       "objective": "5.2",
       "title": "Risk Analysis",
-      "page": 88,
-      "printedUnder": null
+      "page": 88
     },
     {
       "objective": "5.2",
       "title": "Risk Management Strategies",
-      "page": 89,
-      "printedUnder": null
+      "page": 89
     },
     {
       "objective": "5.2",
       "title": "Business Impact Analysis",
-      "page": 89,
-      "printedUnder": null
+      "page": 89
     },
     {
       "objective": "5.3",
       "title": "Third-party Risk Assessment",
-      "page": 90,
-      "printedUnder": null
+      "page": 90
     },
     {
       "objective": "5.3",
       "title": "Agreement Types",
-      "page": 91,
-      "printedUnder": null
+      "page": 91
     },
     {
       "objective": "5.4",
       "title": "Compliance",
-      "page": 92,
-      "printedUnder": null
+      "page": 92
     },
     {
       "objective": "5.4",
       "title": "Privacy",
-      "page": 93,
-      "printedUnder": null
+      "page": 93
     },
     {
       "objective": "5.5",
       "title": "Audits and Assessments",
-      "page": 93,
-      "printedUnder": null
+      "page": 93
     },
     {
       "objective": "5.5",
       "title": "Penetration Tests",
-      "page": 94,
-      "printedUnder": null
+      "page": 94
     },
     {
       "objective": "5.6",
       "title": "Security Awareness",
-      "page": 95,
-      "printedUnder": null
+      "page": 95
     },
     {
       "objective": "5.6",
       "title": "User Training",
-      "page": 96,
-      "printedUnder": null
+      "page": 96
     }
   ]
 }

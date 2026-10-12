@@ -12,24 +12,20 @@ import * as mentor from "./mentor.js";
 // `maxRecallShare` caps plain vocabulary cards as a fraction of a session.
 // The exam is multiple choice and PBQs, never free text, so a card you reveal
 // and grade yourself trains an operation the exam never asks for. Vocabulary
-// still has to get in the door, hence a small share rather than none.
-export const PACE = {
-  bootcamp:  { newPerSession: 40, retention: 0.92, mixMisconception: 0.5, mixNew: 0.3, mixReview: 0.2, maxRecallShare: 0.12, maxAcronymShare: 0.10 },
-  balanced:  { newPerSession: 25, retention: 0.90, mixMisconception: 0.4, mixNew: 0.3, mixReview: 0.3, maxRecallShare: 0.15, maxAcronymShare: 0.12 },
-  longhaul:  { newPerSession: 15, retention: 0.88, mixMisconception: 0.3, mixNew: 0.3, mixReview: 0.4, maxRecallShare: 0.20, maxAcronymShare: 0.15 },
+// still has to get in the door, hence a small share rather than none. New
+// coverage takes whatever the misconception and review slots leave.
+const PACE = {
+  bootcamp:  { mixMisconception: 0.5, mixReview: 0.2, maxRecallShare: 0.12 },
+  balanced:  { mixMisconception: 0.4, mixReview: 0.3, maxRecallShare: 0.15 },
+  longhaul:  { mixMisconception: 0.3, mixReview: 0.4, maxRecallShare: 0.20 },
 };
-
-/** Is this item worth putting in a drill queue at all? */
-const eligible = (content, it) =>
-  !(it.type === "recall" && content.supersededRecall?.has(it.id));
 
 /**
  * Graded practice: an item that makes you choose between options and marks you
- * right or wrong. A revealed vocabulary card is not this, and an acronym carries
- * no objective, so neither can stand in for exam-shaped coverage of a domain.
+ * right or wrong. A revealed vocabulary card is not this, so it cannot stand in
+ * for exam-shaped coverage of a domain.
  */
-const isGraded = (it) =>
-  typeof it.type === "string" && it.type.startsWith("mcq") && it.source !== "acronym-list";
+const isGraded = (it) => typeof it.type === "string" && it.type.startsWith("mcq");
 
 const itemState = (state, id) => state.items[id] || null;
 const seen = (state, id) => !!state.items[id]?.seen;
@@ -69,11 +65,10 @@ function shuffle(arr, rnd = Math.random) {
 /**
  * How far each domain's study is behind where the exam weights say it should be.
  *
- * Two things this deliberately does not do any more. It no longer counts a
- * revealed vocabulary card as coverage of a domain: the exam never asks you to
- * reveal anything, so only graded practice counts. And it no longer lets a
- * domain keep pulling new items once it has none left, which an unbounded
- * deficit used to do, sending the queue after material that does not exist.
+ * Only graded practice counts: the exam never asks you to reveal anything, so a
+ * revealed vocabulary card covers nothing. And a domain with nothing unseen
+ * left reports no deficit, because a deficit the queue cannot spend would send
+ * it after material that does not exist.
  */
 export function coverageDeficit(state, content) {
   const byDomain = {};
@@ -82,7 +77,7 @@ export function coverageDeficit(state, content) {
   }
   for (const it of content.items) {
     const dom = content.domainOf[it.objective];
-    if (!dom || !byDomain[dom] || !eligible(content, it) || !isGraded(it)) continue;
+    if (!dom || !byDomain[dom] || !isGraded(it)) continue;
     byDomain[dom].available += 1;
     if (seen(state, it.id)) byDomain[dom].seen += 1;
     else byDomain[dom].remaining += 1;
@@ -99,41 +94,27 @@ export function coverageDeficit(state, content) {
   return byDomain;
 }
 
-/** Pick the next unseen item, biased toward the most under-studied domains. */
-const isAcronym = (it) => it.source === "acronym-list";
-
-function pickNewItems(state, content, n, recallBudget = Infinity, acronymBudget = Infinity) {
+/** Pick the next unseen items, biased toward the most under-studied domains. */
+function pickNewItems(state, content, n, recallBudget = Infinity) {
   const deficit = coverageDeficit(state, content);
-
-  // Acronyms are cross-cutting and carry no objective: the exam assumes them
-  // everywhere rather than testing them under one. An earlier version required
-  // an objective here, which silently made all 315 of them unservable.
-  const unseen = content.items.filter(
-    (it) => !seen(state, it.id) && eligible(content, it) && (it.objective || isAcronym(it))
-  );
+  const unseen = content.items.filter((it) => !seen(state, it.id) && it.objective);
 
   const score = (it) => {
     const d = deficit[content.domainOf[it.objective]] || { deficit: 0, weight: 0.1 };
     return d.deficit * 10 + d.weight * 2 + Math.random() * 0.25;
   };
+  const recall = unseen.filter((it) => it.type === "recall").sort((a, b) => score(b) - score(a));
+  const core = unseen.filter((it) => it.type !== "recall").sort((a, b) => score(b) - score(a));
 
-  const pools = {
-    recall: unseen.filter((it) => it.type === "recall").sort((a, b) => score(b) - score(a)),
-    acronym: unseen.filter(isAcronym).sort(() => Math.random() - 0.5),
-    core: unseen.filter((it) => it.type !== "recall" && !isAcronym(it)).sort((a, b) => score(b) - score(a)),
-  };
-
-  // These are floors, not just caps. A cap alone means vocabulary and acronyms
-  // never appear at all while any exam-shaped item is left unseen, which is most
-  // of the programme, so the slices that were meant to be small became zero.
+  // A floor as well as a cap, or vocabulary never appears while any exam-shaped
+  // item is left unseen. The floor is 8% of the new slots, which is zero in a
+  // session with fewer than 13 of them: vocabulary only enters sessions that
+  // still have room for new coverage.
   const out = [];
   const take = (pool, k) => { for (let i = 0; i < k && pool.length && out.length < n; i++) out.push(pool.shift()); };
-  take(pools.acronym, Math.min(acronymBudget, Math.floor(n * 0.08)));
-  take(pools.recall, Math.min(recallBudget, Math.floor(n * 0.08)));
-  take(pools.core, n - out.length);
-  // Whatever is left over goes to the reserved pools, still inside their caps.
-  take(pools.acronym, Math.max(0, acronymBudget - out.filter(isAcronym).length));
-  take(pools.recall, Math.max(0, recallBudget - out.filter((it) => it.type === "recall").length));
+  take(recall, Math.min(recallBudget, Math.floor(n * 0.08)));
+  take(core, n - out.length);
+  take(recall, Math.max(0, recallBudget - out.filter((it) => it.type === "recall").length));
   return out;
 }
 
@@ -141,7 +122,6 @@ function pickNewItems(state, content, n, recallBudget = Infinity, acronymBudget 
 function pickDueItems(state, content, n, now) {
   const due = content.items
     .filter((it) => {
-      if (!eligible(content, it)) return false;
       const s = itemState(state, it.id);
       return s?.fsrs && s.fsrs.due <= now;
     })
@@ -246,19 +226,10 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
   // 3. New coverage, weighted toward the under-studied heavy domains, with
   //    plain vocabulary capped so it cannot crowd out exam-shaped practice.
   const newSlots = Math.max(0, size - queue.length);
-  const recallBudget = Math.max(1, Math.round(size * (pace.maxRecallShare ?? 0.15)));
-  const acronymBudget = Math.max(1, Math.round(size * (pace.maxAcronymShare ?? 0.12)));
+  const recallBudget = Math.max(1, Math.round(size * pace.maxRecallShare));
   const alreadyRecall = queue.filter((e) => e.item?.type === "recall").length;
-  const alreadyAcronym = queue.filter((e) => e.item && e.item.source === "acronym-list").length;
-  for (const it of pickNewItems(state, content, newSlots,
-                                Math.max(0, recallBudget - alreadyRecall),
-                                Math.max(0, acronymBudget - alreadyAcronym))) {
-    queue.push({
-      kind: "item", item: it,
-      reason: it.type === "recall" ? "Vocabulary"
-            : it.source === "acronym-list" ? "Acronym recognition"
-            : "New coverage",
-    });
+  for (const it of pickNewItems(state, content, newSlots, Math.max(0, recallBudget - alreadyRecall))) {
+    queue.push({ kind: "item", item: it, reason: it.type === "recall" ? "Vocabulary" : "New coverage" });
   }
 
   return keepPairsAdjacent(shuffle(queue)).slice(0, size);
@@ -309,8 +280,8 @@ export function readiness(state, content, now = Date.now()) {
     }
   }
 
-  // Weighted the same way the mock scores: a difficulty-1 acronym and a
-  // difficulty-5 scenario should not move the projection equally, or a run of
+  // Weighted the same way the mock scores: a difficulty-1 recognition item and
+  // a difficulty-5 scenario should not move the projection equally, or a run of
   // easy items reads as readiness.
   const weightOf = (it) => 0.6 + 0.2 * Math.max(1, Math.min(5, it.difficulty || 2));
 
@@ -321,10 +292,9 @@ export function readiness(state, content, now = Date.now()) {
   // Resolve topic tags the same way scripts/validate_content.py does, aliases
   // included, so the app and the gate cannot drift apart and report different
   // coverage for the same bank.
-  // A canonical topic id always wins over another topic's alias. Building one
-  // flat map in a single pass let an alias such as "segmentation" (declared on
-  // 3.3's segmentation-2) overwrite the canonical entry owned by 2.5, so items
-  // tagged with the bare word were credited to the wrong objective.
+  // A canonical topic id always wins over another topic's alias: "segmentation"
+  // is 2.5's own topic and only an alias of 3.3's segmentation-2, so the bare
+  // word must credit 2.5. Canonical ids are seeded first for that reason.
   const canonical = {};
   const ownTopics = {};
   for (const d of content.objectives.domains) {
@@ -408,13 +378,11 @@ export function readiness(state, content, now = Date.now()) {
     const accuracy = rec.attempts ? laplace(rec.itemsCorrect, rec.attempts) : 0;
 
     // The denominator is what this objective can actually offer you, not a
-    // constant. It used to be a flat 12 items, which meant an objective holding
-    // 2 items was permanently capped at coverage 0.17 and read "shaky" however
-    // well you did: 18 of 28 objectives could never reach 1, and 11 could never
-    // read "strong". That is a measurement of the bank being reported as a
-    // measurement of you. Twelve is still the sample size worth having; an
-    // objective that cannot supply twelve is scored out of what it has, and the
-    // shortfall is reported separately as bank depth.
+    // constant: with a flat one, an objective holding two items could never
+    // reach full coverage, and the size of the bank read as a weakness in you.
+    // Twelve is the sample size worth having; an objective that cannot supply
+    // twelve is scored out of what it has, and the shortfall is reported
+    // separately as bank depth.
     const sample = Math.min(rec.itemsAvailable, 12);
     const coverage = sample ? Math.min(1, rec.itemsSeen / sample) : 0;
     const drag = Math.min(0.4, rec.severityDrag * 0.12);

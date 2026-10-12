@@ -6,1299 +6,369 @@
   },
   "sections": [
     {
-      "title": "Cover",
-      "page": 2,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Table of Contents",
-      "page": 3,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Title Page",
-      "page": 19,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Copyright",
-      "page": 21,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Dedication",
-      "page": 22,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Acknowledgments",
-      "page": 23,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "About the Authors",
-      "page": 24,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "About the Technical Editor",
-      "page": 26,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "About the Technical Proofreader",
-      "page": 27,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Introduction",
-      "page": 28,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "1.1",
       "title": "The Security+ Exam",
-      "page": 29,
-      "depth": 1,
+      "page": 29
+    },
+    {
       "objective": "1.1",
-      "confidence": 1.1
-    },
-    {
-      "title": "What Does This Book Cover?",
-      "page": 34,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam SY0-701 Exam Objectives",
-      "page": 39,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "SY0-701 Certification Exam Objective Map",
-      "page": 40,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Assessment Test",
-      "page": 43,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.37
-    },
-    {
-      "title": "Answers to Assessment Test",
-      "page": 48,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.37
-    },
-    {
       "title": "Chapter 1: Today's Security Professional",
-      "page": 53,
-      "depth": 0,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 53
     },
     {
-      "title": "Cybersecurity Objectives",
-      "page": 55,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "3.3",
       "title": "Data Breach Risks",
-      "page": 57,
-      "depth": 1,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 57
     },
     {
+      "objective": "1.1",
       "title": "Implementing Security Controls",
-      "page": 64,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 2.2
+      "page": 64
     },
     {
+      "objective": "3.3",
       "title": "Data Protection",
-      "page": 69,
-      "depth": 1,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 69
     },
     {
-      "title": "Summary",
-      "page": 73,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 74,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 75,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 2: Cybersecurity Threat Landscape",
-      "page": 83,
-      "depth": 0,
       "objective": "2.1",
-      "confidence": 0.73
+      "title": "Chapter 2: Cybersecurity Threat Landscape",
+      "page": 83
     },
     {
-      "title": "Exploring Cybersecurity Threats",
-      "page": 85,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "3.3",
       "title": "Threat Data and Intelligence",
-      "page": 103,
-      "depth": 1,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 103
     },
     {
-      "title": "Summary",
-      "page": 114,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 115,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 116,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 3: Malicious Code",
-      "page": 122,
-      "depth": 0,
       "objective": "2.4",
-      "confidence": 1.23
+      "title": "Chapter 3: Malicious Code",
+      "page": 122
     },
     {
-      "title": "Malware",
-      "page": 122,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Summary",
-      "page": 140,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 142,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 142,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 4: Social Engineering and Password Attacks",
-      "page": 148,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Social Engineering and Human Vectors",
-      "page": 149,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Password Attacks",
-      "page": 157,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Summary",
-      "page": 161,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 161,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 162,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 5: Security Assessment and Testing",
-      "page": 168,
-      "depth": 0,
       "objective": "1.1",
-      "confidence": 1.1
+      "title": "Chapter 5: Security Assessment and Testing",
+      "page": 168
     },
     {
+      "objective": "4.3",
       "title": "Vulnerability Management",
-      "page": 170,
-      "depth": 1,
-      "objective": "4.3",
-      "confidence": 2.2
+      "page": 170
     },
     {
+      "objective": "4.3",
       "title": "Vulnerability Classification",
-      "page": 203,
-      "depth": 1,
-      "objective": "4.3",
-      "confidence": 1.6
+      "page": 203
     },
     {
-      "title": "Penetration Testing",
-      "page": 210,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Audits and Assessments",
-      "page": 223,
-      "depth": 1,
       "objective": "5.5",
-      "confidence": 1.47
+      "title": "Audits and Assessments",
+      "page": 223
     },
     {
+      "objective": "4.3",
       "title": "Vulnerability Life Cycle",
-      "page": 229,
-      "depth": 1,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 229
     },
     {
-      "title": "Summary",
-      "page": 233,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 233,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 235,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 6: Application Security",
-      "page": 241,
-      "depth": 0,
       "objective": "1.1",
-      "confidence": 1.1
+      "title": "Chapter 6: Application Security",
+      "page": 241
     },
     {
+      "objective": "5.6",
       "title": "Software Assurance Best Practices",
-      "page": 243,
-      "depth": 1,
-      "objective": "5.6",
-      "confidence": 0.73
+      "page": 243
     },
     {
+      "objective": "1.1",
       "title": "Designing and Coding for Security",
-      "page": 250,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 250
     },
     {
+      "objective": "1.1",
       "title": "Software Security Testing",
-      "page": 253,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 253
     },
     {
+      "objective": "2.3",
       "title": "Injection Vulnerabilities",
-      "page": 255,
-      "depth": 1,
-      "objective": "2.3",
-      "confidence": 2.2
+      "page": 255
     },
     {
+      "objective": "2.3",
       "title": "Exploiting Authentication Vulnerabilities",
-      "page": 265,
-      "depth": 1,
-      "objective": "2.3",
-      "confidence": 2.2
+      "page": 265
     },
     {
+      "objective": "2.3",
       "title": "Exploiting Authorization Vulnerabilities",
-      "page": 271,
-      "depth": 1,
-      "objective": "2.3",
-      "confidence": 2.2
+      "page": 271
     },
     {
+      "objective": "2.3",
       "title": "Exploiting Web Application Vulnerabilities",
-      "page": 276,
-      "depth": 1,
-      "objective": "2.3",
-      "confidence": 2.2
+      "page": 276
     },
     {
+      "objective": "1.1",
       "title": "Application Security Controls",
-      "page": 281,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 2.2
+      "page": 281
     },
     {
+      "objective": "5.6",
       "title": "Secure Coding Practices",
-      "page": 290,
-      "depth": 1,
-      "objective": "5.6",
-      "confidence": 0.73
+      "page": 290
     },
     {
-      "title": "Automation and Orchestration",
-      "page": 298,
-      "depth": 1,
       "objective": "4.7",
-      "confidence": 0.88
+      "title": "Automation and Orchestration",
+      "page": 298
     },
     {
-      "title": "Summary",
-      "page": 301,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 302,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 303,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 7: Cryptography and the PKI",
-      "page": 309,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "An Overview of Cryptography",
-      "page": 312,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Goals of Cryptography",
-      "page": 320,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "1.2",
       "title": "Cryptographic Concepts",
-      "page": 326,
-      "depth": 1,
-      "objective": "1.2",
-      "confidence": 0.73
+      "page": 326
     },
     {
-      "title": "Modern Cryptography",
-      "page": 328,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Symmetric Cryptography",
-      "page": 337,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Asymmetric Cryptography",
-      "page": 342,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Hash Functions",
-      "page": 346,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Digital Signatures",
-      "page": 349,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "1.4",
       "title": "Public Key Infrastructure",
-      "page": 352,
-      "depth": 1,
-      "objective": "1.4",
-      "confidence": 1.0
+      "page": 352
     },
     {
+      "objective": "4.3",
       "title": "Asymmetric Key Management",
-      "page": 361,
-      "depth": 1,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 361
     },
     {
-      "title": "Cryptographic Attacks",
-      "page": 362,
-      "depth": 1,
       "objective": "1.4",
-      "confidence": 0.73
+      "title": "Cryptographic Attacks",
+      "page": 362
     },
     {
-      "title": "Emerging Issues in Cryptography",
-      "page": 367,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Summary",
-      "page": 370,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 371,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 372,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 8: Identity and Access Management",
-      "page": 377,
-      "depth": 0,
       "objective": "4.6",
-      "confidence": 2.2
+      "title": "Chapter 8: Identity and Access Management",
+      "page": 377
     },
     {
+      "objective": "4.6",
       "title": "Identity",
-      "page": 380,
-      "depth": 1,
+      "page": 380
+    },
+    {
       "objective": "4.6",
-      "confidence": 0.73
-    },
-    {
-      "title": "Authentication and Authorization",
-      "page": 381,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Authentication Methods",
-      "page": 391,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Accounts",
-      "page": 408,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
       "title": "Access Control Schemes",
-      "page": 411,
-      "depth": 1,
-      "objective": "4.6",
-      "confidence": 0.73
+      "page": 411
     },
     {
-      "title": "Summary",
-      "page": 416,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 418,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 419,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 9: Resilience and Physical Security",
-      "page": 425,
-      "depth": 0,
       "objective": "5.1",
-      "confidence": 1.23
+      "title": "Chapter 9: Resilience and Physical Security",
+      "page": 425
     },
     {
+      "objective": "3.4",
       "title": "Resilience and Recovery in Security Architectures",
-      "page": 428,
-      "depth": 1,
-      "objective": "3.4",
-      "confidence": 2.15
+      "page": 428
     },
     {
+      "objective": "4.8",
       "title": "Response and Recovery Controls",
-      "page": 441,
-      "depth": 1,
-      "objective": "4.8",
-      "confidence": 1.23
+      "page": 441
     },
     {
+      "objective": "1.1",
       "title": "Physical Security Controls",
-      "page": 449,
-      "depth": 1,
+      "page": 449
+    },
+    {
       "objective": "1.1",
-      "confidence": 2.7
-    },
-    {
-      "title": "Summary",
-      "page": 459,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 460,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 462,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
       "title": "Chapter 10: Cloud and Virtualization Security",
-      "page": 468,
-      "depth": 0,
+      "page": 468
+    },
+    {
       "objective": "1.1",
-      "confidence": 1.1
-    },
-    {
-      "title": "Exploring the Cloud",
-      "page": 469,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Virtualization",
-      "page": 488,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Cloud Infrastructure Components",
-      "page": 490,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
       "title": "Cloud Security Issues",
-      "page": 503,
-      "depth": 1,
+      "page": 503
+    },
+    {
       "objective": "1.1",
-      "confidence": 1.1
-    },
-    {
-      "title": "Hardening Cloud Infrastructure",
-      "page": 507,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Summary",
-      "page": 510,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 511,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 512,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
       "title": "Chapter 11: Endpoint Security",
-      "page": 518,
-      "depth": 0,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 518
     },
     {
+      "objective": "2.3",
       "title": "Operating System Vulnerabilities",
-      "page": 521,
-      "depth": 1,
-      "objective": "2.3",
-      "confidence": 2.7
+      "page": 521
     },
     {
+      "objective": "2.3",
       "title": "Hardware Vulnerabilities",
-      "page": 522,
-      "depth": 1,
-      "objective": "2.3",
-      "confidence": 2.2
+      "page": 522
     },
     {
-      "title": "Protecting Endpoints",
-      "page": 524,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Hardening Techniques",
-      "page": 537,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Operating System Hardening",
-      "page": 542,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Securing Embedded and Specialized Systems",
-      "page": 551,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.3",
       "title": "Asset Management",
-      "page": 561,
-      "depth": 1,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 561
     },
     {
-      "title": "Summary",
-      "page": 565,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 566,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 568,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "1.1",
       "title": "Chapter 12: Network Security",
-      "page": 574,
-      "depth": 0,
+      "page": 574
+    },
+    {
       "objective": "1.1",
-      "confidence": 1.1
-    },
-    {
-      "title": "Designing Secure Networks",
-      "page": 578,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Secure Protocols",
-      "page": 623,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Network Attacks",
-      "page": 631,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Summary",
-      "page": 641,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 643,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 645,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
       "title": "Chapter 13: Wireless and Mobile Security",
-      "page": 651,
-      "depth": 0,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 651
     },
     {
-      "title": "Building Secure Wireless Networks",
-      "page": 653,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Managing Secure Mobile Devices",
-      "page": 677,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Summary",
-      "page": 687,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 688,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 689,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 14: Monitoring and Incident Response",
-      "page": 695,
-      "depth": 0,
       "objective": "4.8",
-      "confidence": 1.47
+      "title": "Chapter 14: Monitoring and Incident Response",
+      "page": 695
     },
     {
+      "objective": "4.8",
       "title": "Incident Response",
-      "page": 698,
-      "depth": 1,
-      "objective": "4.8",
-      "confidence": 1.47
+      "page": 698
     },
     {
+      "objective": "4.8",
       "title": "Incident Response Data and Tools",
-      "page": 711,
-      "depth": 1,
-      "objective": "4.8",
-      "confidence": 1.47
+      "page": 711
     },
     {
+      "objective": "3.4",
       "title": "Mitigation and Recovery",
-      "page": 731,
-      "depth": 1,
-      "objective": "3.4",
-      "confidence": 1.05
+      "page": 731
     },
     {
-      "title": "Summary",
-      "page": 737,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 739,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 740,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 15: Digital Forensics",
-      "page": 747,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Digital Forensic Concepts",
-      "page": 748,
-      "depth": 1,
       "objective": "1.2",
-      "confidence": 0.73
+      "title": "Digital Forensic Concepts",
+      "page": 748
     },
     {
-      "title": "Conducting Digital Forensics",
-      "page": 751,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Reporting",
-      "page": 774,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Digital Forensics and Intelligence",
-      "page": 775,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Summary",
-      "page": 776,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 777,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 778,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 16: Security Governance and Compliance",
-      "page": 784,
-      "depth": 0,
       "objective": "5.1",
-      "confidence": 1.47
+      "title": "Chapter 16: Security Governance and Compliance",
+      "page": 784
     },
     {
+      "objective": "5.1",
       "title": "Security Governance",
-      "page": 787,
-      "depth": 1,
-      "objective": "5.1",
-      "confidence": 1.47
+      "page": 787
     },
     {
-      "title": "Understanding Policy Documents",
-      "page": 792,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "4.3",
       "title": "Change Management",
-      "page": 806,
-      "depth": 1,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 806
     },
     {
+      "objective": "4.3",
       "title": "Personnel Management",
-      "page": 812,
-      "depth": 1,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 812
     },
     {
+      "objective": "5.2",
       "title": "Third-Party Risk Management",
-      "page": 815,
-      "depth": 1,
-      "objective": "5.2",
-      "confidence": 1.47
+      "page": 815
     },
     {
-      "title": "Complying with Laws and Regulations",
-      "page": 820,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Adopting Standard Frameworks",
-      "page": 824,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Security Awareness and Training",
-      "page": 835,
-      "depth": 1,
       "objective": "5.6",
-      "confidence": 1.47
+      "title": "Security Awareness and Training",
+      "page": 835
     },
     {
-      "title": "Summary",
-      "page": 841,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 841,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 843,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 17: Risk Management and Privacy",
-      "page": 849,
-      "depth": 0,
       "objective": "5.2",
-      "confidence": 1.47
+      "title": "Chapter 17: Risk Management and Privacy",
+      "page": 849
     },
     {
+      "objective": "5.2",
       "title": "Analyzing Risk",
-      "page": 851,
-      "depth": 1,
-      "objective": "5.2",
-      "confidence": 0.73
+      "page": 851
     },
     {
+      "objective": "5.2",
       "title": "Managing Risk",
-      "page": 862,
-      "depth": 1,
-      "objective": "5.2",
-      "confidence": 0.73
+      "page": 862
     },
     {
+      "objective": "5.2",
       "title": "Risk Tracking",
-      "page": 868,
-      "depth": 1,
-      "objective": "5.2",
-      "confidence": 0.73
+      "page": 868
     },
     {
-      "title": "Disaster Recovery Planning",
-      "page": 873,
-      "depth": 1,
       "objective": "3.4",
-      "confidence": 1.05
+      "title": "Disaster Recovery Planning",
+      "page": 873
     },
     {
-      "title": "Privacy",
-      "page": 874,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Summary",
-      "page": 885,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Exam Essentials",
-      "page": 885,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Review Questions",
-      "page": 886,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Appendix: Answers to Review Questions",
-      "page": 892,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "1.1",
       "title": "Chapter 1: Today's Security Professional",
-      "page": 893,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 893
     },
     {
-      "title": "Chapter 2: Cybersecurity Threat Landscape",
-      "page": 896,
-      "depth": 1,
       "objective": "2.1",
-      "confidence": 0.73
+      "title": "Chapter 2: Cybersecurity Threat Landscape",
+      "page": 896
     },
     {
-      "title": "Chapter 3: Malicious Code",
-      "page": 900,
-      "depth": 1,
       "objective": "2.4",
-      "confidence": 1.23
+      "title": "Chapter 3: Malicious Code",
+      "page": 900
     },
     {
-      "title": "Chapter 4: Social Engineering and Password Attacks",
-      "page": 904,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "1.1",
       "title": "Chapter 5: Security Assessment and Testing",
-      "page": 908,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 908
     },
     {
+      "objective": "1.1",
       "title": "Chapter 6: Application Security",
-      "page": 911,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 911
     },
     {
-      "title": "Chapter 7: Cryptography and the PKI",
-      "page": 915,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 8: Identity and Access Management",
-      "page": 918,
-      "depth": 1,
       "objective": "4.6",
-      "confidence": 2.2
+      "title": "Chapter 8: Identity and Access Management",
+      "page": 918
     },
     {
+      "objective": "5.1",
       "title": "Chapter 9: Resilience and Physical Security",
-      "page": 922,
-      "depth": 1,
-      "objective": "5.1",
-      "confidence": 1.23
+      "page": 922
     },
     {
+      "objective": "1.1",
       "title": "Chapter 10: Cloud and Virtualization Security",
-      "page": 926,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 926
     },
     {
+      "objective": "1.1",
       "title": "Chapter 11: Endpoint Security",
-      "page": 930,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 930
     },
     {
+      "objective": "1.1",
       "title": "Chapter 12: Network Security",
-      "page": 934,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 934
     },
     {
+      "objective": "1.1",
       "title": "Chapter 13: Wireless and Mobile Security",
-      "page": 938,
-      "depth": 1,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 938
     },
     {
-      "title": "Chapter 14: Monitoring and Incident Response",
-      "page": 943,
-      "depth": 1,
       "objective": "4.8",
-      "confidence": 1.47
+      "title": "Chapter 14: Monitoring and Incident Response",
+      "page": 943
     },
     {
-      "title": "Chapter 15: Digital Forensics",
-      "page": 947,
-      "depth": 1,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Chapter 16: Security Governance and Compliance",
-      "page": 951,
-      "depth": 1,
       "objective": "5.1",
-      "confidence": 1.47
+      "title": "Chapter 16: Security Governance and Compliance",
+      "page": 951
     },
     {
-      "title": "Chapter 17: Risk Management and Privacy",
-      "page": 956,
-      "depth": 1,
       "objective": "5.2",
-      "confidence": 1.47
-    },
-    {
-      "title": "Index",
-      "page": 959,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "End User License Agreement",
-      "page": 1036,
-      "depth": 0,
-      "objective": null,
-      "confidence": 0.0
+      "title": "Chapter 17: Risk Management and Privacy",
+      "page": 956
     }
   ]
 }

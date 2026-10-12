@@ -1,5 +1,4 @@
 {
-  "$schema": "./schemas/objectives.schema.json",
   "exam": {
     "code": "SY0-701",
     "name": "CompTIA Security+",

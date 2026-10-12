@@ -15,58 +15,6 @@
     "aka": "CIA/AIC"
   },
   {
-    "id": "anki-1747958995376",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.2",
-    "topics": [
-      "confidentiality"
-    ],
-    "difficulty": 2,
-    "term": "Confidentiality",
-    "definition": "Information should only be read by authorized persons",
-    "aka": null
-  },
-  {
-    "id": "anki-1747959002433",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.2",
-    "topics": [
-      "integrity"
-    ],
-    "difficulty": 2,
-    "term": "Integrity",
-    "definition": "Data is stored and transferred as intended and any modification is authorized",
-    "aka": null
-  },
-  {
-    "id": "anki-1747959012220",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.2",
-    "topics": [
-      "availability"
-    ],
-    "difficulty": 2,
-    "term": "Availability",
-    "definition": "Information is accessible to those authorized to view or modify it",
-    "aka": null
-  },
-  {
-    "id": "anki-1747959074191",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.2",
-    "topics": [
-      "non-repudiation"
-    ],
-    "difficulty": 2,
-    "term": "Non-Repudiation",
-    "definition": "Persons cannot deny creating or modifying data",
-    "aka": null
-  },
-  {
     "id": "anki-1747959094981",
     "type": "recall",
     "source": "anki-import",
@@ -383,19 +331,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748009070102",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.1",
-    "topics": [
-      "level-of-sophistication-capability"
-    ],
-    "difficulty": 2,
-    "term": "Level of Sophistication/Capability",
-    "definition": "Refers to a threat actor's ability to use advanced exploit techniques and tools",
-    "aka": null
-  },
-  {
     "id": "anki-1748009083630",
     "type": "recall",
     "source": "anki-import",
@@ -419,20 +354,6 @@
     "difficulty": 2,
     "term": "Service Disruption",
     "definition": "A type of attack that compromises the availability of an asset or business process.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748009102450",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.3",
-    "topics": [
-      "private",
-      "data-in-use"
-    ],
-    "difficulty": 2,
-    "term": "Data Exfiltration",
-    "definition": "The process by which an attacker takes data that is stored inside of a private network and moves it to an external network.",
     "aka": null
   },
   {
@@ -488,19 +409,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748009204127",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.1",
-    "topics": [
-      "hacktivist"
-    ],
-    "difficulty": 2,
-    "term": "Hacktivists",
-    "definition": "A threat actor that is motivated by a social issue or political cause.",
-    "aka": null
-  },
-  {
     "id": "anki-1748009220243",
     "type": "recall",
     "source": "anki-import",
@@ -514,19 +422,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748009228406",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.1",
-    "topics": [
-      "organized-crime"
-    ],
-    "difficulty": 2,
-    "term": "Organized Crime",
-    "definition": "A type of threat actor that uses hacking and computer fraud for commercial gain.",
-    "aka": null
-  },
-  {
     "id": "anki-1748009261917",
     "type": "recall",
     "source": "anki-import",
@@ -537,19 +432,6 @@
     "difficulty": 2,
     "term": "Unintentional or Inadvertent Insider Threat",
     "definition": "A threat actor that causes a vulnerability or exposes an attack vector without malicious intent.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748009269136",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.1",
-    "topics": [
-      "shadow-it"
-    ],
-    "difficulty": 2,
-    "term": "Shadow IT",
-    "definition": "Computer hardware, software, or services used on a private network without authorization from the system owner.",
     "aka": null
   },
   {
@@ -860,36 +742,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748009584449",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.4",
-    "topics": [
-      "public-key",
-      "private-key",
-      "asymmetric-encryption"
-    ],
-    "difficulty": 2,
-    "term": "Public Key",
-    "definition": "During asymmetric encryption, this key is freely distributed and is used to encrypt data, which can only be decrypted by the linked private key in the pair.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748009597359",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.4",
-    "topics": [
-      "public-key",
-      "private-key",
-      "public-key-infrastructure"
-    ],
-    "difficulty": 2,
-    "term": "Private Key",
-    "definition": "known only to the holder and is linked to, but not derivable from, a public key distributed to those with whom the holder wants to communicate securely.",
-    "aka": null
-  },
-  {
     "id": "anki-1748009606199",
     "type": "recall",
     "source": "anki-import",
@@ -916,19 +768,6 @@
     "aka": "SHA"
   },
   {
-    "id": "anki-1748009660571",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.2",
-    "topics": [
-      "integrity"
-    ],
-    "difficulty": 2,
-    "term": "Digital Signature",
-    "definition": "A message digest encrypted using the sender's private key that is appended to a message to authenticate the sender and prove message integrity.",
-    "aka": null
-  },
-  {
     "id": "anki-1748009671222",
     "type": "recall",
     "source": "anki-import",
@@ -942,19 +781,6 @@
     "term": "Public Key Infrastructure",
     "definition": "A framework of certificate authorities, digital certificates, software, services, and other cryptographic components deployed for the purpose of validating subject identities.",
     "aka": "PKI"
-  },
-  {
-    "id": "anki-1748009691166",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.3",
-    "topics": [
-      "public"
-    ],
-    "difficulty": 2,
-    "term": "Certificate Authority",
-    "definition": "A server that guarantees subject identities by issuing signed digital certificate wrappers for their public keys",
-    "aka": "CA"
   },
   {
     "id": "anki-1748009734372",
@@ -1076,19 +902,6 @@
     "term": "Certificate Revocation List",
     "definition": "A list of certificates that were revoked before their expiration date.",
     "aka": "CRL"
-  },
-  {
-    "id": "anki-1748009960916",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.4",
-    "topics": [
-      "online-certificate-status-protocol"
-    ],
-    "difficulty": 2,
-    "term": "Online Certificate Status Protocol",
-    "definition": "Allows clients to request the status of a digital certificate, to check whether it is revoked.",
-    "aka": "OCSP"
   },
   {
     "id": "anki-1748009992743",
@@ -1309,19 +1122,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748010461497",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.4",
-    "topics": [
-      "key-stretching"
-    ],
-    "difficulty": 2,
-    "term": "Key Stretching",
-    "definition": "A technique that strengthens potentially weak input for cryptographic key generation, such as passwords or passphrases created by people, against brute force attacks.",
-    "aka": null
-  },
-  {
     "id": "anki-1748010468332",
     "type": "recall",
     "source": "anki-import",
@@ -1373,34 +1173,6 @@
     "difficulty": 2,
     "term": "Steganography",
     "definition": "Hiding a message in a picture or file.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748010555292",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.3",
-    "topics": [
-      "masking",
-      "data-in-use"
-    ],
-    "difficulty": 2,
-    "term": "Data Masking",
-    "definition": "A de-identification method where generic or placeholder labels are substituted for real data while preserving the structure or format of the original data.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748010562093",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.3",
-    "topics": [
-      "tokenization-2",
-      "data-in-use"
-    ],
-    "difficulty": 2,
-    "term": "Tokenization",
-    "definition": "A de-identification method where a unique token is substituted for real data.",
     "aka": null
   },
   {
@@ -1503,19 +1275,6 @@
     "aka": "OTP"
   },
   {
-    "id": "anki-1748010797321",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.4",
-    "topics": [
-      "hardware-security-module"
-    ],
-    "difficulty": 2,
-    "term": "Security Key",
-    "definition": "Portable HSM with a computer interface used for multifactor authentication.",
-    "aka": "USB or NFC"
-  },
-  {
     "id": "anki-1748010810672",
     "type": "recall",
     "source": "anki-import",
@@ -1526,19 +1285,6 @@
     "difficulty": 2,
     "term": "Soft Authentication Token",
     "definition": "OTP sent to a registered number or email account or generated by an authenticator app as a means of two-step verification when authenticating account access.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748010817398",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.3",
-    "topics": [
-      "ownership"
-    ],
-    "difficulty": 2,
-    "term": "Passwordless",
-    "definition": "Multifactor authentication scheme that uses ownership and biometric factors, but not knowledge factors.",
     "aka": null
   },
   {
@@ -1890,20 +1636,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748011991926",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.3",
-    "topics": [
-      "restricted",
-      "segmentation-2"
-    ],
-    "difficulty": 2,
-    "term": "Logical Segmentation",
-    "definition": "Network topology enforced by switch, router, and firewall configuration where hosts on one network segment are prevented from or restricted in communicating with hosts on other segments.",
-    "aka": null
-  },
-  {
     "id": "anki-1748012020859",
     "type": "recall",
     "source": "anki-import",
@@ -1915,19 +1647,6 @@
     "term": "Virtual Local Area Network",
     "definition": "any broadcast domain that is partitioned and isolated in a computer network at the data link layer (OSI layer 2).",
     "aka": "VLAN"
-  },
-  {
-    "id": "anki-1748012034824",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "4.5",
-    "topics": [
-      "network-access-control"
-    ],
-    "difficulty": 2,
-    "term": "Security Zone",
-    "definition": "An area of the network (or of a connected network) where the security configuration is the same for all hosts within it.",
-    "aka": "In physical security, an area separated by barriers that control entry and exit points."
   },
   {
     "id": "anki-1748012059712",
@@ -2023,71 +1742,6 @@
     "aka": "RADIUS"
   },
   {
-    "id": "anki-1748012159033",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.5",
-    "topics": [
-      "isolation"
-    ],
-    "difficulty": 2,
-    "term": "Air-Gapped",
-    "definition": "A type of network isolation that physically separates a host from other hosts or a network from all other networks.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748012164887",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.1",
-    "topics": [
-      "compute"
-    ],
-    "difficulty": 2,
-    "term": "Compute",
-    "definition": "resources that allow a host or network appliance to handle a given workload.",
-    "aka": "Processing, memory, storage, and networking"
-  },
-  {
-    "id": "anki-1748012183307",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.1",
-    "topics": [
-      "responsiveness"
-    ],
-    "difficulty": 2,
-    "term": "Responsiveness",
-    "definition": "The ability of a system to process a task or workload within an acceptable amount of time.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748012187309",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.1",
-    "topics": [
-      "scalability"
-    ],
-    "difficulty": 2,
-    "term": "Scalability",
-    "definition": "Property by which a computing environment is able to gracefully fulfill its ever-increasing resource needs.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748012201228",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.1",
-    "topics": [
-      "resilience"
-    ],
-    "difficulty": 2,
-    "term": "Resilience",
-    "definition": "The ability of a system or network to recover quickly from failure events with no or minimal manual intervention.",
-    "aka": null
-  },
-  {
     "id": "anki-1748012213419",
     "type": "recall",
     "source": "anki-import",
@@ -2098,20 +1752,6 @@
     "difficulty": 2,
     "term": "Selection of Effective Controls",
     "definition": "The process of choosing the type and placement of security controls to ensure the goals of the CIA triad and compliance with any framework requirements.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748012232586",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.2",
-    "topics": [
-      "device-placement",
-      "security-zones"
-    ],
-    "difficulty": 2,
-    "term": "Device Placement",
-    "definition": "Considerations for positioning security controls to protect network zones and individual hosts to implement a defense in depth strategy and to meet overall security goals.",
     "aka": null
   },
   {
@@ -2155,19 +1795,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748012272652",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.3",
-    "topics": [
-      "data-in-use"
-    ],
-    "difficulty": 2,
-    "term": "Sensor",
-    "definition": "A monitor that records (or \"sniffs\") data from frames as they pass over network media.",
-    "aka": "mirror port or TAP device."
-  },
-  {
     "id": "anki-1748012319343",
     "type": "recall",
     "source": "anki-import",
@@ -2179,32 +1806,6 @@
     "term": "Test Access Point",
     "definition": "A hardware device inserted into a cable run to copy frames for analysis.",
     "aka": "TAP"
-  },
-  {
-    "id": "anki-1748012327495",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.2",
-    "topics": [
-      "fail-open"
-    ],
-    "difficulty": 2,
-    "term": "Fail-open",
-    "definition": "A security control configuration that ensures continued access to the resource in the event of failure.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748012333389",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.2",
-    "topics": [
-      "fail-closed"
-    ],
-    "difficulty": 2,
-    "term": "Fail-closed",
-    "definition": "A security control configuration that blocks access to a resource in the event of failure.",
-    "aka": null
   },
   {
     "id": "anki-1748012350098",
@@ -2337,20 +1938,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748012605947",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.2",
-    "topics": [
-      "intrusion-detection-system",
-      "intrusion-prevention-system"
-    ],
-    "difficulty": 2,
-    "term": "Intrusion Detection System",
-    "definition": "A security appliance or software that analyzes data from a packet sniffer to identify traffic that violates policies or rules.",
-    "aka": "IDS"
-  },
-  {
     "id": "anki-1748012614744",
     "type": "recall",
     "source": "anki-import",
@@ -2362,20 +1949,6 @@
     "term": "Snort",
     "definition": "An open source NIDS. A subscription (\"oinkcode\") is required to obtain up-to-date rulesets, which allow the detection engine to identify the very latest threats. Non-subscribers can obtain community-authored rulesets.",
     "aka": null
-  },
-  {
-    "id": "anki-1748012631126",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.2",
-    "topics": [
-      "intrusion-prevention-system",
-      "intrusion-detection-system"
-    ],
-    "difficulty": 2,
-    "term": "Intrusion Prevention System",
-    "definition": "A security appliance or software that combines detection capabilities with functions that can actively block attacks.",
-    "aka": "IPS"
   },
   {
     "id": "anki-1748012647138",
@@ -2390,19 +1963,6 @@
     "term": "Next-Generation Firewall",
     "definition": "Advances in firewall technology",
     "aka": "NGFW"
-  },
-  {
-    "id": "anki-1748012660844",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.2",
-    "topics": [
-      "unified-threat-management"
-    ],
-    "difficulty": 2,
-    "term": "Unified Threat Management",
-    "definition": "All-in-one security appliances and agents that combine the functions of a firewall, malware scanner, intrusion detection, vulnerability scanner, data-loss prevention, content filtering, and so on.",
-    "aka": "UTM"
   },
   {
     "id": "anki-1748012672021",
@@ -2455,19 +2015,6 @@
     "term": "Web Application Firewall",
     "definition": "A firewall designed specifically to protect software running on web servers and their back-end databases from code injection and DoS attacks.",
     "aka": "WAF"
-  },
-  {
-    "id": "anki-1748013037086",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.2",
-    "topics": [
-      "remote-access"
-    ],
-    "difficulty": 2,
-    "term": "Remote Access",
-    "definition": "Infrastructure, protocols, and software that allow a host to join a local network from a physically remote location, or that allow a session on a host to be established over a network.",
-    "aka": null
   },
   {
     "id": "anki-1748013058225",
@@ -2788,19 +2335,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748013679386",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.1",
-    "topics": [
-      "virtualization"
-    ],
-    "difficulty": 2,
-    "term": "Virtualization",
-    "definition": "A computing environment where multiple independent operating systems can be installed to a single hardware platform and run simultaneously.",
-    "aka": null
-  },
-  {
     "id": "anki-1748013696636",
     "type": "recall",
     "source": "anki-import",
@@ -2815,19 +2349,6 @@
     "aka": "HA"
   },
   {
-    "id": "anki-1748013714826",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.4",
-    "topics": [
-      "replication"
-    ],
-    "difficulty": 2,
-    "term": "Replication",
-    "definition": "Automatically copying data between two processing systems.",
-    "aka": null
-  },
-  {
     "id": "anki-1748013724133",
     "type": "recall",
     "source": "anki-import",
@@ -2838,20 +2359,6 @@
     "difficulty": 2,
     "term": "Application Virtualization",
     "definition": "A software delivery model where the code runs on a server and is streamed to a client.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748013730245",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.1",
-    "topics": [
-      "containerization",
-      "virtualization"
-    ],
-    "difficulty": 2,
-    "term": "Containerization",
-    "definition": "An operating system virtualization deployment containing everything required to run a service, application, or microservice.",
     "aka": null
   },
   {
@@ -2882,19 +2389,6 @@
     "aka": "VPC"
   },
   {
-    "id": "anki-1748013759264",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.1",
-    "topics": [
-      "microservices"
-    ],
-    "difficulty": 2,
-    "term": "Microservices",
-    "definition": "An independent, single-function module with well-defined and lightweight interfaces and operations.",
-    "aka": null
-  },
-  {
     "id": "anki-1748013770355",
     "type": "recall",
     "source": "anki-import",
@@ -2906,19 +2400,6 @@
     "term": "Infrastructure as Code",
     "definition": "Provisioning architecture in which deployment of resources is performed by scripted automation and orchestration.",
     "aka": "IaC"
-  },
-  {
-    "id": "anki-1748013792510",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.1",
-    "topics": [
-      "software-defined-networking"
-    ],
-    "difficulty": 2,
-    "term": "Software-Defined Networking",
-    "definition": "APIs and compatible hardware/virtual appliances allowing for programmable network appliances and systems.",
-    "aka": "SDN"
   },
   {
     "id": "anki-1748013810799",
@@ -2946,20 +2427,6 @@
     "term": "Software-Defined Wide Area Network",
     "definition": "Services that use software-defined mechanisms and routing policies to implement virtual tunnels and overlay networks over multiple types of transport network.",
     "aka": "SD-WAN"
-  },
-  {
-    "id": "anki-1748013844734",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.2",
-    "topics": [
-      "secure-access-service-edge",
-      "software-defined-wide-area-network"
-    ],
-    "difficulty": 2,
-    "term": "Secure Access Service Edge",
-    "definition": "A networking and security architecture that provides secure access to cloud applications and services while reducing complexity.",
-    "aka": "SASE"
   },
   {
     "id": "anki-1748013859236",
@@ -3326,19 +2793,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748014499120",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.4",
-    "topics": [
-      "hot-site"
-    ],
-    "difficulty": 2,
-    "term": "Hot Site",
-    "definition": "A fully configured alternate processing site that can be brought online either instantly or very quickly after a disaster.",
-    "aka": null
-  },
-  {
     "id": "anki-1748014508931",
     "type": "recall",
     "source": "anki-import",
@@ -3349,32 +2803,6 @@
     "difficulty": 2,
     "term": "Warm Site",
     "definition": "An alternate processing location that is dormant or performs noncritical functions under normal conditions, but which can be rapidly converted to a key operations site if needed.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748014518883",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.4",
-    "topics": [
-      "cold-site"
-    ],
-    "difficulty": 2,
-    "term": "Cold Site",
-    "definition": "A predetermined alternate location where a network can be rebuilt after a disaster.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748014526825",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.4",
-    "topics": [
-      "geographic-dispersion"
-    ],
-    "difficulty": 2,
-    "term": "Geographic Dispersion",
-    "definition": "A resiliency mechanism where processing and data storage resources are replicated between physically distant sites.",
     "aka": null
   },
   {
@@ -3564,32 +2992,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748014729539",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.2",
-    "topics": [
-      "access-control-vestibule"
-    ],
-    "difficulty": 2,
-    "term": "Access Control Vestibule",
-    "definition": "A secure entry system with two gateways, only one of which is open at any one time.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748014780429",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.2",
-    "topics": [
-      "access-badge"
-    ],
-    "difficulty": 2,
-    "term": "Access Badges",
-    "definition": "An authentication mechanism that allows a user to present a smart card to operate an entry system.",
-    "aka": null
-  },
-  {
     "id": "anki-1748014810871",
     "type": "recall",
     "source": "anki-import",
@@ -3614,19 +3016,6 @@
     "difficulty": 2,
     "term": "Sensors",
     "definition": "A component in an alarm system that identifies unauthorized entry via infrared-, ultrasonic-, microwave-, or pressure-based detection of thermal changes or movement.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748014828235",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.3",
-    "topics": [
-      "zero-day"
-    ],
-    "difficulty": 2,
-    "term": "Zero-Day",
-    "definition": "A vulnerability in software that is unpatched by the developer or an attack that exploits such a vulnerability.",
     "aka": null
   },
   {
@@ -3670,19 +3059,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748014858268",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.6",
-    "topics": [
-      "execution"
-    ],
-    "difficulty": 2,
-    "term": "Race Condition",
-    "definition": "A software vulnerability when the resulting outcome from execution processes is directly dependent on the order and timing of certain events, and those events fail to execute in the order and timing intended by the developer.",
-    "aka": null
-  },
-  {
     "id": "anki-1748014880085",
     "type": "recall",
     "source": "anki-import",
@@ -3695,33 +3071,6 @@
     "term": "Time-of-Check to Time-of-Use",
     "definition": "The potential vulnerability that occurs when there is a change between when an app checked a resource and when the app used the resource.",
     "aka": "TOCTOU"
-  },
-  {
-    "id": "anki-1748014889211",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "malicious-code",
-      "injection"
-    ],
-    "difficulty": 2,
-    "term": "Memory Injection",
-    "definition": "A vulnerability that a threat actor can exploit to run malicious code with the same privilege level as the vulnerable process.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748014905994",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.3",
-    "topics": [
-      "buffer-overflow"
-    ],
-    "difficulty": 2,
-    "term": "Buffer Overflow",
-    "definition": "An attack in which data goes past the boundary of the destination buffer and begins to corrupt adjacent memory.",
-    "aka": null
   },
   {
     "id": "anki-1748014934931",
@@ -3737,20 +3086,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748014946615",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.3",
-    "topics": [
-      "malicious-update",
-      "software-provider-supply-chain"
-    ],
-    "difficulty": 2,
-    "term": "Malicious Update",
-    "definition": "A vulnerability in software repository or supply chain that a threat actor can exploit to add malicious code to a package.",
-    "aka": null
-  },
-  {
     "id": "anki-1748014961378",
     "type": "recall",
     "source": "anki-import",
@@ -3762,19 +3097,6 @@
     "term": "Cross-Site Scripting",
     "definition": "A malicious script hosted on the attacker's site or coded in a link injected onto a trusted site designed to compromise clients browsing the trusted site, circumventing the browser's security model of trusted zones.",
     "aka": "XSS"
-  },
-  {
-    "id": "anki-1748015047603",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.3",
-    "topics": [
-      "sql-injection"
-    ],
-    "difficulty": 2,
-    "term": "SQL Injection",
-    "definition": "An attack that injects a database query into the input data directed at a server by accessing the client side of the application.",
-    "aka": "SQLi"
   },
   {
     "id": "anki-1748015078358",
@@ -3830,19 +3152,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748015143759",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "4.3",
-    "topics": [
-      "static-analysis"
-    ],
-    "difficulty": 2,
-    "term": "Static Analysis",
-    "definition": "The process of reviewing uncompiled source code either manually or using automated tools.",
-    "aka": null
-  },
-  {
     "id": "anki-1748015153529",
     "type": "recall",
     "source": "anki-import",
@@ -3853,19 +3162,6 @@
     "difficulty": 2,
     "term": "Dynamic Analysis",
     "definition": "Software testing that examines code behavior during runtime.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748015165258",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.5",
-    "topics": [
-      "monitoring"
-    ],
-    "difficulty": 2,
-    "term": "Package Monitoring",
-    "definition": "Techniques and tools designed to mitigate risks from application vulnerabilities in third-party code",
     "aka": null
   },
   {
@@ -4104,20 +3400,6 @@
     "term": "Common Vulnerabilities and Exposures",
     "definition": "A scheme for identifying vulnerabilities developed by MITRE and adopted by NIST.",
     "aka": "CVE"
-  },
-  {
-    "id": "anki-1748015480994",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "4.3",
-    "topics": [
-      "common-vulnerability-scoring-system",
-      "common-vulnerability-enumeration"
-    ],
-    "difficulty": 2,
-    "term": "Common Vulnerability Scoring System",
-    "definition": "A risk management approach to quantifying vulnerability data and then taking into account the degree of risk to different types of systems or information.",
-    "aka": "CVSS"
   },
   {
     "id": "anki-1748015495185",
@@ -4546,20 +3828,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748016096879",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "4.8",
-    "topics": [
-      "detection",
-      "analysis"
-    ],
-    "difficulty": 2,
-    "term": "Endpoint Detection and Response",
-    "definition": "A software agent that collects system data and logs for analysis by a monitoring system to provide early detection of threats.",
-    "aka": "EDR"
-  },
-  {
     "id": "anki-1748016118922",
     "type": "recall",
     "source": "anki-import",
@@ -4586,19 +3854,6 @@
     "term": "Host-Based Intrusion Prevention",
     "definition": "Endpoint protection that can detect and prevent malicious activity via signature and heuristic pattern matching.",
     "aka": "HIPS"
-  },
-  {
-    "id": "anki-1748016174255",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.2",
-    "topics": [
-      "integrity"
-    ],
-    "difficulty": 2,
-    "term": "File Integrity Monitoring",
-    "definition": "A type of software that reviews system files to ensure that they have not been tampered with.",
-    "aka": "FIM"
   },
   {
     "id": "anki-1748016193337",
@@ -5479,58 +4734,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748017566806",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.3",
-    "topics": [
-      "data-in-use"
-    ],
-    "difficulty": 2,
-    "term": "Application Log",
-    "definition": "A target for event data relating to a specific software app or package.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748017577717",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "4.8",
-    "topics": [
-      "detection"
-    ],
-    "difficulty": 2,
-    "term": "Endpoint Log",
-    "definition": "A target for security-related events generated by host-based malware and intrusion detection agents.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748017587747",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "4.5",
-    "topics": [
-      "network-access-control"
-    ],
-    "difficulty": 2,
-    "term": "Network Log",
-    "definition": "A target for system and access events generated by a network appliance, such as a switch, wireless access point, or router.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748017600848",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "3.3",
-    "topics": [
-      "data-in-use"
-    ],
-    "difficulty": 2,
-    "term": "Firewall Log",
-    "definition": "A target for event data related to access rules that have been configured for logging.",
-    "aka": null
-  },
-  {
     "id": "anki-1748017608043",
     "type": "recall",
     "source": "anki-import",
@@ -5691,20 +4894,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748017875187",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "virus",
-      "malicious-code"
-    ],
-    "difficulty": 2,
-    "term": "Virus",
-    "definition": "Malicious code inserted into an executable file image. The malicious code is executed when the file is run and can deliver a payload, such as attempting to infect other files.",
-    "aka": null
-  },
-  {
     "id": "anki-1748017884973",
     "type": "recall",
     "source": "anki-import",
@@ -5715,19 +4904,6 @@
     "difficulty": 2,
     "term": "Malicious Process",
     "definition": "A process executed without proper authorization from the system owner for the purpose of damaging or compromising the system.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748017892132",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "worm"
-    ],
-    "difficulty": 2,
-    "term": "Worm",
-    "definition": "A type of malware that replicates between processes in system memory and can spread over client/server network connections.",
     "aka": null
   },
   {
@@ -5848,19 +5024,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748018022985",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "ransomware"
-    ],
-    "difficulty": 2,
-    "term": "Ransomware",
-    "definition": "Malware that tries to extort money from the victim by blocking normal operation of a computer and/or encrypting the victim\u2019s files and demanding payment.",
-    "aka": null
-  },
-  {
     "id": "anki-1748018030506",
     "type": "recall",
     "source": "anki-import",
@@ -5874,45 +5037,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748018048963",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "logic-bomb"
-    ],
-    "difficulty": 2,
-    "term": "Logic Bomb",
-    "definition": "A malicious program or script that is set to run under particular circumstances or in response to a defined event.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748018087085",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "resource-consumption"
-    ],
-    "difficulty": 2,
-    "term": "Resource Consumption",
-    "definition": "A potential indicator of malicious activity where CPU, memory, storage, and/or network usage deviates from expected norms.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748018117894",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "blocked-content"
-    ],
-    "difficulty": 2,
-    "term": "Blocked Content",
-    "definition": "A potential indicator of malicious activity where audit logs show unauthorized attempts to read or copy a file or other data.",
-    "aka": null
-  },
-  {
     "id": "anki-1748018127384",
     "type": "recall",
     "source": "anki-import",
@@ -5923,45 +5047,6 @@
     "difficulty": 2,
     "term": "Resource Inaccessibility",
     "definition": "A potential indicator of malicious activity where a file or service resource that should be available is inaccessible.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748018136480",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "account-lockout"
-    ],
-    "difficulty": 2,
-    "term": "Account Lockout",
-    "definition": "Policy that prevents access to an account under certain conditions, such as an excessive number of failed authentication attempts.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748018149066",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "concurrent-session-usage"
-    ],
-    "difficulty": 2,
-    "term": "Concurrent Session Usage",
-    "definition": "A potential indicator of malicious activity where an account has started multiple sessions on one or more hosts.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748018158292",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "impossible-travel"
-    ],
-    "difficulty": 2,
-    "term": "Impossible Travel",
-    "definition": "A potential indicator of malicious activity where authentication attempts are made from different geographical locations within a short timeframe.",
     "aka": null
   },
   {
@@ -6204,20 +5289,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748018500984",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "credential-replay",
-      "replay"
-    ],
-    "difficulty": 2,
-    "term": "Credential Replay",
-    "definition": "An attack that uses a captured authentication token to start an unauthorized session without having to discover the plaintext password for an account.",
-    "aka": null
-  },
-  {
     "id": "anki-1748018512273",
     "type": "recall",
     "source": "anki-import",
@@ -6293,19 +5364,6 @@
     "difficulty": 2,
     "term": "Remote Code Execution",
     "definition": "A vulnerability that allows an attacker to transmit code from a remote host for execution on a target host or a module that exploits such a vulnerability.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748018698898",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "2.4",
-    "topics": [
-      "privilege-escalation"
-    ],
-    "difficulty": 2,
-    "term": "Privilege Escalation",
-    "definition": "The practice of exploiting flaws in an operating system or other application to gain a greater level of access than was intended for the user or application.",
     "aka": null
   },
   {
@@ -6491,20 +5549,6 @@
     "aka": "AUP"
   },
   {
-    "id": "anki-1748018927229",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.1",
-    "topics": [
-      "information-security-policies",
-      "change-management-policy"
-    ],
-    "difficulty": 2,
-    "term": "Information Security Policy",
-    "definition": "A document or series of documents that are backed by senior management and that detail requirements for protecting technology and information assets from threats and misuse.",
-    "aka": null
-  },
-  {
     "id": "anki-1748018932885",
     "type": "recall",
     "source": "anki-import",
@@ -6632,21 +5676,6 @@
     "difficulty": 2,
     "term": "Governance Committee",
     "definition": "Leaders and subject matter experts with responsibility for defining policies, procedures, and standards within a particular domain or scope.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748019065406",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "1.2",
-    "topics": [
-      "confidentiality",
-      "integrity",
-      "availability"
-    ],
-    "difficulty": 2,
-    "term": "Owner",
-    "definition": "A senior (executive) role with ultimate responsibility for maintaining the confidentiality, integrity, and availability of an information asset.",
     "aka": null
   },
   {
@@ -6794,32 +5823,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748019217137",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.2",
-    "topics": [
-      "risk-identification"
-    ],
-    "difficulty": 2,
-    "term": "Risk Identification",
-    "definition": "Within overall risk assessment, specific process of listing sources of risk due to threats and vulnerabilities.",
-    "aka": null
-  },
-  {
-    "id": "anki-1748019224545",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.2",
-    "topics": [
-      "impact"
-    ],
-    "difficulty": 2,
-    "term": "Risk Assessment",
-    "definition": "The process of identifying risks, analyzing them, developing a response strategy for them, and mitigating their future impact.",
-    "aka": null
-  },
-  {
     "id": "anki-1748019234293",
     "type": "recall",
     "source": "anki-import",
@@ -6850,35 +5853,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748019255170",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.2",
-    "topics": [
-      "single-loss-expectancy",
-      "annualized-loss-expectancy"
-    ],
-    "difficulty": 2,
-    "term": "Single Loss Expectancy",
-    "definition": "The amount that would be lost in a single occurrence of a particular risk factor.",
-    "aka": "SLE"
-  },
-  {
-    "id": "anki-1748019265951",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.2",
-    "topics": [
-      "annualized-loss-expectancy",
-      "annualized-rate-of-occurrence",
-      "single-loss-expectancy"
-    ],
-    "difficulty": 2,
-    "term": "Annualized Loss Expectancy",
-    "definition": "The total cost of a risk to an organization on an annual basis. This is determined by multiplying the SLE by the annual rate of occurrence (ARO).",
-    "aka": "ALE"
-  },
-  {
     "id": "anki-1748019288928",
     "type": "recall",
     "source": "anki-import",
@@ -6893,21 +5867,6 @@
     "term": "Annualized Rate of Occurrence",
     "definition": "In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur.",
     "aka": "ARO"
-  },
-  {
-    "id": "anki-1748019299103",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.2",
-    "topics": [
-      "qualitative-risk-analysis",
-      "probability",
-      "impact"
-    ],
-    "difficulty": 2,
-    "term": "Qualitative Risk Analysis",
-    "definition": "The process of determining the probability of occurrence and the impact of identified risks by using logical reasoning when numeric data is not readily available.",
-    "aka": null
   },
   {
     "id": "anki-1748019307938",
@@ -7090,20 +6049,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748019526605",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.2",
-    "topics": [
-      "avoid",
-      "key-risk-indicators"
-    ],
-    "difficulty": 2,
-    "term": "Key Risk Indicator",
-    "definition": "The method by which emerging risks are identified and analyzed so that changes can be adopted to proactively avoid issues from occuring.",
-    "aka": "KRI"
-  },
-  {
     "id": "anki-1748019540334",
     "type": "recall",
     "source": "anki-import",
@@ -7132,19 +6077,6 @@
     "aka": null
   },
   {
-    "id": "anki-1748019597103",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "4.3",
-    "topics": [
-      "risk-tolerance"
-    ],
-    "difficulty": 2,
-    "term": "Risk Tolerance",
-    "definition": "Determines the thresholds that separate different levels of risk.",
-    "aka": null
-  },
-  {
     "id": "anki-1748019607131",
     "type": "recall",
     "source": "anki-import",
@@ -7154,22 +6086,8 @@
     ],
     "difficulty": 2,
     "term": "Risk Reporting",
-    "definition": "A periodic summary of relevant information about a project\u2019s current risks.",
+    "definition": "A periodic summary of relevant information about a project’s current risks.",
     "aka": null
-  },
-  {
-    "id": "anki-1748019620735",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.2",
-    "topics": [
-      "impact",
-      "business-impact-analysis"
-    ],
-    "difficulty": 2,
-    "term": "Business Impact Analysis",
-    "definition": "Systematic activity that identifies organizational risks and determines their effect on ongoing, mission critical operations.",
-    "aka": "BIA"
   },
   {
     "id": "anki-1748019638681",
@@ -7251,20 +6169,6 @@
     "term": "Mean Time Between Failures",
     "definition": "Metric for a device or component that predicts the expected time between failures.",
     "aka": "MTBF"
-  },
-  {
-    "id": "anki-1748019725384",
-    "type": "recall",
-    "source": "anki-import",
-    "objective": "5.2",
-    "topics": [
-      "mean-time-to-repair",
-      "mean-time-between-failures"
-    ],
-    "difficulty": 2,
-    "term": "Mean Time to Repair",
-    "definition": "Metric representing average time taken for a device or component to be repaired, replaced, or otherwise recover from a failure.",
-    "aka": "MTTR"
   },
   {
     "id": "anki-1748019755097",

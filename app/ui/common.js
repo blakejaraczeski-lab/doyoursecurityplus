@@ -4,6 +4,24 @@ export const esc = (s) =>
 
 export const pct = (n) => `${Math.round(n * 100)}%`;
 
+// The exam uses acronyms inside stems without expanding them, so every
+// acronym in CompTIA's own list is expanded inline where it appears, which is
+// the moment the expansion is needed. Keys are matched after escaping, longest
+// first, so "AES-256" wins over "AES" and "ATT&CK" survives the ampersand.
+let glossary = {};
+let glossRe = null;
+export function setGlossary(g) {
+  glossary = Object.fromEntries(Object.entries(g || {}).map(([k, v]) => [esc(k), v]));
+  const keys = Object.keys(glossary).sort((a, b) => b.length - a.length);
+  glossRe = keys.length
+    ? new RegExp(`(?<![A-Za-z0-9])(${keys.map((k) => k.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&")).join("|")})(?![A-Za-z0-9])`, "g")
+    : null;
+}
+export const gloss = (s) => {
+  const safe = esc(s);
+  return glossRe ? safe.replace(glossRe, (m) => `<abbr title="${esc(glossary[m])}">${m}</abbr>`) : safe;
+};
+
 export function objectiveLabel(content, id) {
   const o = content.objectiveById[id];
   return o ? `${id} ${o.title}` : id || "untagged";
@@ -103,9 +121,8 @@ export function resultsHtml(results) {
 /** Sticky progress header for a run of questions. */
 export function sessionBarHtml({ index, total, label, right }) {
   const done = Math.min(index, total);
-  // The drill screen deliberately strips chrome, which had left it with no
-  // heading element at all: a screen reader landed there with no structure and
-  // no page name. The heading is real, it just is not drawn.
+  // The drill screen deliberately strips chrome, so its heading is real but
+  // not drawn: a screen reader still gets a page name and structure.
   return `<h1 class="sr-only">${esc(label)}, question ${done + 1} of ${total}</h1>
   <div class="session-bar">
     <div class="meta">

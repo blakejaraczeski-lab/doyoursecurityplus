@@ -1,4 +1,4 @@
-import { esc, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyState } from "./common.js";
+import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyState } from "./common.js";
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
 import { readiness, coverageDeficit } from "../scheduler.js";
@@ -38,7 +38,7 @@ function mcqMultiHtml(App, entry) {
       return `<button class="opt ${cls}" data-action="multi-toggle" data-opt="${esc(o.id)}" ${ans ? "disabled" : ""}
         role="checkbox" aria-checked="${picked.has(o.id)}">
         <span class="key" aria-hidden="true">${KEYS[i]}</span>
-        <span>${esc(o.text)}</span>
+        <span>${gloss(o.text)}</span>
         <span class="verdict" aria-hidden="true">${mark}</span>
       </button>`;
     })
@@ -54,7 +54,7 @@ function mcqMultiHtml(App, entry) {
     ${entry.reason ? `<span class="tag reason">${esc(entry.reason)}</span>` : ""}
   </div>
   <div class="card">
-    <p class="stem">${esc(it.stem)}</p>
+    <p class="stem">${gloss(it.stem)}</p>
     <div class="opts" role="group" aria-label="Select ${need}">${opts}</div>
     ${ans ? "" : `<div class="row" style="margin-top:var(--s4);justify-content:space-between">
       <span class="faint">${picked.size} of ${need} selected</span>
@@ -101,7 +101,7 @@ function mcqHtml(App, entry) {
       return `<button class="opt ${cls} ${ans?.chosen === o.id ? "chosen" : ""}"
         data-action="answer" data-opt="${esc(o.id)}" ${ans ? "disabled" : ""}>
         <span class="key" aria-hidden="true">${KEYS[i]}</span>
-        <span>${esc(o.text)}</span>
+        <span>${gloss(o.text)}</span>
         <span class="verdict" aria-hidden="true">${verdict}</span>
       </button>`;
     })
@@ -126,7 +126,7 @@ function mcqHtml(App, entry) {
     ${entry.reason && !drill ? `<span class="tag reason">${esc(entry.reason)}</span>` : ""}
   </div>
   <div class="card">
-    <p class="stem">${esc(it.stem)}</p>
+    <p class="stem">${gloss(it.stem)}</p>
     <div class="opts">${opts}</div>
     ${ans ? "" : `<div class="row" style="margin-top:var(--s4);justify-content:space-between">
        <div class="hint">
@@ -357,7 +357,7 @@ export function pbqLabView(App) {
 
   return `<h1>PBQ lab</h1>
     <p class="sub">Performance-based questions, graded per subtask with partial credit. Four to five of these open the real exam, and they are worth more than a multiple choice item, so the eight minute target matters.</p>
-    ${groups || emptyState({ title: "No PBQs loaded", body: "Add JSON files under content/pbq and rerun build_manifest.py." })}`;
+    ${groups || emptyState({ title: "No PBQs loaded", body: "Add JSON files under content/pbq and reload." })}`;
 }
 
 // --- mentor bank -----------------------------------------------------------
@@ -590,8 +590,8 @@ export function settingsView(App) {
           <tr><td>Reviews on disk</td><td class="mono">${h.reviews ?? 0}</td></tr>
           <tr><td>Open / cleared</td><td class="mono">${h.misconceptionsOpen ?? 0} / ${h.misconceptionsRetired ?? 0}</td></tr>
         </tbody></table>
-        <p class="faint" style="margin:var(--s3) 0 0">The browser keeps a fast copy and mirrors it to that file a second or two behind. Clearing site data no longer loses your history.</p>`
-      : `<p class="muted" style="margin:0">The study server is not reachable, so progress is only in this browser right now. Start it with <span class="mono">./serve.sh</span> and reload.</p>`}
+        <p class="faint" style="margin:var(--s3) 0 0">The browser keeps a fast copy and mirrors it to that file a second or two behind. Clearing site data does not lose your history.</p>`
+      : `<p class="muted" style="margin:0">The study server is not reachable, so progress is only in this browser right now. Start it with <span class="mono">python3 serve.py</span> and reload.</p>`}
     <div class="row" style="margin-top:var(--s4)">
       <button class="btn ghost" data-action="export">Export a copy</button>
       <button class="btn ghost" data-action="import">Import</button>
@@ -617,6 +617,7 @@ export function settingsView(App) {
       <tr><td>Recall items (imported)</td><td class="mono">${counts.recall}</td></tr>
       <tr><td>Performance-based questions</td><td class="mono">${counts.pbq}</td></tr>
       <tr><td>Misconceptions with mentor guides</td><td class="mono">${counts.mc}</td></tr>
+      <tr><td>Glossary acronyms, expanded inline</td><td class="mono">${Object.keys(c.glossary || {}).length}</td></tr>
       <tr><td>Objectives / tagged topics</td><td class="mono">${c.objectives.counts.objectives} / ${c.objectives.counts.topics}</td></tr>
     </tbody></table>
     ${c.referenceSources?.length

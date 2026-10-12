@@ -32,15 +32,12 @@ function stepsFor(state) {
 function scheduleStep(state, rec, now) {
   const steps = stepsFor(state);
   const at = Math.min(rec.step ?? 0, steps.length - 1);
-  const examCap = now + mentorDaysLeft(state, now) * fsrs.DAY_MS;
+  const examCap = now + daysUntilExam(state, now) * fsrs.DAY_MS;
   rec.due = Math.min(now + steps[at], examCap);
   return rec.due;
 }
 
-// daysUntilExam is defined below; this indirection keeps the ordering readable.
-const mentorDaysLeft = (state, now) => daysUntilExam(state, now);
-
-export function ensure(state, mcId) {
+function ensure(state, mcId) {
   return (state.misconceptions[mcId] ||= {
     fsrs: fsrs.newCard(),
     cleanPasses: [],
@@ -253,11 +250,7 @@ export function itemsFor(mcId, content, state, excludeItemId = null) {
   if (excludeItemId) used.add(excludeItemId);
 
   // Both "mcq" and "mcq-multi": a choose-two item tests the same discrimination
-  // and the exam asks them the same way. Filtering on "mcq" alone quietly
-  // excluded all 35 multi-select items from the misconception loop, so they
-  // could never be served as a retarget and never counted toward retiring
-  // anything. The Python gate counted them, so the two sides disagreed about
-  // which misconceptions were reachable.
+  // and the exam asks it the same way.
   const mcqs = content.items.filter(
     (it) => typeof it.type === "string" && it.type.startsWith("mcq") &&
       it.options?.some((o) => o.misconception === mcId) &&

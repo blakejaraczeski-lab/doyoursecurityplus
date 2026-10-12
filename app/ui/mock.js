@@ -1,4 +1,4 @@
-import { esc, pct, mentorCardHtml } from "./common.js";
+import { esc, gloss, pct, mentorCardHtml } from "./common.js";
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
 
@@ -23,8 +23,8 @@ const PBQ_WEIGHT = 3; // a PBQ is worth roughly three multiple choice items
  * hard item is worth about twice an easy one rather than ten times.
  *
  * Why it matters for YOUR score and not just realism: a flat count rewards
- * farming easy items. Weighted, a run of difficulty-1 acronym recognition no
- * longer moves the number the way a difficulty-5 PBQ subtask does, which is the
+ * farming easy items. Weighted, a run of difficulty-1 recognition items does
+ * not move the number the way a difficulty-5 PBQ subtask does, which is the
  * honest signal about readiness.
  */
 const itemWeight = (it) => 0.6 + 0.2 * Math.max(1, Math.min(5, it.difficulty || 2));
@@ -165,12 +165,12 @@ function mcqHtml(item, chosen, flagged) {
     ${flagged ? `<span class="tag warn">flagged</span>` : ""}
   </div>
   <div class="card">
-    <p class="stem">${esc(item.stem)}</p>
+    <p class="stem">${gloss(item.stem)}</p>
     <div class="opts">
       ${item.options.map((o, i) => `
         <button class="opt ${chosen === o.id ? "chosen" : ""}" data-action="mock-answer" data-opt="${esc(o.id)}">
           <span class="key" aria-hidden="true">${"ABCDEF"[i]}</span>
-          <span>${esc(o.text)}</span><span class="verdict"></span>
+          <span>${gloss(o.text)}</span><span class="verdict"></span>
         </button>`).join("")}
     </div>
   </div>`;

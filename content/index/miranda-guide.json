@@ -6,1984 +6,784 @@
   },
   "sections": [
     {
+      "objective": "1.2",
       "title": "Lesson 1: Summarize Fundamental Security Concepts",
-      "page": 13,
-      "objective": "1.2",
-      "confidence": 2.2
+      "page": 13
     },
     {
+      "objective": "1.2",
       "title": "Topic 1A: Security Concepts",
-      "page": 13,
-      "objective": "1.2",
-      "confidence": 1.47
+      "page": 13
     },
     {
+      "objective": "5.1",
       "title": "Information Security",
-      "page": 13,
-      "objective": "5.1",
-      "confidence": 1.23
+      "page": 13
     },
     {
-      "title": "Cybersecurity Framework",
-      "page": 14,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Gap Analysis",
-      "page": 15,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.6",
       "title": "Access Control",
-      "page": 16,
-      "objective": "4.6",
-      "confidence": 0.73
+      "page": 16
     },
     {
+      "objective": "1.1",
       "title": "Topic 1B: Security Controls",
-      "page": 18,
-      "objective": "1.1",
-      "confidence": 2.2
+      "page": 18
     },
     {
+      "objective": "1.1",
       "title": "Security Control Categories",
-      "page": 18,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 18
     },
     {
+      "objective": "1.1",
       "title": "Security Control Functional Types",
-      "page": 19,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 19
     },
     {
+      "objective": "5.1",
       "title": "Information Security Roles and Responsibilities",
-      "page": 21,
-      "objective": "5.1",
-      "confidence": 1.23
+      "page": 21
     },
     {
+      "objective": "5.1",
       "title": "Information Security Competencies",
-      "page": 22,
-      "objective": "5.1",
-      "confidence": 1.23
+      "page": 22
     },
     {
+      "objective": "5.1",
       "title": "Information Security Business Units",
-      "page": 24,
-      "objective": "5.1",
-      "confidence": 1.23
+      "page": 24
     },
     {
+      "objective": "2.1",
       "title": "Lesson 2: Compare Threat Types",
-      "page": 25,
-      "objective": "2.1",
-      "confidence": 0.73
+      "page": 25
     },
     {
+      "objective": "2.1",
       "title": "Topic 2A: Threat Actors",
-      "page": 25,
-      "objective": "2.1",
-      "confidence": 1.47
+      "page": 25
     },
     {
+      "objective": "4.3",
       "title": "Vulnerability, Threat, and Risk",
-      "page": 25,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 25
     },
     {
+      "objective": "2.1",
       "title": "Attributes of Threat Actors",
-      "page": 26,
-      "objective": "2.1",
-      "confidence": 1.47
+      "page": 26
     },
     {
+      "objective": "2.1",
       "title": "Motivations of Threat Actors",
-      "page": 27,
+      "page": 27
+    },
+    {
       "objective": "2.1",
-      "confidence": 2.2
-    },
-    {
-      "title": "Hackers and Hacktivists",
-      "page": 29,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
       "title": "Nation-State Actors",
-      "page": 30,
+      "page": 30
+    },
+    {
       "objective": "2.1",
-      "confidence": 1.23
-    },
-    {
-      "title": "Organized Crime and Competitors",
-      "page": 31,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
       "title": "Internal Threat Actors",
-      "page": 32,
-      "objective": "2.1",
-      "confidence": 1.47
+      "page": 32
     },
     {
+      "objective": "2.2",
       "title": "Topic 2B: Attack Surfaces",
-      "page": 33,
-      "objective": "2.2",
-      "confidence": 1.1
+      "page": 33
     },
     {
+      "objective": "2.2",
       "title": "Attack Surface and Threat Vectors",
-      "page": 33,
-      "objective": "2.2",
-      "confidence": 1.65
+      "page": 33
     },
     {
+      "objective": "2.2",
       "title": "Vulnerable Software Vectors",
-      "page": 34,
+      "page": 34
+    },
+    {
       "objective": "2.2",
-      "confidence": 1.05
-    },
-    {
-      "title": "Network Vectors",
-      "page": 36,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Lure-Based Vectors",
-      "page": 38,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Message-Based Vectors",
-      "page": 39,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Supply Chain Attack Surface",
-      "page": 40,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Topic 2C: Social Engineering",
-      "page": 42,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Human Vectors",
-      "page": 42,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
       "title": "Impersonation and Pretexting",
-      "page": 43,
+      "page": 43
+    },
+    {
       "objective": "2.2",
-      "confidence": 1.0
-    },
-    {
-      "title": "Phishing and Pharming",
-      "page": 44,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Typosquatting",
-      "page": 46,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
       "title": "Business Email Compromise",
-      "page": 47,
-      "objective": "2.2",
-      "confidence": 1.0
+      "page": 47
     },
     {
+      "objective": "1.4",
       "title": "Lesson 3: Explain Cryptographic Solutions",
-      "page": 48,
-      "objective": "1.4",
-      "confidence": 1.47
+      "page": 48
     },
     {
+      "objective": "1.4",
       "title": "Topic 3A: Cryptographic Algorithms",
-      "page": 48,
-      "objective": "1.4",
-      "confidence": 1.23
+      "page": 48
     },
     {
+      "objective": "1.2",
       "title": "Cryptographic Concepts",
-      "page": 48,
-      "objective": "1.2",
-      "confidence": 0.73
+      "page": 48
     },
     {
-      "title": "Symmetric Encryption",
-      "page": 50,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Key Length",
-      "page": 51,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Asymmetric Encryption",
-      "page": 53,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Hashing",
-      "page": 54,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Digital Signatures",
-      "page": 55,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "1.4",
       "title": "Topic 3B: Public Key Infrastructure",
-      "page": 57,
-      "objective": "1.4",
-      "confidence": 1.0
+      "page": 57
     },
     {
-      "title": "Certificate Authorities",
-      "page": 57,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Digital Certificates",
-      "page": 59,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Root of Trust",
-      "page": 59,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Certificate Signing Requests",
-      "page": 61,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Subject Name Attributes",
-      "page": 62,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Certificate Revocation",
-      "page": 63,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "4.3",
       "title": "Key Management",
-      "page": 64,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 64
     },
     {
-      "title": "Cryptoprocessors and Secure Enclaves",
-      "page": 66,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
+      "objective": "1.4",
       "title": "Topic 3C: Cryptographic Solutions",
-      "page": 68,
+      "page": 68
+    },
+    {
       "objective": "1.4",
-      "confidence": 1.47
-    },
-    {
-      "title": "Encryption Supporting Confidentiality",
-      "page": 69,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
       "title": "Disk and File Encryption",
-      "page": 70,
+      "page": 70
+    },
+    {
       "objective": "1.4",
-      "confidence": 1.0
-    },
-    {
-      "title": "Database Encryption",
-      "page": 72,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Perfect Forward Secrecy",
-      "page": 75,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
       "title": "Salting and Key Stretching",
-      "page": 76,
-      "objective": "1.4",
-      "confidence": 1.0
+      "page": 76
     },
     {
-      "title": "Blockchain",
-      "page": 77,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Obfuscation",
-      "page": 78,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.6",
       "title": "Lesson 4: Implement Identity and Access Management",
-      "page": 80,
-      "objective": "4.6",
-      "confidence": 2.2
+      "page": 80
     },
     {
-      "title": "Topic 4A: Authentication",
-      "page": 80,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Authentication Design",
-      "page": 80,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "1.2",
       "title": "Password Concepts",
-      "page": 82,
-      "objective": "1.2",
-      "confidence": 0.73
+      "page": 82
     },
     {
-      "title": "Password Managers",
-      "page": 83,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Multifactor Authentication",
-      "page": 85,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Biometric Authentication",
-      "page": 86,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Hard Authentication Tokens",
-      "page": 88,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Soft Authentication Tokens",
-      "page": 90,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Passwordless Authentication",
-      "page": 91,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Topic 4B: Authorization",
-      "page": 92,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "4.6",
       "title": "Discretionary and Mandatory Access Control",
-      "page": 92,
-      "objective": "4.6",
-      "confidence": 1.73
+      "page": 92
     },
     {
+      "objective": "4.6",
       "title": "Role- and Attribute-Based Access Control",
-      "page": 93,
-      "objective": "4.6",
-      "confidence": 2.23
+      "page": 93
     },
     {
+      "objective": "4.6",
       "title": "Rule-Based Access Control",
-      "page": 94,
-      "objective": "4.6",
-      "confidence": 2.23
+      "page": 94
     },
     {
+      "objective": "4.6",
       "title": "Least Privilege Permission Assignments",
-      "page": 95,
-      "objective": "4.6",
-      "confidence": 1.0
+      "page": 95
     },
     {
+      "objective": "4.6",
       "title": "User Account Provisioning",
-      "page": 97,
-      "objective": "4.6",
-      "confidence": 1.0
+      "page": 97
     },
     {
+      "objective": "4.6",
       "title": "Account Attributes and Access Policies",
-      "page": 98,
+      "page": 98
+    },
+    {
       "objective": "4.6",
-      "confidence": 0.73
-    },
-    {
-      "title": "Account Restrictions",
-      "page": 99,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
       "title": "Privileged Access Management",
-      "page": 100,
-      "objective": "4.6",
-      "confidence": 1.97
+      "page": 100
     },
     {
+      "objective": "4.6",
       "title": "Topic 4C: Identity Management",
-      "page": 101,
-      "objective": "4.6",
-      "confidence": 1.47
+      "page": 101
     },
     {
-      "title": "Local, Network, and Remote Authentication",
-      "page": 101,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Directory Services",
-      "page": 103,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Single Sign-on Authorization",
-      "page": 106,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Federation",
-      "page": 107,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "1.1",
       "title": "Security Assertion Markup Language (SAML)",
-      "page": 108,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 108
     },
     {
-      "title": "Open Authorization (OAuth)",
-      "page": 110,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "2.5",
       "title": "Lesson 5: Secure Enterprise Network Architecture",
-      "page": 112,
-      "objective": "2.5",
-      "confidence": 1.1
+      "page": 112
     },
     {
-      "title": "Topic 5A: Enterprise Network Architecture",
-      "page": 112,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
+      "objective": "1.2",
       "title": "Architecture and Infrastructure Concepts",
-      "page": 112,
-      "objective": "1.2",
-      "confidence": 0.73
+      "page": 112
     },
     {
-      "title": "Network Infrastructure",
-      "page": 114,
-      "objective": null,
-      "confidence": 0.44
-    },
-    {
-      "title": "Switching Infrastructure Considerations",
-      "page": 116,
-      "objective": null,
-      "confidence": 0.44
-    },
-    {
-      "title": "Routing Infrastructure Considerations",
-      "page": 117,
-      "objective": null,
-      "confidence": 0.44
-    },
-    {
+      "objective": "1.1",
       "title": "Security Zones",
-      "page": 119,
+      "page": 119
+    },
+    {
       "objective": "1.1",
-      "confidence": 1.1
-    },
-    {
-      "title": "Attack Surface",
-      "page": 121,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
       "title": "Port Security",
-      "page": 123,
+      "page": 123
+    },
+    {
       "objective": "1.1",
-      "confidence": 1.1
-    },
-    {
-      "title": "Physical Isolation",
-      "page": 125,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Architecture Considerations",
-      "page": 126,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
       "title": "Topic 5B: Network Security Appliances",
-      "page": 128,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 128
     },
     {
-      "title": "Device Placement",
-      "page": 128,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Device Attributes",
-      "page": 130,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Firewalls",
-      "page": 132,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Layer 4 and Layer 7 Firewalls",
-      "page": 134,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Proxy Servers",
-      "page": 136,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Intrusion Detection Systems",
-      "page": 137,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.3",
       "title": "Next-Generation Firewalls and Unified Threat Management",
-      "page": 139,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 139
     },
     {
-      "title": "Load Balancers",
-      "page": 140,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Web Application Firewalls",
-      "page": 142,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Topic 5C: Secure Communications",
-      "page": 143,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
+      "objective": "4.6",
       "title": "Remote Access Architecture",
-      "page": 143,
-      "objective": "4.6",
-      "confidence": 0.73
+      "page": 143
     },
     {
+      "objective": "1.1",
       "title": "Transport Layer Security Tunneling",
-      "page": 144,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 144
     },
     {
+      "objective": "1.1",
       "title": "Internet Protocol Security Tunneling",
-      "page": 146,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 146
     },
     {
-      "title": "Internet Key Exchange",
-      "page": 147,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Remote Desktop",
-      "page": 149,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Secure Shell",
-      "page": 150,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
+      "objective": "4.3",
       "title": "Out-of-Band Management and Jump Servers",
-      "page": 152,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 152
     },
     {
-      "title": "Lesson 6: Secure Cloud Network Architecture",
-      "page": 153,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Topic 6A: Cloud Infrastructure",
-      "page": 153,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Cloud Deployment Models",
-      "page": 153,
-      "objective": null,
-      "confidence": 0.44
-    },
-    {
-      "title": "Cloud Service Models",
-      "page": 155,
-      "objective": null,
-      "confidence": 0.44
-    },
-    {
-      "title": "Responsibility Matrix",
-      "page": 157,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Centralized and Decentralized Computing",
-      "page": 158,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
+      "objective": "1.2",
       "title": "Resilient Architecture Concepts",
-      "page": 160,
-      "objective": "1.2",
-      "confidence": 0.73
+      "page": 160
     },
     {
-      "title": "Application Virtualization and Container Virtualization",
-      "page": 161,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Cloud Architecture",
-      "page": 163,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Cloud Automation Technologies",
-      "page": 164,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Software Defined Networking",
-      "page": 166,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Cloud Architecture Features",
-      "page": 167,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
+      "objective": "1.1",
       "title": "Cloud Security Considerations",
-      "page": 169,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 169
     },
     {
+      "objective": "3.1",
       "title": "Topic 6B: Embedded Systems and Zero Trust Architecture",
-      "page": 171,
-      "objective": "3.1",
-      "confidence": 0.94
+      "page": 171
     },
     {
-      "title": "Embedded Systems",
-      "page": 171,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Industrial Control Systems",
-      "page": 172,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Internet of Things",
-      "page": 174,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Deperimeterization and Zero Trust",
-      "page": 176,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "1.2",
       "title": "Zero Trust Security Concepts",
-      "page": 178,
-      "objective": "1.2",
-      "confidence": 1.97
+      "page": 178
     },
     {
+      "objective": "1.2",
       "title": "Lesson 7: Explain Resiliency and Site Security Concepts",
-      "page": 180,
-      "objective": "1.2",
-      "confidence": 1.47
+      "page": 180
     },
     {
+      "objective": "4.3",
       "title": "Topic 7A: Asset Management",
-      "page": 180,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 180
     },
     {
-      "title": "Asset Tracking",
-      "page": 180,
       "objective": "4.2",
-      "confidence": 0.78
+      "title": "Asset Tracking",
+      "page": 180
     },
     {
+      "objective": "1.2",
       "title": "Asset Protection Concepts",
-      "page": 182,
-      "objective": "1.2",
-      "confidence": 0.73
+      "page": 182
     },
     {
+      "objective": "3.3",
       "title": "Data Backups",
-      "page": 184,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 184
     },
     {
+      "objective": "3.3",
       "title": "Advanced Data Protection",
-      "page": 186,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 186
     },
     {
+      "objective": "3.3",
       "title": "Secure Data Destruction",
-      "page": 188,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 188
     },
     {
-      "title": "Topic 7B : Redundancy Strategies",
-      "page": 190,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Continuity of Operations",
-      "page": 190,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "3.4",
       "title": "Capacity Planning Risks",
-      "page": 192,
-      "objective": "3.4",
-      "confidence": 1.5
+      "page": 192
     },
     {
-      "title": "High Availability",
-      "page": 194,
       "objective": "3.1",
-      "confidence": 1.0
+      "title": "High Availability",
+      "page": 194
     },
     {
-      "title": "Clustering",
-      "page": 197,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Power Redundancy",
-      "page": 199,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Diversity and Defense in Depth",
-      "page": 200,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Deception Technologies",
-      "page": 202,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Testing Resiliency",
-      "page": 204,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "5.1",
       "title": "Topic 7C : Physical Security",
-      "page": 206,
-      "objective": "5.1",
-      "confidence": 1.23
+      "page": 206
     },
     {
+      "objective": "1.1",
       "title": "Physical Security Controls",
-      "page": 206,
-      "objective": "1.1",
-      "confidence": 2.7
+      "page": 206
     },
     {
+      "objective": "1.2",
       "title": "Site Layout, Fencing, and Lighting",
-      "page": 207,
-      "objective": "1.2",
-      "confidence": 1.0
+      "page": 207
     },
     {
-      "title": "Gateways and Locks",
-      "page": 210,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "1.1",
       "title": "Security Guards and Cameras",
-      "page": 211,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 211
     },
     {
-      "title": "Alarm Systems and Sensors",
-      "page": 213,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.3",
       "title": "Lesson 8: Explain Vulnerability Management",
-      "page": 215,
-      "objective": "4.3",
-      "confidence": 2.2
+      "page": 215
     },
     {
+      "objective": "2.3",
       "title": "Topic 8A: Device and OS Vulnerabilities",
-      "page": 215,
-      "objective": "2.3",
-      "confidence": 2.2
+      "page": 215
     },
     {
+      "objective": "2.3",
       "title": "Operating System Vulnerabilities",
-      "page": 215,
-      "objective": "2.3",
-      "confidence": 2.7
+      "page": 215
     },
     {
+      "objective": "4.3",
       "title": "Vulnerability Types",
-      "page": 217,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 217
     },
     {
+      "objective": "2.3",
       "title": "Zero-Day Vulnerabilities",
-      "page": 218,
-      "objective": "2.3",
-      "confidence": 2.7
+      "page": 218
     },
     {
+      "objective": "2.3",
       "title": "Misconfiguration Vulnerabilities",
-      "page": 220,
-      "objective": "2.3",
-      "confidence": 2.7
+      "page": 220
     },
     {
+      "objective": "2.3",
       "title": "Cryptographic Vulnerabilities",
-      "page": 221,
+      "page": 221
+    },
+    {
       "objective": "2.3",
-      "confidence": 2.7
-    },
-    {
-      "title": "Sideloading, Rooting, and Jailbreaking",
-      "page": 223,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
       "title": "Topic 8B: Application and Cloud Vulnerabilities",
-      "page": 225,
-      "objective": "2.3",
-      "confidence": 2.2
+      "page": 225
     },
     {
+      "objective": "2.3",
       "title": "Application Vulnerabilities",
-      "page": 225,
-      "objective": "2.3",
-      "confidence": 2.2
+      "page": 225
     },
     {
-      "title": "Evaluation Scope",
-      "page": 227,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Web Application Attacks",
-      "page": 228,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Cloud-based Application Attacks",
-      "page": 230,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Supply Chain",
-      "page": 231,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.3",
       "title": "Topic 8C: Vulnerability Identification Methods",
-      "page": 233,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 233
     },
     {
+      "objective": "4.3",
       "title": "Vulnerability Scanning",
-      "page": 233,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 233
     },
     {
+      "objective": "2.1",
       "title": "Threat Feeds",
-      "page": 234,
-      "objective": "2.1",
-      "confidence": 0.73
+      "page": 234
     },
     {
-      "title": "Deep and Dark Web",
-      "page": 236,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.3",
       "title": "Other Vulnerability Assessment Methods",
-      "page": 238,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 238
     },
     {
+      "objective": "4.3",
       "title": "Topic 8D: Vulnerability Analysis and Remediation",
-      "page": 240,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 240
     },
     {
-      "title": "Common Vulnerabilities and Exposures",
-      "page": 240,
       "objective": "2.3",
-      "confidence": 2.2
+      "title": "Common Vulnerabilities and Exposures",
+      "page": 240
     },
     {
-      "title": "False Positives, False Negatives, and Log Review",
-      "page": 241,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "4.3",
       "title": "Vulnerability Analysis",
-      "page": 243,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 243
     },
     {
+      "objective": "4.3",
       "title": "Vulnerability Response and Remediation",
-      "page": 245,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 245
     },
     {
+      "objective": "1.1",
       "title": "Lesson 9: Evaluate Network Security Capabilities",
-      "page": 246,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 246
     },
     {
+      "objective": "1.1",
       "title": "Topic 9A: Network Security Baselines",
-      "page": 246,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 246
     },
     {
-      "title": "Benchmarks and Secure Configuration Guides",
-      "page": 246,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Wireless Network Installation Considerations",
-      "page": 248,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Wireless Encryption",
-      "page": 249,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Wi-Fi Authentication Methods",
-      "page": 250,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "4.6",
       "title": "Network Access Control (NAC)",
-      "page": 251,
-      "objective": "4.6",
-      "confidence": 0.73
+      "page": 251
     },
     {
+      "objective": "1.1",
       "title": "Topic 9B: Network Security Capability Enhancement",
-      "page": 252,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 252
     },
     {
+      "objective": "4.6",
       "title": "Access Control Lists (ACLs)",
-      "page": 252,
-      "objective": "4.6",
-      "confidence": 0.73
+      "page": 252
     },
     {
-      "title": "Intrusion Detection and Prevention Systems (IDS/IPS)",
-      "page": 253,
       "objective": "3.2",
-      "confidence": 1.0
+      "title": "Intrusion Detection and Prevention Systems (IDS/IPS)",
+      "page": 253
     },
     {
+      "objective": "4.5",
       "title": "IDS and IPS Detection Methods",
-      "page": 255,
-      "objective": "4.5",
-      "confidence": 1.0
+      "page": 255
     },
     {
-      "title": "Web Filtering",
-      "page": 256,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "1.1",
       "title": "Lesson 10: Assess Endpoint Security Capabilities",
-      "page": 257,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 257
     },
     {
+      "objective": "1.1",
       "title": "Topic 10A: Implement Endpoint Security",
-      "page": 257,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 257
     },
     {
-      "title": "Endpoint Hardening",
-      "page": 257,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Endpoint Protection",
-      "page": 259,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Advanced Endpoint Protection",
-      "page": 260,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Endpoint Configuration",
-      "page": 262,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Hardening Techniques",
-      "page": 264,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Hardening Specialized Devices",
-      "page": 265,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Topic 10B: Mobile Device Hardening",
-      "page": 267,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Mobile Hardening Techniques",
-      "page": 267,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Full Device Encryption and External Media",
-      "page": 269,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Location Services",
-      "page": 270,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Cellular and GPS Connection Methods",
-      "page": 271,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Wi-Fi and Tethering Connection Methods",
-      "page": 272,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Bluetooth Connection Methods",
-      "page": 274,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Near-Field Communications and Mobile Payment Services",
-      "page": 275,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Lesson 11: Enhance Application Security Capabilities",
-      "page": 277,
       "objective": "4.5",
-      "confidence": 1.65
+      "title": "Lesson 11: Enhance Application Security Capabilities",
+      "page": 277
     },
     {
+      "objective": "1.1",
       "title": "Topic 11A: Application Protocol Security Baselines",
-      "page": 277,
+      "page": 277
+    },
+    {
       "objective": "1.1",
-      "confidence": 1.1
-    },
-    {
-      "title": "Secure Protocols",
-      "page": 277,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
       "title": "Transport Layer Security (TLS)",
-      "page": 278,
+      "page": 278
+    },
+    {
       "objective": "1.1",
-      "confidence": 1.1
-    },
-    {
-      "title": "Secure Directory Services",
-      "page": 280,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
       "title": "Simple Network Management Protocol Security",
-      "page": 281,
+      "page": 281
+    },
+    {
       "objective": "1.1",
-      "confidence": 1.1
-    },
-    {
-      "title": "File Transfer Services",
-      "page": 282,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Email Services",
-      "page": 284,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
       "title": "Email Security",
-      "page": 286,
-      "objective": "1.1",
-      "confidence": 1.1
+      "page": 286
     },
     {
+      "objective": "3.3",
       "title": "Email Data Loss Prevention",
-      "page": 287,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 287
     },
     {
-      "title": "DNS Filtering",
-      "page": 289,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "1.2",
       "title": "Topic 11B: Cloud and Web Application Security Concepts",
-      "page": 291,
-      "objective": "1.2",
-      "confidence": 1.47
+      "page": 291
     },
     {
-      "title": "Secure Coding Techniques",
-      "page": 291,
       "objective": "2.5",
-      "confidence": 1.1
+      "title": "Secure Coding Techniques",
+      "page": 291
     },
     {
-      "title": "Application Protections",
-      "page": 293,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Software Sandboxing",
-      "page": 295,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.8",
       "title": "Lesson 12: Explain Incident Response and Monitoring Concepts",
-      "page": 296,
-      "objective": "4.8",
-      "confidence": 1.47
+      "page": 296
     },
     {
+      "objective": "4.8",
       "title": "Topic 12A: Incident Response",
-      "page": 296,
-      "objective": "4.8",
-      "confidence": 1.47
+      "page": 296
     },
     {
+      "objective": "4.8",
       "title": "Incident Response Processes",
-      "page": 296,
-      "objective": "4.8",
-      "confidence": 1.47
+      "page": 296
     },
     {
-      "title": "Preparation",
-      "page": 298,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Detection",
-      "page": 300,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Analysis",
-      "page": 301,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Containment",
-      "page": 302,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Eradication and Recovery",
-      "page": 303,
       "objective": "3.4",
-      "confidence": 1.05
+      "title": "Eradication and Recovery",
+      "page": 303
     },
     {
-      "title": "m",
-      "page": 304,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Testing and Training",
-      "page": 306,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Threat Hunting",
-      "page": 307,
       "objective": "2.1",
-      "confidence": 0.73
+      "title": "Threat Hunting",
+      "page": 307
     },
     {
-      "title": "Topic 12B: Digital Forensics",
-      "page": 308,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "5.2",
       "title": "Due Process and Legal Hold",
-      "page": 308,
-      "objective": "5.2",
-      "confidence": 0.73
+      "page": 308
     },
     {
-      "title": "Acquisition",
-      "page": 309,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "System Memory Acquisition",
-      "page": 311,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Disk Image Acquisition",
-      "page": 311,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Preservation",
-      "page": 313,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Reporting",
-      "page": 314,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.9",
       "title": "Topic 12C: Data Sources",
-      "page": 315,
-      "objective": "4.9",
-      "confidence": 1.1
+      "page": 315
     },
     {
+      "objective": "4.9",
       "title": "Data Sources, Dashboards, and Reports",
-      "page": 315,
-      "objective": "4.9",
-      "confidence": 1.6
+      "page": 315
     },
     {
+      "objective": "3.3",
       "title": "Log Data",
-      "page": 317,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 317
     },
     {
-      "title": "Host Operating System Logs",
-      "page": 318,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.9",
       "title": "Application and Endpoint Logs",
-      "page": 319,
-      "objective": "4.9",
-      "confidence": 1.0
+      "page": 319
     },
     {
+      "objective": "4.9",
       "title": "Network Data Sources",
-      "page": 321,
-      "objective": "4.9",
-      "confidence": 1.1
+      "page": 321
     },
     {
-      "title": "Packet Captures",
-      "page": 322,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Metadata",
-      "page": 324,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.4",
       "title": "Topic 12D: Alerting and Monitoring Tools",
-      "page": 325,
-      "objective": "4.4",
-      "confidence": 1.82
+      "page": 325
     },
     {
+      "objective": "5.1",
       "title": "Security Information and Event Management",
-      "page": 325,
-      "objective": "5.1",
-      "confidence": 1.23
+      "page": 325
     },
     {
+      "objective": "4.4",
       "title": "Alerting and Monitoring Activities",
-      "page": 326,
+      "page": 326
+    },
+    {
       "objective": "4.4",
-      "confidence": 1.38
-    },
-    {
-      "title": "Alert Tuning",
-      "page": 328,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
       "title": "Monitoring Infrastructure",
-      "page": 329,
-      "objective": "4.4",
-      "confidence": 0.94
+      "page": 329
     },
     {
+      "objective": "4.4",
       "title": "Monitoring Systems and Applications",
-      "page": 330,
-      "objective": "4.4",
-      "confidence": 1.44
+      "page": 330
     },
     {
-      "title": "Benchmarks",
-      "page": 332,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "2.4",
       "title": "Lesson 13: Analyze Indicators of Malicious Activity",
-      "page": 333,
-      "objective": "2.4",
-      "confidence": 2.2
+      "page": 333
     },
     {
+      "objective": "2.4",
       "title": "Topic 13A: Malware Attack Indicators",
-      "page": 333,
-      "objective": "2.4",
-      "confidence": 0.73
+      "page": 333
     },
     {
-      "title": "Malware Classification",
-      "page": 333,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Computer Viruses",
-      "page": 334,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Computer Worms and Fileless Malware",
-      "page": 335,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Spyware and Keyloggers",
-      "page": 337,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Backdoors and Remote Access Trojans",
-      "page": 338,
       "objective": "4.6",
-      "confidence": 0.73
+      "title": "Backdoors and Remote Access Trojans",
+      "page": 338
     },
     {
-      "title": "Rootkits",
-      "page": 339,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Ransomware, Crypto-Malware, and Logic Bombs",
-      "page": 341,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "TTPs and IoCs",
-      "page": 342,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "2.4",
       "title": "Malicious Activity Indicators",
-      "page": 344,
-      "objective": "2.4",
-      "confidence": 2.2
+      "page": 344
     },
     {
+      "objective": "2.4",
       "title": "Topic 13B: Physical and Network Attack Indicators",
-      "page": 345,
+      "page": 345
+    },
+    {
       "objective": "2.4",
-      "confidence": 0.73
-    },
-    {
-      "title": "Physical Attacks",
-      "page": 345,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Network Attacks",
-      "page": 346,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Distributed Denial of Service Attacks",
-      "page": 348,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "On-Path Attacks",
-      "page": 350,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Domain Name System Attacks",
-      "page": 351,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Wireless Attacks",
-      "page": 353,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Password Attacks",
-      "page": 354,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
       "title": "Credential Replay Attacks",
-      "page": 356,
-      "objective": "2.4",
-      "confidence": 1.0
+      "page": 356
     },
     {
-      "title": "Cryptographic Attacks",
-      "page": 357,
       "objective": "1.4",
-      "confidence": 0.73
+      "title": "Cryptographic Attacks",
+      "page": 357
     },
     {
+      "objective": "2.4",
       "title": "Malicious Code Indicators",
-      "page": 359,
-      "objective": "2.4",
-      "confidence": 1.97
+      "page": 359
     },
     {
+      "objective": "2.4",
       "title": "Topic 13C: Application Attack Indicators",
-      "page": 360,
+      "page": 360
+    },
+    {
       "objective": "2.4",
-      "confidence": 0.73
-    },
-    {
-      "title": "Application Attacks",
-      "page": 360,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Replay Attacks",
-      "page": 361,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Forgery Attacks",
-      "page": 363,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Injection Attacks",
-      "page": 364,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
       "title": "Directory Traversal and Command Injection Attacks",
-      "page": 366,
-      "objective": "2.4",
-      "confidence": 1.0
+      "page": 366
     },
     {
-      "title": "URL Analysis",
-      "page": 367,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Web Server Logs",
-      "page": 368,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Lesson 14: Summarize Security Governance Concepts",
-      "page": 369,
       "objective": "1.2",
-      "confidence": 1.47
+      "title": "Lesson 14: Summarize Security Governance Concepts",
+      "page": 369
     },
     {
-      "title": "Topic 14A: Policies, Standards, and Procedures",
-      "page": 369,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Policies",
-      "page": 369,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Procedures",
-      "page": 372,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Standards",
-      "page": 375,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Legal Environment",
-      "page": 378,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Governance and Accountability",
-      "page": 381,
       "objective": "5.1",
-      "confidence": 0.73
+      "title": "Governance and Accountability",
+      "page": 381
     },
     {
+      "objective": "4.3",
       "title": "Topic 14B: Change Management",
-      "page": 385,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 385
     },
     {
+      "objective": "4.3",
       "title": "Change Management Programs",
-      "page": 385,
-      "objective": "4.3",
-      "confidence": 1.1
+      "page": 385
     },
     {
-      "title": "Allowed and Blocked Changes",
-      "page": 387,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Restarts, Dependencies, and Downtime",
-      "page": 388,
       "objective": "1.3",
-      "confidence": 1.0
+      "title": "Restarts, Dependencies, and Downtime",
+      "page": 388
     },
     {
-      "title": "Documentation and Version Control",
-      "page": 390,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
+      "objective": "4.7",
       "title": "Topic 14C: Automation and Orchestration",
-      "page": 392,
+      "page": 392
+    },
+    {
       "objective": "4.7",
-      "confidence": 0.88
-    },
-    {
-      "title": "Automation and Scripting",
-      "page": 392,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
       "title": "Automation and Orchestration Implementation",
-      "page": 393,
-      "objective": "4.7",
-      "confidence": 0.88
+      "page": 393
     },
     {
+      "objective": "5.2",
       "title": "Lesson 15: Explain Risk Management Processes",
-      "page": 396,
-      "objective": "5.2",
-      "confidence": 1.47
+      "page": 396
     },
     {
+      "objective": "5.2",
       "title": "Topic 15A: Risk Management Processes and Concepts",
-      "page": 396,
-      "objective": "5.2",
-      "confidence": 1.47
+      "page": 396
     },
     {
+      "objective": "5.2",
       "title": "Risk Identification and Assessment",
-      "page": 396,
-      "objective": "5.2",
-      "confidence": 1.23
+      "page": 396
     },
     {
+      "objective": "5.2",
       "title": "Risk Management Strategies",
-      "page": 398,
-      "objective": "5.2",
-      "confidence": 1.47
+      "page": 398
     },
     {
+      "objective": "5.2",
       "title": "Risk Management Processes",
-      "page": 400,
-      "objective": "5.2",
-      "confidence": 1.47
+      "page": 400
     },
     {
+      "objective": "5.2",
       "title": "Business Impact Analysis",
-      "page": 403,
-      "objective": "5.2",
-      "confidence": 1.0
+      "page": 403
     },
     {
-      "title": "Topic 15B: Vendor Management Concepts",
-      "page": 404,
       "objective": "4.3",
-      "confidence": 1.1
+      "title": "Topic 15B: Vendor Management Concepts",
+      "page": 404
     },
     {
-      "title": "Vendor Selection",
-      "page": 404,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Vendor Assessment Methods",
-      "page": 406,
-      "objective": null,
-      "confidence": 0.37
-    },
-    {
-      "title": "Legal Agreements",
-      "page": 408,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "5.5",
       "title": "Topic 15C: Audits and Assessments",
-      "page": 410,
-      "objective": "5.5",
-      "confidence": 1.47
+      "page": 410
     },
     {
+      "objective": "5.5",
       "title": "Attestation and Assessments",
-      "page": 410,
-      "objective": "5.5",
-      "confidence": 1.23
+      "page": 410
     },
     {
-      "title": "Penetration Testing",
-      "page": 412,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Exercise Types",
-      "page": 414,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
+      "objective": "3.3",
       "title": "Lesson 16: Summarize Data Protection and Compliance Concepts",
-      "page": 415,
-      "objective": "3.3",
-      "confidence": 1.6
+      "page": 415
     },
     {
+      "objective": "3.3",
       "title": "Topic 16A: Data Classification and Compliance",
-      "page": 415,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 415
     },
     {
+      "objective": "3.3",
       "title": "Data Types",
-      "page": 415,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 415
     },
     {
+      "objective": "3.3",
       "title": "Data Classifications",
-      "page": 417,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 417
     },
     {
+      "objective": "3.3",
       "title": "Data Sovereignty and Geographical Considerations",
-      "page": 419,
-      "objective": "3.3",
-      "confidence": 1.55
+      "page": 419
     },
     {
+      "objective": "3.3",
       "title": "Privacy Data",
-      "page": 420,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 420
     },
     {
+      "objective": "3.3",
       "title": "Privacy Breaches and Data Breaches",
-      "page": 423,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 423
     },
     {
-      "title": "Compliance",
-      "page": 425,
       "objective": "5.4",
-      "confidence": 0.73
+      "title": "Compliance",
+      "page": 425
     },
     {
-      "title": "Monitoring and Reporting",
-      "page": 426,
       "objective": "4.4",
-      "confidence": 0.94
+      "title": "Monitoring and Reporting",
+      "page": 426
     },
     {
+      "objective": "3.3",
       "title": "Data Protection",
-      "page": 428,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 428
     },
     {
+      "objective": "3.3",
       "title": "Data Loss Prevention",
-      "page": 430,
-      "objective": "3.3",
-      "confidence": 1.05
+      "page": 430
     },
     {
-      "title": "Topic 16B: Personnel Policies",
-      "page": 432,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "Conduct Policies",
-      "page": 432,
-      "objective": null,
-      "confidence": 0.0
-    },
-    {
-      "title": "User and Role-Based Training",
-      "page": 434,
-      "objective": null,
-      "confidence": 0.5
-    },
-    {
-      "title": "Training Topics and Techniques",
-      "page": 435,
-      "objective": null,
-      "confidence": 0.55
-    },
-    {
-      "title": "Security Awareness Training Lifecycle",
-      "page": 437,
       "objective": "5.6",
-      "confidence": 1.47
+      "title": "Security Awareness Training Lifecycle",
+      "page": 437
     }
   ]
 }

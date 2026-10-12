@@ -28,7 +28,7 @@
 
   /* type scale, 1.22 ratio */
   /* Body sits at 16px. Anything smaller is a readability tax on a tool someone
-     reads for a hundred hours, and 15px body text was the old base. */
+     reads for a hundred hours. */
   --t-xs: .75rem; --t-sm: .875rem; --t-md: 1rem;
   --t-lg: 1.125rem; --t-xl: 1.375rem; --t-2xl: 1.75rem; --t-3xl: 2.5rem;
 
@@ -295,6 +295,11 @@ button.btn.danger { background: var(--bad-soft); color: var(--bad); border-color
 
 /* ---------- question ----------------------------------------------------- */
 .stem { font-size: var(--t-lg); line-height: 1.62; margin: 0 0 var(--s5); white-space: pre-line; }
+/* Glossary expansions. Hover or focus shows the words behind an acronym. */
+abbr[title] {
+  text-decoration: underline dotted var(--line-strong);
+  text-underline-offset: 3px; cursor: help;
+}
 .opts { display: grid; gap: var(--s2); }
 .opt {
   display: grid; grid-template-columns: auto 1fr auto; gap: var(--s3);
@@ -469,18 +474,10 @@ select, input[type=text], input[type=date], input[type=number] {
    and it is not a surface anyone taps on a phone. */
 table.grid select, table.grid input { min-height: 34px; }
 
-/* Seven controls across a column that is never wide enough: the table was set
-   to width 100%, so instead of overflowing into the scroller it squeezed the
-   columns until the native selects truncated their own labels. PERMIT rendered
-   in 50px of a box that needed 80. Giving the table a minimum width lets
-   .scroll-x do its job, which is what it was there for. */
-/* Widths measured from the widest option each column can hold, not guessed:
-   "443 (HTTPS)" needs 128px and was getting 79. */
-/* Widths go on the controls, not the cells: in auto table layout a min-width on
-   a th is only a hint and the browser kept overriding it. These numbers are
-   measured from the widest option each column can hold, so "443 (HTTPS)" and
-   "1433 (MS SQL)" fit instead of being cut to "443 (HT". When the column set no
-   longer fits, .scroll-x finally does what it was put there to do. */
+/* Seven native selects across a column that is never wide enough. Widths go on
+   the controls, not the cells (in auto table layout a min-width on a th is only
+   a hint), and are measured from the widest option each column holds, so
+   "443 (HTTPS)" fits. When the set no longer fits, .scroll-x takes over. */
 table.acl-grid { min-width: 880px; }
 table.acl-grid th, table.acl-grid td { padding: var(--s1) var(--s2); }
 table.acl-grid td:nth-child(1) { width: 2rem; }

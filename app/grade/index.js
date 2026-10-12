@@ -25,5 +25,3 @@ export function gradePbq(pbq, answers) {
     missedMisconceptions: [...new Set(missed.map((r) => r.misconception))],
   };
 }
-
-export { gradeAcl, gradeWireless, gradeDiagram, gradeOrder };

@@ -9,7 +9,7 @@
 // review corpus. They are good out of the box; once this user has a few hundred
 // reviews logged, `reviews` in the store is exactly the input an optimiser needs.
 
-export const DEFAULT_W = [
+const DEFAULT_W = [
   0.40255, 1.18385, 3.173, 15.69105, 7.1949, 0.5345, 1.4604, 0.0046,
   1.54575, 0.1192, 1.01925, 1.9395, 0.11, 0.29605, 2.2698, 0.2315,
   2.9898, 0.51655, 0.6621,
@@ -24,13 +24,13 @@ export const DAY_MS = 86400000;
 const clampD = (d) => Math.min(Math.max(d, 1), 10);
 
 /** Probability of recall after `elapsedDays` at stability `s`. */
-export function retrievability(elapsedDays, s) {
+function retrievability(elapsedDays, s) {
   if (s <= 0) return 0;
   return Math.pow(1 + (FACTOR * Math.max(elapsedDays, 0)) / s, DECAY);
 }
 
 /** Days until retrievability decays to `desiredRetention`. */
-export function intervalFor(s, desiredRetention = 0.9) {
+function intervalFor(s, desiredRetention = 0.9) {
   const i = (s / FACTOR) * (Math.pow(desiredRetention, 1 / DECAY) - 1);
   return Math.max(1, Math.round(i));
 }

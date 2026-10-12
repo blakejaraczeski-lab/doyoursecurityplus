@@ -114,12 +114,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 **_summary(state),
             })
 
-        if self.path == "/api/snapshots":
-            snaps = sorted(SNAP_DIR.glob("state-*.json")) if SNAP_DIR.exists() else []
-            return self._json(200, {"snapshots": [
-                {"name": s.name, "bytes": s.stat().st_size, "mtime": int(s.stat().st_mtime * 1000)}
-                for s in reversed(snaps)
-            ]})
+        if self.path == "/api/content":
+            # The browser cannot list a directory, so the server does. A new
+            # content file is picked up on the next load with no build step.
+            content = APP_DIR / "content"
+            ls = lambda sub: sorted(p.name for p in (content / sub).glob("*.json"))
+            return self._json(200, {k: ls(k) for k in ("items", "pbq", "mentor", "index")})
 
         return super().do_GET()
 
