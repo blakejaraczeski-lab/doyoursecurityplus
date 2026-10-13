@@ -476,3 +476,19 @@ spreads a session across objectives can only lower its score. The rule
 stays. The evidence for interleaved practice is stronger than anything in
 this model, and the model's blindness here is recorded in docs/ENGINE.md as
 a limit rather than corrected by quietly removing the switch.
+
+## A mock is chosen, then started, and can be ended two ways
+
+Pressing a block started it at once, so comparing two blocks dropped you
+into one, and nothing ended a mock but submitting or the clock. Choosing a
+block now only selects it and says what it runs; Start is its own press.
+Ending early offers two exits, chosen each time, because the person asking
+was unsure which was right and both are, for different sittings. Submit and
+score treats the unanswered as wrong, as the real exam does when the clock
+runs out, banks the misses and counts toward Readiness and the booking rule:
+the honest read of a sitting that ran short. Abandon records the attempt, how
+many were answered and the time, with no score, banks nothing, and is
+invisible to the forecast and the booking rule: a 20 minute start on a 90
+question block measures nothing about exam day. The walk also found that a
+chosen mock answer was marked by colour alone, its glyph never shown; it is
+now shown.

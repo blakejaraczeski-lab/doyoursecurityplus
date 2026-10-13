@@ -697,12 +697,22 @@ export function mockStartView(App) {
       })
     : `<div class="card">
     <h2 class="eyebrow">Choose a block</h2>
-    <div class="row">
+    <div class="row" role="radiogroup" aria-label="Mock exam block">
       ${fits.map(([k, f, fit]) => `
-        <button class="btn ${k === "full" ? "" : "ghost"}" data-action="mock-start" data-format="${k}">
-          ${esc(f.label)} <span class="faint">${fit.total}q / ${fit.minutes}m</span>
+        <button class="opt block-pick ${App.mockPick === k ? "chosen" : ""}" data-action="mock-select" data-format="${k}"
+                role="radio" aria-checked="${App.mockPick === k}">
+          <span>${esc(f.label)} <span class="faint">${fit.total}q / ${fit.minutes}m</span></span>
+          <span class="verdict" aria-hidden="true">${App.mockPick === k ? "&#9679;" : ""}</span>
         </button>`).join("")}
     </div>
+    ${(() => {
+      const pick = fits.find(([k]) => k === App.mockPick);
+      if (!pick) return `<p class="note">Choose a block to see what it runs. Nothing starts until you press Start.</p>`;
+      const [k, f, fit] = pick;
+      return `<p class="m0 mt3"><b>${esc(f.label)}:</b> ${fit.total} questions, ${fit.pbqs} of them performance-based and first, on a ${fit.minutes} minute clock that does not stop.
+        You can end early: submit to score what you have, with blanks counted wrong as on the real exam, or abandon without a score.</p>
+        <div class="row mt3"><button class="btn" data-action="mock-start" data-format="${k}">Start the ${esc(f.label.toLowerCase())}</button></div>`;
+    })()}
     ${short ? `<p class="note">The bank holds ${graded} graded item${graded === 1 ? "" : "s"} and ${App.content.pbqs.length} PBQ${App.content.pbqs.length === 1 ? "" : "s"}, fewer than a full block wants, so a block runs with what exists and keeps the exam's minute per question.</p>` : ""}
     <p class="note">Everything you miss is banked as a correction afterwards, exactly as it would be in a drill. A mock that does not feed the rest of the system is just a number.</p>
   </div>`;
@@ -717,9 +727,11 @@ export function mockStartView(App) {
       <tbody>${history.map((m) => `<tr>
         <td class="faint">${new Date(m.at).toLocaleDateString()}</td>
         <td>${esc(FORMATS[m.format]?.label || m.format)}</td>
-        <td class="mono">${pct(m.raw)}</td>
+        ${m.abandoned
+          ? `<td class="faint" colspan="2">not scored</td><td>abandoned, ${m.answered} of ${m.of} answered</td>`
+          : `<td class="mono">${pct(m.raw)}</td>
         <td class="mono ${m.scaled >= 750 ? "c-good" : "c-bad"}">${m.scaled}</td>
-        <td>${m.scaled >= 750 ? "pass" : "below"}</td>
+        <td>${m.scaled >= 750 ? "pass" : "below"}</td>`}
         <td class="mono">${Math.round(m.seconds / 60)}m</td>
       </tr>`).join("")}</tbody></table></div>
 
@@ -780,6 +792,27 @@ export function mockReviewView(App) {
     <button class="btn ghost" data-action="mock-resume">Back to question ${m.idx + 1}</button>
     ${blanks ? `<button class="btn ghost" data-action="mock-first-blank">Go to first blank</button>` : ""}
     <button class="btn danger" data-action="mock-submit">Submit exam</button>
+    <button class="btn ghost" data-action="mock-end">End early</button>
+  </div>
+  ${mockEndHtml(App)}`;
+}
+
+/** Ending a mock early: two exits, said plainly, and a way back. */
+function mockEndHtml(App) {
+  const m = App.mock;
+  if (!m?.ending) return "";
+  const answered = m.items.filter((e) => e.kind === "pbq" ? pbqAnswered(App.answers[e.pbq.id]) : !!m.answers[e.item.id]).length;
+  const blanks = m.items.length - answered;
+  return `<div class="card flag mt4" role="dialog" aria-labelledby="end-title">
+    <h2 class="eyebrow" id="end-title">End this mock now</h2>
+    <p class="m0">${answered} of ${m.items.length} answered.</p>
+    <dl class="end-choices">
+      <dt><button class="btn" data-action="mock-submit-now">Submit and score</button></dt>
+      <dd>The ${blanks} unanswered count as wrong, as they would if the real exam's clock ran out. Your misses are banked as corrections, and the score counts toward Readiness and the booking rule.</dd>
+      <dt><button class="btn ghost" data-action="mock-abandon">Abandon without a score</button></dt>
+      <dd>Nothing is scored and nothing is banked. The attempt and the time spent are kept in the history, and Readiness ignores it.</dd>
+    </dl>
+    <div class="row mt3"><button class="btn ghost small" data-action="mock-end-cancel">Keep going</button></div>
   </div>`;
 }
 
@@ -807,8 +840,12 @@ export function mockRunnerView(App) {
       <button class="btn" data-action="mock-next" ${m.idx === m.items.length - 1 ? "disabled" : ""}>Next</button>
       <button class="btn ghost small" data-action="mock-flag">${m.flagged.has(entry.item?.id || entry.pbq?.id) ? "Unflag" : "Flag for review"}</button>
     </div>
-    <button class="btn ghost" data-action="mock-review">Review all ${m.items.length}</button>
-  </div>`;
+    <div class="row">
+      <button class="btn ghost" data-action="mock-review">Review all ${m.items.length}</button>
+      <button class="btn ghost small" data-action="mock-end">End early</button>
+    </div>
+  </div>
+  ${mockEndHtml(App)}`;
 }
 
 function mockMcqHtml(item, chosen, flagged) {

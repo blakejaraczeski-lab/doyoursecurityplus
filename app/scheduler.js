@@ -661,7 +661,7 @@ export function examForecast(state, content, now = Date.now(), mocks = []) {
   const clamp = (x) => Math.max(0, Math.min(1, x));
 
   // The stopping rule: book the exam when all three hold.
-  const fulls = mocks.filter((m) => m.format === "full" && m.at >= now - 14 * fsrs.DAY_MS);
+  const fulls = mocks.filter((m) => m.format === "full" && !m.abandoned && m.at >= now - 14 * fsrs.DAY_MS);
   const heavyOpen = Object.entries(state.misconceptions || {}).filter(([id, r]) => {
     const def = content.misconceptions[id];
     return def && !r.retired && def.severity === "high" && (content.objectiveById[def.objective]?.weight ?? 0) >= 0.2;
@@ -694,7 +694,7 @@ export function examForecast(state, content, now = Date.now(), mocks = []) {
  */
 export function hoursToReady(state, content, now = Date.now(), mocks = []) {
   const f = examForecast(state, content, now, mocks);
-  const fullMocks = mocks.filter((m) => m.format === "full" && m.at >= now - 30 * fsrs.DAY_MS).length;
+  const fullMocks = mocks.filter((m) => m.format === "full" && !m.abandoned && m.at >= now - 30 * fsrs.DAY_MS).length;
   const sdAfter = Math.sqrt(f.sd ** 2 - (MODEL_SD ** 2) / (1 + fullMocks) + (MODEL_SD ** 2) / (1 + Math.max(2, fullMocks)));
   const gap = Math.max(0, 0.75 + Z * sdAfter - f.raw) * (650 / 0.75);
   const mockMinutes = Math.max(0, 2 - fullMocks) * FORMATS.full.minutes;

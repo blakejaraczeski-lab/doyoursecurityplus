@@ -601,7 +601,7 @@ function gradeMock() {
 }
 
 function finishMock() {
-  if (!["mock-run", "mock-review"].includes(App.screen)) return;
+  if (!["mock-run", "mock-review"].includes(App.screen) || !App.mock || App.mock.result) return;
   App.mock.result = gradeMock();
   App.screen = "mock-result";
   save();
@@ -757,9 +757,12 @@ const ACTIONS = {
     announce(`${App.multiPicked.size} of ${App.queue[App.idx].item.selectCount || 2} selected.`);
   },
   "multi-submit": answerMcqMulti,
+  // Choosing a block only selects it; Start is a separate, deliberate press.
+  "mock-select": (el) => { App.mockPick = el.dataset.format; },
   "mock-start": (el) => {
+    const fmt = el.dataset.format || App.mockPick;
+    if (!fmt || App.mock) return;
     reviews.startSession();
-    const fmt = el.dataset.format;
     const fit = blockFit(App.content, FORMATS[fmt]);
     const items = buildMock(App.content, { pbqCount: fit.pbqs, total: fit.total });
     if (!items.length) return;   // the screen already says there is nothing to run
@@ -796,7 +799,26 @@ const ACTIONS = {
     if (left > 0 && !confirm(`${left} question${left === 1 ? " is" : "s are"} unanswered. There is no penalty for a wrong guess on the real exam. Submit anyway?`)) return;
     finishMock();
   },
-  "mock-done": () => { App.mock = null; App.screen = "mock-home"; },
+  "mock-done": () => { App.mock = null; App.mockPick = null; App.screen = "mock-home"; },
+  // Ending early offers two exits, chosen each time: score what is there, or
+  // leave without a score.
+  "mock-end": () => { App.mock.ending = true; },
+  "mock-end-cancel": () => { App.mock.ending = false; },
+  "mock-submit-now": () => { App.mock.ending = false; finishMock(); },
+  "mock-abandon": () => {
+    const m = App.mock;
+    const now = Date.now();
+    const answered = m.items.filter((e) => e.kind === "pbq" ? pbqAnswered(App.answers[e.pbq.id]) : !!m.answers[e.item.id]).length;
+    // An attempt, kept so the history is honest, but not a measurement: no
+    // raw or scaled score, so the forecast and the booking rule never see it,
+    // and nothing is banked from a sitting that was not finished.
+    reviews.log({ at: now, kind: "mock", format: m.format, abandoned: true, answered, of: m.items.length,
+                  seconds: Math.round((now - m.startedAt) / 1000) });
+    App.mock = null;
+    App.mockPick = null;
+    App.screen = "mock-home";
+    announce(`Mock abandoned with ${answered} of ${m.items.length} answered. Not scored.`);
+  },
   "expand-mc": (el) => { App.expanded = App.expanded === el.dataset.id ? null : el.dataset.id; },
   reload: () => location.reload(),
   export: () => {

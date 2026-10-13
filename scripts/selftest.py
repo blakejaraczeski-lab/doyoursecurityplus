@@ -588,7 +588,8 @@ def scenario_screens(rep, tmp, browser):
         click("[data-action=nav][data-section=mock]")
         shot("empty log", "mock-home")
         rep.check("Previous attempts" not in main_text(), "empty log   mock home shows no history table")
-        click("[data-action=mock-start][data-format=short]")
+        click("[data-action=mock-select][data-format=short]")
+        click("[data-action=mock-start]")
         shot("empty log", "mock-run")
         click("[data-action=mock-review]")
         shot("empty log", "mock-review")
@@ -625,7 +626,8 @@ def scenario_screens(rep, tmp, browser):
         click("[data-action=nav][data-section=readiness]")
         shot("no engine", "readiness")
         click("[data-action=nav][data-section=mock]")
-        click("[data-action=mock-start][data-format=full]")
+        click("[data-action=mock-select][data-format=full]")
+        click("[data-action=mock-start]")
         rep.check(tab.evaluate("App.mock.items.filter((e) => e.kind === 'pbq').length === 5"
                                " && App.mock.items.every((e) => e.pbq?.id !== 'pbq-zz-no-engine')"),
                   "no engine   a full mock draws five PBQs and never that one")
@@ -645,7 +647,8 @@ def scenario_screens(rep, tmp, browser):
         shot("short mock", "mock-home")
         rep.check("10 graded items and 1 PBQ" in main_text() and "11q / 11m" in main_text(),
                   "short mock  the block says what it will run, 11q / 11m, and why")
-        click("[data-action=mock-start][data-format=full]")
+        click("[data-action=mock-select][data-format=full]")
+        click("[data-action=mock-start]")
         shot("short mock", "mock-run")
         rep.check(tab.evaluate("App.mock.items.length === 11 && App.mock.minutes === 11"
                                " && document.querySelector('.session-bar').textContent.includes('of 11')"),
@@ -654,7 +657,7 @@ def scenario_screens(rep, tmp, browser):
                      "App.mock = null; App.queue = [];")
         click("[data-action=nav][data-section=mock]")
         shot("empty bank", "mock-home")
-        rep.check("Nothing to run a mock on" in main_text() and not tab.evaluate("!!document.querySelector('[data-action=mock-start]')"),
+        rep.check("Nothing to run a mock on" in main_text() and not tab.evaluate("!!document.querySelector('[data-action=mock-select], [data-action=mock-start]')"),
                   "empty bank  mock home: one sentence, no block buttons, Reload")
         click("[data-action=nav][data-section=drill]")
         shot("empty bank", "drill-home")
@@ -806,7 +809,7 @@ def scenario_keyboard(rep, tmp, browser):
 
         # The mock: a chosen option is pressed, the review grid speaks its states.
         tab.evaluate("App.lab = null; document.querySelector('[data-action=nav][data-section=mock]').click();"
-                     "document.querySelector('[data-action=mock-start][data-format=short]').click();"
+                     "document.querySelector('[data-action=mock-select][data-format=short]').click(); document.querySelector('[data-action=mock-start]').click();"
                      "App.mock.idx = App.mock.items.findIndex((e) => e.kind === 'item');"
                      "document.querySelector('[data-action=nav][data-section=mock]').click()")
         focus("[data-action=mock-answer][data-opt=a]")
@@ -1227,7 +1230,7 @@ def scenario_stress(rep, tmp, browser):
 
         # 2. A mock submitted twice in one frame.
         tab.evaluate("window.confirm = () => true; document.querySelector('[data-action=nav][data-section=mock]').click();"
-                     "document.querySelector('[data-action=mock-start][data-format=short]').click()")
+                     "document.querySelector('[data-action=mock-select][data-format=short]').click(); document.querySelector('[data-action=mock-start]').click()")
         items_before, mocks_before = len(rows("item")), len(rows("mock"))
         hits = lambda: sum(m.get("hits", 0) for m in disk().get("misconceptions", {}).values())
         hits0, banked0 = hits(), len([r for r in rows("misconception") if r.get("grade", 3) <= 1])
@@ -1460,6 +1463,72 @@ def scenario_stale_tab(rep, tmp):
                   "an outbox sent twice lands once, and the server says none were new")
 
 
+def scenario_mock_exits(rep, tmp, browser):
+    """Choosing a block does not start it; a started mock can be ended two
+    ways, and only a scored one reaches Readiness."""
+    rep.head("Mock exam: choose, start, and end early")
+    with throwaway(tmp, "mock-exits") as (base, data):
+        tab = browser.tab
+        n0 = len(tab.errors)
+        tab.navigate(f"{base}/")
+        rep.check(tab.wait_for(APP_READY), "the app boots")
+        js = lambda code: tab.evaluate(code)
+        click = lambda sel: js(f"document.querySelector({json.dumps(sel)}).click()")
+        hide = ("Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' }); document.dispatchEvent(new Event('visibilitychange'));"
+                "Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'visible' })")
+        mocks = lambda: [json.loads(l) for l in (data / "reviews.jsonl").read_text().splitlines()
+                         if l.strip() and json.loads(l)["kind"] == "mock"] if (data / "reviews.jsonl").exists() else []
+
+        click("[data-action=nav][data-section=mock]")
+        rep.check(not js("!!document.querySelector('[data-action=mock-start]')"), "no Start button until a block is chosen")
+        click("[data-action=mock-select][data-format=full]")
+        click("[data-action=mock-select][data-format=short]")
+        rep.check(js("App.screen") == "mock-home" and js("!App.mock")
+                  and js("document.querySelector('[data-action=mock-select][data-format=short]').getAttribute('aria-checked')") == "true"
+                  and js("document.querySelector('[data-action=mock-select][data-format=full]').getAttribute('aria-checked')") == "false",
+                  "choosing one block and then another starts nothing, and the second is the one selected")
+        rep.check("blanks counted wrong" in js("document.getElementById('main').innerText"), "the chosen block says what it runs and how ending early works")
+        rep.check(js("(() => { const v = document.querySelector('[data-action=mock-select][aria-checked=true] .verdict'); return !!v && v.textContent.trim() !== '' && getComputedStyle(v).opacity === '1'; })()"),
+                  "the chosen block is marked by a visible glyph, not colour alone")
+        click("[data-action=mock-start]")
+        rep.check(js("App.screen") == "mock-run" and js("App.mock.format") == "short", "Start starts the chosen block")
+
+        # Answer two, end early, change your mind, then abandon.
+        js("{ const ids = App.mock.items.filter((e) => e.kind === 'item').slice(0, 2); for (const e of ids) App.mock.answers[e.item.id] = e.item.options[0].id; }")
+        click("[data-action=mock-end]")
+        rep.check("Abandon without a score" in js("document.getElementById('main').innerText") and "2 of" in js("document.getElementById('main').innerText"),
+                  "End early offers both exits and says how many are answered")
+        click("[data-action=mock-end-cancel]")
+        rep.check(js("App.screen") == "mock-run" and js("!App.mock.ending"), "Keep going returns to the exam with the clock still running")
+        hits0 = js("Object.values(App.state.misconceptions).reduce((a, m) => a + (m.hits || 0), 0)")
+        click("[data-action=mock-end]")
+        click("[data-action=mock-abandon]")
+        js(hide)
+        time.sleep(0.8)
+        m = mocks()
+        rep.check(len(m) == 1 and m[0].get("abandoned") and m[0].get("answered") == 2 and "raw" not in m[0] and "scaled" not in m[0],
+                  "abandoning records the attempt, 2 answered, with no score", f"({m})")
+        rep.check(js("Object.values(App.state.misconceptions).reduce((a, m) => a + (m.hits || 0), 0)") == hits0 and js("App.screen") == "mock-home" and js("!App.mock"),
+                  "nothing is banked, and you are back at the block choice")
+        rep.check("abandoned, 2 of" in js("document.getElementById('main').innerText"), "the history shows it as abandoned, not as a score")
+        click("[data-action=nav][data-section=readiness]")
+        rep.check(js("App.screen") == "readiness" and "and no mocks" in js("document.getElementById('main').innerText"),
+                  "Readiness does not count it as a mock")
+
+        # Start again, end early, and submit: blanks count wrong, and it is a mock.
+        click("[data-action=nav][data-section=mock]")
+        click("[data-action=mock-select][data-format=short]")
+        click("[data-action=mock-start]")
+        click("[data-action=mock-end]")
+        click("[data-action=mock-submit-now]")
+        js(hide)
+        time.sleep(0.8)
+        m = mocks()
+        rep.check(js("App.screen") == "mock-result" and len(m) == 2 and isinstance(m[1].get("raw"), (int, float)) and m[1].get("unanswered", 0) > 0,
+                  f"submitting early scores it, with {m[1].get('unanswered') if len(m) > 1 else '?'} blanks counted wrong")
+        rep.check(not tab.errors[n0:], "no console error", "; ".join(tab.errors[n0:])[:200])
+
+
 def main():
     chrome = next((c for c in CANDIDATES if c and pathlib.Path(c).exists()), None)
     if not chrome:
@@ -1484,6 +1553,7 @@ def main():
         "systemd": lambda: scenario_systemd(rep, tmp),
         "latency": lambda: scenario_latency(rep, tmp, browser),
         "stress": lambda: scenario_stress(rep, tmp, browser),
+        "mock-exits": lambda: scenario_mock_exits(rep, tmp, browser),
         "latency-10000": lambda: scenario_latency(rep, tmp, browser, 10000, assert_limits=False),
     }
     only = [a for a in sys.argv[1:] if a in scenarios]   # python3 scripts/selftest.py screens

@@ -370,7 +370,9 @@ abbr[title] {
 .opt.wrong   .key { background: var(--bad);  color: var(--on-accent); border-color: var(--bad); }
 .opt.correct .verdict { opacity: 1; color: var(--good); }
 .opt.wrong   .verdict { opacity: 1; color: var(--bad); }
-.opt.chosen { border-color: var(--accent); background: var(--accent-soft); }
+.opt.chosen { border-color: var(--accent); background: var(--accent-soft); border-width: 2px; }
+/* A chosen option (a mock answer, a mock block) says so with its glyph, not colour alone. */
+.opt.chosen .verdict { opacity: 1; color: var(--accent); }
 
 .verdict-banner {
   display: flex; gap: var(--s3); align-items: flex-start;
@@ -842,3 +844,10 @@ dl.side-stats.wrap { margin: 0; display: grid; grid-template-columns: repeat(aut
 /* The stopping rule: three conditions, each with its glyph, read top to bottom. */
 .stop-rule { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
 .stop-rule li { display: flex; gap: var(--s3); align-items: flex-start; }
+
+/* The mock's block choice: options that select, not buttons that start. */
+.block-pick { width: auto; flex: 1 1 12rem; }
+/* Ending a mock: each exit with its consequence beside it. */
+.end-choices { display: grid; grid-template-columns: auto 1fr; gap: var(--s3) var(--s4); align-items: center; margin: var(--s3) 0 0; }
+.end-choices dd { margin: 0; }
+@media (max-width: 560px) { .end-choices { grid-template-columns: 1fr; } }
