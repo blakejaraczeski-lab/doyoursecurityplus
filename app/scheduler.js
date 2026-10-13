@@ -161,7 +161,7 @@ function pickDueItems(state, content, n, now) {
  * Build a study queue.
  * @param {string} mode drill | weak | pbq | mock
  */
-export function buildQueue(state, content, { mode = "drill", size = 25, now = Date.now() } = {}) {
+export function buildQueue(state, content, { mode = "drill", size = 25, now = Date.now(), policy = "current" } = {}) {
   const pace = PACE[state.profile.pace] || PACE.bootcamp;
   const queue = [];
 
@@ -246,6 +246,44 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
 
   if (mode === "weak") return queue.slice(0, size);
 
+  // 2 and 3 under the gain policy: one pool of due and unseen items, ranked by
+  // expected exam points per minute, recall held to the same floor and cap.
+  if (policy === "gain") {
+    const taken = new Set(queue.map((e) => e.item?.id).filter(Boolean));
+    const ctx = gainContext(state, content, now);
+    const pool = content.items
+      .filter((it) => it.objective && !taken.has(it.id) &&
+        (!seen(state, it.id) || (itemState(state, it.id)?.fsrs?.due ?? Infinity) <= now))
+      .map((it) => ({ it, g: expectedGain({ item: it }, state, content, ctx).perMinute + Math.random() * 1e-6 }));
+    const slots = Math.max(0, size - queue.length);
+    const cap = Math.max(0, Math.max(1, Math.round(size * pace.maxRecallShare)) - queue.filter((e) => e.item?.type === "recall").length);
+    const floor = Math.min(cap, slots >= 4 ? 1 : 0);
+    // Greedy, with a diminishing return per objective: each item already
+    // picked from an objective discounts the next by 30%. Items in one
+    // objective share what they teach, so the fourth is worth less than the
+    // first, and the session interleaves instead of drilling one drawer.
+    const fromObjective = {};
+    for (const q of queue) { const o = (q.item || q.pbq)?.objective; if (o) fromObjective[o] = (fromObjective[o] || 0) + 1; }
+    const worth = (x) => x.g * Math.pow(0.7, fromObjective[x.it.objective] || 0);
+    const take = (x) => { picked.push(x.it); fromObjective[x.it.objective] = (fromObjective[x.it.objective] || 0) + 1; };
+    const picked = [];
+    const recall = pool.filter((x) => x.it.type === "recall").sort((a, b) => b.g - a.g);
+    recall.slice(0, floor).forEach(take);
+    let left = pool.filter((x) => !picked.includes(x.it));
+    while (picked.length < slots && left.length) {
+      const recallFull = picked.filter((x) => x.type === "recall").length >= cap;
+      let best = null;
+      for (const x of left) if (!(recallFull && x.it.type === "recall") && (!best || worth(x) > worth(best))) best = x;
+      if (!best) break;
+      take(best);
+      left = left.filter((x) => x !== best);
+    }
+    for (const it of picked) {
+      queue.push({ kind: "item", item: it, reason: seen(state, it.id) ? "Due for review" : it.type === "recall" ? "Vocabulary" : "New coverage" });
+    }
+    return keepPairsAdjacent(shuffle(queue)).slice(0, size);
+  }
+
   // 2. Items already seen whose own card is due.
   const reviewSlots = Math.round(size * pace.mixReview);
   for (const it of pickDueItems(state, content, reviewSlots, now)) {
@@ -287,6 +325,136 @@ export function buildMock(content, { pbqCount = 5, total = 90 } = {}) {
     ...pbqs.map((p) => ({ kind: "pbq", pbq: p })),
     ...shuffle(picked).map((i) => ({ kind: "item", item: i })),
   ];
+}
+
+// --- what the queue optimises ------------------------------------------------
+//
+// Two functions, kept side by side so the difference is a diff and not a
+// paragraph. `currentPriority` is what the queue builder has always done,
+// written down as one score. `expectedGain` is what it should maximise:
+// expected scaled-score points at the exam date, per minute of study.
+
+/** Scaled points one exam question is worth below the pass line: 650 points over 75% of 90. */
+export const POINTS_PER_QUESTION = 650 / 0.75 / 90;
+const EXAM_QUESTIONS = 90;
+const PBQS_ON_EXAM = 4;
+// A revealed vocabulary card never appears on the exam. It is credited with a
+// quarter of a graded item's transfer: it helps you read a stem, it is not one.
+const RECALL_TRANSFER = 0.25;
+// Seconds per answer by kind. The real log's median for a graded answer is 39 s
+// (62 timed rows, 2026-10-13); recall and PBQ are not timed yet.
+const SECONDS = { mcq: 40, "mcq-multi": 60, recall: 15, pbq: 480, mentor: 60 };
+const SEVERITY = { high: 1, medium: 0.7, low: 0.4 };
+
+/**
+ * What the queue builder maximises today, as one number per candidate. It is
+ * lexicographic: a tier, then a score inside the tier. Quotas sit outside it:
+ * the pace profile gives misconceptions 50% of a session, due items 20%, and
+ * new coverage the rest, with recall held between a floor of one and a cap.
+ */
+export function currentPriority(entry, state, content, now = Date.now()) {
+  const tier = entry.prereqRepair ? 5 : entry.contrastDrill ? 4 : entry.targetMisconception ? 3
+    : entry.item && state.items[entry.item.id]?.fsrs?.due <= now ? 2 : 1;
+  let score = 0;
+  if (tier >= 3) {
+    const d = mentor.due(state, content, now).find((x) => x.id === entry.targetMisconception);
+    score = d ? d.urgency : 0;                                   // overdue x severity x objective weight x hits
+  } else if (tier === 2) {
+    score = (now - state.items[entry.item.id].fsrs.due) / fsrs.DAY_MS;   // most overdue first
+  } else if (entry.item) {
+    const d = coverageDeficit(state, content)[content.domainOf[entry.item.objective]] || { deficit: 0, weight: 0.1 };
+    score = d.deficit * 10 + d.weight * 2;                         // under-studied heavy domain first
+  }
+  return tier * 1e6 + score;
+}
+
+/** Everything expectedGain needs that does not change between candidates. */
+export function gainContext(state, content, now = Date.now()) {
+  const days = state.profile.examDate ? Math.max(1, mentor.daysUntilExam(state, now)) : 30;
+  const examAt = now + days * fsrs.DAY_MS;
+  const perObjective = {};
+  for (const d of content.objectives.domains) {
+    for (const o of d.objectives) {
+      perObjective[o.id] = { questions: EXAM_QUESTIONS * d.weight / d.objectives.length, graded: 0, recall: 0, seen: 0, correct: 0 };
+    }
+  }
+  for (const it of content.items) {
+    const o = perObjective[it.objective];
+    if (!o) continue;
+    if (isGraded(it)) o.graded += 1; else o.recall += 1;
+    const s = state.items[it.id];
+    if (s?.seen && isGraded(it)) { o.seen += s.seen; o.correct += s.correct || 0; }
+  }
+  return { now, examAt, days, perObjective, pbqs: content.pbqs.length };
+}
+
+/**
+ * What this person would get right on this item's slice of the exam without
+ * remembering this item: their smoothed accuracy on the objective, lowered for
+ * a harder item. Memory of the item adds to it, it does not replace it.
+ */
+function baseRate(it, ctx) {
+  const o = ctx.perObjective[it.objective];
+  const prior = (o.correct + 2) / (o.seen + 4);
+  return Math.max(0.05, Math.min(0.9, prior * (1.15 - 0.075 * (it.difficulty || 3))));
+}
+
+/** Right on exam day either from understanding or from retained memory of the item. */
+const examProb = (base, memory) => 1 - (1 - base) * (1 - memory);
+
+/**
+ * Expected scaled-score points gained at the exam date by serving this
+ * candidate now, and the minutes it costs. An item stands for its share of
+ * its objective's exam questions; serving it moves the chance of getting that
+ * share right on exam day from where it would decay to, to where one more
+ * review leaves it, weighted by the chance of answering right now. Myopic on
+ * purpose: it assumes no further review, which is what ranks the item you are
+ * about to forget above the one you already hold.
+ */
+export function expectedGain(entry, state, content, ctx = gainContext(state, content)) {
+  const { now, examAt } = ctx;
+  let points = 0;
+  let seconds = SECONDS.mcq;
+  const it = entry.item;
+  if (it) {
+    const o = ctx.perObjective[it.objective];
+    if (o) {
+      const graded = isGraded(it);
+      // A graded item stands for its share of the objective's exam questions.
+      // A recall card is measured against all the objective's material and
+      // credited a quarter of that, so a lone card cannot stand for a whole objective.
+      const share = graded ? o.questions / Math.max(1, o.graded)
+        : (o.questions / Math.max(1, o.graded + o.recall)) * RECALL_TRANSFER;
+      const s = state.items[it.id];
+      const base = baseRate(it, ctx);
+      const studied = !!s?.fsrs?.stability;
+      const card = studied ? s.fsrs : fsrs.newCard();
+      const memNow = studied ? fsrs.currentRetrievability(card, now) : 0;
+      const memExam = studied ? fsrs.currentRetrievability(card, examAt) : 0;
+      const pNow = examProb(base, memNow);                         // the chance of answering right now
+      const opts = { now, desiredRetention: state.profile.desiredRetention };
+      const memAfter = pNow * fsrs.currentRetrievability(fsrs.review(card, fsrs.RATING.GOOD, opts), examAt)
+        + (1 - pNow) * fsrs.currentRetrievability(fsrs.review(card, fsrs.RATING.AGAIN, opts), examAt);
+      points += share * Math.max(0, examProb(base, memAfter) - examProb(base, memExam)) * POINTS_PER_QUESTION;
+      seconds = SECONDS[it.type] || SECONDS.mcq;
+    }
+  }
+  if (entry.pbq) {
+    const best = (state.pbq[entry.pbq.id]?.best || 0) / 100;
+    points += (PBQS_ON_EXAM / Math.max(1, ctx.pbqs)) * PBQ_WEIGHT * (1 - best) * 0.3 * POINTS_PER_QUESTION;
+    seconds = entry.pbq.targetSeconds || SECONDS.pbq;
+  }
+  if (entry.kind === "mentor") seconds = SECONDS.mentor;
+  const mc = entry.targetMisconception && state.misconceptions[entry.targetMisconception];
+  if (mc && !mc.retired) {
+    // An open misconception drags its objective by up to 12% per unit of
+    // severity until it retires; one clean pass is one step of `needed`.
+    const def = content.misconceptions[entry.targetMisconception];
+    const o = def && ctx.perObjective[def.objective];
+    if (o) points += o.questions * POINTS_PER_QUESTION * 0.12 * (SEVERITY[def.severity] ?? 0.7) / (def.retireAfter ?? 2);
+  }
+  const minutes = seconds / 60;
+  return { points, minutes, perMinute: points / minutes };
 }
 
 // --- readiness -------------------------------------------------------------
