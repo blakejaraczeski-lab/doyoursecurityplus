@@ -48,7 +48,7 @@ def blocks(c):
 | Multiple choice | {c['mcq']} original items, every distractor mapped to a misconception |
 | Multiple select | {c['multi']} "choose two/three" items, scored all or nothing like the exam |
 | Derived discrimination | {c['derived']} generated from imported vocabulary: "which term is being described", with sibling terms as distractors |
-| Recall vocabulary | {c['recall']} imported cards, at least one per session and never more than about 12% |
+| Recall vocabulary | {c['recall']} imported cards, served only when one out-ranks a graded question, and never more than about 12% |
 | PBQs | {c['pbqs']} across {c['engines']} engines, graded per subtask with partial credit |
 | Glossary | {c['glossary']} acronyms from CompTIA's own list, expanded inline wherever one appears in a question |
 | Prerequisite edges | {c['edges']} authored dependencies between misconceptions, so the queue can route backward |"""

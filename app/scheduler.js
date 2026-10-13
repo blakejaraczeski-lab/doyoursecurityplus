@@ -250,7 +250,9 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
   if (mode === "weak") return queue.slice(0, size);
 
   // 2 and 3 under the gain policy: one pool of due and unseen items, ranked by
-  // expected exam points per minute, recall held to the same floor and cap.
+  // expected exam points per minute. Recall cards compete in the same pool and
+  // are served only when one out-ranks the graded alternatives; there is no
+  // floor forcing one in, and the pace profile's cap still bounds them.
   if (policy === "gain") {
     const taken = new Set(queue.map((e) => e.item?.id).filter(Boolean));
     const ctx = gainContext(state, content, now);
@@ -260,7 +262,6 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
       .map((it) => ({ it, g: expectedGain({ item: it }, state, content, ctx).perMinute + Math.random() * 1e-6 }));
     const slots = Math.max(0, size - queue.length);
     const cap = Math.max(0, Math.max(1, Math.round(size * pace.maxRecallShare)) - queue.filter((e) => e.item?.type === "recall").length);
-    const floor = Math.min(cap, slots >= 4 ? 1 : 0);
     // Greedy, with a diminishing return per objective: each item already
     // picked from an objective discounts the next by 30%. Items in one
     // objective share what they teach, so the fourth is worth less than the
@@ -270,9 +271,7 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
     const worth = (x) => x.g * Math.pow(0.7, fromObjective[x.it.objective] || 0);
     const take = (x) => { picked.push(x.it); fromObjective[x.it.objective] = (fromObjective[x.it.objective] || 0) + 1; };
     const picked = [];
-    const recall = pool.filter((x) => x.it.type === "recall").sort((a, b) => b.g - a.g);
-    recall.slice(0, floor).forEach(take);
-    let left = pool.filter((x) => !picked.includes(x.it));
+    let left = pool;
     while (picked.length < slots && left.length) {
       const recallFull = picked.filter((x) => x.type === "recall").length >= cap;
       let best = null;

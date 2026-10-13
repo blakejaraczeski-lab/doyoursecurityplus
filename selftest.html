@@ -453,26 +453,26 @@ say('  <span class="dim">the same seed builds the same queue, so a failure here 
           `readiness reports the horizon the scheduler uses (${mentor.daysUntilExam(s, now)} days)`);
   }
 
-  // The recall floor and cap, across sizes and seeds.
+  // Recall competes on its merits: no floor forces a card in, the cap bounds it.
   {
     const cap = (size) => Math.max(1, Math.round(size * 0.12));   // bootcamp maxRecallShare
-    const seen = [];
-    let under = 0, over = 0;
+    let served = 0;
     for (const size of [4, 8, 12, 25, 40]) {
       for (let seed = 1; seed <= 4; seed++) {
         const q = withSeed(seed, () => buildQueue(fresh(), content, { mode: "drill", size, now }));
-        const n = q.filter((e) => e.item?.type === "recall").length;
-        if (n < 1) under++;
-        if (n > cap(size)) over++;
-        if (seed === 1) seen.push(`${size}:${n}/${cap(size)}`);
+        served += q.filter((e) => e.item?.type === "recall").length;
       }
     }
-    check(under === 0 && over === 0,
-          `vocabulary gets at least one card and never more than the cap (size:cards/cap ${seen.join(" ")})`,
-          `(${under} sessions under, ${over} over)`);
-    const q3 = withSeed(1, () => buildQueue(fresh(), content, { mode: "drill", size: 3, now }));
-    check(q3.filter((e) => e.item?.type === "recall").length === 0,
-          `a session with fewer than four new slots is all exam-shaped practice`);
+    check(served === 0, `while graded questions are available, no recall card is forced into a session (${served} served over 20 builds)`);
+    // Every graded item held and not due: recall is what is left, and it fills in up to the cap.
+    const held = fresh();
+    for (const it of content.items.filter(isGraded)) {
+      held.items[it.id] = { seen: 3, correct: 3, wrong: 0, lastSeen: now,
+        fsrs: { stability: 300, difficulty: 3, due: now + 200 * fsrs.DAY_MS, lastReview: now, reps: 3, lapses: 0, state: "review" } };
+    }
+    const q = withSeed(1, () => buildQueue(held, content, { mode: "drill", size: 25, now }));
+    const n = q.filter((e) => e.item?.type === "recall").length;
+    check(n > 0 && n <= cap(25), `with every graded item held, recall fills in and stays within the cap (${n} of at most ${cap(25)})`);
   }
 }
 

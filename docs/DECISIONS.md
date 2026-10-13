@@ -399,3 +399,16 @@ through a stub, parses the units, and runs the declared ExecStart with the
 declared environment as a real server, with a space in the data path to prove
 the quoting. What it cannot prove is systemd's own reading of the file; the
 first install on a real Linux machine is that test.
+
+## Recall loses its floor
+
+"Recall stays" gave vocabulary cards a floor of one per session. The replay
+of the real log then counted 62 recall answers, every one of them served
+while a graded question would have gained more per minute, and the floor was
+the rule that kept that happening under the gain policy. It is gone, at the
+person's request. Recall cards stay in the pool and compete like any item, so
+one is served only when it out-ranks the graded alternatives; the pace
+profile's cap still bounds them. In practice no recall card is served while
+graded questions are available, from a fresh state or the real one, and they
+fill in only once the graded work is held. The old policy, kept for
+comparison as `policy: "current"`, still has its floor.

@@ -62,7 +62,7 @@ confidently wrong some of the time, with no way to tell which time.
 | Multiple choice | 494 original items, every distractor mapped to a misconception |
 | Multiple select | 38 "choose two/three" items, scored all or nothing like the exam |
 | Derived discrimination | 82 generated from imported vocabulary: "which term is being described", with sibling terms as distractors |
-| Recall vocabulary | 546 imported cards, at least one per session and never more than about 12% |
+| Recall vocabulary | 546 imported cards, served only when one out-ranks a graded question, and never more than about 12% |
 | PBQs | 23 across 4 engines, graded per subtask with partial credit |
 | Glossary | 318 acronyms from CompTIA's own list, expanded inline wherever one appears in a question |
 | Prerequisite edges | 43 authored dependencies between misconceptions, so the queue can route backward |
@@ -313,7 +313,7 @@ graders, exercises the misconception loop end to end, asserts every blueprint
 topic is reached, checks every action in the templates has a handler, and
 builds queues under a seeded random: a contrast pair stays adjacent and in
 order, an open prerequisite is routed to first, no review lands past the exam
-date, and vocabulary gets its floor and never more than its cap. The
+date, and no vocabulary card is forced in while graded work is available. The
 headless runner then drives the real `serve.py` and the real app through the
 persistence story, each scenario on its own throwaway data directory: a stale
 save refused with 412 over HTTP and through the client, a corrupt `state.json`
