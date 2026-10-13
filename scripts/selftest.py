@@ -173,6 +173,7 @@ class DevTools:
         self.call("Page.navigate", url=url)
         if not self.wait_for(f"!window.__dyspOld && location.href.startsWith({json.dumps(url)}) && document.readyState === 'complete'", seconds):
             raise RuntimeError(f"page did not load: {url}")
+        self.call("Page.bringToFront")   # after idle, headless Chrome on Linux hides the tab, then paints one frame a second
 
     def close(self):
         self.sock.close()
@@ -755,6 +756,7 @@ def scenario_keyboard(rep, tmp, browser):
         enter()
         enter()
         focus("[data-action=multi-toggle][data-opt=a]")
+        time.sleep(0.25)   # each answer above announces on its own 30 ms timer; let every one land before clearing for good
         clear_said()
         space()
         rep.check(active().startswith("BUTTON.opt.chosen[action=multi-toggle,opt=a]")
@@ -1280,9 +1282,13 @@ def scenario_stress(rep, tmp, browser):
           } return n; })()""")
         tab.evaluate("[...document.querySelectorAll('select[data-acl]')].at(-1).focus()")
         lost = 0
+        # Tabbing past the last control leaves the document (headless Linux Chrome parks on body for
+        # one press before wrapping); that stop is the exit, not lost focus, and a page must not trap it.
         for _ in range(40):
+            leaving = tab.evaluate("(() => { const t = [...document.querySelectorAll('a[href],button,input,select,textarea,[tabindex]:not([tabindex=\"-1\"])')]"
+                                   ".filter((e) => !e.disabled && e.offsetParent); return document.activeElement === t.at(-1); })()")
             press("Tab", vk=9)
-            if not focus_ok():
+            if not leaving and not focus_ok():
                 lost += 1
         rules = tab.evaluate("App.answers['pbq-acl-001'].rules.length")
         lines = tab.evaluate("document.querySelectorAll('#acl-readout li').length")
