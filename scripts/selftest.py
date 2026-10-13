@@ -1029,6 +1029,178 @@ def scenario_latency(rep, tmp, browser, rows=3000, assert_limits=True):
         return results
 
 
+class Server:
+    """A throwaway serve.py that can be killed and restarted on the same port and data."""
+
+    def __init__(self, data):
+        self.data, self.port, self.proc = data, free_port(), None
+        if "DYSP_DATA" not in {**os.environ, "DYSP_DATA": str(data)}:
+            raise RuntimeError("refusing to start a server without DYSP_DATA")
+
+    def start(self):
+        self.proc = subprocess.Popen([sys.executable, str(ROOT / "serve.py"), str(self.port)],
+                                     env={**os.environ, "DYSP_DATA": str(self.data)},
+                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        raw = wait_http(f"http://127.0.0.1:{self.port}/api/health")
+        if not raw or json.loads(raw)["stateFile"] != str(pathlib.Path(self.data) / "state.json"):
+            raise RuntimeError("refusing to proceed: the server is not on the throwaway directory")
+        return f"http://127.0.0.1:{self.port}"
+
+    def stop(self):
+        if self.proc and self.proc.poll() is None:
+            self.proc.kill()
+            self.proc.wait(timeout=5)
+
+
+def scenario_stress(rep, tmp, browser):
+    """Freiberg's test: every control under input nobody designs for."""
+    rep.head("Stress: input nobody designs for")
+    data = pathlib.Path(tmp) / "stress"
+    data.mkdir()
+    server = Server(data)
+    base = server.start()
+    tab = browser.tab
+    t_start = time.time()
+    try:
+        def press(k, code=None, vk=0, text=None):
+            ev = dict(key=k, code=code or k, windowsVirtualKeyCode=vk)
+            if text:
+                ev["text"] = text
+            tab.call("Input.dispatchKeyEvent", type="keyDown", **ev)
+            tab.call("Input.dispatchKeyEvent", type="keyUp", **ev)
+        enter = lambda: press("Enter", vk=13, text="\r")
+        hide = lambda: tab.evaluate("Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' });"
+                                    "document.dispatchEvent(new Event('visibilitychange'));"
+                                    "Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'visible' });")
+        def settle():
+            hide()
+            time.sleep(0.8)
+        rows = lambda kind=None: [json.loads(l) for l in (data / "reviews.jsonl").read_text().splitlines()
+                                  if l.strip() and (kind is None or json.loads(l)["kind"] == kind)] if (data / "reviews.jsonl").exists() else []
+        size = lambda: (data / "state.json").stat().st_size if (data / "state.json").exists() else 0
+        focus_ok = lambda: tab.evaluate("document.activeElement !== document.body && document.contains(document.activeElement)")
+        n0 = len(tab.errors)
+        tab.navigate(f"{base}/")
+        rep.check(tab.wait_for(APP_READY), "the app boots")
+
+        # 1. Enter mashed twenty times on a submitted question, multiple choice then PBQ.
+        tab.evaluate("{ const mc = App.content.items.filter((i) => i.type === 'mcq');"
+                     "App.queue = mc.slice(0, 3).map((item) => ({ kind: 'item', item, reason: '' })); App.idx = 0; App.answer = null;"
+                     "document.querySelector('[data-action=nav][data-section=drill]').click() }")
+        press("a", vk=65, text="a")
+        settle()
+        before_rows, before_size = len(rows("item")), size()
+        for _ in range(20):
+            enter()
+        settle()
+        rep.check(tab.evaluate("App.idx") == 1 and tab.evaluate("App.answer") is None and len(rows("item")) == before_rows == 1,
+                  "Enter x20 on an answered question moves on once and answers nothing", f"(idx {tab.evaluate('App.idx')}, {len(rows('item'))} rows)")
+        rep.check(abs(size() - before_size) <= 16, f"the state document did not grow ({before_size} to {size()} bytes)")
+        rep.check(focus_ok(), "focus is on a control afterwards", f"({tab.evaluate('document.activeElement.tagName')})")
+
+        tab.evaluate("App.queue = ['pbq-order-001', 'pbq-order-002'].map((id) => ({ kind: 'pbq', pbq: App.content.pbqsById[id], reason: '' }));"
+                     "App.idx = 0; App.answer = null; App.graded = null; App.answers = {}; App.answers['pbq-order-001'] = { order: [], held: null };"
+                     "document.querySelector('[data-action=nav][data-section=drill]').click()")
+        press("a", vk=65, text="a"); press("1", code="Digit1", vk=49, text="1")
+        before_pbq = len(rows("pbq"))
+        for _ in range(20):
+            enter()
+        settle()
+        rep.check(len(rows("pbq")) == before_pbq + 1 and tab.evaluate("App.idx") == 1 and tab.evaluate("!App.graded"),
+                  "Enter x20 on a PBQ submits it once and never submits the next one blank",
+                  f"({len(rows('pbq')) - before_pbq} PBQ rows, idx {tab.evaluate('App.idx')})")
+
+        # 2. A mock submitted twice in one frame.
+        tab.evaluate("window.confirm = () => true; document.querySelector('[data-action=nav][data-section=mock]').click();"
+                     "document.querySelector('[data-action=mock-start][data-format=short]').click()")
+        items_before, mocks_before = len(rows("item")), len(rows("mock"))
+        tab.evaluate("{ document.querySelector('[data-action=mock-review]').click();"
+                     "const b = document.querySelector('[data-action=mock-submit]');"
+                     "b.dispatchEvent(new MouseEvent('click', { bubbles: true })); b.dispatchEvent(new MouseEvent('click', { bubbles: true })); }")
+        settle()
+        n_items = tab.evaluate("App.mock.items.filter((e) => e.kind === 'item').length")
+        rep.check(len(rows("mock")) == mocks_before + 1 and len(rows("item")) == items_before + n_items and tab.evaluate("App.screen") == "mock-result",
+                  f"a mock submitted twice in one frame is scored once: 1 mock row, {n_items} answer rows",
+                  f"({len(rows('mock')) - mocks_before} mock rows, {len(rows('item')) - items_before} answer rows)")
+        tab.evaluate("document.querySelector('[data-action=mock-done]').click()")
+
+        # 3. A chip held, the viewport narrowed to 375 px, then placed.
+        tab.evaluate("App.lab = null; document.querySelector('[data-action=nav][data-section=lab]').click();"
+                     "document.querySelector('[data-action=open-pbq][data-id=pbq-order-003]').click()")
+        cfg_mode = tab.evaluate("App.lab.config.mode")
+        press("a", vk=65, text="a")
+        tab.call("Emulation.setDeviceMetricsOverride", width=375, height=740, deviceScaleFactor=1, mobile=True)
+        time.sleep(0.3)
+        held = tab.evaluate("App.answers['pbq-order-003'].held")
+        press("1", code="Digit1", vk=49, text="1")
+        placed = tab.evaluate("JSON.stringify(App.answers['pbq-order-003'])")
+        wide = tab.evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth + 1")
+        tab.call("Emulation.clearDeviceMetricsOverride")
+        rep.check(held and held in placed and not tab.evaluate("App.answers['pbq-order-003'].held"),
+                  f"a chip held across a resize to 375 px is still held and places ({cfg_mode})", f"({placed[:120]})")
+        rep.check(not wide, "and the page does not scroll sideways at 375 px")
+        rep.check(focus_ok(), "focus is on a control afterwards")
+
+        # 4. Eight ACL rules, every select cycled at full speed, then Tab looped from the last cell.
+        tab.evaluate("App.lab = null; document.querySelector('[data-action=nav][data-section=lab]').click();"
+                     "document.querySelector('[data-action=open-pbq][data-id=pbq-acl-001]').click();"
+                     "for (let i = 0; i < 8; i++) document.querySelector('[data-action=acl-add]').click();")
+        changes = tab.evaluate("""(() => { let n = 0;
+          for (const sel of document.querySelectorAll('select[data-acl]')) {
+            for (const o of [...sel.options, sel.options[0]]) { sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); n++; }
+          } return n; })()""")
+        tab.evaluate("[...document.querySelectorAll('select[data-acl]')].at(-1).focus()")
+        lost = 0
+        for _ in range(40):
+            press("Tab", vk=9)
+            if not focus_ok():
+                lost += 1
+        rules = tab.evaluate("App.answers['pbq-acl-001'].rules.length")
+        lines = tab.evaluate("document.querySelectorAll('#acl-readout li').length")
+        rep.check(rules == 8 and lines == 9, f"{changes} select changes across 8 rules: 8 rules kept, the readout shows 8 and the implicit deny",
+                  f"({rules} rules, {lines} lines)")
+        rep.check(lost == 0, "40 Tabs from the last cell never drop focus to the page", f"({lost} lost)")
+
+        # 5. The exam date set, cleared and set again inside one session.
+        tab.evaluate("document.querySelector('[data-action=nav][data-section=settings]').click()")
+        for value in ("2026-12-01", "", "2026-12-01"):
+            tab.evaluate(f"{{ const d = document.getElementById('f-date'); d.value = {json.dumps(value)}; d.dispatchEvent(new Event('change', {{ bubbles: true }})) }}")
+        settle()
+        on_disk = json.loads((data / "state.json").read_text())["profile"]["examDate"]
+        tab.evaluate("document.querySelector('[data-action=nav][data-section=drill]').click()")
+        rep.check(on_disk == "2026-12-01" and tab.evaluate("App.state.profile.examDate") == "2026-12-01"
+                  and not tab.evaluate("!!document.querySelector('.exam-bar input')"),
+                  "an exam date set, cleared and set again ends set, on disk, and the drill stops asking")
+        rep.check(not tab.errors[n0:], "no console error so far", "; ".join(tab.errors[n0:])[:200])
+
+        # 6. The server killed mid-session, twelve answers, the server back, the tab hidden.
+        n1 = len(tab.errors)
+        tab.evaluate("{ const mc = App.content.items.filter((i) => i.type === 'mcq').slice(10, 22);"
+                     "App.queue = mc.map((item) => ({ kind: 'item', item, reason: '' })); App.idx = 0; App.answer = null;"
+                     "document.querySelector('[data-action=nav][data-section=drill]').click() }")
+        before = len(rows("item"))
+        server.stop()
+        for _ in range(12):
+            press("b", vk=66, text="b")
+            enter()
+        offline = tab.evaluate("JSON.parse(localStorage.getItem('dysp.v1.outbox') || '[]').filter((r) => r.kind === 'item').length")
+        server.start()
+        settle()
+        poll(lambda: len(rows("item")) >= before + 12, 6)
+        logged = rows("item")[before:]
+        ids = [r["id"] for r in logged]
+        rep.check(offline == 12, f"while the server was down, 12 answers waited in the outbox ({offline})")
+        rep.check(len(logged) == 12 and len(set((r["id"], r["at"]) for r in logged)) == 12,
+                  "after it came back and the tab was hidden: 12 rows, none duplicated, none lost", f"({len(logged)} rows)")
+        state = json.loads((data / "state.json").read_text())
+        rep.check(all(state["items"].get(i, {}).get("seen") for i in ids),
+                  "and the state document on disk holds all 12 answers")
+        rep.check(not tab.errors[n1:], "no console error", "; ".join(tab.errors[n1:])[:200])
+        print(f"  stress wall time {time.time() - t_start:.1f}s")
+    finally:
+        server.stop()
+
+
 def main():
     chrome = next((c for c in CANDIDATES if c and pathlib.Path(c).exists()), None)
     if not chrome:
@@ -1050,6 +1222,7 @@ def main():
         "backup": lambda: scenario_backup(rep, tmp, browser),
         "logs": lambda: scenario_logs(rep, tmp),
         "latency": lambda: scenario_latency(rep, tmp, browser),
+        "stress": lambda: scenario_stress(rep, tmp, browser),
         "latency-10000": lambda: scenario_latency(rep, tmp, browser, 10000, assert_limits=False),
     }
     only = [a for a in sys.argv[1:] if a in scenarios]   # python3 scripts/selftest.py screens

@@ -347,3 +347,15 @@ rule cannot pass without them; with today's uncertainty and no mock the bar
 was 86% raw, which no amount of study reaches and which would only have said
 "take a mock". Log rows carry a session mark and timing so the estimate can
 later be checked against the hours that actually pass.
+
+## Enter submits only an answered PBQ
+
+Enter on a PBQ submits it, and Enter on a graded PBQ continues. Mashed
+twenty times, the second press continued and the third submitted the next
+PBQ blank, which scored zero and banked every misconception on it as a miss:
+a key held a moment too long wrote false corrections into the bank. Enter now
+submits only a sheet with something on it, and a held key's repeats are
+ignored. The stress scenario also found that a key pressed with nothing
+focused left focus on the page after the render, so the next Tab started from
+the top; with nothing to restore, focus now goes to the verdict if one just
+landed, else to the screen.

@@ -271,7 +271,12 @@ const focusKey = (el) =>
   el && el !== document.body ? `${el.tagName}|${el.id || ""}|${JSON.stringify(el.dataset)}` : null;
 
 function restoreFocus(key) {
-  if (!key) return;
+  // Nothing had focus (a key pressed on the page itself): put it where the
+  // next Tab makes sense, the verdict if one just landed, else the screen.
+  if (!key) {
+    (document.querySelector(".verdict-banner") || document.getElementById("main"))?.focus({ preventScroll: true });
+    return;
+  }
   const [tag, id, data] = key.split("|");
   const same = [...document.querySelectorAll(tag.toLowerCase())]
     .find((e) => (e.id || "") === id && JSON.stringify(e.dataset) === data);
@@ -847,7 +852,12 @@ document.addEventListener("keydown", (e) => {
     if (tag === "BUTTON" && (e.key === "Enter" || e.key === " ")) return;
     if (e.key === "Enter") {
       e.preventDefault();
-      if (App.graded) ACTIONS["pbq-continue"](); else submitPbq();
+      // A held or mashed Enter must not carry on into the next PBQ and score
+      // it blank: repeats are ignored, and Enter submits only an answered sheet.
+      if (e.repeat) return;
+      if (App.graded) ACTIONS["pbq-continue"]();
+      else if (pbqAnswered(answersFor(pbq))) submitPbq();
+      else return;
       return render();
     }
     if (!App.graded && orderKey(e, pbq)) { e.preventDefault(); return render(); }

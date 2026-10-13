@@ -321,7 +321,13 @@ screens under four conditions, the server down, an empty log, a PBQ whose
 kind has no engine, and a bank too small for a mock block, and fails on a
 missing heading, a blank panel or anything thrown. Last, it presses real
 keys and reads Chrome's accessibility tree: focus survives every render,
-every control under main has a name, and a state change is announced. It refuses to run against
+every control under main has a name, and a state change is announced. The
+stress scenario abuses the real app and server: Enter mashed on a submitted
+question and a PBQ, a mock submitted twice in one frame, a chip held across a
+resize to 375 px, eight ACL rules cycled at full speed and Tab-looped, the exam
+date set and cleared and set, and the server killed for twelve answers; no
+error, no duplicate or lost row, focus on a control. The latency scenario
+times every repeated action on a heavy record with the CPU slowed fourfold. It refuses to run against
 any server that does not report a throwaway directory. Without Chrome the page is
 manual: open http://localhost:8777/selftest.html, which also lists the by-hand
 checks from the interface skill.
