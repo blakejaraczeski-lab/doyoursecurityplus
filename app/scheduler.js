@@ -304,6 +304,46 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
   return keepPairsAdjacent(shuffle(queue)).slice(0, size);
 }
 
+/** Does this queue entry test misconception `mc`? */
+const entryTests = (e, mc) =>
+  e.targetMisconception === mc ||
+  !!e.item?.options?.some((o) => o.misconception === mc || o.missedMisconception === mc) ||
+  !!e.pbq?.subtasks?.some((t) => t.misconception === mc);
+
+/** How many answers must pass before a fresh correction is tested again. */
+export const RESERVE_GAP = 3;
+
+/**
+ * A miss just banked these misconceptions. The session queue was built before
+ * the miss, so it can hold another question on the same belief right behind
+ * the one just failed, which tests whether the correction was read seconds
+ * ago, not whether it took. Any such entry within the next RESERVE_GAP
+ * positions moves to just past the gap, or leaves the session if there is no
+ * room: it is not lost, its misconception is scheduled on its own relearning
+ * step. A contrast pair is left alone; arriving together is its purpose.
+ * Returns how many entries moved or left.
+ */
+export function spaceAfterMiss(queue, idx, banked) {
+  if (!banked?.length) return 0;
+  const tests = (e) => !e.contrastDrill && banked.some((mc) => entryTests(e, mc));
+  // One pass, rebuilding what follows the current question: the first
+  // RESERVE_GAP places go to entries that do not test the fresh correction,
+  // in their original order; anything that does waits, then follows them.
+  const rest = queue.slice(idx + 1);
+  const ahead = [], waiting = [];
+  let k = 0;
+  while (ahead.length < RESERVE_GAP && k < rest.length) {
+    if (tests(rest[k])) waiting.push(rest[k]); else ahead.push(rest[k]);
+    k += 1;
+  }
+  if (!waiting.length) return 0;
+  // With nothing left to put between them, the waiting entries leave the
+  // session rather than coming straight back.
+  const after = ahead.length < RESERVE_GAP ? [] : waiting;
+  queue.splice(idx + 1, rest.length, ...ahead, ...after, ...rest.slice(k));
+  return waiting.length;
+}
+
 /**
  * Build a mock exam: PBQs front loaded, then multiple choice, up to 90 items.
  *

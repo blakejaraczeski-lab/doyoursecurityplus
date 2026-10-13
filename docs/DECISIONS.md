@@ -412,3 +412,19 @@ profile's cap still bounds them. In practice no recall card is served while
 graded questions are available, from a fresh state or the real one, and they
 fill in only once the graded work is held. The old policy, kept for
 comparison as `policy: "current"`, still has its floor.
+
+## A fresh correction waits three answers before it is tested again
+
+The replay counted 7 answers, 8.8 minutes, where a misconception was tested
+again within two answers of being banked: the session queue is built before
+the miss, so it could hold another question on the same belief right behind
+the one just failed. That measures whether the correction was read seconds
+ago, not whether it took. `spaceAfterMiss` now runs after every drill miss:
+in one pass it rebuilds what follows, giving the next three places to
+questions that do not test the fresh correction and putting any that do
+after them. With fewer than three questions left to put between them, those
+questions leave the session; nothing is lost, because the misconception is
+scheduled on its own relearning step and returns on a different question.
+A contrast pair is exempt, since arriving together is its purpose. The first
+version moved one entry at a time and looped forever when a moved entry slid
+back into the window; the self test hung on it, which is how it was found.

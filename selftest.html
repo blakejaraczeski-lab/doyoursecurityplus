@@ -131,7 +131,7 @@
 import { loadContent, isGraded } from "./app/content.js";
 import { gradePbq } from "./app/grade.js";
 import * as mentor from "./app/mentor.js";
-import { buildQueue, buildMock, readiness, coverageDeficit, currentPriority, expectedGain, gainContext, studyPlan, examForecast, hoursToReady, PBQ_WEIGHT, POINTS_PER_QUESTION } from "./app/scheduler.js";
+import { buildQueue, buildMock, readiness, coverageDeficit, currentPriority, expectedGain, gainContext, studyPlan, examForecast, hoursToReady, spaceAfterMiss, RESERVE_GAP, PBQ_WEIGHT, POINTS_PER_QUESTION } from "./app/scheduler.js";
 import { DEFAULT_STATE, pruneOrphans, applyItemReview } from "./app/state.js";
 import { calibrationOf, todayOf, minutesOf } from "./app/reviews.js";
 import * as fsrs from "./app/fsrs.js";
@@ -581,6 +581,24 @@ say("<b>The mock measures the blueprint, and the forecast is about exam day</b>"
   ]);
   check(m.sessions.length === 3 && Math.abs(m.total - (0.5 + 5 + 7 + 20)) < 1e-9,
         `time is counted per session from the log: ${m.sessions.map((x) => x.minutes.toFixed(1)).join(" + ")} = ${m.total.toFixed(1)} min`);
+}
+
+say("");
+say("<b>A fresh correction is not retested within the next answers</b>");
+{
+  const mc = "salting-purpose";
+  const testing = content.items.filter((i) => isGraded(i) && i.options.some((o) => o.misconception === mc));
+  const other = content.items.filter((i) => isGraded(i) && !i.options.some((o) => o.misconception === mc)).slice(0, 6);
+  const e = (item, extra = {}) => ({ kind: "item", item, reason: "", ...extra });
+  const q = [e(testing[0]), e(testing[1]), e(testing[2]), e(other[0], { contrastDrill: { index: 0, of: 2 }, targetMisconception: mc }), e(other[1]), e(other[2]), e(other[3]), e(other[4])];
+  const moved = spaceAfterMiss(q, 0, [mc]);
+  const near = q.slice(1, 1 + RESERVE_GAP).filter((x) => !x.contrastDrill && x.item.options.some((o) => o.misconception === mc));
+  check(moved === 2 && near.length === 0 && q.length === 8 && q.indexOf(q.find((x) => x.item === testing[1])) > RESERVE_GAP,
+        `after a miss, the next ${RESERVE_GAP} answers hold no other question on the same belief; ${moved} moved later, none lost`);
+  check(q.slice(1, 1 + RESERVE_GAP).some((x) => x.contrastDrill), `a contrast pair is left where it is`);
+  const short = [e(testing[0]), e(testing[1])];
+  check(spaceAfterMiss(short, 0, [mc]) === 1 && short.length === 1,
+        `with no room left in the session, the question leaves it; its correction returns on its own schedule`);
 }
 
 say("");

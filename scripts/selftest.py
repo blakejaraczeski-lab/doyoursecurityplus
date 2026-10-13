@@ -713,8 +713,12 @@ def scenario_keyboard(rep, tmp, browser):
 
         # One single-select and one multi-select item, taken from the bank
         # rather than from the random queue, which need not hold a choose-two.
-        tab.evaluate("App.queue = ['mcq', 'mcq-multi'].map((t) => ({ kind: 'item', item: App.content.items.find((i) => i.type === t), reason: '' }));"
-                     "App.idx = 0; document.querySelector('[data-action=nav][data-section=drill]').click()")
+        # Two questions on unrelated beliefs, so a miss on the first never spaces the second out.
+        tab.evaluate("{ const one = App.content.items.find((i) => i.type === 'mcq');"
+                     "const mcs = new Set(one.options.map((o) => o.misconception).filter(Boolean));"
+                     "const two = App.content.items.find((i) => i.type === 'mcq-multi' && !i.options.some((o) => mcs.has(o.misconception) || mcs.has(o.missedMisconception)));"
+                     "App.queue = [one, two].map((item) => ({ kind: 'item', item, reason: '' }));"
+                     "App.idx = 0; document.querySelector('[data-action=nav][data-section=drill]').click() }")
         nameless("drill, single select")
         focus("[data-action=answer][data-opt=b]")
         clear_said()
@@ -1162,6 +1166,19 @@ def scenario_stress(rep, tmp, browser):
                   "Enter x20 on a PBQ submits it once and never submits the next one blank",
                   f"({len(rows('pbq')) - before_pbq} PBQ rows, idx {tab.evaluate('App.idx')})")
 
+        # 1b. A deliberate miss: the next question on the same belief moves out of the way.
+        tab.evaluate("""{ const mc = 'salting-purpose';
+          const t = App.content.items.filter((i) => i.type === 'mcq' && i.options.some((o) => o.misconception === mc));
+          const o = App.content.items.filter((i) => i.type === 'mcq' && !i.options.some((x) => x.misconception === mc)).slice(0, 4);
+          App.queue = [t[0], t[1], ...o].map((item) => ({ kind: 'item', item, reason: '' })); App.idx = 0; App.answer = null;
+          document.querySelector('[data-action=nav][data-section=drill]').click();
+          const wrong = t[0].options.find((x) => x.misconception === mc);
+          document.querySelector(`[data-action=answer][data-opt=${wrong.id}]`).click(); }""")
+        spaced = tab.evaluate("App.queue.slice(1, 4).every((e) => !e.item.options.some((o) => o.misconception === 'salting-purpose'))"
+                              " && App.queue.some((e, i) => i > 3 && e.item.options.some((o) => o.misconception === 'salting-purpose'))")
+        rep.check(spaced, "a miss moves the next question on the same belief past the next three answers, without dropping it")
+        settle()   # its rows land before the next step takes a baseline
+
         # 2. A mock submitted twice in one frame.
         tab.evaluate("window.confirm = () => true; document.querySelector('[data-action=nav][data-section=mock]').click();"
                      "document.querySelector('[data-action=mock-start][data-format=short]').click()")
@@ -1231,22 +1248,26 @@ def scenario_stress(rep, tmp, browser):
                      "App.queue = mc.map((item) => ({ kind: 'item', item, reason: '' })); App.idx = 0; App.answer = null;"
                      "document.querySelector('[data-action=nav][data-section=drill]').click() }")
         before = len(rows("item"))
+        given0 = tab.evaluate("App.sessionStats.answered")
         server.stop()
         for _ in range(12):
             press("b", vk=66, text="b")
             enter()
+        # A miss can move a later question on the same belief out of a short
+        # session, so the count is what was actually answered, not the queue length.
+        given = tab.evaluate("App.sessionStats.answered") - given0
         offline = tab.evaluate("JSON.parse(localStorage.getItem('dysp.v1.outbox') || '[]').filter((r) => r.kind === 'item').length")
         server.start()
         settle()
-        poll(lambda: len(rows("item")) >= before + 12, 6)
+        poll(lambda: len(rows("item")) >= before + given, 6)
         logged = rows("item")[before:]
         ids = [r["id"] for r in logged]
-        rep.check(offline == 12, f"while the server was down, 12 answers waited in the outbox ({offline})")
-        rep.check(len(logged) == 12 and len(set((r["id"], r["at"]) for r in logged)) == 12,
-                  "after it came back and the tab was hidden: 12 rows, none duplicated, none lost", f"({len(logged)} rows)")
+        rep.check(given >= 10 and offline == given, f"while the server was down, all {given} answers waited in the outbox ({offline})")
+        rep.check(len(logged) == given and len(set((r["id"], r["at"]) for r in logged)) == given,
+                  f"after it came back and the tab was hidden: {given} rows, none duplicated, none lost", f"({len(logged)} rows)")
         state = json.loads((data / "state.json").read_text())
-        rep.check(all(state["items"].get(i, {}).get("seen") for i in ids),
-                  "and the state document on disk holds all 12 answers")
+        rep.check(ids and all(state["items"].get(i, {}).get("seen") for i in ids),
+                  f"and the state document on disk holds all {given} answers")
         rep.check(not tab.errors[n1:], "no console error", "; ".join(tab.errors[n1:])[:200])
         print(f"  stress wall time {time.time() - t_start:.1f}s")
     finally:

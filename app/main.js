@@ -5,7 +5,7 @@ import * as sync from "./sync.js";
 import * as reviews from "./reviews.js";
 import * as fsrs from "./fsrs.js";
 import * as mentor from "./mentor.js";
-import { buildQueue, buildMock, blockFit, FORMATS, PBQ_WEIGHT, SESSION_SIZE, weightOf, toScaled } from "./scheduler.js";
+import { buildQueue, buildMock, blockFit, spaceAfterMiss, FORMATS, PBQ_WEIGHT, SESSION_SIZE, weightOf, toScaled } from "./scheduler.js";
 import { gradePbq } from "./grade.js";
 import {
   drillHomeView, drillRunView, drillDoneView, labListView, labRunView,
@@ -450,6 +450,7 @@ function answerMcq(optId) {
     responseMs: App.questionShownAt ? Date.now() - App.questionShownAt : null,
   });
   tally(out, entry.item);
+  spaceAfterMiss(App.queue, App.idx, out.banked);
   App.answer = { chosen: optId, ...out };
   App.markedGuess = false;
   announce(out.correct ? "Correct." : `Not correct. The answer: ${entry.item.options.find((o) => o.correct)?.text || ""}`);
@@ -463,6 +464,7 @@ function answerMcqMulti() {
     responseMs: App.questionShownAt ? Date.now() - App.questionShownAt : null,
   });
   tally(out, entry.item);
+  spaceAfterMiss(App.queue, App.idx, out.banked);
   App.answer = out;
   App.markedGuess = false;
   announce(out.correct ? "Correct." : "Not correct. The exam scores a choose-two as all or nothing.");
@@ -502,6 +504,7 @@ function submitPbq() {
     seconds: App.pbqStartedAt ? Math.round((now - App.pbqStartedAt) / 1000) : null,
   });
   if (App.screen === "drill-run") {
+    spaceAfterMiss(App.queue, App.idx, banked);
     App.sessionStats.banked += banked.length;
     App.sessionStats.answered += 1;
     if (g.percent >= 80) App.sessionStats.correct += 1;
