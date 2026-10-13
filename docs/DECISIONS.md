@@ -428,3 +428,16 @@ scheduled on its own relearning step and returns on a different question.
 A contrast pair is exempt, since arriving together is its purpose. The first
 version moved one entry at a time and looped forever when a moved entry slid
 back into the window; the self test hung on it, which is how it was found.
+
+## A correction waits while its prerequisite is open
+
+The replay counted 2 answers, 5.7 minutes, served as the correction for a
+misconception whose prerequisite was still open. The routing had three
+leaks: it looked only at the first prerequisite; a second due correction on
+a prerequisite already routed this session was drilled on its own anyway;
+and a prerequisite with no unused question left let the correction through.
+Now any open prerequisite not yet routed is repaired first, by a question if
+one is left and by its correction card if not, and a correction whose every
+open prerequisite is already being repaired this session waits for a later
+session. No correction in the current graph has two prerequisites, so the
+first leak was latent; the other two were live.

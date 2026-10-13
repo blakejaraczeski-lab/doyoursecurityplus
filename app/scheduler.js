@@ -187,24 +187,29 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
     // itself still open, drilling the symptom is wasted: fix the thing holding
     // it up first, and say so.
     const blockers = mentor.blockedBy(d.id, state, content);
-    if (blockers.length && !routedBackward.has(blockers[0].id)) {
-      const b = blockers[0];
-      routedBackward.add(b.id);
-      // Exclude the item that exposed the dependency, same rule as every other
-      // path: being re-served the question you just failed teaches the question.
-      const pool = mentor.itemsFor(b.id, content, state, b.rec?.lastItem);
-      const pick = [...pool.mcqs, ...pool.pbqs][0];
-      if (pick) {
-        queue.push({
-          kind: pick.subtasks ? "pbq" : "item",
-          item: pick.subtasks ? undefined : pick,
-          pbq: pick.subtasks ? pick : undefined,
-          targetMisconception: b.id,
-          prereqRepair: { blocked: d.def.label, blocker: b.def.label, why: b.why },
-          reason: `Dependency first: ${b.def.label}`,
-        });
-        continue;
+    if (blockers.length) {
+      // Any open prerequisite not yet routed this session, not only the first.
+      const b = blockers.find((x) => !routedBackward.has(x.id));
+      if (b) {
+        routedBackward.add(b.id);
+        // Exclude the item that exposed the dependency, same rule as every other
+        // path: being re-served the question you just failed teaches the question.
+        const pool = mentor.itemsFor(b.id, content, state, b.rec?.lastItem);
+        const pick = [...pool.mcqs, ...pool.pbqs][0];
+        const repair = { blocked: d.def.label, blocker: b.def.label, why: b.why };
+        // With no unused question left on the prerequisite, its correction is
+        // served directly: the repair still comes before the symptom.
+        queue.push(pick
+          ? { kind: pick.subtasks ? "pbq" : "item", item: pick.subtasks ? undefined : pick,
+              pbq: pick.subtasks ? pick : undefined, targetMisconception: b.id, prereqRepair: repair,
+              reason: `Dependency first: ${b.def.label}` }
+          : { kind: "mentor", targetMisconception: b.id, prereqRepair: repair,
+              reason: `Dependency first: ${b.def.label}` });
       }
+      // Every open prerequisite is being repaired this session already, or was
+      // just queued: this correction waits for a later session rather than
+      // being drilled on top of something still open.
+      continue;
     }
 
     // Third strike: stop re-serving the explanation and force the distinction.
