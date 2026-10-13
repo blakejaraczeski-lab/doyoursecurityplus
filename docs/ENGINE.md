@@ -146,3 +146,24 @@ heaviest domain first, then severity:
 | 27 | 1.4 | medium | `salting-purpose` | 2 |
 | 28 | 1.4 | medium | `crl-vs-ocsp` | 2 |
 | 29 | 1.4 | low | `blockchain-ledger-properties` | 2 |
+
+## 5. The plan to the exam date
+
+On a copy of the real state, 48 days out, 498 graded items unseen:
+
+| Week | Answers | Minutes | New | Accuracy so far on the new items' objectives |
+|---|---|---|---|---|
+| 1 | 299 | 199 | 91 | 0.56 |
+| 2 | 303 | 202 | 91 | 0.59 |
+| 3 | 314 | 208 | 91 | 0.61 |
+| 4 | 349 | 234 | 91 | 0.60 |
+| 5 | 404 | 269 | 91 | 0.64 |
+| 6 | 302 | 202 | 43 | 0.73 |
+| 7 | 149 | 99 | 0 | review week |
+
+45 answers and 29 minutes a day; 24 hours in all. The weakest objectives come
+first, and the last week is review. The capped intervals this replaced put 751
+answers in week 7, 618 of them on one day. The last 30 days averaged 5.7
+answers a day, so the plan does not fit the pace and the drill screen says
+so: at that pace most of the unseen bank stays unseen, and the queue spends
+the time on the most valuable part.

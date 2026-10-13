@@ -6,7 +6,7 @@
 import { loadContent, isGraded } from "../app/content.js";
 import * as fsrs from "../app/fsrs.js";
 import * as mentor from "../app/mentor.js";
-import { DEFAULT_STATE } from "../app/state.js";
+import { DEFAULT_STATE, applyItemReview } from "../app/state.js";
 import { buildQueue, expectedGain, gainContext, SECONDS } from "../app/scheduler.js";
 
 const SESSION_GAP = 30 * 60e3;
@@ -167,12 +167,8 @@ export async function run({ rows, profile }) {
       out.fsrsPoints.push({ elapsed: (r.at - rec.fsrs.lastReview) / fsrs.DAY_MS, card: { ...rec.fsrs }, recalled: r.grade > 1 });
     }
 
-    // apply the answer exactly as the app records it
-    const s = (state.items[item.id] ||= { seen: 0, correct: 0, wrong: 0, lastSeen: 0, fsrs: fsrs.newCard() });
-    s.seen += 1; s.lastSeen = r.at;
-    if (r.grade >= fsrs.RATING.HARD) s.correct += 1; else s.wrong += 1;
-    s.fsrs = fsrs.review(s.fsrs, r.grade, { now: r.at, desiredRetention: state.profile.desiredRetention,
-                                            maxIntervalDays: mentor.daysUntilExam(state, r.at) });
+    // apply the answer through the app's own recording
+    applyItemReview(state, item.id, r.grade, r.at);
   }
   closeSession();
   out.state = state;
@@ -311,4 +307,39 @@ export async function retirementAudit({ rows }) {
 
   const ghosts = Object.entries(state.misconceptions).filter(([id, r]) => !r.retired && !content.misconceptions[id]).map(([id]) => id);
   return { open, gaps, ghosts };
+}
+
+// --- the plan on the real state ----------------------------------------------------
+
+export async function planReport({ rows }) {
+  const { studyPlan } = await import("../app/scheduler.js");
+  const { migrate } = await import("../app/state.js");
+  const content = await loadContent();
+  const res = await fetch("/api/state");
+  const state = migrate(res.ok ? (await res.json()).state : {});
+  const now = rows.length ? rows.at(-1).at : Date.now();
+  const p = studyPlan(state, content, now);
+  if (!p) return null;
+  const weeks = [];
+  for (let w = 0; w * 7 < p.plan.length; w++) {
+    const days = p.plan.slice(w * 7, w * 7 + 7);
+    const objs = days.flatMap((d) => d.objectives);
+    // How weak are the objectives this week introduces? Accuracy so far, exam weight attached.
+    const acc = {};
+    for (const it of content.items) {
+      const s = state.items[it.id];
+      if (!s?.seen || !isGraded(it)) continue;
+      (acc[it.objective] ||= { c: 0, n: 0 }).c += s.correct || 0; acc[it.objective].n += s.seen;
+    }
+    const rate = (o) => ((acc[o]?.c || 0) + 2) / ((acc[o]?.n || 0) + 4);
+    weeks.push({
+      week: w + 1, answers: days.reduce((a, d) => a + d.answers, 0), minutes: days.reduce((a, d) => a + d.minutes, 0),
+      fresh: objs.length, meanAccuracy: objs.length ? objs.reduce((a, o) => a + rate(o), 0) / objs.length : null,
+      meanWeight: objs.length ? objs.reduce((a, o) => a + (content.objectiveById[o]?.weight || 0), 0) / objs.length : null,
+    });
+  }
+  const item = rows.filter((r) => r.kind === "item");
+  const pace = item.filter((r) => r.at >= now - 30 * 86400000).length / 30;
+  return { days: p.days, unseen: p.unseen, newPerDay: p.newPerDay, perDay: p.perDay, peak: p.peak,
+           minutesPerDay: p.minutesPerDay, totalMinutes: p.totalMinutes, reviews: p.reviews, pace, weeks };
 }

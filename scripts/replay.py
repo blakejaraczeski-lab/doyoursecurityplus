@@ -119,16 +119,33 @@ def report_retirement(a, out):
         print(f"    ... and {len(g) - 12} more (python3 scripts/replay.py --json for all)")
 
 
+def report_plan(p):
+    if not p:
+        print("\nplan: no exam date set")
+        return
+    print(f"\nplan to the exam: {p['days']} days, {p['unseen']} graded items unseen, {p['newPerDay']} new a day "
+          f"until the review week")
+    print(f"  {p['perDay']} answers a day on average, peak {p['peak']}, {p['minutesPerDay']} min a day, "
+          f"{p['totalMinutes'] / 60:.0f} hours in all; the last 30 days averaged {p['pace']:.1f} answers a day")
+    print("  week  answers  minutes  new  accuracy of new objectives  exam weight of new")
+    for w in p["weeks"]:
+        acc = f"{w['meanAccuracy']:.2f}" if w["meanAccuracy"] is not None else "  - "
+        wt = f"{w['meanWeight']:.2f}" if w["meanWeight"] is not None else "  - "
+        print(f"  {w['week']:>4}  {w['answers']:>7}  {w['minutes']:>7}  {w['fresh']:>3}  {acc:>26}  {wt:>18}")
+
+
 if __name__ == "__main__":
     src = pathlib.Path(sys.argv[sys.argv.index("--data") + 1]) if "--data" in sys.argv else SOURCE
     t0 = time.time()
     out = run_in_page("run({ rows, profile })", src)
     out["fsrs"] = run_in_page("fitFsrs({ rows })", src)
     out["retirement"] = run_in_page("retirementAudit({ rows })", src)
+    out["plan"] = run_in_page("planReport({ rows })", src)
     if "--json" in sys.argv:
         print(json.dumps(out))
     else:
         report(out)
         report_fsrs(out["fsrs"])
         report_retirement(out["retirement"], out)
+        report_plan(out["plan"])
         print(f"\nreplayed in {time.time() - t0:.1f}s")

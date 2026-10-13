@@ -278,8 +278,11 @@ use is a quiet wait rather than a crash loop.
 
 FSRS (stability, difficulty, retrievability) with short relearning steps on
 top, so a correction you made 30 seconds ago does not wait a day. **Set your
-exam date**: the drill screen asks for it until you do. No review is ever
-scheduled past it; as the date approaches every interval compresses to fit.
+exam date**: the drill screen asks for it until you do. A correction is
+always retested before it. An item whose next review would fall after it is
+left alone, because FSRS only lets an interval run until recall falls to your
+target, so it is still above target on the day. The drill screen states the
+daily load the date implies and says so when your pace cannot carry it.
 Pace profiles: `bootcamp` (default), `balanced`, `longhaul`.
 
 ## Your own materials

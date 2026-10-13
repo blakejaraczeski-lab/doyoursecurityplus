@@ -330,17 +330,7 @@ setInterval(() => { tickTimer(); tickMock(); tickSync(); }, 1000);
 
 // --- recording ------------------------------------------------------------
 function recordItem(item, grade, now = Date.now(), { responseMs = null, conf = null, mock = false } = {}) {
-  const rec = (App.state.items[item.id] ||= {
-    seen: 0, correct: 0, wrong: 0, lastSeen: 0, fsrs: fsrs.newCard(),
-  });
-  rec.seen += 1;
-  rec.lastSeen = now;
-  if (grade >= fsrs.RATING.HARD) rec.correct += 1; else rec.wrong += 1;
-  rec.fsrs = fsrs.review(rec.fsrs, grade, {
-    now,
-    desiredRetention: App.state.profile.desiredRetention,
-    maxIntervalDays: mentor.daysUntilExam(App.state, now),
-  });
+  store.applyItemReview(App.state, item.id, grade, now);
   reviews.log({ at: now, kind: "item", id: item.id, grade,
                 ...(responseMs != null ? { ms: responseMs } : {}),
                 ...(conf != null ? { conf: conf ? "sure" : "guess" } : {}),

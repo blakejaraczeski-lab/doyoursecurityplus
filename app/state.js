@@ -8,7 +8,7 @@
 // Scratch mode: open the app with ?scratch=1 and it keeps its progress under a
 // separate key and never talks to the server. It exists because driving the real
 // app to test it writes real reviews into real study data.
-import { newCard } from "./fsrs.js";
+import { newCard, review, RATING } from "./fsrs.js";
 
 export const SCRATCH =
   typeof location !== "undefined" && new URLSearchParams(location.search).has("scratch");
@@ -126,6 +126,25 @@ export function flush(state) {
   try {
     localStorage.setItem(KEY, JSON.stringify(state));
   } catch {}
+}
+
+/**
+ * Record one answer on an item: counts, and its FSRS card. The one place an
+ * item review is applied, used by the app and by the replay of the log.
+ *
+ * No exam cap on the interval. FSRS sets it as the time until retrievability
+ * falls to the target, so a due date past the exam means the item is still
+ * above target on exam day without another minute spent on it. Capping it
+ * forced a redundant review of every long-interval card onto the day before
+ * the exam: 618 answers on one day in the plan for the real state.
+ */
+export function applyItemReview(state, itemId, grade, now = Date.now()) {
+  const rec = (state.items[itemId] ||= { seen: 0, correct: 0, wrong: 0, lastSeen: 0, fsrs: newCard() });
+  rec.seen += 1;
+  rec.lastSeen = now;
+  if (grade >= RATING.HARD) rec.correct += 1; else rec.wrong += 1;
+  rec.fsrs = review(rec.fsrs || newCard(), grade, { now, desiredRetention: state.profile.desiredRetention });
+  return rec;
 }
 
 export const exportState = (state) => JSON.stringify(state, null, 2);

@@ -1,7 +1,7 @@
 import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyState, optionButton, KEYS } from "./common.js";
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
-import { readiness, coverageDeficit, blockFit, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
+import { readiness, coverageDeficit, blockFit, studyPlan, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
 import { streakStatus, today } from "../state.js";
 import { isGraded } from "../content.js";
 import * as reviews from "../reviews.js";
@@ -17,15 +17,39 @@ const mentorCards = (App, ids) =>
   (ids || []).map((id) => mentorCardHtml(mentor.card(id, App.content, App.state))).join("");
 
 /**
- * The exam date is the one setting every interval depends on: nothing is ever
- * scheduled past it, and without it the scheduler plans for a decade. So it is
- * asked for on the drill screen itself until it is set.
+ * The exam date is what the plan is measured against: corrections are
+ * retested before it and the daily load is stated against it. Without it the
+ * plan has no end, so it is asked for on the drill screen until it is set.
  */
 function examBarHtml(App) {
   if (App.state.profile.examDate) return "";
   return `<div class="exam-bar">
-    <label for="exam-date-inline" id="exam-date-why"><b>No exam date set.</b> Every review interval compresses toward it; until then the scheduler is planning for a decade.</label>
+    <label for="exam-date-inline" id="exam-date-why"><b>No exam date set.</b> Corrections are retested before it and the daily load is planned against it; without it the plan has no end.</label>
     <input id="exam-date-inline" type="date" data-setting="examDate" min="${today()}" aria-label="Exam date" aria-describedby="exam-date-why">
+  </div>`;
+}
+
+/**
+ * The plan to the exam date, against what this person actually does. Shown
+ * only when it does not fit: a plan that needs more answers a day than the
+ * last four weeks averaged will not happen, and the last week will not absorb
+ * it. Said plainly, with what gives.
+ */
+let planMemo = { key: null, plan: null };
+function planBarHtml(App) {
+  const key = `${App.state.updatedAt}|${today()}|${App.state.profile.examDate}`;
+  if (planMemo.key !== key) planMemo = { key, plan: studyPlan(App.state, App.content) };
+  const p = planMemo.plan;
+  if (!p) return "";
+  const pace = reviews.count("item") / 30;                  // answers a day over the recent window
+  const goal = App.state.profile.dailyReviewGoal || 40;
+  if (p.perDay <= Math.max(pace, 1) * 1.1) return "";
+  // Answers available at this pace, less the reviews the plan needs, is how many new items get seen.
+  const missed = Math.max(0, p.unseen - Math.max(0, Math.round(pace * p.days) - p.reviews));
+  return `<div class="exam-bar" role="note">
+    <span><b>The plan does not fit your pace.</b> Seeing every graded item before the exam takes about
+    ${p.perDay} answers a day, ${p.minutesPerDay} minutes. The last four weeks averaged ${pace.toFixed(1)} a day${
+      goal < p.perDay ? `, and your goal is ${goal}` : ""}. At that pace about ${missed} items stay unseen; the queue serves the most valuable first, so those are the ones worth least.</span>
   </div>`;
 }
 
@@ -265,7 +289,7 @@ export function drillRunView(App) {
       ? mcqMultiHtml(App, entry)
       : mcqHtml(App, entry);
 
-  return bar + examBarHtml(App) + body;
+  return bar + examBarHtml(App) + (App.idx === 0 && !App.answer ? planBarHtml(App) : "") + body;
 }
 
 function debriefHtml(App) {
@@ -589,7 +613,7 @@ export function settingsView(App) {
         ${[20, 30, 40, 60, 80, 120].map((v) =>
           `<option value="${v}" ${p.dailyReviewGoal === v ? "selected" : ""}>${v} reviews</option>`).join("")}
       </select></div>
-    <p class="note">No review is ever scheduled past your exam date. As the date approaches, every interval compresses to fit inside the time left.</p>
+    <p class="note">Corrections are always retested before your exam date. An item whose next review would fall after it is left alone: it is still above your target retention on the day.</p>
   </div>
 
   <h2 class="eyebrow">Where your progress lives</h2>

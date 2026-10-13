@@ -124,8 +124,9 @@ export function pass(state, mcId, itemId, content, now = Date.now(), confident =
 export function daysUntilExam(state, now = Date.now()) {
   if (!state.profile.examDate) return 36500;
   const days = Math.ceil((new Date(state.profile.examDate).getTime() - now) / fsrs.DAY_MS);
-  // Never schedule a review for after the exam. That is the retargeting rule:
-  // as the date approaches, every interval compresses to fit inside it.
+  // A correction is never scheduled for after the exam: its relearning steps
+  // and its card compress to fit inside the time left. Items are not capped;
+  // see applyItemReview in state.js.
   return Math.max(1, days - 1);
 }
 

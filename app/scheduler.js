@@ -457,6 +457,54 @@ export function expectedGain(entry, state, content, ctx = gainContext(state, con
   return { points, minutes, perMinute: points / minutes };
 }
 
+// --- the plan to the exam date ----------------------------------------------------
+
+const REVIEW_WEEK = 7;   // the last week before the exam is for review and mocks, not new material
+
+/**
+ * Every day from now to the exam: how many answers it takes, and how many
+ * minutes. Seen cards are reviewed on their due day and advanced as if
+ * recalled; a card due after the exam is above target on exam day and costs
+ * nothing. Unseen graded items are introduced at an even
+ * rate over the days before the review week, highest expected gain first,
+ * which is what front-loads the weakest heavily weighted objectives. A
+ * projection, not a promise: misses add reviews the plan does not foresee.
+ */
+export function studyPlan(state, content, now = Date.now()) {
+  if (!state.profile.examDate) return null;
+  const days = Math.max(1, mentor.daysUntilExam(state, now));
+  const examAt = now + days * fsrs.DAY_MS;
+  const opts = (t) => ({ now: t, desiredRetention: state.profile.desiredRetention });
+  const ctx = gainContext(state, content, now);
+  const unseen = content.items.filter((it) => isGraded(it) && it.objective && !seen(state, it.id))
+    .map((it) => ({ it, g: expectedGain({ item: it }, state, content, ctx).perMinute }))
+    .sort((a, b) => b.g - a.g).map((x) => x.it);
+  const learnDays = Math.max(1, days - REVIEW_WEEK);
+  const newPerDay = Math.ceil(unseen.length / learnDays);
+
+  const cards = Object.values(state.items).filter((s) => s.fsrs?.stability).map((s) => ({ ...s.fsrs }));
+  const plan = [];
+  let next = 0;
+  for (let d = 0; d < days; d++) {
+    const dayEnd = now + (d + 1) * fsrs.DAY_MS;
+    let reviews = 0;
+    for (let i = 0; i < cards.length; i++) {
+      if (cards[i].due < dayEnd && cards[i].due < examAt) { cards[i] = fsrs.review(cards[i], fsrs.RATING.GOOD, opts(Math.max(cards[i].due, dayEnd - fsrs.DAY_MS))); reviews += 1; }
+    }
+    const fresh = d < learnDays ? unseen.slice(next, next + newPerDay) : [];
+    next += fresh.length;
+    for (let k = 0; k < fresh.length; k++) cards.push(fsrs.review(fsrs.newCard(), fsrs.RATING.GOOD, opts(dayEnd - fsrs.DAY_MS)));
+    const answers = reviews + fresh.length;
+    plan.push({ day: d, reviews, fresh: fresh.length, answers, minutes: Math.round(answers * SECONDS.mcq / 60),
+                objectives: fresh.map((it) => it.objective) });
+  }
+  const peak = Math.max(...plan.map((p) => p.answers));
+  const total = plan.reduce((a, p) => a + p.answers, 0);
+  const reviews = plan.reduce((a, p) => a + p.reviews, 0);
+  return { days, unseen: unseen.length, newPerDay, peak, reviews, perDay: Math.ceil(total / days),
+           minutesPerDay: Math.round(total / days * SECONDS.mcq / 60), totalMinutes: Math.round(total * SECONDS.mcq / 60), plan };
+}
+
 // --- readiness -------------------------------------------------------------
 
 const laplace = (correct, seenCount) => (correct + 2) / (seenCount + 4);

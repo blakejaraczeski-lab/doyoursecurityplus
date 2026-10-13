@@ -60,8 +60,8 @@
 import { loadContent, isGraded } from "./app/content.js";
 import { gradePbq } from "./app/grade.js";
 import * as mentor from "./app/mentor.js";
-import { buildQueue, readiness, coverageDeficit, currentPriority, expectedGain, gainContext, POINTS_PER_QUESTION } from "./app/scheduler.js";
-import { DEFAULT_STATE, pruneOrphans } from "./app/state.js";
+import { buildQueue, readiness, coverageDeficit, currentPriority, expectedGain, gainContext, studyPlan, POINTS_PER_QUESTION } from "./app/scheduler.js";
+import { DEFAULT_STATE, pruneOrphans, applyItemReview } from "./app/state.js";
 import { calibrationOf, todayOf } from "./app/reviews.js";
 import * as fsrs from "./app/fsrs.js";
 
@@ -337,32 +337,46 @@ say('  <span class="dim">the same seed builds the same queue, so a failure here 
           `the blocked misconception is not drilled on its own while the prerequisite is open`);
   }
 
-  // With an exam date set, nothing lands past it and intervals compress.
+  // With an exam date set: a correction is always retested before it, and an
+  // item scheduled past it is still above target on exam day, so it costs no
+  // review. The plan states the daily load and introduces the weakest first.
   {
     const examOn = (days) => new Date(now + days * fsrs.DAY_MS).toISOString().slice(0, 10);
-    const mature = { stability: 60, difficulty: 5, due: now, lastReview: now - 30 * fsrs.DAY_MS, reps: 6, lapses: 0, state: "review" };
     const horizons = [60, 30, 14, 7, 3, 2];
-    const intervals = [];
-    let past = 0, grew = 0, last = Infinity;
+    let corrPast = 0, itemsBelow = 0, itemsPast = 0;
     for (const days of horizons) {
       const s = fresh();
       s.profile.examDate = examOn(days);
+      s.profile.desiredRetention = 0.92;
       const examMs = new Date(s.profile.examDate).getTime();
-      const r = fsrs.review(mature, fsrs.RATING.GOOD, { now, desiredRetention: 0.9, maxIntervalDays: mentor.daysUntilExam(s, now) });
-      intervals.push(r.intervalDays);
-      if (r.due > examMs) past++;
-      if (r.intervalDays > last) grew++;
-      last = r.intervalDays;
-      // and a misconception on its longest relearning step
       mentor.bank(s, pairId, pairItem, now);
       s.misconceptions[pairId].step = 2;
       mentor.pass(s, pairId, "z", content, now);
       const rec = s.misconceptions[pairId];
-      if (rec.due > examMs || rec.fsrs.due > examMs) past++;
+      if (rec.due > examMs || rec.fsrs.due > examMs) corrPast++;
+      for (let k = 0; k < 6; k++) applyItemReview(s, pairItem, fsrs.RATING.GOOD, now - (6 - k) * 9 * fsrs.DAY_MS);
+      applyItemReview(s, pairItem, fsrs.RATING.GOOD, now);
+      const card = s.items[pairItem].fsrs;
+      if (card.due > examMs) {
+        itemsPast++;
+        if (fsrs.currentRetrievability(card, examMs) < 0.92 - 0.005) itemsBelow++;
+      }
     }
-    check(past === 0, `no item or correction is scheduled past the exam at ${horizons.join(", ")} days out`, `(${past} landed past it)`);
-    check(grew === 0, `every interval compresses as the date approaches: ${intervals.join(" > ")} days`);
+    check(corrPast === 0, `a correction is always retested before the exam at ${horizons.join(", ")} days out`, `(${corrPast} landed past it)`);
+    check(itemsPast > 0 && itemsBelow === 0,
+          `an item scheduled past the exam is still above its 0.92 target on exam day (${itemsPast} of ${horizons.length} horizons)`,
+          `(${itemsBelow} below target)`);
+
     const s = fresh();
+    s.profile.examDate = examOn(30);
+    const plan = studyPlan(s, content, now);
+    const firstWeek = plan.plan.slice(0, 7).reduce((a, d) => a + d.fresh, 0);
+    check(plan && plan.perDay > 0 && plan.minutesPerDay > 0 && plan.plan.length === plan.days && firstWeek > 0
+          && plan.plan.slice(-7).every((d) => d.fresh === 0),
+          `the plan states a daily load (${plan.perDay} answers, ${plan.minutesPerDay} min) and keeps the last week for review`);
+    const peak = Math.max(...plan.plan.slice(-7).map((d) => d.answers));
+    check(peak <= Math.max(...plan.plan.slice(0, -7).map((d) => d.answers)) * 1.5,
+          `the last week is not overloaded: its busiest day is ${peak} answers`);
     s.profile.examDate = examOn(14);
     check(readiness(s, content, now).daysLeft === mentor.daysUntilExam(s, now),
           `readiness reports the horizon the scheduler uses (${mentor.daysUntilExam(s, now)} days)`);

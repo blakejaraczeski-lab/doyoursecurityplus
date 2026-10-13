@@ -585,6 +585,14 @@ def scenario_screens(rep, tmp, browser):
         click("[data-action=nav][data-section=drill]")
         shot("empty log", "drill-home")
         rep.check("Nothing to serve right now" in main_text(), "empty log   drill home says why there is no session and offers a mock")
+        # An exam date the pace cannot carry: the drill screen says so, once, at the start.
+        tab.evaluate("App.state.profile.examDate = new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10);"
+                     "document.querySelector('[data-action=start-drill], [data-action=nav][data-section=drill]').click();"
+                     "App.screen = 'drill-run'; App.queue = App.queue.length ? App.queue : [{ kind: 'item', item: App.content.items.find((i) => i.type === 'mcq'), reason: '' }];"
+                     "App.idx = 0; App.answer = null; document.querySelector('[data-action=nav][data-section=drill]').click()")
+        rep.check("The plan does not fit your pace" in main_text() and "answers a day" in main_text(),
+                  "empty log   an exam date the pace cannot carry is stated on the drill screen")
+        tab.evaluate("App.state.profile.examDate = null; App.queue = []; document.querySelector('[data-action=nav][data-section=drill]').click()")
         quiet("empty log", n0)
 
         # 3. A PBQ whose kind has no engine: listed, never served.

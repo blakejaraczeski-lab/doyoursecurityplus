@@ -302,3 +302,20 @@ constant by 5% on two monthly runs in a row. At the current pace of about 60
 predictions a month that is not before the exam on 2026-12-01, so for this
 exam the defaults are the plan; there is deliberately no fitted-weights field
 yet, because nothing would fill it.
+
+## Items are not capped at the exam date; corrections are
+
+Every item interval used to be capped at the day before the exam, which the
+README called compression. Run forward on the real state, the cap put 618
+answers on a single day and 751 into the last week, because every card with
+a long interval landed on the same day. Those reviews bought nothing: FSRS
+sets an interval as the time until recall falls to the target, so a card
+whose natural due date is after the exam is still above 0.92 on exam day.
+Item intervals are now uncapped, and the one function that records an item
+review, `applyItemReview` in `state.js`, is shared by the app and the replay.
+Corrections keep the cap, because an open misconception has to be retested
+before the exam. `studyPlan` states the load from here to the date: 45
+answers and 29 minutes a day on the real state, the busiest day of the last
+week 112 answers instead of 618, new items introduced weakest objectives
+first. The drill screen says so when the last four weeks' pace cannot carry
+it, and estimates how much of the bank stays unseen.
