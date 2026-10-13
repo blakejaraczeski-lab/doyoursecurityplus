@@ -1,12 +1,9 @@
-// Content loader. Everything under content/ is plain JSON fetched at runtime,
-// so adding items never means touching the app. The server lists the content
-// directory, so a new file is picked up on the next load with no build step.
+// Content loader. Everything under content/ is plain JSON, and the server
+// hands all of it over in one response: GET /api/content is the whole bank,
+// rebuilt when a file changes and answered with 304 when this browser already
+// holds it. Adding content is adding a file; the app never carries a manifest.
 
-// Resolved against this module's own URL, so the app works no matter where the
-// page that loads it lives.
 import { hasGrader } from "./grade.js";
-
-const CONTENT = new URL("../content/", import.meta.url);
 
 /**
  * Graded practice: an item that makes you choose between options and marks you
@@ -15,47 +12,31 @@ const CONTENT = new URL("../content/", import.meta.url);
  */
 export const isGraded = (it) => typeof it.type === "string" && it.type.startsWith("mcq");
 
-async function j(path) {
-  const res = await fetch(new URL(path, CONTENT), { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
-  return res.json();
-}
-
-async function listing() {
-  const res = await fetch("/api/content", { cache: "no-store" });
-  if (!res.ok) throw new Error(`Could not list content: ${res.status}`);
-  return res.json();
-}
-
 export async function loadContent() {
-  const files = await listing();
-  const [objectives, mentorFiles, itemFiles, pbqFiles, indexFiles, prereqDoc, glossary] =
-    await Promise.all([
-      j("objectives.json"),
-      Promise.all(files.mentor.map((f) => j(`mentor/${f}`))),
-      Promise.all(files.items.map((f) => j(`items/${f}`))),
-      Promise.all(files.pbq.map((f) => j(`pbq/${f}`))),
-      Promise.all(files.index.map((f) => j(`index/${f}`).catch(() => null))),
-      j("graph/prerequisites.json").catch(() => ({ edges: [] })),
-      j("glossary.json").catch(() => ({})),
-    ]);
+  // Default cache mode on purpose: the server tags the bundle, the browser
+  // keeps it and asks first, and a reload is one 304 rather than 1.9 MB.
+  const res = await fetch("/api/content");
+  if (!res.ok) throw new Error(`Could not load content: ${res.status}`);
+  const b = await res.json();
+  const objectives = b.objectives;
+  const glossary = b.glossary || {};
 
   // id -> the misconceptions it depends on, and why. Several edges can share a
   // head, so this is a many-to-many collapsed into one lookup.
   const prerequisites = {};
-  for (const e of prereqDoc.edges || []) {
+  for (const e of b.prerequisites?.edges || []) {
     for (const r of e.requires) (prerequisites[e.id] ||= []).push({ id: r, why: e.why });
   }
 
   const misconceptions = {};
-  for (const m of mentorFiles.flat()) misconceptions[m.id] = m;
+  for (const m of b.mentor || []) misconceptions[m.id] = m;
 
-  const items = itemFiles.flat();
+  const items = b.items || [];
   // A PBQ whose kind has no engine in this build is listed in the lab, with
   // the reason, and nothing else ever sees it: not the queue, not a mock, not
   // readiness. The validator refuses such a file; this is for one added by hand.
-  const pbqs = pbqFiles.flat().filter(hasGrader);
-  const pbqsWithoutEngine = pbqFiles.flat().filter((p) => !hasGrader(p));
+  const pbqs = (b.pbq || []).filter(hasGrader);
+  const pbqsWithoutEngine = (b.pbq || []).filter((p) => !hasGrader(p));
 
   const objectiveById = {};
   const domainOf = {};
@@ -70,7 +51,7 @@ export async function loadContent() {
   // owns. Titles and page numbers only, never the content itself.
   const notesByObjective = {};
   const sources = [];
-  for (const idx of indexFiles.filter(Boolean)) {
+  for (const idx of b.index || []) {
     const src = idx.source?.title || idx.source?.slug || "reference";
     sources.push(src);
     for (const s of idx.sections) {

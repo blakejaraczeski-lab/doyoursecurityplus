@@ -91,6 +91,8 @@ class DevTools:
         self.next_id = 0
         self.errors = []     # everything the page threw or logged as an error
         self.requests = []   # every URL the page asked for
+        self.transfers = []  # (url, bytes on the wire) for every response that finished
+        self._inflight = {}
 
     def _read(self, n):
         while len(self.buf) < n:
@@ -143,7 +145,11 @@ class DevTools:
     def _event(self, msg):
         p = msg.get("params", {})
         if msg.get("method") == "Network.requestWillBeSent":
-            self.requests.append(p.get("request", {}).get("url", ""))
+            url = p.get("request", {}).get("url", "")
+            self.requests.append(url)
+            self._inflight[p.get("requestId")] = url
+        elif msg.get("method") == "Network.loadingFinished":
+            self.transfers.append((self._inflight.pop(p.get("requestId"), ""), int(p.get("encodedDataLength", 0))))
         elif msg.get("method") == "Runtime.exceptionThrown":
             d = p.get("exceptionDetails", {})
             self.errors.append(d.get("exception", {}).get("description") or d.get("text") or "exception")
@@ -299,10 +305,9 @@ ORPHAN_STUB = """(() => {
     const u = String(url instanceof Request ? url.url : url);
     if (u.endsWith('/api/content')) {
       const body = await (await real(url, opts)).json();
-      body.pbq = [...body.pbq, 'zz-no-engine.json'];
+      body.pbq = [...body.pbq, orphan];
       return json(body);
     }
-    if (u.endsWith('/pbq/zz-no-engine.json')) return json(orphan);
     return real(url, opts);
   };
 })();"""
@@ -527,10 +532,25 @@ def scenario_screens(rep, tmp, browser):
         quiet("server down", n0)
         tab.call("Page.removeScriptToEvaluateOnNewDocument", identifier=stub)
 
-        # 2. An empty review log on a first boot: all twelve screens.
+        # 2. An empty review log on a first boot: all twelve screens. The boot
+        #    itself is the cost that matters: content in one request, gzipped,
+        #    and on a warm reload nothing but a 304.
         n0 = len(tab.errors)
+        r0, t0 = len(tab.requests), len(tab.transfers)
         tab.navigate(f"{base}/")
         rep.check(tab.wait_for(APP_READY), "empty log   the app boots straight into a session")
+        time.sleep(0.3)
+        content = [u for u in tab.requests[r0:] if "/api/content" in u or "/content/" in u]
+        rep.check(len(content) == 1 and content[0].endswith("/api/content"),
+                  f"empty log   content arrives in one request, {len(tab.requests[r0:])} requests for the whole boot", f"({content[:3]})")
+        wire = sum(n for u, n in tab.transfers[t0:] if u.endswith("/api/content"))
+        rep.check(0 < wire < 400_000, f"empty log   the bundle is gzipped on the wire: {wire:,} bytes")
+        r0, t0 = len(tab.requests), len(tab.transfers)
+        tab.navigate(f"{base}/")
+        rep.check(tab.wait_for(APP_READY), "empty log   a warm reload boots")
+        time.sleep(0.3)
+        wire = sum(n for u, n in tab.transfers[t0:] if u.endswith("/api/content"))
+        rep.check(0 < wire < 1_000, f"empty log   and asks for content with its ETag, a 304 of {wire} bytes")
         shot("empty log", "drill-run")
         click("[data-action=nav][data-section=bank]")
         shot("empty log", "bank")
@@ -543,7 +563,7 @@ def scenario_screens(rep, tmp, browser):
                   "empty log   settings reports 0 rows in the log")
         click("[data-action=nav][data-section=drill]")
         # Finish a one-question session from the keyboard: A answers, Enter continues.
-        tab.evaluate("App.queue = [App.queue.find((e) => e.item?.type === 'mcq')]; App.idx = 0;")
+        tab.evaluate("App.queue = [{ kind: 'item', item: App.content.items.find((i) => i.type === 'mcq'), reason: '' }]; App.idx = 0;")
         key("a")
         key("Enter")
         shot("empty log", "drill-done")
@@ -674,8 +694,9 @@ def scenario_keyboard(rep, tmp, browser):
                 walk(main)
             rep.check(main is not None and not bad, f"{label}: {total} controls under main, every one named", f"({len(bad)} nameless: {bad[:6]})")
 
-        # One single-select and one multi-select item.
-        tab.evaluate("App.queue = [App.queue.find((e) => e.item?.type === 'mcq'), App.queue.find((e) => e.item?.type === 'mcq-multi')];"
+        # One single-select and one multi-select item, taken from the bank
+        # rather than from the random queue, which need not hold a choose-two.
+        tab.evaluate("App.queue = ['mcq', 'mcq-multi'].map((t) => ({ kind: 'item', item: App.content.items.find((i) => i.type === t), reason: '' }));"
                      "App.idx = 0; document.querySelector('[data-action=nav][data-section=drill]').click()")
         nameless("drill, single select")
         focus("[data-action=answer][data-opt=b]")

@@ -241,3 +241,21 @@ a synthesised one. Four Latin-subset files and the SIL Open Font License sit
 in `fonts/`, a hundred kilobytes, and `scripts/check_shape.py` keeps the
 origin rule green. Nothing the app shows now depends on a network other than
 the study server's own.
+
+## The bank arrives in one response
+
+`GET /api/content` used to be a directory listing, and the browser then
+fetched every file it named: a boot was 111 requests, 87 of them for content,
+1.92 MB on the wire, and a warm reload cost exactly the same because every
+fetch said no-store. The resource is now the bank itself: every JSON file
+under `content/`, read and gzipped once per change (the signature is each
+file's mtime and size), tagged, and answered with 304 when the browser
+already holds that version. A cold boot is 25 requests and 646 KB, 342 KB of
+it the bundle; a warm reload asks for content with its ETag and gets 158
+bytes back. Adding content is still adding a file, there is still no
+manifest and no build step, and the validator stays the gate: a file that
+does not parse is skipped with a line in the server log rather than taking
+the bank down. `scripts/selftest.py` asserts the one request, the gzip and
+the 304 on every run. What a warm reload still pays for is the app's own
+files, which are served no-store; that is the next boot cost, if it ever
+matters on localhost.

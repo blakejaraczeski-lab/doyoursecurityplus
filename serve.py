@@ -9,7 +9,10 @@ Serves the app, and holds the study data durably on disk as two resources:
                  answers 412 with its newer copy if that no longer matches.
   /api/reviews   the review log, one row per answer, append only. GET reads it
                  (?since= in ms), POST appends rows.
-  /api/content   the content directory listing, so a new file needs no manifest.
+  /api/content   the whole bank in one response: every JSON file under content/,
+                 rebuilt when a file changes, gzipped, and answered with 304
+                 when the browser already holds this version. A new file needs
+                 no manifest, and a boot is one request for content.
   /api/health    what the Settings screen shows about the durable copy.
 
 Why the server owns the data
@@ -21,11 +24,12 @@ storage, it is a cache. So the browser keeps using localStorage for speed and
 mirrors every change here a moment later. Every state write also lands in a
 timestamped snapshot, so a bad import or an accidental reset is recoverable.
 """
-import http.server, json, os, sys, functools, threading, time
+import http.server, json, os, sys, functools, gzip, hashlib, threading, time
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qs
 
 APP_DIR = Path(__file__).resolve().parent
+CONTENT_DIR = APP_DIR / "content"
 DATA_DIR = Path(os.environ.get("DYSP_DATA", Path.home() / ".doyoursecurityplus"))
 STATE_FILE = DATA_DIR / "state.json"
 REVIEWS_FILE = DATA_DIR / "reviews.jsonl"
@@ -66,6 +70,44 @@ def _write_state(state):
         snap.write_text(payload)
     for old in sorted(SNAP_DIR.glob("state-*.json"))[:-KEEP_SNAPSHOTS]:
         old.unlink(missing_ok=True)
+
+
+# --- content bundle ----------------------------------------------------------
+_bundle = {"sig": None, "body": b"", "gz": b"", "etag": ""}
+
+
+def _content_bundle():
+    """Every JSON file under content/, as one document.
+
+    Rebuilt only when a file changes (the signature is every file's mtime and
+    size), gzipped once, and tagged, so a browser that already holds this
+    version is told so in a 304 and transfers nothing. Adding content is still
+    just adding a file. A file that does not parse is skipped with a line in
+    the log rather than taking the whole bank down; the validator is the gate.
+    """
+    files = sorted(CONTENT_DIR.rglob("*.json"))
+    sig = tuple((str(p.relative_to(CONTENT_DIR)), p.stat().st_mtime_ns, p.stat().st_size) for p in files)
+    if sig != _bundle["sig"]:
+        docs = {}
+        for p in files:
+            try:
+                docs[p] = json.loads(p.read_text())
+            except json.JSONDecodeError as e:
+                sys.stderr.write(f"content: skipping {p.relative_to(APP_DIR)}: {e}\n")
+        rows = lambda sub: [row for p, d in docs.items() if p.parent.name == sub and isinstance(d, list) for row in d]
+        docs_in = lambda sub: [d for p, d in docs.items() if p.parent.name == sub and isinstance(d, dict)]
+        body = json.dumps({
+            "objectives": docs.get(CONTENT_DIR / "objectives.json") or {},
+            "mentor": rows("mentor"),
+            "items": rows("items"),
+            "pbq": docs_in("pbq"),
+            "index": docs_in("index"),
+            "prerequisites": docs.get(CONTENT_DIR / "graph/prerequisites.json") or {"edges": []},
+            "glossary": docs.get(CONTENT_DIR / "glossary.json") or {},
+        }, separators=(",", ":")).encode()
+        _bundle.update(sig=sig, body=body, gz=gzip.compress(body, 6),
+                       etag='"' + hashlib.sha1(body).hexdigest()[:20] + '"')
+    return _bundle
 
 
 # --- review log --------------------------------------------------------------
@@ -166,11 +208,30 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             })
 
         if url.path == "/api/content":
-            # The browser cannot list a directory, so the server does. A new
-            # content file is picked up on the next load with no build step.
-            content = APP_DIR / "content"
-            ls = lambda sub: sorted(p.name for p in (content / sub).glob("*.json"))
-            return self._json(200, {k: ls(k) for k in ("items", "pbq", "mentor", "index")})
+            # The bank, in one response, and nothing at all when the browser
+            # already holds this version: it is told to keep its copy but to
+            # ask first, and asking costs a 304.
+            with _lock:
+                b = _content_bundle()
+            if self.headers.get("If-None-Match") == b["etag"]:
+                self.send_response(304)
+                self.send_header("ETag", b["etag"])
+                self.send_header("Cache-Control", "no-cache")
+                self.end_headers()
+                return
+            gz = "gzip" in self.headers.get("Accept-Encoding", "")
+            payload = b["gz"] if gz else b["body"]
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("ETag", b["etag"])
+            self.send_header("Cache-Control", "no-cache")
+            self.send_header("Vary", "Accept-Encoding")
+            if gz:
+                self.send_header("Content-Encoding", "gzip")
+            self.send_header("Content-Length", str(len(payload)))
+            self.end_headers()
+            self.wfile.write(payload)
+            return
 
         return super().do_GET()
 

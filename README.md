@@ -245,8 +245,10 @@ only for the recent window: today's count, a month of calibration, the mock
 history.
 
 The server exposes exactly these as resources: `GET` and `PUT /api/state`,
-`GET` and `POST /api/reviews`, `GET /api/content` (the directory listing, so a
-new file needs no manifest), `GET /api/health` (what Settings shows). A `PUT`
+`GET` and `POST /api/reviews`, `GET /api/content` (the whole bank in one
+gzipped response, rebuilt when a file changes and answered with `304` when the
+browser already holds it, so a new file needs no manifest and a boot is one
+request for content), `GET /api/health` (what Settings shows). A `PUT`
 is a conditional replace: it carries `If-Match` with the version it was built
 on, and the server answers `412` with its newer copy if another session has
 saved since, which the sidebar reports rather than silently picking a side.
