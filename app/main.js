@@ -37,7 +37,10 @@ const App = {
   lab: null,                // the PBQ open in the lab
   mock: null,               // { format, minutes, items, idx, answers, flagged, startedAt, endsAt, result }
   expanded: null,
+  bankAll: false,           // the mentor bank shows the most urgent dozen until asked for all
+  introDismissed: false,    // the first-night line, per browser
 };
+try { App.introDismissed = localStorage.getItem("dysp.intro") === "1"; } catch {}
 window.App = App;
 
 // Under this, on a question of real difficulty, you did not read the stem. The
@@ -724,6 +727,23 @@ const ACTIONS = {
     const a = answersFor(currentPbq());
     delete (a.placements ||= {})[el.dataset.item];
   },
+  // Skip records nothing: a skipped item is not evidence either way. It leaves
+  // this session and comes back on its own schedule.
+  skip: () => {
+    App.queue.splice(App.idx, 1);
+    App.answer = null;
+    App.markedGuess = false;
+    App.multiPicked = new Set();
+    App.questionShownAt = Date.now();
+    App.screen = App.idx < App.queue.length ? "drill-run" : "drill-done";
+    if (App.queue[App.idx]?.kind === "pbq") openPbq(App.queue[App.idx].pbq);
+    announce("Skipped. It comes back on its own schedule.");
+  },
+  "dismiss-intro": () => {
+    App.introDismissed = true;
+    try { localStorage.setItem("dysp.intro", "1"); } catch {}
+  },
+  "bank-all": () => { App.bankAll = !App.bankAll; },
   "toggle-guess": () => {
     App.markedGuess = !App.markedGuess;
     announce(App.markedGuess ? "Marked as a guess." : "No longer marked as a guess.");
@@ -877,6 +897,12 @@ document.addEventListener("keydown", (e) => {
   if (App.screen !== "drill-run") return;
   const entry = App.queue[App.idx];
   if (!entry || entry.kind !== "item") return;
+
+  if (!App.answer && e.key.toLowerCase() === "s" && entry.item.type !== "recall") {
+    e.preventDefault();
+    ACTIONS.skip();
+    return render();
+  }
 
   if (entry.item.type === "mcq-multi") {
     if (App.answer && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); next(); return render(); }

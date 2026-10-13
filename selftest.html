@@ -86,16 +86,16 @@
     <tr><td>3</td><td>40</td><td>readiness</td><td>Aesthetic and minimalist design; recognition over recall</td><td>The decision (forecast, hours to book, the rule) sat below a 28 cell heatmap, about 600 words down.</td><td>Fixed. Forecast and booking rule first, then next session, then the heatmap.</td></tr>
   </tbody>
 </table>
-<p class="sub">Severity 2 and 1, ranked, not fixed in this pass.</p>
+<p class="sub">Severity 2 and 1, ranked. All six fixed 2026-10-13; the screen walk and the latency scenario pin each one.</p>
 <table class="grid">
   <thead><tr><th>#</th><th>Sev</th><th>Night</th><th>Screen</th><th>Heuristic</th><th>Finding and proposed change</th></tr></thead>
   <tbody>
-    <tr><td>1</td><td>2</td><td>40</td><td>bank</td><td>Flexibility and efficiency</td><td>90 open corrections render as 90 cards, about 2,900 words, with no filter. Group by objective or show the due ones and collapse the rest.</td></tr>
-    <tr><td>2</td><td>2</td><td>1</td><td>drill-run</td><td>Help and documentation</td><td>The first night drops straight into question 1 of 25. Nothing says that a miss becomes a correction that comes back on a different question, which is the whole product. One dismissible line on the first session.</td></tr>
-    <tr><td>3</td><td>2</td><td>40</td><td>lab-list</td><td>Flexibility and efficiency</td><td>21 PBQs in authoring order; the weakest are not first. Sort each kind by best score, lowest first.</td></tr>
-    <tr><td>4</td><td>2</td><td>1</td><td>readiness</td><td>Aesthetic and minimalist design</td><td>After one answer, 27 of 28 heatmap cells read "untouched", and "Spend your next session here" names the one objective seen at 20%. Hide the heatmap until a few objectives have evidence.</td></tr>
-    <tr><td>5</td><td>1</td><td>40</td><td>drill-run</td><td>Flexibility and efficiency</td><td>No way to skip an item known cold. Answering costs one key, and the queue already ranks it low, so the cost is small.</td></tr>
-    <tr><td>6</td><td>1</td><td>1</td><td>settings</td><td>Match with the real world</td><td>"Rows in the review log" is the engine's word. "Answers saved".</td></tr>
+    <tr><td>1</td><td>2</td><td>40</td><td>bank</td><td>Flexibility and efficiency</td><td>90 open corrections render as 90 cards, about 2,900 words, with no filter. Fixed: the most urgent 12 show, the rest behind Show all.</td></tr>
+    <tr><td>2</td><td>2</td><td>1</td><td>drill-run</td><td>Help and documentation</td><td>The first night drops straight into question 1 of 25. Nothing says that a miss becomes a correction that comes back on a different question, which is the whole product. Fixed: one line until ten items are seen or it is dismissed.</td></tr>
+    <tr><td>3</td><td>2</td><td>40</td><td>lab-list</td><td>Flexibility and efficiency</td><td>21 PBQs in authoring order; the weakest are not first. Fixed: never attempted first, then lowest best.</td></tr>
+    <tr><td>4</td><td>2</td><td>1</td><td>readiness</td><td>Aesthetic and minimalist design</td><td>After one answer, 27 of 28 heatmap cells read "untouched", and "Spend your next session here" names the one objective seen at 20%. Fixed: a sentence until three objectives have answers.</td></tr>
+    <tr><td>5</td><td>1</td><td>40</td><td>drill-run</td><td>Flexibility and efficiency</td><td>No way to skip an item known cold. Answering costs one key, and the queue already ranks it low, so the cost is small. Fixed: Skip, or S, records nothing and the item returns on its own schedule.</td></tr>
+    <tr><td>6</td><td>1</td><td>1</td><td>settings</td><td>Match with the real world</td><td>"Rows in the review log" is the engine's word. Fixed: "Answers and corrections saved", which is what the count holds.</td></tr>
   </tbody>
 </table>
 

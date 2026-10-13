@@ -53,6 +53,18 @@ function planBarHtml(App) {
   </div>`;
 }
 
+/**
+ * The first night: one line on what the whole tool does, because nothing else
+ * says it before the first miss. Gone after ten items or when dismissed.
+ */
+function introHtml(App) {
+  if (App.introDismissed || Object.keys(App.state.items).length >= 10) return "";
+  return `<div class="card tight flag quiet" role="note">
+    <p class="m0">A wrong answer here is not just marked wrong: the option you chose names the belief behind it, and that correction comes back on a <b>different</b> question until two clean passes clear it. Press <span class="kbd">G</span> before answering when you are guessing, <span class="kbd">S</span> to skip.</p>
+    <div class="row mt2"><button class="btn ghost small" data-action="dismiss-intro">Got it</button></div>
+  </div>`;
+}
+
 // --- drill ----------------------------------------------------------------
 /**
  * Multiple-select. The exam calls it "choose two" and scores it all or nothing:
@@ -91,9 +103,10 @@ function mcqMultiHtml(App, entry) {
     <div class="opts" role="group" aria-label="Select ${need}">${opts}</div>
     ${ans ? "" : `<div class="row mt4 between">
       <span class="faint">${picked.size} of ${need} selected</span>
+      <span class="row tight"><button class="btn ghost small" data-action="skip" title="Records nothing; it comes back on its own schedule">Skip <span class="kbd">S</span></button>
       <button class="btn" data-action="multi-submit" ${picked.size === need ? "" : "disabled"}>
         Submit ${need}
-      </button></div>`}
+      </button></span></div>`}
   </div>
   ${ans ? multiFeedbackHtml(App, it, chosenWrong, missed) : ""}`;
 }
@@ -154,9 +167,11 @@ function mcqHtml(App, entry) {
     <div class="opts">${opts}</div>
     ${ans ? "" : `<div class="row mt4 between">
        <div class="hint"><span class="kbd">?</span><span>expands every acronym</span></div>
-       <button class="btn ghost small guess-toggle ${App.markedGuess ? "on" : ""}" data-action="toggle-guess">
-         ${App.markedGuess ? "&check; Marked as a guess" : "I am guessing"} <span class="kbd">G</span>
-       </button></div>`}
+       <div class="row tight">
+         <button class="btn ghost small" data-action="skip" title="Records nothing; it comes back on its own schedule">Skip <span class="kbd">S</span></button>
+         <button class="btn ghost small guess-toggle ${App.markedGuess ? "on" : ""}" data-action="toggle-guess">
+           ${App.markedGuess ? "&check; Marked as a guess" : "I am guessing"} <span class="kbd">G</span>
+         </button></div></div>`}
   </div>
   ${ans ? feedbackHtml(App, chosen, correct) : ""}`;
 }
@@ -287,7 +302,7 @@ export function drillRunView(App) {
       ? mcqMultiHtml(App, entry)
       : mcqHtml(App, entry);
 
-  return bar + examBarHtml(App) + (App.idx === 0 && !App.answer ? planBarHtml(App) : "") + body;
+  return bar + examBarHtml(App) + introHtml(App) + (App.idx === 0 && !App.answer ? planBarHtml(App) : "") + body;
 }
 
 function debriefHtml(App) {
@@ -353,9 +368,11 @@ export function labListView(App) {
   const byKind = {};
   for (const p of App.content.pbqs) (byKind[p.kind] ||= []).push(p);
 
+  // Weakest first inside each kind: never attempted, then lowest best score.
+  const standing = (p) => (App.state.pbq[p.id]?.attempts ? App.state.pbq[p.id].best : -1);
   const groups = Object.entries(byKind)
     .map(([kind, list]) => {
-      const cards = list
+      const cards = [...list].sort((a, b) => standing(a) - standing(b))
         .map((p) => {
           const done = App.state.pbq[p.id];
           const att = done?.attempts || 0;
@@ -414,7 +431,9 @@ export function mentorView(App) {
     .sort((a, b) => a.due - b.due);
   const dueNow = sorted.filter((x) => now >= x.due).length;
 
-  const cards = sorted
+  const BANK_SHOWN = 12;
+  const shown = App.bankAll ? sorted : sorted.slice(0, BANK_SHOWN);
+  const cards = shown
     .map((x) => {
       const overdue = now >= x.due;
       const needed = x.def.retireAfter ?? 2;
@@ -441,6 +460,9 @@ export function mentorView(App) {
     <p class="sub">${openList.length} open, ${dueNow} due now, ${retired.length} cleared. A correction is only cleared after clean passes on <b>different</b> questions, so you cannot clear it by memorising the one you failed.</p>
     ${dueNow ? `<div class="row mb4"><button class="btn" data-action="start-weak">${dueNow > SESSION_SIZE.weak ? `Drill the most urgent ${SESSION_SIZE.weak} of ${dueNow} due` : `Drill the ${dueNow} due now`}</button></div>` : ""}
     ${cards}
+    ${sorted.length > BANK_SHOWN
+      ? `<div class="row mb4"><button class="btn ghost" data-action="bank-all">${App.bankAll ? `Show the most urgent ${BANK_SHOWN}` : `Show all ${sorted.length} open`}</button></div>`
+      : ""}
     ${retired.length
       ? `<h2>Cleared</h2><div class="card tight"><div class="row">${retired
           .map(([id]) => `<span class="tag">${esc(App.content.misconceptions[id]?.label || id)}</span>`)
@@ -546,7 +568,9 @@ export function readinessView(App) {
     <p class="note">Under the model, the first rule alone books an exam you would fail about one time in ten. The two mocks are what check the model; until they agree with it, treat the band as the model's opinion.</p>
   </div>
 
-  ${weakest.length
+  ${r.objectivesSampled < 3
+    ? `<p class="note">Where to spend the next session, and the picture per objective, appear once three objectives have answers; ${r.objectivesSampled} so far.</p>`
+    : `${weakest.length
     ? `<div class="card tight"><h2 class="eyebrow">Spend your next session here</h2>
        <ol class="next-up">${weakest
          .map((o) => `<li>
@@ -558,7 +582,7 @@ export function readinessView(App) {
     : ""}
 
   <h2>Per objective</h2>
-  <div class="heat">${cells}</div>
+  <div class="heat">${cells}</div>`}
 
   ${c.answered >= 8 ? `<div class="card">
       <h2 class="eyebrow">Confidence calibration</h2>
@@ -627,7 +651,7 @@ export function settingsView(App) {
       ? `<table class="grid"><tbody>
           <tr><td>Durable copy</td><td class="mono">${esc(h.stateFile || "")}</td></tr>
           <tr><td>Snapshots kept</td><td class="mono">${h.snapshots ?? 0}${h.newestSnapshot ? ` &middot; newest ${esc(h.newestSnapshot)}` : ""}</td></tr>
-          <tr><td>Rows in the review log</td><td class="mono">${h.reviews ?? 0}</td></tr>
+          <tr><td>Answers and corrections saved</td><td class="mono">${h.reviews ?? 0}</td></tr>
           <tr><td>Open / cleared</td><td class="mono">${h.misconceptionsOpen ?? 0} / ${h.misconceptionsRetired ?? 0}</td></tr>
         </tbody></table>
         <p class="note">The browser keeps a fast copy and mirrors it to that file a second or two behind. Clearing site data does not lose your history.</p>`

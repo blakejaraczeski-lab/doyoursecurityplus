@@ -539,6 +539,8 @@ def scenario_screens(rep, tmp, browser):
         r0, t0 = len(tab.requests), len(tab.transfers)
         tab.navigate(f"{base}/")
         rep.check(tab.wait_for(APP_READY), "empty log   the app boots straight into a session")
+        rep.check("comes back on a <b>different</b>" in (tab.evaluate("document.getElementById('main').innerHTML") or ""),
+                  "empty log   the first night says what a miss becomes")
         time.sleep(0.3)
         content = [u for u in tab.requests[r0:] if "/api/content" in u or "/content/" in u]
         rep.check(len(content) == 1 and content[0].endswith("/api/content"),
@@ -557,9 +559,11 @@ def scenario_screens(rep, tmp, browser):
         click("[data-action=nav][data-section=readiness]")
         shot("empty log", "readiness")
         rep.check("0 answers" in main_text(), "empty log   readiness says it has 0 answers to go on")
+        rep.check("appear once three objectives have answers" in main_text() and not tab.evaluate("!!document.querySelector('.heat')"),
+                  "empty log   readiness shows no heatmap of empty cells before three objectives have answers")
         click("[data-action=nav][data-section=settings]")
         shot("empty log", "settings")
-        rep.check("Rows in the review log\t0" in main_text() or "Rows in the review log 0" in main_text().replace("\t", " "),
+        rep.check("Answers and corrections saved 0" in main_text().replace("\t", " "),
                   "empty log   settings reports 0 rows in the log")
         click("[data-action=nav][data-section=drill]")
         # Finish a one-question session from the keyboard: A answers, Enter continues.
@@ -573,6 +577,7 @@ def scenario_screens(rep, tmp, browser):
                   "empty log   the answer's log row carries its session and its timing", f"({row})")
         click("[data-action=nav][data-section=lab]")
         shot("empty log", "lab-list")
+        rep.check(tab.evaluate("document.querySelectorAll('[data-action=open-pbq]').length > 0"), "empty log   the lab lists PBQs")
         click("[data-action=open-pbq]")
         shot("empty log", "lab-run")
         click("[data-action=nav][data-section=mock]")
@@ -972,6 +977,8 @@ def seed_heavy(data, rows):
 
 
 # Every action the person repeats, timed from dispatch to the next frame.
+CARDS_JS = "document.querySelectorAll('[data-action=expand-mc]').length"
+
 TIME_ACTION_JS = """(async (sel, prep) => {
   if (prep) (new Function(prep))();
   const el = document.querySelector(sel);
@@ -1039,6 +1046,30 @@ def scenario_latency(rep, tmp, browser, rows=3000, assert_limits=True):
         rep.check(r.get("marked"), "a changed ACL select marks its rule in the readout in the same frame")
 
         tab.call("Emulation.setCPUThrottlingRate", rate=1)
+        tab.evaluate("App.lab = null; App.bankAll = false; document.querySelector('[data-action=nav][data-section=bank]').click()")
+        rep.check(tab.evaluate(CARDS_JS) == 12
+                  and re.search(r"Show all \d+ open", tab.evaluate("document.getElementById('main').innerText") or ""),
+                  "90 open corrections show the most urgent 12 and offer the rest",
+                  f"({tab.evaluate(CARDS_JS)} cards, screen {tab.evaluate('App.screen')})")
+        tab.evaluate("document.querySelector('[data-action=nav][data-section=lab]').click()")
+        firsts = tab.evaluate("""[...document.querySelectorAll('#main h2')].map((h) => {
+          let n = h.nextElementSibling; const out = [];
+          while (n && n.tagName !== 'H2') { const m = n.textContent.match(/best (\\d+)%/); if (m) out.push(+m[1]); n = n.nextElementSibling; }
+          return out; })""")
+        rep.check(all(g == sorted(g) for g in firsts if g), "each PBQ kind in the lab is listed weakest first", f"({firsts})")
+        hide_js = ("Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' }); document.dispatchEvent(new Event('visibilitychange'));"
+                   "Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'visible' })")
+        tab.evaluate(hide_js)   # flush whatever the timed actions logged, so the baseline is settled
+        time.sleep(0.8)
+        rows_before = (data / "reviews.jsonl").read_text().count("\n")
+        tab.evaluate("App.queue = App.content.items.filter((i) => i.type === 'mcq').slice(0, 3).map((item) => ({ kind: 'item', item, reason: '' }));"
+                     "App.idx = 0; App.answer = null; document.querySelector('[data-action=nav][data-section=drill]').click();"
+                     "document.querySelector('[data-action=skip]').click()")
+        tab.evaluate(hide_js)
+        time.sleep(0.8)
+        rep.check(tab.evaluate("App.queue.length === 2 && App.idx === 0") and (data / "reviews.jsonl").read_text().count("\n") == rows_before,
+                  "a skip leaves the session and records nothing",
+                  f"(queue {tab.evaluate('App.queue.length')}, idx {tab.evaluate('App.idx')}, rows {rows_before} to {(data / 'reviews.jsonl').read_text().count(chr(10))})")
         results.sort(key=lambda r: -r[1])
         print("  slowest ten, to the next frame (and the handler's own work):")
         for label, ms, limit, work in results[:10]:

@@ -371,3 +371,14 @@ but the thing acted on: the session bar's 320 ms width and the heatmap's
 400 ms bars, both decoration. Both are gone, the shared duration is 120 ms,
 and `check_materials.py` now fails on any transition or animation at or over
 150 ms, so the next one is caught before it ships.
+
+## A skip is not evidence
+
+The fortieth-night person needed a way past an item they know cold. A skip
+that counted as a correct answer would let "I know this" raise a number that
+is supposed to predict a scored exam, the same reason a revealed recall card
+covers no domain. So Skip, or S, records nothing: the item leaves this
+session and returns on its own schedule, where the gain-ranked queue already
+serves it rarely if it is genuinely held. The mentor bank shows the 12 most
+urgent corrections and puts the rest behind Show all, because the 13th is
+not what the next session needs.
