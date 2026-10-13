@@ -167,3 +167,34 @@ answers in week 7, 618 of them on one day. The last 30 days averaged 5.7
 answers a day, so the plan does not fit the pace and the drill screen says
 so: at that pace most of the unseen bank stays unseen, and the queue spends
 the time on the most valuable part.
+
+## 6. The mock, and when to stop
+
+**Blueprint.** Multiple choice was already drawn by domain weight, within half
+a point. PBQs were not: the bank holds 14 of its 21 in domain 4, the draw was
+uniform, and domain 4 carried 34.5% of a full mock's points against 28%. PBQs
+are now drawn by domain weight and each domain's multiple choice is sized so
+its points, PBQs at three items each, match the weight: 12, 22, 18, 28, 20
+exactly. A content gap falls out: domains 1 and 5 hold one PBQ each, so every
+full mock repeats them. Author a second PBQ in each.
+
+**Scaled score.** CompTIA does not publish its scaling. The estimate maps raw
+to 100 to 900 linearly with 75% raw at 750, and difficulty-weights items; both
+are stated on the result screen as estimates. It is honest about being a
+guess; it is not a measurement until a real score is compared with it.
+
+**Readiness.** The headline was coverage-weighted mastery, which counted
+every unseen item as worth nothing: on the real state it said 405. It is now
+`examForecast`: every graded item's chance of being right on exam day
+(accuracy on its objective, or memory decayed to the date), weighted by the
+exam's questions per objective, dragged by open corrections, pulled toward
+recent mocks as they arrive. On the real state: **590, band 485 to 696, 57%
+expected right.** The band is a binomial 90-question spread plus a model
+error of 8 raw points that shrinks with each mock.
+
+**Stopping rule.** Book the exam when all three hold: the low end of the 80%
+band is at or above 750; two full mocks in the last 14 days are both at or
+above 750; no high-severity correction is open in a domain worth 20% or more.
+Under the model the first rule alone would book a failing exam about one time
+in ten; the mocks are what test the model, and the rule waits for them. Today:
+none met.

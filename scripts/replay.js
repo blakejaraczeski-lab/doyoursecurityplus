@@ -312,7 +312,7 @@ export async function retirementAudit({ rows }) {
 // --- the plan on the real state ----------------------------------------------------
 
 export async function planReport({ rows }) {
-  const { studyPlan } = await import("../app/scheduler.js");
+  const { studyPlan, examForecast, readiness, toScaled } = await import("../app/scheduler.js");
   const { migrate } = await import("../app/state.js");
   const content = await loadContent();
   const res = await fetch("/api/state");
@@ -340,6 +340,9 @@ export async function planReport({ rows }) {
   }
   const item = rows.filter((r) => r.kind === "item");
   const pace = item.filter((r) => r.at >= now - 30 * 86400000).length / 30;
-  return { days: p.days, unseen: p.unseen, newPerDay: p.newPerDay, perDay: p.perDay, peak: p.peak,
+  const f = examForecast(state, content, now, rows.filter((r) => r.kind === "mock"));
+  const coverageHeadline = toScaled(readiness(state, content, now).mastery);   // what Readiness used to headline
+  return { coverageHeadline, forecast: { scaled: f.scaled, low: f.low, high: f.high, raw: f.raw, sd: f.sd, mocks: f.mocks, rules: f.stop.rules },
+           days: p.days, unseen: p.unseen, newPerDay: p.newPerDay, perDay: p.perDay, peak: p.peak,
            minutesPerDay: p.minutesPerDay, totalMinutes: p.totalMinutes, reviews: p.reviews, pace, weeks };
 }

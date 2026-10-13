@@ -127,7 +127,12 @@ def report_plan(p):
           f"until the review week")
     print(f"  {p['perDay']} answers a day on average, peak {p['peak']}, {p['minutesPerDay']} min a day, "
           f"{p['totalMinutes'] / 60:.0f} hours in all; the last 30 days averaged {p['pace']:.1f} answers a day")
-    print("  week  answers  minutes  new  accuracy of new objectives  exam weight of new")
+    f = p["forecast"]
+    print(f"\nexam-day forecast: {f['scaled']} ({f['low']} to {f['high']}, 80% band), {f['raw']:.0%} expected right, "
+          f"{f['mocks']} mocks in the last 30 days; the old coverage headline said {p['coverageHeadline']}")
+    for r in f["rules"]:
+        print(f"  {'met    ' if r['met'] else 'not met'}  {r['text']}")
+    print("\n  week  answers  minutes  new  accuracy of new objectives  exam weight of new")
     for w in p["weeks"]:
         acc = f"{w['meanAccuracy']:.2f}" if w["meanAccuracy"] is not None else "  - "
         wt = f"{w['meanWeight']:.2f}" if w["meanWeight"] is not None else "  - "

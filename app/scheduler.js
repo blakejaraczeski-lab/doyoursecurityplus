@@ -302,9 +302,31 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
   return keepPairsAdjacent(shuffle(queue)).slice(0, size);
 }
 
-/** Build a mock exam: PBQs front loaded, then multiple choice, up to 90 items. */
+/**
+ * Build a mock exam: PBQs front loaded, then multiple choice, up to 90 items.
+ *
+ * The blueprint holds in points, not just in item count. PBQs are drawn by
+ * domain weight, not uniformly: the bank holds 14 of its 21 in domain 4, and a
+ * uniform draw gave that domain 34% of a mock's points against an exam weight
+ * of 28%. Each domain's multiple choice is then sized so its items plus its
+ * PBQs, at PBQ_WEIGHT each, come to its share of the whole.
+ */
 export function buildMock(content, { pbqCount = 5, total = 90 } = {}) {
-  const pbqs = shuffle(content.pbqs).slice(0, Math.min(pbqCount, content.pbqs.length));
+  const domains = content.objectives.domains;
+  const pbqPool = {};
+  for (const p of shuffle(content.pbqs)) (pbqPool[content.domainOf[p.objective]] ||= []).push(p);
+  const pbqs = [];
+  const pbqIn = {};
+  while (pbqs.length < Math.min(pbqCount, content.pbqs.length)) {
+    // the domain furthest below its weight in PBQ points so far, among those with one left
+    const open = domains.filter((d) => pbqPool[d.id]?.length);
+    if (!open.length) break;
+    const d = open.sort((a, b) => ((pbqIn[a.id] || 0) - a.weight * (pbqs.length + 1)) - ((pbqIn[b.id] || 0) - b.weight * (pbqs.length + 1))
+      || Math.random() - 0.5)[0];
+    pbqs.push(pbqPool[d.id].shift());
+    pbqIn[d.id] = (pbqIn[d.id] || 0) + 1;
+  }
+
   // The real exam is single-select, multi-select and PBQs, so a mock that draws
   // only plain "mcq" is narrower than the thing it is imitating. Multi-select
   // and the derived discrimination items are exam-shaped and belong in the pool.
@@ -313,13 +335,15 @@ export function buildMock(content, { pbqCount = 5, total = 90 } = {}) {
   for (const m of mcqs) (byDomain[content.domainOf[m.objective]] ||= []).push(m);
 
   const want = total - pbqs.length;
+  const points = want + PBQ_WEIGHT * pbqs.length;
   const picked = [];
-  for (const d of content.objectives.domains) {
-    const pool = shuffle(byDomain[d.id] || []);
-    picked.push(...pool.slice(0, Math.round(want * d.weight)));
+  for (const d of domains) {
+    const n = Math.max(0, Math.round(points * d.weight - PBQ_WEIGHT * (pbqIn[d.id] || 0)));
+    picked.push(...shuffle(byDomain[d.id] || []).slice(0, n));
   }
   const filler = shuffle(mcqs.filter((m) => !picked.includes(m)));
   while (picked.length < want && filler.length) picked.push(filler.pop());
+  while (picked.length > want) picked.pop();
 
   return [
     ...pbqs.map((p) => ({ kind: "pbq", pbq: p })),
@@ -505,16 +529,81 @@ export function studyPlan(state, content, now = Date.now()) {
            minutesPerDay: Math.round(total / days * SECONDS.mcq / 60), totalMinutes: Math.round(total * SECONDS.mcq / 60), plan };
 }
 
+// --- the forecast and the stopping rule ---------------------------------------------
+
+const MOCK_WEIGHT = { full: 1, half: 0.5, short: 0.25 };
+const MODEL_SD = 0.08;      // raw-score error of the model before any mock calibrates it
+const Z = 1.28;             // one-sided 10%
+
+/**
+ * The scaled score expected on exam day, and its band. Built from what the
+ * person is likely to remember then, not from how much of the bank they have
+ * seen: every graded item's chance of being right on the day (understanding,
+ * or memory decayed to the date), averaged per objective, dragged by open
+ * corrections, weighted by the exam's questions per objective. Mocks are the
+ * only thing that resembles the exam, so as they arrive they pull the
+ * estimate toward their own result and narrow the model's share of the band.
+ */
+export function examForecast(state, content, now = Date.now(), mocks = []) {
+  const ctx = gainContext(state, content, now);
+  const per = {};
+  for (const it of content.items) {
+    if (!isGraded(it) || !ctx.perObjective[it.objective]) continue;
+    const s = state.items[it.id];
+    const mem = s?.fsrs?.stability ? fsrs.currentRetrievability(s.fsrs, ctx.examAt) : 0;
+    (per[it.objective] ||= []).push(examProb(baseRate(it, ctx), mem));
+  }
+  const drag = {};
+  for (const [id, r] of Object.entries(state.misconceptions || {})) {
+    const def = content.misconceptions[id];
+    if (r.retired || !def) continue;
+    drag[def.objective] = (drag[def.objective] || 0) +
+      0.12 * (SEVERITY[def.severity] ?? 0.7) * (1 - fsrs.currentRetrievability(r.fsrs, ctx.examAt));
+  }
+  let model = 0, variance = 0;
+  for (const [o, v] of Object.entries(ctx.perObjective)) {
+    const ps = per[o] || [];
+    const p = (ps.length ? ps.reduce((a, b) => a + b, 0) / ps.length : 0.5) * (1 - Math.min(0.4, drag[o] || 0));
+    model += v.questions * p / EXAM_QUESTIONS;
+    variance += v.questions * p * (1 - p);
+  }
+  const recent = mocks.filter((m) => m.at >= now - 30 * fsrs.DAY_MS && typeof m.raw === "number");
+  const w = recent.reduce((a, m) => a + (MOCK_WEIGHT[m.format] ?? 0.25), 0);
+  const mockRaw = w ? recent.reduce((a, m) => a + m.raw * (MOCK_WEIGHT[m.format] ?? 0.25), 0) / w : null;
+  const k = w / (w + 2);
+  const raw = mockRaw == null ? model : k * mockRaw + (1 - k) * model;
+  const sd = Math.sqrt(variance / EXAM_QUESTIONS ** 2 + (MODEL_SD ** 2) / (1 + w));
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+
+  // The stopping rule: book the exam when all three hold.
+  const fulls = mocks.filter((m) => m.format === "full" && m.at >= now - 14 * fsrs.DAY_MS);
+  const heavyOpen = Object.entries(state.misconceptions || {}).filter(([id, r]) => {
+    const def = content.misconceptions[id];
+    return def && !r.retired && def.severity === "high" && (content.objectiveById[def.objective]?.weight ?? 0) >= 0.2;
+  }).map(([id]) => id);
+  const rules = [
+    { met: toScaled(clamp(raw - Z * sd)) >= 750, text: `the low end of the band is at or above 750 (it is ${toScaled(clamp(raw - Z * sd))})` },
+    { met: fulls.length >= 2 && fulls.slice(-2).every((m) => m.scaled >= 750),
+      text: `two full mocks in the last 14 days, both at or above 750 (${fulls.length ? fulls.slice(-2).map((m) => m.scaled).join(" and ") : "none taken"})` },
+    { met: heavyOpen.length === 0, text: `no high-severity correction open in a domain worth 20% or more (${heavyOpen.length} open)` },
+  ];
+  return {
+    raw, model, mockRaw, mocks: recent.length, sd,
+    scaled: toScaled(clamp(raw)), low: toScaled(clamp(raw - Z * sd)), high: toScaled(clamp(raw + Z * sd)),
+    stop: { ready: rules.every((r) => r.met), rules },
+  };
+}
+
 // --- readiness -------------------------------------------------------------
 
 const laplace = (correct, seenCount) => (correct + 2) / (seenCount + 4);
 
 /**
- * Mastery 0..1 per objective, and the projected scaled score. `reviewCount` is
- * how many answers the review log holds for the recent window; it sets the
- * width of the band, not the estimate.
+ * Mastery 0..1 per objective for the per-objective picture, and the exam-day
+ * forecast for the headline (examForecast). `mocks` are the mock rows from the
+ * review log; `reviewCount` only qualifies how much evidence there is.
  */
-export function readiness(state, content, now = Date.now(), reviewCount = 0) {
+export function readiness(state, content, now = Date.now(), reviewCount = 0, mocks = []) {
   const perObjective = {};
   for (const d of content.objectives.domains) {
     for (const o of d.objectives) {
@@ -653,30 +742,26 @@ export function readiness(state, content, now = Date.now(), reviewCount = 0) {
   }
 
   const p = Math.max(0, Math.min(1, totals.weightedMastery));
-  const scaled = toScaled(p);
-
   const n = reviewCount;
-  // Uncertainty, not the estimate, carries the cost of a shallow bank. The
-  // point estimate is an honest read of how you did on what exists; how far it
-  // might be from your real exam score depends on how much of the blueprint
-  // that material actually reached.
-  // Aggregate, not an average of per-objective ratios. Averaging the ratios
+  // Blueprint depth, aggregated rather than averaged per objective. Averaging the ratios
   // weights a 10-topic objective the same as a 41-topic one and reads several
   // points higher than the truth, which is the identical mistake one level up.
   const recs = Object.values(perObjective);
   const topicsTotal = recs.reduce((a, r) => a + r.topics, 0);
   const topicsHitTotal = recs.reduce((a, r) => a + r.topicsCovered, 0);
   const meanDepth = topicsTotal ? topicsHitTotal / topicsTotal : 0;
-  const bankPenalty = 1 + (1 - meanDepth) * 0.6;
-  const band = Math.round(Math.min(220, (200 / Math.sqrt(Math.max(n, 1) + 4)) * bankPenalty));
 
+  // The headline is the exam-day forecast. The coverage-weighted mastery above
+  // still paints the per-objective picture; it no longer sets the score.
+  const forecast = examForecast(state, content, now, mocks);
   return {
     perObjective,
     mastery: p,
-    scaled,
-    band,
-    low: Math.max(100, scaled - band),
-    high: Math.min(900, scaled + band),
+    forecast,
+    scaled: forecast.scaled,
+    band: Math.round((forecast.high - forecast.low) / 2),
+    low: forecast.low,
+    high: forecast.high,
     passLine: 750,
     confident: n >= 150 && totals.sampled >= 20 && meanDepth >= 0.8,
     reviewCount: n,

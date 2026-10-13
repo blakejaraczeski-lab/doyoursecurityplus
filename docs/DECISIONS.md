@@ -319,3 +319,19 @@ answers and 29 minutes a day on the real state, the busiest day of the last
 week 112 answers instead of 618, new items introduced weakest objectives
 first. The drill screen says so when the last four weeks' pace cannot carry
 it, and estimates how much of the bank stays unseen.
+
+## Readiness forecasts exam day, and a rule says when to book
+
+The Readiness headline was coverage-weighted mastery: unseen material scored
+nothing, so it measured how much of the bank had been answered, and read 405
+on the real state. It is now a forecast of exam day, 590 with a band of 485 to
+696: each graded item's chance of being right on the date, from accuracy on
+its objective or memory decayed to the date, weighted by the exam's questions
+per objective, dragged by open corrections. Mocks are the only measurement
+that resembles the exam, so each recent mock pulls the forecast toward its
+own raw score and narrows the model's share of the band. The stopping rule
+needs all three of: the band's low end at 750, two recent full mocks at 750,
+no high-severity correction open in a heavy domain. The mock's PBQs are now
+drawn by domain weight, because a uniform draw gave domain 4 a third of a
+mock's points. The per-objective heatmap still uses mastery; it describes
+practice, not the exam.

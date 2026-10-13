@@ -453,7 +453,7 @@ export function mentorView(App) {
 
 // --- readiness -------------------------------------------------------------
 export function readinessView(App) {
-  const r = readiness(App.state, App.content, Date.now(), reviews.count());
+  const r = readiness(App.state, App.content, Date.now(), reviews.count(), reviews.rows("mock"));
   const cov = coverageDeficit(App.state, App.content);
   const posOf = (score) => ((score - 100) / 800) * 100;
 
@@ -531,10 +531,10 @@ export function readinessView(App) {
     <div class="spread top">
       <div>
         <div class="score-big">${r.low}<small> to </small>${r.high}</div>
-        <div class="faint">estimated scaled score &middot; pass line 750</div>
+        <div class="faint">expected on exam day, 80% band &middot; pass line 750</div>
       </div>
       <dl class="side-stats inline">
-        <div class="stat"><dt>Weighted mastery</dt><dd class="${r.scaled >= 750 ? "good" : "warn"}">${pct(r.mastery)}</dd></div>
+        <div class="stat"><dt>Expected right</dt><dd class="${r.scaled >= 750 ? "good" : "warn"}">${pct(r.forecast.raw)}</dd></div>
         ${r.daysLeft != null ? `<div class="stat"><dt>Days to exam</dt><dd>${r.daysLeft}</dd></div>` : ""}
         <div class="stat"><dt>Reviews</dt><dd>${r.reviewCount}</dd></div>
       </dl>
@@ -544,7 +544,17 @@ export function readinessView(App) {
       <div class="pass" style="--l:${posOf(750)}%"></div>
     </div>
     <div class="gauge-scale"><span>100</span><span>750 pass</span><span>900</span></div>
-    <p class="note">An estimate from your own drilling, not a predicted exam score. It weights each objective by its real exam weight and drags on open misconceptions.</p>
+    <p class="note">What you are likely to get right on the day: each graded item's chance from your accuracy on its objective and your memory of it decayed to the exam date, weighted by the exam's questions per objective and dragged by open corrections. ${r.forecast.mocks
+       ? `${r.forecast.mocks} mock${r.forecast.mocks === 1 ? "" : "s"} in the last 30 days pull it toward their result.`
+       : "No mock yet, so the band carries the model's own error; a full mock is the measurement that narrows it."}</p>
+  </div>
+
+  <div class="card tight">
+    <h2 class="eyebrow">Book the exam when all three hold</h2>
+    <ul class="stop-rule">${r.forecast.stop.rules.map((x) => `<li>
+      <span class="mark sm ${x.met ? "ok" : "no"}" role="img" aria-label="${x.met ? "met" : "not met"}">${x.met ? "&check;" : "&times;"}</span>
+      <span>${esc(x.text)}</span></li>`).join("")}</ul>
+    <p class="note">Under the model, the first rule alone books an exam you would fail about one time in ten. The two mocks are what check the model; until they agree with it, treat the band as the model's opinion.</p>
   </div>
 
   ${c.answered >= 8 ? `<div class="card">
