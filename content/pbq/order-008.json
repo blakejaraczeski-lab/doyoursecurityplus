@@ -1,0 +1,155 @@
+{
+  "id": "pbq-order-008",
+  "kind": "drag-order",
+  "objective": "1.4",
+  "topics": [
+    "hashing",
+    "salting",
+    "key-stretching",
+    "symmetric-encryption",
+    "digital-signatures",
+    "tokenization"
+  ],
+  "difficulty": 4,
+  "title": "Pick the cryptographic tool for each requirement",
+  "targetSeconds": 420,
+  "scenario": "Each requirement below comes from a real system design review. Drop it into the tool that meets it. Several tools sound as if they would help with most of these; only one actually provides what each requirement asks for.",
+  "requirements": [
+    "Every requirement goes in exactly one column.",
+    "Ask what the requirement needs: to detect change, to hide content, to prove origin, to slow guessing, or to keep a value out of the system.",
+    "Partial credit applies per requirement."
+  ],
+  "config": {
+    "mode": "categorize",
+    "items": [
+      {
+        "id": "installer",
+        "label": "Detect whether a downloaded installer was altered"
+      },
+      {
+        "id": "store",
+        "label": "Store passwords so the server never needs to recover them"
+      },
+      {
+        "id": "same",
+        "label": "Make two users with the same password store different values"
+      },
+      {
+        "id": "slow",
+        "label": "Make every password guess cost an attacker a tenth of a second"
+      },
+      {
+        "id": "backup",
+        "label": "Encrypt a two terabyte backup quickly"
+      },
+      {
+        "id": "contract",
+        "label": "Prove the finance director approved a contract and it has not changed since"
+      },
+      {
+        "id": "deny",
+        "label": "Stop a sender from later denying they sent a message"
+      },
+      {
+        "id": "card",
+        "label": "Let a shop process card payments without storing card numbers"
+      }
+    ],
+    "buckets": [
+      {
+        "id": "hashing",
+        "label": "Hashing"
+      },
+      {
+        "id": "salting",
+        "label": "Salting"
+      },
+      {
+        "id": "stretching",
+        "label": "Key stretching"
+      },
+      {
+        "id": "symmetric",
+        "label": "Symmetric encryption"
+      },
+      {
+        "id": "signature",
+        "label": "Digital signature"
+      },
+      {
+        "id": "tokenization",
+        "label": "Tokenization"
+      }
+    ]
+  },
+  "solution": {
+    "placements": {
+      "installer": "hashing",
+      "store": "hashing",
+      "same": "salting",
+      "slow": "stretching",
+      "backup": "symmetric",
+      "contract": "signature",
+      "deny": "signature",
+      "card": "tokenization"
+    }
+  },
+  "subtasks": [
+    {
+      "id": "k1",
+      "item": "installer",
+      "points": 2,
+      "misconception": "hashing-vs-encryption",
+      "correctNote": "Compare the file's hash with the published one. Nothing needs to be hidden, only checked for change."
+    },
+    {
+      "id": "k2",
+      "item": "store",
+      "points": 2,
+      "misconception": "hashing-vs-encryption",
+      "correctNote": "A hash is one way. Encryption would mean a key that can recover every password, which is exactly what must not exist."
+    },
+    {
+      "id": "k3",
+      "item": "same",
+      "points": 2,
+      "misconception": "salting-purpose",
+      "correctNote": "A unique salt per user makes identical passwords produce different stored values."
+    },
+    {
+      "id": "k4",
+      "item": "slow",
+      "points": 3,
+      "misconception": "salting-purpose",
+      "correctNote": "Key stretching makes each guess deliberately expensive. Salt does nothing to the cost of a single guess."
+    },
+    {
+      "id": "k5",
+      "item": "backup",
+      "points": 2,
+      "misconception": "key-management-essentials",
+      "correctNote": "Symmetric ciphers are fast enough for bulk data. Asymmetric encryption is used to exchange the key, not to encrypt terabytes."
+    },
+    {
+      "id": "k6",
+      "item": "contract",
+      "points": 2,
+      "misconception": "digital-signature-properties",
+      "correctNote": "A signature proves who signed and that the content has not changed since. A hash alone proves no identity."
+    },
+    {
+      "id": "k7",
+      "item": "deny",
+      "points": 2,
+      "misconception": "digital-signature-properties",
+      "correctNote": "Only the holder of the private key could have produced the signature, which is non-repudiation."
+    },
+    {
+      "id": "k8",
+      "item": "card",
+      "points": 3,
+      "misconception": "obfuscation-methods",
+      "correctNote": "A token stands in for the card number and is useless on its own; the real number lives with the payment provider."
+    }
+  ]
+}

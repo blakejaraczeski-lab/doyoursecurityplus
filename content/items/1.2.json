@@ -266,5 +266,61 @@
       {"id": "c", "text": "A gap analysis requires an independent auditor, which a consultant cannot be", "misconception": "gap-analysis-vs-assessment", "why": "Independence is an audit requirement. Gap analysis is normally self-directed planning and often done with a consultant."},
       {"id": "d", "text": "A risk assessment must always precede a gap analysis", "misconception": "gap-analysis-vs-assessment", "why": "They answer different questions and neither strictly requires the other."}
     ]
+  },
+  {
+    "id": "fn-016",
+    "type": "mcq",
+    "objective": "1.2",
+    "topics": ["zero-trust", "policy-engine", "policy-enforcement-point", "control-plane", "data-plane"],
+    "difficulty": 3,
+    "stem": "In a Zero Trust design, which component decides whether a contractor's request to reach the finance application is granted, based on identity, device posture and context?",
+    "options": [
+      {"id": "a", "text": "The Policy Engine", "correct": true, "why": "The engine makes the grant or deny decision. It sits in the control plane with the Policy Administrator, which relays that decision."},
+      {"id": "b", "text": "The Policy Enforcement Point", "misconception": "zero-trust-planes", "why": "The enforcement point carries out the decision on the actual traffic, in the data plane. It does not make it."},
+      {"id": "c", "text": "The contractor's device, as the subject", "misconception": "zero-trust-planes", "why": "The subject is what asks for access. It never decides whether it gets it."},
+      {"id": "d", "text": "The implicit trust zone around the finance servers", "misconception": "zero-trust-planes", "why": "An implicit trust zone is the region behind the enforcement point, in the data plane. Zero Trust works to shrink it, not to let it decide."}
+    ]
+  },
+  {
+    "id": "fn-017",
+    "type": "mcq",
+    "objective": "1.2",
+    "topics": ["authenticating-systems", "authenticating-people"],
+    "difficulty": 3,
+    "stem": "A fleet of environmental sensors must authenticate to a cloud ingestion service around the clock, with no person present. Which approach fits?",
+    "options": [
+      {"id": "a", "text": "A shared password typed in during installation and stored on every sensor", "misconception": "authenticating-people-vs-systems", "why": "One secret shared by the whole fleet means one stolen sensor exposes them all, and it cannot be revoked per device."},
+      {"id": "b", "text": "A unique certificate for each sensor, issued when the device is enrolled", "correct": true, "why": "A system proves itself by possession of a private key provisioned to it. Each sensor can be revoked on its own if it is lost."},
+      {"id": "c", "text": "A push notification to the installer's phone on each connection", "misconception": "authenticating-people-vs-systems", "why": "There is nobody present to approve a prompt at three in the morning. Factors designed for people do not fit unattended systems."},
+      {"id": "d", "text": "Biometric enrolment of the technician who installs the sensors", "misconception": "authenticating-people-vs-systems", "why": "The technician is not present when the sensors connect. A person's biometric cannot prove which device is talking."}
+    ]
+  },
+  {
+    "id": "fn-018",
+    "type": "mcq",
+    "objective": "1.2",
+    "topics": ["honeyfile", "honeytoken", "honeypot", "honeynet"],
+    "difficulty": 3,
+    "stem": "An organisation places a file named Board_salaries_2026.xlsx on a file share nobody uses, with an alert on any attempt to open it. Which technique is this, and what does an alert mean?",
+    "options": [
+      {"id": "a", "text": "A honeytoken; the data has been sold to a third party", "misconception": "deception-technologies", "why": "A honeytoken is a fake record or credential that reveals where data went when it surfaces elsewhere. This alert fires on opening the file, inside the network."},
+      {"id": "b", "text": "A honeypot; the file server is being exploited", "misconception": "deception-technologies", "why": "A honeypot is a whole decoy system. The share is real; only the file is bait."},
+      {"id": "c", "text": "A honeyfile; someone is browsing where they have no reason to be", "correct": true, "why": "A bait file that nothing legitimate should open. Any access is suspicious by definition, which is why it alerts so cleanly."},
+      {"id": "d", "text": "A honeynet; an attacker is moving laterally between decoy hosts", "misconception": "deception-technologies", "why": "A honeynet is a network of decoy systems. There is one bait file here, not a decoy network."}
+    ]
+  },
+  {
+    "id": "fn-019",
+    "type": "mcq",
+    "objective": "1.2",
+    "topics": ["gap-analysis"],
+    "difficulty": 3,
+    "stem": "Before seeking certification, a company compares each of its current controls with what a standard requires and lists what is missing. A month later an independent party checks whether the controls now in place comply with the standard. What are the two activities?",
+    "options": [
+      {"id": "a", "text": "An audit, then a gap analysis", "misconception": "gap-analysis-vs-assessment", "why": "The order is reversed. The first activity measured the distance to a target to plan work; the second judged compliance independently."},
+      {"id": "b", "text": "A risk assessment, then an audit", "misconception": "gap-analysis-vs-assessment", "why": "A risk assessment weighs threats and impact on assets. Comparing controls with a standard's requirements is a gap analysis."},
+      {"id": "c", "text": "A gap analysis, then a risk assessment", "misconception": "gap-analysis-vs-assessment", "why": "The second activity judged compliance with the standard, independently. That is an audit, not an assessment of threats and impact."},
+      {"id": "d", "text": "A gap analysis, then an audit", "correct": true, "why": "Current state against a target produces the gap. An independent check of practice against the standard produces an opinion on compliance, which is an audit."}
+    ]
   }
 ]

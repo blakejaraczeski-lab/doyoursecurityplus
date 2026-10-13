@@ -282,5 +282,33 @@
       {"id": "c", "text": "Dual power supplies in each server", "misconception": "ups-vs-generator", "why": "Redundant supplies protect against a failed supply unit. If both feeds lose mains power, both go down."},
       {"id": "d", "text": "Power distribution units with surge protection", "misconception": "ups-vs-generator", "why": "Surge protection handles voltage spikes. It stores no energy to carry a loss of supply."}
     ]
+  },
+  {
+    "id": "rs-010",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["capacity-planning-technology", "capacity-planning-infrastructure", "capacity-planning-people"],
+    "difficulty": 4,
+    "stem": "During a failover test the recovery site's servers start correctly, but the backup software refuses to run because its licences are tied to the primary site's hardware. Which dimension of capacity planning was missed?",
+    "options": [
+      {"id": "a", "text": "Infrastructure", "misconception": "capacity-planning-dimensions", "why": "Power, cooling, space and network were all adequate; the servers started. The shortfall was in what the software is licensed to do."},
+      {"id": "b", "text": "People", "misconception": "capacity-planning-dimensions", "why": "Nobody was missing or untrained. The software itself refused to run."},
+      {"id": "c", "text": "The site should have been a hot site rather than a warm one", "misconception": "site-types-hot-warm-cold", "why": "A hot site with the same licensing gap would fail the same way. The type of site is not the problem."},
+      {"id": "d", "text": "Technology: the licences must cover the recovery site as well as the hardware", "correct": true, "why": "Licences are part of technology capacity. Servers that start but cannot run the software are not capacity."}
+    ]
+  },
+  {
+    "id": "rs-011",
+    "type": "mcq",
+    "objective": "3.4",
+    "topics": ["uninterruptible-power-supply-ups", "generators", "power"],
+    "difficulty": 2,
+    "stem": "A server room has a generator that starts automatically 20 seconds after mains power fails, and no UPS. What happens to the servers during a five minute outage?",
+    "options": [
+      {"id": "a", "text": "They lose power for about 20 seconds, until the generator takes over", "correct": true, "why": "A generator needs time to start. Without a UPS to bridge those seconds, the servers go down and restart."},
+      {"id": "b", "text": "Nothing; the generator engages with no gap", "misconception": "ups-vs-generator", "why": "Generators engage after a start delay. Covering that gap with no interruption is exactly what a UPS is for."},
+      {"id": "c", "text": "They run without interruption until the generator's fuel runs out", "misconception": "ups-vs-generator", "why": "The interruption happens at the start, before the generator is running, not at the end."},
+      {"id": "d", "text": "They stay up, because dual power supplies in each server bridge the gap", "misconception": "ups-vs-generator", "why": "Dual supplies protect against one supply or feed failing. Both are fed by the same failed mains until the generator starts."}
+    ]
   }
 ]

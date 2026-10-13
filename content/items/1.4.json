@@ -366,5 +366,47 @@
       {"id": "e", "text": "Key exchange", "misconception": "digital-signature-properties", "why": "Key exchange is a separate operation. A signature proves origin, it does not establish a shared key."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "cr-018",
+    "type": "mcq",
+    "objective": "1.4",
+    "topics": ["salting", "hashing", "key-stretching"],
+    "difficulty": 3,
+    "stem": "Two users chose the same password, and in a stolen database their stored hashes are identical, which tells the attacker that cracking one cracks both. What would have made their stored values different?",
+    "options": [
+      {"id": "a", "text": "Increasing the number of hashing iterations", "misconception": "salting-purpose", "why": "More iterations make each guess slower, but the same input with the same settings still produces the same output."},
+      {"id": "b", "text": "Switching to a longer hash such as SHA-512", "misconception": "salting-purpose", "why": "A longer hash of the same password is still identical for both users. Length does not make outputs unique."},
+      {"id": "c", "text": "Encrypting the hashes with a key held by the server", "misconception": "hashing-vs-encryption", "why": "Encrypting two identical values with the same key gives two identical ciphertexts, and the key sits on the server the attacker breached."},
+      {"id": "d", "text": "A unique salt added to each password before hashing", "correct": true, "why": "Different salts make the same password produce different hashes, which defeats both this comparison and precomputed tables."}
+    ]
+  },
+  {
+    "id": "cr-019",
+    "type": "mcq",
+    "objective": "1.4",
+    "topics": ["online-certificate-status-protocol-ocsp", "certificate-revocation-lists-crls"],
+    "difficulty": 3,
+    "stem": "A browser needs to know whether a certificate was revoked minutes ago, and the site operator has not enabled stapling. Which mechanism gives the browser a live answer, and what does it cost?",
+    "options": [
+      {"id": "a", "text": "OCSP: a query to the certificate authority for this one certificate, at the cost of a round trip and of telling the authority which site is being visited", "correct": true, "why": "OCSP is the live question. Its costs are the extra lookup and the privacy leak, which is the reason stapling exists."},
+      {"id": "b", "text": "A CRL, which is always current because the authority updates it instantly", "misconception": "crl-vs-ocsp", "why": "A CRL is published periodically, so it can be hours old. It is as stale as its last publication."},
+      {"id": "c", "text": "OCSP stapling, which the browser applies itself", "misconception": "crl-vs-ocsp", "why": "Stapling is done by the server, which attaches a recent signed response. The stem says the operator has not enabled it."},
+      {"id": "d", "text": "Certificate pinning, which reports revocation status", "misconception": "crl-vs-ocsp", "why": "Pinning restricts which certificates or keys are accepted for a site. It says nothing about revocation."}
+    ]
+  },
+  {
+    "id": "cr-020",
+    "type": "mcq",
+    "objective": "1.4",
+    "topics": ["blockchain", "open-public-ledger"],
+    "difficulty": 3,
+    "stem": "A consortium proposes storing patients' medical histories on a public blockchain so that any hospital can read them and nobody can alter them. Which requirement does this design fail?",
+    "options": [
+      {"id": "a", "text": "Confidentiality: anything written to an open public ledger can be read by anyone", "correct": true, "why": "Integrity and shared verification are what a public ledger is good at. Secrecy is the one thing it cannot offer, and medical records need it."},
+      {"id": "b", "text": "Integrity, because any participant can edit earlier entries", "misconception": "blockchain-ledger-properties", "why": "Each block commits to the one before it by hash, so altering history is evident. Integrity is the ledger's strength."},
+      {"id": "c", "text": "Availability, because the ledger is kept on a single server", "misconception": "blockchain-ledger-properties", "why": "A public ledger is replicated across many independent participants. Availability of the record is not the weakness."},
+      {"id": "d", "text": "Non-repudiation, because entries are not signed", "misconception": "blockchain-ledger-properties", "why": "Entries are signed by the key that authorised them, which is what gives a ledger non-repudiation."}
+    ]
   }
 ]

@@ -210,5 +210,19 @@
       {"id": "e", "text": "Moving to a managed service transfers accountability for a breach", "misconception": "architecture-tradeoffs", "why": "Responsibility and some liability move; accountability to regulators and data subjects does not."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "am-009",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["centralized-vs-decentralized"],
+    "difficulty": 4,
+    "stem": "A retailer lets each of its 200 stores manage its own firewall rules locally. Which outcome should the security team expect?",
+    "options": [
+      {"id": "a", "text": "A compromise at one store tends to stay at that store, but rules drift apart and the central team loses visibility", "correct": true, "why": "Decentralising buys containment and pays in consistency and visibility. Both halves of that trade show up here."},
+      {"id": "b", "text": "Consistency improves, because each store knows its own needs best", "misconception": "centralized-vs-decentralized", "why": "Two hundred independent rule sets drift by default. Consistency is what centralisation buys, and it has been given up."},
+      {"id": "c", "text": "The blast radius of a single compromise grows", "misconception": "centralized-vs-decentralized", "why": "Blast radius grows when control is concentrated. Here a compromised store's firewall reaches only that store."},
+      {"id": "d", "text": "Visibility improves, because more administrators are watching", "misconception": "centralized-vs-decentralized", "why": "Each administrator sees one store. Nobody sees the whole picture, which is the visibility gap decentralisation creates."}
+    ]
   }
 ]

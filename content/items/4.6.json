@@ -324,5 +324,19 @@
       {"id": "e", "text": "A fingerprint plus a retina scan", "misconception": "mfa-same-factor", "why": "Both are something you are. Two biometrics are still one factor."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "id-017",
+    "type": "mcq",
+    "objective": "4.6",
+    "topics": ["single-sign-on-sso", "security-assertions-markup-language-saml"],
+    "difficulty": 3,
+    "stem": "Employees sign in once in the morning and are then admitted to the HR portal, the expenses system and email throughout the day without entering credentials again. Which term describes this experience?",
+    "options": [
+      {"id": "a", "text": "Security Assertion Markup Language", "misconception": "terminology-4-6", "why": "SAML is one protocol that can carry the assertion that makes single sign-on work. The stem describes the experience, not the protocol underneath it."},
+      {"id": "b", "text": "Passwordless authentication", "misconception": "terminology-4-6", "why": "Passwordless removes the knowledge factor from the sign-in itself. The stem says nothing about how the morning sign-in happens, only that it happens once."},
+      {"id": "c", "text": "Single sign-on", "correct": true, "why": "One authentication, many applications: that is the experience the stem describes, whatever protocol carries it behind the scenes."},
+      {"id": "d", "text": "A security key", "misconception": "authenticator-types", "why": "A security key is a hardware authenticator used during a sign-in. It does not explain why later applications need no sign-in at all."}
+    ]
   }
 ]

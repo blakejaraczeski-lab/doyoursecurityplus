@@ -1,0 +1,155 @@
+{
+  "id": "pbq-order-009",
+  "kind": "drag-order",
+  "objective": "5.2",
+  "topics": [
+    "transfer",
+    "accept",
+    "avoid",
+    "mitigate",
+    "exception",
+    "exemption"
+  ],
+  "difficulty": 4,
+  "title": "Choose the treatment for each risk",
+  "targetSeconds": 420,
+  "scenario": "The risk committee has decided how to handle each item on the register. Drop each decision into the treatment it actually is. Two of the columns are forms of acceptance that the exam names separately: an exception expires, an exemption does not.",
+  "requirements": [
+    "Every decision goes in exactly one column.",
+    "Judge what was done to the risk, not what the decision was called in the meeting.",
+    "Partial credit applies per decision."
+  ],
+  "config": {
+    "mode": "categorize",
+    "items": [
+      {
+        "id": "insurance",
+        "label": "Buy cyber insurance covering ransomware recovery costs"
+      },
+      {
+        "id": "payroll",
+        "label": "Outsource payroll to a provider that contractually carries the cost of its own breaches"
+      },
+      {
+        "id": "cards",
+        "label": "Cancel the plan to take card payments online"
+      },
+      {
+        "id": "dob",
+        "label": "Stop collecting customers' dates of birth, which the service never needed"
+      },
+      {
+        "id": "mfa",
+        "label": "Add multifactor authentication to the remote access gateway"
+      },
+      {
+        "id": "lowrisk",
+        "label": "Record that a low impact risk will be lived with, signed by its owner"
+      },
+      {
+        "id": "legacy",
+        "label": "Allow an unsupported application until its replacement goes live in six months, with a compensating control"
+      },
+      {
+        "id": "instrument",
+        "label": "Permanently release a lab instrument that can never run endpoint agents from the endpoint standard"
+      }
+    ],
+    "buckets": [
+      {
+        "id": "transfer",
+        "label": "Transfer"
+      },
+      {
+        "id": "avoid",
+        "label": "Avoid"
+      },
+      {
+        "id": "mitigate",
+        "label": "Mitigate"
+      },
+      {
+        "id": "accept",
+        "label": "Accept"
+      },
+      {
+        "id": "exception",
+        "label": "Exception"
+      },
+      {
+        "id": "exemption",
+        "label": "Exemption"
+      }
+    ]
+  },
+  "solution": {
+    "placements": {
+      "insurance": "transfer",
+      "payroll": "transfer",
+      "cards": "avoid",
+      "dob": "avoid",
+      "mfa": "mitigate",
+      "lowrisk": "accept",
+      "legacy": "exception",
+      "instrument": "exemption"
+    }
+  },
+  "subtasks": [
+    {
+      "id": "r1",
+      "item": "insurance",
+      "points": 2,
+      "misconception": "risk-treatment-strategies",
+      "correctNote": "The financial consequence moves to the insurer. The organisation still owns the risk and still suffers the incident."
+    },
+    {
+      "id": "r2",
+      "item": "payroll",
+      "points": 3,
+      "misconception": "risk-treatment-strategies",
+      "correctNote": "The cost of a breach moves to the provider by contract. Accountability to employees and regulators does not."
+    },
+    {
+      "id": "r3",
+      "item": "cards",
+      "points": 2,
+      "misconception": "risk-treatment-strategies",
+      "correctNote": "Not doing the activity at all removes the risk. That is avoidance."
+    },
+    {
+      "id": "r4",
+      "item": "dob",
+      "points": 2,
+      "misconception": "risk-treatment-strategies",
+      "correctNote": "Data you never hold cannot be breached. Stopping the collection avoids the risk."
+    },
+    {
+      "id": "r5",
+      "item": "mfa",
+      "points": 2,
+      "misconception": "risk-treatment-strategies",
+      "correctNote": "A control that reduces likelihood. Mitigation."
+    },
+    {
+      "id": "r6",
+      "item": "lowrisk",
+      "points": 2,
+      "misconception": "risk-treatment-strategies",
+      "correctNote": "A documented decision by the owner to carry the risk. Acceptance."
+    },
+    {
+      "id": "r7",
+      "item": "legacy",
+      "points": 3,
+      "misconception": "exception-vs-exemption",
+      "correctNote": "Temporary, with an end date and a compensating control. An exception."
+    },
+    {
+      "id": "r8",
+      "item": "instrument",
+      "points": 3,
+      "misconception": "exception-vs-exemption",
+      "correctNote": "Permanent, with no remediation expected. An exemption."
+    }
+  ]
+}

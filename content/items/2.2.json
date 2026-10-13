@@ -208,5 +208,47 @@
       {"id": "c", "text": "Supplier; the agent is a component they supplied", "misconception": "supply-chain-roles", "why": "A supplier provides parts that go into what you run. The agent is the MSP's access path, not a component of your product."},
       {"id": "d", "text": "Insider threat; the credentials belong to an internal account", "misconception": "supply-chain-roles", "why": "Access you granted to an outside party is a supply chain vector. The people using it are not your employees."}
     ]
+  },
+  {
+    "id": "sec-2.2-042",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["suppliers", "vendors", "managed-service-providers"],
+    "difficulty": 4,
+    "stem": "A hospital buys infusion pumps from a medical device manufacturer. Investigators find that the pumps' wireless modules, made by a separate company and fitted during manufacture, shipped with a hidden debug account. Which supply chain party introduced the weakness?",
+    "options": [
+      {"id": "a", "text": "The vendor, because the hospital bought the pumps from them", "misconception": "supply-chain-roles", "why": "The manufacturer is the vendor and is accountable for what it ships, but the question asks where the weakness entered. It entered with a component from another firm."},
+      {"id": "b", "text": "The supplier of the wireless module, a component that arrived already inside the product", "correct": true, "why": "The weakness came in with a part made by another company and built into the finished device. That is the supplier vector: tampered or flawed components inside what you bought."},
+      {"id": "c", "text": "A managed service provider, because the pumps connect over wireless", "misconception": "supply-chain-roles", "why": "An MSP operates something for you with standing access. Nobody here runs the pumps on the hospital's behalf; a wireless connection is not a service provider."},
+      {"id": "d", "text": "An insider at the hospital who configured the pumps", "misconception": "supply-chain-roles", "why": "The account existed before the pumps arrived. Nothing in the stem points to anyone at the hospital creating it."}
+    ]
+  },
+  {
+    "id": "sec-2.2-043",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["misinformation-disinformation", "brand-impersonation"],
+    "difficulty": 3,
+    "stem": "A competitor pays a network of accounts to post fabricated claims that a company's mobile app leaks customer data. Thousands of ordinary users, believing the claims, repost them to warn their friends. How should the paid posts and the reposts be classified?",
+    "options": [
+      {"id": "a", "text": "Both are disinformation, because the claim is false", "misconception": "misinformation-vs-disinformation", "why": "Falsity alone does not make disinformation. The users reposting it believed it and meant to help, which is misinformation."},
+      {"id": "b", "text": "Both are misinformation, because the claim is false", "misconception": "misinformation-vs-disinformation", "why": "The accounts were paid to post something they knew was invented. Deliberate falsehood is disinformation."},
+      {"id": "c", "text": "The paid posts are disinformation; the reposts are misinformation", "correct": true, "why": "The same falsehood is deliberate in the hands of the people who invented it and innocent in the hands of the people who believed it. Intent is the whole distinction."},
+      {"id": "d", "text": "The paid posts are brand impersonation; the reposts are disinformation", "misconception": "misinformation-vs-disinformation", "why": "Nothing is pretending to be the company; the posts attack it. And the users reposting in good faith are not acting deliberately."}
+    ]
+  },
+  {
+    "id": "sec-2.2-044",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["bluetooth", "unsecure-wireless-networks", "default-credentials"],
+    "difficulty": 3,
+    "stem": "A tester sitting in the car park finds that the conference room speakerphones accept pairing requests from any nearby device without confirmation. Which threat vector is this, and which control closes it?",
+    "options": [
+      {"id": "a", "text": "Unsecure wireless network; move the corporate network to WPA3", "misconception": "unsecure-network-vectors", "why": "WPA3 protects the Wi-Fi network. The speakerphones are accepting Bluetooth pairings, which WPA3 never touches."},
+      {"id": "b", "text": "Unsecure wired network; enable 802.1X on the conference room switch ports", "misconception": "unsecure-network-vectors", "why": "802.1X controls which devices may use a cable. The tester never plugged anything in."},
+      {"id": "c", "text": "Default credentials; change the speakerphones' administrator passwords", "misconception": "unsecure-network-vectors", "why": "No password was used. The devices accept a pairing without asking for anything, so a new password changes nothing."},
+      {"id": "d", "text": "Bluetooth; make the devices non-discoverable and require confirmation for every pairing", "correct": true, "why": "The opening is a short-range radio accepting strangers. The control that closes exactly that opening is on the pairing itself."}
+    ]
   }
 ]

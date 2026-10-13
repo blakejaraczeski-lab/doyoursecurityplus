@@ -352,5 +352,47 @@
       {"id": "e", "text": "permit udp DNS-SRV any -> APPROVED-DNS 53", "misconception": "acl-overbroad-any", "why": "A separate, correctly scoped rule for a different requirement. One source, one destination, one port."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "ec-014",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["ids-ips-signatures", "ids-ips-trends"],
+    "difficulty": 4,
+    "stem": "A security operations team is buried in IDS alerts every month end, when backup jobs move far more data than usual; nothing malicious is behind them. The genuine detections that month were all well known malware families. Which detection method is producing the noise, and which one caught the malware?",
+    "options": [
+      {"id": "a", "text": "The signature-based method is raising the false positives; the anomaly-based method caught the known families", "misconception": "ids-ips-detection-methods", "why": "Signatures match known patterns and rarely fire on ordinary but unusual volume. It is the baseline comparison that treats a big backup as suspicious."},
+      {"id": "b", "text": "Both come from signature-based detection that has been tuned too aggressively", "misconception": "ids-ips-detection-methods", "why": "Signature tuning changes which known patterns match. It does not explain alerts driven purely by unusual volume with no malicious content."},
+      {"id": "c", "text": "The anomaly-based method is raising the false positives; the signature-based method caught the known families", "correct": true, "why": "A month-end backup is a departure from the learned baseline, so behaviour-based detection flags it. Known malware matches stored patterns, which is exactly what signatures are for."},
+      {"id": "d", "text": "Both come from anomaly-based detection, which also stores the patterns of known malware", "misconception": "ids-ips-detection-methods", "why": "Anomaly detection compares against a baseline of normal behaviour, not a pattern library. Recognising named malware families is the signature method's job."}
+    ]
+  },
+  {
+    "id": "ec-015",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["group-policy", "selinux"],
+    "difficulty": 4,
+    "stem": "After a Linux mail server is breached, the team wants the mail daemon unable to write anywhere except its spool directory, even if an attacker gains root through it. Separately, every domain-joined Windows workstation must have USB storage disabled by tomorrow. Which pair of controls fits?",
+    "options": [
+      {"id": "a", "text": "Group Policy for both, by joining the Linux server to the domain", "misconception": "host-hardening-enforcement", "why": "Group Policy distributes Windows configuration. It does not enforce mandatory access control inside a Linux kernel, and root on that host would ignore any discretionary setting."},
+      {"id": "b", "text": "SELinux for both, deployed as a policy module on each workstation", "misconception": "host-hardening-enforcement", "why": "SELinux is a Linux kernel mechanism. It is not how a Windows domain receives a configuration change by tomorrow."},
+      {"id": "c", "text": "File permissions for the daemon, and a local security policy set by hand on each workstation", "misconception": "host-hardening-enforcement", "why": "File permissions are discretionary, and root overrides them, which is the case the requirement names. Setting thousands of machines by hand is the problem Group Policy removes."},
+      {"id": "d", "text": "SELinux for the mail daemon, and Group Policy for the workstations", "correct": true, "why": "Confining one process so that even root is bound by its label is mandatory access control. Pushing one setting to thousands of domain members is what Group Policy exists for."}
+    ]
+  },
+  {
+    "id": "ec-016",
+    "type": "mcq",
+    "objective": "4.5",
+    "topics": ["file-integrity-monitoring"],
+    "difficulty": 3,
+    "stem": "A team wants an alert whenever the system password file or the web server's binaries change on a production host, whichever account makes the change and whether or not the change looks malicious. Which capability provides this?",
+    "options": [
+      {"id": "a", "text": "File integrity monitoring", "correct": true, "why": "It records a known-good fingerprint of watched files and alerts when one changes. The account and the intent do not matter, only that the file is different."},
+      {"id": "b", "text": "Data loss prevention", "misconception": "terminology-4-5", "why": "DLP watches sensitive data leaving or moving where it should not. It does not track whether a system file has been altered in place."},
+      {"id": "c", "text": "A screened subnet", "misconception": "terminology-4-5", "why": "A screened subnet is a network zone between untrusted and trusted networks. It places hosts; it does not watch their files."},
+      {"id": "d", "text": "Network access control", "misconception": "monitoring-capability-selection", "why": "NAC decides whether a device may join the network based on its identity and posture. It has no view of changes to files on a server already admitted."}
+    ]
   }
 ]

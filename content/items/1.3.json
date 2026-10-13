@@ -168,5 +168,19 @@
       {"id": "c", "text": "Testing", "misconception": "change-management-elements", "why": "The patch worked correctly, so testing is not implicated."},
       {"id": "d", "text": "Version control", "misconception": "change-management-elements", "why": "Version control tracks what changed. It does not govern when changes are applied."}
     ]
+  },
+  {
+    "id": "cm-011",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["impact-analysis", "backout-plan", "maintenance-window"],
+    "difficulty": 3,
+    "stem": "A change to the email gateway's filtering rules was approved, tested and applied in the agreed window, and could have been rolled back at any time. Nobody had realised the same gateway also relays alerts from the monitoring system, which stopped arriving for a day. Which element of change management was inadequate?",
+    "options": [
+      {"id": "a", "text": "The backout plan", "misconception": "change-management-elements", "why": "The change could have been undone at any time. The problem was that nobody knew it needed undoing."},
+      {"id": "b", "text": "The maintenance window", "misconception": "change-management-elements", "why": "The change was applied in the agreed window. Timing was not the failure."},
+      {"id": "c", "text": "The approval process", "misconception": "change-management-elements", "why": "It was approved. Approval cannot catch a dependency nobody had identified."},
+      {"id": "d", "text": "The impact analysis", "correct": true, "why": "An unforeseen side effect on something else is what impact analysis exists to find before the change, not after."}
+    ]
   }
 ]

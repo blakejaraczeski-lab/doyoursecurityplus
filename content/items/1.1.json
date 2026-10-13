@@ -211,5 +211,33 @@
       {"id": "c", "text": "Technical, then operational", "misconception": "managerial-vs-operational", "why": "A procedure is not a system enforcing anything. Technical controls act without a person in the loop."},
       {"id": "d", "text": "Managerial, then managerial", "misconception": "managerial-vs-operational", "why": "The help desk performing the steps is people doing a process. That is operational, not a management decision."}
     ]
+  },
+  {
+    "id": "sec-1.1-018",
+    "type": "mcq",
+    "objective": "1.1",
+    "topics": ["directive", "deterrent", "preventive"],
+    "difficulty": 2,
+    "stem": "Which of these controls is directive?",
+    "options": [
+      {"id": "a", "text": "A notice warning that trespassers will be prosecuted", "misconception": "directive-vs-deterrent", "why": "It announces a consequence to people who intend not to comply. That is deterrent."},
+      {"id": "b", "text": "Floodlights around the perimeter", "misconception": "directive-vs-deterrent", "why": "Lighting discourages an intruder by making them feel exposed. Deterrent, not directive."},
+      {"id": "c", "text": "A procedure telling staff to escort visitors at all times", "correct": true, "why": "It instructs people who intend to comply on what to do. That is a directive control."},
+      {"id": "d", "text": "A turnstile that admits one badge holder at a time", "misconception": "directive-vs-deterrent", "why": "It physically stops anyone without a badge, whatever their intent. Preventive."}
+    ]
+  },
+  {
+    "id": "sec-1.1-019",
+    "type": "mcq",
+    "objective": "1.1",
+    "topics": ["managerial-controls", "operational-controls", "technical-controls"],
+    "difficulty": 3,
+    "stem": "The risk committee decides and documents an annual review of every critical vendor. Separately, a security analyst reads the firewall logs each morning and escalates anything unusual. Which categories do these controls belong to?",
+    "options": [
+      {"id": "a", "text": "Both are operational", "misconception": "managerial-vs-operational", "why": "The committee decides and governs; it does not perform a routine process. Its review programme is managerial."},
+      {"id": "b", "text": "Managerial, then technical, because the logs come from a firewall", "misconception": "managerial-vs-operational", "why": "The firewall is technical. The analyst reading its logs is a person performing a process, which is operational."},
+      {"id": "c", "text": "Operational, then managerial", "misconception": "managerial-vs-operational", "why": "The two are the wrong way round: the committee's documented programme is managerial and the analyst's daily work is operational."},
+      {"id": "d", "text": "The vendor review is managerial; the daily log review is operational", "correct": true, "why": "A governing decision and its document is managerial. A person carrying out a process is operational, even when the material they read comes from a system."}
+    ]
   }
 ]

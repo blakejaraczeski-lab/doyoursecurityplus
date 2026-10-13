@@ -352,5 +352,33 @@
       {"id": "c", "text": "Expansionary", "misconception": "risk-appetite-postures", "why": "Expansionary accepts more risk in pursuit of opportunity, which is the opposite of what is described."},
       {"id": "d", "text": "This describes risk tolerance rather than appetite", "misconception": "risk-appetite-vs-tolerance", "why": "Tolerance is the acceptable variation around the appetite in practice. A standing statement of how the organisation chooses is the appetite itself."}
     ]
+  },
+  {
+    "id": "rk-012",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["neutral-risk-appetite", "conservative-risk-appetite", "expansionary-risk-appetite"],
+    "difficulty": 3,
+    "stem": "A manufacturer's board states that it will take on new technology risk only where the expected benefit clearly outweighs it, judged case by case, neither seeking risk for growth nor avoiding it at any cost. Which risk appetite does this describe?",
+    "options": [
+      {"id": "a", "text": "Conservative", "misconception": "risk-appetite-postures", "why": "A conservative appetite minimises risk even at the cost of opportunity. This board explicitly accepts risk when the benefit justifies it."},
+      {"id": "b", "text": "Neutral", "correct": true, "why": "Balanced: risk is accepted where the return justifies it. That is the posture most established organisations hold most of the time."},
+      {"id": "c", "text": "Expansionary", "misconception": "risk-appetite-postures", "why": "An expansionary appetite seeks more risk in pursuit of growth. This board accepts risk only case by case, not as a strategy."},
+      {"id": "d", "text": "Risk tolerance, rather than appetite", "misconception": "risk-appetite-vs-tolerance", "why": "Tolerance is the acceptable variation around a stated appetite. A board statement about how much risk it is willing to take is appetite."}
+    ]
+  },
+  {
+    "id": "rk-013",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["exemption", "exception"],
+    "difficulty": 4,
+    "stem": "A laboratory's electron microscope runs a vendor-locked operating system that can never accept endpoint agents, and the instrument will be used for its full fifteen-year life. The organisation formally records that the endpoint standard will never apply to it. What has been granted?",
+    "options": [
+      {"id": "a", "text": "An exception", "misconception": "exception-vs-exemption", "why": "An exception is temporary, with an expiry and a plan to close the gap. Nothing here will ever close it."},
+      {"id": "b", "text": "Risk transfer", "misconception": "risk-treatment-strategies", "why": "Transfer moves the financial consequence to another party, usually by insurance or contract. Nothing has been moved anywhere."},
+      {"id": "c", "text": "An exemption", "correct": true, "why": "The departure is permanent by design: there is no remediation date and none is expected. Permanent and formally accepted is an exemption."},
+      {"id": "d", "text": "Risk avoidance", "misconception": "risk-treatment-strategies", "why": "Avoidance means stopping the activity. The instrument stays in use for fifteen years."}
+    ]
   }
 ]

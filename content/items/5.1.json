@@ -280,5 +280,19 @@
       {"id": "e", "text": "The change management policy, because the failover is a change", "misconception": "policy-types", "why": "Emergency changes during an incident usually run under a defined emergency path, and the policy is not the document governing the response."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "gv-014",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["procedures", "information-security-policies"],
+    "difficulty": 3,
+    "stem": "A document sets out, step by step, how the service desk must reset a user's multifactor enrolment, including which identity checks to perform and in what order. Which governance document is this?",
+    "options": [
+      {"id": "a", "text": "An information security policy", "misconception": "terminology-5-1", "why": "A policy sets direction and requirements, backed by management. It does not list the steps a service desk follows for one reset."},
+      {"id": "b", "text": "A guideline", "misconception": "policy-standard-procedure-guideline", "why": "A guideline is recommended practice that may be departed from. A required sequence of identity checks is not optional."},
+      {"id": "c", "text": "A standard", "misconception": "policy-standard-procedure-guideline", "why": "A standard sets a mandatory, measurable requirement, such as the minimum assurance a reset must reach. The ordered steps that meet it are the procedure."},
+      {"id": "d", "text": "A procedure", "correct": true, "why": "Step by step instructions for performing one task are a procedure. A policy says what must happen and why; a procedure says exactly how."}
+    ]
   }
 ]

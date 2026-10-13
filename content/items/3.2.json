@@ -308,5 +308,33 @@
       {"id": "e", "text": "TLS VPNs are blocked more often than IPsec on restrictive networks", "misconception": "tunneling-protocols", "why": "The reverse: TLS on 443 passes almost everywhere, which is why roaming users favour it."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "tn-009",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["software-defined-wide-area-network-sd-wan", "secure-access-service-edge-sase"],
+    "difficulty": 3,
+    "stem": "A company with 30 branches wants each branch to send traffic over whichever of its broadband and mobile links is performing best, and to route between sites dynamically. Security inspection stays on the existing branch firewalls. Which technology meets the requirement as stated?",
+    "options": [
+      {"id": "a", "text": "SD-WAN", "correct": true, "why": "Choosing the best circuit and routing between sites is exactly what SD-WAN does. The stem explicitly leaves security where it already is."},
+      {"id": "b", "text": "SASE", "misconception": "sdwan-vs-sase", "why": "SASE delivers the security stack from the cloud alongside the connectivity. The stem asks for connectivity only and keeps inspection on the branch firewalls."},
+      {"id": "c", "text": "A full mesh of site to site IPSec VPN tunnels", "misconception": "sdwan-vs-sase", "why": "Tunnels encrypt traffic between sites. They do not choose the best performing link for each flow."},
+      {"id": "d", "text": "Cloud access security brokers at each branch", "misconception": "sdwan-vs-sase", "why": "A CASB governs the use of cloud services. It does not route traffic across a branch's circuits."}
+    ]
+  },
+  {
+    "id": "f-019",
+    "type": "mcq",
+    "objective": "3.2",
+    "topics": ["firewall-types", "attack-surface"],
+    "difficulty": 3,
+    "stem": "A cloud architect says a subnet of servers needs no firewall rules because its servers have only private addresses behind a NAT gateway. One of those servers is later compromised and sends data out to the internet unhindered. What does this show?",
+    "options": [
+      {"id": "a", "text": "The NAT gateway was misconfigured, since it should have blocked the outbound traffic", "misconception": "nat-as-security-control", "why": "A correctly working NAT gateway lets outbound connections out; that is its job. Nothing was misconfigured except the assumption."},
+      {"id": "b", "text": "NAT translates addresses and never enforced a policy, so outbound traffic was never filtered", "correct": true, "why": "Address translation is not a rule set. Outbound connections pass through NAT by design, which is why a filtering policy is still required."},
+      {"id": "c", "text": "Private addressing prevents data leaving the network, so the server must have had a public address", "misconception": "nat-as-security-control", "why": "Private addresses reach the internet through NAT all the time. They hide hosts from unsolicited inbound connections, nothing more."},
+      {"id": "d", "text": "The design was sound inbound; only an egress rule was missing", "misconception": "nat-as-security-control", "why": "NAT does not filter inbound either; it only gives unsolicited connections nowhere to land. A firewall policy in both directions was missing."}
+    ]
   }
 ]

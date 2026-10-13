@@ -224,5 +224,19 @@
       {"id": "e", "text": "A firmware flaw in a current, supported device", "misconception": "vulnerability-by-layer", "why": "Firmware updates are rarer and riskier to apply, and for a supported device one does exist."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "t-026",
+    "type": "mcq",
+    "objective": "2.3",
+    "topics": ["side-loading", "jailbreaking", "mobile-device-vulnerabilities"],
+    "difficulty": 2,
+    "stem": "On an unmodified Android phone, a user allows their browser to install unknown apps and installs a game from a third-party website. Which statement is correct?",
+    "options": [
+      {"id": "a", "text": "This is rooting, because a system setting was changed to allow it", "misconception": "jailbreak-vs-sideload", "why": "Allowing unknown sources is a supported setting. Rooting removes the operating system's restrictions to gain privileged control, which did not happen."},
+      {"id": "b", "text": "This is sideloading; the platform's security model is intact, but the app skipped the store's review", "correct": true, "why": "The operating system's restrictions are still enforced. What changed is where the app came from, which is the definition of sideloading."},
+      {"id": "c", "text": "This is jailbreaking, because the app came from outside the official store", "misconception": "jailbreak-vs-sideload", "why": "Installing from outside the store is sideloading. Jailbreaking changes the device's security model, and this device is unmodified."},
+      {"id": "d", "text": "Sideloading is impossible on Android without rooting first", "misconception": "jailbreak-vs-sideload", "why": "Android permits installing from other sources through a setting. No privileged access is needed."}
+    ]
   }
 ]

@@ -226,5 +226,33 @@
       {"id": "c", "text": "A deny list is stronger because it names the actual threats", "misconception": "allow-list-vs-deny-list", "why": "Naming threats means the list is only ever as current as the last update, and the set of bad software is unbounded."},
       {"id": "d", "text": "An allow list requires less ongoing maintenance than a deny list", "misconception": "allow-list-vs-deny-list", "why": "Reversed. An allow list costs more up front and stabilises; a deny list needs endless updating and is always behind."}
     ]
+  },
+  {
+    "id": "o-021",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["application-allow-list", "configuration-enforcement"],
+    "difficulty": 3,
+    "stem": "A hospital lobby kiosk runs a single browser in full screen. Nothing else must ever execute on it, including malware that has not been written yet, and the team wants the least ongoing maintenance. Which approach fits?",
+    "options": [
+      {"id": "a", "text": "A deny list of known malicious executables, updated daily", "misconception": "allow-list-vs-deny-list", "why": "A deny list only blocks what is already named. Malware written tomorrow is not on today's list, and the daily updates are endless maintenance."},
+      {"id": "b", "text": "Antivirus with heuristic scanning enabled", "misconception": "allow-list-vs-deny-list", "why": "Heuristics raise the odds of catching new malware, but anything that slips past them still runs. Only default deny makes the promise in the stem."},
+      {"id": "c", "text": "A deny list of administrative tools such as command shells and scripting hosts", "misconception": "allow-list-vs-deny-list", "why": "Removing a few dangerous tools shrinks the attack surface, but every program not on that short list still runs freely."},
+      {"id": "d", "text": "An application allow list containing only the browser and the operating system components it needs", "correct": true, "why": "Everything not on the list is blocked by default, including software nobody has seen, and a single-purpose device has a short, stable list."}
+    ]
+  },
+  {
+    "id": "mt-009",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["least-privilege", "permissions"],
+    "difficulty": 4,
+    "stem": "An auditor finds that every developer on a payroll system still holds production database administrator rights, granted when the system was built three years ago and never reviewed. Which principle should govern the remediation?",
+    "options": [
+      {"id": "a", "text": "Permissions: set each developer's permissions to read only", "misconception": "least-privilege-vs-permissions", "why": "Permissions are the configuration you will change, not the principle that decides the target. Read only may itself be more than some developers need in production."},
+      {"id": "b", "text": "Access control lists: attach an ACL to the database", "misconception": "least-privilege-vs-permissions", "why": "An ACL is the structure the rights are recorded in. The database already has one; what it holds is the problem, and a principle decides what it should hold."},
+      {"id": "c", "text": "Encryption of the database, so developers cannot read the data", "misconception": "mitigation-technique-selection", "why": "Administrators of the database can typically manage its keys and its data. The problem is the access granted, not whether the data is encrypted."},
+      {"id": "d", "text": "Least privilege: each role receives only the access it needs, so the standing production rights are removed", "correct": true, "why": "The question asks for the principle that decides how much to grant. The fix will change permissions, but least privilege is what tells you what they should be."}
+    ]
   }
 ]

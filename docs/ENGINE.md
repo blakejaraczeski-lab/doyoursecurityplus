@@ -27,12 +27,10 @@ session. Over the whole log: 62 recall cards each beaten by a graded item
 corrections drilled over an open prerequisite (5.7 min), 4 answers on items
 already above 0.95 (2.6 min).
 
-**Content to author, in order.** One more item for each of 29 misconceptions
-that cannot retire after a single miss, domain 4 first:
-`ids-ips-detection-methods`, `host-hardening-enforcement`, `terminology-4-5`,
-`terminology-4-6`, then domain 2 (`allow-list-vs-deny-list`,
-`supply-chain-roles`, ...). Full list in section 4. And a second PBQ in
-domains 1 and 5, which hold one each, so every mock repeats them.
+**Content gaps: authored 2026-10-13.** The 29 misconceptions that could not
+retire after a single miss each have a third item now, and domains 1 and 5
+have a second PBQ (choosing the cryptographic tool, objective 1.4; choosing
+the risk treatment, objective 5.2). The retirement audit reports zero gaps.
 
 **Hours to the booking rule: 15 to 33.** The rule: the forecast's low end at
 750, two full mocks in the last 14 days at 750, no high-severity correction
@@ -155,7 +153,10 @@ A seventh open record, `terminology-3-3`, had no definition: its bucket was
 emptied in an earlier pass, so it could never be served or retired and was
 counted as open forever. Orphan pruning now drops misconception records too.
 
-The systemic gap is elsewhere. 29 misconceptions hold exactly
+Authored 2026-10-13: each misconception below has a third item, and the audit
+reports zero gaps. The list is kept as the record of what was missing.
+
+The systemic gap was elsewhere. 29 misconceptions hold exactly
 `retireAfter` items, so a miss on any one of them leaves too few distinct
 items to retire on. One more item each closes it. Author in this order,
 heaviest domain first, then severity:
@@ -221,7 +222,7 @@ uniform, and domain 4 carried 34.5% of a full mock's points against 28%. PBQs
 are now drawn by domain weight and each domain's multiple choice is sized so
 its points, PBQs at three items each, match the weight: 12, 22, 18, 28, 20
 exactly. A content gap falls out: domains 1 and 5 hold one PBQ each, so every
-full mock repeats them. Author a second PBQ in each.
+full mock repeated them. A second PBQ in each was authored 2026-10-13.
 
 **Scaled score.** CompTIA does not publish its scaling. The estimate maps raw
 to 100 to 900 linearly with 75% raw at 750, and difficulty-weights items; both

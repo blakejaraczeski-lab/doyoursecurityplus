@@ -396,5 +396,19 @@
       {"id": "c", "text": "An on-path attack, prevented by enabling PMF", "misconception": "evil-twin-vs-rogue-ap", "why": "Nothing indicates the employee is intercepting traffic, and PMF protects wireless management frames rather than wired ports."},
       {"id": "d", "text": "Shadow IT with no available technical control, addressed by policy alone", "misconception": "evil-twin-vs-rogue-ap", "why": "It is shadow IT, but there is a strong technical control: authenticate the wired port so an unknown device cannot connect."}
     ]
+  },
+  {
+    "id": "t-025",
+    "type": "mcq",
+    "objective": "2.4",
+    "topics": ["amplified-ddos", "reflected-ddos", "distributed-denial-of-service-ddos"],
+    "difficulty": 4,
+    "stem": "An attacker sends requests to thousands of open memcached servers with the victim's address forged as the source. Each 15 byte request produces a reply tens of thousands of times larger, all of which lands on the victim. Which statement is accurate?",
+    "options": [
+      {"id": "a", "text": "It is both: reflected, because forged sources send the replies to the victim, and amplified, because each reply dwarfs its request", "correct": true, "why": "Reflection is about who appears to send the traffic, amplification is about how much comes back. This attack uses both, which is the common large-scale pattern."},
+      {"id": "b", "text": "It is reflection only; amplification requires the attacker to control a botnet", "misconception": "ddos-amplified-vs-reflected", "why": "Amplification needs only a protocol whose reply is much larger than its request. No botnet is involved in that multiplication."},
+      {"id": "c", "text": "It is amplification only; reflection requires the memcached servers to be compromised", "misconception": "ddos-amplified-vs-reflected", "why": "The servers are innocent and answering normally. Forging the source address is what reflects their replies onto the victim."},
+      {"id": "d", "text": "It is an on-path attack, because the traffic passes through third-party servers", "misconception": "on-path-vs-replay", "why": "Nothing is intercepted or relayed between two parties. The third parties generate new traffic aimed at the victim."}
+    ]
   }
 ]
