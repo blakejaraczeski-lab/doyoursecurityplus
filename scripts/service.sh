@@ -7,7 +7,7 @@
 #   ./scripts/service.sh install            start at login, keep alive
 #   ./scripts/service.sh install --remind 18:30   also nudge daily at 18:30
 #   ./scripts/service.sh status
-#   ./scripts/service.sh logs
+#   ./scripts/service.sh logs               server.log (rotates at 1 MB, 3 kept) and crash.log
 #   ./scripts/service.sh restart
 #   ./scripts/service.sh uninstall
 #   ./scripts/service.sh hooks              install the pre-commit hook that runs bin/check
@@ -65,18 +65,24 @@ cmd_install() {
   <key>Label</key><string>$LABEL</string>
   <key>ProgramArguments</key>
   <array>
+    <string>/bin/sh</string>
+    <string>$APP_DIR/scripts/capped-log.sh</string>
+    <string>$LOG_DIR/crash.log</string>
     <string>$PYTHON</string>
     <string>$APP_DIR/serve.py</string>
     <string>$PORT</string>
   </array>
   <key>WorkingDirectory</key><string>$APP_DIR</string>
   <key>EnvironmentVariables</key>
-  <dict><key>DYSP_DATA</key><string>$DATA_DIR</string></dict>
+  <dict>
+    <key>DYSP_DATA</key><string>$DATA_DIR</string>
+    <key>DYSP_LOG</key><string>$LOG_DIR/server.log</string>
+  </dict>
   <key>RunAtLoad</key><true/>
   <key>KeepAlive</key><true/>
   <key>ProcessType</key><string>Background</string>
-  <key>StandardOutPath</key><string>$LOG_DIR/server.log</string>
-  <key>StandardErrorPath</key><string>$LOG_DIR/server.err.log</string>
+  <key>StandardOutPath</key><string>$LOG_DIR/crash.log</string>
+  <key>StandardErrorPath</key><string>$LOG_DIR/crash.log</string>
 </dict>
 </plist>
 PLIST
@@ -153,7 +159,12 @@ print("health          -> reachable, %d reviews, %d open, %d cleared, %d snapsho
   fi
 }
 
-cmd_logs() { tail -n "${1:-40}" "$LOG_DIR/server.log" "$LOG_DIR/server.err.log" 2>/dev/null || echo "no logs yet"; }
+# server.log rotates itself at 1 MB with three old files kept; crash.log holds
+# only what Python printed before it could log, capped at 256 KB per launch.
+cmd_logs() {
+  tail -n "${1:-40}" "$LOG_DIR/server.log" 2>/dev/null || echo "no server log yet"
+  if [[ -s "$LOG_DIR/crash.log" ]]; then echo; echo "== crash.log"; tail -n 20 "$LOG_DIR/crash.log"; fi
+}
 
 cmd_hooks() {
   ln -sf ../../scripts/hooks/pre-commit "$APP_DIR/.git/hooks/pre-commit"

@@ -24,7 +24,7 @@ storage, it is a cache. So the browser keeps using localStorage for speed and
 mirrors every change here a moment later. Every state write also lands in a
 timestamped snapshot, so a bad import or an accidental reset is recoverable.
 """
-import http.server, json, os, sys, functools, gzip, hashlib, threading, time
+import errno, http.server, json, os, sys, functools, gzip, hashlib, logging, logging.handlers, threading, time
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qs
 
@@ -38,6 +38,29 @@ KEEP_SNAPSHOTS = 40
 MAX_BODY = 24 * 1024 * 1024
 
 _lock = threading.Lock()
+
+
+# --- the server's own log ------------------------------------------------------
+# Under launchd (DYSP_LOG set) the server writes its own log and rotates it by
+# size: DYSP_LOG_BYTES (1 MB) per file, three old files kept, so the log can
+# never pass 4 MB. Run by hand, it writes to the terminal as before. launchd's
+# own output file only ever sees what Python prints before this runs.
+def _make_log():
+    log = logging.getLogger("dysp")
+    log.setLevel(logging.INFO)
+    path = os.environ.get("DYSP_LOG")
+    if path:
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        handler = logging.handlers.RotatingFileHandler(
+            path, maxBytes=int(os.environ.get("DYSP_LOG_BYTES", 1024 * 1024)), backupCount=3)
+        handler.setFormatter(logging.Formatter("%(asctime)s %(message)s", "%Y-%m-%d %H:%M:%S"))
+    else:
+        handler = logging.StreamHandler(sys.stdout)
+    log.addHandler(handler)
+    return log
+
+
+LOG = _make_log()
 
 
 # --- state document ----------------------------------------------------------
@@ -93,7 +116,7 @@ def _content_bundle():
             try:
                 docs[p] = json.loads(p.read_text())
             except json.JSONDecodeError as e:
-                sys.stderr.write(f"content: skipping {p.relative_to(APP_DIR)}: {e}\n")
+                LOG.warning(f"content: skipping {p.relative_to(APP_DIR)}: {e}")
         rows = lambda sub: [row for p, d in docs.items() if p.parent.name == sub and isinstance(d, list) for row in d]
         docs_in = lambda sub: [d for p, d in docs.items() if p.parent.name == sub and isinstance(d, dict)]
         body = json.dumps({
@@ -285,26 +308,50 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, fmt, *args):
         msg = fmt % args
         if " 404 " in msg or " 500 " in msg:
-            sys.stderr.write(f"{self.log_date_time_string()} {msg}\n")
+            LOG.warning(msg)
+
+
+class Server(http.server.ThreadingHTTPServer):
+    daemon_threads = True
+
+    def handle_error(self, request, client_address):
+        # A browser that closes a connection mid-response is not an error
+        # worth a traceback; anything else is, in the rotated log.
+        exc = sys.exc_info()[1]
+        if isinstance(exc, (ConnectionResetError, BrokenPipeError, ConnectionAbortedError)):
+            return
+        LOG.exception(f"request from {client_address[0]} failed")
 
 
 def main():
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8777
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+    handler = functools.partial(Handler, directory=str(APP_DIR))
+    # A port someone else holds is a wait, not a crash. Exiting here under
+    # launchd's KeepAlive meant a restart every ten seconds, a traceback each
+    # time, 6,513 of them in one log. One line, then a quiet retry.
+    waited = False
+    while True:
+        try:
+            server = Server(("127.0.0.1", port), handler)
+            break
+        except OSError as e:
+            if e.errno != errno.EADDRINUSE:
+                raise
+            if not waited:
+                LOG.warning(f"port {port} is in use; waiting for it to free up")
+                waited = True
+            time.sleep(5)
     state = _read_state()
-    print(f"doyoursecurityplus  ->  http://localhost:{port}")
-    print(f"study data          ->  {DATA_DIR}")
+    LOG.info(f"doyoursecurityplus  ->  http://localhost:{port}")
+    LOG.info(f"study data          ->  {DATA_DIR}")
     if state:
         s = _summary(state)
-        print(f"restored            ->  {s['reviews']} reviews logged, "
-              f"{s['misconceptionsOpen']} open misconceptions, "
-              f"{s['misconceptionsRetired']} retired")
+        LOG.info(f"restored            ->  {s['reviews']} reviews logged, "
+                 f"{s['misconceptionsOpen']} open misconceptions, {s['misconceptionsRetired']} retired")
     else:
-        print("restored            ->  no saved state yet, starting fresh")
-    sys.stdout.flush()
-    http.server.ThreadingHTTPServer(
-        ("127.0.0.1", port), functools.partial(Handler, directory=str(APP_DIR))
-    ).serve_forever()
+        LOG.info("restored            ->  no saved state yet, starting fresh")
+    server.serve_forever()
 
 
 if __name__ == "__main__":

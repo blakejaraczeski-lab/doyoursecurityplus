@@ -259,3 +259,18 @@ the bank down. `scripts/selftest.py` asserts the one request, the gzip and
 the 304 on every run. What a warm reload still pays for is the app's own
 files, which are served no-store; that is the next boot cost, if it ever
 matters on localhost.
+
+## The server owns its log, and a held port is a wait
+
+launchd opens a job's output files before the program runs and never
+reopens them, so a log it holds cannot be rotated by renaming. The real logs
+showed the cost: 6.7 MB, and 5.5 MB of it one traceback repeated 6,513 times,
+because a second copy of the server found port 8777 taken, exited, and
+launchd's KeepAlive restarted it every ten seconds for weeks. Two changes.
+The server writes its own log through the standard library's size-rotating
+handler (1 MB, three old files kept) when `DYSP_LOG` is set, and launchd's
+own file receives only what Python prints before that, kept under 256 KB by
+`scripts/capped-log.sh`, which runs on every launch and cuts the file in place
+so launchd's descriptor stays valid. And a port in use is no longer a crash:
+the server logs one line and retries every five seconds, taking the port
+over when it frees. newsyslog was the other option and needs root.

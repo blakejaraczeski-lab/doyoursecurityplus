@@ -269,7 +269,10 @@ back, and a tab that is not reloaded is refused on its next save.
 `./scripts/service.sh install` runs the server under **macOS launchd** so the
 port, and therefore the browser origin, never changes; `--remind 18:30` adds a
 daily notification that reads the log and stays quiet once you have hit your
-goal. On Linux run `python3 serve.py` under your own supervisor.
+goal. On Linux run `python3 serve.py` under your own supervisor. Under launchd
+the server writes `logs/server.log` itself and rotates it at 1 MB with three
+old files kept, so the logs can never pass about 4 MB, and a port already in
+use is a quiet wait rather than a crash loop.
 
 ## Pacing
 
@@ -331,6 +334,7 @@ scripts/
   check_materials.py         no shadow, gradient or blur; every colour a token
   check_docs.py              README counts come from the content (--write)
   backup.py                  dated tarball of the study data, and a confirmed restore
+  capped-log.sh              keeps launchd's crash.log under 256 KB on every launch
   selftest.py                selftest.html plus the persistence scenarios, headless, non-zero exit on failure
   derive_mcq.py              recall cards -> discrimination questions (--retag)
   import_anki.py             .apkg -> tagged recall items
