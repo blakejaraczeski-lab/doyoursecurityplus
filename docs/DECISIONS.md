@@ -230,3 +230,14 @@ copy is then the newest anywhere: a reloaded tab takes it, and a tab that is
 never reloaded is refused with 412 on its next save, which is the one path
 the conditional replace already guards. A safety backup of what was on disk
 is taken first and named so it can never land on the archive being read.
+
+## The fonts are served from this origin
+
+The page made exactly one request it did not serve itself: IBM Plex from
+Google Fonts. The interface skill forbids a bare system stack, so the choice
+was to vendor the files. Google now serves Plex Sans as one variable file,
+which also makes the 450 weight the stylesheet uses a real weight rather than
+a synthesised one. Four Latin-subset files and the SIL Open Font License sit
+in `fonts/`, a hundred kilobytes, and `scripts/check_shape.py` keeps the
+origin rule green. Nothing the app shows now depends on a network other than
+the study server's own.

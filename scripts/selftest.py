@@ -89,7 +89,8 @@ class DevTools:
             raise RuntimeError("DevTools refused the WebSocket upgrade")
         self.buf = head.split(b"\r\n\r\n", 1)[1]
         self.next_id = 0
-        self.errors = []   # everything the page threw or logged as an error
+        self.errors = []     # everything the page threw or logged as an error
+        self.requests = []   # every URL the page asked for
 
     def _read(self, n):
         while len(self.buf) < n:
@@ -141,7 +142,9 @@ class DevTools:
 
     def _event(self, msg):
         p = msg.get("params", {})
-        if msg.get("method") == "Runtime.exceptionThrown":
+        if msg.get("method") == "Network.requestWillBeSent":
+            self.requests.append(p.get("request", {}).get("url", ""))
+        elif msg.get("method") == "Runtime.exceptionThrown":
             d = p.get("exceptionDetails", {})
             self.errors.append(d.get("exception", {}).get("description") or d.get("text") or "exception")
         elif msg.get("method") == "Runtime.consoleAPICalled" and p.get("type") == "error":
@@ -193,6 +196,7 @@ class Browser:
         self.tab = DevTools(target["webSocketDebuggerUrl"])
         self.tab.call("Runtime.enable")   # exceptions and console errors arrive as events
         self.tab.call("Page.enable")      # without it, a script added for new documents never runs
+        self.tab.call("Network.enable")   # every request the page makes, to prove none leaves this origin
 
     def close(self):
         try:
@@ -321,6 +325,7 @@ def scenario_page(rep, tmp, browser):
     rep.head("selftest.html")
     with throwaway(tmp, "page") as (base, _):
         tab = browser.tab
+        r0 = len(tab.requests)
         tab.navigate(f"{base}/selftest.html")
         text = ""
         deadline = time.time() + TIMEOUT_S
@@ -333,6 +338,15 @@ def scenario_page(rep, tmp, browser):
         print("\n".join("  " + line for line in text.splitlines()))
         if not text or "All checks passed." not in text:
             rep.failures += max(1, sum(1 for line in text.splitlines() if "FAIL" in line))
+
+        # The page makes no request it does not serve itself, fonts included.
+        tab.evaluate("document.fonts.ready.then(() => { window.__fontsReady = true; })")
+        tab.wait_for("window.__fontsReady", 10)
+        loaded = tab.evaluate("[...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family + ' ' + f.weight)") or []
+        away = sorted({u for u in tab.requests[r0:] if not u.startswith(base) and not u.startswith("data:")})
+        rep.check(not away, "every request on this load stayed on this origin", f"({away[:3]})")
+        rep.check(any("Mono" in f for f in loaded) and any("Sans" in f for f in loaded),
+                  f"IBM Plex loaded from this origin: {', '.join(sorted(set(loaded)))}", f"({loaded})")
 
 
 def scenario_conflict(rep, tmp, browser):

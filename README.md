@@ -211,6 +211,7 @@ into mastery. Mixing them reports a thin bank as a weak learner.
 index.html          app shell
 selftest.html       the regression harness: real graders, the misconception loop, shape rules
 styles.css          design system: tokens, measure, state never by colour alone
+fonts/              IBM Plex, Latin subsets, served from this origin (SIL OFL 1.1)
 serve.py            static server + the durable resources, stdlib only
 app/
   main.js           the controller: one screen table, one render(), recording, actions
@@ -355,8 +356,6 @@ not for redistribution.
 - Scaled scores are an estimate. CompTIA's weighting model is confidential.
 - The imported deck is third-party and its definitions have never been
   reviewed. Treat derived questions as drilling, your own notes as the authority.
-- The page loads IBM Plex from Google Fonts: one request off this origin on
-  every load, and the one thing `bin/check` reports until the fonts are vendored.
 
 The reasoning behind the less obvious choices, and the bugs that forced them,
 is in `docs/DECISIONS.md`.
