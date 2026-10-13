@@ -60,9 +60,9 @@
 import { loadContent, isGraded } from "./app/content.js";
 import { gradePbq } from "./app/grade.js";
 import * as mentor from "./app/mentor.js";
-import { buildQueue, buildMock, readiness, coverageDeficit, currentPriority, expectedGain, gainContext, studyPlan, examForecast, PBQ_WEIGHT, POINTS_PER_QUESTION } from "./app/scheduler.js";
+import { buildQueue, buildMock, readiness, coverageDeficit, currentPriority, expectedGain, gainContext, studyPlan, examForecast, hoursToReady, PBQ_WEIGHT, POINTS_PER_QUESTION } from "./app/scheduler.js";
 import { DEFAULT_STATE, pruneOrphans, applyItemReview } from "./app/state.js";
-import { calibrationOf, todayOf } from "./app/reviews.js";
+import { calibrationOf, todayOf, minutesOf } from "./app/reviews.js";
 import * as fsrs from "./app/fsrs.js";
 
 const lines = [];
@@ -493,6 +493,23 @@ say("<b>The mock measures the blueprint, and the forecast is about exam day</b>"
         `two full mocks above the line book it, and narrow the uncertainty (sd ${fh.sd.toFixed(3)} to ${fm.sd.toFixed(3)} raw)`);
   const low = examForecast(held, content, now, mockRows.map((m) => ({ ...m, raw: 0.6, scaled: 620 })));
   check(low.scaled < fh.scaled && !low.stop.ready, `two failing mocks pull the forecast down (${fh.scaled} to ${low.scaled}) and block booking`);
+
+  const hb = hoursToReady(blank, content, now);
+  const hh = hoursToReady(held, content, now);
+  check(hb.reachable && hb.low > hh.low && hb.high > hb.low,
+        `a blank record has ${Math.round(hb.low)} to ${Math.round(hb.high)} hours to the rule; everything held has ${hh.low.toFixed(0)} (the two mocks)`);
+
+  const t0 = new Date(2026, 9, 12, 9, 0, 0).getTime();
+  const m = minutesOf([
+    { at: t0, kind: "item", ms: 30000, s: t0 },
+    { at: t0 + 60000, kind: "item", ms: 9e6, s: t0 },                    // a tab left open: five minutes, not 150
+    { at: t0 + 120000, kind: "misconception", grade: 1, s: t0 },          // logged with an answer: no time of its own
+    { at: t0 + 4 * 3600e3, kind: "pbq", seconds: 420, s: t0 + 4 * 3600e3 },
+    { at: t0 + 5 * 3600e3, kind: "mock", seconds: 1200 },
+    { at: t0 + 5 * 3600e3, kind: "item", mock: true },                    // inside the mock's clock
+  ]);
+  check(m.sessions.length === 3 && Math.abs(m.total - (0.5 + 5 + 7 + 20)) < 1e-9,
+        `time is counted per session from the log: ${m.sessions.map((x) => x.minutes.toFixed(1)).join(" + ")} = ${m.total.toFixed(1)} min`);
 }
 
 say("");

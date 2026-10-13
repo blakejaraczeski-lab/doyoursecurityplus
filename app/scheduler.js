@@ -594,6 +594,56 @@ export function examForecast(state, content, now = Date.now(), mocks = []) {
   };
 }
 
+/**
+ * Study hours from here to the stopping rule, its two full mocks included.
+ *
+ * Each item is valued as studied properly, not once: reviewed on every due
+ * day until the exam, and costed per review. That is its rise in the chance
+ * of being right on exam day, against the minutes all those reviews take.
+ * The bank is walked in order of points per minute until the forecast's low
+ * end would clear 750, measured with the uncertainty the two required mocks
+ * will leave rather than today's, because the rule cannot pass without them.
+ * The high end of the range allows 2.5 times as long, the ratio the replay of
+ * the real log measured between what was served and the gain order. When the
+ * whole bank cannot close the gap, the gap is content, not hours.
+ */
+export function hoursToReady(state, content, now = Date.now(), mocks = []) {
+  const f = examForecast(state, content, now, mocks);
+  const fullMocks = mocks.filter((m) => m.format === "full" && m.at >= now - 30 * fsrs.DAY_MS).length;
+  const sdAfter = Math.sqrt(f.sd ** 2 - (MODEL_SD ** 2) / (1 + fullMocks) + (MODEL_SD ** 2) / (1 + Math.max(2, fullMocks)));
+  const gap = Math.max(0, 0.75 + Z * sdAfter - f.raw) * (650 / 0.75);
+  const mockMinutes = Math.max(0, 2 - fullMocks) * FORMATS.full.minutes;
+  const ctx = gainContext(state, content, now);
+  const ranked = [];
+  for (const it of content.items) {
+    const o = ctx.perObjective[it.objective];
+    if (!isGraded(it) || !o) continue;
+    const base = baseRate(it, ctx);
+    const s = state.items[it.id];
+    let card = s?.fsrs?.stability ? { ...s.fsrs } : fsrs.newCard();
+    const before = examProb(base, card.stability ? fsrs.currentRetrievability(card, ctx.examAt) : 0);
+    let at = card.stability ? Math.max(now, card.due) : now, reviews = 0;
+    while (at < ctx.examAt && reviews < 12) {
+      card = fsrs.review(card, fsrs.RATING.GOOD, { now: at, desiredRetention: state.profile.desiredRetention });
+      reviews += 1;
+      at = card.due;
+    }
+    if (!reviews) continue;
+    const points = (o.questions / Math.max(1, o.graded)) * (examProb(base, fsrs.currentRetrievability(card, ctx.examAt)) - before) * POINTS_PER_QUESTION;
+    const minutes = reviews * (SECONDS[it.type] || SECONDS.mcq) / 60;
+    if (points > 0) ranked.push({ points, minutes });
+  }
+  ranked.sort((a, b) => b.points / b.minutes - a.points / a.minutes);
+  let points = 0, minutes = 0;
+  for (const g of ranked) {
+    if (points >= gap) break;
+    points += g.points;
+    minutes += g.minutes;
+  }
+  if (points < gap) return { reachable: false, gap: Math.round(gap), available: Math.round(points) };
+  return { reachable: true, low: (minutes + mockMinutes) / 60, high: (minutes * 2.5 + mockMinutes) / 60, gap: Math.round(gap) };
+}
+
 // --- readiness -------------------------------------------------------------
 
 const laplace = (correct, seenCount) => (correct + 2) / (seenCount + 4);

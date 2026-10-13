@@ -343,9 +343,9 @@ function bankMc(mc, itemId, now, detail = null, confident = true) {
   mentor.bank(App.state, mc, itemId, now, detail, confident);
   reviews.log({ at: now, kind: "misconception", id: mc, item: itemId, grade: 1 });
 }
-function passMc(mc, itemId, now, confident = true) {
+function passMc(mc, itemId, now, confident = true, ms = null) {
   const res = mentor.pass(App.state, mc, itemId, App.content, now, confident);
-  if (res) reviews.log({ at: now, kind: "misconception", id: mc, item: itemId, grade: 3 });
+  if (res) reviews.log({ at: now, kind: "misconception", id: mc, item: itemId, grade: 3, ...(ms != null ? { ms } : {}) });
   return res;
 }
 
@@ -587,6 +587,7 @@ function finishMock() {
 
 // --- session control ------------------------------------------------------
 function startSession(mode) {
+  reviews.startSession();
   App.mode = mode;
   App.queue = buildQueue(App.state, App.content, { mode, size: mode === "weak" ? 15 : 25 });
   App.idx = 0;
@@ -622,7 +623,8 @@ const ACTIONS = {
   next,
   reveal: () => { App.answer = { revealed: true }; },
   grade: (el) => {
-    recordItem(App.queue[App.idx].item, Number(el.dataset.g));
+    recordItem(App.queue[App.idx].item, Number(el.dataset.g), Date.now(),
+               { responseMs: App.questionShownAt ? Date.now() - App.questionShownAt : null });
     App.sessionStats.answered += 1;
     if (Number(el.dataset.g) >= 3) App.sessionStats.correct += 1;
     save();
@@ -630,7 +632,8 @@ const ACTIONS = {
   },
   "mentor-ack": () => {
     const now = Date.now();
-    passMc(App.queue[App.idx].targetMisconception, `mentor:${now}`, now);
+    passMc(App.queue[App.idx].targetMisconception, `mentor:${now}`, now, true,
+           App.questionShownAt ? now - App.questionShownAt : null);   // reading the correction is study time
     store.touchStreak(App.state);
     save();
     next();
@@ -717,6 +720,7 @@ const ACTIONS = {
   },
   "multi-submit": answerMcqMulti,
   "mock-start": (el) => {
+    reviews.startSession();
     const fmt = el.dataset.format;
     const fit = blockFit(App.content, FORMATS[fmt]);
     const items = buildMock(App.content, { pbqCount: fit.pbqs, total: fit.total });

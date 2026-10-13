@@ -335,3 +335,16 @@ no high-severity correction open in a heavy domain. The mock's PBQs are now
 drawn by domain weight, because a uniform draw gave domain 4 a third of a
 mock's points. The per-objective heatmap still uses mastery; it describes
 practice, not the exam.
+
+## Hours to the booking rule is the one number
+
+Everything the engine does is now judged by whether it lowers one number on
+Readiness: study hours to the booking rule. Valuing each item by a single
+review made every bank unreachable, because one review decays to about half
+by an exam seven weeks away; an item is valued as studied properly instead,
+reviewed on each due day until the exam. And the rule's first condition is
+measured with the uncertainty the two required mocks will leave, because the
+rule cannot pass without them; with today's uncertainty and no mock the bar
+was 86% raw, which no amount of study reaches and which would only have said
+"take a mock". Log rows carry a session mark and timing so the estimate can
+later be checked against the hours that actually pass.

@@ -567,6 +567,10 @@ def scenario_screens(rep, tmp, browser):
         key("a")
         key("Enter")
         shot("empty log", "drill-done")
+        row = tab.call("Runtime.evaluate", awaitPromise=True, returnByValue=True,
+                       expression="import('/app/reviews.js').then((m) => m.rows('item').at(-1))")["result"].get("value") or {}
+        rep.check(isinstance(row.get("s"), (int, float)) and isinstance(row.get("ms"), (int, float)),
+                  "empty log   the answer's log row carries its session and its timing", f"({row})")
         click("[data-action=nav][data-section=lab]")
         shot("empty log", "lab-list")
         click("[data-action=open-pbq]")

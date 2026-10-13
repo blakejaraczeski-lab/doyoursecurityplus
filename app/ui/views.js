@@ -1,7 +1,7 @@
 import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyState, optionButton, KEYS } from "./common.js";
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
-import { readiness, coverageDeficit, blockFit, studyPlan, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
+import { readiness, coverageDeficit, blockFit, studyPlan, hoursToReady, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
 import { streakStatus, today } from "../state.js";
 import { isGraded } from "../content.js";
 import * as reviews from "../reviews.js";
@@ -452,6 +452,16 @@ export function mentorView(App) {
 }
 
 // --- readiness -------------------------------------------------------------
+/** The one number everything is judged by: hours of study left to the booking rule. */
+let hoursMemo = { key: null, h: null };
+function hoursHtml(App) {
+  const key = `${App.state.updatedAt}|${today()}|${App.state.profile.examDate}|${reviews.rows("mock").length}`;
+  if (hoursMemo.key !== key) hoursMemo = { key, h: hoursToReady(App.state, App.content, Date.now(), reviews.rows("mock")) };
+  const h = hoursMemo.h;
+  return h.reachable
+    ? `${Math.max(1, Math.round(h.low))}<small> to </small>${Math.round(h.high)}<span class="u">h</span>`
+    : `<span title="The bank can add ${h.available} of the ${h.gap} points needed">beyond the bank</span>`;
+}
 export function readinessView(App) {
   const r = readiness(App.state, App.content, Date.now(), reviews.count(), reviews.rows("mock"));
   const cov = coverageDeficit(App.state, App.content);
@@ -535,6 +545,7 @@ export function readinessView(App) {
       </div>
       <dl class="side-stats inline">
         <div class="stat"><dt>Expected right</dt><dd class="${r.scaled >= 750 ? "good" : "warn"}">${pct(r.forecast.raw)}</dd></div>
+        <div class="stat"><dt>Study hours to book</dt><dd>${hoursHtml(App)}</dd></div>
         ${r.daysLeft != null ? `<div class="stat"><dt>Days to exam</dt><dd>${r.daysLeft}</dd></div>` : ""}
         <div class="stat"><dt>Reviews</dt><dd>${r.reviewCount}</dd></div>
       </dl>

@@ -1,5 +1,50 @@
 # The engine, measured
 
+## In two minutes (2026-10-13)
+
+**The objective.** A pass on SY0-701 in the fewest study hours by
+2026-12-01. Every number below is from `scripts/replay.py` on the real log,
+run on a copy: 195 answers in 25 sessions, 3.3 hours, no mocks yet.
+
+**What it optimised.** A fixed order (prerequisite, contrast pair, due
+correction, most overdue item, new coverage) inside fixed quotas, with new
+coverage taken from whichever domain was most under its share. From a fresh
+state its first session was entirely domain 4. Readiness counted unseen
+material as worth nothing and headlined 405.
+
+**What it optimises now.** Expected scaled points on exam day per minute of
+study: each item's share of its objective's questions, the person's accuracy
+on that objective, item difficulty, FSRS memory decayed to the exam date,
+and the drag an open correction removes. Sessions interleave across
+objectives and follow the exam weights. Items are no longer forced into a
+review the day before the exam. Readiness forecasts exam day: **590, band 485
+to 696**.
+
+**Waste before.** Outside correction slots the old queue spent 74 minutes on
+what the new order buys in 30: about 1.7 minutes of a typical five-minute
+session. Over the whole log: 62 recall cards each beaten by a graded item
+(15.5 min), 7 fresh corrections re-tested within two answers (8.8 min), 2
+corrections drilled over an open prerequisite (5.7 min), 4 answers on items
+already above 0.95 (2.6 min).
+
+**Content to author, in order.** One more item for each of 29 misconceptions
+that cannot retire after a single miss, domain 4 first:
+`ids-ips-detection-methods`, `host-hardening-enforcement`, `terminology-4-5`,
+`terminology-4-6`, then domain 2 (`allow-list-vs-deny-list`,
+`supply-chain-roles`, ...). Full list in section 4. And a second PBQ in
+domains 1 and 5, which hold one each, so every mock repeats them.
+
+**Hours to the booking rule: 15 to 33.** The rule: the forecast's low end at
+750, two full mocks in the last 14 days at 750, no high-severity correction
+open in a heavy domain. Today none hold. 15 to 33 hours over the 48 days
+left is 19 to 41 minutes a day. The last month averaged about 6.
+
+**What the log cannot decide yet.** FSRS weights: 62 predictions, and a
+constant beats both the defaults and a fit, so the defaults stay. The
+forecast's calibration: no mock has been taken, so the band carries the
+model's own error. One full mock this week is the most informative hour
+available.
+
 The engine's one objective is a pass on SY0-701 in the fewest study hours by
 the exam date. This file is the evidence for what it optimises and why. Every
 number comes from `scripts/replay.py` on the real log, run on a copy.
@@ -198,3 +243,20 @@ above 750; no high-severity correction is open in a domain worth 20% or more.
 Under the model the first rule alone would book a failing exam about one time
 in ten; the mocks are what test the model, and the rule waits for them. Today:
 none met.
+
+## 7. Time, accounted
+
+Every log row now carries its session (`s`), and recall grades and
+corrections read on their own carry their timing (`ms`), alongside the
+timing graded answers already had. `minutesOf` in `app/reviews.js` counts
+study time from the log: an answer's own timing capped at five minutes,
+PBQs and mocks by their clocks. On the real log: 3.3 hours in 25 sessions,
+median session 5 minutes.
+
+Readiness gains one number, study hours to the booking rule: each item
+valued as studied properly to the exam (reviewed on every due day, costed per
+review), walked in order of points per minute until the forecast's low end
+clears 750 with the uncertainty the two required mocks will leave, plus those
+two mocks. The high end allows 2.5 times as long, the replay's measured ratio
+between what was served and the gain order. On the real state: **15 to 33
+hours.**

@@ -132,6 +132,13 @@ def report_plan(p):
           f"{f['mocks']} mocks in the last 30 days; the old coverage headline said {p['coverageHeadline']}")
     for r in f["rules"]:
         print(f"  {'met    ' if r['met'] else 'not met'}  {r['text']}")
+    h, t = p["hours"], p["studied"]
+    print(f"  studied so far: {t['total'] / 60:.1f} hours in {t['sessions']} sessions, median session {t['median']:.0f} min")
+    if h["reachable"]:
+        print(f"  hours to the booking rule: {h['low']:.0f} to {h['high']:.0f} "
+              f"({h['gap']} scaled points to close, two full mocks included)")
+    else:
+        print(f"  the booking rule is beyond this bank: it needs {h['gap']} points and the bank can add {h['available']}")
     print("\n  week  answers  minutes  new  accuracy of new objectives  exam weight of new")
     for w in p["weeks"]:
         acc = f"{w['meanAccuracy']:.2f}" if w["meanAccuracy"] is not None else "  - "

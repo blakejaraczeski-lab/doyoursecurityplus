@@ -17,6 +17,7 @@ const DEBOUNCE_MS = 1500;
 const SCRATCH_CAP = 2000;
 
 let recent = [];   // rows inside the window, oldest first
+let session = null; // the start of the study session in progress; every row carries it as `s`
 let outbox = [];   // rows the server has not accepted yet
 let timer = null;
 let inFlight = false;
@@ -39,8 +40,12 @@ export async function load(now = Date.now()) {
   if (outbox.length) schedule();
 }
 
+/** Mark the start of a study session. Rows logged after this carry it as `s`. */
+export const startSession = (at = Date.now()) => { session = at; };
+
 /** Append one row. */
 export function log(row) {
+  if (session != null && row.s == null) row = { ...row, s: session };
   recent.push(row);
   outbox.push(row);
   writeKey();
@@ -97,6 +102,34 @@ export async function flush() {
     inFlight = false;
     if (outbox.length) schedule();
   }
+}
+
+const MAX_ANSWER_MS = 5 * 60e3;   // a tab left open is not five hours of study
+const GAP_MS = 30 * 60e3;
+
+/**
+ * Minutes of study in a list of rows: an answer's own timing, capped at five
+ * minutes, or 40 seconds when it was not timed; a PBQ or a mock by its clock.
+ * Answers inside a mock are covered by the mock's row. Returns the total and
+ * one entry per session, by the row's session mark or, for rows from before
+ * it existed, by a 30 minute gap.
+ */
+export function minutesOf(list) {
+  const sessions = [];
+  let cur = null, last = -Infinity;
+  for (const r of [...list].sort((a, b) => a.at - b.at)) {
+    const key = r.s ?? null;
+    if (!cur || (key != null ? key !== cur.key : r.at - last > GAP_MS)) {
+      cur = { key: key ?? r.at, start: r.at, minutes: 0, answers: 0 };
+      sessions.push(cur);
+    }
+    last = r.at;
+    if (r.kind === "item" && !r.mock) { cur.minutes += Math.min(r.ms ?? 40000, MAX_ANSWER_MS) / 60000; cur.answers += 1; }
+    else if (r.kind === "pbq" && !r.mock) cur.minutes += (r.seconds ?? 480) / 60;
+    else if (r.kind === "mock") cur.minutes += (r.seconds ?? 0) / 60;
+    else if (r.kind === "misconception" && r.ms != null) cur.minutes += Math.min(r.ms, MAX_ANSWER_MS) / 60000;
+  }
+  return { total: sessions.reduce((a, x) => a + x.minutes, 0), sessions };
 }
 
 export const rows = (kind = null) => (kind ? recent.filter((r) => r.kind === kind) : recent);
