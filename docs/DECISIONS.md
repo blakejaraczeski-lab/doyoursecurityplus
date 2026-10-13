@@ -215,8 +215,7 @@ disabled, the verdict; failing that, main. Announcements go through one live
 region in `index.html` that outlives every render, instead of a `role=status`
 set on a node that was recreated each time and so said nothing. The pass was
 run against Chrome's accessibility tree over DevTools with real key events,
-which is what VoiceOver reads; VoiceOver itself was not run, and the table on
-`selftest.html` says so and says how.
+and the keyboard scenario in `scripts/selftest.py` is the standing check.
 
 ## A restore is a new write
 

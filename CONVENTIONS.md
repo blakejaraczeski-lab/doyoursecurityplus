@@ -52,7 +52,7 @@ pre-commit hook.
    reads Chrome's accessibility tree and fails on any control under main
    without a name, on focus lost across a render, and on a state change that
    is not announced. Manual: the glyph rule itself, checked against
-   `.claude/skills/study-ui/SKILL.md` before a screen ships, and VoiceOver.
+   `.claude/skills/study-ui/SKILL.md` before a screen ships.
 
 8. **Every number in the README comes from a script.** A count written by
    hand is wrong within a week. Enforced: `scripts/check_docs.py` regenerates

@@ -924,6 +924,111 @@ def scenario_logs(rep, tmp):
               f"a 300 KB crash.log is cut to its last 64 KB in place and the program still writes to it ({len(body):,} bytes)")
 
 
+def seed_heavy(data, rows):
+    """A study record at scale: every graded item seen, every misconception
+    banked (half retired), and `rows` review rows over the last 30 days."""
+    import random
+    rnd = random.Random(7)
+    items = [i for f in sorted((ROOT / "content/items").glob("*.json")) for i in json.loads(f.read_text())]
+    mcs = [m["id"] for f in sorted((ROOT / "content/mentor").glob("*.json")) for m in json.loads(f.read_text())]
+    pbqs = [json.loads(f.read_text())["id"] for f in sorted((ROOT / "content/pbq").glob("*.json"))]
+    now = int(time.time() * 1000)
+    day = 86400000
+    card = lambda: {"stability": rnd.uniform(1, 40), "difficulty": rnd.uniform(3, 8), "due": now + rnd.randint(-5, 30) * day,
+                    "lastReview": now - rnd.randint(1, 20) * day, "reps": rnd.randint(1, 6), "lapses": rnd.randint(0, 2), "state": "review"}
+    state = doc(now - 1000)
+    state["profile"]["examDate"] = time.strftime("%Y-%m-%d", time.localtime((now + 45 * day) / 1000))
+    for it in items:
+        if it["type"] != "recall" or rnd.random() < 0.3:
+            n = rnd.randint(1, 6)
+            c = rnd.randint(0, n)
+            state["items"][it["id"]] = {"seen": n, "correct": c, "wrong": n - c, "lastSeen": now - day, "fsrs": card()}
+    for k, mc in enumerate(mcs):
+        state["misconceptions"][mc] = {"fsrs": card(), "cleanPasses": [], "hits": rnd.randint(1, 4), "banked": now - 20 * day,
+                                       "retired": k % 2 == 0, "lastItem": None, "firstItem": None, "step": 1, "due": now - rnd.randint(0, 5) * day}
+    for p in pbqs:
+        state["pbq"][p] = {"attempts": 2, "best": rnd.randint(40, 100), "lastAt": now - day}
+    (data / "state.json").write_text(json.dumps(state))
+    graded = [i["id"] for i in items]
+    with (data / "reviews.jsonl").open("w") as f:
+        for k in range(rows):
+            at = now - 30 * day + int(k * (30 * day - 60000) / rows)
+            kind = "item" if k % 3 else "misconception"
+            r = ({"at": at, "kind": "item", "id": rnd.choice(graded), "grade": rnd.choice([1, 3, 3, 3]), "ms": rnd.randint(5000, 60000), "conf": "sure"}
+                 if kind == "item" else {"at": at, "kind": "misconception", "id": rnd.choice(mcs), "item": rnd.choice(graded), "grade": rnd.choice([1, 3])})
+            f.write(json.dumps(r) + "\n")
+        for k in range(6):
+            f.write(json.dumps({"at": now - (k + 1) * 3 * day, "kind": "mock", "format": "full", "raw": 0.7, "scaled": 707, "seconds": 5000}) + "\n")
+
+
+# Every action the person repeats, timed from dispatch to the next frame.
+TIME_ACTION_JS = """(async (sel, prep) => {
+  if (prep) (new Function(prep))();
+  const el = document.querySelector(sel);
+  if (!el) return { error: 'nothing matches ' + sel };
+  const t0 = performance.now();
+  el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));   // an svg host has no click()
+  const work = performance.now() - t0;
+  return await new Promise((done) => requestAnimationFrame(() => done({ ms: performance.now() - t0, work })));
+})"""
+
+
+def scenario_latency(rep, tmp, browser, rows=3000, assert_limits=True):
+    """Nielsen's first limit, enforced: under 100 ms from any repeated action to
+    the next frame, and boot to first interactive under one second, on a record
+    with `rows` review rows and the whole misconception bank in it."""
+    rep.head(f"Latency at {rows:,} review rows, CPU slowed fourfold")
+    with throwaway(tmp, f"latency-{rows}") as (base, data):
+        seed_heavy(data, rows)
+        tab = browser.tab
+        n0 = len(tab.errors)
+        # A slow machine, not this one: every number below is at a quarter of the CPU.
+        tab.call("Emulation.setCPUThrottlingRate", rate=4)
+        tab.navigate(f"{base}/")
+        rep.check(tab.wait_for(APP_READY, 30), "the app boots on the heavy record")
+        tab.wait_for("performance.getEntriesByName('dysp-interactive').length", 10)
+        boot = tab.evaluate("performance.getEntriesByName('dysp-interactive')[0]?.startTime") or 1e9
+        results = [("boot to first interactive", boot, 1000, boot)]
+
+        def timed(label, sel, prep=None, limit=100):
+            r = tab.call("Runtime.evaluate", awaitPromise=True, returnByValue=True,
+                         expression=f"{TIME_ACTION_JS}({json.dumps(sel)}, {json.dumps(prep)})")["result"].get("value") or {}
+            ms = r.get("ms", 1e9)
+            results.append((label, ms, limit, r.get("work", 0)))
+            if "error" in r:
+                rep.check(False, f"{label}: {r['error']}")
+
+        mcq = "App.queue = [ { kind: 'item', item: App.content.items.find((i) => i.type === 'mcq'), reason: '' }, { kind: 'item', item: App.content.items.filter((i) => i.type === 'mcq')[1], reason: '' } ]; App.idx = 0; App.answer = null; App.screen = 'drill-run';"
+        timed("nav: drill", "[data-action=nav][data-section=drill]", mcq)
+        timed("answer", "[data-action=answer][data-opt]")
+        timed("next question", "[data-action=next]")
+        for section in ("lab", "mock", "bank", "readiness", "settings", "drill"):
+            timed(f"nav: {section}", f"[data-action=nav][data-section={section}]")
+        timed("nav: readiness, again", "[data-action=nav][data-section=readiness]")
+        tab.evaluate("App.lab = null; document.querySelector('[data-action=nav][data-section=lab]').click()")
+        timed("open a PBQ", "[data-action=open-pbq][data-id=pbq-order-001]")
+        timed("hold chip", "[data-action=order-hold]")
+        timed("place chip", "[data-action=order-place-at]")
+        timed("submit PBQ", "[data-action=pbq-submit]")
+        tab.evaluate("App.lab = null; document.querySelector('[data-action=nav][data-section=lab]').click();"
+                     "document.querySelector('[data-action=open-pbq][data-id=pbq-diagram-001]').click()")
+        timed("open host", "[data-node][tabindex]")
+        tab.evaluate("App.lab = null; document.querySelector('[data-action=nav][data-section=lab]').click();"
+                     "document.querySelector('[data-action=open-pbq][data-id=pbq-acl-001]').click()")
+        timed("add ACL rule", "[data-action=acl-add]")
+
+        tab.call("Emulation.setCPUThrottlingRate", rate=1)
+        results.sort(key=lambda r: -r[1])
+        print("  slowest ten, to the next frame (and the handler's own work):")
+        for label, ms, limit, work in results[:10]:
+            print(f"    {ms:8.1f} ms  ({work:6.1f} ms work)  {label}")
+        if assert_limits:
+            for label, ms, limit, _ in results:
+                rep.check(ms < limit, f"{label:<28} {ms:7.1f} ms, under {limit} ms")
+            rep.check(not tab.errors[n0:], "no console error", "; ".join(tab.errors[n0:])[:200])
+        return results
+
+
 def main():
     chrome = next((c for c in CANDIDATES if c and pathlib.Path(c).exists()), None)
     if not chrome:
@@ -944,12 +1049,15 @@ def main():
         "keyboard": lambda: scenario_keyboard(rep, tmp, browser),
         "backup": lambda: scenario_backup(rep, tmp, browser),
         "logs": lambda: scenario_logs(rep, tmp),
+        "latency": lambda: scenario_latency(rep, tmp, browser),
+        "latency-10000": lambda: scenario_latency(rep, tmp, browser, 10000, assert_limits=False),
     }
     only = [a for a in sys.argv[1:] if a in scenarios]   # python3 scripts/selftest.py screens
     try:
         browser = Browser(chrome, os.path.join(tmp, "profile"))
+        on_request = {"latency-10000"}   # a report, run by name: python3 scripts/selftest.py latency-10000
         for name, run in scenarios.items():
-            if not only or name in only:
+            if (not only and name not in on_request) or name in only:
                 run()
     except Exception:
         rep.failures += 1

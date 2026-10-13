@@ -951,6 +951,7 @@ window.addEventListener("pagehide", () => {
 
     startSession("drill");
     render();
+    performance.mark("dysp-interactive");   // the self test times boot against this
   } catch (err) {
     // There is no app to render: one sentence on which stage failed, and the
     // one thing that can be done about it from here. A page opened as a file
