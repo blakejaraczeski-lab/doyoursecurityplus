@@ -1,7 +1,7 @@
 import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyState, optionButton, KEYS } from "./common.js";
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
-import { readiness, coverageDeficit, blockFit, studyPlan, hoursToReady, FORMATS, PBQ_WEIGHT } from "../scheduler.js";
+import { readiness, coverageDeficit, blockFit, studyPlan, hoursToReady, FORMATS, PBQ_WEIGHT, SESSION_SIZE } from "../scheduler.js";
 import { streakStatus, today } from "../state.js";
 import { isGraded } from "../content.js";
 import * as reviews from "../reviews.js";
@@ -178,8 +178,8 @@ function feedbackHtml(App, chosen, correct) {
   ${a.overconfident
     ? `<div class="verdict-banner bad">
         <div class="mark" aria-hidden="true">!</div>
-        <div><b>You were sure, and you were wrong</b>
-        <p>This is the quadrant that costs marks on exam day. A gap you know about gets looked up; a belief you hold confidently does not. This correction is escalated and will come back sooner.</p></div></div>`
+        <div><b>Wrong, and not marked as a guess</b>
+        <p>An answer not marked as a guess counts as one you believed, and a belief that is wrong costs more on exam day than a gap you know about, so this correction comes back sooner. If you were guessing, press <span class="kbd">G</span> before answering next time.</p></div></div>`
     : ""}
   ${a.lucky
     ? `<div class="verdict-banner warn">
@@ -442,7 +442,7 @@ export function mentorView(App) {
 
   return `<h1>Mentor bank</h1>
     <p class="sub">${openList.length} open, ${dueNow} due now, ${retired.length} cleared. A correction is only cleared after clean passes on <b>different</b> questions, so you cannot clear it by memorising the one you failed.</p>
-    ${dueNow ? `<div class="row mb4"><button class="btn" data-action="start-weak">Drill the ${dueNow} due now</button></div>` : ""}
+    ${dueNow ? `<div class="row mb4"><button class="btn" data-action="start-weak">${dueNow > SESSION_SIZE.weak ? `Drill the most urgent ${SESSION_SIZE.weak} of ${dueNow} due` : `Drill the ${dueNow} due now`}</button></div>` : ""}
     ${cards}
     ${retired.length
       ? `<h2>Cleared</h2><div class="card tight"><div class="row">${retired
@@ -508,28 +508,13 @@ export function readinessView(App) {
   const tone = c.overconfidence > 0.3 ? "bad" : c.overconfidence > 0.15 ? "warn" : "good";
   const roots = mentor.sharedRootCauses(App.state, App.content);
 
-  // Order: the action first, then the per-objective picture it comes from,
-  // then the one number, then what qualifies it.
+  // Order: the decision first (the forecast, the hours to book, the rule),
+  // then where to spend the next session, then the per-objective picture.
   return `<h1>Readiness</h1>
   <p class="sub">${r.confident
       ? "Based on enough reviews to mean something."
       : `Low confidence so far: ${r.reviewCount} reviews across ${r.objectivesSampled} of 28 objectives. The band narrows as you drill.`}</p>
 
-  ${weakest.length
-    ? `<div class="card tight"><h2 class="eyebrow">Spend your next session here</h2>
-       <ol class="next-up">${weakest
-         .map((o) => `<li>
-            <span class="code">${esc(o.objective)}</span>
-            <span class="what">${esc(o.title)}</span>
-            <span class="mastery s-${o.status}">${pct(o.mastery)}</span>
-          </li>`)
-         .join("")}</ol></div>`
-    : ""}
-
-  <h2>Per objective</h2>
-  <div class="heat">${cells}</div>
-
-  <h2>Estimated score</h2>
   ${r.bankDepth < 0.8 ? `<div class="card tight flag">
     <h2 class="eyebrow">What this score can and cannot see</h2>
     <p class="m0">Graded items reach <b>${r.topicsCovered} of ${r.topicsTotal}</b> blueprint topics (${pct(r.bankDepth)}).${
@@ -567,6 +552,20 @@ export function readinessView(App) {
       <span>${esc(x.text)}</span></li>`).join("")}</ul>
     <p class="note">Under the model, the first rule alone books an exam you would fail about one time in ten. The two mocks are what check the model; until they agree with it, treat the band as the model's opinion.</p>
   </div>
+
+  ${weakest.length
+    ? `<div class="card tight"><h2 class="eyebrow">Spend your next session here</h2>
+       <ol class="next-up">${weakest
+         .map((o) => `<li>
+            <span class="code">${esc(o.objective)}</span>
+            <span class="what">${esc(o.title)}</span>
+            <span class="mastery s-${o.status}">${pct(o.mastery)}</span>
+          </li>`)
+         .join("")}</ol></div>`
+    : ""}
+
+  <h2>Per objective</h2>
+  <div class="heat">${cells}</div>
 
   ${c.answered >= 8 ? `<div class="card">
       <h2 class="eyebrow">Confidence calibration</h2>

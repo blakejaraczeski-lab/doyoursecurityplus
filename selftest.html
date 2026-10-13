@@ -63,6 +63,18 @@
   </tbody>
 </table>
 
+<h2>Heuristic evaluation</h2>
+<p class="sub">All twelve screens walked 2026-10-13 against Nielsen's ten, twice: as the person on their first night (an empty record) and on their fortieth (every graded item seen, 180 corrections banked, six mocks). Severity on Nielsen's 0 to 4 scale. Severity 3 and 4 are fixed in this pass; 1 and 2 are ranked for later.</p>
+<table class="grid">
+  <thead><tr><th>Sev</th><th>Night</th><th>Screen</th><th>Heuristic</th><th>Finding</th><th>Diff</th></tr></thead>
+  <tbody>
+    <tr><td>3</td><td>1</td><td>drill-run</td><td>Visibility of system status</td><td>On an 800 x 600 window a clicked answer's verdict landed below the fold and nothing moved to it; the click looked like it did nothing.</td><td>Fixed. <code>restoreFocus</code>: a verdict that takes focus is <code>scrollIntoView({ block: "nearest" })</code>; <code>#main</code> counts as nothing focused. Pinned in the keyboard scenario.</td></tr>
+    <tr><td>3</td><td>1</td><td>drill-run</td><td>Match with the real world; help users recover from errors</td><td>"You were sure, and you were wrong" on the first answer of the first night, to someone who never said they were sure.</td><td>Fixed. "Wrong, and not marked as a guess", with why an unmarked answer counts as a belief and the G key.</td></tr>
+    <tr><td>3</td><td>40</td><td>bank</td><td>Visibility of system status; error prevention</td><td>"Drill the 90 due now" started a session of 15.</td><td>Fixed. "Drill the most urgent 15 of 90 due"; session sizes are one constant, <code>SESSION_SIZE</code>, read by the button and the queue.</td></tr>
+    <tr><td>3</td><td>40</td><td>readiness</td><td>Aesthetic and minimalist design; recognition over recall</td><td>The decision (forecast, hours to book, the rule) sat below a 28 cell heatmap, about 600 words down.</td><td>Fixed. Forecast and booking rule first, then next session, then the heatmap.</td></tr>
+  </tbody>
+</table>
+
 <h2>Error and empty states</h2>
 <p class="sub">Every screen in the <code>SCREENS</code> table walked under four conditions, by hand on 2026-10-12 and on every run by <code>scripts/selftest.py</code>. Each condition shows a heading, one sentence and one action; nothing throws.</p>
 <table class="grid">

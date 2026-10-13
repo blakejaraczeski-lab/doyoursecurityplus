@@ -19,6 +19,9 @@ export const FORMATS = {
 };
 export const PBQ_WEIGHT = 3; // a PBQ is worth roughly three multiple choice items
 
+/** Questions in a session. The weak-spot session is shorter: corrections only. */
+export const SESSION_SIZE = { drill: 25, weak: 15 };
+
 /**
  * What a block can run against this bank. A bank smaller than the block is
  * honest about it: the count is what exists and the clock keeps the exam's

@@ -5,7 +5,7 @@ import * as sync from "./sync.js";
 import * as reviews from "./reviews.js";
 import * as fsrs from "./fsrs.js";
 import * as mentor from "./mentor.js";
-import { buildQueue, buildMock, blockFit, FORMATS, PBQ_WEIGHT, weightOf, toScaled } from "./scheduler.js";
+import { buildQueue, buildMock, blockFit, FORMATS, PBQ_WEIGHT, SESSION_SIZE, weightOf, toScaled } from "./scheduler.js";
 import { gradePbq } from "./grade.js";
 import {
   drillHomeView, drillRunView, drillDoneView, labListView, labRunView,
@@ -267,22 +267,33 @@ function refreshAclReadout() {
  * same control after the render; if that control is gone or disabled (the
  * option you just answered), to the verdict, and failing that to main.
  */
+// main only ever holds focus as the fallback, so it counts as nothing focused.
 const focusKey = (el) =>
-  el && el !== document.body ? `${el.tagName}|${el.id || ""}|${JSON.stringify(el.dataset)}` : null;
+  el && el !== document.body && el.id !== "main" ? `${el.tagName}|${el.id || ""}|${JSON.stringify(el.dataset)}` : null;
 
 function restoreFocus(key) {
   // Nothing had focus (a key pressed on the page itself): put it where the
   // next Tab makes sense, the verdict if one just landed, else the screen.
   if (!key) {
-    (document.querySelector(".verdict-banner") || document.getElementById("main"))?.focus({ preventScroll: true });
+    const v = document.querySelector(".verdict-banner");
+    (v || document.getElementById("main"))?.focus({ preventScroll: true });
+    v?.scrollIntoView({ block: "nearest" });
     return;
   }
   const [tag, id, data] = key.split("|");
   const same = [...document.querySelectorAll(tag.toLowerCase())]
     .find((e) => (e.id || "") === id && JSON.stringify(e.dataset) === data);
-  const target = same && !same.disabled ? same
-    : document.querySelector(".verdict-banner") || document.getElementById("main");
-  if (target) target.focus({ preventScroll: true });
+  // A key with no id and no data (a verdict, say) matches any plain element,
+  // which may not take focus at all: if it did not land, fall back.
+  let target = same && !same.disabled ? same : null;
+  target?.focus({ preventScroll: true });
+  if (!target || document.activeElement !== target) {
+    target = document.querySelector(".verdict-banner") || document.getElementById("main");
+    target?.focus({ preventScroll: true });
+  }
+  // A verdict that took focus is the answer to what was just done: it is
+  // brought into view, never left below the fold. Instant, so nothing animates.
+  if (target?.classList.contains("verdict-banner")) target.scrollIntoView({ block: "nearest" });
 }
 
 /** Say something to a screen reader without moving focus. */
@@ -594,7 +605,7 @@ function finishMock() {
 function startSession(mode) {
   reviews.startSession();
   App.mode = mode;
-  App.queue = buildQueue(App.state, App.content, { mode, size: mode === "weak" ? 15 : 25 });
+  App.queue = buildQueue(App.state, App.content, { mode, size: SESSION_SIZE[mode] });
   App.idx = 0;
   App.answer = null;
   App.graded = null;

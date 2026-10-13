@@ -726,6 +726,16 @@ def scenario_keyboard(rep, tmp, browser):
         rep.check(path[-1] == "BUTTON.btn[action=next]" and tab.evaluate("document.getElementById('main').contains(document.activeElement)"),
                   f"Tab from the verdict reads down to Next in {len(path)} step{'s' if len(path) != 1 else ''}", f"({path})")
         nameless("drill, answered")
+        # A click on a short window: the verdict is brought into view, not left below the fold.
+        tab.call("Emulation.setDeviceMetricsOverride", width=800, height=600, deviceScaleFactor=1, mobile=False)
+        tab.evaluate("App.idx = 0; App.answer = null; window.scrollTo(0, 0); document.querySelector('[data-action=nav][data-section=drill]').click()")
+        tab.evaluate("document.querySelector('[data-action=answer][data-opt=a]').click()")
+        seen = tab.evaluate("(() => { const r = document.querySelector('.verdict-banner').getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight + 1; })()")
+        tab.call("Emulation.clearDeviceMetricsOverride")
+        rep.check(seen and active().startswith("DIV.verdict-banner"), "on an 800 x 600 window a clicked answer's verdict is in view and has focus", f"({active()})")
+        tab.evaluate("App.idx = 0; App.answer = null; document.querySelector('[data-action=nav][data-section=drill]').click()")
+        focus("[data-action=answer][data-opt=b]")
+        enter()
         enter()
         focus("[data-action=multi-toggle][data-opt=a]")
         clear_said()
