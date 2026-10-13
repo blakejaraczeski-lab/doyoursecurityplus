@@ -164,7 +164,17 @@ function pickDueItems(state, content, n, now) {
  * Build a study queue.
  * @param {string} mode drill | weak | pbq | mock
  */
-export function buildQueue(state, content, { mode = "drill", size = 25, now = Date.now(), policy = "gain" } = {}) {
+/**
+ * `ablate` turns single behaviours of the gain policy back to the old ones, so
+ * the replay can price each disagreement on its own. Empty in the app.
+ *   interleave  no diminishing return per objective
+ *   accuracy    every item's base rate is the same, ignoring difficulty and
+ *               this person's accuracy on the objective
+ *   quotas      a fixed share of the session for due reviews, the rest new
+ *   domains     with quotas: new items taken from the domain with the largest
+ *               share deficit, as the old policy did
+ */
+export function buildQueue(state, content, { mode = "drill", size = 25, now = Date.now(), policy = "gain", ablate = [] } = {}) {
   const pace = PACE[state.profile.pace] || PACE.bootcamp;
   const queue = [];
 
@@ -260,7 +270,9 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
   // floor forcing one in, and the pace profile's cap still bounds them.
   if (policy === "gain") {
     const taken = new Set(queue.map((e) => e.item?.id).filter(Boolean));
-    const ctx = gainContext(state, content, now);
+    const off = new Set(ablate);
+    if (off.has("domains")) off.add("quotas");
+    const ctx = gainContext(state, content, now, off.has("accuracy"));
     const pool = content.items
       .filter((it) => it.objective && !taken.has(it.id) &&
         (!seen(state, it.id) || (itemState(state, it.id)?.fsrs?.due ?? Infinity) <= now))
@@ -273,10 +285,35 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
     // first, and the session interleaves instead of drilling one drawer.
     const fromObjective = {};
     for (const q of queue) { const o = (q.item || q.pbq)?.objective; if (o) fromObjective[o] = (fromObjective[o] || 0) + 1; }
-    const worth = (x) => x.g * Math.pow(0.7, fromObjective[x.it.objective] || 0);
+    const worth = (x) => off.has("interleave") ? x.g : x.g * Math.pow(0.7, fromObjective[x.it.objective] || 0);
     const take = (x) => { picked.push(x.it); fromObjective[x.it.objective] = (fromObjective[x.it.objective] || 0) + 1; };
     const picked = [];
     let left = pool;
+    if (off.has("quotas")) {
+      // The old split: a fixed share for due reviews, the rest new.
+      const due = left.filter((x) => seen(state, x.it.id));
+      let fresh = left.filter((x) => !seen(state, x.it.id));
+      if (off.has("domains")) {
+        // The old order for new items: the most under-studied domain first.
+        const deficit = coverageDeficit(state, content);
+        const score = (x) => { const d = deficit[content.domainOf[x.it.objective]] || { deficit: 0, weight: 0.1 }; return d.deficit * 10 + d.weight * 2; };
+        fresh = fresh.map((x) => ({ ...x, g: score(x) + Math.random() * 1e-6 }));
+      }
+      const fill = (list, n) => {
+        while (n > 0 && list.length && picked.length < slots) {
+          const recallFull = picked.filter((x) => x.type === "recall").length >= cap;
+          let best = null;
+          for (const x of list) if (!(recallFull && x.it.type === "recall") && (!best || worth(x) > worth(best))) best = x;
+          if (!best) break;
+          take(best);
+          list.splice(list.indexOf(best), 1);
+          n -= 1;
+        }
+      };
+      fill(due, Math.round(size * pace.mixReview));
+      fill(fresh, slots - picked.length);
+      left = [];
+    }
     while (picked.length < slots && left.length) {
       const recallFull = picked.filter((x) => x.type === "recall").length >= cap;
       let best = null;
@@ -440,7 +477,7 @@ export function currentPriority(entry, state, content, now = Date.now()) {
 }
 
 /** Everything expectedGain needs that does not change between candidates. */
-export function gainContext(state, content, now = Date.now()) {
+export function gainContext(state, content, now = Date.now(), flatBase = false) {
   const days = state.profile.examDate ? Math.max(1, mentor.daysUntilExam(state, now)) : 30;
   const examAt = now + days * fsrs.DAY_MS;
   const perObjective = {};
@@ -456,7 +493,7 @@ export function gainContext(state, content, now = Date.now()) {
     const s = state.items[it.id];
     if (s?.seen && isGraded(it)) { o.seen += s.seen; o.correct += s.correct || 0; }
   }
-  return { now, examAt, days, perObjective, pbqs: content.pbqs.length };
+  return { now, examAt, days, perObjective, pbqs: content.pbqs.length, flatBase };
 }
 
 /**
@@ -465,6 +502,7 @@ export function gainContext(state, content, now = Date.now()) {
  * a harder item. Memory of the item adds to it, it does not replace it.
  */
 function baseRate(it, ctx) {
+  if (ctx.flatBase) return 0.5;   // the ablation: no difficulty, no accuracy
   const o = ctx.perObjective[it.objective];
   const prior = (o.correct + 2) / (o.seen + 4);
   return Math.max(0.05, Math.min(0.9, prior * (1.15 - 0.075 * (it.difficulty || 3))));

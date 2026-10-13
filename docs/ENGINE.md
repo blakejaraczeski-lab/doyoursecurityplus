@@ -87,18 +87,34 @@ chance of answering right now. A recall card is credited a quarter. An open
 misconception adds the drag it removes per clean pass. Minutes come from the
 log's median answer time.
 
-Where the two disagree, with cost per session from the replay:
+Where the two disagree, each priced on its own. The first four are switched
+back to the old behaviour one at a time inside the gain policy (`ablate` in
+`buildQueue`), and the replay measures, session by session from the real
+starting states, how many more minutes that variant needs to buy the points
+the gain policy buys; the yardstick is the gain model's, as for the 1.9
+minute total. The last four are counted directly from the log and divided
+over its 25 sessions. Measured 2026-10-13 on the 297-row log.
 
-| Finding | Old behaviour | Cost per session |
+| Finding | Old behaviour | Minutes per session |
 |---|---|---|
-| Domain allocation | Fills new slots from the domain with the largest share deficit, all of it: a fresh state's first session was 100% domain 4 with 14 of 25 slots in one objective; on the real state 64% domain 2 | most of 1.7 min |
-| No interleaving | Nothing stops one objective taking a session | inside the above |
-| Recall | 32% of answers were recall cards before the cap; every one was beaten by a graded item | 0.6 min |
-| Due items | Ranked by how overdue, not by how much a review moves exam-day recall; 4 answers served above retrievability 0.95 | 0.1 min |
-| Difficulty and accuracy | New items ignore difficulty and how this person does on the objective | inside 1.7 min |
-| Fixed quotas | 20% of every session goes to due reviews whatever they are worth | inside 1.7 min |
-| Prerequisite routing | Routes backward once per blocker per session; a second correction on the same open prerequisite is drilled anyway: 2 answers | 0.2 min |
-| Correction re-served at once | A fresh correction tested again within two answers: 7 answers | 0.35 min |
+| Domain allocation | Fills new slots from the domain with the largest share deficit: a fresh state's first session was 100% domain 4, 14 of 25 slots in one objective | 0.92 |
+| Fixed quotas | 20% of every session goes to due reviews whatever they are worth | 0.10 |
+| Difficulty and accuracy | New items ignore difficulty and how this person does on the objective | 0.10 |
+| No interleaving | Nothing stops one objective taking a session | -0.70 (see below) |
+| Recall | A recall card in every session; each of 62 was beaten by a graded item | 0.62 (15.5 min, log) |
+| Correction re-served at once | A fresh correction tested again within two answers: 7 answers | 0.35 (8.8 min, log) |
+| Prerequisite routing | A correction drilled while its prerequisite was open: 2 answers | 0.23 (5.7 min, log) |
+| Due items | Ranked by how overdue; 4 answers served above retrievability 0.95 | 0.10 (2.6 min, log) |
+
+The whole old policy, measured the same way, costs 2.84 minutes per session;
+the rows do not sum to it, because the behaviours interact and the old
+policy's recall floor is in that figure too. Interleaving prices as a gain
+of 0.70 minutes when it is switched off: the model scores each item on its
+own, so spreading a session across objectives costs points by its measure.
+It stays, deliberately. Interleaved practice is one of the few effects in
+the learning science that survives replication, and a session confined to
+one objective is the failure the domain row describes; the model cannot see
+either, which is a limit of the model, not a reason to drop the rule.
 
 ## 2. The real log, replayed
 

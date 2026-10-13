@@ -82,6 +82,15 @@ def report(out):
     ov_c = sum(x["overlapCurrent"] for x in s)
     ov_g = sum(x["overlapGain"] for x in s)
     print(f"  served items the current policy would also have queued: {ov_c}; the gain policy: {ov_g}")
+    a, n = out.get("ablation", {}), max(1, len(s))
+    if a:
+        q, d = a.get("quotas", 0), a.get("domains", 0)
+        print("  each old behaviour on its own, minutes per session to buy what the gain policy buys:")
+        print(f"    no interleaving                {a.get('interleave', 0) / n:5.2f}")
+        print(f"    ignoring difficulty, accuracy  {a.get('accuracy', 0) / n:5.2f}")
+        print(f"    fixed review and new quotas    {q / n:5.2f}")
+        print(f"    old domain order, on quotas    {(d - q) / n:5.2f}")
+        print(f"    the old policy, all of it      {a.get('current', 0) / n:5.2f}")
     print(f"\nmisconceptions: {len(out['retiredEvents'])} retirements in the log, "
           f"{len(out['falseRetirements'])} missed again after retiring")
     for f in out["falseRetirements"]:

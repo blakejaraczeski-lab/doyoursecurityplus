@@ -465,3 +465,14 @@ legitimately log two identical rows in the same instant. An older test had
 encoded the bug: it expected an old client's re-sent history to be appended
 again and its older copy accepted; it now expects neither. Cleaning the real log was left to the person: removing rows from
 it cannot be undone, and a backup was taken first.
+
+## Interleaving stays although the model prices it as a cost
+
+Pricing each old behaviour on its own, by switching it back inside the gain
+policy, put the domain order at 0.92 minutes a session and the quotas and the
+flat base rate at 0.10 each. Switching interleaving off came out as a gain of
+0.70 minutes: the gain model values each item on its own, so a rule that
+spreads a session across objectives can only lower its score. The rule
+stays. The evidence for interleaved practice is stronger than anything in
+this model, and the model's blindness here is recorded in docs/ENGINE.md as
+a limit rather than corrected by quietly removing the switch.

@@ -49,6 +49,7 @@ export async function run({ rows, profile }) {
       reservedEarly: { n: 0, minutes: 0 },    // a fresh correction tested again before it could be read
     },
     retiredEvents: [], falseRetirements: [],
+    ablation: {},
     fsrsPoints: [],
   };
 
@@ -70,6 +71,12 @@ export async function run({ rows, profile }) {
       minutesForSame += e.g.minutes;
     }
     const enough = acc >= servedPoints;
+    // Each ablated variant buys points at its own rate; to buy what the full
+    // gain policy buys in this session's minutes it needs this many more.
+    for (const [name, rate] of Object.entries(session.rates)) {
+      if (name === "full" || !rate || !session.rates.full) continue;
+      out.ablation[name] = (out.ablation[name] || 0) + (session.policyMinutes || 0) * (session.rates.full / rate - 1);
+    }
     out.sessions.push({
       start: session.start, answers: session.answers, minutes: session.minutes,
       policyMinutes: session.policyMinutes || 0, policyAnswers: session.policyAnswers,
@@ -112,7 +119,20 @@ export async function run({ rows, profile }) {
       const end = served.findIndex((x, k) => k > 0 && x.at - served[k - 1].at > SESSION_GAP);
       const mine = new Set(served.slice(0, end < 0 ? undefined : end).map((x) => x.id));
       const overlap = (q) => [...ids(q)].filter((id) => mine.has(id)).length;
+      // Points per minute of each policy's plain picks, all scored by the full model.
+      const rateOf = (q) => {
+        let pts = 0, mins = 0;
+        for (const e of q) if (e.item && !e.targetMisconception && !e.prereqRepair) {
+          const g = expectedGain({ item: e.item }, state, content, ctx); pts += g.points; mins += g.minutes;
+        }
+        return mins ? pts / mins : 0;
+      };
+      const rates = { full: rateOf(gain), current: rateOf(cur) };
+      for (const v of ["interleave", "accuracy", "quotas", "domains"]) {
+        rates[v] = rateOf(withSeed(r.at, () => buildQueue(state, content, { size, now: r.at, policy: "gain", ablate: [v] })));
+      }
       session = {
+        rates,
         start: r.at, last: r.at, answers: 0, minutes: 0, points: 0,
         // Correction slots are filled the same way by both policies, so only
         // the slots where they differ are compared: plain items, item gain only.

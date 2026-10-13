@@ -992,6 +992,7 @@ TIME_ACTION_JS = """(async (sel, prep) => {
   if (prep) (new Function(prep))();
   const el = document.querySelector(sel);
   if (!el) return { error: 'nothing matches ' + sel };
+  if (el.disabled) return { ms: 0, work: 0, disabled: true };
   const t0 = performance.now();
   el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));   // an svg host has no click()
   const work = performance.now() - t0;
@@ -1021,11 +1022,38 @@ def scenario_latency(rep, tmp, browser, rows=3000, assert_limits=True):
                          expression=f"{TIME_ACTION_JS}({json.dumps(sel)}, {json.dumps(prep)})")["result"].get("value") or {}
             ms = r.get("ms", 1e9)
             results.append((label, ms, limit, r.get("work", 0)))
+            if r.get("disabled"):
+                rep.check(False, f"{label}: the control was disabled, so nothing was timed")
             if "error" in r:
                 rep.check(False, f"{label}: {r['error']}")
 
         mcq = "App.queue = [ { kind: 'item', item: App.content.items.find((i) => i.type === 'mcq'), reason: '' }, { kind: 'item', item: App.content.items.filter((i) => i.type === 'mcq')[1], reason: '' } ]; App.idx = 0; App.answer = null; App.screen = 'drill-run';"
         timed("nav: drill", "[data-action=nav][data-section=drill]", mcq)
+
+        def press_ack(label, sel):
+            """A real mouse press, held: the time from the press event to the
+            first frame that paints the control's outline, which is the
+            acknowledgement before any result. Released afterwards."""
+            box = tab.evaluate(f"(() => {{ const el = document.querySelector({json.dumps(sel)}); el.scrollIntoView({{ block: 'center' }});"
+                               "const r = el.getBoundingClientRect(); return [r.x + r.width / 2, r.y + r.height / 2]; })()")
+            tab.evaluate(f"""window.__ack = new Promise((done) => {{
+              const el = document.querySelector({json.dumps(sel)});
+              el.addEventListener('mousedown', (e) => {{
+                const t0 = e.timeStamp;
+                const frame = () => getComputedStyle(el).outlineStyle === 'solid'
+                  ? done(performance.now() - t0) : requestAnimationFrame(frame);
+                requestAnimationFrame(frame);
+              }}, {{ once: true, capture: true }});
+            }})""")
+            tab.call("Input.dispatchMouseEvent", type="mouseMoved", x=box[0], y=box[1])
+            tab.call("Input.dispatchMouseEvent", type="mousePressed", x=box[0], y=box[1], button="left", clickCount=1)
+            ms = tab.call("Runtime.evaluate", expression="window.__ack", awaitPromise=True, returnByValue=True)["result"].get("value", 1e9)
+            tab.call("Input.dispatchMouseEvent", type="mouseReleased", x=box[0], y=box[1], button="left", clickCount=1)
+            results.append((label, ms, 100, ms))
+
+        press_ack("press an option: outline", "[data-action=answer][data-opt=b]")
+        # The release answered it; put the question back so "answer" times a live control.
+        tab.evaluate(mcq + "document.querySelector('[data-action=nav][data-section=drill]').click()")
         timed("answer", "[data-action=answer][data-opt]")
         timed("next question", "[data-action=next]")
         for section in ("lab", "mock", "bank", "readiness", "settings", "drill"):
@@ -1033,6 +1061,10 @@ def scenario_latency(rep, tmp, browser, rows=3000, assert_limits=True):
         timed("nav: readiness, again", "[data-action=nav][data-section=readiness]")
         tab.evaluate("App.lab = null; document.querySelector('[data-action=nav][data-section=lab]').click()")
         timed("open a PBQ", "[data-action=open-pbq][data-id=pbq-order-001]")
+        press_ack("press a chip: outline", "[data-action=order-hold]")
+        # The release held it; let go so "hold chip" holds and "place chip" places.
+        tab.evaluate("{ const a = App.answers[App.lab.id]; if (a) a.held = null; document.querySelector('[data-action=nav][data-section=lab]').click();"
+                     "document.querySelector('[data-action=open-pbq][data-id=pbq-order-001]').click() }")
         timed("hold chip", "[data-action=order-hold]")
         timed("place chip", "[data-action=order-place-at]")
         timed("submit PBQ", "[data-action=pbq-submit]")
