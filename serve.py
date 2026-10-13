@@ -134,11 +134,35 @@ def _content_bundle():
 
 
 # --- review log --------------------------------------------------------------
-def _append_reviews(rows):
+def _row_key(r):
+    return json.dumps(r, sort_keys=True, separators=(",", ":"))
+
+
+def _append_reviews(rows, resend=False):
+    """Append the rows the log does not already hold; return how many landed.
+
+    The log is append only, so a row sent twice (an outbox retried after a lost
+    reply, a stale client re-sending its history) must not be counted twice.
+    An exact copy of a logged row is skipped. With resend=True, for history
+    carried by a pre-resource client, a row is also skipped when the log
+    already holds an answer of the same kind at the same instant: that client
+    may name the item by an id from before a rename, and a person cannot give
+    two answers of one kind in the same millisecond.
+    """
+    if not rows:
+        return 0
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+    # Only rows the log already held are skipped, never repeats within this
+    # batch: two wrong subtasks of one PBQ on the same misconception log two
+    # identical rows in the same instant, and both count.
+    held = _read_reviews(0)
+    keys = {_row_key(r) for r in held}
+    moments = {(r.get("at"), r.get("kind")) for r in held} if resend else set()
+    fresh = [r for r in rows if _row_key(r) not in keys and (r.get("at"), r.get("kind")) not in moments]
     with REVIEWS_FILE.open("a") as f:
-        for r in rows:
+        for r in fresh:
             f.write(json.dumps(r, separators=(",", ":")) + "\n")
+    return len(fresh)
 
 
 def _read_reviews(since=0):
@@ -269,6 +293,23 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         with _lock:
             existing = _read_state()
+            # A client still carrying a review array or a mock history in the
+            # document runs code from before the log was a resource. That code
+            # never sends If-Match, so the conditional replace below cannot
+            # protect against it: an old tab left open for weeks would replace
+            # current progress with its own. Its rows are kept (new ones only),
+            # and its document is refused when it is older than the one held.
+            rows = incoming.pop("reviews", None) or []
+            rows += [{"kind": "mock", **m} for m in (incoming.pop("mockHistory", None) or []) if isinstance(m, dict)]
+            if rows:
+                _append_reviews([r for r in rows if _valid_row(r)], resend=True)
+                if existing is not None and (incoming.get("updatedAt") or 0) < (existing.get("updatedAt") or 0):
+                    LOG.warning("refused an outdated document from a client running old code; reload that tab")
+                    return self._json(412, {
+                        "error": "this copy is older than the saved one; reload the page",
+                        "serverUpdatedAt": existing.get("updatedAt"),
+                        "state": existing,
+                    })
             # A conditional replace: the client names the version it built on.
             # If the stored copy has moved past it, another session saved newer
             # work, and the client gets that copy back instead of overwriting it.
@@ -280,13 +321,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         "serverUpdatedAt": existing.get("updatedAt"),
                         "state": existing,
                     })
-            # The document never grows per answer. A client still carrying a
-            # review array or a mock history in it is pre-resource; those rows
-            # go to the log here, and the client folds its PBQ attempt lists.
-            rows = incoming.pop("reviews", None) or []
-            rows += [{"kind": "mock", **m} for m in (incoming.pop("mockHistory", None) or []) if isinstance(m, dict)]
-            if rows:
-                _append_reviews([r for r in rows if _valid_row(r)])
+            # The document never grows per answer: any history it carried went
+            # to the log above, and the client folds its PBQ attempt lists.
             _write_state(incoming)
             summary = _summary(incoming)
         return self._json(200, {"ok": True, "updatedAt": incoming.get("updatedAt"), **summary})
@@ -301,9 +337,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if not rows or not all(_valid_row(r) for r in rows):
             return self._json(400, {"error": "each row needs a numeric at and a kind"})
         with _lock:
-            _append_reviews(rows)
+            landed = _append_reviews(rows)
             total = _count_reviews()
-        return self._json(200, {"ok": True, "appended": len(rows), "total": total})
+        return self._json(200, {"ok": True, "appended": landed, "total": total})
 
     def log_message(self, fmt, *args):
         msg = fmt % args

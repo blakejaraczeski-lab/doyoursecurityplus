@@ -441,3 +441,27 @@ one is left and by its correction card if not, and a correction whose every
 open prerequisite is already being repaired this session waits for a later
 session. No correction in the current graph has two prerequisites, so the
 first leak was latent; the other two were live.
+
+## Old code cannot replace newer progress, and the log never takes a row twice
+
+On 2026-10-13 a tab left open since late September, still running code from
+before the review log was a resource, saved its copy: last updated September
+29, with its whole answer history inside. That code never sends If-Match, so
+the conditional replace could not stop it. The server replaced current
+progress with the old copy, which a current tab put right five minutes
+later, and appended the 145 history rows to the log, every one an answer
+the log already held, 7 of them under item ids from before a rename. The
+replay then reported false retirements, an impossible FSRS fit and a plan
+dated September 29. Two changes. A document that still carries a history is
+refused with 412 when it is older than the saved one; its history is kept,
+new rows only. And no append writes a row the log already holds: an exact
+copy is skipped everywhere, which also makes a retried outbox harmless, and
+history from old code is also skipped when the log has an answer of the same
+kind at the same millisecond, which catches the renamed ids. The
+`stale-tab` scenario replays the incident and fails four times against the
+old server. Only rows already in the log are skipped, never repeats within
+one batch, because two wrong subtasks of a PBQ on the same misconception
+legitimately log two identical rows in the same instant. An older test had
+encoded the bug: it expected an old client's re-sent history to be appended
+again and its older copy accepted; it now expects neither. Cleaning the real log was left to the person: removing rows from
+it cannot be undone, and a backup was taken first.

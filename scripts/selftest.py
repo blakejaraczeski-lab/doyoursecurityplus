@@ -484,11 +484,16 @@ def scenario_absorb(rep, tmp, browser):
                   "the absorbed mock shows under previous attempts")
         rep.check(not tab.errors[n0:], "no console error", "; ".join(tab.errors[n0:])[:200])
 
+        # A second client that never updated sends the same old document. Its
+        # history is already in the log and its copy is older than the saved
+        # one: nothing is appended twice, and the newer progress stays.
+        held = on_disk(data)["updatedAt"]
         st, body = http("PUT", f"{base}/api/state", {**old, "updatedAt": 9000})
-        rep.check(st == 200 and body.get("reviews") == 10,
-                  "a client that never updated is absorbed server side: 10 rows", f"({st}, {body.get('reviews')})")
+        rep.check(st == 412 and log_rows(data) == 6 and on_disk(data)["updatedAt"] == held,
+                  "a client that never updated re-sending that history adds nothing and replaces nothing",
+                  f"({st}, {log_rows(data)} rows)")
         saved = on_disk(data)
-        rep.check("reviews" not in saved and "mockHistory" not in saved, "and its document is stored without the arrays")
+        rep.check("reviews" not in saved and "mockHistory" not in saved, "and the saved document still carries neither array")
 
 
 def scenario_screens(rep, tmp, browser):
@@ -1386,6 +1391,43 @@ def scenario_systemd(rep, tmp):
     rep.check((data / "logs").exists(), "the study data directory is untouched by uninstall")
 
 
+def scenario_stale_tab(rep, tmp):
+    """The incident of 2026-10-13: a tab running code from before the review
+    log was a resource, open since September, saved its old copy with its old
+    history inside. The server took the copy and appended 145 rows it already
+    held. Replayed here exactly: newer progress on disk, an older document
+    carrying a review array and no If-Match."""
+    rep.head("A tab left open for weeks, running old code")
+    with throwaway(tmp, "stale-tab") as (base, data):
+        state_url, log_url = f"{base}/api/state", f"{base}/api/reviews"
+        history = [{"at": 1000 + k, "kind": "item", "id": f"c-{k:03d}", "grade": 3} for k in range(20)]
+        http("PUT", state_url, doc(9000, misconceptions={"kept": {"hits": 1, "retired": True}}))
+        http("POST", log_url, history)
+        rep.check(log_rows(data) == 20, "the log holds the 20 answers already sent")
+
+        renamed = dict(history[5], id="old-name-for-c-005")          # the same answer under a pre-rename id
+        novel = {"at": 5000, "kind": "item", "id": "c-099", "grade": 1}   # one answer the log never received
+        stale = doc(4000, reviews=history + [renamed, novel])            # no If-Match: old code never sends it
+        code, body = http("PUT", state_url, stale)
+        held = on_disk(data)
+        rep.check(code == 412 and held["updatedAt"] == 9000 and "kept" in held["misconceptions"],
+                  "an older document from old code is refused, and the newer progress stays", f"({code}, updatedAt {held['updatedAt']})")
+        rep.check(log_rows(data) == 21,
+                  f"its history adds only the one answer the log lacked: 20 copies and a renamed copy skipped ({log_rows(data)} rows)")
+        rep.check(isinstance(body, dict) and body.get("state", {}).get("updatedAt") == 9000, "and it is sent the saved copy back")
+
+        # A newer document from old code is still accepted: old code is refused for being old, not for being old code.
+        code, _ = http("PUT", state_url, doc(9500, reviews=[]))
+        rep.check(code == 200 and on_disk(data)["updatedAt"] == 9500, "a newer document from old code is still accepted")
+
+        # An outbox retried after a lost reply: the same rows twice land once.
+        retry = [{"at": 6000, "kind": "item", "id": "c-100", "grade": 3}, {"at": 6001, "kind": "item", "id": "c-101", "grade": 1}]
+        http("POST", log_url, retry)
+        code, body = http("POST", log_url, retry)
+        rep.check(code == 200 and body.get("appended") == 0 and log_rows(data) == 23,
+                  "an outbox sent twice lands once, and the server says none were new")
+
+
 def main():
     chrome = next((c for c in CANDIDATES if c and pathlib.Path(c).exists()), None)
     if not chrome:
@@ -1399,6 +1441,7 @@ def main():
     scenarios = {
         "page": lambda: scenario_page(rep, tmp, browser),
         "conflict": lambda: scenario_conflict(rep, tmp, browser),
+        "stale-tab": lambda: scenario_stale_tab(rep, tmp),
         "snapshot": lambda: scenario_snapshot(rep, tmp),
         "outbox": lambda: scenario_outbox(rep, tmp, browser),
         "absorb": lambda: scenario_absorb(rep, tmp, browser),
