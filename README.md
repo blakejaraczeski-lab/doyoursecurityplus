@@ -5,7 +5,7 @@ errors. Not a flashcard deck with a Security+ skin.
 
 ```bash
 python3 serve.py                # run it now, on http://localhost:8777
-./scripts/service.sh install    # macOS only: run it always, from login onward
+./scripts/service.sh install    # macOS or Linux: run it always, from login onward
 ```
 
 No build step, no npm, no dependencies. Plain ES modules and JSON, served by
@@ -266,11 +266,13 @@ document gets a fresh `updatedAt`, so a tab that still holds the copy it
 replaced takes the restored one on reload instead of pushing the old data
 back, and a tab that is not reloaded is refused on its next save.
 
-`./scripts/service.sh install` runs the server under **macOS launchd** so the
-port, and therefore the browser origin, never changes; `--remind 18:30` adds a
-daily notification that reads the log and stays quiet once you have hit your
-goal. On Linux run `python3 serve.py` under your own supervisor. Under launchd
-the server writes `logs/server.log` itself and rotates it at 1 MB with three
+`./scripts/service.sh install` runs the server as a per-user service, a
+**launchd agent on macOS** or a **systemd user unit on Linux**, so the port,
+and therefore the browser origin, never changes; `--remind 18:30` adds a daily
+notification (osascript on macOS, notify-send on Linux) that reads the log and
+stays quiet once you have hit your goal. A Linux user unit stops when you log
+out unless you run `loginctl enable-linger $USER`, which the script leaves to
+you. Either way the server writes `logs/server.log` itself and rotates it at 1 MB with three
 old files kept, so the logs can never pass about 4 MB, and a port already in
 use is a quiet wait rather than a crash loop.
 
@@ -349,7 +351,7 @@ scripts/
   derive_mcq.py              recall cards -> discrimination questions (--retag)
   import_anki.py             .apkg -> tagged recall items
   build_reference_index.py   study guide PDF -> page index (titles only)
-  service.sh                 macOS launchd install, status, logs, reminder, hooks
+  service.sh                 launchd (macOS) or systemd (Linux): install, status, logs, reminder, hooks
 ```
 
 ## Content integrity

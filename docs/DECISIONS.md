@@ -382,3 +382,20 @@ session and returns on its own schedule, where the gain-ranked queue already
 serves it rarely if it is genuinely held. The mentor bank shows the 12 most
 urgent corrections and puts the rest behind Show all, because the 13th is
 not what the next session needs.
+
+## Linux gets a systemd user unit, tested short of systemd
+
+`scripts/service.sh` now writes a systemd user unit on Linux with the same
+shape as the launchd agent: started with the session, restarted on failure,
+`DYSP_DATA` and `DYSP_LOG` set so the server writes and rotates its own log,
+and a daily timer for the reminder, which notifies through notify-send. The
+journal bounds anything printed before logging starts, so the launch-time cap
+macOS needs is not needed. A user unit stops at logout; `loginctl
+enable-linger` keeps it running, and changing how an account's services live
+is left to the person. There is no Linux machine here and Docker was not
+running, so the self test drives the Linux path everywhere short of systemd:
+it writes the units to a temporary directory, records the systemctl calls
+through a stub, parses the units, and runs the declared ExecStart with the
+declared environment as a real server, with a space in the data path to prove
+the quoting. What it cannot prove is systemd's own reading of the file; the
+first install on a real Linux machine is that test.

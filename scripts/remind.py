@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Check the durable study state and, if corrections are due, post a macOS
-notification. Run on a schedule by the LaunchAgent (see service.sh).
+"""Check the durable study state and, if corrections are due, post a desktop
+notification. Run on a schedule by the launchd agent or the systemd timer
+(see service.sh).
 
 Reads the state file directly rather than the app, so it works whether or not a
 browser is open. It never writes.
 """
-import json, os, subprocess, sys, time
+import json, os, shutil, subprocess, sys, time
 from pathlib import Path
 
 DATA_DIR = Path(os.environ.get("DYSP_DATA", Path.home() / ".doyoursecurityplus"))
@@ -15,11 +16,19 @@ PORT = os.environ.get("DYSP_PORT", "8777")
 
 
 def notify(title, body, url):
-    script = (
-        f'display notification {json.dumps(body)} '
-        f'with title {json.dumps(title)} sound name "Ping"'
-    )
-    subprocess.run(["osascript", "-e", script], check=False)
+    """A desktop notification by whatever this platform has: osascript on macOS,
+    notify-send on Linux. Without either, the line goes to stdout, which the
+    service manager keeps (the journal on Linux)."""
+    if sys.platform == "darwin":
+        script = (
+            f'display notification {json.dumps(body)} '
+            f'with title {json.dumps(title)} sound name "Ping"'
+        )
+        subprocess.run(["osascript", "-e", script], check=False)
+    elif shutil.which("notify-send"):
+        subprocess.run(["notify-send", "--app-name=doyoursecurityplus", title, f"{body}\n{url}"], check=False)
+    else:
+        print(f"{title}: {body} {url}")
 
 
 def main():
