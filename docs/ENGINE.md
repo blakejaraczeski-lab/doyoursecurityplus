@@ -87,3 +87,62 @@ two GOOD answers, against 2 then 6) are noise it learned. The defaults also
 under-predict recall here, because most of these reviews are multiple choice
 recognition, which is easier than the free recall FSRS was trained on; the
 gain model's understanding term absorbs part of that.
+
+## 4. Retirement, audited
+
+18 retirements in the log; one, `vendor-assessment-methods`, was missed
+again two days later. 6% is too few retirements to justify raising
+`retireAfter`; the rule is to raise it for a severity whose false-retirement
+rate passes 15% over at least 30 retirements.
+
+Every open misconception can still retire on items the bank holds:
+
+| Open | Objective | Clean | Items left | Days since last miss |
+|---|---|---|---|---|
+| `compromised-vs-affected` | 4.9 | 1/2 | 4 | 3 |
+| `acl-implicit-deny` | 4.5 | 1/2 | 7 | 2 |
+| `audit-vs-assessment` | 5.5 | 0/2 | 11 | 2 |
+| `risk-appetite-vs-tolerance` | 5.2 | 0/2 | 5 | 7 |
+| `bia-vs-risk-assessment` | 5.2 | 0/2 | 7 | 2 |
+| `screened-subnet-direction` | 3.2 | 1/2 | 2 | 3 |
+
+A seventh open record, `terminology-3-3`, had no definition: its bucket was
+emptied in an earlier pass, so it could never be served or retired and was
+counted as open forever. Orphan pruning now drops misconception records too.
+
+The systemic gap is elsewhere. 29 misconceptions hold exactly
+`retireAfter` items, so a miss on any one of them leaves too few distinct
+items to retire on. One more item each closes it. Author in this order,
+heaviest domain first, then severity:
+
+| # | Objective | Severity | Misconception | Items now |
+|---|---|---|---|---|
+| 1 | 4.5 | high | `ids-ips-detection-methods` | 2 |
+| 2 | 4.5 | medium | `host-hardening-enforcement` | 2 |
+| 3 | 4.5 | medium | `terminology-4-5` | 2 |
+| 4 | 4.6 | medium | `terminology-4-6` | 2 |
+| 5 | 2.5 | high | `allow-list-vs-deny-list` | 2 |
+| 6 | 2.2 | medium | `supply-chain-roles` | 2 |
+| 7 | 2.2 | medium | `misinformation-vs-disinformation` | 2 |
+| 8 | 2.2 | medium | `unsecure-network-vectors` | 2 |
+| 9 | 2.4 | medium | `ddos-amplified-vs-reflected` | 2 |
+| 10 | 2.5 | medium | `least-privilege-vs-permissions` | 2 |
+| 11 | 2.3 | low | `jailbreak-vs-sideload` | 2 |
+| 12 | 5.1 | medium | `terminology-5-1` | 2 |
+| 13 | 5.2 | medium | `risk-appetite-postures` | 2 |
+| 14 | 5.2 | medium | `exception-vs-exemption` | 2 |
+| 15 | 3.1 | medium | `centralized-vs-decentralized` | 2 |
+| 16 | 3.2 | medium | `sdwan-vs-sase` | 2 |
+| 17 | 3.4 | medium | `capacity-planning-dimensions` | 2 |
+| 18 | 3.2 | low | `nat-as-security-control` | 2 |
+| 19 | 3.4 | low | `ups-vs-generator` | 2 |
+| 20 | 1.1 | medium | `directive-vs-deterrent` | 2 |
+| 21 | 1.1 | medium | `managerial-vs-operational` | 2 |
+| 22 | 1.2 | medium | `zero-trust-planes` | 2 |
+| 23 | 1.2 | medium | `authenticating-people-vs-systems` | 2 |
+| 24 | 1.2 | medium | `deception-technologies` | 2 |
+| 25 | 1.2 | medium | `gap-analysis-vs-assessment` | 2 |
+| 26 | 1.3 | medium | `change-management-elements` | 2 |
+| 27 | 1.4 | medium | `salting-purpose` | 2 |
+| 28 | 1.4 | medium | `crl-vs-ocsp` | 2 |
+| 29 | 1.4 | low | `blockchain-ledger-properties` | 2 |

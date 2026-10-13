@@ -271,3 +271,44 @@ export function fitFsrs({ rows }) {
     recalledShare: hists.flatMap((h) => h.slice(1)).filter((r) => r.grade > 1).length / Math.max(1, all.n),
   };
 }
+
+// --- retirement, audited ----------------------------------------------------------
+//
+// A misconception retires on clean passes over distinct items, never the one
+// that exposed it. So it can only retire if the bank holds retireAfter items
+// testing it besides that one. Anything short of that is a content gap, and
+// the gaps that matter most sit in the heaviest domains.
+
+const SEV = { high: 3, medium: 2, low: 1 };
+
+export async function retirementAudit({ rows }) {
+  const content = await loadContent();
+  const res = await fetch("/api/state");
+  const state = res.ok ? (await res.json()).state : structuredClone(DEFAULT_STATE);
+  state.misconceptions ||= {};
+  const weightOf = (mc) => content.objectiveById[content.misconceptions[mc]?.objective]?.weight ?? 0;
+  const now = rows.length ? rows.at(-1).at : Date.now();
+
+  const open = Object.entries(state.misconceptions).filter(([id, r]) => !r.retired && content.misconceptions[id]).map(([id, r]) => {
+    const def = content.misconceptions[id];
+    const needed = def.retireAfter ?? 2;
+    const have = r.cleanPasses?.length || 0;
+    const pool = mentor.itemsFor(id, content, state, r.lastItem);
+    const left = pool.mcqs.length + pool.pbqs.length;
+    const lastMiss = rows.filter((x) => x.kind === "misconception" && x.id === id && x.grade <= 1).at(-1)?.at;
+    return { id, objective: def.objective, weight: weightOf(id), severity: def.severity, needed, have, left,
+             path: left >= needed - have, quietDays: lastMiss ? (now - lastMiss) / 86400000 : null };
+  });
+
+  // Across the whole bank: after a miss on any one of its items, can it still retire?
+  const gaps = Object.entries(content.misconceptions).map(([id, def]) => {
+    const { mcqs, pbqs } = mentor.itemsFor(id, content, { misconceptions: {} });
+    const needed = def.retireAfter ?? 2;
+    return { id, objective: def.objective, weight: weightOf(id), severity: def.severity,
+             items: mcqs.length + pbqs.length, toAuthor: Math.max(0, needed + 1 - (mcqs.length + pbqs.length)) };
+  }).filter((g) => g.toAuthor > 0)
+    .sort((a, b) => b.weight - a.weight || (SEV[b.severity] || 0) - (SEV[a.severity] || 0) || a.objective.localeCompare(b.objective));
+
+  const ghosts = Object.entries(state.misconceptions).filter(([id, r]) => !r.retired && !content.misconceptions[id]).map(([id]) => id);
+  return { open, gaps, ghosts };
+}

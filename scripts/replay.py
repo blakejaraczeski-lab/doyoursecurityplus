@@ -101,14 +101,34 @@ def report_fsrs(f):
     print(f"  first two GOOD intervals: defaults {d[0]} then {d[1]} days; fitted {w[0]} then {w[1]} days")
 
 
+def report_retirement(a, out):
+    n_ret = len(out["retiredEvents"])
+    print(f"\nretirement: {n_ret} retirements in the log, {len(out['falseRetirements'])} missed again afterwards "
+          f"({len(out['falseRetirements']) / max(1, n_ret):.0%})")
+    print(f"  open now: {len(a['open'])}" + (f", plus {len(a['ghosts'])} open with no definition in the bank: {', '.join(a['ghosts'])}" if a["ghosts"] else ""))
+    for o in sorted(a["open"], key=lambda o: -o["weight"]):
+        quiet = f"{o['quietDays']:.0f} days since the last miss" if o["quietDays"] is not None else "no miss in the log"
+        print(f"    {o['id']:<38} {o['objective']}  {o['have']}/{o['needed']} clean, {o['left']} items left, "
+              f"{'can retire' if o['path'] else 'NO PATH'}; {quiet}")
+    g = a["gaps"]
+    print(f"  misconceptions that cannot retire after a miss on one of their items: {len(g)}, "
+          f"{sum(x['toAuthor'] for x in g)} items to author, heaviest domain first:")
+    for x in g[:12]:
+        print(f"    {x['objective']}  {x['severity']:<6} {x['id']:<40} has {x['items']}, author {x['toAuthor']}")
+    if len(g) > 12:
+        print(f"    ... and {len(g) - 12} more (python3 scripts/replay.py --json for all)")
+
+
 if __name__ == "__main__":
     src = pathlib.Path(sys.argv[sys.argv.index("--data") + 1]) if "--data" in sys.argv else SOURCE
     t0 = time.time()
     out = run_in_page("run({ rows, profile })", src)
     out["fsrs"] = run_in_page("fitFsrs({ rows })", src)
+    out["retirement"] = run_in_page("retirementAudit({ rows })", src)
     if "--json" in sys.argv:
         print(json.dumps(out))
     else:
         report(out)
         report_fsrs(out["fsrs"])
+        report_retirement(out["retirement"], out)
         print(f"\nreplayed in {time.time() - t0:.1f}s")

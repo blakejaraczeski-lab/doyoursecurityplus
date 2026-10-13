@@ -61,7 +61,7 @@ import { loadContent, isGraded } from "./app/content.js";
 import { gradePbq } from "./app/grade.js";
 import * as mentor from "./app/mentor.js";
 import { buildQueue, readiness, coverageDeficit, currentPriority, expectedGain, gainContext, POINTS_PER_QUESTION } from "./app/scheduler.js";
-import { DEFAULT_STATE } from "./app/state.js";
+import { DEFAULT_STATE, pruneOrphans } from "./app/state.js";
 import { calibrationOf, todayOf } from "./app/reviews.js";
 import * as fsrs from "./app/fsrs.js";
 
@@ -256,6 +256,10 @@ say("<b>The review log answers the questions the state document no longer can</b
   check(c.sureRight === 2 && c.sureWrong === 1 && c.guessRight === 1 && c.answered === 4,
         `calibration counts declared confidence only: ${c.sureRight}/${c.sureWrong}/${c.guessRight}/${c.guessWrong}`);
   check(!("reviews" in DEFAULT_STATE), "the state document has no reviews array");
+  const ghost = structuredClone(DEFAULT_STATE);
+  ghost.misconceptions["no-such-misconception"] = { retired: false, cleanPasses: [] };
+  check(pruneOrphans(ghost, content) === 1 && !ghost.misconceptions["no-such-misconception"],
+        "an open misconception with no definition in the bank is pruned, not counted forever");
 }
 
 say("");

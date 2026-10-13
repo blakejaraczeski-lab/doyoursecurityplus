@@ -176,7 +176,7 @@ export function migrateIds(state, content) {
 }
 
 /**
- * Drop progress records whose item or PBQ no longer exists in the bank.
+ * Drop progress records whose item, PBQ or misconception no longer exists in the bank.
  * Regenerating derived content can change ids, and a record pointing at
  * nothing is dead weight: the scheduler cannot serve it and readiness cannot
  * see it. Reviews are kept, because they are history and nothing looks them up
@@ -189,6 +189,11 @@ export function pruneOrphans(state, content) {
   }
   for (const id of Object.keys(state.pbq || {})) {
     if (!content.pbqsById[id]) { delete state.pbq[id]; n += 1; }
+  }
+  // A misconception whose definition is gone can never be served or retired,
+  // and an open one would count against you forever.
+  for (const id of Object.keys(state.misconceptions || {})) {
+    if (!content.misconceptions[id]) { delete state.misconceptions[id]; n += 1; }
   }
   return n;
 }
