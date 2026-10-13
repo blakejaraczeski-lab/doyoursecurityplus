@@ -420,7 +420,7 @@ say("<b>What the queue maximises: expected exam points per minute</b>");
   // Interleaved and exam shaped, from a fresh state over eight seeds.
   const doms = {}, worst = [];
   for (let seed = 1; seed <= 8; seed++) {
-    const q = withSeed(seed, () => buildQueue(s, content, { size: 25, now, policy: "gain" }));
+    const q = withSeed(seed, () => buildQueue(s, content, { size: 25, now }));
     const byObj = {};
     for (const e of q) {
       const it = e.item || e.pbq;

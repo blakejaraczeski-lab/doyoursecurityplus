@@ -274,3 +274,17 @@ own file receives only what Python prints before that, kept under 256 KB by
 so launchd's descriptor stays valid. And a port in use is no longer a crash:
 the server logs one line and retries every five seconds, taking the port
 over when it frees. newsyslog was the other option and needs root.
+
+## The queue ranks by expected exam points per minute
+
+The default queue policy is now `gain`. Corrections, prerequisite repairs
+and contrast pairs keep their slots, because they are the product. The rest
+of a session is one pool of due and unseen items ranked by `expectedGain`,
+with a 30% diminishing return for each further pick from the same objective
+and the recall floor and cap unchanged. The old policy filled new slots from
+whichever domain had the largest share deficit, all of it: from a fresh state
+its first session was entirely domain 4. The replay of the real log puts the
+cost at 1.7 minutes of a typical session by the model's own measure. The
+model is myopic, assuming no further review before the exam; that ranks the
+item about to be forgotten first, which is the right order, and overstates
+nothing it is compared on. Reversible with `policy: "current"`.

@@ -15,7 +15,10 @@ fail = fails.append
 
 JS = sorted(ROOT.glob("app/**/*.js"))
 HTML = [ROOT / "index.html", ROOT / "selftest.html"]
-SRC = {p: p.read_text() for p in JS + HTML}
+# Analysis scripts that import the app (scripts/replay.js) are consumers of
+# its exports, never part of it: they count as a reference, nothing more.
+TOOLS = sorted(ROOT.glob("scripts/*.js"))
+SRC = {p: p.read_text() for p in JS + HTML + TOOLS}
 ALL_SRC = "\n".join(SRC.values())
 rel = lambda p: str(p.relative_to(ROOT))
 

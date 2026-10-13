@@ -161,7 +161,7 @@ function pickDueItems(state, content, n, now) {
  * Build a study queue.
  * @param {string} mode drill | weak | pbq | mock
  */
-export function buildQueue(state, content, { mode = "drill", size = 25, now = Date.now(), policy = "current" } = {}) {
+export function buildQueue(state, content, { mode = "drill", size = 25, now = Date.now(), policy = "gain" } = {}) {
   const pace = PACE[state.profile.pace] || PACE.bootcamp;
   const queue = [];
 
@@ -343,7 +343,7 @@ const PBQS_ON_EXAM = 4;
 const RECALL_TRANSFER = 0.25;
 // Seconds per answer by kind. The real log's median for a graded answer is 39 s
 // (62 timed rows, 2026-10-13); recall and PBQ are not timed yet.
-const SECONDS = { mcq: 40, "mcq-multi": 60, recall: 15, pbq: 480, mentor: 60 };
+export const SECONDS = { mcq: 40, "mcq-multi": 60, recall: 15, pbq: 480, mentor: 60 };
 const SEVERITY = { high: 1, medium: 0.7, low: 0.4 };
 
 /**

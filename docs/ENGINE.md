@@ -48,3 +48,23 @@ Where the two disagree, with cost per session from the replay:
 | Fixed quotas | 20% of every session goes to due reviews whatever they are worth | inside 1.7 min |
 | Prerequisite routing | Routes backward once per blocker per session; a second correction on the same open prerequisite is drilled anyway: 2 answers | 0.2 min |
 | Correction re-served at once | A fresh correction tested again within two answers: 7 answers | 0.35 min |
+
+## 2. The real log, replayed
+
+`python3 scripts/replay.py` steps through every row, rebuilds the state as it
+was before each answer, and asks the real scheduler, in headless Chrome, what
+it would have served. It reads the data directory and writes nothing there.
+
+| Minutes that did not move the score | Answers | Minutes |
+|---|---|---|
+| Served with retrievability already above 0.95 | 4 | 2.6 |
+| A recall card while a graded item would have gained more | 62 | 15.5 |
+| A correction drilled on top of an open prerequisite | 2 | 5.7 |
+| A fresh correction tested again within two answers | 7 | 8.8 |
+
+Outside the correction slots, which both policies fill the same way, the
+answers took 74 minutes; the gain policy buys the same expected points in 30.
+That is 1.7 minutes a session, 59% of those answers, measured by the gain
+model's own yardstick, so it says the old policy disagreed with the model,
+not that the model is right. The domain-mix check is the independent part:
+the old policy concentrates a session in one domain, the exam does not.

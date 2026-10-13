@@ -335,6 +335,7 @@ scripts/
   check_docs.py              README counts come from the content (--write)
   backup.py                  dated tarball of the study data, and a confirmed restore
   capped-log.sh              keeps launchd's crash.log under 256 KB on every launch
+  replay.py, replay.js        the real log through the real scheduler, on a copy: what was wasted
   selftest.py                selftest.html plus the persistence scenarios, headless, non-zero exit on failure
   derive_mcq.py              recall cards -> discrimination questions (--retag)
   import_anki.py             .apkg -> tagged recall items
