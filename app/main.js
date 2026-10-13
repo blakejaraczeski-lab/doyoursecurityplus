@@ -634,7 +634,6 @@ const ACTIONS = {
   nav: (el) => { App.screen = sectionScreen(el.dataset.section); App.expanded = null; },
   "start-drill": () => startSession("drill"),
   "start-weak": () => startSession("weak"),
-  "go-readiness": () => { App.screen = "readiness"; },
   answer: (el) => answerMcq(el.dataset.opt),
   next,
   reveal: () => { App.answer = { revealed: true }; },

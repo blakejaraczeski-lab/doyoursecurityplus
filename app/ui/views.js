@@ -153,9 +153,7 @@ function mcqHtml(App, entry) {
     <p class="stem">${gloss(it.stem)}</p>
     <div class="opts">${opts}</div>
     ${ans ? "" : `<div class="row mt4 between">
-       <div class="hint">
-         <span class="kbd">A</span><span class="kbd">B</span><span class="kbd">C</span><span class="kbd">D</span>
-         <span>to answer</span> <span class="kbd">?</span><span>acronyms</span></div>
+       <div class="hint"><span class="kbd">?</span><span>expands every acronym</span></div>
        <button class="btn ghost small guess-toggle ${App.markedGuess ? "on" : ""}" data-action="toggle-guess">
          ${App.markedGuess ? "&check; Marked as a guess" : "I am guessing"} <span class="kbd">G</span>
        </button></div>`}
@@ -336,7 +334,6 @@ export function drillDoneView(App) {
   <div class="row">
     <button class="btn" data-action="start-drill">Another session</button>
     <button class="btn ghost" data-action="start-weak">Work the weak spots</button>
-    <button class="btn ghost" data-action="go-readiness">See readiness</button>
   </div>`;
 }
 
@@ -511,9 +508,7 @@ export function readinessView(App) {
   // Order: the decision first (the forecast, the hours to book, the rule),
   // then where to spend the next session, then the per-objective picture.
   return `<h1>Readiness</h1>
-  <p class="sub">${r.confident
-      ? "Based on enough reviews to mean something."
-      : `Low confidence so far: ${r.reviewCount} reviews across ${r.objectivesSampled} of 28 objectives. The band narrows as you drill.`}</p>
+  <p class="sub">The evidence so far: ${r.reviewCount} answer${r.reviewCount === 1 ? "" : "s"} in the last 30 days across ${r.objectivesSampled} of 28 objectives, and ${r.forecast.mocks || "no"} mock${r.forecast.mocks === 1 ? "" : "s"}.</p>
 
   ${r.bankDepth < 0.8 ? `<div class="card tight flag">
     <h2 class="eyebrow">What this score can and cannot see</h2>
@@ -531,8 +526,6 @@ export function readinessView(App) {
       <dl class="side-stats inline">
         <div class="stat"><dt>Expected right</dt><dd class="${r.scaled >= 750 ? "good" : "warn"}">${pct(r.forecast.raw)}</dd></div>
         <div class="stat"><dt>Study hours to book</dt><dd>${hoursHtml(App)}</dd></div>
-        ${r.daysLeft != null ? `<div class="stat"><dt>Days to exam</dt><dd>${r.daysLeft}</dd></div>` : ""}
-        <div class="stat"><dt>Reviews</dt><dd>${r.reviewCount}</dd></div>
       </dl>
     </div>
     <div class="gauge">
@@ -600,15 +593,7 @@ export function readinessView(App) {
 export function settingsView(App) {
   const p = App.state.profile;
   const c = App.content;
-  const counts = {
-    mcq: c.items.filter((i) => i.type === "mcq").length,
-    multi: c.items.filter((i) => i.type === "mcq-multi").length,
-    recall: c.items.filter((i) => i.type === "recall").length,
-    pbq: c.pbqs.length,
-    mc: Object.keys(c.misconceptions).length,
-  };
   const h = App.health;
-  const st = streakStatus(App.state);
 
   return `<h1>Settings</h1>
 
@@ -647,37 +632,14 @@ export function settingsView(App) {
         </tbody></table>
         <p class="note">The browser keeps a fast copy and mirrors it to that file a second or two behind. Clearing site data does not lose your history.</p>`
       : `<p class="muted m0">The study server is not reachable, so progress is only in this browser right now. Start it with <span class="mono">python3 serve.py</span> and reload.</p>`}
+    ${c.referenceSources?.length
+      ? `<p class="note">Page references in corrections come from: ${c.referenceSources.map(esc).join("; ")}</p>`
+      : ""}
     <div class="row mt4">
       <button class="btn ghost" data-action="export">Export a copy</button>
       <button class="btn ghost" data-action="import">Import</button>
       <button class="btn danger" data-action="reset">Reset everything</button>
     </div>
-  </div>
-
-  <h2 class="eyebrow">Consistency</h2>
-  <div class="card">
-    <dl class="side-stats wrap">
-      <div class="stat"><dt>Current streak</dt><dd class="${st.current ? "good" : ""}">${st.current} d</dd></div>
-      <div class="stat"><dt>Best streak</dt><dd>${st.best} d</dd></div>
-      <div class="stat"><dt>Days studied</dt><dd>${(App.state.streak?.days || []).length}</dd></div>
-      <div class="stat"><dt>Reviews today</dt><dd>${reviews.today()}</dd></div>
-    </dl>
-  </div>
-
-  <h2 class="eyebrow">Content loaded</h2>
-  <div class="card">
-    <table class="grid"><tbody>
-      <tr><td>Multiple choice items</td><td class="mono">${counts.mcq}</td></tr>
-      <tr><td>Multiple select items</td><td class="mono">${counts.multi}</td></tr>
-      <tr><td>Recall items (imported)</td><td class="mono">${counts.recall}</td></tr>
-      <tr><td>Performance-based questions</td><td class="mono">${counts.pbq}</td></tr>
-      <tr><td>Misconceptions with mentor guides</td><td class="mono">${counts.mc}</td></tr>
-      <tr><td>Glossary acronyms, expanded inline</td><td class="mono">${Object.keys(c.glossary || {}).length}</td></tr>
-      <tr><td>Objectives / tagged topics</td><td class="mono">${c.objectives.counts.objectives} / ${c.objectives.counts.topics}</td></tr>
-    </tbody></table>
-    ${c.referenceSources?.length
-      ? `<p class="note">Page references available from: ${c.referenceSources.map(esc).join("; ")}</p>`
-      : ""}
   </div>`;
 }
 
@@ -695,7 +657,6 @@ export const pbqAnswered = (a) =>
 
 export function mockStartView(App) {
   const mocks = reviews.rows("mock");
-  const best = mocks.length ? Math.max(...mocks.map((m) => m.scaled)) : null;
   const history = mocks.slice(-5).reverse();
   const fits = Object.entries(FORMATS).map(([k, f]) => [k, f, blockFit(App.content, f)]);
   const graded = App.content.items.filter(isGraded).length;
@@ -737,7 +698,7 @@ export function mockStartView(App) {
         <td>${m.scaled >= 750 ? "pass" : "below"}</td>
         <td class="mono">${Math.round(m.seconds / 60)}m</td>
       </tr>`).join("")}</tbody></table></div>
-      ${best ? `<p class="note">Best so far ${best}. One mock above 750 is not readiness; a margin above it across independent blocks is.</p>` : ""}
+
     </div>` : ""}`;
 }
 
@@ -884,5 +845,5 @@ export function mockResultView(App) {
   ${r.mentorHtml ? `<h2>Corrections banked</h2>
     <p class="sub">These are now in your schedule and will come back on different questions.</p>${r.mentorHtml}` : ""}
 
-  <div class="row"><button class="btn" data-action="mock-done">Back to the lab</button></div>`;
+  <div class="row"><button class="btn" data-action="mock-done">Back to mock exams</button></div>`;
 }

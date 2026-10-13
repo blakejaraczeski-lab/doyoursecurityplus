@@ -556,7 +556,7 @@ def scenario_screens(rep, tmp, browser):
         shot("empty log", "bank")
         click("[data-action=nav][data-section=readiness]")
         shot("empty log", "readiness")
-        rep.check("0 reviews" in main_text(), "empty log   readiness says it has 0 reviews to go on")
+        rep.check("0 answers" in main_text(), "empty log   readiness says it has 0 answers to go on")
         click("[data-action=nav][data-section=settings]")
         shot("empty log", "settings")
         rep.check("Rows in the review log\t0" in main_text() or "Rows in the review log 0" in main_text().replace("\t", " "),
