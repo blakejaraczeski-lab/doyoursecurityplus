@@ -178,3 +178,96 @@ export async function run({ rows, profile }) {
   out.state = state;
   return out;
 }
+
+// --- FSRS parameters against this person's log --------------------------------
+//
+// Every item review that has a prior review is a prediction FSRS made: the
+// retrievability at that moment, against whether the answer was recalled. A
+// fit moves the 19 weights to lower the log-loss of those predictions. With
+// few predictions a fit learns the noise, so it is judged out of sample:
+// five folds by item, fitted on four, scored on the fifth.
+
+const DEFAULT_W = [
+  0.40255, 1.18385, 3.173, 15.69105, 7.1949, 0.5345, 1.4604, 0.0046,
+  1.54575, 0.1192, 1.01925, 1.9395, 0.11, 0.29605, 2.2698, 0.2315,
+  2.9898, 0.51655, 0.6621,
+];
+
+/** Each item's reviews in order: [{ at, grade }]. */
+function histories(rows) {
+  const by = {};
+  for (const r of [...rows].sort((a, b) => a.at - b.at)) if (r.kind === "item") (by[r.id] ||= []).push(r);
+  return Object.values(by).filter((h) => h.length >= 2);
+}
+
+function logLoss(hists, w) {
+  let loss = 0, n = 0;
+  for (const h of hists) {
+    let card = fsrs.newCard();
+    for (const r of h) {
+      if (card.reps) {
+        const p = Math.min(1 - 1e-4, Math.max(1e-4, fsrs.currentRetrievability(card, r.at)));
+        loss -= r.grade > 1 ? Math.log(p) : Math.log(1 - p);
+        n += 1;
+      }
+      card = fsrs.review(card, r.grade, { now: r.at, w });
+    }
+  }
+  return { loss: n ? loss / n : 0, n };
+}
+
+/** Coordinate descent on multiplicative steps, a few passes. Small, honest, stdlib-browser. */
+function fit(hists, start = DEFAULT_W) {
+  let w = [...start];
+  let best = logLoss(hists, w).loss;
+  for (const step of [0.5, 0.2, 0.08]) {
+    for (let pass = 0; pass < 2; pass++) {
+      for (let i = 0; i < w.length; i++) {
+        for (const f of [1 + step, 1 - step]) {
+          const t = [...w]; t[i] = Math.max(1e-3, w[i] * f);
+          const l = logLoss(hists, t).loss;
+          if (l < best - 1e-6) { best = l; w = t; }
+        }
+      }
+    }
+  }
+  return { w, loss: best };
+}
+
+export function fitFsrs({ rows }) {
+  const hists = histories(rows);
+  const all = logLoss(hists, DEFAULT_W);
+  const folds = 5;
+  const crossValidate = (hs) => {
+    // The third yardstick ignores memory entirely: it always predicts the
+    // training folds' recall rate. A model that cannot beat it has learned
+    // how often this person is right, not how they forget.
+    let def = 0, fitted = 0, base = 0, n = 0;
+    for (let k = 0; k < folds; k++) {
+      const train = hs.filter((_, i) => i % folds !== k);
+      const test = hs.filter((_, i) => i % folds === k);
+      const t = logLoss(test, DEFAULT_W);
+      if (!t.n) continue;
+      const { w } = fit(train);
+      const seen = train.flatMap((h) => h.slice(1));
+      const rate = Math.min(0.999, Math.max(0.001, seen.filter((r) => r.grade > 1).length / Math.max(1, seen.length)));
+      for (const r of test.flatMap((h) => h.slice(1))) base -= r.grade > 1 ? Math.log(rate) : Math.log(1 - rate);
+      def += t.loss * t.n; fitted += logLoss(test, w).loss * t.n; n += t.n;
+    }
+    return { n, defaults: def / n, fitted: fitted / n, baseRate: base / n };
+  };
+  // The learning curve: the same test on growing shares of the items.
+  const curve = [0.5, 0.75, 1].map((share) => ({ share, ...crossValidate(hists.slice(0, Math.max(folds, Math.round(hists.length * share)))) }));
+  const full = fit(hists);
+  const days = (w) => {
+    const c = fsrs.review(fsrs.newCard(), fsrs.RATING.GOOD, { now: 0, w, desiredRetention: 0.92 });
+    const c2 = fsrs.review(c, fsrs.RATING.GOOD, { now: c.due, w, desiredRetention: 0.92 });
+    return [c.intervalDays, c2.intervalDays];
+  };
+  return {
+    items: hists.length, predictions: all.n, defaultLoss: all.loss,
+    inSample: full.loss, fitted: full.w, curve,
+    intervals: { defaults: days(DEFAULT_W), fitted: days(full.w) },
+    recalledShare: hists.flatMap((h) => h.slice(1)).filter((r) => r.grade > 1).length / Math.max(1, all.n),
+  };
+}

@@ -68,3 +68,22 @@ That is 1.7 minutes a session, 59% of those answers, measured by the gain
 model's own yardstick, so it says the old policy disagreed with the model,
 not that the model is right. The domain-mix check is the independent part:
 the old policy concentrates a session in one domain, the exam does not.
+
+## 3. FSRS parameters: the defaults stay
+
+62 reviews have a prior review, so 62 predictions to judge FSRS on, 79% of
+them recalled. Scored out of sample over five folds by item:
+
+| Predictor | Log-loss |
+|---|---|
+| Default weights | 0.638 |
+| Weights fitted to this log | 0.575 |
+| Always predict the person's average recall rate | 0.524 |
+
+The fit beats the defaults, and the constant beats them both. Neither model
+knows more about this person's forgetting than how often they are right, so
+the fit's gain is base-rate calibration and its intervals (4 then 70 days on
+two GOOD answers, against 2 then 6) are noise it learned. The defaults also
+under-predict recall here, because most of these reviews are multiple choice
+recognition, which is easier than the free recall FSRS was trained on; the
+gain model's understanding term absorbs part of that.

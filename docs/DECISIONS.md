@@ -288,3 +288,17 @@ cost at 1.7 minutes of a typical session by the model's own measure. The
 model is myopic, assuming no further review before the exam; that ranks the
 item about to be forgotten first, which is the right order, and overstates
 nothing it is compared on. Reversible with `policy: "current"`.
+
+## FSRS keeps its default weights until a fit beats a constant
+
+A fit to the 62 predictions in the log beat the default weights out of
+sample, and a predictor that ignores memory and always guesses the person's
+average recall rate beat the fit. A fit that cannot beat that constant has
+learned how often this person is right, not how they forget, and adopting it
+would have stretched the second interval from 6 days to 70 on noise. The
+rule: `scripts/replay.py` reports all three every run, and fitted weights are
+adopted only when, out of sample, they beat both the defaults and the
+constant by 5% on two monthly runs in a row. At the current pace of about 60
+predictions a month that is not before the exam on 2026-12-01, so for this
+exam the defaults are the plan; there is deliberately no fitted-weights field
+yet, because nothing would fill it.

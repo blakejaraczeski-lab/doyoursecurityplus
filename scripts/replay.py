@@ -88,12 +88,27 @@ def report(out):
         print(f"  {f['id']}: retired {day(f['retiredAt'])}, missed {day(f['missedAt'])}")
 
 
+def report_fsrs(f):
+    print(f"\nFSRS: {f['predictions']} predictions on {f['items']} items with two or more reviews; "
+          f"{f['recalledShare']:.0%} recalled")
+    print(f"  log-loss with the default weights {f['defaultLoss']:.3f}; fitted in sample {f['inSample']:.3f}")
+    print("  out of sample, five folds by item:")
+    for c in f["curve"]:
+        better = (c["defaults"] - c["fitted"]) / c["defaults"] if c["defaults"] else 0
+        print(f"    {c['share']:.0%} of items, {c['n']} predictions: defaults {c['defaults']:.3f}, "
+              f"fitted {c['fitted']:.3f} ({better:+.0%} better), always-the-average {c['baseRate']:.3f}")
+    d, w = f["intervals"]["defaults"], f["intervals"]["fitted"]
+    print(f"  first two GOOD intervals: defaults {d[0]} then {d[1]} days; fitted {w[0]} then {w[1]} days")
+
+
 if __name__ == "__main__":
     src = pathlib.Path(sys.argv[sys.argv.index("--data") + 1]) if "--data" in sys.argv else SOURCE
     t0 = time.time()
     out = run_in_page("run({ rows, profile })", src)
+    out["fsrs"] = run_in_page("fitFsrs({ rows })", src)
     if "--json" in sys.argv:
         print(json.dumps(out))
     else:
         report(out)
+        report_fsrs(out["fsrs"])
         print(f"\nreplayed in {time.time() - t0:.1f}s")
