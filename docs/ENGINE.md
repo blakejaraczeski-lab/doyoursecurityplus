@@ -1,6 +1,6 @@
 # The engine, measured
 
-## In two minutes (2026-10-13)
+## In two minutes (updated 2026-10-13, after the queue fixes)
 
 **The objective.** A pass on SY0-701 in the fewest study hours by
 2026-12-01. Every number below is from `scripts/replay.py` on the real log,
@@ -17,25 +17,33 @@ study: each item's share of its objective's questions, the person's accuracy
 on that objective, item difficulty, FSRS memory decayed to the exam date,
 and the drag an open correction removes. Sessions interleave across
 objectives and follow the exam weights. Items are no longer forced into a
-review the day before the exam. Readiness forecasts exam day: **590, band 485
-to 696**.
+review the day before the exam. Readiness forecasts exam day: **589, band 484
+to 695**.
 
-**Waste before.** Outside correction slots the old queue spent 74 minutes on
-what the new order buys in 30: about 1.7 minutes of a typical five-minute
-session. Over the whole log: 62 recall cards each beaten by a graded item
-(15.5 min), 7 fresh corrections re-tested within two answers (8.8 min), 2
-corrections drilled over an open prerequisite (5.7 min), 4 answers on items
-already above 0.95 (2.6 min).
+**Waste before, and what closed it.** Outside correction slots the old queue
+spent 74 minutes on what the new order buys in 27: about 1.9 minutes of a
+typical five-minute session. Over the whole log, and what now prevents each:
+
+| Waste in the log | Answers | Minutes | Closed by |
+|---|---|---|---|
+| A recall card while a graded item would have gained more | 62 | 15.5 | Recall lost its floor of one per session and competes on its merits |
+| A fresh correction tested again within two answers | 7 | 8.8 | `spaceAfterMiss`: the next three answers after a miss are on other beliefs |
+| A correction drilled over an open prerequisite | 2 | 5.7 | Every open prerequisite is repaired first; the dependent correction waits |
+| An item served above retrievability 0.95 | 4 | 2.6 | The gain policy values such an item at almost nothing |
+
+These counts describe sessions already played, so the replay will keep
+reporting them; new waste would show up as growth.
 
 **Content gaps: authored 2026-10-13.** The 29 misconceptions that could not
 retire after a single miss each have a third item now, and domains 1 and 5
 have a second PBQ (choosing the cryptographic tool, objective 1.4; choosing
 the risk treatment, objective 5.2). The retirement audit reports zero gaps.
 
-**Hours to the booking rule: 15 to 33.** The rule: the forecast's low end at
+**Hours to the booking rule: 16 to 35.** The rule: the forecast's low end at
 750, two full mocks in the last 14 days at 750, no high-severity correction
-open in a heavy domain. Today none hold. 15 to 33 hours over the 48 days
-left is 19 to 41 minutes a day. The last month averaged about 6.
+open in a heavy domain. Today none hold. 16 to 35 hours over the 48 days
+left is 20 to 44 minutes a day. The last month averaged about 6. The hours
+rose by one at the low end because the 29 authored items are unseen material.
 
 **What the log cannot decide yet.** FSRS weights: 62 predictions, and a
 constant beats both the defaults and a fit, so the defaults stay. The
