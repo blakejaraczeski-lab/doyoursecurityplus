@@ -35,7 +35,17 @@ for i, line in enumerate(body.splitlines(), 1):
         if re.search(pat, bare):
             fails.append(f"{name}: {bare[:90]}")
 
+# Motion stays under 150 ms: every duration in a transition or animation, and
+# the --dur token itself, wherever it is declared.
+for i, line in enumerate(css.splitlines(), 1):
+    bare = line.strip()
+    if re.search(r"\b(transition|animation)\s*:|--dur\s*:", bare):
+        for n, unit in re.findall(r"(\d*\.?\d+)(ms|s)\b", bare):
+            ms = float(n) * (1000 if unit == "s" else 1)
+            if ms >= 150:
+                fails.append(f"motion {ms:.0f} ms, not under 150: {bare[:80]}")
+
 if fails:
     print("\n".join("  x " + f for f in fails))
     sys.exit(1)
-print("materials honest: no shadow, no gradient, no blur, every colour a token")
+print("materials honest: no shadow, no gradient, no blur, every colour a token, all motion under 150 ms")

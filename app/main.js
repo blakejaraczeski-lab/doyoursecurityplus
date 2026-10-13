@@ -253,11 +253,11 @@ function tickSync() {
 }
 
 /** Keep the readable policy in step with the grid without re-rendering it. */
-function refreshAclReadout() {
+function refreshAclReadout(edited = -1) {
   const el = document.getElementById("acl-readout");
   const pbq = currentPbq();
   if (!el || pbq?.kind !== "acl-table") return;
-  el.outerHTML = aclReadoutHtml(pbq.config, answersFor(pbq).rules || []);
+  el.outerHTML = aclReadoutHtml(pbq.config, answersFor(pbq).rules || [], edited);
 }
 
 /**
@@ -826,7 +826,7 @@ document.addEventListener("change", (e) => {
     answersFor(currentPbq()).rules[Number(t.dataset.acl)][t.dataset.k] = t.value;
     // A full render would rebuild the select you are still interacting with and
     // take the focus with it, so the plain-text policy is refreshed on its own.
-    refreshAclReadout();
+    refreshAclReadout(Number(t.dataset.acl));
   } else if (t.dataset.setting) {
     const k = t.dataset.setting;
     App.state.profile[k] =

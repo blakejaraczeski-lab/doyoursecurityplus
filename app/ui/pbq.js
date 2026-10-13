@@ -107,7 +107,7 @@ function aclHtml(pbq, answers, locked) {
  * them for order. Reading the policy top to bottom IS the task on this
  * question type, so it is also rendered as plain text.
  */
-export function aclReadoutHtml(cfg, rules) {
+export function aclReadoutHtml(cfg, rules, edited = -1) {
   const label = (list, v) => list.find((o) => o.value === v)?.label || v;
   const addr = (v) => (v === "any" ? "any" : label(cfg.networkObjects, v));
   const port = (v) => (v === "any" ? "any" : label(cfg.portOptions, v));
@@ -117,7 +117,7 @@ export function aclReadoutHtml(cfg, rules) {
   const lines = rules
     .map((r, i) => {
       const verb = r.action === "permit" ? "permit" : "deny";
-      return `<li class="${verb}"><span class="n">${i + 1}</span>
+      return `<li class="${verb}${i === edited ? " edited" : ""}"><span class="n">${i + 1}</span>
         <code><b>${verb}</b> ${esc(r.protocol || "ip")} from <b>${esc(addr(r.src))}</b>${
           r.srcPort && r.srcPort !== "any" ? ` port ${esc(port(r.srcPort))}` : ""
         } to <b>${esc(addr(r.dst))}</b>${

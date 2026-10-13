@@ -359,3 +359,15 @@ ignored. The stress scenario also found that a key pressed with nothing
 focused left focus on the page after the render, so the next Tab started from
 the top; with nothing to restore, focus now goes to the verdict if one just
 landed, else to the screen.
+
+## A press is acknowledged with an outline, and motion is linted
+
+The first 100 ms of a control should say the input landed before the result
+does. A heavier border would say it, but it changes the box and nudges every
+option below; an outline drawn inside the border says it and moves nothing.
+The same outline marks the ACL rule a select just changed, in the readout
+where the policy is read. Two animations broke the rule that nothing moves
+but the thing acted on: the session bar's 320 ms width and the heatmap's
+400 ms bars, both decoration. Both are gone, the shared duration is 120 ms,
+and `check_materials.py` now fails on any transition or animation at or over
+150 ms, so the next one is caught before it ships.

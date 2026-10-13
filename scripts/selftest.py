@@ -1026,6 +1026,17 @@ def scenario_latency(rep, tmp, browser, rows=3000, assert_limits=True):
         tab.evaluate("App.lab = null; document.querySelector('[data-action=nav][data-section=lab]').click();"
                      "document.querySelector('[data-action=open-pbq][data-id=pbq-acl-001]').click()")
         timed("add ACL rule", "[data-action=acl-add]")
+        # The fourth control: a select's change, timed to the frame that marks its rule in the readout.
+        r = tab.call("Runtime.evaluate", awaitPromise=True, returnByValue=True, expression="""(async () => {
+          const sel = document.querySelector('select[data-acl="0"][data-k="action"]');
+          const t0 = performance.now();
+          sel.value = 'deny'; sel.dispatchEvent(new Event('change', { bubbles: true }));
+          const work = performance.now() - t0;
+          return await new Promise((done) => requestAnimationFrame(() => done({ ms: performance.now() - t0, work,
+            marked: !!document.querySelector('#acl-readout li.edited.deny') })));
+        })()""")["result"].get("value") or {}
+        results.append(("change an ACL select", r.get("ms", 1e9), 100, r.get("work", 0)))
+        rep.check(r.get("marked"), "a changed ACL select marks its rule in the readout in the same frame")
 
         tab.call("Emulation.setCPUThrottlingRate", rate=1)
         results.sort(key=lambda r: -r[1])
