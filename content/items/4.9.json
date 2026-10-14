@@ -184,5 +184,179 @@
       {"id": "c", "text": "Rescan the authentication server for vulnerabilities", "misconception": "investigation-derived-sources", "why": "A scan finds weaknesses now. It does not explain what happened at 03:00."},
       {"id": "d", "text": "Treat every host that logged a failure as compromised", "misconception": "compromised-vs-affected", "why": "Failed attempts show a host was targeted, not that it was breached."}
     ]
+  },
+  {
+    "id": "iv2-101",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["metadata"],
+    "difficulty": 3,
+    "stem": "A user reports an email that appears to come from the finance director. The analyst needs to trace which servers handled the message and judge whether the sender address was forged. Which data source does this?",
+    "options": [
+      {"id": "a", "text": "Application logs from the user's email client showing when the message was opened", "misconception": "log-source-selection", "why": "They show what the user did with the message, not the path it took to arrive."},
+      {"id": "b", "text": "The message headers, which are metadata recording the relay path and the sending servers", "correct": true, "why": "Headers record each server that handled the message and the claimed and actual origin, so they are the evidence for spoofing."},
+      {"id": "c", "text": "Firewall logs for the mail gateway, which record each connection made to the company's mail servers", "misconception": "log-source-selection", "why": "They record connections, not the sender's claimed identity or the full relay path inside the message."},
+      {"id": "d", "text": "A vulnerability scan of the mail server, to see whether the sender's mail system is vulnerable", "misconception": "investigation-derived-sources", "why": "A scan describes weaknesses in the server. It says nothing about one message."}
+    ]
+  },
+  {
+    "id": "iv2-102",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["ips-ids-logs", "firewall-logs", "endpoint-logs"],
+    "difficulty": 4,
+    "stem": "An IDS log shows an alert for a known exploit sent to a web server at 14:05. The sensor sits passively on a mirror port. The analyst must decide whether the attack reached the server. What does the alert establish?",
+    "options": [
+      {"id": "a", "text": "That the attack succeeded, because an IDS only raises an alert on traffic that actually reached its target", "misconception": "log-source-selection", "why": "A passive sensor sees a copy of the traffic. It alerts on a signature match whether or not the server accepted the request."},
+      {"id": "b", "text": "That the attack was blocked, because a signature match always stops the traffic before it reaches the server", "misconception": "ids-vs-ips-placement", "why": "Blocking is what an in-line IPS does. A passive IDS on a mirror port detects and records only."},
+      {"id": "c", "text": "That a matching exploit attempt crossed the network; whether it worked has to be checked in the server's own logs", "correct": true, "why": "A detection event is evidence of an attempt. The outcome is shown by the systems that received it."},
+      {"id": "d", "text": "Nothing yet, because signature alerts can be ignored until a second sensor has confirmed them", "misconception": "log-source-selection", "why": "A signature match is evidence to be followed up, not discarded, and it gives a time and target to search on."}
+    ]
+  },
+  {
+    "id": "iv2-103",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["packet-captures", "network-logs"],
+    "difficulty": 3,
+    "stem": "Investigators hold a full packet capture of a suspected exfiltration session. The traffic is TLS encrypted and they do not have the keys. What can they still establish from the capture?",
+    "options": [
+      {"id": "a", "text": "The endpoints, timing, packet sizes and volume, which show where, when and how much data moved, but not what it was", "correct": true, "why": "Encryption protects the payload, not the addressing or the pattern of the conversation."},
+      {"id": "b", "text": "The exact files that were sent, by reassembling the packets in the capture back into whole files", "misconception": "log-source-selection", "why": "Reassembly recovers only ciphertext without the keys."},
+      {"id": "c", "text": "Which user account performed the transfer, from the identity carried in the packets", "misconception": "log-source-selection", "why": "Packets carry addresses, not accounts. Identity comes from endpoint, application or authentication logs."},
+      {"id": "d", "text": "Nothing at all, because a capture of encrypted traffic cannot be used as evidence", "misconception": "log-source-selection", "why": "The capture remains valid evidence of the connection and its size and timing, even though the content is unreadable."}
+    ]
+  },
+  {
+    "id": "iv2-104",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["firewall-logs", "endpoint-logs", "network-logs"],
+    "difficulty": 3,
+    "stem": "An analyst merges firewall and endpoint logs and finds that the endpoint records a malicious download seven minutes before the firewall allowed that connection, which cannot be true. Both sources are in the same time zone, and every other event the two have in common shows the same seven minute gap. What should be dealt with before drawing any conclusion?",
+    "options": [
+      {"id": "a", "text": "The firewall's rule log, which should be ignored altogether because its timing is clearly wrong", "misconception": "log-source-selection", "why": "Discarding a source on one inconsistency throws away evidence and does not explain it."},
+      {"id": "b", "text": "Unsynchronized clocks, so the timestamps need to be normalized to a common time source before the logs are correlated", "correct": true, "why": "A fixed offset between sources points to clock drift. Correlation depends on consistent time, so it must be corrected for first."},
+      {"id": "c", "text": "Tampering with the endpoint log by the attacker, so the endpoint data should be discarded", "misconception": "compromised-vs-affected", "why": "Tampering is possible, but a consistent seven minute offset is more simply explained by clocks. Conclusions should wait until the offset is checked."},
+      {"id": "d", "text": "A slow download that finished seven minutes after the firewall made its decision", "misconception": "log-source-selection", "why": "The stem says the endpoint recorded the event before the firewall allowed the connection, which a slow download cannot explain."}
+    ]
+  },
+  {
+    "id": "iv2-105",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["vulnerability-scans", "automated-reports"],
+    "difficulty": 4,
+    "stem": "An investigation confirms that an attacker exploited a specific unpatched weakness on one web server. Management asks how far the same weakness extends. What is the most appropriate use of vulnerability scan data?",
+    "options": [
+      {"id": "a", "text": "Treat the scan results as proof that the other hosts running the same software were also exploited by the attacker", "misconception": "compromised-vs-affected", "why": "A scan shows exposure, not exploitation. Finding the same weakness elsewhere makes those hosts at risk, not compromised."},
+      {"id": "b", "text": "Use the scan results to show what the attacker actually did on the web server after exploiting it", "misconception": "investigation-derived-sources", "why": "A scan describes the state of the system. What was done on it is shown by logs."},
+      {"id": "c", "text": "Skip scanning altogether, because only logs have any value in an investigation", "misconception": "investigation-derived-sources", "why": "Scan data answers a different question, where else the weakness exists, and is valuable for scoping."},
+      {"id": "d", "text": "Rerun scans for every host with the same software to find other exposed systems, then check their logs", "correct": true, "why": "The scan scopes the exposure and the logs establish whether any of it was used."}
+    ]
+  },
+  {
+    "id": "iv2-106",
+    "type": "mcq-multi",
+    "objective": "4.9",
+    "topics": ["dashboards", "automated-reports"],
+    "difficulty": 3,
+    "stem": "An investigator is using a SOC dashboard to understand an incident. Which TWO limitations must be allowed for? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "It cannot be used to notice unusual activity", "misconception": "investigation-derived-sources", "why": "Noticing trends and anomalies is exactly what dashboards are good for."},
+      {"id": "b", "text": "It shows aggregated, summarized data, so individual events must be retrieved from the underlying logs", "correct": true, "why": "The panels hide the detail. Evidence about particular events lives in the logs the dashboard is built on."},
+      {"id": "c", "text": "It stores a complete copy of every raw event", "misconception": "investigation-derived-sources", "why": "Dashboards display the results of queries. They are not the system of record for the raw data."},
+      {"id": "d", "text": "It shows only what its queries and rules were built to show, so nothing on the screen does not mean nothing happened", "correct": true, "why": "An absent pattern may only mean that no one built a panel for it."},
+      {"id": "e", "text": "Its figures are accepted as the original evidence without the logs", "misconception": "investigation-derived-sources", "why": "A derived view is not the original evidence, and what it shows has to be traceable to the logs."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "iv2-107",
+    "type": "mcq-multi",
+    "objective": "4.9",
+    "topics": ["os-specific-security-logs", "network-logs", "endpoint-logs"],
+    "difficulty": 4,
+    "stem": "An analyst believes an attacker moved from a compromised workstation to a file server over RDP at 01:20. Which TWO sources best evidence that movement? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "The file server's OS security logs showing a remote logon, the account used and the source address", "correct": true, "why": "The receiving system records who logged on, how and from where. It is the strongest evidence of the movement."},
+      {"id": "b", "text": "The vulnerability scan of the file server from last month", "misconception": "investigation-derived-sources", "why": "A scan shows what was possible then, not what happened at 01:20."},
+      {"id": "c", "text": "Network or flow records showing the RDP connection between the two hosts at that time", "correct": true, "why": "An independent record of the connection, with source, destination, port and time, corroborates the host log."},
+      {"id": "d", "text": "The SOC dashboard's count of logons per day", "misconception": "investigation-derived-sources", "why": "A daily total cannot show an individual connection at a particular minute."},
+      {"id": "e", "text": "Application logs from the HR system", "misconception": "log-source-selection", "why": "Unrelated to the movement between these two hosts."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "iv2-108",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["application-logs", "firewall-logs", "network-logs"],
+    "difficulty": 3,
+    "stem": "A web application's database returned thousands of customer rows to a single client in one request. The analyst needs the exact malicious input that was submitted. Which source most likely holds it?",
+    "options": [
+      {"id": "a", "text": "Firewall logs, which record the permitted connection to port 443 along with its payload and parameters", "misconception": "log-source-selection", "why": "A firewall logs addresses, ports and the decision. It does not record request content."},
+      {"id": "b", "text": "NetFlow records for the web server, which show every request the client made", "misconception": "log-source-selection", "why": "Flow records show endpoints and volume, not the contents of a request."},
+      {"id": "c", "text": "The database server's OS security logs for the web application's service account logon", "misconception": "log-source-selection", "why": "They show that the application connected, which it does legitimately all day. The input is recorded elsewhere."},
+      {"id": "d", "text": "Web server and application logs recording the full request, including the query string or form values", "correct": true, "why": "The application is the place that received the input and often logs it, so it holds the exact malicious string."}
+    ]
+  },
+  {
+    "id": "iv2-109",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["endpoint-logs", "network-logs", "os-specific-security-logs"],
+    "difficulty": 4,
+    "stem": "A file server's shares are being encrypted. The server's EDR shows no malicious process on it, only thousands of file renames over SMB by user account j.harkin from 10.1.4.13. Which action best identifies the compromised host?",
+    "options": [
+      {"id": "a", "text": "Rebuild the file server first, since all of the visible damage is on it and restoring service matters most to the business", "misconception": "compromised-vs-affected", "why": "The server is where the effects appear. Rebuilding it while the encrypting process keeps running elsewhere means the files are damaged again."},
+      {"id": "b", "text": "Isolate the host at 10.1.4.13, check its endpoint logs for the encrypting process, reset j.harkin's credentials", "correct": true, "why": "The renames come over SMB from that address, so the process is running there. Credentials are reset because the account is also in the attacker's hands."},
+      {"id": "c", "text": "Disable j.harkin's account, and treat the incident as contained once that account is locked and the sessions are closed", "misconception": "compromised-vs-affected", "why": "Disabling the account stops this session but leaves the malware on the source host, and the attacker may hold other credentials."},
+      {"id": "d", "text": "Investigate the domain controller first, because it authenticated j.harkin and so must be the compromised host here", "misconception": "compromised-vs-affected", "why": "A system that authenticated a user is not thereby compromised. The evidence points to the host that is sending the renames."}
+    ]
+  },
+  {
+    "id": "iv2-110",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["os-specific-security-logs"],
+    "difficulty": 3,
+    "stem": "An investigator needs to know which user ran privileged commands with sudo on a Linux server, and when. Which source holds that?",
+    "options": [
+      {"id": "a", "text": "The Linux authentication log, such as /var/log/auth.log or /var/log/secure", "correct": true, "why": "It records authentication and privilege elevation events with the user and the time. It is the operating system's own security record."},
+      {"id": "b", "text": "The Windows Security event log on the domain controller for the network", "misconception": "log-source-selection", "why": "That records Windows logons and directory events. A Linux server's sudo use is logged on the Linux host."},
+      {"id": "c", "text": "Firewall logs for the subnet where the server sits", "misconception": "log-source-selection", "why": "A firewall sees connections between hosts, not commands run locally."},
+      {"id": "d", "text": "IDS alerts for the server's IP address over the day", "misconception": "log-source-selection", "why": "IDS alerts reflect traffic signatures. Local commands do not cross the network."}
+    ]
+  },
+  {
+    "id": "iv2-111",
+    "type": "mcq-multi",
+    "objective": "4.9",
+    "topics": ["firewall-logs", "os-specific-security-logs", "endpoint-logs", "vulnerability-scans", "dashboards"],
+    "difficulty": 4,
+    "stem": "Analysis must prove that 3 GB of finance files left a file server at 02:00 for an external address, which files they were, and which process on the server sent them. Which THREE sources together best establish this? (Choose three.)",
+    "options": [
+      {"id": "a", "text": "A vulnerability scan of the file server from the previous week", "misconception": "investigation-derived-sources", "why": "It shows weaknesses that existed, not what was sent."},
+      {"id": "b", "text": "Firewall or flow logs showing the volume and destination of the outbound connection", "correct": true, "why": "They give the amount, the destination and the time, from a point the compromised server does not control."},
+      {"id": "c", "text": "File server access logs showing which files were read in the minutes before", "correct": true, "why": "Object access auditing on the server is the record of which files were touched."},
+      {"id": "d", "text": "The SOC dashboard panel showing total outbound traffic for the day", "misconception": "investigation-derived-sources", "why": "A daily aggregate cannot attribute 3 GB to one host, file set or process."},
+      {"id": "e", "text": "Endpoint logs from the server showing the sending process and its parent", "correct": true, "why": "Process telemetry ties the transfer to a specific program and how it was started."}
+    ],
+    "selectCount": 3
+  },
+  {
+    "id": "iv2-112",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["ips-ids-logs", "firewall-logs", "application-logs"],
+    "difficulty": 4,
+    "stem": "An in-line IPS logged 600 blocked exploit attempts against a web server overnight, all from one address. What should the analyst conclude and do next?",
+    "options": [
+      {"id": "a", "text": "The server is compromised, because 600 attempts from one address prove that at least one succeeded", "misconception": "compromised-vs-affected", "why": "Blocked attempts are evidence of targeting, not of success."},
+      {"id": "b", "text": "No further work is needed, because a blocked attempt tells the analyst nothing at all about the server", "misconception": "compromised-vs-affected", "why": "The activity is worth checking, since attackers vary their approach and one variant may not match a signature."},
+      {"id": "c", "text": "Rebuild the server immediately, because it was the target of a sustained attack from outside", "misconception": "compromised-vs-affected", "why": "Being the target does not make a host compromised. Rebuilding on this evidence is premature."},
+      {"id": "d", "text": "It was targeted and the attempts were blocked, so it is affected but not shown to be compromised; check its own logs", "correct": true, "why": "The IPS shows attempts and outcomes at its position. The server's own logs show whether anything got past it."}
+    ]
   }
 ]

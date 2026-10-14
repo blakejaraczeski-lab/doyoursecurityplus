@@ -238,5 +238,121 @@
       {"id": "c", "text": "Data sanitization", "misconception": "sanitization-vs-destruction", "why": "Sanitization applies at end of life, not here."},
       {"id": "d", "text": "Applying the retention schedule", "misconception": "retention-vs-disposal", "why": "Retention matters, but nobody can apply it until an owner exists."}
     ]
+  },
+  {
+    "id": "as2-101",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["sanitization", "destruction"],
+    "difficulty": 4,
+    "stem": "A company is closing a cloud storage account that held regulated data in volumes it encrypted with its own keys. It cannot witness the provider destroy any disks. Which disposal approach fits?",
+    "options": [
+      {"id": "a", "text": "Ask the provider for a certificate that the disks were shredded", "misconception": "sanitization-vs-destruction", "why": "The provider's physical destruction cannot be witnessed or controlled by the customer."},
+      {"id": "b", "text": "Destroy the encryption keys so the data is unreadable, and record that it was done", "correct": true, "why": "Cryptographic erase sanitizes data the customer owns when the customer controls the keys. Keeping a record supports the proof."},
+      {"id": "c", "text": "Delete the files, then delete the account and the storage volumes", "misconception": "sanitization-vs-destruction", "why": "Deleting removes pointers. Without more, the data can remain on disk."},
+      {"id": "d", "text": "Degauss the cloud storage volumes with an approved degausser", "misconception": "sanitization-vs-destruction", "why": "Degaussing is a physical process for magnetic media. It cannot be done to a cloud volume."}
+    ]
+  },
+  {
+    "id": "as2-102",
+    "type": "mcq-multi",
+    "objective": "4.2",
+    "topics": ["sanitization", "destruction"],
+    "difficulty": 3,
+    "stem": "A storage room holds retired magnetic hard drives and backup tapes that held confidential records. Which TWO methods fully remove the data? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Quick formatting each drive", "misconception": "sanitization-vs-destruction", "why": "A quick format rewrites the file system structures. The data remains readable with ordinary tools."},
+      {"id": "b", "text": "Degaussing the magnetic media with an approved degausser", "correct": true, "why": "A strong magnetic field destroys the recorded pattern on magnetic media, whether disk or tape."},
+      {"id": "c", "text": "Deleting the files and emptying the recycle bin", "misconception": "sanitization-vs-destruction", "why": "Deletion frees space and leaves the content behind."},
+      {"id": "d", "text": "Shredding or pulverizing the media with a destruction vendor", "correct": true, "why": "Physical destruction is the surest method when the media will never be reused."},
+      {"id": "e", "text": "Moving the drives to a locked cabinet", "misconception": "retention-vs-disposal", "why": "Storing them is not sanitizing them. The data is still on them."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "as2-103",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["classification", "sanitization", "destruction"],
+    "difficulty": 3,
+    "stem": "Two groups of drives are due for disposal: drives from the legal department that held privileged case files, and drives from a lobby information kiosk that held only public content. Which statement is correct?",
+    "options": [
+      {"id": "a", "text": "Both groups must be shredded, because any drive could still hold sensitive data", "misconception": "sanitization-vs-destruction", "why": "Over treating public media wastes money and loses reusable assets. Method follows what the media held."},
+      {"id": "b", "text": "Classification stops applying once a drive has been powered off and removed", "misconception": "asset-lifecycle", "why": "Classification travels with the data on the media until it is properly sanitized or destroyed."},
+      {"id": "c", "text": "Method follows classification: kiosk drives can be wiped and reused, legal drives need destruction or a verified purge", "correct": true, "why": "The more sensitive the data, the stronger the method and the proof. Public media can be reused after a basic wipe."},
+      {"id": "d", "text": "A single standard wipe is enough for both groups, as it is for any drive", "misconception": "sanitization-vs-destruction", "why": "A basic wipe fits the kiosk drives. It is not adequate for the most sensitive material."}
+    ]
+  },
+  {
+    "id": "as2-104",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["ownership-2", "inventory"],
+    "difficulty": 3,
+    "stem": "The owner of a set of finance servers and the data on them has left the company. Their name is still on every record. What should happen first?",
+    "options": [
+      {"id": "a", "text": "Decommission the servers immediately because nobody owns them now", "misconception": "asset-lifecycle", "why": "Retiring assets because the owner left is not a decision. It would destroy live business data."},
+      {"id": "b", "text": "Leave the record unchanged until the next scheduled annual audit review", "misconception": "asset-lifecycle", "why": "Without an owner nobody can approve access, patches or retirement in the meantime."},
+      {"id": "c", "text": "Assign a new owner accountable for the assets and data, and update the asset record", "correct": true, "why": "Every asset needs a named owner at all times. Ownership transfers with offboarding, before access and decisions are left orphaned."},
+      {"id": "d", "text": "Make IT operations the owner of all the data held on them", "misconception": "data-roles", "why": "Operating a system is not owning the data. The business must decide who may use it."}
+    ]
+  },
+  {
+    "id": "as2-105",
+    "type": "mcq-multi",
+    "objective": "4.2",
+    "topics": ["disposal-decommissioning", "inventory", "sanitization"],
+    "difficulty": 3,
+    "stem": "A server is being decommissioned. Which TWO actions belong in the process? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Sanitize or destroy its storage before it leaves the organization's control", "correct": true, "why": "Media is the last place data survives. Disposal is not complete until it is dealt with."},
+      {"id": "b", "text": "Leave its accounts and certificates active in case it is needed again", "misconception": "asset-lifecycle", "why": "A decommissioned asset's credentials are a standing risk. They should be revoked."},
+      {"id": "c", "text": "Remove it from monitoring and update the asset inventory to show it as retired", "correct": true, "why": "A retired asset that stays on the register hides gaps, and monitoring a machine that is gone creates noise."},
+      {"id": "d", "text": "Sell it with its drives in place so the buyer can reuse the data", "misconception": "sanitization-vs-destruction", "why": "Selling it with data on it is a disclosure."},
+      {"id": "e", "text": "Keep it powered on in a spare rack for a year", "misconception": "asset-lifecycle", "why": "An unmanaged powered asset is how a forgotten, unpatched machine appears."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "as2-106",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["inventory", "monitoring-asset-tracking"],
+    "difficulty": 3,
+    "stem": "An asset inventory shows that forty servers run an operating system whose vendor support ends in three months. What is the right use of this information?",
+    "options": [
+      {"id": "a", "text": "Plan upgrades or replacement now, prioritized by each server's importance, before patches stop", "correct": true, "why": "Tracking lifecycle dates is a security use of inventory. It turns a future gap into a scheduled change."},
+      {"id": "b", "text": "Wait until support has ended and then decide what to do about it", "misconception": "asset-lifecycle", "why": "By then the servers stop receiving patches. The warning period is the time to act."},
+      {"id": "c", "text": "Assume the vendor will extend support for these servers at no cost", "misconception": "asset-lifecycle", "why": "Extensions are not guaranteed, and rarely free."},
+      {"id": "d", "text": "Remove the servers from the inventory because they are old", "misconception": "asset-lifecycle", "why": "A system left running but not tracked is how an unpatched one becomes a surprise."}
+    ]
+  },
+  {
+    "id": "as2-107",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["acquisition-procurement-process"],
+    "difficulty": 3,
+    "stem": "Procurement finds the same network switches advertised at far below the manufacturer's price by a reseller that is not an authorized partner. What is the main security concern?",
+    "options": [
+      {"id": "a", "text": "The warranty period may be shorter than with an authorized partner", "misconception": "asset-lifecycle", "why": "It may be, but it is not the main security concern."},
+      {"id": "b", "text": "There is no concern provided the devices power on and pass a basic test", "misconception": "asset-lifecycle", "why": "A device can work and still carry a modified firmware or counterfeit parts."},
+      {"id": "c", "text": "There is no concern if the invoice and warranty paperwork look genuine", "misconception": "asset-lifecycle", "why": "Price drives the choice, and security has to be considered at the same moment."},
+      {"id": "d", "text": "The devices may be counterfeit or tampered with, so buy from authorized channels and check provenance", "correct": true, "why": "A compromised device in the network is harder to find than one bought from a trusted source. Acquisition is where trust begins."}
+    ]
+  },
+  {
+    "id": "as2-108",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["certification", "destruction", "inventory"],
+    "difficulty": 4,
+    "stem": "A destruction vendor's certificate states that 200 drives were shredded. The company's asset records show 212 drives retired for that collection. What is the right response?",
+    "options": [
+      {"id": "a", "text": "Treat the twelve drives as unaccounted for: reconcile serial numbers with the manifest and certificate, and investigate custody", "correct": true, "why": "Evidence of destruction has to match the inventory serial for serial. A gap is a possible data loss until proven otherwise."},
+      {"id": "b", "text": "Accept the certificate, since the vendor is a certified destruction company", "misconception": "sanitization-vs-destruction", "why": "A certificate that does not match the records does not discharge the obligation, whoever issued it."},
+      {"id": "c", "text": "Ask the vendor to reissue the certificate showing 212 drives and file it", "misconception": "sanitization-vs-destruction", "why": "Changing the paperwork does not show what happened to the other drives."},
+      {"id": "d", "text": "Record the difference as a normal handling loss and close the collection", "misconception": "asset-lifecycle", "why": "Drives holding data are not an acceptable loss. They are potential exposure."}
+    ]
   }
 ]

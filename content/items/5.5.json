@@ -182,5 +182,205 @@
       {"id": "e", "text": "Internal audit reports to the chief information security officer to preserve independence", "misconception": "audit-vs-assessment", "why": "Reporting to the function it audits is precisely what destroys independence."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "au2-101",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["regulatory-examination", "independent-third-party-audit"],
+    "difficulty": 4,
+    "stem": "A bank receives notice of a regulatory examination. The CISO suggests handing the examiners the clean report from last quarter's independent third-party audit instead of giving them access to systems and staff. How should the board respond?",
+    "options": [
+      {"id": "a", "text": "Accept: an independent third-party audit is stronger than a regulatory examination", "misconception": "audit-vs-assessment", "why": "Independence is not the same as authority. A regulatory examination is mandatory and carries legal consequences no private audit has."},
+      {"id": "b", "text": "Accept, but ask the audit firm to attest to the examiners on the bank's behalf", "misconception": "compliance-monitoring-and-attestation", "why": "An attestation can support a position, yet it does not turn the regulator's examination into something the bank can delegate."},
+      {"id": "c", "text": "Decline: a regulatory examination is performed by the regulator on its own terms, and an independent audit report does not replace it", "correct": true, "why": "The regulator decides scope, access and findings. Another party's audit can be evidence in it, but it cannot stand in for the examination."},
+      {"id": "d", "text": "Decline, and run an internal self-assessment so the bank controls what the examiners see", "misconception": "audit-vs-assessment", "why": "A self-assessment is the weakest form of assurance and cannot limit what a regulator may examine."}
+    ]
+  },
+  {
+    "id": "au2-102",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["physical-penetration-testing", "rules-of-engagement"],
+    "difficulty": 4,
+    "stem": "A physical penetration tester is stopped by a guard in a restricted corridor after tailgating through a badge door. Which document should the tester be carrying to resolve this safely?",
+    "options": [
+      {"id": "a", "text": "A signed authorization that names the tester, the scope and an emergency contact, issued under the rules of engagement", "correct": true, "why": "Physical testers carry written permission from someone with the authority to grant it. It protects the tester and tells the guard who to call."},
+      {"id": "b", "text": "A verbal approval recorded by the facilities supervisor", "misconception": "vendor-assessment-methods", "why": "Verbal approval from someone without authority to grant it is the situation that gets testers arrested. Authorization must be written and from an accountable owner."},
+      {"id": "c", "text": "The vendor's standard master service agreement", "misconception": "agreement-types", "why": "An MSA sets commercial terms. It does not name the tester, the scope or a contact for a live incident."},
+      {"id": "d", "text": "A copy of the company's acceptable use policy", "misconception": "vendor-assessment-methods", "why": "The acceptable use policy governs employees. It gives a tester no authority at all."}
+    ]
+  },
+  {
+    "id": "au2-103",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["defensive", "offensive"],
+    "difficulty": 3,
+    "stem": "A penetration testing exercise is described as defensive. Which activity does that describe?",
+    "options": [
+      {"id": "a", "text": "Simulating an attacker's techniques to break into systems", "misconception": "pentest-environments", "why": "That is offensive testing, the red team side."},
+      {"id": "b", "text": "Hardening and monitoring systems, detecting simulated attacks and responding to them", "correct": true, "why": "Defensive covers the blue team side: prevention, detection and response against the attack being simulated."},
+      {"id": "c", "text": "Giving the tester architecture diagrams and credentials before testing starts", "misconception": "pentest-environments", "why": "That describes how much the tester was told, which is the known, partially known and unknown axis, not offensive or defensive."},
+      {"id": "d", "text": "Collecting WHOIS and DNS data without contacting the target", "misconception": "pentest-environments", "why": "That is passive reconnaissance, a technique, not a team role."}
+    ]
+  },
+  {
+    "id": "au2-104",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["partially-known-environment", "known-environment", "unknown-environment"],
+    "difficulty": 5,
+    "stem": "A retailer wants to know what an attacker could do after phishing a single standard user account. The tester is given that user's credentials and the company name, and nothing else. Which type of engagement is this?",
+    "options": [
+      {"id": "a", "text": "Unknown environment", "misconception": "pentest-environments", "why": "Unknown means the tester starts with nothing beyond a target. A supplied credential is inside knowledge."},
+      {"id": "b", "text": "Known environment", "misconception": "pentest-environments", "why": "Known means broad disclosure, such as diagrams, configurations and often source. One credential is far short of that."},
+      {"id": "c", "text": "Passive reconnaissance", "misconception": "pentest-environments", "why": "Passive and active describe whether the target can see the tester. They do not say how much the tester was told."},
+      {"id": "d", "text": "Partially known environment", "correct": true, "why": "Some knowledge, here one low-privilege credential, is given and the rest must be found. That is partially known."}
+    ]
+  },
+  {
+    "id": "au2-105",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["passive-reconnaissance", "active-reconnaissance"],
+    "difficulty": 5,
+    "stem": "A tester reads the target's job postings, searches a public index of exposed services and reviews archived copies of its website. Which next step is the first one the target's own logs could record?",
+    "options": [
+      {"id": "a", "text": "Searching certificate transparency logs for the target's domains", "misconception": "pentest-environments", "why": "Certificate transparency logs are a public third party record, so the target never sees the query."},
+      {"id": "b", "text": "Running a TCP port scan against the target's public range", "correct": true, "why": "Everything before the scan was gathered from third parties. The scan sends packets to the target, so it is the first active step and the first the target could see."},
+      {"id": "c", "text": "Reading cached banner data from an internet scanning service", "misconception": "pentest-environments", "why": "The scanning service touched the target, not the tester. Reading its archive is still passive."},
+      {"id": "d", "text": "Reviewing the staff directory published on a professional networking site", "misconception": "pentest-environments", "why": "This is open source gathering from a third party. The target is not contacted."}
+    ]
+  },
+  {
+    "id": "au2-106",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["internal-compliance-audit", "independent-third-party-audit"],
+    "difficulty": 3,
+    "stem": "Three months before a certification audit, a company wants an honest view of whether its controls meet the standard, using its own staff and without involving the certifier. What should it run?",
+    "options": [
+      {"id": "a", "text": "An internal compliance audit against the standard's requirements", "correct": true, "why": "Internal audit tests the organization's own controls against a standard or policy, which is the usual way to prepare before an external auditor arrives."},
+      {"id": "b", "text": "A regulatory examination", "misconception": "audit-vs-assessment", "why": "A regulatory examination is carried out by a regulator. An organization cannot schedule one for itself."},
+      {"id": "c", "text": "An attestation signed by the CISO", "misconception": "compliance-monitoring-and-attestation", "why": "An attestation is a statement that controls operate. It does not test whether they do."},
+      {"id": "d", "text": "An independent third-party audit by the certifier", "misconception": "audit-vs-assessment", "why": "The stem says to use its own staff and keep the certifier out, which is internal audit."}
+    ]
+  },
+  {
+    "id": "au2-107",
+    "type": "mcq-multi",
+    "objective": "5.5",
+    "topics": ["independent-third-party-audit", "external-assessment", "self-assessments", "unknown-environment"],
+    "difficulty": 5,
+    "stem": "A cloud provider selling to government wants to prove it meets a published control framework and also learn whether an outside attacker could actually get in. Which TWO activities together meet both goals? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "A self-assessment completed by the security team", "misconception": "audit-vs-assessment", "why": "A self-assessment has no independence and will not satisfy a government customer."},
+      {"id": "b", "text": "An independent third-party audit against the framework", "correct": true, "why": "An independent audit gives credible, outside assurance of compliance that government customers will accept."},
+      {"id": "c", "text": "Passive reconnaissance against its own domains only", "misconception": "pentest-environments", "why": "Passive reconnaissance is a technique inside a test. On its own it shows exposure, not exploitability."},
+      {"id": "d", "text": "An unknown environment penetration test of its public services", "correct": true, "why": "An unknown environment test simulates an outside attacker and shows what is really exploitable, which an audit does not."},
+      {"id": "e", "text": "A written attestation from the head of engineering", "misconception": "compliance-monitoring-and-attestation", "why": "An attestation is a statement, not an audit of the controls or a test of the perimeter."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "au2-108",
+    "type": "mcq-multi",
+    "objective": "5.5",
+    "topics": ["unknown-environment", "known-environment", "passive-reconnaissance"],
+    "difficulty": 4,
+    "stem": "Which THREE statements about an unknown environment penetration test are correct? (Choose three.)",
+    "options": [
+      {"id": "a", "text": "The tester starts with little more than the target's name, as an outside attacker would", "correct": true, "why": "That is the defining condition of an unknown environment test."},
+      {"id": "b", "text": "The tester is given network diagrams and administrator credentials", "misconception": "pentest-environments", "why": "That is a known environment test."},
+      {"id": "c", "text": "Reconnaissance and discovery take up a large share of the effort", "correct": true, "why": "Without disclosed information, mapping the target is the tester's job, so it takes time."},
+      {"id": "d", "text": "It is the same thing as passive reconnaissance", "misconception": "pentest-environments", "why": "Unknown describes what the tester was told. Passive describes whether the target can see the tester. A tester in an unknown environment test will also scan actively."},
+      {"id": "e", "text": "For the same depth of testing it usually takes longer than a known environment test", "correct": true, "why": "Known environment testing skips discovery. Unknown does not, so it usually costs more time for the same coverage."}
+    ],
+    "selectCount": 3
+  },
+  {
+    "id": "au2-109",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["physical-penetration-testing"],
+    "difficulty": 3,
+    "stem": "A hospital wants to know whether a stranger could walk into a waiting room, plug a small device into a wall network jack and whether staff would challenge them. Which type of test fits?",
+    "options": [
+      {"id": "a", "text": "An internal compliance audit", "misconception": "audit-vs-assessment", "why": "An audit checks controls against a standard. It does not attempt to get through them."},
+      {"id": "b", "text": "A self-assessment", "misconception": "audit-vs-assessment", "why": "A self-assessment is staff scoring their own controls. It does not test anything."},
+      {"id": "c", "text": "A physical penetration test", "correct": true, "why": "The objective is to defeat physical and procedural barriers, including whether people challenge strangers. That is a physical test."},
+      {"id": "d", "text": "Passive reconnaissance", "misconception": "pentest-environments", "why": "Passive reconnaissance never touches the target. This scenario depends on actually entering the building."}
+    ]
+  },
+  {
+    "id": "au2-110",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["integrated", "offensive", "defensive"],
+    "difficulty": 4,
+    "stem": "A mature SOC has been through several red team exercises where it was never told what the testers were doing, and it keeps missing the same techniques. What is the main reason to move to an integrated exercise next?",
+    "options": [
+      {"id": "a", "text": "It gives the testers more knowledge of the environment", "misconception": "pentest-environments", "why": "How much the testers know is the known, partially known and unknown axis. Integration is about how the two sides work together."},
+      {"id": "b", "text": "Defenders see each technique as it is used and can tune detection immediately while testing continues", "correct": true, "why": "Integrated testing joins the offensive and defensive sides so lessons are applied during the exercise, rather than in a report afterwards."},
+      {"id": "c", "text": "It replaces the need for any defensive role", "misconception": "audit-vs-assessment", "why": "Integrated testing needs both sides working together. It removes the separation between them."},
+      {"id": "d", "text": "It makes the result valid as independent assurance for customers", "misconception": "audit-vs-assessment", "why": "A cooperative exercise is useful for improving detection. It is not an independent audit and does not replace one."}
+    ]
+  },
+  {
+    "id": "au2-111",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["active-reconnaissance", "passive-reconnaissance"],
+    "difficulty": 4,
+    "stem": "As part of an authorized test, a tester phones the target's help desk, claims to be a new starter and asks which remote access software staff use. How should this reconnaissance be classified?",
+    "options": [
+      {"id": "a", "text": "Passive, because no system was scanned", "misconception": "pentest-environments", "why": "Passive means the target cannot see the tester. A phone call to the help desk is seen by the target."},
+      {"id": "b", "text": "Passive, because the information could be found publicly", "misconception": "pentest-environments", "why": "The test is how it was collected, not whether the information is public. This was collected by asking the target."},
+      {"id": "c", "text": "Neither, because it is social engineering rather than reconnaissance", "misconception": "pentest-environments", "why": "The information gathered is reconnaissance, and the method of interacting with the target makes it active."},
+      {"id": "d", "text": "Active, because it involves direct interaction with the target's people", "correct": true, "why": "Anything that directly engages the target, including people, is active reconnaissance, even without touching a system."}
+    ]
+  },
+  {
+    "id": "au2-112",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["internal-compliance-audit", "audit-committee"],
+    "difficulty": 5,
+    "stem": "Internal audit reports to the CFO, and the finance systems are among those it audits. Last year two critical findings in finance were softened before the report was issued. Which change best restores the independence of internal audit?",
+    "options": [
+      {"id": "a", "text": "Have internal audit report functionally to the audit committee of the board, not to an executive it audits", "correct": true, "why": "Independence depends on the reporting line. Reporting to the audit committee takes the audited management out of the path of the findings."},
+      {"id": "b", "text": "Move internal audit under the CIO instead of the CFO", "misconception": "audit-vs-assessment", "why": "Another executive whose systems are also audited has the same conflict. The fix is reporting to the board committee."},
+      {"id": "c", "text": "Replace internal audit with a self-assessment by finance", "misconception": "audit-vs-assessment", "why": "A self-assessment by the audited team removes independence altogether."},
+      {"id": "d", "text": "Ask the CFO to sign an attestation that findings were reported in full", "misconception": "compliance-monitoring-and-attestation", "why": "An attestation from the person with the conflict does not remove the conflict."}
+    ]
+  },
+  {
+    "id": "au2-113",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["self-assessments", "attestation-2"],
+    "difficulty": 3,
+    "stem": "A prospective customer sends a 200 question form about the company's security controls. Staff answer it from their own knowledge and records. What is this exercise?",
+    "options": [
+      {"id": "a", "text": "An independent third-party audit", "misconception": "audit-vs-assessment", "why": "Nobody independent examines the evidence, so this is not an audit."},
+      {"id": "b", "text": "A regulatory examination", "misconception": "audit-vs-assessment", "why": "A regulator did not initiate this, and a customer form has no regulatory standing."},
+      {"id": "c", "text": "A self-assessment", "correct": true, "why": "The organization is judging its own controls. It is useful for transparency but carries little independent weight."},
+      {"id": "d", "text": "A defensive penetration test", "misconception": "pentest-environments", "why": "Nothing is attacked or defended. It is a written questionnaire."}
+    ]
+  },
+  {
+    "id": "au2-114",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["independent-third-party-audit", "external-assessment"],
+    "difficulty": 5,
+    "stem": "A customer receives a cloud provider's independent audit report and wants to rely on it as assurance. Which check matters most before relying on it?",
+    "options": [
+      {"id": "a", "text": "That its scope and period cover the services and dates the customer actually uses", "correct": true, "why": "An independent report only assures what it examined. If the scope leaves out the services in use, or the period has lapsed, it says little about the customer's own exposure."},
+      {"id": "b", "text": "That the provider's own internal audit team produced it", "misconception": "audit-vs-assessment", "why": "Internal production is the opposite of what makes the report independent."},
+      {"id": "c", "text": "That it comes with a signed CEO attestation in place of audit findings", "misconception": "compliance-monitoring-and-attestation", "why": "An attestation is a statement. It does not replace findings examined by an independent party."},
+      {"id": "d", "text": "That it lists no exceptions at all, since any exception makes it unusable", "misconception": "audit-vs-assessment", "why": "Exceptions are normal. What matters is whether any of them touch the services the customer relies on."}
+    ]
   }
 ]

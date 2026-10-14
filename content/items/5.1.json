@@ -294,5 +294,121 @@
       {"id": "c", "text": "A standard", "misconception": "policy-standard-procedure-guideline", "why": "A standard sets a mandatory, measurable requirement, such as the minimum assurance a reset must reach. The ordered steps that meet it are the procedure."},
       {"id": "d", "text": "A procedure", "correct": true, "why": "Step by step instructions for performing one task are a procedure. A policy says what must happen and why; a procedure says exactly how."}
     ]
+  },
+  {
+    "id": "pg2-101",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["encryption-standards", "information-security-policies", "guidelines"],
+    "difficulty": 3,
+    "stem": "A new regulation requires that encryption keys for payment data be rotated at least annually and that AES-256 be used. The information security policy currently says only that data must be encrypted. Which document should change?",
+    "options": [
+      {"id": "a", "text": "The information security policy, because every new technical requirement has to be written into it", "misconception": "policy-standard-procedure-guideline", "why": "The policy states direction and stays stable. Putting algorithm and rotation detail in it forces a policy revision each time a technical requirement changes."},
+      {"id": "b", "text": "The encryption standard, which holds the specific mandatory requirements; the policy's statement still holds", "correct": true, "why": "Standards turn a policy's intent into measurable mandatory requirements. The policy already requires encryption, so the new detail belongs one level down."},
+      {"id": "c", "text": "A guideline, because key rotation is a recommended practice", "misconception": "policy-standard-procedure-guideline", "why": "A guideline is advisory. A regulation makes this mandatory, and a mandatory requirement belongs in a standard."},
+      {"id": "d", "text": "The incident response playbook, because failed encryption is an incident", "misconception": "policy-standard-procedure-guideline", "why": "A playbook directs the response to an incident. It does not define what the organization must implement beforehand."}
+    ]
+  },
+  {
+    "id": "pg2-102",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["boards", "committees", "centralized-decentralized-governance"],
+    "difficulty": 3,
+    "stem": "After a major breach, shareholders ask who holds ultimate oversight of the company's security governance, as distinct from running the program day to day. The CISO runs the program, and a risk committee of senior managers meets monthly. Where does that oversight rest?",
+    "options": [
+      {"id": "a", "text": "With the CISO, as the most senior security role", "misconception": "data-roles", "why": "The CISO manages and reports on the program. Oversight of the executives who run it sits above them."},
+      {"id": "b", "text": "With the risk committee, because it meets monthly and reviews the program", "misconception": "governance-procedures", "why": "The committee reviews and recommends within the authority delegated to it. Delegating review does not move the board's oversight duty."},
+      {"id": "c", "text": "With the board of directors, which oversees governance and holds executives to account", "correct": true, "why": "The board is the body accountable to shareholders for oversight. It sets direction and expects the executives and committees to report to it."},
+      {"id": "d", "text": "With the external auditor, which tests whether the controls operate", "misconception": "audit-vs-assessment", "why": "An auditor reports on controls but does not govern the company."}
+    ]
+  },
+  {
+    "id": "pg2-103",
+    "type": "mcq-multi",
+    "objective": "5.1",
+    "topics": ["centralized-decentralized-governance"],
+    "difficulty": 3,
+    "stem": "A group is considering moving from decentralized to centralized security governance. Which TWO are advantages of the centralized model? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Each business unit can tailor controls quickly to its own local law and market", "misconception": "governance-procedures", "why": "That is an advantage of decentralized governance, where decisions sit close to the unit."},
+      {"id": "b", "text": "One authority sets consistent standards for every unit", "correct": true, "why": "Consistency across the organization is the main strength of central control, and it makes enforcement and training simpler."},
+      {"id": "c", "text": "Decisions stay with the people who run each system day to day", "misconception": "governance-procedures", "why": "Local ownership of decisions is the decentralized model."},
+      {"id": "d", "text": "Policy compliance can be audited and reported from one place", "correct": true, "why": "With one set of requirements and one reporting line, the organization sees its position as a whole."},
+      {"id": "e", "text": "A unit may leave out policy requirements it considers irrelevant", "misconception": "policy-standard-procedure-guideline", "why": "Allowing a unit to omit requirements is a weakness of loose governance, not an advantage of central control."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "pg2-104",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["onboarding-offboarding", "acceptable-use-policy"],
+    "difficulty": 3,
+    "stem": "A new analyst starts on Monday. Their manager asks IT to give them the same access as the person who left the role. Which governance procedure should control this, and what should it require?",
+    "options": [
+      {"id": "a", "text": "Offboarding, which should have left the previous holder's access in place for the replacement to use", "misconception": "governance-procedures", "why": "Offboarding removes access when someone leaves. It does not decide what a new starter receives."},
+      {"id": "b", "text": "Change management, which should have approved each file permission as a separate system change", "misconception": "governance-procedures", "why": "Change management covers changes to systems and services. Granting a person's access belongs to joining the organization."},
+      {"id": "c", "text": "A playbook, which should have listed the steps for responding to the creation of a new account", "misconception": "policy-standard-procedure-guideline", "why": "A playbook directs the response to an incident. Starting a job is a routine procedure."},
+      {"id": "d", "text": "Onboarding, which should grant access by role through an approved request and record acceptance of the acceptable use policy", "correct": true, "why": "Onboarding ties access to the role being filled, with approval, and records that the person has accepted the rules before they use anything."}
+    ]
+  },
+  {
+    "id": "pg2-105",
+    "type": "mcq-multi",
+    "objective": "5.1",
+    "topics": ["onboarding-offboarding", "monitoring-and-revision"],
+    "difficulty": 4,
+    "stem": "A contractor's engagement ended in March. In September their account was used to download customer files. Which TWO controls would most directly have prevented or caught this? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "A periodic review of accounts against the current list of staff and contractors", "correct": true, "why": "Reconciling accounts with who is actually engaged finds the account no one closed."},
+      {"id": "b", "text": "A longer rotation interval for contractor passwords", "misconception": "standards-and-scope", "why": "Password rules protect the credential while it is legitimately held. They do nothing about an account that should no longer exist."},
+      {"id": "c", "text": "A guideline recommending that managers tell IT when someone leaves", "misconception": "policy-standard-procedure-guideline", "why": "A guideline is advisory, and relying on managers to remember is the weakness. The control has to be required and triggered."},
+      {"id": "d", "text": "An offboarding procedure triggered automatically when a contract ends in the HR or contracts system", "correct": true, "why": "A trigger tied to the contract record starts the revocation without relying on anyone to remember."},
+      {"id": "e", "text": "Re-acknowledgement of the acceptable use policy by all staff each year", "misconception": "governance-procedures", "why": "It reminds current users of the rules. A departed contractor with a live account is not stopped by it."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "pg2-106",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["industry-considerations", "regulatory-considerations", "legal-considerations"],
+    "difficulty": 3,
+    "stem": "A trade body for online lenders requires members to adopt its security code, including telling partners about breaches within five days, as a condition of membership. No law requires this. Which kind of external consideration is it?",
+    "options": [
+      {"id": "a", "text": "Regulatory", "misconception": "external-considerations", "why": "Regulatory requirements come from government regulators with the power to enforce them. A trade body's membership code is not one."},
+      {"id": "b", "text": "Legal", "misconception": "external-considerations", "why": "Legal requirements come from statute or case law. The stem says no law requires it."},
+      {"id": "c", "text": "Industry", "correct": true, "why": "Standards, codes and expectations set by a sector or its association, enforced through membership or contracts, are industry considerations."},
+      {"id": "d", "text": "Global", "misconception": "external-considerations", "why": "Nothing in the stem makes this international. The scope is one sector, not one geography."}
+    ]
+  },
+  {
+    "id": "pg2-107",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["monitoring-and-revision", "acceptable-use-policy", "information-security-policies"],
+    "difficulty": 3,
+    "stem": "A data leak began when a staff member saved work files to a personal cloud storage account. The acceptable use policy does not mention personal cloud storage. What is the most appropriate governance response?",
+    "options": [
+      {"id": "a", "text": "Discipline the employee under the existing policy for misusing company data by moving it to a personal account", "misconception": "governance-procedures", "why": "A rule cannot be enforced that the policy never stated. The gap is in the policy."},
+      {"id": "b", "text": "Close the incident and take no policy action, because the leak has been contained and the matter is handled", "misconception": "governance-procedures", "why": "Learning from an incident is part of monitoring and revision. Closing it without changing the policy leaves the same gap."},
+      {"id": "c", "text": "Issue a guideline suggesting that staff avoid using personal cloud storage for any work files in future", "misconception": "policy-standard-procedure-guideline", "why": "A guideline is advisory and the risk calls for a mandatory rule."},
+      {"id": "d", "text": "Revise the policy to cover personal cloud storage, approve it normally, publish it and brief staff", "correct": true, "why": "Revision, approval, publication and communication is the cycle that turns a lesson into an enforceable rule."}
+    ]
+  },
+  {
+    "id": "pg2-108",
+    "type": "mcq",
+    "objective": "5.1",
+    "topics": ["national-considerations", "regulatory-considerations", "legal-considerations"],
+    "difficulty": 4,
+    "stem": "A national law requires payment data about its citizens to be stored on servers inside the country. A company's cloud design replicates all customer data to three regions abroad for resilience. Which statement identifies the problem and the right response?",
+    "options": [
+      {"id": "a", "text": "It is an industry consideration, so the relevant trade body can grant the company an exception", "misconception": "external-considerations", "why": "A trade body cannot waive a national law. Industry expectations sit beneath legal requirements."},
+      {"id": "b", "text": "It is a national legal requirement, so that data must stay in approved in-country locations, with resilience built inside them", "correct": true, "why": "A national law sets a binding limit on where the data may live. Resilience has to be designed within that limit, not across it."},
+      {"id": "c", "text": "It is a global consideration, because the data is replicated worldwide, which overrides a national law", "misconception": "external-considerations", "why": "No global consideration overrides a country's law over data about its citizens."},
+      {"id": "d", "text": "It is not a governance matter, because replication is simply a resilience design choice for the architects", "misconception": "governance-procedures", "why": "Where regulated data is stored is a compliance decision. Governance has to set that boundary before design chooses regions."}
+    ]
   }
 ]

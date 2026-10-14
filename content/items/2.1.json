@@ -166,5 +166,177 @@
       {"id": "c", "text": "Large financial backing", "misconception": "threat-actor-attributes", "why": "Resources describe organised crime and nation-states. An insider's advantage is access, not funding."},
       {"id": "d", "text": "A desire for public attention", "misconception": "threat-actor-attributes", "why": "That is hacktivist behaviour. This actor is acting quietly on their way out."}
     ]
+  },
+  {
+    "id": "ta2-101",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["unskilled-attacker", "level-of-sophistication-capability", "resources-funding"],
+    "difficulty": 3,
+    "stem": "A web server is defaced shortly after a public exploit for a three-year-old flaw is published. Logs show the same exploit string tried against hundreds of unrelated addresses, with no sign of follow-up access. Which actor and defensive conclusion best fit?",
+    "options": [
+      {"id": "a", "text": "A nation-state actor, so the organization should assume an unknown vulnerability and unlimited resources", "misconception": "threat-actor-attributes", "why": "Nothing suggests an unknown flaw or a focused target. A public exploit sprayed at many addresses is the opposite of the patient, targeted work of a state."},
+      {"id": "b", "text": "An unskilled attacker using public tools, so patching known flaws would have stopped it", "correct": true, "why": "Low capability, low resources and an opportunistic, untargeted approach point here. These actors depend on known weaknesses that routine patching removes."},
+      {"id": "c", "text": "Organized crime, so the organization should expect a ransom demand next", "misconception": "threat-actor-motivations", "why": "Crime groups are profit driven. A defacement with no demand and no follow-up shows no sign of a monetary goal."},
+      {"id": "d", "text": "A hacktivist, because a defacement always carries a political message", "misconception": "terminology-2-1", "why": "Defacement alone does not show a cause. Without a message tied to a belief, the better explanation is opportunism with ready-made tools."}
+    ]
+  },
+  {
+    "id": "ta2-102",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["organized-crime", "financial-gain", "resources-funding", "level-of-sophistication-capability"],
+    "difficulty": 4,
+    "stem": "An intrusion shows access bought from a broker of stolen credentials, widely available commodity tools, and a ransom negotiation handled in a staffed chat service. The group left within a day of payment and has hit forty unrelated companies this quarter. Which statement best describes the actor?",
+    "options": [
+      {"id": "a", "text": "Organized crime: well funded and organized, using commodity tools, motivated by financial gain", "correct": true, "why": "A division of labour, repeated unrelated victims, and a payment-driven exit are the signs of a business. It is organized without being highly sophisticated."},
+      {"id": "b", "text": "A nation-state actor, because the operation is well resourced and well organized", "misconception": "threat-actor-attributes", "why": "Resources and organization are shared by several actors. Motivation separates them: a state pursues strategic goals and persistence, not a quick exit after payment."},
+      {"id": "c", "text": "A hacktivist group, because its activity is publicized and coordinated", "misconception": "threat-actor-motivations", "why": "Hacktivists act for a cause and rarely seek payment. Forty unrelated victims and a negotiated price point to profit."},
+      {"id": "d", "text": "An insider threat, because the attackers used valid credentials", "misconception": "threat-actor-attributes", "why": "Valid credentials bought from a broker do not make the actor an insider. The attacker remained external throughout."}
+    ]
+  },
+  {
+    "id": "ta2-103",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["shadow-it", "internal-external", "data-exfiltration"],
+    "difficulty": 4,
+    "stem": "A product team, frustrated by procurement delays, builds a cloud test environment on a personal credit card. It holds copies of production data and is reachable from the internet with default credentials. An external attacker later finds it. Which description of the original exposure is best?",
+    "options": [
+      {"id": "a", "text": "An insider threat motivated by revenge against the procurement team", "misconception": "threat-actor-motivations", "why": "No malice is described. The team wanted to work faster. Revenge would need a grievance expressed as damage."},
+      {"id": "b", "text": "Shadow IT: unmanaged systems built by well-meaning staff, outside the organization's security visibility", "correct": true, "why": "Shadow IT is the use of systems the organization does not know about or control. The risk comes from the lack of oversight, not from hostile intent."},
+      {"id": "c", "text": "A hacktivist, because the attacker targeted a company with a public profile", "misconception": "terminology-2-1", "why": "The attacker is not described as having a cause. The exposure existed because of an unmanaged system, whoever found it."},
+      {"id": "d", "text": "An unskilled attacker, because default credentials were used to get in", "misconception": "threat-actor-attributes", "why": "The attacker may or may not be skilled. The weakness that made the intrusion easy was created internally by the team."}
+    ]
+  },
+  {
+    "id": "ta2-104",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["hacktivist", "philosophical-political-beliefs", "data-exfiltration"],
+    "difficulty": 4,
+    "stem": "A group breaks into an energy company, copies internal emails that show lobbying against emissions rules, and gives them to journalists. It demands nothing, sells nothing and says publicly that it acted to expose the company. Which actor and motivation fit best?",
+    "options": [
+      {"id": "a", "text": "A hacktivist, driven by political beliefs, exposing the company rather than profiting", "correct": true, "why": "The target was chosen for what it represents, the data was released and not sold, and the stated aim is a cause. That matches a hacktivist."},
+      {"id": "b", "text": "A nation-state actor engaged in espionage on the energy sector", "misconception": "threat-actor-motivations", "why": "Espionage means taking information quietly for the benefit of the actor. Handing it to journalists is the opposite."},
+      {"id": "c", "text": "An ethical hacker, because the group acted in the public interest", "misconception": "threat-actor-motivations", "why": "Ethical describes authorized testing and responsible disclosure. A group that breaks in without permission and publishes is not that."},
+      {"id": "d", "text": "Organized crime using blackmail, because the emails could embarrass the company", "misconception": "threat-actor-motivations", "why": "Blackmail needs a demand with a way to avoid disclosure. Here the data was released and nothing was asked for."}
+    ]
+  },
+  {
+    "id": "ta2-105",
+    "type": "mcq-multi",
+    "objective": "2.1",
+    "topics": ["nation-state", "espionage", "organized-crime"],
+    "difficulty": 4,
+    "stem": "An investigator is asked whether an intrusion is more likely a nation-state actor than a financially motivated criminal group. Which TWO observations most strongly support the nation-state view? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "The attackers kept access for fourteen months and made no attempt to profit from it", "correct": true, "why": "Long, quiet persistence with no monetization points to a goal other than money, such as collecting intelligence."},
+      {"id": "b", "text": "A demand for payment in cryptocurrency was sent on the day access was discovered", "misconception": "threat-actor-motivations", "why": "A payment demand is the clearest sign of a profit motive, which points away from a state."},
+      {"id": "c", "text": "The stolen documents all concerned a ministry's position in an upcoming trade negotiation", "correct": true, "why": "Targeting by strategic value, not by ability to pay, is characteristic of a state serving its own interests."},
+      {"id": "d", "text": "The ransomware used was a publicly sold builder that other groups also use", "misconception": "threat-actor-attributes", "why": "Commodity tooling is common among criminals and suggests lower investment. It does not point to a state."},
+      {"id": "e", "text": "The stolen data was posted on a leak site with a countdown timer", "misconception": "threat-actor-motivations", "why": "A countdown timer is a pressure tactic to extract payment, typical of criminals."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "ta2-106",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["nation-state", "war", "espionage", "service-disruption"],
+    "difficulty": 5,
+    "stem": "Months before a regional conflict begins, investigators find a quiet intrusion in the control systems of another country's regional power and telecom networks. Nothing was copied and nothing was changed. The attackers left tools in place and tested that they could reach the controllers. Which motivation best describes this activity?",
+    "options": [
+      {"id": "a", "text": "Espionage, because the attackers remained undetected for months inside a strategic network", "misconception": "threat-actor-motivations", "why": "Espionage gathers information. Here nothing was taken and the access was aimed at the controllers, not at documents."},
+      {"id": "b", "text": "Financial gain, because attackers who prepare access are usually selling it later", "misconception": "threat-actor-motivations", "why": "Nothing points to sale. The target and the timing before a conflict show a strategic aim."},
+      {"id": "c", "text": "Philosophical or political beliefs, because the target is a government-linked network", "misconception": "threat-actor-motivations", "why": "That motivation is a cause expressed publicly. Quiet preparation of a means to disrupt is not."},
+      {"id": "d", "text": "War: pre-positioning to be able to disrupt critical infrastructure when conflict starts", "correct": true, "why": "No data was taken, and the access went to the systems that run power and communications. This is preparation to disrupt as a weapon of war."}
+    ]
+  },
+  {
+    "id": "ta2-107",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["organized-crime", "data-exfiltration", "financial-gain"],
+    "difficulty": 3,
+    "stem": "Over six months, thirty unrelated companies report that their customer databases were copied. No systems were encrypted and no demand was made. The same records then appear for sale on an underground marketplace. Which motivation best describes the attackers?",
+    "options": [
+      {"id": "a", "text": "Espionage, because the data was taken quietly and kept for a long time", "misconception": "threat-actor-motivations", "why": "Espionage serves a state or a rival seeking strategic information. Selling records to anyone who pays is commerce."},
+      {"id": "b", "text": "Revenge against the companies, because customer data was exposed", "misconception": "threat-actor-motivations", "why": "Nothing links the thirty victims by a grievance. Unrelated targets and a marketplace listing point to profit."},
+      {"id": "c", "text": "Disruption or chaos, because the breach harmed many organizations", "misconception": "threat-actor-motivations", "why": "Harm was a side effect. Disruption would show in damaged systems or publicity, and here the attackers took care to stay quiet and sell."},
+      {"id": "d", "text": "Financial gain through data theft, typical of organized crime selling stolen records", "correct": true, "why": "Theft of data that has market value and is then sold shows a profit motive. No ransom is needed when the data itself is the product."}
+    ]
+  },
+  {
+    "id": "ta2-108",
+    "type": "mcq-multi",
+    "objective": "2.1",
+    "topics": ["organized-crime", "insider-threat", "hacktivist", "nation-state"],
+    "difficulty": 4,
+    "stem": "A security team is building a threat model for a regional hospital. Which TWO statements are the most defensible? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "A financially motivated criminal group deploying ransomware is the most likely external actor", "correct": true, "why": "Likelihood follows motivation and opportunity. A hospital has urgency and data, which is what a profit-driven group looks for."},
+      {"id": "b", "text": "A nation-state actor is the most likely external actor, because hospitals hold sensitive personal data", "misconception": "threat-actor-attributes", "why": "Sensitive data attracts criminals as much as anyone. A state is likely only when the hospital serves a strategic purpose, such as research or military care."},
+      {"id": "c", "text": "Insiders with legitimate access belong in the model alongside external actors", "correct": true, "why": "Insiders already hold access and know where the data sits, so they need controls and monitoring even when no malice is assumed."},
+      {"id": "d", "text": "Hacktivists are the primary concern, because hospitals are controversial", "misconception": "threat-actor-motivations", "why": "A cause is what drives a hacktivist. A hospital without a political profile is rarely chosen for that reason."},
+      {"id": "e", "text": "Unskilled attackers can be left out, because they cannot cause serious harm", "misconception": "threat-actor-attributes", "why": "They use public tools against known weaknesses, so exposed and unpatched systems are still at risk of them."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "ta2-109",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["insider-threat", "blackmail", "revenge", "internal-external"],
+    "difficulty": 5,
+    "stem": "An employee with access to the executive mailboxes copies a private thread and tells the chief executive that it will be sent to the board unless the employee is given a senior role and the project they have been asking for. There is no cash demand and no known grievance. Which motivation best describes this?",
+    "options": [
+      {"id": "a", "text": "Revenge, because the employee is using damaging material against a superior", "misconception": "threat-actor-motivations", "why": "Revenge is about punishing someone for a wrong. Here the employee wants something in return and offers silence, and nothing suggests a grievance."},
+      {"id": "b", "text": "Blackmail by an insider: a threat to disclose is used to force a benefit", "correct": true, "why": "Blackmail is a demand backed by a threat of disclosure, and the demand need not be money. The legitimate access marks the actor as internal."},
+      {"id": "c", "text": "Data exfiltration, because the employee copied data from a mailbox", "misconception": "threat-actor-motivations", "why": "Copying is the means. The motivation is the benefit the employee wants to force, which is why the data is held back."},
+      {"id": "d", "text": "Disruption or chaos, because the employee is creating a crisis for management", "misconception": "threat-actor-motivations", "why": "A crisis is not the aim. The employee wants the crisis avoided in exchange for a benefit."}
+    ]
+  },
+  {
+    "id": "ta2-110",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["hacktivist", "service-disruption", "philosophical-political-beliefs", "nation-state"],
+    "difficulty": 3,
+    "stem": "During a conflict, a loosely organized group of volunteers with no known state link announces on social media that it will flood the websites of banks in one country. It uses freely available tools, steals nothing and says it acts to support one side. Which actor is the best fit?",
+    "options": [
+      {"id": "a", "text": "A nation-state actor, because the activity is timed with a military conflict", "misconception": "threat-actor-attributes", "why": "Timing alone does not show state control. Volunteers, public announcements and free tools are signs of a group acting by belief."},
+      {"id": "b", "text": "An unskilled attacker, because the tools are freely available", "misconception": "threat-actor-attributes", "why": "The tools are basic, but the actor has a stated cause and a campaign. Capability is only one attribute, and motivation decides the category."},
+      {"id": "c", "text": "A hacktivist group, using service disruption for political beliefs", "correct": true, "why": "Volunteers who act for a cause, announce what they do and take nothing fit a hacktivist. Flooding sites is a typical low-skill method."},
+      {"id": "d", "text": "Organized crime, because the attack is coordinated across many targets", "misconception": "threat-actor-motivations", "why": "Coordination alone is not profit. There is no payment, no theft and no ransom, so the motive is not financial."}
+    ]
+  },
+  {
+    "id": "ta2-111",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["resources-funding", "level-of-sophistication-capability", "organized-crime"],
+    "difficulty": 4,
+    "stem": "A report says a well-funded group buys zero-day exploits from brokers and rents global infrastructure, but its only goal is extorting payment from companies. A colleague concludes that anything this well funded must be a nation-state. What is the flaw in the conclusion?",
+    "options": [
+      {"id": "a", "text": "There is none: funding level is the best way to tell a nation-state from other actors", "misconception": "threat-actor-attributes", "why": "Funding is one attribute, and several actors can have a lot of it. It cannot separate one from another on its own."},
+      {"id": "b", "text": "Capability is an attribute, but motivation decides the type: extortion for payment is organized crime", "correct": true, "why": "Funding describes what an actor can do. The goal, here profit by extortion, describes who they are likely to be."},
+      {"id": "c", "text": "Organized crime cannot buy zero-day exploits, so the report must be wrong", "misconception": "threat-actor-attributes", "why": "Criminal groups can and do buy them. High capability is not exclusive to states."},
+      {"id": "d", "text": "Only an insider can be both well funded and motivated by payment", "misconception": "threat-actor-attributes", "why": "Insiders are defined by their access, not by funding. Nothing in the report suggests anyone inside the victim."}
+    ]
+  },
+  {
+    "id": "ta2-112",
+    "type": "mcq",
+    "objective": "2.1",
+    "topics": ["nation-state", "level-of-sophistication-capability", "organized-crime"],
+    "difficulty": 5,
+    "stem": "A company's first report on an intrusion says it was a nation-state attack, because the malware used techniques that appeared in leaked government tooling. A later review finds a ransom note, a payment wallet and a criminal group using the leaked tools. What is the right lesson?",
+    "options": [
+      {"id": "a", "text": "Sophistication of tools identifies the actor, so the first report was right and the criminals must have been state-sponsored", "misconception": "threat-actor-attributes", "why": "Leaked tools can be used by anyone. The review found a payment demand and a criminal group, so the first conclusion was not supported."},
+      {"id": "b", "text": "Capability should never be considered when identifying an actor, because every actor has access to the same tools", "misconception": "threat-actor-attributes", "why": "Capability is a useful attribute. It is just not enough alone, and it should be read together with motive and behavior."},
+      {"id": "c", "text": "Tooling alone does not identify an actor: weigh motivation and behavior, such as a ransom demand, with capability", "correct": true, "why": "Attribution by capability is weak when tools circulate. The ransom note and wallet showed a profit motive that the tooling did not."},
+      {"id": "d", "text": "Ransom notes always indicate a hacktivist, so the later review was wrong to name a criminal group", "misconception": "threat-actor-motivations", "why": "Hacktivists act for a cause and do not normally demand payment. A wallet and a demand point to profit."}
+    ]
   }
 ]

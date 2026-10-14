@@ -252,5 +252,181 @@
       {"id": "c", "text": "Only the board pack matters, since the regulator relies on the external audit", "misconception": "compliance-consequences", "why": "An audit is independent assurance. It does not replace a reporting obligation you hold directly."},
       {"id": "d", "text": "The regulator submission is reputational and the board pack is contractual", "misconception": "compliance-consequences", "why": "Neither. Reputational damage arrives through the market and contractual impacts come from counterparties; a regulatory filing is neither of those."}
     ]
+  },
+  {
+    "id": "vr2-101",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": ["right-to-be-forgotten", "data-inventory-and-retention", "data-subject"],
+    "difficulty": 4,
+    "stem": "A former customer asks the company to erase everything it holds about them. Tax law obliges the company to keep invoices for seven years. The account profile, marketing preferences and support chats have no legal retention requirement. What is the most appropriate response?",
+    "options": [
+      {"id": "a", "text": "Erase everything at once, including the invoices, because an erasure request overrides every retention rule", "misconception": "retention-vs-disposal", "why": "The right to be forgotten is not absolute. A legal duty to keep records outlasts the request, and deleting the invoices would breach the tax requirement."},
+      {"id": "b", "text": "Refuse the whole request, because some of the data must be kept", "misconception": "retention-vs-disposal", "why": "A partial legal duty does not cover everything. The data with no retention requirement should still be erased."},
+      {"id": "c", "text": "Erase the profile, preferences and chats, keep the invoices for the required period, and tell the customer what was kept and why", "correct": true, "why": "Erasure applies to what the company has no lawful reason to keep. Keeping only the legally required records, and saying so, honors both obligations."},
+      {"id": "d", "text": "Keep all of it but stop using it for marketing, because the customer only asked for the data to be forgotten in practice", "misconception": "retention-vs-disposal", "why": "Stopping one use is not erasure. Data with no retention requirement has to be deleted when the data subject validly asks."}
+    ]
+  },
+  {
+    "id": "vr2-102",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": ["data-inventory-and-retention", "right-to-be-forgotten", "data-subject"],
+    "difficulty": 4,
+    "stem": "A regulator gives a company 30 days to show that a data subject's records have been erased. The privacy team finds personal data in the CRM, but cannot say whether marketing exports, a retired survey tool or developer test databases also hold copies. Which missing control is the root cause?",
+    "options": [
+      {"id": "a", "text": "A maintained data inventory of what personal data is held, where, and for how long", "correct": true, "why": "An organization cannot erase, or even report on, data it does not know it holds. The inventory is the prerequisite for answering any data subject request."},
+      {"id": "b", "text": "A stronger encryption standard applied to all personal data at rest in every system", "misconception": "privacy-rights-and-roles", "why": "Encryption protects the copies that exist. It does nothing to reveal which copies there are."},
+      {"id": "c", "text": "An annual attestation from the CRM owner confirming that the CRM is compliant", "misconception": "compliance-monitoring-and-attestation", "why": "An attestation confirms the state of one system as its owner sees it. It cannot discover systems nobody has listed."},
+      {"id": "d", "text": "A self-service data subject portal where people can submit their requests", "misconception": "privacy-rights-and-roles", "why": "Receiving requests more easily does not help find the data. The team could not locate copies even with a perfect request."}
+    ]
+  },
+  {
+    "id": "vr2-103",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": ["due-diligence-care"],
+    "difficulty": 3,
+    "stem": "A retailer checked a payment vendor's audit reports, finances and references thoroughly before signing in 2021. Since then nobody has reviewed the vendor's access, reports or incidents, and a breach at the vendor exposes card data. A regulator says the retailer failed to exercise due care. Which statement best explains the finding?",
+    "options": [
+      {"id": "a", "text": "The pre-contract review was incomplete, because due diligence continues for the whole life of the contract", "misconception": "due-diligence-vs-due-care", "why": "That is due care. Due diligence is the investigation before commitment, and this one was thorough. What is missing is the ongoing part."},
+      {"id": "b", "text": "Due care is a duty on the vendor alone, so the retailer owed nothing after signing", "misconception": "due-diligence-vs-due-care", "why": "A customer that hands over card data keeps a duty to act reasonably to protect it, including watching how the vendor behaves."},
+      {"id": "c", "text": "The finding is really about attestation, because the vendor should have signed a statement that its controls were in place", "misconception": "compliance-monitoring-and-attestation", "why": "A signed statement is one input to monitoring. The regulator's point is that no one was acting on the vendor relationship after signing."},
+      {"id": "d", "text": "Due diligence was done before the contract, but due care is the continuing duty to act reasonably, and nothing was done after signing", "correct": true, "why": "Diligence is the research before commitment. Care is the ongoing reasonable action that follows: reviewing reports, checking access and responding to incidents."}
+    ]
+  },
+  {
+    "id": "vr2-104",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": ["internal-and-external-monitoring", "external-compliance-reporting", "attestation-and-acknowledgement"],
+    "difficulty": 3,
+    "stem": "Enterprise customers will not buy a company's service without independent confirmation that its controls meet a recognized framework. The company already runs thorough quarterly self-assessments and reports the results to its own board. What additional activity satisfies the customers?",
+    "options": [
+      {"id": "a", "text": "More frequent internal monitoring, with the results published on the company website for customers to read", "misconception": "compliance-monitoring-and-attestation", "why": "Self-assessment, however frequent, is the company assessing itself. Customers asked for independence."},
+      {"id": "b", "text": "External monitoring: an independent assessor tests the controls and issues a report customers can rely on", "correct": true, "why": "Independence is what the customers are asking for. A third party's findings carry weight that internal reporting cannot."},
+      {"id": "c", "text": "An internal attestation signed by the CISO each quarter confirming that the controls operate as stated", "misconception": "compliance-monitoring-and-attestation", "why": "An officer's statement is still the company speaking about itself. It is internal assurance, not independent confirmation."},
+      {"id": "d", "text": "Automating the self-assessments so that their results are collected continuously and reported to the board", "misconception": "compliance-monitoring-and-attestation", "why": "Automation makes internal monitoring faster and more consistent. It does not make it independent."}
+    ]
+  },
+  {
+    "id": "vr2-105",
+    "type": "mcq-multi",
+    "objective": "5.4",
+    "topics": ["reputational-damage", "contractual-impacts", "fines", "loss-of-license"],
+    "difficulty": 3,
+    "stem": "Which TWO of these correctly classify a consequence of non-compliance? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "A regulator imposes a monetary penalty: a contractual impact", "misconception": "compliance-consequences", "why": "A penalty imposed by a regulator is a fine. Contractual impacts come from commercial counterparties under an agreement."},
+      {"id": "b", "text": "Customers leave after press coverage of a compliance failure: reputational damage", "correct": true, "why": "Loss of trust and custom after public exposure is reputational damage, and it needs no regulator."},
+      {"id": "c", "text": "Withdrawal of the right to operate in a regulated market: reputational damage", "misconception": "compliance-consequences", "why": "Withdrawing the authorization to operate is loss of license. Reputational damage concerns how others view the company."},
+      {"id": "d", "text": "A card brand terminates a merchant's agreement after a failed assessment: a contractual impact", "correct": true, "why": "The consequence comes from a commercial agreement and its terms, not from a regulator."},
+      {"id": "e", "text": "A contract clause charging for missed security commitments: a regulatory fine", "misconception": "compliance-consequences", "why": "A charge written into an agreement is a contractual impact. A regulatory fine is imposed by an authority under law."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "vr2-106",
+    "type": "mcq-multi",
+    "objective": "5.4",
+    "topics": ["automation", "internal-and-external-monitoring", "attestation-and-acknowledgement"],
+    "difficulty": 3,
+    "stem": "A compliance team wants to use automation to make its monitoring more effective. Which THREE uses are sound? (Choose three.)",
+    "options": [
+      {"id": "a", "text": "Scripts that collect control evidence from the systems of record on a schedule", "correct": true, "why": "Evidence pulled from the source on a schedule is more complete and less open to dispute than screenshots gathered before an audit."},
+      {"id": "b", "text": "Marking every control compliant for a year once its latest assessment has passed", "misconception": "compliance-monitoring-and-attestation", "why": "Control state changes. A pass last quarter says nothing about this week, which is why monitoring has to be continuous."},
+      {"id": "c", "text": "Continuous configuration checks against the baseline that raise a ticket when a system drifts", "correct": true, "why": "Drift is found when it happens, not at the next audit, and the ticket makes sure someone owns the correction."},
+      {"id": "d", "text": "Reminders and tracking of staff policy acknowledgements, with overdue reports to managers", "correct": true, "why": "Chasing and recording acknowledgements is repetitive work that automation does well, and it leaves a record for reporting."},
+      {"id": "e", "text": "Letting a script decide, without review, whether a policy exception is acceptable", "misconception": "automation-benefits-vs-risks", "why": "Judging whether to accept a risk or an exception is a decision for a named person. Automation can supply the evidence, not take the accountability."}
+    ],
+    "selectCount": 3
+  },
+  {
+    "id": "vr2-107",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": ["data-inventory-and-retention", "data-subject"],
+    "difficulty": 4,
+    "stem": "A retention schedule deletes email after three years. The company learns that a former employee is likely to sue, and some relevant mailboxes hold messages from two years ago. What should compliance do?",
+    "options": [
+      {"id": "a", "text": "Let the schedule run as normal, because deleting on schedule is lawful and already documented in the policy", "misconception": "retention-vs-disposal", "why": "Routine deletion is lawful until litigation is anticipated. After that, deleting relevant material can be treated as destroying evidence."},
+      {"id": "b", "text": "Suspend deletion for every mailbox in the company, to be safe, until the dispute is over", "misconception": "retention-vs-disposal", "why": "A hold should reach the relevant data. Suspending the whole schedule keeps personal data far longer than the retention rules allow."},
+      {"id": "c", "text": "Suspend deletion for the relevant mailboxes under a hold until counsel releases it, and keep the schedule for everything else", "correct": true, "why": "A legal hold overrides the schedule for the data that matters to the dispute, and the inventory shows where that data is. Everything else keeps its normal retention."},
+      {"id": "d", "text": "Copy the relevant messages to a manager's laptop for safekeeping and let the mailboxes be deleted on schedule", "misconception": "chain-of-custody-vs-legal-hold", "why": "Moving evidence out of the controlled system breaks its integrity and leaves personal data on an unmanaged device."}
+    ]
+  },
+  {
+    "id": "vr2-108",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": ["sanctions", "fines", "loss-of-license"],
+    "difficulty": 4,
+    "stem": "A regulator orders a firm to stop taking on new customers until it has fixed its controls. There is no monetary penalty and the firm keeps its license. Which consequence is this?",
+    "options": [
+      {"id": "a", "text": "A fine", "misconception": "compliance-consequences", "why": "A fine is a payment. Nothing in the stem requires the firm to pay anything."},
+      {"id": "b", "text": "Loss of license", "misconception": "compliance-consequences", "why": "The firm keeps its authorization. Loss of license ends the right to operate that business altogether."},
+      {"id": "c", "text": "A sanction", "correct": true, "why": "A restriction on what the firm may do, short of revoking its license, is a sanction."},
+      {"id": "d", "text": "A contractual impact", "misconception": "compliance-consequences", "why": "The order comes from a regulator under law, not from a commercial counterparty under an agreement."}
+    ]
+  },
+  {
+    "id": "vr2-109",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": ["controller-vs-processor", "data-subject"],
+    "difficulty": 4,
+    "stem": "A company outsources payroll to a provider that processes staff data only on the company's instructions. The provider suffers a breach. The company says the provider is at fault and that it owes staff and the regulator nothing. Which statement is most accurate?",
+    "options": [
+      {"id": "a", "text": "Accountability passed to the provider when the processing was outsourced, because the provider now holds the data", "misconception": "data-roles", "why": "Outsourcing moves the work. The company decided why and how the data is used, so it remains accountable."},
+      {"id": "b", "text": "The company is the controller and stays accountable to staff and the regulator, though its contract may let it recover costs", "correct": true, "why": "A contract can allocate cost and duties between the parties. It cannot remove the controller's accountability to data subjects and regulators."},
+      {"id": "c", "text": "Responsibility is shared equally by default between the two parties, whoever decides the purposes of the processing", "misconception": "data-roles", "why": "Responsibility follows the role. The party deciding purposes and means is the controller, and it carries the main accountability."},
+      {"id": "d", "text": "The staff are the data owners, so they must pursue the provider directly and the company has no role", "misconception": "data-roles", "why": "Staff are the data subjects. They hold rights over their data, and the controller is the party answerable for it."}
+    ]
+  },
+  {
+    "id": "vr2-110",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": ["internal-and-external-monitoring", "automation", "internal-compliance-reporting"],
+    "difficulty": 3,
+    "stem": "A company reviews its controls only in the month before each annual audit, and keeps finding firewall rules and access reviews that lapsed months earlier. Which change addresses the cause?",
+    "options": [
+      {"id": "a", "text": "Continuous internal monitoring with automated checks and regular reports to management", "correct": true, "why": "The cause is a gap of months between checks. Continuous monitoring shortens it to days, and regular reports keep owners accountable."},
+      {"id": "b", "text": "Ask the external auditor to visit twice a year instead of once, so that more of the year is covered", "misconception": "compliance-monitoring-and-attestation", "why": "A second audit adds independence but is still periodic, so drift would still go unseen for months between visits."},
+      {"id": "c", "text": "Have control owners sign a stronger attestation before each audit confirming that every control is in place", "misconception": "compliance-monitoring-and-attestation", "why": "An attestation states what the owner believes at one moment. It does not find a rule that lapsed in March."},
+      {"id": "d", "text": "Extend the preparation period before each audit from one month to two so that more can be corrected", "misconception": "compliance-monitoring-and-attestation", "why": "More preparation time before the audit tidies the evidence. It does not stop the controls from lapsing in between."}
+    ]
+  },
+  {
+    "id": "vr2-111",
+    "type": "mcq-multi",
+    "objective": "5.4",
+    "topics": ["external-compliance-reporting", "internal-compliance-reporting"],
+    "difficulty": 3,
+    "stem": "Which TWO are examples of external compliance reporting? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "A monthly dashboard of open control gaps sent to the CISO", "misconception": "compliance-monitoring-and-attestation", "why": "The audience is inside the organization, so this is internal reporting."},
+      {"id": "b", "text": "A breach notification filed with a regulator", "correct": true, "why": "Reporting a required event to an authority outside the organization is external reporting."},
+      {"id": "c", "text": "A weekly summary of overdue tickets sent to operations managers", "misconception": "compliance-monitoring-and-attestation", "why": "Internal operational reporting. Nothing leaves the organization."},
+      {"id": "d", "text": "An annual compliance certificate filed with an industry regulator", "correct": true, "why": "A formal submission to an outside body, as a regulation requires, is external reporting."},
+      {"id": "e", "text": "A quarterly update on policy exceptions presented to the audit committee", "misconception": "compliance-monitoring-and-attestation", "why": "The audit committee is part of the organization's own governance, so this is internal reporting."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "vr2-112",
+    "type": "mcq-multi",
+    "objective": "5.4",
+    "topics": ["due-diligence-care", "internal-and-external-monitoring"],
+    "difficulty": 4,
+    "stem": "Which TWO activities are examples of due care rather than due diligence? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Reviewing a prospective supplier's financial statements before signing", "misconception": "due-diligence-vs-due-care", "why": "Researching a supplier before commitment is due diligence."},
+      {"id": "b", "text": "Applying security patches on the schedule the company's own policy sets", "correct": true, "why": "Due care is acting on a continuing basis the way a reasonable organization would. Keeping to its own patching policy is a clear example."},
+      {"id": "c", "text": "Assessing the security of a company before acquiring it", "misconception": "due-diligence-vs-due-care", "why": "Investigating a target before committing is due diligence."},
+      {"id": "d", "text": "Reviewing a vendor's access rights every quarter after the contract is signed", "correct": true, "why": "Checking, after signing, that the arrangement is still appropriate is continuing, reasonable action, which is due care."},
+      {"id": "e", "text": "Requesting references from three of a supplier's customers during selection", "misconception": "due-diligence-vs-due-care", "why": "A selection-stage investigation is due diligence."}
+    ],
+    "selectCount": 2
   }
 ]

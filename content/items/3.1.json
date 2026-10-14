@@ -224,5 +224,149 @@
       {"id": "c", "text": "The blast radius of a single compromise grows", "misconception": "centralized-vs-decentralized", "why": "Blast radius grows when control is concentrated. Here a compromised store's firewall reaches only that store."},
       {"id": "d", "text": "Visibility improves, because more administrators are watching", "misconception": "centralized-vs-decentralized", "why": "Each administrator sees one store. Nobody sees the whole picture, which is the visibility gap decentralisation creates."}
     ]
+  },
+  {
+    "id": "en2-101",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["serverless", "cloud-responsibility-matrix"],
+    "difficulty": 3,
+    "stem": "A team moves an order-processing API from virtual machines to a serverless function platform. The provider now runs the servers, the operating system and the language runtime. Which task is still the customer's?",
+    "options": [
+      {"id": "a", "text": "Patching the operating system that the functions run on", "misconception": "cloud-responsibility-matrix", "why": "The provider owns the operating system and runtime in a serverless model. That is the point of the model."},
+      {"id": "b", "text": "Hardening the hypervisor that separates one customer's functions from another's", "misconception": "cloud-responsibility-matrix", "why": "Isolation between tenants sits in the provider's layers and is never the customer's to harden."},
+      {"id": "c", "text": "Validating input in the function code and granting each function only the permissions it needs", "correct": true, "why": "Code, data and identity stay with the customer in every service model. A function with an over-broad role is a customer misconfiguration."},
+      {"id": "d", "text": "Installing an endpoint agent in every function instance", "misconception": "cloud-responsibility-matrix", "why": "Function instances are short lived and not yours to install on. Control moves to code, permissions and logging."}
+    ]
+  },
+  {
+    "id": "en2-102",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["infrastructure-as-code-iac"],
+    "difficulty": 4,
+    "stem": "A security review of an infrastructure as code repository finds a cloud access key written into a deployment template that has been in version control for eight months. Which response addresses the actual exposure?",
+    "options": [
+      {"id": "a", "text": "Make the repository private and leave the key in place", "misconception": "architecture-tradeoffs", "why": "Anyone who ever cloned or forked it, and every past commit, still holds the key. Restricting access now does not undo past exposure."},
+      {"id": "b", "text": "Delete the key from the latest commit and push the change", "misconception": "architecture-tradeoffs", "why": "The key remains in earlier commits and every existing clone."},
+      {"id": "c", "text": "Encrypt the repository at rest on the hosting server", "misconception": "architecture-tradeoffs", "why": "Encryption at rest does not stop an authorized reader or a clone from seeing the key."},
+      {"id": "d", "text": "Revoke and rotate the key, and store secrets in a secrets manager", "correct": true, "why": "A secret in version history must be treated as disclosed. Rotation closes the exposure and a secrets manager keeps it from returning."}
+    ]
+  },
+  {
+    "id": "en2-103",
+    "type": "mcq-multi",
+    "objective": "3.1",
+    "topics": ["containerization", "virtualization"],
+    "difficulty": 4,
+    "stem": "A platform team runs forty containers per host on shared hosts. Which TWO statements about the security of this design are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Each container runs its own kernel, so a kernel flaw affects only that container", "misconception": "containers-vs-virtualization", "why": "Containers share the host kernel. That sharing is what makes them light, and it is why a kernel flaw is shared exposure."},
+      {"id": "b", "text": "A kernel vulnerability on the host can expose every container on that host", "correct": true, "why": "One shared kernel is one shared point of failure for the containers on it."},
+      {"id": "c", "text": "A container escape is the same risk as a VM escape because both break out of a guest", "misconception": "containers-vs-virtualization", "why": "The boundary differs. An escape from a container lands on a shared kernel. A VM escape has to defeat the hypervisor."},
+      {"id": "d", "text": "Pulling images only from a trusted registry, pinned to a known version and scanned before use, reduces the risk of a poisoned base image", "correct": true, "why": "Image provenance and scanning address the supply side of containers, which a runtime control cannot fix later."},
+      {"id": "e", "text": "Containers remove the need to patch, because they are rebuilt", "misconception": "architecture-tradeoffs", "why": "Rebuilding from an unpatched image ships the same flaw again. The image has to be patched and rebuilt."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "en2-104",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["software-defined-networking-sdn", "logical-segmentation"],
+    "difficulty": 3,
+    "stem": "A network team replaces box by box switch configuration with a software defined networking controller that sets forwarding policy for every switch. What is the main new security concern?",
+    "options": [
+      {"id": "a", "text": "Anyone who compromises the controller can change forwarding for the whole network at once", "correct": true, "why": "The controller concentrates the control plane. That brings consistency and it brings a single high value target."},
+      {"id": "b", "text": "A compromise is limited to the one VLAN the controller sits in", "misconception": "air-gap-vs-logical-segmentation", "why": "The controller does not live inside a VLAN. It programs all of them, which is what makes it valuable."},
+      {"id": "c", "text": "The switches keep forwarding on their own rules, so the controller is not a risk", "misconception": "centralized-vs-decentralized", "why": "Switches follow the policy the controller gives them. A malicious policy is as binding as a good one."},
+      {"id": "d", "text": "The only risk is losing management logs", "misconception": "architecture-tradeoffs", "why": "Logs matter, but the larger risk is the loss of control over the forwarding path."}
+    ]
+  },
+  {
+    "id": "en2-105",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["hybrid-considerations"],
+    "difficulty": 4,
+    "stem": "A company federates its cloud tenant to its on-premises directory. An attacker with domain administrator rights on premises then reads data in the cloud tenant without exploiting any cloud flaw. Which hybrid consideration was underestimated?",
+    "options": [
+      {"id": "a", "text": "The cloud provider should have blocked the access under the responsibility matrix", "misconception": "cloud-responsibility-matrix", "why": "The provider secures its platform. The identity trust the customer built between the two sides is the customer's."},
+      {"id": "b", "text": "The age and condition of the on-premises hardware and its firmware", "misconception": "architecture-tradeoffs", "why": "Hardware age is not what carried the attacker across."},
+      {"id": "c", "text": "Network latency and bandwidth between the two environments", "misconception": "architecture-tradeoffs", "why": "Latency affects performance, not who is trusted."},
+      {"id": "d", "text": "Shared identity trust: the estate is only as strong as its weakest side, so both need the same rigor", "correct": true, "why": "Federation extends one side's compromise into the other. Hybrid design needs consistent controls and visibility across the boundary."}
+    ]
+  },
+  {
+    "id": "en2-106",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["ics-scada", "inability-to-patch", "patch-availability"],
+    "difficulty": 4,
+    "stem": "A production line runs on a controller whose vendor no longer issues patches and cannot be stopped for more than a planned annual outage. A known remote flaw affects it. What is the best interim control?",
+    "options": [
+      {"id": "a", "text": "Install the newest operating system patch from a different vendor on the controller", "misconception": "specialised-system-constraints", "why": "A patch not built for the controller can break the real-time behavior it exists to provide."},
+      {"id": "b", "text": "Install an endpoint detection agent on the controller to watch for exploitation", "misconception": "specialised-system-constraints", "why": "Agents threaten timing guarantees and are often unsupported on these devices."},
+      {"id": "c", "text": "Segment it behind a firewall that allows only the traffic it needs, and monitor that boundary", "correct": true, "why": "When a device cannot be patched, compensating controls around it carry the risk: isolation, strict allow rules and monitoring."},
+      {"id": "d", "text": "Take the controller offline immediately and replace it with a new model this week", "misconception": "specialised-system-constraints", "why": "It ignores the operating constraint. A safe interim control comes first and replacement is scheduled for the outage."}
+    ]
+  },
+  {
+    "id": "en2-107",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["microservices"],
+    "difficulty": 4,
+    "stem": "A monolithic application is split into forty microservices that call one another over internal APIs. What should the security review expect?",
+    "options": [
+      {"id": "a", "text": "A larger attack surface: more endpoints to authenticate and more service to service traffic to control", "correct": true, "why": "Many small services mean many more interfaces and much more east west traffic to protect."},
+      {"id": "b", "text": "A smaller attack surface, because each individual service does less and is simpler", "misconception": "architecture-tradeoffs", "why": "Each service does less, but there are far more entry points in total."},
+      {"id": "c", "text": "No change to the attack surface, because traffic inside the network is trusted by default", "misconception": "air-gap-vs-logical-segmentation", "why": "Internal traffic is where lateral movement happens. Trusting it by default is the weakness."},
+      {"id": "d", "text": "Reduced need for perimeter controls, because the services run as separate processes", "misconception": "containers-vs-virtualization", "why": "Process separation does not authenticate callers. A compromised service can still reach its neighbours."}
+    ]
+  },
+  {
+    "id": "en2-108",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["on-premises"],
+    "difficulty": 3,
+    "stem": "A hospital keeps its records system on premises rather than in the cloud. Compared with a cloud deployment, which responsibility is the hospital's in addition?",
+    "options": [
+      {"id": "a", "text": "Securing the application code the vendor wrote", "misconception": "cloud-responsibility-matrix", "why": "The software vendor owns its code. The hospital still configures and operates it."},
+      {"id": "b", "text": "Nothing, because on premises systems are managed by the provider", "misconception": "cloud-responsibility-matrix", "why": "There is no provider layer to hand work to."},
+      {"id": "c", "text": "Physical security, power and hardware lifecycle for the servers", "correct": true, "why": "On premises the organization owns every layer, including the building, the power and the hardware it will one day dispose of."},
+      {"id": "d", "text": "Only the data, since the hardware is leased", "misconception": "cloud-responsibility-matrix", "why": "Owning or leasing does not move the operating duty. The organization runs the whole stack."}
+    ]
+  },
+  {
+    "id": "en2-109",
+    "type": "mcq",
+    "objective": "3.1",
+    "topics": ["virtualization"],
+    "difficulty": 3,
+    "stem": "Project teams create virtual machines freely. A review finds more than a hundred that nobody owns, many unpatched. What is this problem called and what addresses it?",
+    "options": [
+      {"id": "a", "text": "VM escape, addressed by patching the hypervisor", "misconception": "containers-vs-virtualization", "why": "Escape is an attack from inside a guest. This problem is unmanaged guests, not an attack."},
+      {"id": "b", "text": "VM sprawl, addressed by ownership, an inventory and a defined lifecycle for every machine", "correct": true, "why": "Easy creation without tracking leaves forgotten, unpatched systems. Lifecycle management is the control."},
+      {"id": "c", "text": "Resource exhaustion, addressed by buying more hosts", "misconception": "architecture-tradeoffs", "why": "Capacity is not the issue. Unowned machines are."},
+      {"id": "d", "text": "A container breakout, addressed by moving to a different runtime", "misconception": "containers-vs-virtualization", "why": "These are virtual machines, and nothing was broken out of."}
+    ]
+  },
+  {
+    "id": "en2-110",
+    "type": "mcq-multi",
+    "objective": "3.1",
+    "topics": ["cloud-responsibility-matrix"],
+    "difficulty": 3,
+    "stem": "A company deploys a web application on a platform as a service offering. Which TWO responsibilities remain with the company? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "The application code and the access controls inside it", "correct": true, "why": "Under PaaS the customer supplies and secures the application and its access model."},
+      {"id": "b", "text": "Patching the operating system of the underlying hosts", "misconception": "cloud-responsibility-matrix", "why": "The provider manages the platform's operating system under PaaS."},
+      {"id": "c", "text": "The data the application stores and who may reach it", "correct": true, "why": "Data and identity remain the customer's in every service model."},
+      {"id": "d", "text": "Patching the language runtime and web server the platform provides", "misconception": "cloud-responsibility-matrix", "why": "The platform manages its own runtime and server. The customer stays out of those layers."},
+      {"id": "e", "text": "Physical security of the data center", "misconception": "cloud-responsibility-matrix", "why": "This is always the provider's in a public cloud."}
+    ],
+    "selectCount": 2
   }
 ]

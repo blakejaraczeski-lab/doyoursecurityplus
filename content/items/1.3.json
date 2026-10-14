@@ -182,5 +182,177 @@
       {"id": "c", "text": "The approval process", "misconception": "change-management-elements", "why": "It was approved. Approval cannot catch a dependency nobody had identified."},
       {"id": "d", "text": "The impact analysis", "correct": true, "why": "An unforeseen side effect on something else is what impact analysis exists to find before the change, not after."}
     ]
+  },
+  {
+    "id": "ch2-101",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["approval-process", "impact-analysis", "backout-plan"],
+    "difficulty": 3,
+    "stem": "A vendor patch for the VPN gateway is being actively exploited in the wild. The next scheduled change advisory board meeting is in five days. The security manager wants the patch applied tonight. Which approach keeps change management intact while still acting quickly?",
+    "options": [
+      {"id": "a", "text": "Skip the change process, because an active exploit overrides it and a record can be written next week", "misconception": "change-management-elements", "why": "An emergency does not remove the need for control. An unrecorded change to the gateway is exactly the kind that nobody can reverse or explain afterwards."},
+      {"id": "b", "text": "Wait for the scheduled meeting, because only the full board may approve any change to a production security device", "misconception": "change-roles", "why": "Most processes provide an expedited path for this. Five days of known exploitation is a larger risk than the change, and a rigid rule here would be the process causing harm."},
+      {"id": "c", "text": "Let the engineer who will apply the patch approve it, since they understand the system best", "misconception": "change-roles", "why": "Approval by the implementer removes the separation the process exists to create, even when time is short."},
+      {"id": "d", "text": "Use the emergency change path: a named delegate approves, analysis and backout are still done, and the board reviews it afterward", "correct": true, "why": "Speed changes who approves and how quickly, not whether analysis and a way back exist. The after-the-fact review keeps the board informed and accountable."}
+    ]
+  },
+  {
+    "id": "ch2-102",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["test-results", "impact-analysis", "approval-process"],
+    "difficulty": 4,
+    "stem": "A change request to upgrade a database engine includes test results showing a clean pass. The tests were run on a development server with a different operating system build, a tenth of the production data volume and none of the production integrations. The approver is asked to sign. What is the best response?",
+    "options": [
+      {"id": "a", "text": "Approve, because a passing test result is the evidence the process asks for and the backout plan covers anything that goes wrong", "misconception": "change-management-elements", "why": "A test only supports a change to the extent that the test environment resembles production. A backout plan limits the damage but does not replace understanding the impact."},
+      {"id": "b", "text": "Approve, but ask the implementer to repeat the same tests in production during the window", "misconception": "change-management-elements", "why": "Testing for the first time in production turns the window into the test. It carries the risk the test results were meant to remove."},
+      {"id": "c", "text": "Return it to the owner to approve instead, because test results are for the system owner and not for the approver", "misconception": "change-roles", "why": "Reviewing the evidence is part of approving. Handing the question to another role does not answer whether the evidence is relevant."},
+      {"id": "d", "text": "Withhold approval until the tests are production-like, or the gaps are recorded in the impact analysis with a stronger backout", "correct": true, "why": "The weakness is the gap between test and production. Either close the gap or record what remains unknown and plan for it before approving."}
+    ]
+  },
+  {
+    "id": "ch2-103",
+    "type": "mcq-multi",
+    "objective": "1.3",
+    "topics": ["backout-plan", "test-results", "maintenance-window"],
+    "difficulty": 4,
+    "stem": "A schema change will be applied to a production database during a maintenance window. Which TWO characteristics make the backout plan adequate? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "It has been rehearsed on a copy of the database, so the time and steps to return are known", "correct": true, "why": "A backout plan that has never been run is a hypothesis. Rehearsal turns it into a known duration and a known sequence."},
+      {"id": "b", "text": "It says to restore from the nightly backup, with no check of how long a restore takes", "misconception": "backup-parameters", "why": "An untested restore may not fit inside the window and loses everything written since the backup ran. It is a wish, not a plan."},
+      {"id": "c", "text": "It names a decision point after which the change is reversed if validation has not passed", "correct": true, "why": "Without a decision point, troubleshooting runs on until the window has gone and no time is left to reverse safely."},
+      {"id": "d", "text": "It is written by the approver after the change, once the outcome is known", "misconception": "change-roles", "why": "A backout plan exists before the change so that it can be judged during approval. Written afterwards it is a report."},
+      {"id": "e", "text": "It lists the vendor's support number as the way to recover if the change fails", "misconception": "change-management-elements", "why": "Calling a vendor is not a way back to the previous state. It may be useful, but it does not make a plan."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "ch2-104",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["maintenance-window", "downtime", "backout-plan"],
+    "difficulty": 4,
+    "stem": "A change needs about three hours of downtime to complete and validate. The only agreed window is Sunday 02:00 to 04:00. The engineer proposes starting at 02:00 and finishing by 05:00, because nobody uses the system overnight. The backout takes ninety minutes. What is the best response?",
+    "options": [
+      {"id": "a", "text": "Proceed as proposed, because downtime outside business hours does not need stakeholder agreement", "misconception": "change-management-elements", "why": "The window is an agreement with the stakeholders, not only a time with low traffic. Overrunning it breaks that agreement and may collide with other jobs."},
+      {"id": "b", "text": "Do not start as planned: size the window for the change, validation and backout, or agree an extension with stakeholders", "correct": true, "why": "A window sized only for the happy path leaves no time to reverse a failure before users return. Size it for the worst case that must still end cleanly."},
+      {"id": "c", "text": "Proceed, and request approval for the overrun afterwards if the change takes longer than expected", "misconception": "change-roles", "why": "Approval after the fact is not approval. It leaves the stakeholders to discover the outage and removes the choice to refuse it."},
+      {"id": "d", "text": "Proceed, but skip validation to fit in the window and validate after users return", "misconception": "change-technical-implications", "why": "Skipping validation removes the only check that tells the engineer whether to back out. It trades a planned outage for an unplanned one."}
+    ]
+  },
+  {
+    "id": "ch2-105",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["service-restart", "application-restart", "downtime"],
+    "difficulty": 3,
+    "stem": "One web service on a server hosts twelve applications. A configuration change affects only one of them. The engineer notes that the change takes effect after either restarting that application or restarting the whole web service. Which statement should the impact analysis make?",
+    "options": [
+      {"id": "a", "text": "Both options cause the same downtime, so the choice does not matter to the impact analysis", "misconception": "change-technical-implications", "why": "The scope of an interruption is part of the impact. Restarting the service stops every application it hosts, not just the one being changed."},
+      {"id": "b", "text": "Restarting the application is always acceptable without a window, because an application restart is not downtime", "misconception": "change-technical-implications", "why": "An application restart is still downtime for that application's users and for anything holding sessions to it. It is narrower, not free."},
+      {"id": "c", "text": "Restarting the application affects one application, restarting the service affects all twelve, so the narrower restart is preferred", "correct": true, "why": "Impact analysis should name what is interrupted. The smaller scope reduces who must be consulted and how long the window needs to be."},
+      {"id": "d", "text": "Restarting the service is safer, because a clean restart of everything removes any unexpected state", "misconception": "change-technical-implications", "why": "More restarted is more impact, not more safety. Eleven unrelated applications would be interrupted for a change that did not concern them."}
+    ]
+  },
+  {
+    "id": "ch2-106",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["version-control", "backout-plan", "approval-process"],
+    "difficulty": 4,
+    "stem": "Firewall configuration is kept in a repository and deployed from it each night. An engineer fixes an urgent fault by editing the live firewall directly, which opens a port. The next night's deployment overwrites the edit and the fault returns. Which practice would have prevented the problem?",
+    "options": [
+      {"id": "a", "text": "Make the repository the only route for changes, and alert on drift between a device and the repository", "correct": true, "why": "A change made outside the repository is invisible to the process that owns the configuration. Making the repository the only route, with drift detection, closes the gap."},
+      {"id": "b", "text": "Stopping the automated deployment so that only manual changes reach the device", "misconception": "automation-benefits-vs-risks", "why": "Automation was not the cause. A manual-only process is the one that allows an edit nobody else can see."},
+      {"id": "c", "text": "Updating the network diagram after each emergency edit to the firewall", "misconception": "change-documentation", "why": "A diagram describes the network, but it does not control what is deployed. It would document the drift, not prevent it."},
+      {"id": "d", "text": "Adding the engineer to the approving group, so that urgent edits are pre-approved", "misconception": "change-roles", "why": "Pre-approval of the person does not put the change in the repository, so the overwrite would happen anyway. It also weakens separation of roles."}
+    ]
+  },
+  {
+    "id": "ch2-107",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["allow-lists-deny-lists", "approval-process", "impact-analysis"],
+    "difficulty": 4,
+    "stem": "On the same day the change manager receives two requests: add a vendor's remote support tool to the endpoint application allow list for 3,000 laptops, and add a newly reported malicious domain to the web proxy deny list. Which statement best describes how they should be handled?",
+    "options": [
+      {"id": "a", "text": "Both should receive the same full review, because every list entry changes a production security control", "misconception": "change-management-elements", "why": "Treating a routine blocking entry like an expansion of what may run is how a process becomes too slow to use, and people then bypass it."},
+      {"id": "b", "text": "The allow list request needs closer review because it widens what may run; the deny list entry can follow a standard procedure", "correct": true, "why": "Adding to an allow list expands exposure and compatibility risk. Blocking a known-bad domain narrows it, so it suits a standard change with a record."},
+      {"id": "c", "text": "Neither needs a change record, because lists are data rather than configuration", "misconception": "change-technical-implications", "why": "A list entry decides what runs or is reachable. A wrong entry can break an application or open a path, so it is a change."},
+      {"id": "d", "text": "The deny list request needs the closer review, because blocking can cut off users, and allow lists only ever make things safer", "misconception": "allow-list-vs-deny-list", "why": "An allow list is a restriction on the default, but each entry is an exception to it and widens what is permitted."}
+    ]
+  },
+  {
+    "id": "ch2-108",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["approval-process", "impact-analysis", "dependencies"],
+    "difficulty": 5,
+    "stem": "A change was approved four months ago, but its schedule slipped. Since then another approved change replaced the load balancer in front of the target system. The engineer wants to proceed tonight under the original approval, saying nothing in the request has changed. What is the right action?",
+    "options": [
+      {"id": "a", "text": "Proceed, because an approved change stays approved until the change record is closed", "misconception": "change-management-elements", "why": "Approval is given for the system as it was assessed. When the system has changed, the analysis the approval rested on may no longer hold."},
+      {"id": "b", "text": "Proceed, and notify the stakeholders so that they are informed of the new date", "misconception": "change-roles", "why": "Stakeholders are consulted and informed, but they do not approve. Telling them does not renew an approval whose basis has moved."},
+      {"id": "c", "text": "Return it for a refreshed impact analysis that includes the new load balancer, and have the approver confirm before work starts", "correct": true, "why": "The load balancer changed the dependencies. A fresh analysis and a new approval keep the sequence of analysis, approval, then implementation."},
+      {"id": "d", "text": "Ask the system owner to confirm verbally that the old approval still stands", "misconception": "change-roles", "why": "The owner is accountable for the asset but is not the approving authority. A verbal confirmation also leaves no record."}
+    ]
+  },
+  {
+    "id": "ch2-109",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["dependencies", "impact-analysis", "maintenance-window"],
+    "difficulty": 4,
+    "stem": "On the same night two changes are applied. One migrates the internal DNS service to new servers and changes its addresses. The other renews the certificate on an application server that reaches its database by DNS name. Each change was approved and tested separately. The application fails after both are applied. Which element of change management was inadequate?",
+    "options": [
+      {"id": "a", "text": "The backout plan, because the second change should have been reversed", "misconception": "change-management-elements", "why": "A backout may well have been available, but the failure was not that a change could not be undone. It was that nobody saw the two interacting."},
+      {"id": "b", "text": "The standard operating procedure, because the certificate renewal should have been a standard change", "misconception": "change-management-elements", "why": "A standard change would have skipped analysis altogether, which makes it less likely that the interaction is noticed."},
+      {"id": "c", "text": "The stakeholder notification, because the application team was not told about either change", "misconception": "change-roles", "why": "Telling people helps them prepare, but it would not have exposed the dependency between two changes."},
+      {"id": "d", "text": "The impact analysis, because it examined each change alone and ignored dependencies between changes in the same window", "correct": true, "why": "Dependencies include other changes. A combined view of the change calendar for the window would have shown that one change alters what the other relies on."}
+    ]
+  },
+  {
+    "id": "ch2-110",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["legacy-applications", "test-results", "dependencies"],
+    "difficulty": 4,
+    "stem": "A change disables TLS 1.0 on all internal servers to meet a new standard. Lab test results show every modern application working. A finance application written years ago, which the vendor no longer supports, is not in the lab and is known to require TLS 1.0. What is the best next step?",
+    "options": [
+      {"id": "a", "text": "Proceed, because the test results show success and the standard requires the change", "misconception": "change-management-elements", "why": "The test results say nothing about an application that was not tested. The standard sets the goal but does not remove the need to know what will break."},
+      {"id": "b", "text": "Treat the legacy application as a known dependency, then test it or agree a recorded, time-limited exception before approving", "correct": true, "why": "A legacy system that cannot be updated is a known dependency that testing missed. It must be assessed and either protected or excepted in a way that is recorded."},
+      {"id": "c", "text": "Disable TLS 1.0 only on the servers the finance application does not use, and do not record the reason", "misconception": "change-documentation", "why": "Leaving it hidden means the exposure continues with no record, and the standard is silently not met."},
+      {"id": "d", "text": "Ask the finance team to approve the change, since they are the affected stakeholders", "misconception": "change-roles", "why": "Stakeholders are consulted, but their agreement does not tell anyone whether the application will work, and it does not create the missing test."}
+    ]
+  },
+  {
+    "id": "ch2-111",
+    "type": "mcq-multi",
+    "objective": "1.3",
+    "topics": ["updating-diagrams", "version-control", "updating-policies-procedures"],
+    "difficulty": 3,
+    "stem": "A new subnet is added for IoT cameras, with its own firewall rules, and the change is working. Which TWO items must be updated to complete the change? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "The network diagram, so responders can see the new segment and what it may reach", "correct": true, "why": "A diagram that does not show the new subnet misleads anyone using it during an incident."},
+      {"id": "b", "text": "The previous year's audit report, so that it reflects the new subnet", "misconception": "change-documentation", "why": "An audit report records a past finding. It is not changed because the environment changed later."},
+      {"id": "c", "text": "The configuration repository, so the committed firewall rules match what is running", "correct": true, "why": "If the repository and the device disagree, the next deployment can undo the change or the next engineer can be misled."},
+      {"id": "d", "text": "The vendor's marketing material for the cameras", "misconception": "change-documentation", "why": "Not part of the organization's change record, and it plays no role in operating or securing the network."},
+      {"id": "e", "text": "The approver's job description, so that it lists the new subnet", "misconception": "change-roles", "why": "Approval roles are defined in the process, not in a list of subnets. This confuses who approves with what was changed."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "ch2-112",
+    "type": "mcq",
+    "objective": "1.3",
+    "topics": ["backout-plan", "maintenance-window", "restricted-activities"],
+    "difficulty": 5,
+    "stem": "During a firewall upgrade the engineer finds that 80 percent of validation tests pass, but the VPN does not. The approved plan says to back out at 03:30 if validation has not passed. It is 03:20, and the engineer believes thirty more minutes of troubleshooting will fix it. The window closes at 04:00. What should the engineer do?",
+    "options": [
+      {"id": "a", "text": "Keep troubleshooting to 04:00, because most of the change works and backing out would waste the effort", "misconception": "change-management-elements", "why": "Sunk effort is not a reason to continue. The decision point was set to protect the window while there was still time to reverse safely."},
+      {"id": "b", "text": "Stop at the decision point and back out, unless the approver agrees to change the plan", "correct": true, "why": "The plan exists to take this decision out of the moment. Extending it is a change to the approved plan and belongs to the approver, not the implementer."},
+      {"id": "c", "text": "Apply a different fix the engineer thinks is more likely to work, since the firewall is already open for changes", "misconception": "change-technical-implications", "why": "Any step outside the approved scope is a restricted activity. Being in the window does not widen what was authorized."},
+      {"id": "d", "text": "Continue and tell the stakeholders that the VPN is delayed, since they are the ones who will be affected", "misconception": "change-roles", "why": "Informing stakeholders is right, but it does not give the implementer the authority to overrun the plan. The approver decides that."}
+    ]
   }
 ]

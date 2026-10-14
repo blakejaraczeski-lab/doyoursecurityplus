@@ -250,5 +250,121 @@
       {"id": "c", "text": "Default credentials; change the speakerphones' administrator passwords", "misconception": "unsecure-network-vectors", "why": "No password was used. The devices accept a pairing without asking for anything, so a new password changes nothing."},
       {"id": "d", "text": "Bluetooth; make the devices non-discoverable and require confirmation for every pairing", "correct": true, "why": "The opening is a short-range radio accepting strangers. The control that closes exactly that opening is on the pairing itself."}
     ]
+  },
+  {
+    "id": "th2-101",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["client-based-vs-agentless"],
+    "difficulty": 3,
+    "stem": "A vulnerability team must assess office printers, building controllers and short lived cloud workloads. None can run an agent. Which approach fits, and what is the trade?",
+    "options": [
+      {"id": "a", "text": "An agent on every system, accepting the install effort", "misconception": "threat-vector-families", "why": "Agent based scanning needs software on the target, which these cannot take."},
+      {"id": "b", "text": "A local scan run by each end user", "misconception": "threat-vector-families", "why": "It depends on a person and on software these devices cannot run."},
+      {"id": "c", "text": "Agentless scanning over the network, accepting less depth than an agent gives", "correct": true, "why": "Agentless scanning needs nothing on the target and reaches devices that cannot run software. It sees less detail from the inside."},
+      {"id": "d", "text": "No scanning, because unmanaged devices are not part of the attack surface", "misconception": "unsecure-network-vectors", "why": "Devices that cannot be managed are exactly the exposed surface an attacker finds."}
+    ]
+  },
+  {
+    "id": "th2-102",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["voice-call", "vishing", "impersonation"],
+    "difficulty": 3,
+    "stem": "A finance clerk takes a call from someone who sounds exactly like the chief executive, asking for an urgent supplier payment. The voice was cloned from public interviews. Which threat vector and attack is this, and what is the best control?",
+    "options": [
+      {"id": "a", "text": "Vishing with impersonation; verify through a separately known call back number and require approval", "correct": true, "why": "The vector is a voice call and the attack impersonates a trusted person. A callback to a number you already hold breaks the attacker's control of the channel."},
+      {"id": "b", "text": "Smishing, controlled by blocking suspicious text messages at the carrier", "misconception": "phishing-variants", "why": "Smishing uses text messages. This arrived as a voice call."},
+      {"id": "c", "text": "Phishing, controlled by a stricter email filter on the finance mailboxes", "misconception": "phishing-variants", "why": "There was no email. The filter would never see this call."},
+      {"id": "d", "text": "A watering hole attack, controlled by stricter web filtering for finance", "misconception": "threat-vector-families", "why": "A watering hole is a compromised site the targets visit. Nothing here involved a website."}
+    ]
+  },
+  {
+    "id": "th2-103",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["business-email-compromise", "impersonation", "vendors"],
+    "difficulty": 4,
+    "stem": "Accounts payable receives an invoice with new bank details inside an existing email thread. It comes from the vendor's real address and passes every email authentication check. The vendor later confirms that an attacker had been reading its mailbox. How should the vector be described?",
+    "options": [
+      {"id": "a", "text": "Typosquatting, because the sender address was altered by one character", "misconception": "misinformation-vs-disinformation", "why": "The address was not altered. It was the vendor's genuine mailbox, which is why authentication passed."},
+      {"id": "b", "text": "Brand impersonation using a lookalike domain registered by the attacker", "misconception": "misinformation-vs-disinformation", "why": "No lookalike domain was used. The attacker used a real account."},
+      {"id": "c", "text": "A spoofed sender, which SPF and DKIM checks would have blocked outright", "misconception": "email-authentication-stack", "why": "Spoofing is what authentication catches. A genuine compromised mailbox passes it."},
+      {"id": "d", "text": "Business email compromise through a compromised vendor mailbox, which authentication cannot detect", "correct": true, "why": "The message was genuine in every technical respect and the abuse sat in the vendor's mailbox. Detection depends on process, such as confirming bank detail changes out of band."}
+    ]
+  },
+  {
+    "id": "th2-104",
+    "type": "mcq-multi",
+    "objective": "2.2",
+    "topics": ["open-service-ports", "default-credentials"],
+    "difficulty": 3,
+    "stem": "A scan of a production network finds Telnet and an unused FTP service listening on several servers, and a network camera that still accepts its vendor default login. Which TWO actions most directly reduce the attack surface? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Disable unused services and close the ports they listen on", "correct": true, "why": "A service that does not run cannot be attacked. Closing the port removes the opening."},
+      {"id": "b", "text": "Deploy a stricter email filter", "misconception": "unsecure-network-vectors", "why": "Email filtering does not touch listening services or device logins."},
+      {"id": "c", "text": "Change the default credentials on the camera before it is placed in service", "correct": true, "why": "Shipped credentials are published in the vendor's manual, so they are the first thing an attacker tries."},
+      {"id": "d", "text": "Require a longer password for staff mailboxes", "misconception": "unsecure-network-vectors", "why": "This is a sound control for another problem. It does not close an open port or a default login."},
+      {"id": "e", "text": "Install antivirus on the camera", "misconception": "unsecure-network-vectors", "why": "The camera cannot usually run it, and antivirus does not fix a known default login."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "th2-105",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["image-based", "phishing"],
+    "difficulty": 4,
+    "stem": "Posters in a company lobby carry a QR code that says 'scan to claim your parking permit'. It opens a page that asks for staff network credentials. Which threat vector is this, and why do email filters miss it?",
+    "options": [
+      {"id": "a", "text": "Smishing, because the code is scanned on a phone and leads to a web page", "misconception": "phishing-variants", "why": "Smishing arrives as a text message. This arrives through a printed image."},
+      {"id": "b", "text": "A watering hole attack, because staff gather in the lobby where the poster hangs", "misconception": "threat-vector-families", "why": "A watering hole is a compromised site. This is a poster that leads to an attacker's page."},
+      {"id": "c", "text": "An image based vector: the lure is a picture of a code, so no text filter ever sees the address", "correct": true, "why": "The link hides in the picture, so text scanning sees nothing, and the poster is outside the mail path altogether."},
+      {"id": "d", "text": "Vishing, because staff are tricked by someone posing as an authority", "misconception": "phishing-variants", "why": "Vishing is a voice call. No call was made."}
+    ]
+  },
+  {
+    "id": "th2-106",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["pretexting"],
+    "difficulty": 3,
+    "stem": "Over three phone calls, a caller claims to be an auditor from the company's insurer, describes a plausible review in progress, and then asks the receptionist for a visitor badge and the server room schedule. What is this?",
+    "options": [
+      {"id": "a", "text": "Smishing, a fraudulent text message that tricks the target into clicking", "misconception": "phishing-variants", "why": "There are no text messages. The contact is by voice."},
+      {"id": "b", "text": "Pretexting, a built and consistent false scenario used to get access or information", "correct": true, "why": "The attacker invents a believable role and story and builds trust over several contacts before the request."},
+      {"id": "c", "text": "A watering hole attack, a website the targets visit that has been compromised", "misconception": "threat-vector-families", "why": "No website was compromised. The caller works through people."},
+      {"id": "d", "text": "Typosquatting, a lookalike address that catches mistyped domains", "misconception": "misinformation-vs-disinformation", "why": "No lookalike address is involved."}
+    ]
+  },
+  {
+    "id": "th2-107",
+    "type": "mcq-multi",
+    "objective": "2.2",
+    "topics": ["unsupported-systems-and-applications"],
+    "difficulty": 3,
+    "stem": "A plant relies on a controller running an operating system whose vendor ended support three years ago. Which TWO statements explain why it is a threat vector? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Newly found vulnerabilities in it will not receive a vendor fix", "correct": true, "why": "Once support ends, every new flaw stays open for the life of the system."},
+      {"id": "b", "text": "Old systems cannot be placed on a network segment", "misconception": "unsecure-network-vectors", "why": "They can be segmented, and that is the usual compensating control."},
+      {"id": "c", "text": "Public exploit code for its known flaws can be reused against it for years", "correct": true, "why": "Known and unfixed weaknesses have working attacks published, so the cost to the attacker falls."},
+      {"id": "d", "text": "Vendors always extend support to any customer who pays for it", "misconception": "unsecure-network-vectors", "why": "Extended support is not guaranteed, and not available for every product."},
+      {"id": "e", "text": "Unsupported software is safe so long as it is never updated", "misconception": "unsecure-network-vectors", "why": "Not updating is exactly what leaves it open."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "th2-108",
+    "type": "mcq",
+    "objective": "2.2",
+    "topics": ["instant-messaging", "impersonation"],
+    "difficulty": 3,
+    "stem": "An employee receives a message in the company chat tool from an external account named 'IT Helpdesk', asking them to approve a sign in prompt that has just appeared on their phone. Which vector and attack are these?",
+    "options": [
+      {"id": "a", "text": "Smishing, a fraudulent text message sent to the employee's phone", "misconception": "phishing-variants", "why": "This is a chat tool, not a text message."},
+      {"id": "b", "text": "A voice call vector, where the caller impersonates the help desk", "misconception": "threat-vector-families", "why": "No call is made."},
+      {"id": "c", "text": "A removable device vector, through an infected drive left in the office", "misconception": "threat-vector-families", "why": "No device is involved. The contact is a message."},
+      {"id": "d", "text": "Instant messaging as the vector, with impersonation of the help desk", "correct": true, "why": "The route is a chat message and the lie is the borrowed identity of a trusted function."}
+    ]
   }
 ]

@@ -182,5 +182,177 @@
       {"id": "e", "text": "Non-human-readable formats do not require encryption", "misconception": "obfuscation-methods", "why": "Format is not protection. The values are still there and still parseable."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "rs2-101",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["tokenization-2", "regulated-data", "financial-information"],
+    "difficulty": 4,
+    "stem": "A retailer wants its analytics team to work with order records without ever holding real card numbers. The payment system must still be able to retrieve the real number later for refunds. Which technique fits?",
+    "options": [
+      {"id": "a", "text": "Hashing the card number, so the analytics team holds a fixed-length value", "misconception": "hashing-vs-encryption", "why": "A hash cannot be reversed, so the payment system could never retrieve the number for a refund."},
+      {"id": "b", "text": "Masking the card number, replacing all but the last four digits", "misconception": "obfuscation-methods", "why": "Masking hides digits in what is shown or stored. The original cannot be retrieved from a masked copy, so refunds would fail."},
+      {"id": "c", "text": "Encrypting the card number with a key that the analytics team holds", "misconception": "key-management-essentials", "why": "The analytics team would be able to turn the ciphertext back into the real number, which is what the requirement forbids."},
+      {"id": "d", "text": "Tokenization: replace the number with a random token and keep the real one in a separate vault", "correct": true, "why": "A token has no mathematical relationship to the original. Only the vault can map it back, so analytics works with tokens and the payment system can still retrieve the real value."}
+    ]
+  },
+  {
+    "id": "rs2-102",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["masking", "private", "permission-restrictions"],
+    "difficulty": 3,
+    "stem": "Support agents must see the last four digits of a card number to confirm a caller's identity, but never the full number. The database must keep the full number for billing. Which approach meets this?",
+    "options": [
+      {"id": "a", "text": "Mask the number when it is displayed to agents, showing only the last four digits", "correct": true, "why": "Masking changes what is presented without changing what is stored, which is what the requirement asks."},
+      {"id": "b", "text": "Hash the stored number, so that agents can compare it with what the caller says", "misconception": "hashing-vs-encryption", "why": "Hashing the stored number would remove the full number that billing needs, and agents could not see even the last four digits."},
+      {"id": "c", "text": "Enable full disk encryption on the database server", "misconception": "encryption-scope-levels", "why": "Full disk encryption protects a stopped or stolen server. It does nothing about what an authorized agent sees on screen."},
+      {"id": "d", "text": "Rename the field in the database so that agents do not recognize it", "misconception": "obfuscation-methods", "why": "Obscuring a label is not a control. Anyone who runs the query still sees the number."}
+    ]
+  },
+  {
+    "id": "rs2-103",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["data-in-transit", "data-at-rest", "encryption-2"],
+    "difficulty": 3,
+    "stem": "A company encrypts its database storage and its backups. It replicates the database between two data centers over a leased line without encryption, reasoning that the line is private. A carrier technician later taps the line. Which data state was left exposed, and what addresses it?",
+    "options": [
+      {"id": "a", "text": "Data at rest, which is addressed by encrypting the leased line", "misconception": "data-states", "why": "The stored data was already encrypted. The exposure was while it moved between sites."},
+      {"id": "b", "text": "Data in transit, addressed by encrypting the replication traffic, for example with TLS or IPsec", "correct": true, "why": "Encryption at rest does nothing for data on the wire. A line owned by someone else is not controlled by the company, so the traffic itself needs protection."},
+      {"id": "c", "text": "Data in use, which is addressed by moving the database into a secure enclave", "misconception": "data-states", "why": "Data in use is data being processed in memory. The exposure here was on a network link."},
+      {"id": "d", "text": "Nothing was exposed, because the leased line is not part of the public internet", "misconception": "data-states", "why": "A private line is still a path owned and maintained by someone else. A person with access to it can read unencrypted traffic."}
+    ]
+  },
+  {
+    "id": "rs2-104",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["public", "private", "confidential", "restricted"],
+    "difficulty": 3,
+    "stem": "A company uses four labels: public, private, confidential and restricted, in increasing order of harm if disclosed. Which assignment of these four documents is the most defensible: the published annual report, the internal staff phone directory, the salary bands held by HR, and the draft plan for acquiring a competitor known to five executives?",
+    "options": [
+      {"id": "a", "text": "Annual report is public, phone directory is private, salary bands are confidential and the acquisition plan is restricted", "correct": true, "why": "The audience and the harm both climb: open to all, for staff only, limited to HR, and limited to a few where disclosure would be most damaging."},
+      {"id": "b", "text": "Annual report is private, phone directory is public, salary bands are restricted and the acquisition plan is confidential", "misconception": "data-classification-levels", "why": "A published report is already public, and a staff directory is for staff only. The labels have been swapped."},
+      {"id": "c", "text": "Annual report is public, phone directory is confidential, salary bands are private and the acquisition plan is restricted", "misconception": "data-classification-levels", "why": "A phone directory does not carry enough harm to be confidential, and salary data deserves more care than a directory."},
+      {"id": "d", "text": "Every document is regulated, because each is described by a regulation as a data type", "misconception": "data-type-vs-classification", "why": "Regulated is a type that depends on law. Labels such as these are a handling level that the organization chooses."}
+    ]
+  },
+  {
+    "id": "rs2-105",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["data-sovereignty", "geographic-restrictions", "encryption-2"],
+    "difficulty": 5,
+    "stem": "A company must keep records about residents of one country inside that country. Its cloud storage service replicates data to a second region for resilience by default. The security team proposes encrypting the data with a key the company controls. Which statement is correct?",
+    "options": [
+      {"id": "a", "text": "Encryption with its own key satisfies the requirement, because the data cannot be read in the other region", "misconception": "sovereignty-and-geographic-controls", "why": "Residency concerns where the data is stored and processed. Encrypted data in another country is still stored there, and the requirement is not met."},
+      {"id": "b", "text": "The requirement is met automatically, because the primary region is in the right country", "misconception": "sovereignty-and-geographic-controls", "why": "The replica is also stored. Where the service copies data by default is part of the obligation."},
+      {"id": "c", "text": "The company should block logins from outside the country, because that is the control for data sovereignty", "misconception": "sovereignty-and-geographic-controls", "why": "Blocking logins limits who connects, not where the service writes copies. The replication is performed by the service itself."},
+      {"id": "d", "text": "The control must limit where the service may keep copies, such as approved regions only, and be verified", "correct": true, "why": "Sovereignty is an obligation about location. The control that enforces it must act on where data is stored, at the layer that does the replicating."}
+    ]
+  },
+  {
+    "id": "rs2-106",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["hashing-2", "legal-information", "human-and-non-human-readable"],
+    "difficulty": 3,
+    "stem": "A law firm exports case files for a trial. Two years from now it must show the court that the files are exactly as exported. Which action, taken at export, best supports this?",
+    "options": [
+      {"id": "a", "text": "Encrypt the files and store the key with them", "misconception": "hashing-vs-encryption", "why": "Encryption keeps the contents secret, but an encrypted file that has been altered and re-encrypted would also open. It does not show that the contents are unchanged."},
+      {"id": "b", "text": "Base64-encode the files so that they cannot be read by accident", "misconception": "obfuscation-methods", "why": "Base64 is an encoding that anyone can reverse. It neither protects the files nor proves they are unaltered."},
+      {"id": "c", "text": "Compute a cryptographic hash of each file and record the values separately from the files", "correct": true, "why": "A hash changes if any bit of the file changes, so a matching value later shows the content is unaltered. Storing it apart makes it harder to change both."},
+      {"id": "d", "text": "Mask the personal names in the files before storing them", "misconception": "obfuscation-methods", "why": "Masking changes the content. It would make the files differ from what was exported."}
+    ]
+  },
+  {
+    "id": "rs2-107",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["masking", "tokenization-2", "obfuscation"],
+    "difficulty": 5,
+    "stem": "Developers need realistic customer data in a test environment, but regulated production data must not leave production. There is no business reason to ever recover the real values from the test copy. Which approach is the best fit?",
+    "options": [
+      {"id": "a", "text": "Tokenization, with the vault available to developers so that they can look up real values when needed", "misconception": "obfuscation-methods", "why": "Giving developers the vault lets them recover the real data, which defeats the aim. Reversibility is a cost here, not a feature."},
+      {"id": "b", "text": "Static masking: a copy with sensitive fields replaced by realistic fictitious values", "correct": true, "why": "The requirement is realistic data with no way back. A masked copy contains no regulated data, so the test environment falls outside its scope."},
+      {"id": "c", "text": "Encrypt the copy and give developers the key to it for troubleshooting", "misconception": "encryption-scope-levels", "why": "Developers could decrypt the real values, which keeps regulated data in the test environment."},
+      {"id": "d", "text": "Base64-encode the sensitive fields in the copy so they are not readable at a glance", "misconception": "obfuscation-methods", "why": "Base64 is reversible by anyone and is not a protection. The real values are still in the test environment."}
+    ]
+  },
+  {
+    "id": "rs2-108",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["segmentation-2", "permission-restrictions", "regulated-data"],
+    "difficulty": 4,
+    "stem": "A database of regulated records sits on its own network segment that only the application tier can reach. A developer who has administrator rights on the application server runs a query and reads the records. What gap does this show?",
+    "options": [
+      {"id": "a", "text": "Segmentation was adequate, so the fault lies with full disk encryption, which should have blocked the read", "misconception": "encryption-scope-levels", "why": "Disk encryption does not stop an authorized path from reading. The data was served through a legitimate route."},
+      {"id": "b", "text": "Segmentation limits the network path, so permission restrictions are also needed for what an account may read", "correct": true, "why": "The segment controls who can reach the database. Least privilege on the accounts that can reach it decides what they may read."},
+      {"id": "c", "text": "The segment should have been an air gap, because an isolated network cannot be read by anyone on it", "misconception": "air-gap-vs-logical-segmentation", "why": "An air gap means no connection at all, and the application tier needs one. The gap is about permissions on a path that is needed."},
+      {"id": "d", "text": "There is no gap: administrators are trusted to read any data on their servers", "misconception": "least-privilege-vs-permissions", "why": "Administrator rights on a server do not entitle anyone to read all regulated data. Access should be limited to what the job requires."}
+    ]
+  },
+  {
+    "id": "rs2-109",
+    "type": "mcq-multi",
+    "objective": "3.3",
+    "topics": ["masking", "tokenization-2", "hashing-2"],
+    "difficulty": 4,
+    "stem": "Which TWO statements about masking, tokenization and hashing are correct? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "A token has no mathematical link to the original, which is recovered only by a vault lookup", "correct": true, "why": "That is what makes tokens useful where the real value must come back only through a controlled system."},
+      {"id": "b", "text": "A token is produced by encrypting the original, so anyone who holds the key can derive it", "misconception": "hashing-vs-encryption", "why": "That describes ciphertext. A token is not derived from the original by calculation."},
+      {"id": "c", "text": "Masking replaces part of a value, and the hidden part cannot be recovered from the masked copy", "correct": true, "why": "Masking hides content in what is shown or stored. Once masked, the original is not in that copy."},
+      {"id": "d", "text": "Hashing is the right choice whenever the system must later return the original value", "misconception": "hashing-vs-encryption", "why": "A hash is one way. If the original must come back, hashing cannot supply it."},
+      {"id": "e", "text": "Masked values can be restored by anyone who holds the masking key", "misconception": "obfuscation-methods", "why": "Masking uses no key to restore. The original is gone from the masked copy."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "rs2-110",
+    "type": "mcq-multi",
+    "objective": "3.3",
+    "topics": ["legal-information", "financial-information", "restricted"],
+    "difficulty": 3,
+    "stem": "A draft merger agreement contains legal terms and the valuation of the target company. Which TWO terms describe the data TYPE? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Legal information", "correct": true, "why": "It is a contract and legal terms, which is a data type."},
+      {"id": "b", "text": "Restricted", "misconception": "data-type-vs-classification", "why": "Restricted is a classification, which is a handling level an organization assigns. It is not a type of data."},
+      {"id": "c", "text": "Financial information", "correct": true, "why": "It contains a valuation and deal terms, which is financial data."},
+      {"id": "d", "text": "Public", "misconception": "data-classification-levels", "why": "Public is also a classification, and a draft merger agreement would not be open to all."},
+      {"id": "e", "text": "Non-human-readable", "misconception": "data-type-vs-classification", "why": "Non-human-readable is a format term, and this draft is meant to be read by people, so it does not describe it. It also says nothing about what the data is."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "rs2-111",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["data-at-rest", "data-in-use", "encryption-2"],
+    "difficulty": 4,
+    "stem": "Analysts on bank laptops with full disk encryption enabled keep decrypted extracts on their local drives. Malware running in an analyst's logged-in session copies the extracts. Why did full disk encryption not help?",
+    "options": [
+      {"id": "a", "text": "The encryption algorithm was too weak to resist the attacker who copied the files", "misconception": "key-management-essentials", "why": "Strength of the algorithm was not involved. The malware never had to break it."},
+      {"id": "b", "text": "Full disk encryption was not actually switched on for those particular laptops", "misconception": "encryption-scope-levels", "why": "The scenario says it was enabled. It worked as designed, which is the point."},
+      {"id": "c", "text": "Disk encryption is transparent to a process running as the logged-in user, so it only protects a stolen or powered-off device", "correct": true, "why": "Once the user has logged in, the system decrypts files for any process running as that user. Protecting data from such a process needs other controls."},
+      {"id": "d", "text": "The extracts were data in transit, which disk encryption does not cover", "misconception": "data-states", "why": "The extracts were stored on the drive. They were at rest, and read by a process on the same machine."}
+    ]
+  },
+  {
+    "id": "rs2-112",
+    "type": "mcq",
+    "objective": "3.3",
+    "topics": ["regulated-data", "confidential", "sensitive"],
+    "difficulty": 4,
+    "stem": "A data owner has labeled a dataset confidential, the second-highest of the organization's levels. A review finds that it includes health fields that a regulation says must be protected to a stricter standard than the confidential handling rules require. What is the best next step?",
+    "options": [
+      {"id": "a", "text": "Leave the label, because classification is the organization's choice and the regulation is a separate matter", "misconception": "data-type-vs-classification", "why": "Type and classification are separate ideas, but they interact. A regulation sets a minimum that the handling must meet, whatever the label says."},
+      {"id": "b", "text": "Raise handling to at least what the regulation requires, and have the owner reclassify the dataset to match", "correct": true, "why": "Regulation sets a floor. The label and handling must reflect it, and the owner is accountable for making the label correct."},
+      {"id": "c", "text": "Downgrade the dataset to private, because regulated data is the responsibility of the regulator", "misconception": "data-classification-levels", "why": "A regulator enforces rules and does not hold the data. The organization must protect it, and a lower label would weaken protection."},
+      {"id": "d", "text": "Remove the health fields from every report without telling anyone, to avoid the question of classification", "misconception": "data-classification-levels", "why": "Hiding the problem does not address the handling of data already held. The owner should know and the handling should change."}
+    ]
   }
 ]

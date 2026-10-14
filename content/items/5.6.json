@@ -210,5 +210,191 @@
       {"id": "c", "text": "Password management", "misconception": "awareness-program-elements", "why": "Unrelated to the behaviour described."},
       {"id": "d", "text": "Hybrid and remote work", "misconception": "awareness-program-elements", "why": "That topic covers the different assumptions of working away from the office, such as home networks. It does not describe challenging an unknown person at a door."}
     ]
+  },
+  {
+    "id": "sa2-101",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["recognizing-a-phishing-attempt", "social-engineering-awareness"],
+    "difficulty": 4,
+    "stem": "An accounts payable clerk receives an email that appears to be from the CEO, sent from a lookalike domain with one transposed letter, asking for an urgent transfer to a new supplier and to keep it confidential. Which awareness practice gives the clerk the best chance of stopping this?",
+    "options": [
+      {"id": "a", "text": "Reply to the email asking the sender to confirm the request", "misconception": "awareness-topic-coverage", "why": "The reply goes to the attacker. Confirmation has to come over a different, known channel."},
+      {"id": "b", "text": "Verify the request through a separate known channel and check the sender's actual domain before acting", "correct": true, "why": "Urgency, secrecy and a changed payee are the recognized signs. Confirming outside the email thread defeats the impersonation."},
+      {"id": "c", "text": "Complete the transfer because the CEO's name is displayed correctly", "misconception": "awareness-topic-coverage", "why": "A display name proves nothing. The domain behind it is what to inspect."},
+      {"id": "d", "text": "Wait for the spam filter to quarantine the message", "misconception": "awareness-program-elements", "why": "A filter that already delivered the message is not going to catch it afterwards, and people are the last control for this attack."}
+    ]
+  },
+  {
+    "id": "sa2-102",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["responding-to-reported-suspicious-messages", "initial-reporting"],
+    "difficulty": 4,
+    "stem": "A user reports a message and the analyst confirms it is a credential phishing email that went to 300 mailboxes. What should happen next, beyond thanking the reporter?",
+    "options": [
+      {"id": "a", "text": "Ask the reporter to warn colleagues by forwarding the original email", "misconception": "awareness-program-elements", "why": "Forwarding the live message spreads it. The security team removes it centrally."},
+      {"id": "b", "text": "Wait to see whether anyone else reports it", "misconception": "awareness-program-elements", "why": "Waiting leaves 299 mailboxes exposed. A confirmed report justifies immediate removal."},
+      {"id": "c", "text": "Discipline anyone who opened the message", "misconception": "awareness-program-elements", "why": "Punishing people who interact discourages reporting, which is the signal the team most needs."},
+      {"id": "d", "text": "Remove the message from every mailbox, block the sender and link, and check who clicked or entered credentials", "correct": true, "why": "A confirmed campaign has to be contained across all recipients, then the people who interacted need follow up such as password resets."}
+    ]
+  },
+  {
+    "id": "sa2-103",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["phishing-campaigns", "recurring-reporting"],
+    "difficulty": 5,
+    "stem": "Last quarter's simulation had a 15 percent click rate. This quarter the team used templates with obvious spelling errors and the rate fell to 5 percent, and leadership calls it a success. What is the problem with the comparison?",
+    "options": [
+      {"id": "a", "text": "The templates were easier to spot, so the two results measure different things and show no real improvement", "correct": true, "why": "A fair trend uses comparable difficulty. A drop caused by easier bait says nothing about behavior."},
+      {"id": "b", "text": "Click rates can never be compared from one quarter to the next", "misconception": "awareness-program-elements", "why": "They can, provided the difficulty and the audience are comparable. Here the templates changed."},
+      {"id": "c", "text": "Too few people clicked for the two quarters to be compared", "misconception": "awareness-program-elements", "why": "The same population was tested both times. The comparison fails because the bait changed, not because of the number of clicks."},
+      {"id": "d", "text": "Simulations should be abandoned once clicks fall", "misconception": "awareness-program-elements", "why": "Recurring simulations keep the skill alive and are part of the program, whatever the click rate is."}
+    ]
+  },
+  {
+    "id": "sa2-104",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["unexpected-behavior", "responding-to-reported-suspicious-messages"],
+    "difficulty": 4,
+    "stem": "At 2 a.m. a user's phone shows a stream of MFA approval prompts for an account they are not signing in to. Which awareness lesson applies, and what should the user do?",
+    "options": [
+      {"id": "a", "text": "Approve one prompt so the prompts stop", "misconception": "awareness-topic-coverage", "why": "Approving gives the attacker a session. The prompts are the attack."},
+      {"id": "b", "text": "Ignore them until the morning because MFA will block the attacker", "misconception": "awareness-topic-coverage", "why": "MFA only blocks the attacker if the user does not approve. The password is already exposed and needs prompt action."},
+      {"id": "c", "text": "Never approve a prompt you did not start, and report it immediately because someone else has the password", "correct": true, "why": "Repeated unexpected prompts mean the password is already compromised and the attacker is hoping for a tired approval."},
+      {"id": "d", "text": "Uninstall the authenticator app to stop the notifications", "misconception": "awareness-topic-coverage", "why": "This removes the user's own second factor and fixes nothing about the stolen password."}
+    ]
+  },
+  {
+    "id": "sa2-105",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["hybrid-remote-work-environments", "risky-behavior"],
+    "difficulty": 3,
+    "stem": "A remote employee lets a family member use the company laptop to join an online class. Which concern does awareness training most directly address here?",
+    "options": [
+      {"id": "a", "text": "Work devices are for authorized users only, and shared use puts company data and accountability at risk", "correct": true, "why": "Remote working blurs the line between home and work devices, so awareness has to state who may use what."},
+      {"id": "b", "text": "Family use is fine as long as the employee stays signed out of work accounts", "misconception": "awareness-topic-coverage", "why": "Signing out does not stop access to files stored on the device or to installed software, and it does nothing for accountability for how the device is used."},
+      {"id": "c", "text": "The company VPN will protect company data whoever is using the device", "misconception": "awareness-program-elements", "why": "A VPN protects traffic in transit. It does not stop another person reading files on the device or installing software."},
+      {"id": "d", "text": "Only personal laptops need usage rules, since company devices are managed by IT", "misconception": "awareness-topic-coverage", "why": "Management tools do not control who is sitting at the keyboard. Awareness training covers how people use work devices."}
+    ]
+  },
+  {
+    "id": "sa2-106",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["insider-threat-awareness", "initial-reporting"],
+    "difficulty": 4,
+    "stem": "A colleague notices a teammate repeatedly opening project folders unrelated to their role late in the evening, after voicing anger about a pending layoff. What should the colleague do?",
+    "options": [
+      {"id": "a", "text": "Confront the teammate directly and ask what they are doing", "misconception": "awareness-topic-coverage", "why": "Confronting a possible insider alerts them and puts the colleague at risk. The report channel exists for this."},
+      {"id": "b", "text": "Report the observation through the established channel and let security and HR assess it, without confronting the teammate", "correct": true, "why": "Awareness covers recognizing insider risk indicators and reporting them. Judging intent belongs to the people equipped to investigate."},
+      {"id": "c", "text": "Say nothing, because it is probably just gossip", "misconception": "awareness-topic-coverage", "why": "Unusual access combined with a grievance is the sort of pattern the training asks people to report."},
+      {"id": "d", "text": "Check the teammate's computer to gather proof first", "misconception": "awareness-topic-coverage", "why": "Collecting evidence is not the colleague's role and may break policy and law."}
+    ]
+  },
+  {
+    "id": "sa2-107",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["password-management", "user-guidance-and-training"],
+    "difficulty": 3,
+    "stem": "A staff member asks why a password manager is better than choosing one memorable complex password for every site. What is the strongest answer?",
+    "options": [
+      {"id": "a", "text": "Complex passwords cannot be stolen in a breach", "misconception": "awareness-topic-coverage", "why": "A site breach exposes whatever the site stores, however complex the password."},
+      {"id": "b", "text": "A password manager removes the need for multi-factor authentication", "misconception": "awareness-topic-coverage", "why": "A manager and MFA do different jobs. MFA is still recommended."},
+      {"id": "c", "text": "When any one site is breached, a unique password for each account means the other accounts stay safe", "correct": true, "why": "Password reuse is the habit that lets one breach become many. A manager makes unique passwords practical."},
+      {"id": "d", "text": "Reusing a password is safe if it is longer than 14 characters", "misconception": "awareness-topic-coverage", "why": "Length does not help once a site stores or leaks the password. If it is reused, the other accounts fall with it."}
+    ]
+  },
+  {
+    "id": "sa2-108",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["removable-media-and-cables", "situational-awareness"],
+    "difficulty": 3,
+    "stem": "An employee finds a USB drive in the parking lot labeled Payroll Q4. What does security awareness training tell them to do?",
+    "options": [
+      {"id": "a", "text": "Plug it into a work laptop to identify the owner", "misconception": "awareness-topic-coverage", "why": "Plugging it in is how the payload runs. Identifying the owner is the security team's job."},
+      {"id": "b", "text": "Plug it into a personal computer so the work network is safe", "misconception": "awareness-topic-coverage", "why": "A personal computer can be infected and then be used to reach work accounts. The drive stays out of every computer."},
+      {"id": "c", "text": "Leave it where it was found", "misconception": "awareness-program-elements", "why": "Leaving it means someone else may plug it in. Handing it to security removes it safely."},
+      {"id": "d", "text": "Not plug it in, and hand it to the security team", "correct": true, "why": "A dropped drive is a classic attack. Curiosity is exactly what the attacker is counting on."}
+    ]
+  },
+  {
+    "id": "sa2-109",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["operational-security", "situational-awareness"],
+    "difficulty": 4,
+    "stem": "A recording of a video call was posted to a public channel. Behind the presenter, a whiteboard shows a network diagram with IP ranges and device names. What should the organization do first?",
+    "options": [
+      {"id": "a", "text": "Remove the recording and treat what it showed as disclosed", "correct": true, "why": "Operational security is about limiting what an adversary can learn. Once information is public, take down the source and assume it is known, then review what it would let an attacker plan."},
+      {"id": "b", "text": "Leave it up, since the diagram is probably out of date", "misconception": "awareness-topic-coverage", "why": "Network layouts change slowly, copies may already exist, and the cost of checking is low."},
+      {"id": "c", "text": "Reset every employee's password", "misconception": "awareness-topic-coverage", "why": "No credential was shown. This is an information disclosure, and a password reset does not address it."},
+      {"id": "d", "text": "Discipline the presenter and treat the matter as closed", "misconception": "awareness-topic-coverage", "why": "Discipline alone leaves the diagram public. The exposure has to be removed and assessed."}
+    ]
+  },
+  {
+    "id": "sa2-110",
+    "type": "mcq-multi",
+    "objective": "5.6",
+    "topics": ["development", "user-guidance-and-training"],
+    "difficulty": 4,
+    "stem": "Which TWO practices are sound when developing the content of a security awareness program? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Give every employee the same single annual video", "misconception": "awareness-program-elements", "why": "One annual generic video is the weak pattern the program is meant to replace."},
+      {"id": "b", "text": "Tailor material to roles, so finance staff see payment fraud and developers see secret handling", "correct": true, "why": "Role specific examples fit what each person actually does, which is why they change behavior."},
+      {"id": "c", "text": "Measure success only by the percentage who finished the module", "misconception": "awareness-program-elements", "why": "Completion shows attendance, not changed behavior."},
+      {"id": "d", "text": "Base examples on recent real incidents and current threats", "correct": true, "why": "Current material is more believable and more likely to be remembered."},
+      {"id": "e", "text": "Keep the content secret from staff until it is tested", "misconception": "awareness-topic-coverage", "why": "Awareness only works if people are told what to look for."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "sa2-111",
+    "type": "mcq-multi",
+    "objective": "5.6",
+    "topics": ["execution", "phishing-campaigns", "recurring-reporting"],
+    "difficulty": 4,
+    "stem": "Which TWO are good practices when running (executing) an awareness program? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Deliver short sessions at regular intervals and run simulations that give immediate feedback", "correct": true, "why": "Repetition in small pieces, and feedback at the moment of a mistake, is what builds lasting habits."},
+      {"id": "b", "text": "Name and shame users who fail simulations in an all-staff email", "misconception": "awareness-program-elements", "why": "Public shaming discourages reporting and teaches people to hide mistakes."},
+      {"id": "c", "text": "Run training once at onboarding and not again", "misconception": "awareness-program-elements", "why": "Threats and staff change, so a single event decays quickly."},
+      {"id": "d", "text": "Track the rate at which users report suspicious messages, not only how many click", "correct": true, "why": "The report rate is the stronger signal of a healthy program."},
+      {"id": "e", "text": "Send simulations only to the security team", "misconception": "awareness-topic-coverage", "why": "The people who need practice are everyone else."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "sa2-112",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["social-engineering-awareness", "recognizing-a-phishing-attempt"],
+    "difficulty": 4,
+    "stem": "A caller says they are from the company's payroll bank and asks a finance employee to confirm their employee ID and date of birth to prevent a security lock on their payroll account. What does the awareness program teach the employee to do?",
+    "options": [
+      {"id": "a", "text": "Provide the details because the caller already knows the employee's name", "misconception": "awareness-topic-coverage", "why": "Knowing a name is easy to get. It does not prove who is calling."},
+      {"id": "b", "text": "End the call and phone the bank back on a number from an official source", "correct": true, "why": "A callback on a known good number breaks the attacker's control of the call, whatever the caller says."},
+      {"id": "c", "text": "Ask the caller to send the request by SMS from the same number", "misconception": "awareness-topic-coverage", "why": "The attacker controls that number and can send a convincing message."},
+      {"id": "d", "text": "Give only the date of birth and withhold the employee ID", "misconception": "awareness-topic-coverage", "why": "Giving partial details still helps the attacker and is the wrong response. The safe response is not to continue."}
+    ]
+  },
+  {
+    "id": "sa2-113",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["responding-to-reported-suspicious-messages", "phishing-campaigns", "initial-reporting"],
+    "difficulty": 5,
+    "stem": "A manager proposes publishing the names of everyone who clicked in the latest simulation to reduce clicks. What is the most likely result, and what is the better approach?",
+    "options": [
+      {"id": "a", "text": "Staff report less and hide mistakes; use private coaching and praise reporting instead", "correct": true, "why": "People who fear exposure stop reporting. Private coaching keeps the signal flowing and still teaches."},
+      {"id": "b", "text": "Click rates drop permanently and reporting rises", "misconception": "awareness-program-elements", "why": "Fear-based publication tends to suppress reporting, which is the signal that matters most."},
+      {"id": "c", "text": "Nothing changes, because staff ignore simulations", "misconception": "awareness-program-elements", "why": "Staff notice a public list, and the effect on behavior is mostly negative."},
+      {"id": "d", "text": "Attackers are deterred because the list is visible", "misconception": "awareness-topic-coverage", "why": "The list is internal and attackers are not deterred by it."}
+    ]
   }
 ]

@@ -224,5 +224,149 @@
       {"id": "e", "text": "Assessing tier-one suppliers is sufficient, since they are responsible for their own suppliers", "misconception": "vendor-lifecycle-and-independence", "why": "Responsibility can be passed down the chain; your exposure cannot."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "cp2-101",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["non-disclosure-agreement", "business-partners-agreement"],
+    "difficulty": 3,
+    "stem": "During procurement a bidder asks to see the architecture diagrams of an internal platform before any contract exists. Which agreement should be in place first?",
+    "options": [
+      {"id": "a", "text": "A service level agreement", "misconception": "agreement-types", "why": "An SLA sets measurable service levels for a service already being provided."},
+      {"id": "b", "text": "A statement of work", "misconception": "agreement-types", "why": "A statement of work describes a defined piece of work after the parties have agreed to proceed."},
+      {"id": "c", "text": "A non-disclosure agreement", "correct": true, "why": "An NDA protects confidential information shared during discussions, before any commercial agreement is reached."},
+      {"id": "d", "text": "A master service agreement", "misconception": "agreement-types", "why": "An MSA sets the commercial framework of a relationship. It does not protect information shown during pre-contract discussions, which is the NDA's job."}
+    ]
+  },
+  {
+    "id": "cp2-102",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["service-level-agreement", "due-diligence"],
+    "difficulty": 4,
+    "stem": "A supplier's SLA says it will notify customers of a security incident 'promptly'. After a breach, the supplier tells customers nine days later. What should the contract have contained?",
+    "options": [
+      {"id": "a", "text": "A defined notification window, such as a number of hours, with consequences if it is missed", "correct": true, "why": "Vague terms cannot be enforced. A measurable timeframe is what makes the clause an SLA commitment."},
+      {"id": "b", "text": "A requirement that the supplier never suffer a breach", "misconception": "agreement-types", "why": "No supplier can guarantee that, and such a clause is not realistic or enforceable."},
+      {"id": "c", "text": "A memorandum of understanding between the two security teams", "misconception": "agreement-types", "why": "An MOU states intent and is not binding. The notification duty needs to be in the contract."},
+      {"id": "d", "text": "A right for the customer to read the supplier's internal incident tickets", "misconception": "vendor-assessment-methods", "why": "Access to tickets is not the same as a timely notification and does not set the notification window."}
+    ]
+  },
+  {
+    "id": "cp2-103",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["right-to-audit-clause", "independent-assessments"],
+    "difficulty": 5,
+    "stem": "A multi-tenant SaaS vendor refuses on-site customer audits, saying any one customer's auditors would expose other tenants' data. The contract has a right-to-audit clause. What is the best way to get assurance?",
+    "options": [
+      {"id": "a", "text": "Insist on an unescorted visit regardless of the objection", "misconception": "vendor-assessment-methods", "why": "This ignores the other tenants' confidentiality, which a contract is likely to protect."},
+      {"id": "b", "text": "Agree that an independent third-party assessment of the platform, with a shared report, satisfies the clause", "correct": true, "why": "The vendor's concern is legitimate and an independent report gives credible assurance without exposing other tenants."},
+      {"id": "c", "text": "Drop the requirement and accept the vendor's own questionnaire answers", "misconception": "vendor-assessment-methods", "why": "A questionnaire is self-reported. Dropping the audit gives up the assurance."},
+      {"id": "d", "text": "Terminate the contract at once", "misconception": "vendor-lifecycle-and-independence", "why": "Termination is disproportionate when an acceptable alternative exists, and the vendor is not refusing assurance, only the method."}
+    ]
+  },
+  {
+    "id": "cp2-104",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["conflict-of-interest", "due-diligence"],
+    "difficulty": 4,
+    "stem": "A procurement evaluator scoring bids discovers that their spouse is a major shareholder of one bidder. What is the correct action?",
+    "options": [
+      {"id": "a", "text": "Score the bid but give it a lower mark to compensate", "misconception": "vendor-lifecycle-and-independence", "why": "Biased marking in either direction is still compromised judgment."},
+      {"id": "b", "text": "Say nothing, because the bid is likely to lose anyway", "misconception": "vendor-lifecycle-and-independence", "why": "Concealing a conflict is itself the failure. It cannot be assumed to be harmless."},
+      {"id": "c", "text": "Ask the bidder to complete a security questionnaire instead", "misconception": "vendor-assessment-methods", "why": "A questionnaire is about vendor security and does not resolve a conflict in the evaluator."},
+      {"id": "d", "text": "Disclose it and recuse themselves from evaluating that bid, with the decision recorded", "correct": true, "why": "A conflict of interest has to be declared and managed. Stepping out of the decision protects the integrity of the process."}
+    ]
+  },
+  {
+    "id": "cp2-105",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["vendor-penetration-testing", "rules-of-engagement"],
+    "difficulty": 5,
+    "stem": "During an agreed penetration test of a SaaS provider, a tester finds a flaw that exposes another customer's records. What should the tester do under sound rules of engagement?",
+    "options": [
+      {"id": "a", "text": "Download a sample of the records as proof", "misconception": "vendor-assessment-methods", "why": "Accessing another customer's data goes beyond authorization and creates a breach."},
+      {"id": "b", "text": "Keep testing silently to see how far it goes", "misconception": "vendor-assessment-methods", "why": "Going deeper into out of scope data increases the harm and breaks the agreement."},
+      {"id": "c", "text": "Stop that line of testing, avoid reading the data and notify the named contact at once", "correct": true, "why": "Rules of engagement protect third parties. Data belonging to another tenant is outside what the customer can authorize anyone to touch."},
+      {"id": "d", "text": "Wait until the final report to mention it", "misconception": "vendor-lifecycle-and-independence", "why": "A live exposure of someone else's data should be reported straight away, not at the end of the engagement."}
+    ]
+  },
+  {
+    "id": "cp2-106",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["work-order-statement-of-work", "master-service-agreement"],
+    "difficulty": 4,
+    "stem": "A consultancy is part way through a project governed by an MSA and a statement of work. The customer needs an extra deliverable and a new deadline. What should change?",
+    "options": [
+      {"id": "a", "text": "Rewrite the master service agreement", "misconception": "agreement-types", "why": "The MSA covers all work under the relationship and should not be reopened for one project change."},
+      {"id": "b", "text": "Amend the statement of work, or issue a new one, leaving the master service agreement in place", "correct": true, "why": "The SOW fixes the deliverables, schedule and price of the specific engagement. The MSA holds the standing terms and does not need to change."},
+      {"id": "c", "text": "Add the deliverable to the service level agreement", "misconception": "agreement-types", "why": "An SLA sets measurable service levels, not project deliverables."},
+      {"id": "d", "text": "Record the change in a non-disclosure agreement", "misconception": "agreement-types", "why": "An NDA covers confidentiality, not the scope of work."}
+    ]
+  },
+  {
+    "id": "cp2-107",
+    "type": "mcq-multi",
+    "objective": "5.3",
+    "topics": ["business-partners-agreement", "service-level-agreement", "work-order-statement-of-work", "memorandum-of-understanding"],
+    "difficulty": 4,
+    "stem": "Two firms are forming a joint venture. Which TWO belong in a business partners agreement? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Measurable uptime targets with service credits", "misconception": "agreement-types", "why": "Uptime targets and credits belong in an SLA."},
+      {"id": "b", "text": "How profits and losses are shared between the partners", "correct": true, "why": "A BPA sets out the financial arrangement of the partnership."},
+      {"id": "c", "text": "The deliverables and milestones of one project", "misconception": "agreement-types", "why": "Project deliverables and milestones belong in a statement of work."},
+      {"id": "d", "text": "Each partner's responsibilities and decision rights", "correct": true, "why": "A BPA defines the roles and obligations of the partners, including how decisions are made."},
+      {"id": "e", "text": "A statement that the document creates no legal obligations", "misconception": "agreement-types", "why": "That is characteristic of a memorandum of understanding, not a partnership agreement."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "cp2-108",
+    "type": "mcq-multi",
+    "objective": "5.3",
+    "topics": ["due-diligence", "supply-chain-analysis", "independent-assessments", "questionnaires"],
+    "difficulty": 4,
+    "stem": "Which THREE activities belong to due diligence before a critical supplier is onboarded? (Choose three.)",
+    "options": [
+      {"id": "a", "text": "Reviewing a recent independent assessment report of the supplier", "correct": true, "why": "Due diligence collects credible evidence about the supplier before the decision to sign."},
+      {"id": "b", "text": "Tracking breach notices throughout the term of the contract", "misconception": "vendor-lifecycle-and-independence", "why": "Continuing observation is vendor monitoring, which comes after the relationship starts."},
+      {"id": "c", "text": "Mapping the supplier's own critical subcontractors", "correct": true, "why": "Supply chain analysis before signing shows dependencies the contract will not mention."},
+      {"id": "d", "text": "Renewing the contract automatically each year", "misconception": "vendor-lifecycle-and-independence", "why": "Renewal is a commercial decision and is not due diligence."},
+      {"id": "e", "text": "Having the supplier complete a security questionnaire and checking its answers against evidence", "correct": true, "why": "A questionnaire, verified, forms part of the pre-signing assessment."}
+    ],
+    "selectCount": 3
+  },
+  {
+    "id": "cp2-109",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["right-to-audit-clause"],
+    "difficulty": 4,
+    "stem": "Legal is drafting a right-to-audit clause for a critical supplier. Which wording makes the clause most workable for both sides?",
+    "options": [
+      {"id": "a", "text": "Audits on reasonable notice, within a defined scope and frequency, with the auditor bound by confidentiality", "correct": true, "why": "A clause that can be exercised in practice, with notice, scope and confidentiality, is more likely to be accepted and more likely to be used."},
+      {"id": "b", "text": "Audits at any time with no notice and unlimited scope", "misconception": "vendor-assessment-methods", "why": "Wording that no supplier can operate under is often negotiated away or fails when used."},
+      {"id": "c", "text": "An annual audit by the supplier's own internal team", "misconception": "vendor-assessment-methods", "why": "This is the supplier auditing itself, not the customer's right."},
+      {"id": "d", "text": "The supplier will send a completed questionnaire when asked", "misconception": "vendor-assessment-methods", "why": "A questionnaire is self-reported and is not a right to audit."}
+    ]
+  },
+  {
+    "id": "cp2-110",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["service-level-agreement", "due-diligence"],
+    "difficulty": 5,
+    "stem": "A provider's SLA promises 99.99 percent availability. Service credits are capped at one month's fee, but one hour of outage costs the customer far more than that. What does this show about the SLA?",
+    "options": [
+      {"id": "a", "text": "The SLA transfers all the risk of outage to the provider", "misconception": "agreement-types", "why": "Capped credits leave most of the loss with the customer."},
+      {"id": "b", "text": "Credits compensate in part but do not remove the risk, so the customer needs other measures such as resilience or insurance", "correct": true, "why": "An SLA shifts only a small part of the loss. The customer still carries the residual risk and has to treat it separately."},
+      {"id": "c", "text": "The SLA is unenforceable because credits are capped", "misconception": "agreement-types", "why": "Capped credits are common and enforceable. They just do not cover the full loss."},
+      {"id": "d", "text": "A memorandum of understanding would give better protection", "misconception": "agreement-types", "why": "An MOU is not binding and offers less protection than an SLA."}
+    ]
   }
 ]
