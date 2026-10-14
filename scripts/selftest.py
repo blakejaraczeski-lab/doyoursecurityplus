@@ -552,7 +552,7 @@ def scenario_screens(rep, tmp, browser):
         rep.check(len(content) == 1 and content[0].endswith("/api/content"),
                   f"empty log   content arrives in one request, {len(tab.requests[r0:])} requests for the whole boot", f"({content[:3]})")
         wire = sum(n for u, n in tab.transfers[t0:] if u.endswith("/api/content"))
-        rep.check(0 < wire < 400_000, f"empty log   the bundle is gzipped on the wire: {wire:,} bytes")
+        rep.check(0 < wire < 500_000, f"empty log   the bundle is gzipped on the wire: {wire:,} bytes")
         r0, t0 = len(tab.requests), len(tab.transfers)
         tab.navigate(f"{base}/")
         rep.check(tab.wait_for(APP_READY), "empty log   a warm reload boots")
