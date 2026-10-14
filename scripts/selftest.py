@@ -1322,7 +1322,12 @@ def scenario_stress(rep, tmp, browser):
 
         # 6. The server killed mid-session, twelve answers, the server back, the tab hidden.
         n1 = len(tab.errors)
-        tab.evaluate("{ const mc = App.content.items.filter((i) => i.type === 'mcq').slice(10, 22);"
+        # Twelve questions that share no misconception: a miss moves a later question on the same belief out of a
+        # short session, so the count answered would depend on the bank, and on which wrong option the shuffle shows.
+        tab.evaluate("{ const used = new Set(); const mc = [];"
+                     "for (const i of App.content.items.filter((i) => i.type === 'mcq')) {"
+                     "  const ids = i.options.map((o) => o.misconception).filter(Boolean);"
+                     "  if (mc.length < 12 && !ids.some((m) => used.has(m))) { mc.push(i); ids.forEach((m) => used.add(m)); } }"
                      "App.queue = mc.map((item) => ({ kind: 'item', item, reason: '' })); App.idx = 0; App.answer = null;"
                      "document.querySelector('[data-action=nav][data-section=drill]').click() }")
         before = len(rows("item"))
@@ -1330,7 +1335,10 @@ def scenario_stress(rep, tmp, browser):
         seen0 = tab.evaluate("Object.fromEntries(App.queue.map((e) => [e.item.id, App.state.items[e.item.id]?.seen || 0]))")
         server.stop()
         for _ in range(12):
-            press("b", vk=66, text="b")
+            # Options shuffle on render, so a fixed letter is sometimes right; press the letter shown on a wrong one.
+            k = tab.evaluate("(() => { const e = App.queue[App.idx]; const i = [...document.querySelectorAll('.opts .opt')]"
+                             ".findIndex((b) => !e.item.options.find((o) => o.id === b.dataset.opt).correct); return 'abcdefghij'[i < 0 ? 0 : i]; })()")
+            press(k, vk=ord(k.upper()), text=k)
             enter()
         # A miss can move a later question on the same belief out of a short
         # session, so the count is what was actually answered, not the queue length.
