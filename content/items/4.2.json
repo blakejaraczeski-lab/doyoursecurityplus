@@ -182,5 +182,61 @@
       {"id": "c", "text": "Overwriting every sector three times", "misconception": "sanitization-vs-destruction", "why": "Overwriting is a sanitization method and it needs a drive that responds to writes. This one does not."},
       {"id": "d", "text": "Returning it to the vendor under warranty without further action", "misconception": "sanitization-vs-destruction", "why": "That hands regulated data to a third party. Warranty returns of storage holding sensitive data normally need a destruction clause or a retain-the-drive agreement."}
     ]
+  },
+  {
+    "id": "as-009",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["data-retention", "disposal-decommissioning"],
+    "difficulty": 3,
+    "stem": "A retention schedule says finance records are deleted after seven years. The company receives a litigation hold notice covering one set of 2017 invoices that are now eight years old. What should happen to those invoices?",
+    "options": [
+      {"id": "a", "text": "Preserve them until the hold is lifted", "correct": true, "why": "A legal hold overrides the schedule. Deleting hold material can be treated as spoliation of evidence."},
+      {"id": "b", "text": "Delete them, because the schedule is the approved policy", "misconception": "retention-vs-disposal", "why": "The schedule is overridden for anything under a hold. Following it here would destroy evidence."},
+      {"id": "c", "text": "Sanitize them and keep the media", "misconception": "sanitization-vs-destruction", "why": "Sanitization is how data is removed. The point is that these records must not be removed yet."},
+      {"id": "d", "text": "Move them to a cheaper tier and let automated deletion continue", "misconception": "retention-vs-disposal", "why": "Moving them changes nothing about automated deletion. Deletion jobs must be suspended for held data."}
+    ]
+  },
+  {
+    "id": "as-010",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["inventory", "enumeration", "monitoring-asset-tracking"],
+    "difficulty": 3,
+    "stem": "A network scan lists 1,150 live devices. The asset register lists 1,000. What is the right reading?",
+    "options": [
+      {"id": "a", "text": "150 devices are unaccounted for and need to be identified and added or removed", "correct": true, "why": "Enumeration finds what is really there. Comparing it with the inventory exposes unmanaged or unrecorded assets."},
+      {"id": "b", "text": "The register is correct and the scan is over-counting", "misconception": "asset-lifecycle", "why": "The register is a record and can go stale. A live scan is evidence of what exists."},
+      {"id": "c", "text": "Nothing, because inventory and enumeration are the same activity", "misconception": "asset-lifecycle", "why": "Enumeration discovers assets; inventory is the maintained record. The gap between them is the finding."},
+      {"id": "d", "text": "The extra devices have been disposed of", "misconception": "retention-vs-disposal", "why": "A disposed device is no longer on the network. These are responding, so they are live."}
+    ]
+  },
+  {
+    "id": "as-011",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["sanitization", "destruction", "certification"],
+    "difficulty": 4,
+    "stem": "A hospital will resell used laptops and wants the drives reused safely. Which approach fits, and what proves it was done?",
+    "options": [
+      {"id": "a", "text": "Sanitize using an approved wipe method and keep the certificate of sanitization", "correct": true, "why": "Sanitization removes data so the media can be reused. The certificate is the audit evidence."},
+      {"id": "b", "text": "Shred the drives and keep the certificate", "misconception": "sanitization-vs-destruction", "why": "Shredding destroys the media, so nothing can be resold."},
+      {"id": "c", "text": "Delete the files and empty the recycle bin", "misconception": "sanitization-vs-destruction", "why": "Deletion removes only references. The data stays recoverable."},
+      {"id": "d", "text": "Keep the drives in storage until the retention period ends", "misconception": "retention-vs-disposal", "why": "Retention concerns the records, not the media. The laptops are leaving, so the data must be removed."}
+    ]
+  },
+  {
+    "id": "as-012",
+    "type": "mcq",
+    "objective": "4.2",
+    "topics": ["acquisition-procurement-process", "ownership-2", "monitoring-asset-tracking"],
+    "difficulty": 3,
+    "stem": "A new SaaS product is adopted by one department. Months later security finds it holds customer data and has no named owner. Which lifecycle activity was most clearly skipped?",
+    "options": [
+      {"id": "a", "text": "Assigning ownership and accountability when the asset was acquired", "correct": true, "why": "Ownership is set at acquisition so someone is responsible for the asset's risk and its disposal."},
+      {"id": "b", "text": "Disposal and decommissioning", "misconception": "asset-lifecycle", "why": "Disposal is the final stage. The product is still in use."},
+      {"id": "c", "text": "Data sanitization", "misconception": "sanitization-vs-destruction", "why": "Sanitization applies at end of life, not here."},
+      {"id": "d", "text": "Applying the retention schedule", "misconception": "retention-vs-disposal", "why": "Retention matters, but nobody can apply it until an owner exists."}
+    ]
   }
 ]

@@ -196,5 +196,61 @@
       {"id": "c", "text": "A compensating control", "misconception": "compensating-vs-corrective", "why": "A compensating control substitutes for one you cannot implement. Automation here improves a control you already have."},
       {"id": "d", "text": "Defence in depth", "misconception": "automation-benefits-vs-risks", "why": "Layering independent controls is a different idea. This is throughput."}
     ]
+  },
+  {
+    "id": "au-010",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["guard-rails", "resource-provisioning", "enforcing-baselines"],
+    "difficulty": 3,
+    "stem": "Developers sometimes launch cloud servers without disk encryption. Which automation prevents this before it happens?",
+    "options": [
+      {"id": "a", "text": "A guard rail that rejects or auto-corrects non-compliant resource requests", "correct": true, "why": "Guard rails enforce policy at provisioning time, so the insecure option cannot be created."},
+      {"id": "b", "text": "A ticket opened for each unencrypted server found later", "misconception": "automation-use-cases", "why": "Ticketing records the issue after the fact. It does not prevent it."},
+      {"id": "c", "text": "A scheduled report listing unencrypted servers", "misconception": "automation-use-cases", "why": "A report is detective and depends on someone acting on it."},
+      {"id": "d", "text": "A script that runs on one engineer's laptop", "misconception": "automation-benefits-vs-risks", "why": "A single-person script is a single point of failure and does not cover other users."}
+    ]
+  },
+  {
+    "id": "au-011",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["integrations-and-apis", "ticket-creation", "escalation"],
+    "difficulty": 4,
+    "stem": "A SIEM alert should create a ticket, add the asset owner, and page on-call if untouched for 15 minutes, with no manual steps. Which capability makes the tools work together this way?",
+    "options": [
+      {"id": "a", "text": "APIs and integrations between the tools", "correct": true, "why": "APIs let one system trigger, query and update another, which orchestration relies on."},
+      {"id": "b", "text": "A larger analyst team", "misconception": "automation-in-the-pipeline", "why": "The aim is to remove manual steps, not add people."},
+      {"id": "c", "text": "Longer log retention", "misconception": "automation-in-the-pipeline", "why": "Retention affects how long data is stored, not how tools hand work to each other."},
+      {"id": "d", "text": "A more complex password policy", "misconception": "automation-use-cases", "why": "Password rules do not connect systems."}
+    ]
+  },
+  {
+    "id": "au-012",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["complexity", "technical-debt", "ongoing-supportability"],
+    "difficulty": 4,
+    "stem": "A security team automates dozens of workflows with undocumented scripts. The author leaves, and a vendor update breaks several of them. Which two automation drawbacks does this show?",
+    "options": [
+      {"id": "a", "text": "Technical debt and poor ongoing supportability", "correct": true, "why": "Undocumented custom automation becomes hard to maintain once its author leaves."},
+      {"id": "b", "text": "Faster reaction time and a workforce multiplier", "misconception": "automation-benefits-vs-risks", "why": "Those are benefits, not what failed here."},
+      {"id": "c", "text": "Lower cost and employee retention", "misconception": "automation-benefits-vs-risks", "why": "Those are benefits. The scenario shows maintenance cost rising."},
+      {"id": "d", "text": "Standard configurations and scaling securely", "misconception": "automation-use-cases", "why": "These are uses of automation, not drawbacks."}
+    ]
+  },
+  {
+    "id": "au-013",
+    "type": "mcq",
+    "objective": "4.7",
+    "topics": ["user-provisioning", "enabling-disabling-services-and-access", "reaction-time"],
+    "difficulty": 3,
+    "stem": "A security officer wants new hires to receive the right access on day one and leavers to lose it the moment employment ends. Which approach delivers both?",
+    "options": [
+      {"id": "a", "text": "Automate user provisioning and deprovisioning from the HR system", "correct": true, "why": "Tying account changes to HR events removes delay and human error in both directions."},
+      {"id": "b", "text": "A quarterly manual access review", "misconception": "automation-benefits-vs-risks", "why": "Reviews are periodic and manual. Leavers keep access until the next review."},
+      {"id": "c", "text": "An approval ticket for each change", "misconception": "automation-use-cases", "why": "Ticketing records work but does not remove the delay."},
+      {"id": "d", "text": "A guard rail on cloud storage", "misconception": "automation-use-cases", "why": "Guard rails constrain resources, not account lifecycle."}
+    ]
   }
 ]

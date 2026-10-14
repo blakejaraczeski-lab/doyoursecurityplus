@@ -1,0 +1,46 @@
+{
+  "id": "pbq-order-010",
+  "kind": "drag-order",
+  "objective": "1.3",
+  "topics": ["impact-analysis", "test-results", "backout-plan", "approval-process", "stakeholders", "maintenance-window", "updating-diagrams", "updating-policies-procedures", "version-control"],
+  "difficulty": 3,
+  "title": "Take a firewall change from request to closed",
+  "targetSeconds": 360,
+  "scenario": "The network team wants to replace a firewall rule that permits a legacy payroll application with a narrower one. Put the change management steps in the order a controlled change follows. The order is the point: a change approved before it was tested, or a backout plan written after the window opened, is the failure change management exists to prevent.",
+  "requirements": [
+    "Place all seven steps.",
+    "Partial credit applies per step, so place every one even where you are unsure."
+  ],
+  "config": {
+    "mode": "sequence",
+    "sequenceLabel": "Change management steps",
+    "items": [
+      { "id": "implement", "label": "Implement the change inside the maintenance window" },
+      { "id": "approve", "label": "Change approval board reviews the request and approves it" },
+      { "id": "docs", "label": "Update the network diagram, the procedure and version control" },
+      { "id": "impact", "label": "Analyse the impact: which systems and users depend on the old rule" },
+      { "id": "backout", "label": "Write the backout plan to restore the old rule" },
+      { "id": "test", "label": "Test the new rule in a non-production environment and record the results" },
+      { "id": "notify", "label": "Tell the affected stakeholders when the window is and what to expect" }
+    ]
+  },
+  "solution": {
+    "order": ["impact", "test", "backout", "approve", "notify", "implement", "docs"]
+  },
+  "subtasks": [
+    { "id": "s1", "item": "impact", "label": "Impact analysis first", "points": 3, "misconception": "change-management-elements",
+      "correctNote": "You cannot test, plan a rollback for, or approve a change whose dependencies you have not identified. Impact analysis is what tells you what could break." },
+    { "id": "s2", "item": "test", "label": "Testing second", "points": 3, "misconception": "change-management-elements",
+      "correctNote": "Test results are evidence the approvers need. Approving first means deciding on a guess." },
+    { "id": "s3", "item": "backout", "label": "Backout plan before approval", "points": 3, "misconception": "change-management-elements",
+      "correctNote": "Approvers need to see how the change is undone before they authorise it. A backout plan written after the window opens is written under pressure." },
+    { "id": "s4", "item": "approve", "label": "Approval fourth", "points": 3, "misconception": "change-roles",
+      "correctNote": "Approval authorises the change on the strength of the impact analysis, test results and backout plan. It is a gate that everything before it feeds." },
+    { "id": "s5", "item": "notify", "label": "Stakeholders told before the work", "points": 2, "misconception": "change-roles",
+      "correctNote": "Stakeholders are informed so they can plan for the downtime. Telling them afterwards is an apology, not a notification." },
+    { "id": "s6", "item": "implement", "label": "Implementation in the window", "points": 3, "misconception": "change-management-elements",
+      "correctNote": "The change is made only after approval, inside the agreed maintenance window, to the written plan." },
+    { "id": "s7", "item": "docs", "label": "Documentation updated last", "points": 2, "misconception": "change-documentation",
+      "correctNote": "Diagrams, procedures and version control are updated to describe what is now true. Updating them earlier records a state that does not yet exist." }
+  ]
+}

@@ -196,5 +196,61 @@
       {"id": "c", "text": "Neither; appliances cannot be monitored", "misconception": "monitoring-tool-selection", "why": "Agentless collection exists precisely for this case."},
       {"id": "d", "text": "Install agents anyway and accept the support risk", "misconception": "monitoring-tool-selection", "why": "On a vendor appliance this usually voids support and may be technically impossible."}
     ]
+  },
+  {
+    "id": "mo-010",
+    "type": "mcq",
+    "objective": "4.4",
+    "topics": ["log-aggregation", "archiving", "reporting-2"],
+    "difficulty": 3,
+    "stem": "An auditor asks for evidence of authentication failures from eleven months ago, though the SIEM only holds 90 days of searchable data. Which stage of the pipeline should have kept it?",
+    "options": [
+      {"id": "a", "text": "Archiving", "correct": true, "why": "Archiving keeps older logs in cheaper storage for compliance and later investigation."},
+      {"id": "b", "text": "Alerting", "misconception": "log-pipeline-stages", "why": "Alerting notifies on events as they happen. It does not preserve them."},
+      {"id": "c", "text": "Reporting", "misconception": "log-pipeline-stages", "why": "Reports summarise data that already exists. They do not store raw logs."},
+      {"id": "d", "text": "Quarantine", "misconception": "alert-tuning-vs-quarantine", "why": "Quarantine isolates a suspect item. It has nothing to do with log retention."}
+    ]
+  },
+  {
+    "id": "mo-011",
+    "type": "mcq",
+    "objective": "4.4",
+    "topics": ["alert-tuning", "alerting"],
+    "difficulty": 4,
+    "stem": "A rule fires 400 times a day and almost every alert is benign, so analysts have started ignoring it. What is the best fix?",
+    "options": [
+      {"id": "a", "text": "Tune the rule to cut false positives while still catching real events", "correct": true, "why": "Tuning restores signal and keeps analysts trusting alerts."},
+      {"id": "b", "text": "Disable the rule", "misconception": "alert-tuning-vs-quarantine", "why": "Disabling removes detection entirely, trading noise for blindness."},
+      {"id": "c", "text": "Raise every alert to the highest priority", "misconception": "alert-tuning-vs-quarantine", "why": "Making all alerts urgent makes the noise worse."},
+      {"id": "d", "text": "Quarantine the hosts that trigger it", "misconception": "alert-tuning-vs-quarantine", "why": "Quarantine is a response to confirmed malicious items. Benign alerts need tuning."}
+    ]
+  },
+  {
+    "id": "mo-012",
+    "type": "mcq",
+    "objective": "4.4",
+    "topics": ["snmp-traps", "netflow", "security-information-and-event-management"],
+    "difficulty": 3,
+    "stem": "An organisation wants a record of which hosts talked to which, how often, and how much data moved, without storing full packet payloads. Which tool fits?",
+    "options": [
+      {"id": "a", "text": "NetFlow", "correct": true, "why": "NetFlow summarises conversations with addresses, ports, timing and volume, without payloads."},
+      {"id": "b", "text": "SNMP traps", "misconception": "monitoring-tool-selection", "why": "Traps notify of device events such as an interface going down. They do not describe traffic."},
+      {"id": "c", "text": "SCAP", "misconception": "monitoring-tool-selection", "why": "SCAP is a standard for expressing and checking configuration and vulnerability state."},
+      {"id": "d", "text": "An antivirus scan", "misconception": "monitoring-tool-selection", "why": "Antivirus examines files for malware. It does not report network conversations."}
+    ]
+  },
+  {
+    "id": "mo-013",
+    "type": "mcq",
+    "objective": "4.4",
+    "topics": ["alert-response-and-remediation-validation", "scanning", "vulnerability-scanners"],
+    "difficulty": 4,
+    "stem": "After patching a critical flaw on 200 servers, the team wants proof the vulnerability is gone. Which action provides it?",
+    "options": [
+      {"id": "a", "text": "Rescan the servers and confirm the finding no longer appears", "correct": true, "why": "A rescan after remediation validates that the fix worked."},
+      {"id": "b", "text": "Close the ticket because the patch job reported success", "misconception": "remediation-validation", "why": "A deployment report shows the patch ran, not that the flaw is gone."},
+      {"id": "c", "text": "Review next month's dashboard", "misconception": "remediation-validation", "why": "A dashboard may not show the specific finding, and the wait leaves exposure."},
+      {"id": "d", "text": "Archive the original scan", "misconception": "log-pipeline-stages", "why": "Archiving keeps evidence of the old state and proves nothing about the fix."}
+    ]
   }
 ]

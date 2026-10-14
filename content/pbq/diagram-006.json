@@ -1,0 +1,154 @@
+{
+  "id": "pbq-diagram-006",
+  "kind": "network-diagram",
+  "objective": "4.4",
+  "topics": ["security-information-and-event-management", "alerting", "alert-response-and-remediation-validation", "quarantine", "alert-tuning", "netflow", "log-aggregation", "monitoring-systems"],
+  "difficulty": 4,
+  "title": "Four alerts from the SIEM, one real compromise",
+  "targetSeconds": 600,
+  "scenario": "The SIEM raised four alerts overnight at Harrow Logistics. An alert is a claim, not a finding, and the work is checking each one against the host before choosing a response. Click each system to read what was collected, then answer the questions. Not every alert that fired is a compromise, and not every response is a quarantine.",
+  "config": {
+    "nodes": [
+      { "id": "inet", "label": "Internet", "type": "cloud", "zone": "external", "x": 50, "y": 6, "selectable": false },
+      { "id": "fw", "label": "FW-01", "type": "firewall", "ip": "10.20.0.1", "zone": "perimeter", "x": 50, "y": 20, "selectable": false },
+      { "id": "sw", "label": "CORE-SW", "type": "switch", "ip": "10.20.0.2", "zone": "core", "x": 50, "y": 36, "selectable": false },
+      { "id": "siem", "label": "SIEM-01", "type": "server", "ip": "10.20.1.5", "zone": "internal", "x": 14, "y": 52, "selectable": false },
+      { "id": "scan", "label": "SCAN-01", "type": "server", "ip": "10.20.1.6", "zone": "internal", "x": 38, "y": 52, "selectable": true },
+      { "id": "web", "label": "WEB-01", "type": "server", "ip": "10.20.2.10", "zone": "dmz", "x": 62, "y": 52, "selectable": true },
+      { "id": "fs", "label": "FS-01", "type": "server", "ip": "10.20.3.10", "zone": "internal", "x": 86, "y": 52, "selectable": true },
+      { "id": "dev", "label": "WS-DEV", "type": "workstation", "ip": "10.20.4.21", "zone": "internal", "x": 38, "y": 78, "selectable": true },
+      { "id": "hr", "label": "WS-HR", "type": "workstation", "ip": "10.20.4.30", "zone": "internal", "x": 62, "y": 78, "selectable": true }
+    ],
+    "links": [
+      ["inet", "fw"], ["fw", "sw"], ["sw", "siem"], ["sw", "scan"], ["sw", "web"], ["sw", "fs"],
+      ["sw", "dev"], ["sw", "hr"]
+    ],
+    "evidence": {
+      "scan": {
+        "summary": "SIEM alert: port scan against 240 internal hosts at 02:00.",
+        "lines": [
+          "SIEM  02:00  rule=internal_port_scan  src=10.20.1.6  dst=240 hosts  severity=high",
+          "HOST  02:00  process=vuln-scanner  started by schedule 'weekly-credentialed-scan'",
+          "CHG   change ticket CHG-4471 approves a weekly scan, Sunday 02:00 to 04:00, from 10.20.1.6",
+          "NOTE  this alert has fired every Sunday for 11 weeks and has been closed each time"
+        ]
+      },
+      "web": {
+        "summary": "SIEM alert: 3,100 failed logins from one external address.",
+        "lines": [
+          "SIEM  01:15  rule=failed_login_spike  src=198.51.100.77  dst=10.20.2.10  count=3100",
+          "WAF   01:19  source 198.51.100.77 blocked after 40 attempts; remaining 3,060 requests dropped",
+          "AUTH  no successful login from 198.51.100.77 at any point",
+          "EDR   clean, no new processes, no new files"
+        ]
+      },
+      "fs": {
+        "summary": "SIEM alert: 6 GB sent to an external address by a service account.",
+        "lines": [
+          "SIEM  03:10  rule=large_outbound_transfer  src=10.20.3.10  dst=192.0.2.88  bytes=6.1GB",
+          "AUTH  03:02  user svc_backup  result=SUCCESS  geo=Lagos, NG  (account normally logs on only from the data centre)",
+          "FILE  03:04  svc_backup read 41,000 files under \\\\FS-01\\Finance",
+          "PROC  03:06  7z.exe created finance.7z in C:\\Windows\\Temp",
+          "NET   03:10  finance.7z uploaded to 192.0.2.88 over HTTPS"
+        ]
+      },
+      "dev": {
+        "summary": "SIEM alert: antivirus detection on a developer workstation.",
+        "lines": [
+          "AV    02:44  detected Trojan.Beacon in C:\\Users\\dev\\AppData\\Local\\Temp\\upd.exe",
+          "AV    02:44  action=none (file not removed, process still running)",
+          "NET   02:45  upd.exe connecting to 192.0.2.88 every 60 seconds",
+          "AUTH  02:51  svc_backup credential used from 10.20.4.21 to authenticate to FS-01",
+          "NOTE  the same external address 192.0.2.88 appears in the FS-01 alert"
+        ]
+      },
+      "hr": {
+        "summary": "No alerts. Included so the roster is not a giveaway.",
+        "lines": [
+          "AUTH  08:15  user m.petrie  result=SUCCESS  (normal working hours)",
+          "AV    clean",
+          "NET   no anomalous traffic"
+        ]
+      },
+      "siem": {
+        "summary": "The aggregation point that received all four alerts.",
+        "lines": [
+          "SIEM  sources onboarded: firewall, WAF, EDR, directory, file servers",
+          "SIEM  correlation rule linking AV alerts to outbound transfers: not configured"
+        ]
+      }
+    },
+    "tasks": [
+      { "id": "t-compromised", "type": "select-nodes", "max": 5,
+        "prompt": "Select every system that is actually compromised. Do not select a system whose alert was benign or was blocked before it did anything." },
+      { "id": "t-scan", "type": "choice",
+        "prompt": "SCAN-01: the port scan alert is the authorised weekly vulnerability scan and fires every Sunday. What is the right response?",
+        "options": [
+          { "value": "tune", "label": "Tune the alert: exclude the scanner's address during its approved window, and keep the rule for everything else" },
+          { "value": "quarantine", "label": "Quarantine SCAN-01 until the alert stops" },
+          { "value": "disable", "label": "Disable the internal port scan rule so it never fires again" },
+          { "value": "ignore", "label": "Keep closing it by hand each week without changing anything" }
+        ] },
+      { "id": "t-web", "type": "choice",
+        "prompt": "WEB-01: 3,100 failed logins from one address, blocked by the WAF, with no successful login. What is the right response?",
+        "options": [
+          { "value": "validate", "label": "No quarantine. Confirm the block held and that no login succeeded, then record it; the alert was correct and the control worked" },
+          { "value": "quarantine", "label": "Quarantine WEB-01 because it was attacked" },
+          { "value": "tune", "label": "Tune the rule to a higher threshold so this stops alerting" },
+          { "value": "reset", "label": "Reset every web application password immediately" }
+        ] },
+      { "id": "t-first", "type": "choice",
+        "prompt": "FS-01 and WS-DEV are both talking to 192.0.2.88. What is the most appropriate first action?",
+        "options": [
+          { "value": "quarantine", "label": "Quarantine both hosts from the network, keeping them powered on so the evidence in memory survives" },
+          { "value": "reimage", "label": "Reimage both hosts immediately to remove the malware" },
+          { "value": "delete", "label": "Delete finance.7z and upd.exe and watch for further alerts" },
+          { "value": "wait", "label": "Wait for the next alert to confirm the pattern" }
+        ] },
+      { "id": "t-link", "type": "choice",
+        "prompt": "The SIEM raised the antivirus alert and the outbound transfer as two unrelated alerts, though one led to the other. Which part of the log pipeline is missing?",
+        "options": [
+          { "value": "correlation", "label": "Correlation: a rule that combines events from different sources into one alert" },
+          { "value": "collection", "label": "Collection: the sources were never onboarded" },
+          { "value": "archiving", "label": "Archiving: the logs were not retained long enough" },
+          { "value": "reporting", "label": "Reporting: nobody received a summary" }
+        ] },
+      { "id": "t-flow", "type": "choice",
+        "prompt": "You want the volume and destination of traffic leaving the network for 192.0.2.88, independent of what the hosts themselves logged. Which tool provides that?",
+        "options": [
+          { "value": "netflow", "label": "NetFlow" },
+          { "value": "snmp", "label": "SNMP traps" },
+          { "value": "scap", "label": "SCAP benchmark scan" },
+          { "value": "vuln", "label": "A vulnerability scanner" }
+        ] }
+    ]
+  },
+  "solution": {
+    "t-compromised": ["fs", "dev"],
+    "t-scan": "tune",
+    "t-web": "validate",
+    "t-first": "quarantine",
+    "t-link": "correlation",
+    "t-flow": "netflow"
+  },
+  "subtasks": [
+    { "id": "st-compromised", "task": "t-compromised", "label": "Which systems are actually compromised", "points": 6,
+      "misconception": "alert-tuning-vs-quarantine",
+      "correctNote": "WS-DEV ran a beacon that the antivirus detected but did not remove, and its host then used the svc_backup credential against FS-01. FS-01 shows the exfiltration itself. SCAN-01 was an approved scan and WEB-01's attack was blocked and never succeeded, so a high severity alert is not evidence of compromise." },
+    { "id": "st-scan", "task": "t-scan", "label": "Respond to the scanner alert", "points": 4,
+      "misconception": "alert-tuning-vs-quarantine",
+      "correctNote": "A false positive from an approved activity is fixed by tuning the rule, not by isolating the scanner or switching the rule off. Excluding the known source in its window keeps the rule working for an unknown scanner, and ending the weekly closing by hand cuts alert fatigue." },
+    { "id": "st-web", "task": "t-web", "label": "Respond to the failed login spike", "points": 4,
+      "misconception": "alert-tuning-vs-quarantine",
+      "correctNote": "This alert was a true positive about an attempt that failed. The response is to validate that the remediation held, meaning the block worked and nothing succeeded. Quarantining a healthy server causes an outage, and raising the threshold would hide the next real spike." },
+    { "id": "st-first", "task": "t-first", "label": "First action on the two compromised hosts", "points": 5,
+      "misconception": "alert-tuning-vs-quarantine",
+      "correctNote": "Quarantine stops the exfiltration and the beaconing while leaving the hosts intact for analysis. Reimaging or deleting files destroys the memory and the artifacts the investigation needs, and waiting lets more data leave." },
+    { "id": "st-link", "task": "t-link", "label": "The missing stage that linked the alerts", "points": 4,
+      "misconception": "log-pipeline-stages",
+      "correctNote": "Aggregation put every source in one place, and the SIEM notes show every source was onboarded. Correlation is the stage that turns an AV detection followed by an outbound transfer to the same address into one alert." },
+    { "id": "st-flow", "task": "t-flow", "label": "Tool for traffic volume and destination", "points": 3,
+      "misconception": "monitoring-tool-selection",
+      "correctNote": "NetFlow records who talked to whom and how much, from the network rather than from the hosts. SNMP traps report device events, SCAP checks configuration against a benchmark, and a vulnerability scanner finds weaknesses; none measure traffic volume." }
+  ]
+}

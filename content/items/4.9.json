@@ -128,5 +128,61 @@
       {"id": "e", "text": "An antivirus full scan completing with zero detections", "misconception": "edr-vs-antivirus", "why": "A clean signature scan proves nothing when the technique has no signature. It is not itself an indicator."}
     ],
     "selectCount": 3
+  },
+  {
+    "id": "iv-009",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["packet-captures", "network-logs", "metadata"],
+    "difficulty": 4,
+    "stem": "Flow records show a workstation sent 2 GB to an external address last night. The analyst now needs to know what was actually inside the unencrypted traffic. Which source can answer that?",
+    "options": [
+      {"id": "a", "text": "Packet captures covering that period", "correct": true, "why": "Full packet capture keeps the payload, so unencrypted content can be reconstructed. It only exists if capture was running at the time."},
+      {"id": "b", "text": "Network flow metadata", "misconception": "log-source-selection", "why": "Metadata records who talked to whom, when and how much. It never contains the payload."},
+      {"id": "c", "text": "The firewall allow log entry for the session", "misconception": "log-source-selection", "why": "A firewall log records that the connection was permitted, with addresses, ports and byte counts. It does not store content."},
+      {"id": "d", "text": "The weekly vulnerability scan report", "misconception": "investigation-derived-sources", "why": "A scan describes weaknesses on a host at scan time. It holds no record of traffic that left the host."}
+    ]
+  },
+  {
+    "id": "iv-010",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["endpoint-logs", "os-specific-security-logs", "network-logs"],
+    "difficulty": 4,
+    "stem": "A server and a file share both appear in an incident timeline. The server has a new service set to autostart and an unknown binary in a temp folder. The file share only had its files encrypted by an account that was stolen elsewhere, and shows no malicious software of its own. How should the two hosts be classified?",
+    "options": [
+      {"id": "a", "text": "The server is compromised; the file share is affected", "correct": true, "why": "Resident malware and persistence are evidence of compromise. The share only shows the effects of someone else's actions."},
+      {"id": "b", "text": "Both are compromised because both appear in the incident", "misconception": "compromised-vs-affected", "why": "Appearing in the timeline is not evidence of compromise. Rebuilding hosts with no malicious artefacts wastes effort and hides the real scope."},
+      {"id": "c", "text": "Neither is compromised until a vulnerability scan is run", "misconception": "investigation-derived-sources", "why": "A scan reports weaknesses, not intrusions. The artefacts already found on the server are the evidence."},
+      {"id": "d", "text": "Only the file share is compromised because its data was changed", "misconception": "compromised-vs-affected", "why": "Changed data is an effect. The share was the victim; the foothold is on the server."}
+    ]
+  },
+  {
+    "id": "iv-011",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["firewall-logs", "ips-ids-logs", "network-logs"],
+    "difficulty": 3,
+    "stem": "An analyst needs to know whether a connection from the internet to a web server was permitted or blocked at the network edge, and which rule decided it. Which log answers that most directly?",
+    "options": [
+      {"id": "a", "text": "Firewall log", "correct": true, "why": "Firewall logs record the allow or deny action and the rule that matched, with source, destination and port."},
+      {"id": "b", "text": "Application log on the web server", "misconception": "log-source-selection", "why": "The application log only shows requests that reached the application. A blocked connection never gets there."},
+      {"id": "c", "text": "Operating system security log on the web server", "misconception": "log-source-selection", "why": "OS security logs cover logons and policy events on that host, not the edge rule decision."},
+      {"id": "d", "text": "Automated weekly report", "misconception": "investigation-derived-sources", "why": "A report is a summary built from underlying logs, produced later, and rarely carries per-connection rule detail."}
+    ]
+  },
+  {
+    "id": "iv-012",
+    "type": "mcq",
+    "objective": "4.9",
+    "topics": ["dashboards", "automated-reports", "metadata"],
+    "difficulty": 3,
+    "stem": "A dashboard shows authentication failures peaked at 03:00. An investigator must prove which source address was responsible and for which accounts. What is the correct next step?",
+    "options": [
+      {"id": "a", "text": "Pull the underlying authentication logs for that window", "correct": true, "why": "Dashboards and reports summarise. Per-event evidence such as source address and account comes from the underlying logs."},
+      {"id": "b", "text": "Screenshot the dashboard as the evidence", "misconception": "investigation-derived-sources", "why": "A chart is derived from data and cannot show individual source addresses or accounts. It is a pointer, not proof."},
+      {"id": "c", "text": "Rescan the authentication server for vulnerabilities", "misconception": "investigation-derived-sources", "why": "A scan finds weaknesses now. It does not explain what happened at 03:00."},
+      {"id": "d", "text": "Treat every host that logged a failure as compromised", "misconception": "compromised-vs-affected", "why": "Failed attempts show a host was targeted, not that it was breached."}
+    ]
   }
 ]
