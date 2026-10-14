@@ -88,9 +88,12 @@ def _write_state(state):
     tmp.write_text(payload)
     os.replace(tmp, STATE_FILE)
 
+    # One snapshot per second, and the last write of that second wins, so the
+    # newest snapshot is never one write behind the primary.
     snap = SNAP_DIR / f"state-{time.strftime('%Y%m%d-%H%M%S')}.json"
-    if not snap.exists():
-        snap.write_text(payload)
+    snap_tmp = snap.with_suffix(".json.tmp")
+    snap_tmp.write_text(payload)
+    os.replace(snap_tmp, snap)
     for old in sorted(SNAP_DIR.glob("state-*.json"))[:-KEEP_SNAPSHOTS]:
         old.unlink(missing_ok=True)
 
@@ -160,8 +163,18 @@ def _append_reviews(rows, resend=False):
     moments = {(r.get("at"), r.get("kind")) for r in held} if resend else set()
     fresh = [r for r in rows if _row_key(r) not in keys and (r.get("at"), r.get("kind")) not in moments]
     with REVIEWS_FILE.open("a") as f:
+        # A crash can leave the last line without its newline. Appending to it
+        # would glue the next good row onto the torn one and lose both, so end
+        # the torn line first; it stays unreadable on its own and is skipped.
+        if REVIEWS_FILE.stat().st_size:
+            with REVIEWS_FILE.open("rb") as tail:
+                tail.seek(-1, os.SEEK_END)
+                if tail.read(1) != b"\n":
+                    f.write("\n")
         for r in fresh:
             f.write(json.dumps(r, separators=(",", ":")) + "\n")
+        f.flush()
+        os.fsync(f.fileno())
     return len(fresh)
 
 
@@ -194,6 +207,21 @@ def _summary(state):
         "misconceptionsOpen": sum(1 for m in mis.values() if not m.get("retired")),
         "misconceptionsRetired": sum(1 for m in mis.values() if m.get("retired")),
     }
+
+
+_refused = {"at": 0.0, "held": 0}
+
+
+def _log_refused_old_code():
+    """One line per ten minutes, not one per refused save: an old tab pushes
+    every second or so and would fill the rotated log."""
+    now = time.time()
+    if now - _refused["at"] >= 600:
+        more = f" ({_refused['held']} more since the last line)" if _refused["held"] else ""
+        LOG.warning("refused a document from a client running old code; reload that tab" + more)
+        _refused.update(at=now, held=0)
+    else:
+        _refused["held"] += 1
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -307,7 +335,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if rows:
                 _append_reviews([r for r in rows if _valid_row(r)], resend=True)
             if old_code and existing is not None and self.headers.get("If-Match") is None:
-                LOG.warning("refused a document from a client running old code; reload that tab")
+                _log_refused_old_code()
                 return self._json(412, {
                     "error": "this tab runs old code and cannot replace saved progress; reload the page",
                     "serverUpdatedAt": existing.get("updatedAt"),

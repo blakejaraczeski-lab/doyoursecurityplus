@@ -1561,6 +1561,277 @@ def scenario_mock_exits(rep, tmp, browser):
         rep.check(not tab.errors[n0:], "no console error", "; ".join(tab.errors[n0:])[:200])
 
 
+def scenario_mock_blanks(rep, tmp, browser):
+    """A mock scores blanks wrong but never logs them, however it ends: the
+    timer running out goes through the same grading as Submit, once. An
+    untouched PBQ is scored zero and recorded as nothing; a touched one is
+    recorded. The 80 percent rule for what counts as a mock sits at 72 of 90."""
+    rep.head("Mock exam: blanks, PBQs, the timer and the 80 percent rule")
+    with throwaway(tmp, "mock-blanks") as (base, data):
+        tab = browser.tab
+        n0 = len(tab.errors)
+        tab.navigate(f"{base}/")
+        rep.check(tab.wait_for(APP_READY), "the app boots")
+        js = lambda code: tab.evaluate(code)
+        js("window.confirm = () => true")
+        click = lambda sel: js(f"document.querySelector({json.dumps(sel)}).click()")
+        hide = ("Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' }); document.dispatchEvent(new Event('visibilitychange'));"
+                "Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'visible' })")
+        def log(kind):
+            f = data / "reviews.jsonl"
+            rows = [json.loads(l) for l in f.read_text().splitlines() if l.strip()] if f.exists() else []
+            return [r for r in rows if r["kind"] == kind]
+
+        def start_short(pbq_id, touched):
+            """A short block whose one PBQ is the named ordering PBQ, touched or not, with 3 right answers and the rest blank."""
+            click("[data-action=nav][data-section=mock]")
+            click("[data-action=mock-select][data-format=short]")
+            click("[data-action=mock-start]")
+            js(f"""{{ const m = App.mock; const i = m.items.findIndex((e) => e.kind === 'pbq');
+              m.items[i] = {{ kind: 'pbq', pbq: App.content.pbqsById['{pbq_id}'], reason: '' }};
+              App.answers['{pbq_id}'] = {{ order: {"['recovery']" if touched else "[]"}, held: null }};
+              for (const e of m.items.filter((e) => e.kind === 'item').slice(0, 3)) m.answers[e.item.id] = e.item.options.find((o) => o.correct).id; }}""")
+
+        def expire():
+            """Let the clock run out: the next one second tick finds nothing left."""
+            click("[data-action=mock-review]") if js("!!document.querySelector('[data-action=mock-review]')") else None
+            js("document.getElementById('mock-timer').dataset.ends = String(Date.now() - 1)")
+            return tab.wait_for("App.screen === 'mock-result'", 6)
+
+        # 1. The timer runs out with an untouched PBQ.
+        start_short("pbq-order-001", touched=False)
+        rep.check(expire(), "when the timer reaches zero the mock is scored without anyone pressing Submit")
+        time.sleep(2.5)    # more ticks and a visibility save: nothing may be scored again
+        js(hide)
+        time.sleep(0.8)
+        mocks = log("mock")
+        rep.check(len(mocks) == 1, "and it is scored once, however many ticks follow", f"({len(mocks)} mock rows)")
+        m = mocks[0] if mocks else {}
+        rep.check(m.get("of") == 20 and m.get("answered") == 3 and m.get("unanswered") == 16,
+                  "the row says 3 answered of 20 (the untouched PBQ is not an answer) and 16 blank", f"({m})")
+        rep.check(len(log("item")) == 3, "only the 3 answered questions are logged as answers", f"({len(log('item'))} rows)")
+        rep.check(len(log("pbq")) == 0 and js("App.state.pbq['pbq-order-001'] === undefined"),
+                  "the untouched PBQ has no attempt, no best score and no row")
+        rep.check(js("Object.keys(App.state.misconceptions).length") == 0,
+                  "and banks no misconception, though its blank sheet is scored wrong")
+        rep.check(js("App.mock.result.unanswered") == 16 and js("App.mock.result.raw") < 0.5, "the score still counts every blank and the PBQ as wrong")
+        click("[data-action=mock-done]")
+        js("App.mock = null")
+
+        # 2. The same block with the PBQ touched: it is an answer, and it records.
+        start_short("pbq-order-001", touched=True)
+        click("[data-action=mock-review]")
+        click("[data-action=mock-submit]")
+        tab.wait_for("App.screen === 'mock-result'", 6)
+        js(hide)
+        time.sleep(0.8)
+        mocks = log("mock")
+        rep.check(len(mocks) == 2 and mocks[-1].get("answered") == 4 and mocks[-1].get("of") == 20,
+                  "a touched PBQ counts as answered: 4 of 20 with it in the mix", f"({mocks[-1] if mocks else None})")
+        rep.check(len(log("pbq")) == 1 and js("App.state.pbq['pbq-order-001'].attempts") == 1,
+                  "and it records one attempt", f"({len(log('pbq'))} pbq rows)")
+        rep.check(js("App.state.pbq['pbq-order-001'].best") < 100 and js("Object.keys(App.state.misconceptions).length") > 0,
+                  "a partly wrong touched sheet banks its misconceptions, as in a drill")
+        click("[data-action=mock-done]")
+
+        # 3. What counts as a mock: 72 of 90 does, 71 of 90 does not.
+        edge = tab.call("Runtime.evaluate", awaitPromise=True, returnByValue=True, expression="""import('/app/scheduler.js').then((s) => {
+          const now = Date.now();
+          const n = (answered) => s.examForecast(App.state, App.content, now, [{ at: now, kind: 'mock', format: 'full', raw: .8, scaled: 780, seconds: 5000, unanswered: 90 - answered, answered, of: 90, banked: 0 }]).mocks;
+          return { at72: n(72), at71: n(71), at90: n(90) };
+        })""")["result"].get("value") or {}
+        rep.check(edge.get("at72") == 1 and edge.get("at71") == 0 and edge.get("at90") == 1,
+                  "a mock counts toward the forecast at 72 of 90 answered and not at 71", f"({edge})")
+
+        # 4. A mock's option order survives leaving a question and coming back.
+        click("[data-action=nav][data-section=mock]")
+        click("[data-action=mock-select][data-format=short]")
+        click("[data-action=mock-start]")
+        orders = js("""(() => {
+          const click = (a) => document.querySelector(`[data-action=${a}]`).click();
+          const grab = () => [...document.querySelectorAll('.opts .opt')].map((b) => b.dataset.opt).join();
+          while (App.mock.items[App.mock.idx].kind !== 'item') click('mock-next');
+          const seen = [grab()];
+          for (let k = 0; k < 3; k++) { click('mock-next'); click('mock-prev'); seen.push(grab()); }
+          return seen;
+        })()""")
+        rep.check(len(orders) == 4 and len(set(orders)) == 1 and orders[0].count(",") >= 3, "a mock question shows its options in the same order on every revisit", f"({orders})")
+        rep.check(not tab.errors[n0:], "no console error", "; ".join(tab.errors[n0:])[:200])
+
+
+def scenario_options_edge(rep, tmp, browser):
+    """The shuffle past the usual four: an item with eight options shows eight
+    distinct letters, and a letter, a click and a choose-N all land on the
+    option that is there, by stored id."""
+    rep.head("Option letters with more than six options")
+    with throwaway(tmp, "options-edge") as (base, _):
+        tab = browser.tab
+        n0 = len(tab.errors)
+        tab.navigate(f"{base}/")
+        rep.check(tab.wait_for(APP_READY), "the app boots")
+        probe = """(() => {
+          const ids = 'abcdefgh'.split('');
+          const mk = (id, type, correct) => ({ id, type, objective: '4.9', topics: [], difficulty: 3, stem: 'Probe ' + id,
+            options: ids.map((o) => ({ id: o, text: 'Option text ' + o, ...(correct.includes(o) ? { correct: true } : { misconception: 'compromised-vs-affected' }), why: 'probe' })),
+            ...(type === 'mcq-multi' ? { selectCount: correct.length } : {}) });
+          const show = (item) => { App.queue = [{ kind: 'item', item, reason: '' }]; App.idx = 0; App.answer = null; App.multiPicked = new Set();
+            document.querySelector('[data-action=nav][data-section=drill]').click();
+            return [...document.querySelectorAll('.opts .opt')]; };
+          const press = (k) => document.dispatchEvent(new KeyboardEvent('keydown', { key: k, bubbles: true }));
+          const out = { keys: [], keyed: 0, keyedN: 0, clicked: 0, clickedN: 0, multi: 0, multiN: 0 };
+          for (let n = 0; n < 60; n++) {
+            const one = mk('probe-1', 'mcq', ['g']);
+            let btns = show(one);
+            if (n === 0) out.keys = btns.map((b) => b.querySelector('.key').textContent.trim());
+            const order = btns.map((b) => b.dataset.opt);
+            if (n < 30) {   // the letter on screen, pressed: the option at that position
+              const pos = n % 6;
+              press('abcdef'[pos]); out.keyedN++;
+              if (App.answer && App.answer.chosen === order[pos]) out.keyed++;
+            } else {        // a click on the seventh or eighth: by stored id
+              const b = btns[6 + (n % 2)]; b.click(); out.clickedN++;
+              if (App.answer && App.answer.chosen === b.dataset.opt) out.clicked++;
+            }
+          }
+          for (let n = 0; n < 30; n++) {
+            const two = mk('probe-2', 'mcq-multi', ['b', 'g', 'h']);
+            const btns = show(two); const order = btns.map((b) => b.dataset.opt);
+            for (const id of ['b', 'g', 'h']) {
+              const now = [...document.querySelectorAll('.opts .opt')].map((b) => b.dataset.opt);   // the page re-renders after each toggle
+              const pos = now.indexOf(id);
+              pos < 6 ? press('abcdef'[pos]) : document.querySelectorAll('.opts .opt')[pos].click();
+            }
+            out.multiN++; if (App.multiPicked.size === 3) { press('Enter'); if (App.answer && App.answer.correct) out.multi++; }
+          }
+          return out;
+        })()"""
+        out = tab.evaluate(probe) or {}
+        keys = out.get("keys", [])
+        rep.check(keys == list("ABCDEFGH"), "eight options show the letters A to H, none blank or undefined", f"({keys})")
+        rep.check(out.get("keyedN") and out.get("keyed") == out.get("keyedN"),
+                  f"a letter pressed on an eight option item answers the option shown there ({out.get('keyed')} of {out.get('keyedN')})")
+        rep.check(out.get("clickedN") and out.get("clicked") == out.get("clickedN"),
+                  f"a click on the seventh or eighth option answers that option's id ({out.get('clicked')} of {out.get('clickedN')})")
+        rep.check(out.get("multiN") and out.get("multi") == out.get("multiN"),
+                  f"choose-three on seven options, by letter or click wherever each landed, grades correct ({out.get('multi')} of {out.get('multiN')})")
+        rep.check(not tab.errors[n0:], "no console error", "; ".join(tab.errors[n0:])[:200])
+
+
+def scenario_server_rows(rep, tmp):
+    """Two server promises about what is on disk: a torn last line in the log
+    does not swallow the next good row, and the newest snapshot is the latest
+    write, not the first of a busy second."""
+    rep.head("Server: a torn log line and the snapshot of the last write")
+    with throwaway(tmp, "server-rows") as (base, data):
+        state_url, log_url = f"{base}/api/state", f"{base}/api/reviews"
+        http("POST", log_url, [{"at": 1, "kind": "item", "id": "c-001", "grade": 3}])
+        with (data / "reviews.jsonl").open("a") as f:
+            f.write('{"at": 5, "kind": "it')          # a crash mid write: no closing, no newline
+        code, body = http("POST", log_url, [{"at": 9, "kind": "item", "id": "c-good", "grade": 3}])
+        ids = [r.get("id") for r in http("GET", log_url)[1]["reviews"]]
+        rep.check(code == 200 and ids == ["c-001", "c-good"],
+                  "a row posted after a torn last line is kept and readable, and the torn fragment is skipped", f"({code}, {ids})")
+        code, body = http("POST", log_url, [{"at": 10, "kind": "item", "id": "c-next", "grade": 1}])
+        ids = [r.get("id") for r in http("GET", log_url)[1]["reviews"]]
+        rep.check(ids == ["c-001", "c-good", "c-next"], "and the rows after that are fine too", f"({ids})")
+
+        http("PUT", state_url, doc(100))
+        lagged = 0
+        for k in range(1, 7):      # six pairs of writes, most of them inside one clock second
+            http("PUT", state_url, doc(100 + 2 * k - 1), {"If-Match": str(100 + 2 * k - 2)})
+            http("PUT", state_url, doc(100 + 2 * k), {"If-Match": str(100 + 2 * k - 1)})
+            newest = sorted((data / "snapshots").glob("state-*.json"))[-1]
+            lagged += json.loads(newest.read_text())["updatedAt"] != 100 + 2 * k
+        rep.check(lagged == 0, f"after every write the newest snapshot holds that write ({lagged} of 6 lagged)")
+
+
+def seed_local(tab, state):
+    """Put a document in localStorage before the page's own script runs, so the page's
+    unload save cannot overwrite it. Returns the stub id to remove afterwards."""
+    return tab.call("Page.addScriptToEvaluateOnNewDocument",
+                    source=f"try {{ localStorage.setItem('dysp.v1', {json.dumps(json.dumps(state))}); }} catch (e) {{}}")["identifier"]
+
+
+def scenario_restore_and_sync(rep, tmp, browser):
+    """Restoring a backup and the first save of a tab. A restore from an export
+    made before the log was its own resource still carries a `reviews` array;
+    it must stick after a reload and its rows must reach the log. A tab whose
+    first read of the server failed has no idea what the server holds, so it
+    must not write over it; a server that answered 404 holds nothing, and the
+    tab's first save must land."""
+    rep.head("Restore a backup, and a first save that cannot see the server")
+    mc = "rto-vs-rpo"
+    with throwaway(tmp, "restore") as (base, data):
+        tab = browser.tab
+        n0 = len(tab.errors)
+        future = int(time.time() * 1000) + 10_000_000      # a clock the browser's own saves cannot pass
+        http("PUT", f"{base}/api/state", doc(future, misconceptions={"kept": {"hits": 1, "retired": True}}))
+        tab.navigate(f"{base}/")
+        rep.check(tab.wait_for(APP_READY), "the app boots on the server's newer progress")
+        backup = doc(1000, misconceptions={mc: {"hits": 2, "retired": False, "lastAt": 1000}},
+                     reviews=[{"at": 5000 + k, "kind": "item", "id": f"c-{k:03d}", "grade": 3} for k in range(3)])
+        tab.evaluate("""((backup) => {
+          const real = HTMLInputElement.prototype.click;
+          HTMLInputElement.prototype.click = function () {
+            if (this.type !== 'file') return real.call(this);
+            const dt = new DataTransfer(); dt.items.add(new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' }));
+            this.files = dt.files; this.onchange && this.onchange();
+          };
+          document.querySelector('[data-action=nav][data-section=settings]').click();
+          document.querySelector('[data-action=import]').click();
+        })(%s)""" % json.dumps(backup))
+        landed = poll(lambda: mc in (on_disk(data).get("misconceptions") or {}), 8)
+        rep.check(landed and "kept" not in on_disk(data)["misconceptions"],
+                  "importing an old export replaces the server's saved document with it", f"({sorted(on_disk(data)['misconceptions'])})")
+        rep.check("reviews" not in on_disk(data), "and the saved document carries no review history inside it")
+        rows_now = lambda: sorted(json.loads(l)["id"] for l in (data / "reviews.jsonl").read_text().splitlines() if l.strip()) if (data / "reviews.jsonl").exists() else []
+        poll(lambda: len(rows_now()) >= 3, 8)
+        ids = rows_now()
+        rep.check(ids == ["c-000", "c-001", "c-002"], "its review rows reached the log, once each", f"({ids})")
+        tab.navigate(f"{base}/")
+        rep.check(tab.wait_for(APP_READY), "the app boots again")
+        time.sleep(1.0)
+        rep.check(tab.evaluate(f"!!App.state.misconceptions[{json.dumps(mc)}] && !App.state.misconceptions.kept"),
+                  "after a reload the restored progress is still what the page holds, not the server's older copy pulled back")
+
+    with throwaway(tmp, "first-pull") as (base, data):
+        tab = browser.tab
+        n1 = len(tab.errors)
+        future = int(time.time() * 1000) + 10_000_000
+        http("PUT", f"{base}/api/state", doc(future, misconceptions={"kept": {"hits": 1, "retired": True}}))
+        stale = doc(100, misconceptions={mc: {"hits": 1, "retired": False}})
+        seed = seed_local(tab, stale)
+        stub = tab.call("Page.addScriptToEvaluateOnNewDocument", source="""(() => {
+          const real = window.fetch; let failed = false;
+          window.fetch = (url, opts) => {
+            const u = String(url instanceof Request ? url.url : url);
+            if (!failed && u.endsWith('/api/state') && (!opts || !opts.method || opts.method === 'GET')) { failed = true; return Promise.reject(new TypeError('Failed to fetch')); }
+            return real(url, opts);
+          };
+        })();""")["identifier"]
+        tab.navigate(f"{base}/")
+        tab.wait_for(APP_READY)
+        time.sleep(4.0)    # past the 1.5 s save debounce, twice
+        held = on_disk(data)
+        rep.check(held["updatedAt"] == future and "kept" in held["misconceptions"] and mc not in held["misconceptions"],
+                  "a tab whose first read of the server failed does not write its older copy over the server's newer progress", f"({held['updatedAt']} vs {future})")
+        tab.call("Page.removeScriptToEvaluateOnNewDocument", identifier=stub)
+        tab.call("Page.removeScriptToEvaluateOnNewDocument", identifier=seed)
+        tab.evaluate("localStorage.clear()")
+        rep.check(not tab.errors[n1:], "no console error", "; ".join(tab.errors[n1:])[:200])
+
+    with throwaway(tmp, "first-save") as (base, data):
+        tab = browser.tab
+        local = doc(100, misconceptions={mc: {"hits": 1, "retired": False}})
+        seed = seed_local(tab, local)
+        tab.navigate(f"{base}/")
+        tab.wait_for(APP_READY)
+        ok = poll(lambda: (data / "state.json").exists() and mc in on_disk(data).get("misconceptions", {}), 6)
+        rep.check(ok, "when the server answers 404 (nothing saved yet) the tab's first save still lands")
+        tab.call("Page.removeScriptToEvaluateOnNewDocument", identifier=seed)
+        tab.evaluate("localStorage.clear()")
+
+
 def scenario_answer_order(rep, tmp, browser):
     """Options are shuffled when shown, so the correct one is not parked at 'a'.
     The stored ids stay put: grading, the keyboard letter and the log all have
@@ -1661,6 +1932,10 @@ def main():
         "latency": lambda: scenario_latency(rep, tmp, browser),
         "stress": lambda: scenario_stress(rep, tmp, browser),
         "mock-exits": lambda: scenario_mock_exits(rep, tmp, browser),
+        "mock-blanks": lambda: scenario_mock_blanks(rep, tmp, browser),
+        "options-edge": lambda: scenario_options_edge(rep, tmp, browser),
+        "server-rows": lambda: scenario_server_rows(rep, tmp),
+        "restore-sync": lambda: scenario_restore_and_sync(rep, tmp, browser),
         "answer-order": lambda: scenario_answer_order(rep, tmp, browser),
         "latency-10000": lambda: scenario_latency(rep, tmp, browser, 10000, assert_limits=False),
     }

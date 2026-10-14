@@ -15,7 +15,11 @@ const DEBOUNCE_MS = 1500;
 let timer = null;
 let inFlight = false;
 let pending = null;
-let version = null;   // the server's updatedAt as last seen, the base of the next conditional put
+// The server's updatedAt as last seen, the base of the next conditional put.
+// null means nobody has asked yet, or the last ask failed; 0 means the server
+// answered and holds nothing. A save never goes out on null: it would carry no
+// precondition, and a stale tab could replace newer progress.
+let version = null;
 
 const SYNC = {
   UNKNOWN: "unknown",
@@ -35,7 +39,7 @@ export async function pull() {
   if (SCRATCH) { setStatus(SYNC.SAVED); return null; }
   try {
     const res = await fetch(ENDPOINT, { cache: "no-store" });
-    if (res.status === 404) { setStatus(SYNC.SAVED); return null; }
+    if (res.status === 404) { version = 0; setStatus(SYNC.SAVED); return null; }
     if (!res.ok) { setStatus(SYNC.OFFLINE); return null; }
     const { state } = await res.json();
     version = state.updatedAt || 0;
@@ -52,7 +56,7 @@ async function put(state, { unconditional = false } = {}) {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      ...(unconditional || version == null ? {} : { "If-Match": String(version) }),
+      ...(unconditional ? {} : { "If-Match": String(version) }),
     },
     body: JSON.stringify(state),
   });
@@ -73,12 +77,20 @@ async function drain() {
   inFlight = true;
   setStatus(SYNC.SAVING);
   try {
+    if (version == null) {
+      // Never saved against a server we have not heard from. Ask first; if it
+      // still cannot be reached, hold the state for the next push. If it holds
+      // newer work than this tab, that is a conflict, not a save.
+      const remote = await pull();
+      if (version == null) { pending = pending || state; return; }
+      if (remote && (remote.updatedAt || 0) > (state.updatedAt || 0)) { setStatus(SYNC.CONFLICT); return; }
+    }
     await put(state);
   } catch {
     setStatus(SYNC.OFFLINE);
   } finally {
     inFlight = false;
-    if (pending) drain();
+    if (pending && version != null) drain();
   }
 }
 
@@ -117,7 +129,7 @@ export function flushNow(state) {
  * must not win on its way out just because nobody is left to read the 412.
  */
 export function flushBeacon(state) {
-  if (SCRATCH || status === SYNC.CONFLICT) return false;
+  if (SCRATCH || status === SYNC.CONFLICT || version == null) return false;
   clearTimeout(timer);
   try {
     const body = JSON.stringify(state);
@@ -125,7 +137,7 @@ export function flushBeacon(state) {
     const blob = new Blob([body], { type: "application/json" });
     fetch(ENDPOINT, { method: "PUT", body: blob, keepalive: true,
                       headers: { "Content-Type": "application/json",
-                                 ...(version == null ? {} : { "If-Match": String(version) }) } })
+                                 "If-Match": String(version) } })
       .catch(() => {});
     return true;
   } catch { return false; }

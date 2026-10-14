@@ -27,7 +27,7 @@ export function objectiveLabel(content, id) {
   return o ? `${id} ${o.title}` : id || "untagged";
 }
 
-export const KEYS = ["A", "B", "C", "D", "E", "F"];
+export const KEYS = [..."ABCDEFGHIJ"];
 
 /**
  * One answer option. The same control everywhere an option is chosen: the

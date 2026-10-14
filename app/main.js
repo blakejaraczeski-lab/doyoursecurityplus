@@ -843,6 +843,10 @@ const ACTIONS = {
     input.onchange = async () => {
       try {
         App.state = store.importState(await input.files[0].text());
+        // A backup from before the log was its own resource carries its history
+        // inside the document. Move it to the log first, or the server treats the
+        // forced save as old code and refuses it, and the next boot undoes the restore.
+        reviews.absorb(App.state);
         store.save(App.state);
         await sync.forcePush(App.state);
         render();
@@ -941,7 +945,7 @@ document.addEventListener("keydown", (e) => {
     if (App.answer) return;
     const need = entry.item.selectCount || 2;
     if (e.key === "Enter" && App.multiPicked.size === need) { e.preventDefault(); answerMcqMulti(); return render(); }
-    const i = "abcdef".indexOf(e.key.toLowerCase());
+    const i = "abcdefghij".indexOf(e.key.toLowerCase());
     if (i >= 0 && entry.item.options[i]) {
       e.preventDefault();
       const id = entry.item.options[i].id;
@@ -958,7 +962,7 @@ document.addEventListener("keydown", (e) => {
       App.markedGuess = !App.markedGuess;
       return render();
     }
-    const i = "abcdef".indexOf(e.key.toLowerCase());
+    const i = "abcdefghij".indexOf(e.key.toLowerCase());
     if (!App.answer && i >= 0 && entry.item.options[i]) {
       e.preventDefault();
       answerMcq(entry.item.options[i].id);
