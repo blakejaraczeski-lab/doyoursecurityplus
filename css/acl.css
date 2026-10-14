@@ -1,0 +1,41 @@
+/* ACL PBQ: the rule grid and the plain-text readout of the same rules. */
+
+/* The ACL grid is a dense data table, not a form: seven controls per row, eight
+   rows. Full-height controls there would push the rule set past a screen and
+   the whole point of that PBQ is seeing the order at a glance. Mouse-sized,
+   and it is not a surface anyone taps on a phone. */
+table.grid select, table.grid input { min-height: 34px; }
+
+/* Seven native selects across a column that is never wide enough. Widths go on
+   the controls, not the cells (in auto table layout a min-width on a th is only
+   a hint), and are measured from the widest option each column holds, so
+   "443 (HTTPS)" fits. When the set no longer fits, .scroll-x takes over. */
+table.acl-grid { min-width: 880px; }
+table.acl-grid th, table.acl-grid td { padding: var(--s1) var(--s2); }
+table.acl-grid td:nth-child(1) { width: 2rem; }
+table.acl-grid td:nth-child(2) select { min-width: 86px; }
+table.acl-grid td:nth-child(3) select { min-width: 70px; }
+table.acl-grid td:nth-child(4) select,
+table.acl-grid td:nth-child(6) select { min-width: 132px; }
+table.acl-grid td:nth-child(5) select,
+table.acl-grid td:nth-child(7) select { min-width: 130px; }
+table.acl-grid td:last-child { width: 108px; }
+
+/* The same rule set as plain text, because reading the policy in order is the
+   task and a row of truncated dropdowns cannot be read. */
+.readout { margin-top: var(--s4); padding-top: var(--s4); border-top: 1px solid var(--line); }
+.acl-readout { list-style: none; margin: var(--s3) 0 0; padding: 0; display: grid; gap: 2px; }
+.acl-readout li {
+  display: grid; grid-template-columns: 1.8rem 1fr; gap: var(--s2); align-items: baseline;
+  padding: var(--s2) var(--s3); border-radius: var(--r1); background: var(--panel-2);
+  border-left: 3px solid var(--line-strong);
+}
+.acl-readout li.permit { border-left-color: var(--good); }
+.acl-readout li.deny { border-left-color: var(--bad); }
+.acl-readout li.implicit { background: transparent; border-left-style: dashed; opacity: .75; }
+/* The rule a select just changed, marked in the readout, so the consequence of
+   the change is found where it is read. */
+.acl-readout li.edited { outline: 2px solid var(--accent); outline-offset: -2px; }
+.acl-readout .n { font: 650 var(--t-xs)/1.6 var(--mono); color: var(--ink-faint); text-align: right; }
+.acl-readout code { font: var(--t-sm)/1.6 var(--mono); color: var(--ink-dim); }
+.acl-readout code b { color: var(--ink); font-weight: 650; }

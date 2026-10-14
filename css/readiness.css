@@ -1,0 +1,84 @@
+/* Readiness: calibration quadrants, the heatmap, the gauge and the stopping rule. */
+
+.cal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s2); }
+.quad {
+  border: 1px solid var(--line); border-radius: var(--r1); padding: var(--s3);
+  display: grid; gap: 2px; background: var(--panel-2);
+}
+.quad b { font: 700 var(--t-xl)/1 var(--sans); }
+.quad span { font-size: var(--t-sm); }
+.quad small { color: var(--ink-faint); font-size: var(--t-xs); }
+.quad.q-good { border-color: var(--good); } .quad.q-good b { color: var(--good); }
+.quad.q-bad { border-color: var(--bad); background: var(--bad-soft); } .quad.q-bad b { color: var(--bad); }
+.quad.q-warn { border-color: var(--warn); } .quad.q-warn b { color: var(--warn); }
+
+/* ---------- heatmap and gauge --------------------------------------------- */
+.heat { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: var(--s2); }
+.heat .cell {
+  border: 1px solid var(--line); border-radius: var(--r1);
+  padding: var(--s3); background: var(--panel);
+  transition: border-color var(--dur) var(--ease);
+}
+.heat .cell:hover { border-color: var(--line-strong); }
+.heat .cell b { font: 660 var(--t-sm)/1 var(--mono); }
+.heat .cell .bar { height: 5px; border-radius: 3px; background: var(--panel-3); margin: var(--s2) 0 var(--s1); overflow: hidden; }
+.heat .cell .bar span {
+  display: block; height: 100%; width: var(--w, 0%); border-radius: 3px;
+}
+.s-strong span { background: var(--good); } .s-ok span { background: var(--ok); }
+.s-shaky span { background: var(--warn); } .s-weak span { background: var(--bad); }
+.s-untouched span, .s-no-items span { background: var(--line-strong); }
+
+/* The bank, not the learner. A cell can read "strong" and still be standing on
+   four items out of a thirty-topic objective, so the shortfall is said out loud
+   instead of being folded into the score. */
+.heat .cell.is-thin { border-style: dashed; }
+.thin-flag {
+  display: inline-flex; align-items: center; gap: var(--s1);
+  margin-top: var(--s1); padding: 1px var(--s2);
+  border: 1px solid var(--warn); border-radius: var(--r1);
+  color: var(--warn); background: var(--warn-soft);
+  font: 500 var(--t-xs)/1.5 var(--sans);
+}
+.heat .cell small { color: var(--ink-faint); font-size: var(--t-xs); display: block; }
+.heat .cell .title {
+  color: var(--ink-dim); font-size: var(--t-xs); line-height: 1.35; margin-top: var(--s1);
+  /* Objective titles are a full sentence. Two lines, then stop. */
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.root-cause { display: grid; gap: 2px; padding: var(--s2) 0; font-size: var(--t-sm); }
+.root-cause + .root-cause { border-top: 1px solid var(--line); }
+.root-cause b { color: var(--warn); }
+.root-cause span { color: var(--ink-dim); line-height: 1.5; }
+
+.next-up { list-style: none; margin: 0; padding: 0; }
+.next-up li {
+  display: grid; grid-template-columns: auto 1fr auto; gap: var(--s3);
+  align-items: baseline; padding: var(--s2) 0;
+}
+.next-up li + li { border-top: 1px solid var(--line); }
+.next-up .code { font: 600 var(--t-sm)/1.4 var(--mono); color: var(--ink-dim); }
+.next-up .what { line-height: 1.4; }
+.next-up .mastery { font: 600 var(--t-sm)/1.4 var(--mono); white-space: nowrap; }
+.next-up .mastery.s-weak { color: var(--bad); }
+.next-up .mastery.s-shaky { color: var(--warn); }
+.next-up .mastery.s-ok, .next-up .mastery.s-strong { color: var(--good); }
+.next-up .mastery.s-untouched { color: var(--ink-faint); }
+
+.gauge {
+  height: 30px; background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 999px; position: relative; overflow: hidden; margin: var(--s4) 0 var(--s2);
+}
+.gauge .band {
+  position: absolute; top: 0; bottom: 0; left: var(--l, 0%); width: var(--w, 0%);
+  background: color-mix(in srgb, var(--accent) 34%, transparent);
+  border-left: 2px solid var(--accent); border-right: 2px solid var(--accent);
+}
+.gauge .pass { position: absolute; top: -2px; bottom: -2px; left: var(--l, 0%); width: 2px; background: var(--ink); }
+.gauge-scale { display: flex; justify-content: space-between; font: 500 var(--t-xs)/1 var(--mono); color: var(--ink-faint); }
+
+/* The stopping rule: three conditions, each with its glyph, read top to bottom. */
+.stop-rule { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.stop-rule li { display: flex; gap: var(--s3); align-items: flex-start; }

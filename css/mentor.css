@@ -1,0 +1,78 @@
+/* Mentor: the correction card and the bank that lists them. */
+
+/* ---------- mentor card --------------------------------------------------- */
+.mentor { border-left: 3px solid var(--warn); }
+.mentor .mentor-head { margin-bottom: var(--s3); }
+.mentor h3 {
+  margin: 0; font: 660 var(--t-lg)/1.35 var(--sans); letter-spacing: -.01em;
+  text-transform: none; color: var(--ink);
+}
+.mentor .diag { margin: 0 0 var(--s4); color: var(--ink-dim); }
+.mentor table {
+  width: 100%; border-collapse: collapse; margin: var(--s4) 0;
+  font-size: var(--t-sm); line-height: 1.45;
+}
+.mentor th, .mentor td {
+  border: 1px solid var(--line); padding: var(--s2) var(--s3);
+  text-align: left; vertical-align: top;
+}
+.mentor thead th { background: var(--panel-2); font-weight: 640; color: var(--ink); }
+.mentor tbody tr:nth-child(odd) td { background: color-mix(in srgb, var(--panel-2) 45%, transparent); }
+.mentor tbody td:first-child { font-weight: 600; }
+
+/* The one sentence to recall under time pressure, deliberately isolated. */
+.rule-of-thumb {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 var(--r1) var(--r1) 0;
+  padding: var(--s3) var(--s4);
+  margin: var(--s4) 0;
+  font-size: var(--t-lg); line-height: 1.5; font-weight: 520;
+}
+.rule-of-thumb .lbl {
+  display: block; font: 650 var(--t-xs)/1.4 var(--sans);
+  text-transform: uppercase; letter-spacing: .08em;
+  color: var(--accent); margin-bottom: var(--s1);
+}
+.kv { margin: var(--s3) 0; }
+.kv > b {
+  display: block; font: 650 var(--t-xs)/1.4 var(--sans);
+  text-transform: uppercase; letter-spacing: .07em; color: var(--ink-faint);
+  margin-bottom: 2px;
+}
+.progress-pill {
+  font-size: var(--t-xs); color: var(--ink-dim); white-space: nowrap;
+  background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 999px; padding: 2px var(--s3);
+}
+.pips { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: var(--s2); }
+.pips i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--line-strong); display: block; }
+.pips i.on { background: var(--good); border-color: var(--good); }
+
+details.refs { margin-top: var(--s4); }
+details.refs summary {
+  cursor: pointer; font-size: var(--t-sm); color: var(--accent);
+  list-style: none; padding: var(--s1) 0;
+}
+details.refs summary::-webkit-details-marker { display: none; }
+details.refs summary::before { content: "▸ "; display: inline-block; }
+details.refs[open] summary::before { content: "▾ "; }
+details.refs ul { margin: var(--s2) 0 0; padding-left: var(--s5); color: var(--ink-dim); font-size: var(--t-sm); }
+
+.tier-banner {
+  display: grid; gap: 2px; padding: var(--s3) var(--s4); margin: calc(var(--s2) * -1) 0 var(--s4);
+  border-radius: var(--r1); background: var(--warn-soft); border: 1px solid var(--warn);
+  font-size: var(--t-sm);
+}
+.tier-banner b { color: var(--warn); }
+.tier-banner.t-third { background: var(--bad-soft); border-color: var(--bad); }
+.tier-banner.t-third b { color: var(--bad); }
+.mentor-escalated { border-left-color: var(--bad); }
+
+.blockers {
+  border-left: 3px solid var(--warn); background: var(--warn-soft);
+  border-radius: 0 var(--r1) var(--r1) 0; padding: var(--s3) var(--s4); margin: var(--s3) 0;
+  font-size: var(--t-sm);
+}
+.blockers > b { display: block; color: var(--warn); margin-bottom: var(--s1); }
+.blockers ul { margin: 0 0 var(--s2); padding-left: var(--s5); }

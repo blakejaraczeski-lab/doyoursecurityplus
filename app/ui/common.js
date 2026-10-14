@@ -1,3 +1,5 @@
+import * as mentor from "../mentor.js";
+
 export const esc = (s) =>
   String(s ?? "").replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -163,3 +165,35 @@ export function emptyState({ glyph = "&#9634;", title, body, actions = "" }) {
     ${actions}
   </div>`;
 }
+
+/**
+ * Options are shown in a random order, once per presentation. The stored
+ * order put the correct option at "a" in most items, which taught position
+ * instead of content. The shuffle reorders the item's own options array, so
+ * the keyboard handler, which indexes it by letter, and the rendered letters
+ * agree. Everything else addresses an option by its stored id, which never
+ * changes, so grading, misconception attribution, the review log and the
+ * saved state are unaffected. A letter on screen is a position, not an id.
+ * Done once per queue or mock entry, so a re-render or a revisit in the mock
+ * keeps the order the learner already saw.
+ */
+const presented = new WeakSet();
+export function presentOptions(entry) {
+  const it = entry?.item;
+  if (!it || !Array.isArray(it.options) || presented.has(entry)) return it;
+  presented.add(entry);
+  for (let i = it.options.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [it.options[i], it.options[j]] = [it.options[j], it.options[i]];
+  }
+  return it;
+}
+
+export const mentorCards = (App, ids) =>
+  (ids || []).map((id) => mentorCardHtml(mentor.card(id, App.content, App.state))).join("");
+
+/** Has this PBQ answer sheet been touched? Inspection state is not an answer. */
+export const pbqAnswered = (a) =>
+  Object.entries(a || {}).some(([k, v]) =>
+    !["seenNodes", "inspected", "held"].includes(k) &&
+    (Array.isArray(v) ? v.length : v && typeof v === "object" ? Object.keys(v).length : !!v));

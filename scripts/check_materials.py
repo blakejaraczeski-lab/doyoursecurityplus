@@ -2,7 +2,7 @@
 """Honest materials: a 1px border and a solid panel, colour from tokens.
 
 Fails on box-shadow, any gradient, backdrop-filter, and on a hex, rgb or hsl
-literal anywhere in styles.css outside the token blocks (:root, light and
+literal anywhere in css/*.css outside the token blocks (:root, light and
 dark). Everything else reads colour through var(--token), which is what keeps
 both themes defined in one place and keeps a one-off hue from creeping in.
 
@@ -22,18 +22,18 @@ EXEMPT = {
 }
 
 CARRIERS = {
-    ".nav .badge.hot": "styles.css prints a ! before the count (.nav .badge.hot::before)",
-    ".stat dd.warn": "styles.css prints a ! before the figure (.stat dd.warn::before)",
-    ".stat dd.good": "styles.css prints a check before the figure (.stat dd.good::before)",
-    ".dot.saved": "SYNC_TEXT prints a status word beside the dot (main.js syncFootHtml)",
-    ".dot.saving": "SYNC_TEXT prints a status word beside the dot (main.js syncFootHtml)",
-    ".dot.offline, .dot.conflict": "SYNC_TEXT prints a status word beside the dot (main.js syncFootHtml)",
-    ".c-good": "mock list and PBQ score print a number beside 'pass'/'below' or the pass line; the timer says last 5 or 15 min in words (main.js tickMock)",
-    ".c-warn": "mock timer says last 15 min in words; the score-big bands print a word beside the number: above, near or below the line (views.js), strong, partial or weak (pbq.js)",
-    ".c-bad": "mock timer says last 5 min in words; PBQ trace rows carry a check or cross mark in the first cell; the score-big bands and the overconfidence percentage print a word (views.js, pbq.js)",
+    ".nav .badge.hot": "base.css prints a ! before the count (.nav .badge.hot::before)",
+    ".stat dd.warn": "base.css prints a ! before the figure (.stat dd.warn::before)",
+    ".stat dd.good": "base.css prints a check before the figure (.stat dd.good::before)",
+    ".dot.saved": "SYNC_TEXT prints a status word beside the dot (app/ui/chrome.js syncFootHtml)",
+    ".dot.saving": "SYNC_TEXT prints a status word beside the dot (app/ui/chrome.js syncFootHtml)",
+    ".dot.offline, .dot.conflict": "SYNC_TEXT prints a status word beside the dot (app/ui/chrome.js syncFootHtml)",
+    ".c-good": "mock list and PBQ score print a number beside 'pass'/'below' or the pass line; the timer says last 5 or 15 min in words (app/screens/mock.js tickMock)",
+    ".c-warn": "mock timer says last 15 min in words; the score-big bands print a word beside the number: above, near or below the line (app/ui/mock.js), strong, partial or weak (pbq.js)",
+    ".c-bad": "mock timer says last 5 min in words; PBQ trace rows carry a check or cross mark in the first cell; the score-big bands and the overconfidence percentage print a word (app/ui/mock.js, app/ui/readiness.js, pbq.js)",
     ".exam-bar b": "bold sentence states it, and .exam-bar has its own 1px warn border",
-    ".opt.correct .verdict": "the verdict is a check glyph (views.js verdict = &check;)",
-    ".opt.wrong .verdict": "the verdict is a cross glyph (views.js verdict = &times;)",
+    ".opt.correct .verdict": "the verdict is a check glyph (app/ui/drill.js verdict = &check;)",
+    ".opt.wrong .verdict": "the verdict is a cross glyph (app/ui/drill.js verdict = &times;)",
     ".verdict-banner.yes .mark": "the mark is a check glyph; .verdict-banner.yes has its own border",
     ".verdict-banner.no .mark, .verdict-banner.bad .mark": "the mark is a cross or ! glyph; the banner has its own border",
     ".verdict-banner.warn .mark": "the mark is a ~ or ! glyph; the banner has its own border",
@@ -44,23 +44,23 @@ CARRIERS = {
     ".quad.q-good b": "a count with a caption word (Sure and right); the quad has its own border",
     ".quad.q-bad b": "a count with a caption word (Sure and wrong); the quad has its own border",
     ".quad.q-warn b": "a count with a caption word (Guessed and wrong); the quad has its own border",
-    ".mark.ok": "the mark holds a check glyph (common.js resultsHtml, views.js)",
-    ".mark.no": "the mark holds a cross glyph (common.js resultsHtml, views.js)",
+    ".mark.ok": "the mark holds a check glyph (app/ui/common.js resultsHtml, app/ui/mock.js)",
+    ".mark.no": "the mark holds a cross glyph (app/ui/common.js resultsHtml, app/ui/mock.js)",
     ".mark.part": "the mark holds a ~ glyph (common.js resultsHtml)",
-    ".s-strong span": "the heat cell prints the status word and the percentage (views.js)",
-    ".s-ok span": "the heat cell prints the status word and the percentage (views.js)",
-    ".s-shaky span": "the heat cell prints the status word and the percentage (views.js)",
-    ".s-weak span": "the heat cell prints the status word and the percentage (views.js)",
+    ".s-strong span": "the heat cell prints the status word and the percentage (app/ui/readiness.js)",
+    ".s-ok span": "the heat cell prints the status word and the percentage (app/ui/readiness.js)",
+    ".s-shaky span": "the heat cell prints the status word and the percentage (app/ui/readiness.js)",
+    ".s-weak span": "the heat cell prints the status word and the percentage (app/ui/readiness.js)",
     ".root-cause b": "bold text is the misconception label; the card has a .flag left border",
-    ".next-up .mastery.s-weak": "the mastery prints the status word after the percentage (views.js)",
-    ".next-up .mastery.s-shaky": "the mastery prints the status word after the percentage (views.js)",
-    ".next-up .mastery.s-ok, .next-up .mastery.s-strong": "the mastery prints the status word after the percentage (views.js)",
+    ".next-up .mastery.s-weak": "the mastery prints the status word after the percentage (app/ui/readiness.js)",
+    ".next-up .mastery.s-shaky": "the mastery prints the status word after the percentage (app/ui/readiness.js)",
+    ".next-up .mastery.s-ok, .next-up .mastery.s-strong": "the mastery prints the status word after the percentage (app/ui/readiness.js)",
 }
 
 import re, sys, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-css = (ROOT / "styles.css").read_text()
+css = "\n".join(f.read_text() for f in sorted((ROOT / "css").glob("*.css")))
 fails = []
 
 # Drop comments, then the token blocks: `:root {` at top level and inside the

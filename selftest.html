@@ -5,7 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>doyoursecurityplus self test</title>
 <link rel="stylesheet" href="fonts/plex.css">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/drill.css">
+<link rel="stylesheet" href="css/mentor.css">
+<link rel="stylesheet" href="css/lab.css">
+<link rel="stylesheet" href="css/acl.css">
+<link rel="stylesheet" href="css/diagram.css">
+<link rel="stylesheet" href="css/order.css">
+<link rel="stylesheet" href="css/mock.css">
+<link rel="stylesheet" href="css/readiness.css">
 <style>
   body { padding: 2rem; }
   main { max-width: 900px; }
@@ -128,513 +136,25 @@
 </table>
 </main>
 <script type="module">
-import { loadContent, isGraded } from "./app/content.js";
-import { gradePbq } from "./app/grade.js";
-import * as mentor from "./app/mentor.js";
-import { buildQueue, buildMock, readiness, coverageDeficit, currentPriority, expectedGain, gainContext, studyPlan, examForecast, hoursToReady, spaceAfterMiss, RESERVE_GAP, PBQ_WEIGHT, POINTS_PER_QUESTION } from "./app/scheduler.js";
-import { DEFAULT_STATE, pruneOrphans, applyItemReview } from "./app/state.js";
-import { calibrationOf, todayOf, minutesOf } from "./app/reviews.js";
-import * as fsrs from "./app/fsrs.js";
+import { say, check, lines, failures } from "./selftest/harness.js";
 
-const lines = [];
-let failures = 0;
-const say = (s, cls) => lines.push(cls ? `<span class="${cls}">${s}</span>` : s);
-const check = (cond, label, detail = "") => {
-  if (cond) say(`  ok   ${label}`, "ok");
-  else { failures++; say(`  FAIL ${label} ${detail}`, "fail"); }
-};
-
-/** Build the answer set that the content itself declares to be correct. */
-function referenceAnswers(p) {
-  if (p.kind === "acl-table") return { rules: p.solution.reference || [] };
-  if (p.kind === "drag-order") {
-    return p.config.mode === "sequence"
-      ? { order: [...p.solution.order] }
-      : { placements: { ...p.solution.placements } };
-  }
-  if (p.kind === "wireless-config") {
-    const a = {};
-    for (const [k, v] of Object.entries(p.solution.fields || {})) {
-      if (v.accept) a[k] = v.accept[0];
-      else if (v.rule) {
-        const [kind, arg] = String(v.rule).split(":");
-        if (kind === "minLength") a[k] = "x".repeat(Number(arg));
-        if (kind === "equals") a[k] = arg;
-      }
-    }
-    return a;
-  }
-  return { ...p.solution };
-}
-
-const content = await loadContent();
-
-say(`<b>PBQ reference answers (${content.pbqs.length})</b>`);
-for (const p of content.pbqs) {
-  const g = gradePbq(p, referenceAnswers(p));
-  check(
-    g.percent === 100,
-    `${p.id.padEnd(18)} ${String(g.earned).padStart(3)}/${String(g.max).padEnd(3)} ${p.kind}`,
-    g.percent === 100 ? "" : `-> ${g.results.filter((r) => !r.pass).map((r) => r.label).join("; ")}`
-  );
-}
-
-say("");
-say("<b>Every PBQ subtask maps to a defined misconception</b>");
-for (const p of content.pbqs) {
-  const subs = [
-    ...(p.subtasks || []),
-    ...(p.solution.testCases || []),
-    ...(p.solution.checks || []),
-  ];
-  const bad = subs.filter((s) => s.misconception && !content.misconceptions[s.misconception]);
-  check(bad.length === 0, `${p.id.padEnd(18)} ${subs.length} scoreable units`,
-        bad.map((s) => s.misconception).join(", "));
-}
-
-say("");
-say("<b>Every misconception can actually be retired</b>");
-say(`  <span class="dim">needs at least retireAfter distinct items testing it</span>`);
-const unreachable = [];
-for (const [id, def] of Object.entries(content.misconceptions)) {
-  const { mcqs, pbqs } = mentor.itemsFor(id, content, { misconceptions: {} });
-  const n = mcqs.length + pbqs.length;
-  if (n < (def.retireAfter ?? 2)) unreachable.push(`${id} (${n})`);
-}
-check(unreachable.length === 0,
-      `${Object.keys(content.misconceptions).length} misconceptions reachable`,
-      unreachable.join(", "));
-
-say("");
-say("<b>The retargeting loop: a miss is re-served on a DIFFERENT item</b>");
-const state = structuredClone(DEFAULT_STATE);
-let retargeted = 0, sameItem = 0, noAlternative = 0;
-for (const [id] of Object.entries(content.misconceptions)) {
-  const { mcqs } = mentor.itemsFor(id, content, { misconceptions: {} });
-  if (!mcqs.length) continue;
-  const failedOn = mcqs[0].id;
-  mentor.bank(state, id, failedOn);
-  const later = Date.now() + 60 * 60 * 1000;
-  const q = buildQueue(state, content, { mode: "weak", size: 200, now: later })
-    .filter((e) => e.targetMisconception === id);
-  if (!q.length) continue;
-  const served = q[0].item?.id || q[0].pbq?.id;
-  if (!served) noAlternative++;
-  else if (served === failedOn) sameItem++;
-  else retargeted++;
-}
-check(sameItem === 0,
-      `${retargeted} misconceptions re-served on a different item, ${sameItem} repeated the failed item`);
-
-say("");
-say("<b>Retirement requires clean passes on DISTINCT items</b>");
-const s2 = structuredClone(DEFAULT_STATE);
-const probe = Object.keys(content.misconceptions).find((id) => {
-  const { mcqs } = mentor.itemsFor(id, content, { misconceptions: {} });
-  return mcqs.length >= 2;
-});
-const items = mentor.itemsFor(probe, content, { misconceptions: {} }).mcqs;
-mentor.bank(s2, probe, items[0].id);
-mentor.pass(s2, probe, items[1].id, content);
-const afterOne = s2.misconceptions[probe].retired;
-mentor.pass(s2, probe, items[1].id, content); // same item again, must not count
-const afterRepeat = s2.misconceptions[probe].retired;
-mentor.pass(s2, probe, items[0].id, content); // a genuinely different item
-const afterTwo = s2.misconceptions[probe].retired;
-check(!afterOne, `one clean pass does not retire "${probe}"`);
-check(!afterRepeat, `repeating the same item does not count toward retirement`);
-check(afterTwo, `two clean passes on distinct items retires it`);
-
-say("");
-say("<b>Readiness measures the learner, not the size of the bank</b>");
-say('  <span class="dim">a small bank must not read as a weakness in the learner</span>');
-{
-  const perfect = structuredClone(DEFAULT_STATE);
-  const graded = content.items.filter(isGraded);
-  for (const it of graded) {
-    perfect.items[it.id] = { seen: 3, correct: 3, wrong: 0, lastSeen: Date.now(), fsrs: null };
-  }
-  const r = readiness(perfect, content);
-  const withItems = Object.values(r.perObjective).filter((o) => o.itemsAvailable > 0);
-  // The harm being locked out: an objective used to read "shaky" or "weak" on a
-  // flawless record purely because the bank held fewer than 12 items for it.
-  // Residual smoothing is fine and intended: laplace() still holds a two-item
-  // objective slightly short of "strong", because two items really are less
-  // evidence than twelve. What must never come back is a small bank reading as
-  // a weakness.
-  const dragged = withItems.filter((o) => o.status === "shaky" || o.status === "weak");
-  check(dragged.length === 0,
-        `no stocked objective reads shaky or weak on a perfect record (${withItems.length} checked)`,
-        dragged.length ? `(${dragged.map((o) => `${o.objective}:${o.status}@${o.itemsAvailable} items`).join(", ")})` : "");
-
-  const floor = Math.min(...withItems.map((o) => o.mastery));
-  const worst = withItems.find((o) => o.mastery === floor);
-  say(`  <span class="dim">     weakest perfect objective: ${worst.objective} at ${floor.toFixed(2)} on ${worst.itemsAvailable} items (was 0.58 under the flat denominator)</span>`);
-
-  const unreachable = withItems.filter((o) => o.coverage < 1);
-  check(unreachable.length === 0,
-        `every stocked objective can reach coverage 1`,
-        unreachable.length ? `(${unreachable.map((o) => `${o.objective}:${o.coverage.toFixed(2)}`).join(", ")})` : "");
-
-  // This is the one coverage calculation. It is asserted here, not mirrored.
-  const thin = withItems.filter((o) => o.thin).map((o) => o.objective);
-  check(r.topicsCovered === r.topicsTotal,
-        `every blueprint topic has a graded item (${r.topicsCovered}/${r.topicsTotal})`,
-        `(${r.topicsTotal - r.topicsCovered} topics have none)`);
-  check(thin.length === 0, `no objective reads thin`, `(${thin.join(", ")})`);
-  const units = withItems.map((o) => ({ id: o.objective, n: o.itemsAvailable + o.pbqAvailable }))
-    .sort((a, b) => a.n - b.n).slice(0, 3);
-  say(`  <span class="dim">     thinnest by graded units: ${units.map((u) => `${u.id} (${u.n})`).join(", ")}</span>`);
-
-  const deficit = coverageDeficit(perfect, content);
-  const stillPulling = Object.entries(deficit).filter(([, d]) => d.remaining === 0 && d.deficit !== 0);
-  check(stillPulling.length === 0,
-        `an exhausted domain stops reporting a deficit the queue cannot spend`,
-        stillPulling.length ? `(${stillPulling.map(([k]) => k).join(", ")})` : "");
-}
-
-say("");
-say("<b>A revealed vocabulary card does not cover a domain</b>");
-{
-  const vocabOnly = structuredClone(DEFAULT_STATE);
-  const recall = content.items.filter((i) => i.type === "recall" && i.objective);
-  for (const it of recall) {
-    vocabOnly.items[it.id] = { seen: 1, correct: 1, wrong: 0, lastSeen: Date.now(), fsrs: null };
-  }
-  const d = coverageDeficit(vocabOnly, content);
-  const counted = Object.values(d).reduce((a, b) => a + b.seen, 0);
-  check(counted === 0,
-        `${recall.length} revealed recall cards contribute 0 to domain coverage`,
-        counted ? `(counted ${counted})` : "");
-}
-
-say("");
-say("<b>The review log answers the questions the state document no longer can</b>");
-{
-  const d = new Date(2026, 9, 12, 15, 0, 0);
-  const t0 = new Date(2026, 9, 12, 0, 0, 0).getTime();
-  const rows = [
-    { at: t0 - 1000, kind: "item", grade: 3, conf: "sure" },          // yesterday
-    { at: t0 + 1000, kind: "item", grade: 3, conf: "sure" },
-    { at: t0 + 2000, kind: "item", grade: 1, conf: "sure" },
-    { at: t0 + 3000, kind: "item", grade: 3, conf: "guess" },
-    { at: t0 + 4000, kind: "item", grade: 1, mock: true },             // no conf: not calibration
-    { at: t0 + 5000, kind: "misconception", grade: 1 },               // not an answer
-    { at: t0 + 6000, kind: "mock", scaled: 700 },
-  ];
-  check(todayOf(rows, d) === 4, `today counts answers only: 4 of ${rows.length} rows`, `(got ${todayOf(rows, d)})`);
-  const c = calibrationOf(rows);
-  check(c.sureRight === 2 && c.sureWrong === 1 && c.guessRight === 1 && c.answered === 4,
-        `calibration counts declared confidence only: ${c.sureRight}/${c.sureWrong}/${c.guessRight}/${c.guessWrong}`);
-  check(!("reviews" in DEFAULT_STATE), "the state document has no reviews array");
-  const ghost = structuredClone(DEFAULT_STATE);
-  ghost.misconceptions["no-such-misconception"] = { retired: false, cleanPasses: [] };
-  check(pruneOrphans(ghost, content) === 1 && !ghost.misconceptions["no-such-misconception"],
-        "an open misconception with no definition in the bank is pruned, not counted forever");
-}
-
-say("");
-say("<b>The scheduler, under a seeded Math.random</b>");
-say('  <span class="dim">the same seed builds the same queue, so a failure here reproduces</span>');
-{
-  // mulberry32, swapped in for Math.random only while a check runs.
-  const seeded = (seed) => () => {
-    seed = (seed + 0x6D2B79F5) >>> 0;
-    let t = seed;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-  const realRandom = Math.random;
-  const withSeed = (seed, fn) => { Math.random = seeded(seed); try { return fn(); } finally { Math.random = realRandom; } };
-  const now = new Date(2026, 9, 12, 12, 0, 0).getTime();
-  const MIN = 60000;
-  const fresh = () => structuredClone(DEFAULT_STATE);
-  const pairId = Object.keys(content.misconceptions).find((id) => mentor.contrastPair(id, content, fresh()));
-  const pairItem = mentor.itemsFor(pairId, content, fresh()).mcqs[0].id;
-  const adjacent = (q, i) =>
-    [q[i - 1], q[i + 1]].some((n) => n?.contrastDrill && n.targetMisconception === q[i].targetMisconception);
-
-  // A contrast pair survives the shuffle: adjacent, and 1 of 2 before 2 of 2.
-  let missing = 0, split = 0, reversed = 0;
-  for (let seed = 1; seed <= 12; seed++) {
-    const s = fresh();
-    for (let k = 0; k < 3; k++) mentor.bank(s, pairId, pairItem, now - 10 * MIN);
-    const q = withSeed(seed, () => buildQueue(s, content, { mode: "drill", size: 25, now }));
-    const at = q.map((e, i) => (e.contrastDrill && e.targetMisconception === pairId ? i : -1)).filter((i) => i >= 0);
-    if (at.length !== 2) missing++;
-    else if (at[1] !== at[0] + 1) split++;
-    else if (q[at[0]].contrastDrill.index !== 0) reversed++;
-  }
-  check(missing === 0 && split === 0 && reversed === 0,
-        `"${pairId}" at tier 3 is served as an adjacent, ordered pair in 12 of 12 shuffles`,
-        `(${missing} without a pair, ${split} split, ${reversed} reversed)`);
-
-  // With one slot left in a weak-spot session, the pair is not pushed past the
-  // end and cut in half by the final slice.
-  {
-    const s = fresh();
-    const others = Object.keys(content.misconceptions).filter((id) => id !== pairId).slice(0, 14);
-    for (const id of others) mentor.bank(s, id, "x", now - 30 * fsrs.DAY_MS);
-    for (let k = 0; k < 3; k++) mentor.bank(s, pairId, pairItem, now - 10 * MIN);
-    const q = withSeed(7, () => buildQueue(s, content, { mode: "weak", size: 15, now }));
-    const drills = q.map((e, i) => (e.contrastDrill ? i : -1)).filter((i) => i >= 0);
-    check(q.length === 15 && drills.every((i) => adjacent(q, i)),
-          `a weak-spot session of 15 with 14 corrections ahead never ends on half a pair (${drills.length} drill entries)`,
-          `(${q.length} entries)`);
-  }
-
-  // A due misconception with an open prerequisite routes to the prerequisite.
-  {
-    const [blockedId, reqs] = Object.entries(content.prerequisites)
-      .find(([, rs]) => rs.some((r) => mentor.itemsFor(r.id, content, fresh()).mcqs.length >= 2));
-    const req = reqs.find((r) => mentor.itemsFor(r.id, content, fresh()).mcqs.length >= 2);
-    const exposedBy = mentor.itemsFor(req.id, content, fresh()).mcqs[0].id;
-    const s = fresh();
-    mentor.bank(s, req.id, exposedBy, now - 10 * MIN);
-    mentor.bank(s, blockedId, "y", now - 10 * MIN);
-    const q = withSeed(3, () => buildQueue(s, content, { mode: "weak", size: 15, now }));
-    const repair = q.find((e) => e.prereqRepair);
-    const served = repair?.item?.id || repair?.pbq?.id;
-    const testsReq = !!served && (
-      content.itemsById[served]?.options?.some((o) => o.misconception === req.id) ||
-      content.pbqsById[served]?.subtasks?.some((t) => t.misconception === req.id));
-    check(!!repair && repair.targetMisconception === req.id && repair.prereqRepair.why === req.why &&
-          repair.reason.startsWith("Dependency first"),
-          `"${blockedId}" due while "${req.id}" is open routes to the prerequisite and says why`);
-    check(testsReq && served !== exposedBy,
-          `the item served tests the prerequisite and is not the one that exposed it (${served})`);
-    check(!q.some((e) => e.targetMisconception === blockedId && !e.prereqRepair),
-          `the blocked misconception is not drilled on its own while the prerequisite is open`);
-  }
-
-  // With an exam date set: a correction is always retested before it, and an
-  // item scheduled past it is still above target on exam day, so it costs no
-  // review. The plan states the daily load and introduces the weakest first.
-  {
-    const examOn = (days) => new Date(now + days * fsrs.DAY_MS).toISOString().slice(0, 10);
-    const horizons = [60, 30, 14, 7, 3, 2];
-    let corrPast = 0, itemsBelow = 0, itemsPast = 0;
-    for (const days of horizons) {
-      const s = fresh();
-      s.profile.examDate = examOn(days);
-      s.profile.desiredRetention = 0.92;
-      const examMs = new Date(s.profile.examDate).getTime();
-      mentor.bank(s, pairId, pairItem, now);
-      s.misconceptions[pairId].step = 2;
-      mentor.pass(s, pairId, "z", content, now);
-      const rec = s.misconceptions[pairId];
-      if (rec.due > examMs || rec.fsrs.due > examMs) corrPast++;
-      for (let k = 0; k < 6; k++) applyItemReview(s, pairItem, fsrs.RATING.GOOD, now - (6 - k) * 9 * fsrs.DAY_MS);
-      applyItemReview(s, pairItem, fsrs.RATING.GOOD, now);
-      const card = s.items[pairItem].fsrs;
-      if (card.due > examMs) {
-        itemsPast++;
-        if (fsrs.currentRetrievability(card, examMs) < 0.92 - 0.005) itemsBelow++;
-      }
-    }
-    check(corrPast === 0, `a correction is always retested before the exam at ${horizons.join(", ")} days out`, `(${corrPast} landed past it)`);
-    check(itemsPast > 0 && itemsBelow === 0,
-          `an item scheduled past the exam is still above its 0.92 target on exam day (${itemsPast} of ${horizons.length} horizons)`,
-          `(${itemsBelow} below target)`);
-
-    const s = fresh();
-    s.profile.examDate = examOn(30);
-    const plan = studyPlan(s, content, now);
-    const firstWeek = plan.plan.slice(0, 7).reduce((a, d) => a + d.fresh, 0);
-    check(plan && plan.perDay > 0 && plan.minutesPerDay > 0 && plan.plan.length === plan.days && firstWeek > 0
-          && plan.plan.slice(-7).every((d) => d.fresh === 0),
-          `the plan states a daily load (${plan.perDay} answers, ${plan.minutesPerDay} min) and keeps the last week for review`);
-    const peak = Math.max(...plan.plan.slice(-7).map((d) => d.answers));
-    check(peak <= Math.max(...plan.plan.slice(0, -7).map((d) => d.answers)) * 1.5,
-          `the last week is not overloaded: its busiest day is ${peak} answers`);
-    s.profile.examDate = examOn(14);
-    check(readiness(s, content, now).daysLeft === mentor.daysUntilExam(s, now),
-          `readiness reports the horizon the scheduler uses (${mentor.daysUntilExam(s, now)} days)`);
-  }
-
-  // Recall competes on its merits: no floor forces a card in, the cap bounds it.
-  {
-    const cap = (size) => Math.max(1, Math.round(size * 0.12));   // bootcamp maxRecallShare
-    let served = 0;
-    for (const size of [4, 8, 12, 25, 40]) {
-      for (let seed = 1; seed <= 4; seed++) {
-        const q = withSeed(seed, () => buildQueue(fresh(), content, { mode: "drill", size, now }));
-        served += q.filter((e) => e.item?.type === "recall").length;
-      }
-    }
-    check(served === 0, `while graded questions are available, no recall card is forced into a session (${served} served over 20 builds)`);
-    // Every graded item held and not due: recall is what is left, and it fills in up to the cap.
-    const held = fresh();
-    for (const it of content.items.filter(isGraded)) {
-      held.items[it.id] = { seen: 3, correct: 3, wrong: 0, lastSeen: now,
-        fsrs: { stability: 300, difficulty: 3, due: now + 200 * fsrs.DAY_MS, lastReview: now, reps: 3, lapses: 0, state: "review" } };
-    }
-    const q = withSeed(1, () => buildQueue(held, content, { mode: "drill", size: 25, now }));
-    const n = q.filter((e) => e.item?.type === "recall").length;
-    check(n > 0 && n <= cap(25), `with every graded item held, recall fills in and stays within the cap (${n} of at most ${cap(25)})`);
-  }
-}
-
-say("");
-say("<b>What the queue maximises: expected exam points per minute</b>");
-{
-  const withSeed = (seed, fn) => {
-    const real = Math.random;
-    let x = seed;
-    Math.random = () => ((x = (x * 16807) % 2147483647) / 2147483647);
-    try { return fn(); } finally { Math.random = real; }
-  };
-  const now = new Date(2026, 9, 12, 12, 0, 0).getTime();
-  const s = structuredClone(DEFAULT_STATE);
-  s.profile.examDate = "2026-12-01";
-  const ctx = gainContext(s, content, now);
-  const mcq = content.items.find((i) => i.type === "mcq" && i.objective);
-  const card = content.items.find((i) => i.type === "recall" && i.objective === mcq.objective) || content.items.find((i) => i.type === "recall");
-  const g = expectedGain({ item: mcq }, s, content, ctx);
-  check(g.points > 0 && g.points < POINTS_PER_QUESTION, `an unseen graded item is worth a fraction of one exam question (${g.points.toFixed(2)} points)`);
-  check(expectedGain({ item: card }, s, content, ctx).points < g.points,
-        `a recall card is worth less than a graded item in the same objective`);
-
-  // Learned to the hilt: retrievability far above 0.95 at the exam date. Not worth a minute.
-  const held = structuredClone(s);
-  held.items[mcq.id] = { seen: 6, correct: 6, wrong: 0, lastSeen: now, fsrs: { stability: 4000, difficulty: 3, due: now, lastReview: now - 86400000, reps: 6, lapses: 0, state: "review" } };
-  check(expectedGain({ item: mcq }, held, content, gainContext(held, content, now)).points < 0.01,
-        `an item held at retrievability above 0.95 through the exam is worth nothing`);
-
-  // The documented current policy: a prerequisite repair outranks any new item.
-  check(currentPriority({ prereqRepair: {}, targetMisconception: "x" }, s, content, now) > currentPriority({ item: mcq }, s, content, now),
-        `currentPriority writes down the old order: a prerequisite repair outranks new coverage`);
-
-  // Interleaved and exam shaped, from a fresh state over eight seeds.
-  const doms = {}, worst = [];
-  for (let seed = 1; seed <= 8; seed++) {
-    const q = withSeed(seed, () => buildQueue(s, content, { size: 25, now }));
-    const byObj = {};
-    for (const e of q) {
-      const it = e.item || e.pbq;
-      doms[content.domainOf[it.objective]] = (doms[content.domainOf[it.objective]] || 0) + 1;
-      byObj[it.objective] = (byObj[it.objective] || 0) + 1;
-    }
-    worst.push(Math.max(...Object.values(byObj)));
-  }
-  const total = Object.values(doms).reduce((a, b) => a + b, 0);
-  const off = content.objectives.domains.filter((d) => Math.abs((doms[d.id] || 0) / total - d.weight) > 0.06);
-  check(Math.max(...worst) <= 5, `no objective takes more than 5 of 25 slots (most was ${Math.max(...worst)})`);
-  check(off.length === 0,
-        `domain mix within 6 points of the exam weights: ${content.objectives.domains.map((d) => `${d.id}:${Math.round(100 * (doms[d.id] || 0) / total)}%/${Math.round(d.weight * 100)}`).join(" ")}`);
-}
-
-say("");
-say("<b>The mock measures the blueprint, and the forecast is about exam day</b>");
-{
-  // Every domain's share of a full mock's points, PBQs counted at PBQ_WEIGHT.
-  const pts = {};
-  let total = 0, pbqs = 0, mocks = 20;
-  for (let k = 0; k < mocks; k++) {
-    for (const e of buildMock(content, { pbqCount: 5, total: 90 })) {
-      const it = e.item || e.pbq;
-      const w = e.pbq ? PBQ_WEIGHT : 1;
-      pts[content.domainOf[it.objective]] = (pts[content.domainOf[it.objective]] || 0) + w;
-      total += w;
-      if (e.pbq) pbqs += 1;
-    }
-  }
-  const off = content.objectives.domains.filter((d) => Math.abs(pts[d.id] / total - d.weight) > 0.01);
-  check(off.length === 0 && pbqs === 5 * mocks,
-        `a full mock's points match the domain weights to a point: ${content.objectives.domains.map((d) => `${d.id}:${(100 * pts[d.id] / total).toFixed(1)}%/${Math.round(d.weight * 100)}`).join(" ")}`);
-
-  const now = new Date(2026, 9, 12, 12, 0, 0).getTime();
-  const blank = structuredClone(DEFAULT_STATE);
-  blank.profile.examDate = "2026-12-01";
-  const fb = examForecast(blank, content, now);
-  const held = structuredClone(blank);
-  for (const it of content.items.filter(isGraded)) {
-    held.items[it.id] = { seen: 4, correct: 4, wrong: 0, lastSeen: now,
-      fsrs: { stability: 400, difficulty: 3, due: now + 300 * 86400000, lastReview: now, reps: 4, lapses: 0, state: "review" } };
-  }
-  const fh = examForecast(held, content, now);
-  check(fb.scaled < 750 && !fb.stop.ready, `a blank record forecasts below the line (${fb.low} to ${fb.high}) and is not told to book`);
-  check(fh.low >= 750 && !fh.stop.ready && fh.stop.rules[0].met && !fh.stop.rules[1].met,
-        `everything held through the exam clears the band (${fh.low} to ${fh.high}) but still waits for two full mocks`);
-  const mockRows = [{ at: now - 3 * 86400000, kind: "mock", format: "full", raw: 0.86, scaled: 816 },
-                    { at: now - 86400000, kind: "mock", format: "full", raw: 0.88, scaled: 828 }];
-  const fm = examForecast(held, content, now, mockRows);
-  check(fm.stop.ready && fm.sd < fh.sd,
-        `two full mocks above the line book it, and narrow the uncertainty (sd ${fh.sd.toFixed(3)} to ${fm.sd.toFixed(3)} raw)`);
-  const low = examForecast(held, content, now, mockRows.map((m) => ({ ...m, raw: 0.6, scaled: 620 })));
-  check(low.scaled < fh.scaled && !low.stop.ready, `two failing mocks pull the forecast down (${fh.scaled} to ${low.scaled}) and block booking`);
-
-  const hb = hoursToReady(blank, content, now);
-  const hh = hoursToReady(held, content, now);
-  check(hb.reachable && hb.low > hh.low && hb.high > hb.low,
-        `a blank record has ${Math.round(hb.low)} to ${Math.round(hb.high)} hours to the rule; everything held has ${hh.low.toFixed(0)} (the two mocks)`);
-
-  const t0 = new Date(2026, 9, 12, 9, 0, 0).getTime();
-  const m = minutesOf([
-    { at: t0, kind: "item", ms: 30000, s: t0 },
-    { at: t0 + 60000, kind: "item", ms: 9e6, s: t0 },                    // a tab left open: five minutes, not 150
-    { at: t0 + 120000, kind: "misconception", grade: 1, s: t0 },          // logged with an answer: no time of its own
-    { at: t0 + 4 * 3600e3, kind: "pbq", seconds: 420, s: t0 + 4 * 3600e3 },
-    { at: t0 + 5 * 3600e3, kind: "mock", seconds: 1200 },
-    { at: t0 + 5 * 3600e3, kind: "item", mock: true },                    // inside the mock's clock
-  ]);
-  check(m.sessions.length === 3 && Math.abs(m.total - (0.5 + 5 + 7 + 20)) < 1e-9,
-        `time is counted per session from the log: ${m.sessions.map((x) => x.minutes.toFixed(1)).join(" + ")} = ${m.total.toFixed(1)} min`);
-}
-
-say("");
-say("<b>Nothing is drilled on top of an open prerequisite</b>");
-{
-  const now = new Date(2026, 9, 12, 12, 0, 0).getTime();
-  const fresh = () => { const s = structuredClone(DEFAULT_STATE); s.profile.examDate = "2026-12-01"; return s; };
-  const due = (s, id) => mentor.bank(s, id, "exposed-" + id, now - 30 * 60000);
-  const drilledAlone = (q, ids) => q.filter((e) => ids.includes(e.targetMisconception) && !e.prereqRepair).length;
-
-  // Two corrections on one open prerequisite: one repair, neither drilled alone.
-  const s1 = fresh();
-  for (const id of ["acl-direction-and-ports", "acl-overbroad-any", "screened-subnet-direction", "stateful-return-traffic"]) due(s1, id);
-  const q1 = buildQueue(s1, content, { mode: "weak", size: 15, now });
-  const repairs = q1.filter((e) => e.prereqRepair && e.targetMisconception === "acl-direction-and-ports").length;
-  check(repairs === 1 && drilledAlone(q1, ["acl-overbroad-any", "screened-subnet-direction", "stateful-return-traffic"]) === 0,
-        `three corrections sharing one open prerequisite: ${repairs} repair, none drilled on top of it`);
-
-  // A prerequisite with no unused question left: its correction is served as the repair.
-  const s2 = fresh();
-  due(s2, "acl-direction-and-ports");
-  due(s2, "acl-overbroad-any");
-  const pre = s2.misconceptions["acl-direction-and-ports"];
-  pre.cleanPasses = mentor.itemsFor("acl-direction-and-ports", content, fresh()).mcqs.map((i) => i.id)
-    .concat(mentor.itemsFor("acl-direction-and-ports", content, fresh()).pbqs.map((p) => p.id));   // every question used
-  pre.retired = false;
-  const q2 = buildQueue(s2, content, { mode: "weak", size: 15, now });
-  const r2 = q2.find((e) => e.prereqRepair);
-  check(r2 && r2.kind === "mentor" && r2.targetMisconception === "acl-direction-and-ports" && drilledAlone(q2, ["acl-overbroad-any"]) === 0,
-        `a prerequisite with no question left is repaired with its correction, and the symptom still waits`);
-}
-
-say("");
-say("<b>A fresh correction is not retested within the next answers</b>");
-{
-  const mc = "salting-purpose";
-  const testing = content.items.filter((i) => isGraded(i) && i.options.some((o) => o.misconception === mc));
-  const other = content.items.filter((i) => isGraded(i) && !i.options.some((o) => o.misconception === mc)).slice(0, 6);
-  const e = (item, extra = {}) => ({ kind: "item", item, reason: "", ...extra });
-  const q = [e(testing[0]), e(testing[1]), e(testing[2]), e(other[0], { contrastDrill: { index: 0, of: 2 }, targetMisconception: mc }), e(other[1]), e(other[2]), e(other[3]), e(other[4])];
-  const moved = spaceAfterMiss(q, 0, [mc]);
-  const near = q.slice(1, 1 + RESERVE_GAP).filter((x) => !x.contrastDrill && x.item.options.some((o) => o.misconception === mc));
-  check(moved === 2 && near.length === 0 && q.length === 8 && q.indexOf(q.find((x) => x.item === testing[1])) > RESERVE_GAP,
-        `after a miss, the next ${RESERVE_GAP} answers hold no other question on the same belief; ${moved} moved later, none lost`);
-  check(q.slice(1, 1 + RESERVE_GAP).some((x) => x.contrastDrill), `a contrast pair is left where it is`);
-  const short = [e(testing[0]), e(testing[1])];
-  check(spaceAfterMiss(short, 0, [mc]) === 1 && short.length === 1,
-        `with no room left in the session, the question leaves it; its correction returns on its own schedule`);
-}
+// Every selftest/NN-*.js is one group of checks, run in name order. A new group
+// is a new file there; nothing in this page lists it. A static page cannot glob,
+// so the names come from serve.py's directory listing of ./selftest/.
+const listing = await fetch("./selftest/", { cache: "no-store" }).then((x) => x.text());
+const files = [...listing.matchAll(/href="(?:[^"]*\/)?(\d[^"\/]*\.js)"/g)].map((m) => m[1]).sort();
+if (!files.length) check(false, "no test files listed under selftest/", "(this page needs serve.py's directory listing)");
+for (const f of files) await import(`./selftest/${f}`);
 
 say("");
 say("<b>Templates carry no inline styling</b>");
 say('  <span class="dim">a style attribute may set custom properties (data), never colour or spacing</span>');
-for (const f of ["app/main.js", "app/ui/common.js", "app/ui/views.js", "app/ui/pbq.js"]) {
+// Every module that holds markup or handlers. A new module under app/ui/ or
+// app/screens/ is added here, or the two checks below do not see it.
+const SCREEN_FILES = ["bank", "drill", "lab", "mock", "pbq", "settings"].map((n) => `app/screens/${n}.js`);
+const VIEW_FILES = ["bank", "chrome", "common", "drill", "lab", "mock", "pbq", "readiness", "settings"].map((n) => `app/ui/${n}.js`);
+const APP_FILES = ["app/main.js", "app/app.js", ...VIEW_FILES, ...SCREEN_FILES];
+for (const f of APP_FILES) {
   const src = await fetch(`./${f}`, { cache: "no-store" }).then((x) => x.text());
   const bad = src.match(/style="(?!--)[^"]*"/g) || [];
   check(bad.length === 0, `${f.padEnd(20)} ${bad.length} inline style(s)`, bad.slice(0, 3).join(" | "));
@@ -643,11 +163,16 @@ for (const f of ["app/main.js", "app/ui/common.js", "app/ui/views.js", "app/ui/p
 say("");
 say("<b>Every data-action in the templates has a handler, and every handler is used</b>");
 {
-  const main = await fetch("./app/main.js", { cache: "no-store" }).then((x) => x.text());
-  const block = main.slice(main.indexOf("const ACTIONS = {"), main.indexOf("\n};", main.indexOf("const ACTIONS = {")));
-  const defined = new Set([...block.matchAll(/^ {2}"?([a-z][a-z-]*)"?\s*[:,]/gm)].map((m) => m[1]));
+  // The handlers: main.js keeps nav and reload, and each screen's controller its own.
+  const defined = new Set();
+  for (const [f, head] of [["app/main.js", "const ACTIONS = {"], ...SCREEN_FILES.map((g) => [g, "export const actions = {"])]) {
+    const code = await fetch(`./${f}`, { cache: "no-store" }).then((x) => x.text());
+    if (!code.includes(head)) continue;
+    const block = code.slice(code.indexOf(head), code.indexOf("\n};", code.indexOf(head)));
+    for (const m of block.matchAll(/^ {2}"?([a-z][a-z-]*)"?\s*[:,]/gm)) defined.add(m[1]);
+  }
   const used = new Set();
-  for (const f of ["app/main.js", "app/ui/common.js", "app/ui/views.js", "app/ui/pbq.js"]) {
+  for (const f of APP_FILES) {
     const src = await fetch(`./${f}`, { cache: "no-store" }).then((x) => x.text());
     // Literal attributes everywhere; in the UI files also the `action:` that an
     // optionButton() call is given.

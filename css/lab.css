@@ -1,0 +1,24 @@
+/* Lab: the requirements card every PBQ engine opens with. */
+
+.req { margin: 0; padding-left: var(--s5); }
+.req li { margin: var(--s2) 0; max-width: var(--measure); }
+
+/* With eight ACL rules the span from the first requirement to the last rule is
+   about 1300px in a 768px viewport, so the rules you are trying to satisfy are
+   never on screen at the same time as the grid you satisfy them in. The card
+   sticks to the top of the work area and collapses to a single line, so you
+   can keep it open while you build or fold it away once you have it. */
+.req-card { position: sticky; top: var(--s3); z-index: 3; }
+.req-card summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s3);
+  cursor: pointer; list-style: none; min-height: 44px;
+}
+.req-card summary::-webkit-details-marker { display: none; }
+.req-card summary h2 { margin: 0; }
+.req-card summary::after {
+  content: "collapse"; font: 500 var(--t-xs)/1 var(--sans); color: var(--accent);
+}
+.req-card:not([open]) summary::after { content: "show"; }
+.req-card[open] > .req { margin-top: var(--s3); }
+.req-card[open] { max-height: 34vh; overflow-y: auto; }
+.req-card:not([open]) > .req { display: none; }

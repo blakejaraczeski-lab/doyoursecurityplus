@@ -16,8 +16,9 @@ fail = fails.append
 JS = sorted(ROOT.glob("app/**/*.js"))
 HTML = [ROOT / "index.html", ROOT / "selftest.html"]
 # Analysis scripts that import the app (scripts/replay.js) are consumers of
-# its exports, never part of it: they count as a reference, nothing more.
-TOOLS = sorted(ROOT.glob("scripts/*.js"))
+# its exports, never part of it (and selftest/*.js, the in-browser tests): they
+# count as a reference, nothing more.
+TOOLS = sorted(ROOT.glob("scripts/*.js")) + sorted(ROOT.glob("selftest/*.js"))
 SRC = {p: p.read_text() for p in JS + HTML + TOOLS}
 ALL_SRC = "\n".join(SRC.values())
 rel = lambda p: str(p.relative_to(ROOT))
@@ -55,14 +56,14 @@ def every_export_used():
 
 
 def every_css_class_used():
-    css = re.sub(r"/\*.*?\*/", "", (ROOT / "styles.css").read_text(), flags=re.S)
+    css = re.sub(r"/\*.*?\*/", "", "\n".join(f.read_text() for f in sorted((ROOT / "css").glob("*.css"))), flags=re.S)
     for c in sorted(set(re.findall(r"\.([a-zA-Z_][\w-]*)", css))):
         if re.search(r"\b%s\b" % re.escape(c), ALL_SRC):
             continue
         # Built by a template: s-${status}, t-${tier}, c-${tone}.
         if "-" in c and (c.split("-")[0] + "-${") in ALL_SRC:
             continue
-        fail(f"styles.css .{c} has no reference in app/ or *.html")
+        fail(f"css/*.css .{c} has no reference in app/ or *.html")
 
 
 def app_hardcodes_no_stem():

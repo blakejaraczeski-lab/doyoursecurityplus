@@ -210,11 +210,16 @@ into mastery. Mixing them reports a thin bank as a weak learner.
 ```
 index.html          app shell
 selftest.html       the regression harness: real graders, the misconception loop, shape rules
-styles.css          design system: tokens, measure, state never by colour alone
+selftest/           the in-browser tests, one NN-name.js per group; a new group is a new file
+css/                design system, one file per screen or engine: base.css (tokens, measure, shell, shared
+                    components; state never by colour alone), drill, mentor, lab, acl, diagram, order, mock, readiness
 fonts/              IBM Plex, Latin subsets, served from this origin (SIL OFL 1.1)
 serve.py            static server + the durable resources, stdlib only
 app/
-  main.js           the controller: one screen table, one render(), recording, actions
+  main.js           boot, the merged action table, the click and key dispatch
+  app.js            the App object, save, announce, renderApp (focus restore, screen table)
+  record.js         recording an answer: item, outcome, PBQ
+  screens/          one controller per screen: its actions, keys and change handlers
   state.js          fast tier (localStorage), streaks, migration
   reviews.js        the review log: one row per answer, its own resource
   sync.js           durable tier mirror, conditional replace
@@ -223,7 +228,7 @@ app/
   scheduler.js      queue building, coverage bias, readiness
   content.js        loader
   grade.js          one grader per PBQ kind
-  ui/               views, PBQ renderers, shared render helpers
+  ui/               one view per screen, PBQ renderers, shared render helpers
 content/            objectives, items, mentor, pbq, glossary, graph, index
 scripts/            content tooling and the checks (python3 stdlib, bash)
 bin/check           the one command to run before committing
@@ -348,6 +353,7 @@ scripts/
   capped-log.sh              keeps launchd's crash.log under 256 KB on every launch
   replay.py, replay.js        the real log through the real scheduler, on a copy: what was wasted
   selftest.py                selftest.html plus the persistence scenarios, headless, non-zero exit on failure
+  selftests/                 one module per headless scenario, found by glob; a new scenario is a new file
   derive_mcq.py              recall cards -> discrimination questions (--retag)
   import_anki.py             .apkg -> tagged recall items
   build_reference_index.py   study guide PDF -> page index (titles only)

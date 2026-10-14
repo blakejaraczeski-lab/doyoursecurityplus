@@ -1,0 +1,42 @@
+/* Diagram PBQ: the network map, its evidence pane and the host picks. */
+.diagram {
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r2);
+  display: block; width: 100%; height: auto; aspect-ratio: 100 / 92;
+}
+.node rect, .node ellipse {
+  fill: var(--panel); stroke: var(--line-strong); stroke-width: .5; cursor: pointer;
+  transition: fill var(--dur) var(--ease), stroke var(--dur) var(--ease);
+}
+.node:hover rect, .node:hover ellipse { stroke: var(--accent); stroke-width: .9; }
+.node.selected rect, .node.selected ellipse {
+  stroke: var(--bad); stroke-width: 1.1; fill: color-mix(in srgb, var(--bad) 18%, var(--panel));
+}
+.node.inspected rect, .node.inspected ellipse { stroke-dasharray: 1.4 .8; }
+.node text { fill: var(--ink); font: 600 2.65px/1 var(--mono); text-anchor: middle; pointer-events: none; }
+.node .ip { fill: var(--ink-faint); font-size: 2.1px; font-weight: 400; }
+.link { stroke: var(--line-strong); stroke-width: .4; }
+.evidence {
+  background: var(--term-bg); color: var(--term-ink); border-radius: var(--r1);
+  padding: var(--s3) var(--s4); font-family: var(--mono); font-size: var(--t-xs);
+  line-height: 1.75; overflow-x: auto; white-space: pre; border: 1px solid var(--line);
+}
+
+/* Naming a host compromised is an explicit act, so it gets an explicit control
+   rather than being a side effect of reading the evidence. */
+.host-picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--s2); }
+.host-pick {
+  display: flex; align-items: center; gap: var(--s3); text-align: left;
+  background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--r1);
+  padding: var(--s2) var(--s3); min-height: 44px; cursor: pointer; color: var(--ink);
+  font: 500 var(--t-sm)/1.4 var(--sans);
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.host-pick:hover:not([disabled]) { border-color: var(--accent); }
+.host-pick .box {
+  flex: none; width: 1.15rem; height: 1.15rem; border-radius: 4px;
+  border: 1.5px solid var(--line-strong); display: grid; place-items: center;
+  font-size: var(--t-xs); color: var(--on-accent);
+}
+.host-pick.on { border-color: var(--warn); background: var(--warn-soft); }
+.host-pick.on .box { background: var(--warn); border-color: var(--warn); }
+.host-pick .who { min-width: 0; }

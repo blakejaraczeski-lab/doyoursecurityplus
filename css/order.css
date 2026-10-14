@@ -1,0 +1,43 @@
+/* Order PBQ: chips, the numbered sequence, and the sort buckets. */
+
+.chip-pool { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.chip {
+  display: inline-flex; align-items: center; gap: var(--s2);
+  background: var(--panel-2); border: 1px solid var(--line-strong); color: var(--ink);
+  border-radius: var(--r1); padding: var(--s2) var(--s3); min-height: 44px;
+  font: 500 var(--t-sm)/1.4 var(--sans); cursor: pointer; text-align: left;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.chip:hover:not([disabled]) { border-color: var(--accent); background: var(--accent-soft); }
+.chip.held { border-color: var(--accent); border-style: dashed; background: var(--accent-soft); }
+.chip.placed { background: var(--panel); border-style: solid; }
+/* A press is acknowledged on the chip itself; see .opt:active in drill.css. */
+.chip:active:not([disabled]) { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.seq { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.seq li { display: grid; grid-template-columns: 2rem 1fr; gap: var(--s3); align-items: center; }
+.seq .pos { font: 650 var(--t-sm)/1 var(--mono); color: var(--ink-faint); text-align: right; }
+.seq .slot {
+  display: block; width: 100%; text-align: left; background: transparent;
+  padding: var(--s2) var(--s3); min-height: 44px; line-height: 28px;
+  border: 1px dashed var(--line-strong); border-radius: var(--r1);
+  color: var(--ink-faint); font: var(--t-sm)/1.75 var(--sans); cursor: pointer;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.seq .slot[disabled] { cursor: default; }
+.seq .slot:not([disabled]) { border-color: var(--accent); color: var(--accent); }
+.seq .slot:not([disabled]):hover { background: var(--accent-soft); border-style: solid; }
+.seq li.filled .chip { width: 100%; }
+
+.buckets { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--s3); margin-bottom: var(--s4); }
+.bucket { border: 1px solid var(--line); border-radius: var(--r2); background: var(--panel); overflow: hidden; }
+.bucket-head {
+  display: flex; align-items: center; gap: var(--s2);
+  width: 100%; text-align: left; background: var(--panel-2); border: 0;
+  border-bottom: 1px solid var(--line); padding: var(--s3); min-height: 44px;
+  font: 650 var(--t-xs)/1.4 var(--sans); text-transform: uppercase; letter-spacing: .07em;
+  color: var(--ink-dim); cursor: pointer;
+}
+.bucket-head:not([disabled]):hover { background: var(--accent-soft); color: var(--accent); }
+.bucket-head[disabled] { cursor: default; }
+.bucket-body { padding: var(--s3); display: grid; gap: var(--s2); min-height: 72px; align-content: start; }
