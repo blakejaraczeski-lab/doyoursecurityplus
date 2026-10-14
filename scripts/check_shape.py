@@ -7,7 +7,7 @@ origin on load, an API of nouns, and one implementation per idea across Python
 and JavaScript. Each rule is one function below; the reason is in
 CONVENTIONS.md. Stdlib only, because Node is not installed and is not wanted.
 """
-import re, sys, pathlib
+import re, sys, json, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 fails = []
@@ -65,6 +65,28 @@ def every_css_class_used():
         fail(f"styles.css .{c} has no reference in app/ or *.html")
 
 
+def app_hardcodes_no_stem():
+    # An exam item's stem or a PBQ's scenario written into app/ is content in
+    # code. The opening 30 characters of each is enough to find a copy.
+    heads = {}
+    def walk(x, f):
+        if isinstance(x, dict):
+            for k, v in x.items():
+                if k in ("stem", "scenario") and isinstance(v, str) and len(v) >= 30:
+                    heads.setdefault(" ".join(v.split())[:30], f)
+                walk(v, f)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v, f)
+    for f in sorted((ROOT / "content").rglob("*.json")):
+        walk(json.loads(f.read_text()), f)
+    for p in JS:
+        flat = " ".join(SRC[p].split())
+        for head, f in heads.items():
+            if head in flat:
+                fail(f"{rel(p)} hardcodes the stem that opens \"{head}\" (from {rel(f)}): content lives under content/, never in app/")
+
+
 def nothing_off_origin_on_load():
     for i, line in enumerate((ROOT / "index.html").read_text().splitlines(), 1):
         if re.search(r'<(link|script)\b[^>]*\b(href|src)="(https?:)?//', line):
@@ -98,7 +120,7 @@ def one_implementation_per_idea():
 
 
 if __name__ == "__main__":
-    for check in (no_build_step, app_imports_only_app, every_export_used, every_css_class_used,
+    for check in (no_build_step, app_imports_only_app, app_hardcodes_no_stem, every_export_used, every_css_class_used,
                   nothing_off_origin_on_load, api_paths_are_nouns, one_implementation_per_idea):
         check()
     if fails:
