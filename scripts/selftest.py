@@ -1236,13 +1236,16 @@ def scenario_stress(rep, tmp, browser):
         items_before, mocks_before = len(rows("item")), len(rows("mock"))
         hits = lambda: sum(m.get("hits", 0) for m in disk().get("misconceptions", {}).values())
         hits0, banked0 = hits(), len([r for r in rows("misconception") if r.get("grade", 3) <= 1])
+        # Three answered (each a wrong option, so each banks a correction); every other item is left blank.
+        tab.evaluate("{ for (const e of App.mock.items.filter((e) => e.kind === 'item').slice(0, 3)) App.mock.answers[e.item.id] = e.item.options.find((o) => !o.correct).id; }")
+        answered = tab.evaluate("Object.keys(App.mock.answers).length")
         tab.evaluate("{ document.querySelector('[data-action=mock-review]').click();"
                      "const b = document.querySelector('[data-action=mock-submit]');"
                      "b.dispatchEvent(new MouseEvent('click', { bubbles: true })); b.dispatchEvent(new MouseEvent('click', { bubbles: true })); }")
         settle()
         n_items = tab.evaluate("App.mock.items.filter((e) => e.kind === 'item').length")
-        rep.check(len(rows("mock")) == mocks_before + 1 and len(rows("item")) == items_before + n_items and tab.evaluate("App.screen") == "mock-result",
-                  f"a mock submitted twice in one frame is scored once: 1 mock row, {n_items} answer rows",
+        rep.check(len(rows("mock")) == mocks_before + 1 and len(rows("item")) == items_before + answered and tab.evaluate("App.screen") == "mock-result",
+                  f"a mock submitted twice in one frame is scored once: 1 mock row, {answered} answer rows (the {n_items - answered} blanks are scored wrong but not logged)",
                   f"({len(rows('mock')) - mocks_before} mock rows, {len(rows('item')) - items_before} answer rows)")
         banked = len([r for r in rows("misconception") if r.get("grade", 3) <= 1]) - banked0
         rep.check(hits() - hits0 == banked,
@@ -1457,15 +1460,21 @@ def scenario_stale_tab(rep, tmp):
                   f"its history adds only the one answer the log lacked: 20 copies and a renamed copy skipped ({log_rows(data)} rows)")
         rep.check(isinstance(body, dict) and body.get("state", {}).get("updatedAt") == 9000, "and it is sent the saved copy back")
 
-        # A newer document from old code is still accepted: old code is refused for being old, not for being old code.
+        # An old tab in active use looks newer, because every answer refreshes updatedAt. It is refused anyway.
+        code, _ = http("PUT", state_url, doc(9500, reviews=[{"at": 9500, "kind": "item", "id": "c-098", "grade": 3}]))
+        held = on_disk(data)
+        rep.check(code == 412 and held["updatedAt"] == 9000 and "kept" in held["misconceptions"],
+                  "an old tab whose document looks newer is refused, and the saved progress stays", f"({code}, updatedAt {held['updatedAt']})")
         code, _ = http("PUT", state_url, doc(9500, reviews=[]))
-        rep.check(code == 200 and on_disk(data)["updatedAt"] == 9500, "a newer document from old code is still accepted")
+        rep.check(code == 412 and on_disk(data)["updatedAt"] == 9000, "old code with an empty history is old code too")
+        code, _ = http("PUT", state_url, doc(9600), {"If-Match": "9000"})
+        rep.check(code == 200 and on_disk(data)["updatedAt"] == 9600, "a current client with If-Match still saves")
 
         # An outbox retried after a lost reply: the same rows twice land once.
         retry = [{"at": 6000, "kind": "item", "id": "c-100", "grade": 3}, {"at": 6001, "kind": "item", "id": "c-101", "grade": 1}]
         http("POST", log_url, retry)
         code, body = http("POST", log_url, retry)
-        rep.check(code == 200 and body.get("appended") == 0 and log_rows(data) == 23,
+        rep.check(code == 200 and body.get("appended") == 0 and log_rows(data) == 24,
                   "an outbox sent twice lands once, and the server says none were new")
 
 
@@ -1532,6 +1541,98 @@ def scenario_mock_exits(rep, tmp, browser):
         m = mocks()
         rep.check(js("App.screen") == "mock-result" and len(m) == 2 and isinstance(m[1].get("raw"), (int, float)) and m[1].get("unanswered", 0) > 0,
                   f"submitting early scores it, with {m[1].get('unanswered') if len(m) > 1 else '?'} blanks counted wrong")
+        item_rows = [r for r in (json.loads(l) for l in (data / "reviews.jsonl").read_text().splitlines() if l.strip()) if r["kind"] == "item"]
+        rep.check(len(item_rows) == 0 and js("Object.keys(App.state.items).length") == 0,
+                  "blanks counted wrong in the score are not logged as answers or reviewed by FSRS", f"({len(item_rows)} rows)")
+        # A full mock submitted with 2 of 90 answered is a blank sheet, not a measurement: neither the booking rule nor the forecast takes it.
+        sched = tab.call("Runtime.evaluate", awaitPromise=True, returnByValue=True, expression="""import('/app/scheduler.js').then((s) => {
+          const now = Date.now();
+          const row = (extra) => ({ at: now, kind: 'mock', format: 'full', raw: .8, scaled: 780, seconds: 5000, banked: 0, ...extra });
+          const rule = (rows) => s.examForecast(App.state, App.content, now, rows);
+          const blank = rule([row({ unanswered: 88, answered: 2, of: 90 })]);
+          const real = rule([row({ unanswered: 2, answered: 88, of: 90 })]);
+          const legacy = rule([row({})]);
+          return { blank: blank.stop.rules[1].text, blankMocks: blank.mocks, real: real.stop.rules[1].text, realMocks: real.mocks, legacyMocks: legacy.mocks };
+        })""")["result"].get("value") or {}
+        rep.check("none taken" in sched.get("blank", "") and sched.get("blankMocks") == 0,
+                  "a full mock submitted with 2 of 90 answered is not one of the mocks the booking rule or the forecast counts", f"({sched})")
+        rep.check("780" in sched.get("real", "") and sched.get("realMocks") == 1 and sched.get("legacyMocks") == 1,
+                  "a mock with 88 of 90 answered, and an older row with no answered count, still count")
+        rep.check(not tab.errors[n0:], "no console error", "; ".join(tab.errors[n0:])[:200])
+
+
+def scenario_answer_order(rep, tmp, browser):
+    """Options are shuffled when shown, so the correct one is not parked at 'a'.
+    The stored ids stay put: grading, the keyboard letter and the log all have
+    to follow the option, not the position it happened to land in."""
+    rep.head("Option order is random and maps back to stored ids")
+    with throwaway(tmp, "answer-order") as (base, data):
+        tab = browser.tab
+        n0 = len(tab.errors)
+        tab.navigate(f"{base}/")
+        rep.check(tab.wait_for(APP_READY), "the app boots")
+        probe = """(async () => {
+          const out = { single: [0, 0, 0, 0], multi: {}, stable: true, keyOk: 0, keyN: 0, multiOk: 0, multiN: 0, ids: true, letters: true, idMiss: 0 };
+          const sel = (t, n) => App.content.items.find((i) => i.type === t && i.options.length === n && i.options.filter((o) => o.correct).length === (t === 'mcq' ? 1 : 2));
+          const one = sel('mcq', 4), two = sel('mcq-multi', 5) || sel('mcq-multi', 4);
+          const storedIds = (it) => it.options.map((o) => o.id).sort().join();
+          const ids0 = storedIds(one), ids1 = storedIds(two);
+          const show = (item) => {
+            App.queue = [{ kind: 'item', item, reason: '' }]; App.idx = 0; App.answer = null; App.multiPicked = new Set();
+            document.querySelector('[data-action=nav][data-section=drill]').click();
+            return [...document.querySelectorAll('.opts .opt')];
+          };
+          const press = (k) => document.dispatchEvent(new KeyboardEvent('keydown', { key: k, bubbles: true }));
+          for (let n = 0; n < 240; n++) {
+            const btns = show(one);
+            const order = btns.map((b) => b.dataset.opt);
+            const ci = order.indexOf(one.options.find((o) => o.correct).id);
+            out.single[ci]++;
+            if (storedIds(one) !== ids0 || order.join() !== one.options.map((o) => o.id).join()) out.ids = false;
+            if (btns.map((b) => b.querySelector('.key').textContent).join('') !== 'ABCD') out.letters = false;
+            if (n < 40) { out.keyN++; press('abcd'[ci]); if (App.answer && App.answer.correct && App.answer.chosen === one.options.find((o) => o.correct).id) out.keyOk++; }
+          }
+          // the same entry rendered again keeps the order the learner saw
+          const entry = { kind: 'item', item: one, reason: '' };
+          App.queue = [entry]; App.idx = 0; App.answer = null;
+          document.querySelector('[data-action=nav][data-section=drill]').click();
+          const first = [...document.querySelectorAll('.opts .opt')].map((b) => b.dataset.opt).join();
+          for (let k = 0; k < 5; k++) { App.answer = null; document.querySelector('[data-action=nav][data-section=drill]').click(); }
+          if ([...document.querySelectorAll('.opts .opt')].map((b) => b.dataset.opt).join() !== first) out.stable = false;
+          for (let n = 0; n < 240; n++) {
+            const btns = show(two);
+            const order = btns.map((b) => b.dataset.opt);
+            const key = two.options.filter((o) => o.correct).map((o) => order.indexOf(o.id)).sort().join('');
+            out.multi[key] = (out.multi[key] || 0) + 1;
+            if (n < 40) {
+              out.multiN++;
+              for (const o of two.options.filter((o) => o.correct)) press('abcde'[order.indexOf(o.id)]);
+              press('Enter');
+              if (App.answer && App.answer.correct) out.multiOk++;
+            }
+          }
+          out.ids = out.ids && storedIds(two) === ids1;
+          return out;
+        })()"""
+        out = tab.call("Runtime.evaluate", awaitPromise=True, returnByValue=True, expression=probe)["result"].get("value") or {}
+        single = out.get("single", [])
+        rep.check(len(single) == 4 and min(single) >= 30, f"a single-answer item's correct option lands at A, B, C, D {single} times in 240 presentations (each at least 30)")
+        multi = out.get("multi", {})
+        rep.check(len(multi) >= 5, f"a choose-two item's correct pair lands in {len(multi)} different position pairs, not always A+B ({multi})")
+        rep.check(out.get("ids") and out.get("letters"), "stored ids are unchanged and the letters shown are A, B, C, D in order")
+        rep.check(out.get("stable"), "re-rendering the same presentation keeps the order the learner saw")
+        rep.check(out.get("keyN") and out.get("keyOk") == out.get("keyN"), f"pressing the letter shown on the correct option grades it correct ({out.get('keyOk')} of {out.get('keyN')})")
+        rep.check(out.get("multiN") and out.get("multiOk") == out.get("multiN"), f"choose-two by shown letters then Enter grades correct ({out.get('multiOk')} of {out.get('multiN')})")
+        # A shown letter is not a stored id: pick by the displayed C, and the row and verdict follow the option that was there.
+        tab.evaluate("""{ const it = App.content.items.find((i) => i.type === 'mcq');
+          App.queue = [{ kind: 'item', item: it, reason: '' }]; App.idx = 0; App.answer = null;
+          document.querySelector('[data-action=nav][data-section=drill]').click();
+          window.__shown = [...document.querySelectorAll('.opts .opt')].map((b) => b.dataset.opt); window.__item = it;
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', bubbles: true })); }""")
+        time.sleep(0.8)
+        chosen_id = tab.evaluate("window.__shown[2]")
+        rep.check(tab.evaluate("App.answer && App.answer.chosen") == chosen_id, "pressing C answers the option shown third, by its stored id", f"({chosen_id})")
+        tab.evaluate("document.dispatchEvent(new Event('visibilitychange'))")
         rep.check(not tab.errors[n0:], "no console error", "; ".join(tab.errors[n0:])[:200])
 
 
@@ -1560,6 +1661,7 @@ def main():
         "latency": lambda: scenario_latency(rep, tmp, browser),
         "stress": lambda: scenario_stress(rep, tmp, browser),
         "mock-exits": lambda: scenario_mock_exits(rep, tmp, browser),
+        "answer-order": lambda: scenario_answer_order(rep, tmp, browser),
         "latency-10000": lambda: scenario_latency(rep, tmp, browser, 10000, assert_limits=False),
     }
     only = [a for a in sys.argv[1:] if a in scenarios]   # python3 scripts/selftest.py screens

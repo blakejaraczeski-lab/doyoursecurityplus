@@ -521,7 +521,7 @@ function submitPbq() {
 function gradeMock() {
   const m = App.mock;
   const now = Date.now();
-  let mcqCorrect = 0, mcqTotal = 0, unanswered = 0;
+  let mcqCorrect = 0, mcqTotal = 0, unanswered = 0, answered = 0;
   let pbqEarned = 0, pbqMax = 0, pbqCount = 0;
   let wCorrect = 0, wTotal = 0;          // difficulty weighted
   const byDomain = {};
@@ -545,7 +545,9 @@ function gradeMock() {
         byDomain[dom].total += PBQ_WEIGHT;
         byDomain[dom].correct += Math.round(PBQ_WEIGHT * (g.max ? g.earned / g.max : 0));
       }
-      note(recordPbq(entry.pbq, g, now, { mock: true }));
+      // A sheet never touched is counted wrong in the score above, but it is
+      // not evidence about the person: no attempt, no banking.
+      if (pbqAnswered(App.answers[entry.pbq.id])) { answered += 1; note(recordPbq(entry.pbq, g, now, { mock: true })); }
       continue;
     }
 
@@ -559,7 +561,10 @@ function gradeMock() {
     if (!chosen) unanswered += 1;
     // Everything in a mock is answered under exam conditions, so a miss counts
     // as confidently wrong: you committed to it with the clock running.
-    const out = recordOutcome(entry, new Set(chosen ? [chosen] : []), { now, mock: true });
+    // A blank is wrong in the score but never seen: no FSRS review, no row, and
+    // so nothing counted toward the day's goal. Only an answer is recorded.
+    if (chosen) answered += 1;
+    const out = chosen ? recordOutcome(entry, new Set([chosen]), { now, mock: true }) : { correct: false, banked: [] };
     if (out.correct) {
       wCorrect += w;
       mcqCorrect += 1;
@@ -594,7 +599,7 @@ function gradeMock() {
         : "You are holding up on the harder items, which is the right way round."}`);
   }
 
-  reviews.log({ at: now, kind: "mock", format: m.format, raw, scaled, seconds, unanswered, banked: banked.length });
+  reviews.log({ at: now, kind: "mock", format: m.format, raw, scaled, seconds, unanswered, answered, of: m.items.length, banked: banked.length });
   return {
     at: now, format: m.format, raw, flatRaw, scaled, seconds, minutes: m.minutes,
     unanswered, banked: banked.length,

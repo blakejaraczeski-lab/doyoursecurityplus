@@ -296,20 +296,23 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             # A client still carrying a review array or a mock history in the
             # document runs code from before the log was a resource. That code
             # never sends If-Match, so the conditional replace below cannot
-            # protect against it: an old tab left open for weeks would replace
-            # current progress with its own. Its rows are kept (new ones only),
-            # and its document is refused when it is older than the one held.
+            # protect against it. Its rows are kept (new ones only). Its
+            # document is refused whenever a saved one exists, however new its
+            # updatedAt looks: every answer in a tab refreshes updatedAt, so an
+            # old tab in active use always looks newer and would replace
+            # progress saved since it last synced. Reloading that tab fixes it.
+            old_code = "reviews" in incoming or "mockHistory" in incoming
             rows = incoming.pop("reviews", None) or []
             rows += [{"kind": "mock", **m} for m in (incoming.pop("mockHistory", None) or []) if isinstance(m, dict)]
             if rows:
                 _append_reviews([r for r in rows if _valid_row(r)], resend=True)
-                if existing is not None and (incoming.get("updatedAt") or 0) < (existing.get("updatedAt") or 0):
-                    LOG.warning("refused an outdated document from a client running old code; reload that tab")
-                    return self._json(412, {
-                        "error": "this copy is older than the saved one; reload the page",
-                        "serverUpdatedAt": existing.get("updatedAt"),
-                        "state": existing,
-                    })
+            if old_code and existing is not None and self.headers.get("If-Match") is None:
+                LOG.warning("refused a document from a client running old code; reload that tab")
+                return self._json(412, {
+                    "error": "this tab runs old code and cannot replace saved progress; reload the page",
+                    "serverUpdatedAt": existing.get("updatedAt"),
+                    "state": existing,
+                })
             # A conditional replace: the client names the version it built on.
             # If the stored copy has moved past it, another session saved newer
             # work, and the client gets that copy back instead of overwriting it.

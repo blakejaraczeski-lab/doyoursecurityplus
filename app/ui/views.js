@@ -1,4 +1,27 @@
 import { esc, gloss, pct, objectiveLabel, mentorCardHtml, sessionBarHtml, emptyState, optionButton, KEYS } from "./common.js";
+
+/**
+ * Options are shown in a random order, once per presentation. The stored
+ * order put the correct option at "a" in most items, which taught position
+ * instead of content. The shuffle reorders the item's own options array, so
+ * the keyboard handler, which indexes it by letter, and the rendered letters
+ * agree. Everything else addresses an option by its stored id, which never
+ * changes, so grading, misconception attribution, the review log and the
+ * saved state are unaffected. A letter on screen is a position, not an id.
+ * Done once per queue or mock entry, so a re-render or a revisit in the mock
+ * keeps the order the learner already saw.
+ */
+const presented = new WeakSet();
+function presentOptions(entry) {
+  const it = entry?.item;
+  if (!it || !Array.isArray(it.options) || presented.has(entry)) return it;
+  presented.add(entry);
+  for (let i = it.options.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [it.options[i], it.options[j]] = [it.options[j], it.options[i]];
+  }
+  return it;
+}
 import { pbqHtml } from "./pbq.js";
 import * as mentor from "../mentor.js";
 import { readiness, coverageDeficit, blockFit, studyPlan, hoursToReady, FORMATS, PBQ_WEIGHT, SESSION_SIZE } from "../scheduler.js";
@@ -73,7 +96,7 @@ function introHtml(App) {
  * count explicit and refuses to submit until it is met.
  */
 function mcqMultiHtml(App, entry) {
-  const it = entry.item;
+  const it = presentOptions(entry);
   const ans = App.answer;
   const need = it.selectCount || 2;
   const picked = App.multiPicked || new Set();
@@ -131,7 +154,7 @@ function multiFeedbackHtml(App, it, chosenWrong, missed) {
 }
 
 function mcqHtml(App, entry) {
-  const it = entry.item;
+  const it = presentOptions(entry);
   const ans = App.answer;
   const opts = it.options.map((o, i) => {
     let cls = ans?.chosen === o.id ? "chosen" : "";
@@ -808,7 +831,7 @@ function mockEndHtml(App) {
     <p class="m0">${answered} of ${m.items.length} answered.</p>
     <dl class="end-choices">
       <dt><button class="btn" data-action="mock-submit-now">Submit and score</button></dt>
-      <dd>The ${blanks} unanswered count as wrong, as they would if the real exam's clock ran out. Your misses are banked as corrections, and the score counts toward Readiness and the booking rule.</dd>
+      <dd>The ${blanks} unanswered count as wrong, as they would if the real exam's clock ran out. Blanks are scored wrong but not banked as corrections; the questions you answered wrong are banked. The score counts toward Readiness and the booking rule.</dd>
       <dt><button class="btn ghost" data-action="mock-abandon">Abandon without a score</button></dt>
       <dd>Nothing is scored and nothing is banked. The attempt and the time spent are kept in the history, and Readiness ignores it.</dd>
     </dl>
@@ -823,7 +846,7 @@ export function mockRunnerView(App) {
 
   const body = entry.kind === "pbq"
     ? pbqHtml(entry.pbq, App.answers[entry.pbq.id] || {}, { locked: false, graded: null, inExam: true })
-    : mockMcqHtml(entry.item, m.answers[entry.item.id], m.flagged.has(entry.item.id));
+    : mockMcqHtml(presentOptions(entry), m.answers[entry.item.id], m.flagged.has(entry.item.id));
 
   return `
   <div class="session-bar">

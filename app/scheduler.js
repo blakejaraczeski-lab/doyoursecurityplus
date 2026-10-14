@@ -620,6 +620,17 @@ const MOCK_WEIGHT = { full: 1, half: 0.5, short: 0.25 };
 const MODEL_SD = 0.08;      // raw-score error of the model before any mock calibrates it
 const Z = 1.28;             // one-sided 10%
 
+const MIN_ANSWERED = 0.8;   // a mock ended with less than this answered is not a sitting
+
+/**
+ * Does a mock row measure anything? An abandoned attempt has no score, and a
+ * block submitted after a few questions scores blanks as wrong: a low number,
+ * but not a measurement of the exam, and it must not count as one of the two
+ * full mocks the booking rule asks for. Rows from before `answered` was
+ * logged have no `of` and count.
+ */
+const countsAsMock = (m) => !m.abandoned && (!m.of || m.answered / m.of >= MIN_ANSWERED);
+
 /**
  * The scaled score expected on exam day, and its band. Built from what the
  * person is likely to remember then, not from how much of the bank they have
@@ -652,7 +663,7 @@ export function examForecast(state, content, now = Date.now(), mocks = []) {
     model += v.questions * p / EXAM_QUESTIONS;
     variance += v.questions * p * (1 - p);
   }
-  const recent = mocks.filter((m) => m.at >= now - 30 * fsrs.DAY_MS && typeof m.raw === "number");
+  const recent = mocks.filter((m) => m.at >= now - 30 * fsrs.DAY_MS && typeof m.raw === "number" && countsAsMock(m));
   const w = recent.reduce((a, m) => a + (MOCK_WEIGHT[m.format] ?? 0.25), 0);
   const mockRaw = w ? recent.reduce((a, m) => a + m.raw * (MOCK_WEIGHT[m.format] ?? 0.25), 0) / w : null;
   const k = w / (w + 2);
@@ -661,7 +672,7 @@ export function examForecast(state, content, now = Date.now(), mocks = []) {
   const clamp = (x) => Math.max(0, Math.min(1, x));
 
   // The stopping rule: book the exam when all three hold.
-  const fulls = mocks.filter((m) => m.format === "full" && !m.abandoned && m.at >= now - 14 * fsrs.DAY_MS);
+  const fulls = mocks.filter((m) => m.format === "full" && countsAsMock(m) && m.at >= now - 14 * fsrs.DAY_MS);
   const heavyOpen = Object.entries(state.misconceptions || {}).filter(([id, r]) => {
     const def = content.misconceptions[id];
     return def && !r.retired && def.severity === "high" && (content.objectiveById[def.objective]?.weight ?? 0) >= 0.2;
@@ -694,7 +705,7 @@ export function examForecast(state, content, now = Date.now(), mocks = []) {
  */
 export function hoursToReady(state, content, now = Date.now(), mocks = []) {
   const f = examForecast(state, content, now, mocks);
-  const fullMocks = mocks.filter((m) => m.format === "full" && !m.abandoned && m.at >= now - 30 * fsrs.DAY_MS).length;
+  const fullMocks = mocks.filter((m) => m.format === "full" && countsAsMock(m) && m.at >= now - 30 * fsrs.DAY_MS).length;
   const sdAfter = Math.sqrt(f.sd ** 2 - (MODEL_SD ** 2) / (1 + fullMocks) + (MODEL_SD ** 2) / (1 + Math.max(2, fullMocks)));
   const gap = Math.max(0, 0.75 + Z * sdAfter - f.raw) * (650 / 0.75);
   const mockMinutes = Math.max(0, 2 - fullMocks) * FORMATS.full.minutes;
