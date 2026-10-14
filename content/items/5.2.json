@@ -171,14 +171,14 @@
     "id": "g-022",
     "type": "mcq",
     "objective": "5.2",
-    "topics": ["risk-identification", "risk-assessment", "business-impact-analysis"],
+    "topics": ["risk-assessment", "business-impact-analysis"],
     "difficulty": 3,
-    "stem": "Which output belongs to a risk assessment rather than a business impact analysis?",
+    "stem": "How do a business impact analysis and a risk assessment relate?",
     "options": [
-      {"id": "a", "text": "A register of threats with likelihood and impact ratings", "correct": true, "why": "Identifying what could go wrong and how likely it is, is the risk assessment's job."},
-      {"id": "b", "text": "Recovery time objectives for each business process", "misconception": "bia-vs-risk-assessment", "why": "RTO comes from the BIA, which measures the consequence of disruption regardless of what caused it."},
-      {"id": "c", "text": "Maximum tolerable downtime per function", "misconception": "bia-vs-risk-assessment", "why": "Also a BIA output, derived from how long the business can survive without the function."},
-      {"id": "d", "text": "A criticality ranking of business processes", "misconception": "bia-vs-risk-assessment", "why": "Ranking processes by criticality is the central deliverable of a BIA."}
+      {"id": "a", "text": "The BIA shows how much each process matters and how long it can be down; the risk assessment uses that to judge which threats matter most", "correct": true, "why": "The BIA is deliberately indifferent to cause and measures consequence. The risk assessment adds threats and likelihood, and consequence is what makes a threat matter."},
+      {"id": "b", "text": "The BIA estimates the likelihood of threats; the risk assessment measures downtime", "misconception": "bia-vs-risk-assessment", "why": "Reversed. Likelihood belongs to the risk assessment and downtime tolerance to the BIA."},
+      {"id": "c", "text": "They are the same exercise performed by different teams", "misconception": "bia-vs-risk-assessment", "why": "They start from different questions: what disruption costs, and what could cause harm and how likely it is."},
+      {"id": "d", "text": "A risk assessment must produce the recovery time objectives before a BIA can begin", "misconception": "bia-vs-risk-assessment", "why": "RTOs come from the BIA, not the risk assessment."}
     ]
   },
   {
@@ -231,12 +231,12 @@
     "objective": "5.2",
     "topics": ["expansionary-risk-appetite", "conservative-risk-appetite", "neutral-risk-appetite"],
     "difficulty": 4,
-    "stem": "A board states that it will accept materially higher security risk over the next eighteen months in order to reach a new market first. How should this be characterised?",
+    "stem": "A board accepted a deliberately expansionary risk appetite for eighteen months to reach a new market first. The launch is complete and the board now wants stability. What should happen to the appetite statement?",
     "options": [
-      {"id": "a", "text": "An expansionary risk appetite, set deliberately at board level", "correct": true, "why": "Appetite is a governance position about how much risk the organisation will take to meet its objectives. Expansionary means accepting more of it in pursuit of opportunity."},
-      {"id": "b", "text": "A governance failure, since appetite should always be conservative", "misconception": "risk-appetite-postures", "why": "Conservative suits regulated and safety-critical contexts. It is not universally correct, and expansionary is a legitimate stated posture."},
-      {"id": "c", "text": "A risk tolerance decision", "misconception": "risk-appetite-vs-tolerance", "why": "Tolerance is the acceptable variation around the appetite in practice. This statement sets the appetite itself."},
-      {"id": "d", "text": "Risk acceptance as a treatment strategy", "misconception": "risk-treatment-strategies", "why": "Acceptance applies to a specific identified risk. This is a standing posture across the whole programme."}
+      {"id": "a", "text": "The board should review and restate it, since appetite is a strategic position that moves with the organisation's objectives", "correct": true, "why": "Appetite is a governance position set at board level. When strategy changes, the statement must be revisited so the posture the organisation operates under is the one it intends."},
+      {"id": "b", "text": "Nothing: an appetite statement is fixed once approved", "misconception": "risk-appetite-postures", "why": "There is no such rule. A statement nobody revisits describes a strategy that has ended."},
+      {"id": "c", "text": "Management should lower its risk tolerance and leave the appetite as it is", "misconception": "risk-appetite-vs-tolerance", "why": "Tolerance operates within the appetite. Leaving a stale expansionary appetite in place invites tolerance to drift back up and misstates the board's position."},
+      {"id": "d", "text": "Every open risk should be re-treated as a transfer", "misconception": "risk-treatment-strategies", "why": "Transfer is a treatment strategy for individual risks. It does not restate a standing posture."}
     ]
   },
   {

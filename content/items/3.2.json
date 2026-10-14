@@ -285,11 +285,11 @@
     "objective": "3.2",
     "topics": ["selection-of-effective-controls", "fail-open", "fail-closed"],
     "difficulty": 4,
-    "stem": "A control is being selected for a door on a medical ward. In a fire alarm the door must release; for everyday access it must stay locked. Which principle governs the choice, and what is the answer?",
+    "stem": "An electronic lock secures a cabinet of controlled drugs on a hospital ward. The cabinet is in a room people can leave freely, and nobody's safety depends on opening it during an outage. If power to the lock fails, how should it fail, and what governs the choice?",
     "options": [
-      {"id": "a", "text": "Selection of effective controls weighs safety against security: the door fails open, because life safety outranks access control", "correct": true, "why": "Choosing a control means deciding which failure mode you can live with. On an escape route the answer is always life safety, and the access control is compensated elsewhere."},
-      {"id": "b", "text": "It should fail closed, since security must be maintained during an incident", "misconception": "fail-open-vs-fail-closed", "why": "A locked escape route during a fire is a fatality risk. No security requirement outweighs it."},
-      {"id": "c", "text": "It should fail closed, with staff issued override keys", "misconception": "fail-open-vs-fail-closed", "why": "Depends on people acting correctly under emergency conditions, which is precisely when they do not."},
+      {"id": "a", "text": "Fail closed: with no life safety need to open it, the value of the contents decides, so the cabinet stays locked", "correct": true, "why": "Choosing a control means deciding which failure mode you can live with. Fail open is forced where people must escape, as on a fire exit. Here nothing needs the cabinet to open, so protecting the contents wins."},
+      {"id": "b", "text": "Fail open, because every electronic lock should release when power is lost", "misconception": "fail-open-vs-fail-closed", "why": "Release on power loss is the rule for escape routes. A cabinet is not one, and an unlocked drug cabinet during an outage is exactly when theft is easiest."},
+      {"id": "c", "text": "Fail open, with a guard posted at the cabinet until power returns", "misconception": "fail-open-vs-fail-closed", "why": "A guard replaces the lock with a person and a cost. The design question is which failure mode is right, and a lock that fails open has already given up the control."},
       {"id": "d", "text": "The choice is governed by the screened subnet principle", "misconception": "screened-subnet-direction", "why": "That concerns which direction network traffic may be initiated."}
     ]
   },

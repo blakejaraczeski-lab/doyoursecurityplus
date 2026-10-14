@@ -283,14 +283,14 @@
     "id": "cr-013",
     "type": "mcq",
     "objective": "1.4",
-    "topics": ["blockchain", "open-public-ledger", "digital-signatures", "hashing"],
+    "topics": ["blockchain", "open-public-ledger", "digital-signatures"],
     "difficulty": 4,
-    "stem": "Several competing firms want a shared record of transactions that any of them can verify, that none can quietly alter, and that needs no central authority. Which property does an open public ledger NOT provide?",
+    "stem": "On an open public ledger shared by competing firms, what prevents a participant from later denying that they authorised a transaction?",
     "options": [
-      {"id": "a", "text": "Confidentiality of the recorded entries", "correct": true, "why": "Open means readable by all participants, which is what makes independent verification possible. Secrecy is the one thing it deliberately gives up."},
-      {"id": "b", "text": "Integrity of the recorded history", "misconception": "blockchain-ledger-properties", "why": "Each block commits to the previous one by hash, so altering an earlier entry invalidates everything after it."},
-      {"id": "c", "text": "Non-repudiation of individual entries", "misconception": "blockchain-ledger-properties", "why": "Entries are signed by the key that authorised them, which is what non-repudiation means."},
-      {"id": "d", "text": "Availability of the record to all participants", "misconception": "blockchain-ledger-properties", "why": "Replication across independent participants is how it survives any one of them going away."}
+      {"id": "a", "text": "Each entry is signed with the private key that only that participant holds", "correct": true, "why": "A digital signature can only be produced by the key holder, and anyone can verify it. That is non-repudiation."},
+      {"id": "b", "text": "The hash chain, which fixes the order of the blocks", "misconception": "blockchain-ledger-properties", "why": "The chain makes history tamper evident. It shows that entries were not altered, not who authorised them."},
+      {"id": "c", "text": "The consensus vote, which shows the participant agreed to the entry", "misconception": "blockchain-ledger-properties", "why": "Consensus decides which entries are accepted. It does not tie an entry to the person who made it."},
+      {"id": "d", "text": "Encrypting each entry with the participant's public key", "misconception": "blockchain-ledger-properties", "why": "That would give confidentiality to the key owner and say nothing about who wrote the entry."}
     ]
   },
   {

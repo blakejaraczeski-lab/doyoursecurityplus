@@ -61,12 +61,12 @@
     "objective": "5.3",
     "topics": ["supply-chain-analysis", "vendor-monitoring", "suppliers"],
     "difficulty": 3,
-    "stem": "A company's critical SaaS vendor depends on a single small provider for authentication. Which activity is designed to reveal this kind of exposure?",
+    "stem": "Supply chain analysis shows that a critical SaaS vendor depends on a single small provider for authentication, and your organisation has no contract with that provider. Which response best addresses the exposure?",
     "options": [
-      {"id": "a", "text": "Supply chain analysis", "correct": true, "why": "It looks past the direct vendor to the vendor's own suppliers, which is where fourth-party risk hides."},
-      {"id": "b", "text": "A right-to-audit clause", "misconception": "vendor-assessment-methods", "why": "That gives you the right to inspect your vendor. It does not automatically extend down to their suppliers."},
-      {"id": "c", "text": "A penetration test of the vendor", "misconception": "vendor-assessment-methods", "why": "A test probes the vendor's exposed systems. It does not map their commercial dependencies."},
-      {"id": "d", "text": "A service level agreement with stronger penalties", "misconception": "agreement-types", "why": "Penalties compensate you after an outage. They do not reveal or reduce the dependency."}
+      {"id": "a", "text": "Seek contractual assurance from the vendor about the dependency, such as notice of subcontractor changes and a tested contingency plan, and track it in vendor monitoring", "correct": true, "why": "The only contract you hold is with the vendor, so that is where the dependency can be governed. Notice, contingency and ongoing monitoring address it without pretending you have a relationship you lack."},
+      {"id": "b", "text": "Audit the small provider directly under your own right-to-audit clause", "misconception": "vendor-assessment-methods", "why": "Your clause binds your vendor, not the vendor's subcontractor. It does not reach the provider."},
+      {"id": "c", "text": "Run a penetration test against the small provider", "misconception": "vendor-assessment-methods", "why": "Testing someone else's systems needs their permission, and you have no relationship that grants it."},
+      {"id": "d", "text": "Negotiate a service level agreement with stronger penalties", "misconception": "agreement-types", "why": "Penalties compensate you after an outage. They do not reveal or reduce the dependency."}
     ]
   },
   {

@@ -161,12 +161,12 @@
     "objective": "5.6",
     "topics": ["phishing-campaigns", "responding-to-reported-suspicious-messages", "initial-reporting"],
     "difficulty": 3,
-    "stem": "After a simulated phishing campaign, which metric best indicates the programme is working?",
+    "stem": "A user reports a suspicious message that turns out to be the monthly phishing simulation. What should the awareness programme do?",
     "options": [
-      {"id": "a", "text": "The report rate and the time taken to report", "correct": true, "why": "Somebody will always eventually click. What decides the outcome is how quickly the security team hears about it, so reporting behaviour is the capability being built."},
-      {"id": "b", "text": "The click rate alone", "misconception": "awareness-program-elements", "why": "Click rate measures the attack's success. It says nothing about whether anyone would tell you."},
-      {"id": "c", "text": "The number of staff disciplined for clicking", "misconception": "awareness-program-elements", "why": "Punishment suppresses reporting, which destroys the measure that actually matters."},
-      {"id": "d", "text": "The percentage who completed the annual training module", "misconception": "awareness-program-elements", "why": "Completion measures attendance, not behaviour change."}
+      {"id": "a", "text": "Thank the user and confirm the report was correct, so reporting is reinforced", "correct": true, "why": "The report is the behaviour the programme wants. Prompt, positive feedback makes the next report more likely, including the one that is real."},
+      {"id": "b", "text": "Ignore it, because it was only a simulation", "misconception": "awareness-program-elements", "why": "A correct report was made and then met with silence. People learn that reporting changes nothing."},
+      {"id": "c", "text": "Tell the user that reporting simulations wastes analyst time", "misconception": "awareness-program-elements", "why": "That discourages the exact behaviour being trained, and a real attack is indistinguishable from a simulation to the user."},
+      {"id": "d", "text": "Record a mark against the user for reporting a test message", "misconception": "awareness-program-elements", "why": "Penalising a correct report suppresses reporting, which destroys the measure that matters."}
     ]
   },
   {
@@ -201,14 +201,14 @@
     "id": "g-048",
     "type": "mcq",
     "objective": "5.6",
-    "topics": ["removable-media-and-cables", "situational-awareness", "operational-security"],
+    "topics": ["situational-awareness", "tailgating"],
     "difficulty": 3,
-    "stem": "Staff attending a conference are warned not to use charging cables or USB drives handed out on the exhibition floor. Which awareness topic is this?",
+    "stem": "At a conference venue, a stranger follows a staff member through a badge-controlled door into the back office corridor. Which awareness topic covers the habit of noticing and challenging this?",
     "options": [
-      {"id": "a", "text": "Removable media and cables", "correct": true, "why": "A named awareness topic in its own right, because a cable or drive can carry an implant and looks exactly like a free gift."},
-      {"id": "b", "text": "Phishing recognition", "misconception": "awareness-program-elements", "why": "Phishing arrives as a message. This threat arrives as hardware."},
-      {"id": "c", "text": "Password management", "misconception": "awareness-program-elements", "why": "Unrelated to the vector described."},
-      {"id": "d", "text": "Hybrid and remote work", "misconception": "awareness-program-elements", "why": "That topic covers home networks, shoulder surfing and shared spaces, not conference giveaways."}
+      {"id": "a", "text": "Situational awareness", "correct": true, "why": "It is about noticing what is happening around you physically, such as tailgating, and acting on it rather than assuming someone else will."},
+      {"id": "b", "text": "Phishing recognition", "misconception": "awareness-program-elements", "why": "Phishing arrives as a message. This is a person physically entering a controlled area."},
+      {"id": "c", "text": "Password management", "misconception": "awareness-program-elements", "why": "Unrelated to the behaviour described."},
+      {"id": "d", "text": "Hybrid and remote work", "misconception": "awareness-program-elements", "why": "That topic covers the different assumptions of working away from the office, such as home networks. It does not describe challenging an unknown person at a door."}
     ]
   }
 ]

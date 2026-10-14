@@ -75,12 +75,12 @@
     "objective": "3.3",
     "topics": ["trade-secret", "intellectual-property", "regulated-data"],
     "difficulty": 4,
-    "stem": "A manufacturer's alloy formulation is unpatented, kept secret, and derives its commercial value from not being known. Which data type is this?",
+    "stem": "A company protects a manufacturing process as a trade secret instead of patenting it. What has it accepted in exchange?",
     "options": [
-      {"id": "a", "text": "A trade secret", "correct": true, "why": "Value derives from secrecy itself, and protection lasts only as long as it stays secret. The contrast with a patent is the trade: a patent publishes in exchange for a time-limited monopoly."},
-      {"id": "b", "text": "Regulated data", "misconception": "data-type-vs-classification", "why": "Regulated means a legal regime governs its handling, such as health or card data. Nothing here is imposed by a regulator."},
-      {"id": "c", "text": "Legal information", "misconception": "data-type-vs-classification", "why": "That covers contracts, case material and privileged communications."},
-      {"id": "d", "text": "Financial information", "misconception": "data-type-vs-classification", "why": "Accounts, transactions and payment data. A formulation is not financial."}
+      {"id": "a", "text": "Protection lasts only while the process stays secret, so a leak or independent discovery ends it, with no registered right to fall back on", "correct": true, "why": "A trade secret has no registration and no term. Its value and its legal protection both depend on secrecy being maintained, which is the trade against a patent's published, time limited monopoly."},
+      {"id": "b", "text": "Protection expires after a fixed number of years, like a patent", "misconception": "data-type-vs-classification", "why": "A fixed term belongs to registered rights. A trade secret lasts as long as secrecy does."},
+      {"id": "c", "text": "The process must be published in return for legal protection", "misconception": "data-type-vs-classification", "why": "Publication is the price of a patent. A trade secret is protected by not publishing."},
+      {"id": "d", "text": "The process becomes regulated data and must be reported to a regulator", "misconception": "data-type-vs-classification", "why": "Trade secret status adds no reporting duty. Regulated data is defined by external rules governing its handling, which is a different axis."}
     ]
   },
   {

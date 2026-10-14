@@ -119,12 +119,12 @@
     "objective": "5.4",
     "topics": ["controller-vs-processor", "processors", "data-subject"],
     "difficulty": 3,
-    "stem": "A company uses an external payroll bureau. The company decides what data is collected and why; the bureau only runs the payroll as instructed. Under privacy law, what is the bureau?",
+    "stem": "A payroll bureau processes a client's staff data as instructed. The bureau then starts using that same data, without the client's agreement, to build and sell salary benchmarking products. What is the bureau's role for that new use?",
     "options": [
-      {"id": "a", "text": "The data processor", "correct": true, "why": "It processes personal data on the controller's instructions and does not determine the purpose or means."},
-      {"id": "b", "text": "The data controller", "misconception": "data-roles", "why": "The controller decides the purpose and means of processing. That is the company, not the bureau."},
-      {"id": "c", "text": "The data owner", "misconception": "data-roles", "why": "Data owner is an internal accountability role, not the privacy law term the question is asking for."},
-      {"id": "d", "text": "The data custodian", "misconception": "data-roles", "why": "Custodian is the internal operational role. The question asks about the legal relationship with an external party."}
+      {"id": "a", "text": "The data controller, because it has decided the purpose and means itself", "correct": true, "why": "Role follows who decides why and how data is processed. A processor that sets its own purpose becomes a controller for that use."},
+      {"id": "b", "text": "Still the data processor, since the data came from the client", "misconception": "data-roles", "why": "Where the data came from does not fix the role. The bureau has stepped outside the client's instructions."},
+      {"id": "c", "text": "The data owner, because it now holds the dataset", "misconception": "data-roles", "why": "Data owner is an internal accountability role, not the privacy law term the question is asking for."},
+      {"id": "d", "text": "The data custodian, because it stores the data", "misconception": "data-roles", "why": "Custodian is the internal operational role. The question is about the legal relationship with another organisation."}
     ]
   },
   {
@@ -161,12 +161,12 @@
     "objective": "5.4",
     "topics": ["fines", "sanctions", "reputational-damage", "loss-of-license"],
     "difficulty": 2,
-    "stem": "Which is a direct regulatory consequence of non-compliance, as opposed to an indirect business consequence?",
+    "stem": "A regulator can respond to serious or repeated non-compliance with more than a fine. Which of these is a further consequence the regulator itself can impose?",
     "options": [
-      {"id": "a", "text": "Fines imposed by the regulator", "correct": true, "why": "Fines and sanctions are levied directly by the regulator under its statutory powers."},
-      {"id": "b", "text": "Customers leaving after press coverage", "misconception": "due-diligence-vs-due-care", "why": "Reputational damage is a real and serious consequence, and it arrives through the market rather than from the regulator."},
-      {"id": "c", "text": "Higher insurance premiums at renewal", "misconception": "due-diligence-vs-due-care", "why": "A commercial consequence imposed by the insurer, not a regulatory one."},
-      {"id": "d", "text": "Difficulty recruiting security staff", "misconception": "due-diligence-vs-due-care", "why": "An indirect effect on the business, several steps removed from the regulator."}
+      {"id": "a", "text": "Loss of the licence to operate in the regulated activity", "correct": true, "why": "Sanctions up to and including withdrawal of a licence are imposed directly by the regulator under its statutory powers."},
+      {"id": "b", "text": "A customer ending its contract under a penalty clause", "misconception": "due-diligence-vs-due-care", "why": "That is a contractual consequence imposed by a counterparty, not by the regulator."},
+      {"id": "c", "text": "Negative press coverage", "misconception": "due-diligence-vs-due-care", "why": "Reputational damage arrives through the market. The regulator does not impose it."},
+      {"id": "d", "text": "A higher cyber insurance premium at renewal", "misconception": "due-diligence-vs-due-care", "why": "A commercial consequence imposed by the insurer, not a regulatory one."}
     ]
   },
   {

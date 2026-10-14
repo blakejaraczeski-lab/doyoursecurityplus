@@ -61,12 +61,12 @@
     "objective": "5.5",
     "topics": ["self-assessments", "internal-compliance-audit", "independent-third-party-audit"],
     "difficulty": 3,
-    "stem": "Rank these from least to most independent: an internal audit, a team self-assessment, a third-party audit.",
+    "stem": "A review of a firm's controls is being redesigned so that its results carry more independence, using the same checklist. Which change adds the most?",
     "options": [
-      {"id": "a", "text": "Self-assessment, internal audit, third-party audit", "correct": true, "why": "The team assessing itself has no independence. Internal audit is independent of the team but not of the organisation. A third party is independent of both."},
-      {"id": "b", "text": "Internal audit, self-assessment, third-party audit", "misconception": "audit-vs-assessment", "why": "Internal audit is more independent than a self-assessment, not less. It reports to the audit committee rather than to the team."},
-      {"id": "c", "text": "Self-assessment, third-party audit, internal audit", "misconception": "audit-vs-assessment", "why": "An internal audit is never more independent than an external one."},
-      {"id": "d", "text": "They are equally independent if the same checklist is used", "misconception": "audit-vs-assessment", "why": "Independence is about who performs the review, not which checklist they hold."}
+      {"id": "a", "text": "Have a party outside the organisation perform the review", "correct": true, "why": "Independence is about who performs the review. An outside party is independent of both the team and the organisation."},
+      {"id": "b", "text": "Have the control owners repeat their self-assessment more carefully", "misconception": "audit-vs-assessment", "why": "Care does not add independence. The same people are still marking their own work."},
+      {"id": "c", "text": "Have the head of the audited team sign the results", "misconception": "audit-vs-assessment", "why": "A signature adds accountability, not independence. The reviewed party is still vouching for itself."},
+      {"id": "d", "text": "Extend the checklist with more detailed questions", "misconception": "audit-vs-assessment", "why": "Independence is about who performs the review, not which checklist they hold."}
     ]
   },
   {

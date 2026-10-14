@@ -145,11 +145,11 @@
     "objective": "5.1",
     "topics": ["encryption-standards", "information-security-policies", "guidelines"],
     "difficulty": 4,
-    "stem": "A document states: 'Data at rest classified Confidential or above shall be encrypted using AES-256.' Which governance artefact is this?",
+    "stem": "A document states: 'All data must be protected in a way that matches its classification.' Which governance artefact is this?",
     "options": [
-      {"id": "a", "text": "A standard", "correct": true, "why": "Mandatory and specific: it names the exact required choice. A policy would state the intent to protect data; the standard names the algorithm and key length."},
-      {"id": "b", "text": "A policy", "misconception": "standards-and-scope", "why": "A policy states intent and assigns authority. Naming AES-256 is the specific that a standard carries."},
-      {"id": "c", "text": "A guideline", "misconception": "standards-and-scope", "why": "'Shall' makes it mandatory. Guidelines are advisory and use language like 'should' or 'recommended'."},
+      {"id": "a", "text": "A policy", "correct": true, "why": "It states a mandatory requirement and its intent at a high level, without naming the measures or values. That is what a policy does."},
+      {"id": "b", "text": "A standard", "misconception": "standards-and-scope", "why": "A standard would name the specific measures, such as an algorithm and key length for each classification. This names none."},
+      {"id": "c", "text": "A guideline", "misconception": "standards-and-scope", "why": "'Must' makes it mandatory. Guidelines are advisory and use language like 'should' or 'recommended'."},
       {"id": "d", "text": "A procedure", "misconception": "standards-and-scope", "why": "A procedure gives ordered steps for carrying something out. This states a requirement, not a sequence."}
     ]
   },
@@ -159,7 +159,7 @@
     "objective": "5.1",
     "topics": ["guidelines", "password-standards", "access-control-standards"],
     "difficulty": 3,
-    "stem": "Which of these governance artefacts is advisory rather than mandatory?",
+    "stem": "Developers are given recommended secure coding practices that they may depart from when they can justify doing so. Which governance artefact is this?",
     "options": [
       {"id": "a", "text": "A guideline", "correct": true, "why": "Guidelines recommend. Where professional judgement is appropriate the organisation advises rather than compels, and knowing which one is optional is a recurring exam point."},
       {"id": "b", "text": "A standard", "misconception": "standards-and-scope", "why": "Mandatory and specific. A standard is auditable as a yes or no."},

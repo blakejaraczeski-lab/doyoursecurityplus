@@ -31,14 +31,14 @@
     "id": "c-017",
     "type": "mcq",
     "objective": "1.2",
-    "topics": ["zero-trust", "policy-engine", "policy-enforcement-point", "control-plane", "data-plane"],
+    "topics": ["zero-trust", "policy-administrator", "control-plane"],
     "difficulty": 4,
-    "stem": "In a Zero Trust architecture, which component sits in the data plane?",
+    "stem": "In a zero trust architecture, which component establishes and tears down the session between a subject and a resource once an access decision has been made?",
     "options": [
-      {"id": "a", "text": "The Policy Enforcement Point", "correct": true, "why": "It sits in the traffic path and actually allows or blocks the session, which places it in the data plane."},
-      {"id": "b", "text": "The Policy Engine", "misconception": "zero-trust-planes", "why": "The Policy Engine makes the grant or deny decision. Deciding is control plane work."},
-      {"id": "c", "text": "The Policy Administrator", "misconception": "zero-trust-planes", "why": "It communicates the decision and issues session credentials, which is also control plane."},
-      {"id": "d", "text": "Adaptive identity", "misconception": "zero-trust-planes", "why": "Adaptive identity feeds contextual signals into the decision, so it belongs to the control plane."}
+      {"id": "a", "text": "The Policy Administrator", "correct": true, "why": "It acts on the engine's verdict: it communicates the decision, and sets up or ends the session path. It sits on the control plane."},
+      {"id": "b", "text": "The Policy Engine", "misconception": "zero-trust-planes", "why": "The engine makes the grant or deny decision. It does not manage the session that results."},
+      {"id": "c", "text": "The Policy Enforcement Point", "misconception": "zero-trust-planes", "why": "The enforcement point sits in the traffic path and applies the result, but it is told what to do by the administrator."},
+      {"id": "d", "text": "Adaptive identity", "misconception": "zero-trust-planes", "why": "Adaptive identity feeds contextual signals into the decision. It does not manage sessions."}
     ]
   },
   {
@@ -273,12 +273,12 @@
     "objective": "1.2",
     "topics": ["zero-trust", "policy-engine", "policy-enforcement-point", "control-plane", "data-plane"],
     "difficulty": 3,
-    "stem": "In a Zero Trust design, which component decides whether a contractor's request to reach the finance application is granted, based on identity, device posture and context?",
+    "stem": "Why does a zero trust design keep the component that decides access separate from the component that enforces it?",
     "options": [
-      {"id": "a", "text": "The Policy Engine", "correct": true, "why": "The engine makes the grant or deny decision. It sits in the control plane with the Policy Administrator, which relays that decision."},
-      {"id": "b", "text": "The Policy Enforcement Point", "misconception": "zero-trust-planes", "why": "The enforcement point carries out the decision on the actual traffic, in the data plane. It does not make it."},
-      {"id": "c", "text": "The contractor's device, as the subject", "misconception": "zero-trust-planes", "why": "The subject is what asks for access. It never decides whether it gets it."},
-      {"id": "d", "text": "The implicit trust zone around the finance servers", "misconception": "zero-trust-planes", "why": "An implicit trust zone is the region behind the enforcement point, in the data plane. Zero Trust works to shrink it, not to let it decide."}
+      {"id": "a", "text": "Decisions can be made and audited centrally from richer context, while enforcement stays in the traffic path and applies whatever it is told", "correct": true, "why": "Separating the decision from the enforcement lets policy be consistent and reviewable in one place, and keeps the enforcement point simple and fast where the traffic flows."},
+      {"id": "b", "text": "So the enforcement point can grant implicit trust to traffic already inside", "misconception": "zero-trust-planes", "why": "Implicit trust zones are what zero trust works to remove. Nothing here grants them."},
+      {"id": "c", "text": "Because the engine must sit outside the organisation to be independent", "misconception": "zero-trust-planes", "why": "Location is not the point. The engine is commonly run by the organisation itself."},
+      {"id": "d", "text": "So that no component has to know who the subject is", "misconception": "zero-trust-planes", "why": "Identity is central. The subject's identity and context are exactly what the engine evaluates."}
     ]
   },
   {
