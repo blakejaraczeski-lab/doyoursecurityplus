@@ -254,5 +254,205 @@
       {"id": "c", "text": "Encryption of the database, so developers cannot read the data", "misconception": "mitigation-technique-selection", "why": "Administrators of the database can typically manage its keys and its data. The problem is the access granted, not whether the data is encrypted."},
       {"id": "d", "text": "Least privilege: each role receives only the access it needs, so the standing production rights are removed", "correct": true, "why": "The question asks for the principle that decides how much to grant. The fix will change permissions, but least privilege is what tells you what they should be."}
     ]
+  },
+  {
+    "id": "mi2-101",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["disabling-ports-protocols", "encryption"],
+    "difficulty": 3,
+    "stem": "Switch administration on an access layer uses Telnet. A packet capture taken from a compromised laptop on the management VLAN shows administrator usernames and passwords in readable form. Which mitigation removes this exposure?",
+    "options": [
+      {"id": "a", "text": "Require longer administrator passwords on every switch", "misconception": "mitigation-technique-selection", "why": "Length does not matter when the password crosses the wire in readable form. The capture shows the failure is the protocol, not the password."},
+      {"id": "b", "text": "Alert on every Telnet login to the switches", "misconception": "detective-vs-preventive", "why": "An alert reports the exposure after it has happened. Monitoring never prevents the credentials being read."},
+      {"id": "c", "text": "Disable Telnet and manage the switches over SSH", "correct": true, "why": "Turning off the cleartext protocol removes the opening, and SSH encrypts the session so a capture shows nothing useful."},
+      {"id": "d", "text": "Apply the latest firmware to every switch model", "misconception": "hardening-vs-patching", "why": "Firmware fixes flaws in what runs. It does not reduce what runs, so Telnet would stay enabled and still expose passwords."}
+    ]
+  },
+  {
+    "id": "mi2-102",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["host-based-firewall"],
+    "difficulty": 3,
+    "stem": "Sales staff work from cafes and hotels on company laptops, so the corporate firewall never sees their traffic. Another guest at a hotel found file sharing reachable on one laptop. Which mitigation protects the laptop wherever it is?",
+    "options": [
+      {"id": "a", "text": "Enable the host firewall and block inbound file sharing", "correct": true, "why": "A firewall on the laptop travels with it and filters connections wherever the laptop connects, which is the traffic path that failed."},
+      {"id": "b", "text": "Add a rule to the headquarters firewall blocking file sharing", "misconception": "mitigation-technique-selection", "why": "The laptop's traffic never passes the headquarters firewall, so a rule there blocks nothing. A blocking device out of the path cannot stop the traffic."},
+      {"id": "c", "text": "Install a network intrusion detection sensor at headquarters", "misconception": "ids-vs-ips-placement", "why": "A sensor at headquarters sees neither the hotel network nor the laptop, and a detection device only watches, it does not stop traffic."},
+      {"id": "d", "text": "Encrypt every laptop's disk with a strong key and a PIN", "misconception": "mitigation-technique-selection", "why": "Disk encryption protects a powered-off or stolen device. The failure here was a service reachable over the network."}
+    ]
+  },
+  {
+    "id": "mi2-103",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["patching"],
+    "difficulty": 3,
+    "stem": "A vendor releases a security patch for the runtime that the company's application servers need. Last quarter an emergency patch applied to every production server at once broke the order system. How should the team deploy this patch?",
+    "options": [
+      {"id": "a", "text": "Apply it to every server tonight to close the gap quickly", "misconception": "change-management-elements", "why": "Applying untested to everything at once is how the last outage happened. Without a test or a way back, an unexpected side effect reaches every server."},
+      {"id": "b", "text": "Skip it and add monitoring to the unpatched servers", "misconception": "detective-vs-preventive", "why": "Monitoring shows an attack and prevents nothing. The flaw would stay in the runtime the servers depend on."},
+      {"id": "c", "text": "Remove unneeded services from the servers instead of patching", "misconception": "hardening-vs-patching", "why": "Hardening reduces what runs, but the runtime is required, so the flawed code stays. Patching fixes what you run."},
+      {"id": "d", "text": "Test it first, then roll out in stages with rollback ready", "correct": true, "why": "Testing finds the side effect before production, and staging limits its reach. A rollback means a failure can be undone."}
+    ]
+  },
+  {
+    "id": "mi2-104",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["endpoint-protection-installation", "configuration-enforcement"],
+    "difficulty": 3,
+    "stem": "A scan finds that 40 of 400 servers have no endpoint protection agent, although policy requires one on every server. Most of the 40 were built in the last two months. Which action stops the gap from recurring?",
+    "options": [
+      {"id": "a", "text": "Email server owners a reminder to install the agent", "misconception": "baseline-lifecycle", "why": "A reminder is a document, not a control. Nothing detects or corrects a server that is built without the agent."},
+      {"id": "b", "text": "Add the agent to the standard build and report any drift", "correct": true, "why": "Building the agent into the image means new servers start protected, and drift reporting shows any that lose it. It is a continuous control."},
+      {"id": "c", "text": "Run the same scan monthly instead of quarterly", "misconception": "detective-vs-preventive", "why": "Scanning more often finds the gap sooner but does not close it. A scan is a detective control and the servers would still be built without the agent."},
+      {"id": "d", "text": "Raise the alert sensitivity on the agents already installed", "misconception": "alert-tuning-vs-quarantine", "why": "More sensitive alerts on protected servers do nothing for the servers that have no agent at all."}
+    ]
+  },
+  {
+    "id": "mi2-105",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["default-password-changes"],
+    "difficulty": 3,
+    "stem": "An attacker found a building's network cameras online and logged in with the manufacturer's published login. The cameras ran current firmware. Which mitigation addresses the cause?",
+    "options": [
+      {"id": "a", "text": "Change every default credential during installation", "correct": true, "why": "The login that worked was the factory default, so replacing it during deployment removes the opening the attacker used."},
+      {"id": "b", "text": "Update the camera firmware on a quarterly schedule", "misconception": "hardening-vs-patching", "why": "The cameras were already current. A fully patched device with default credentials is still trivially taken over."},
+      {"id": "c", "text": "Review the camera login logs for odd activity weekly", "misconception": "detective-vs-preventive", "why": "Reviewing logs finds a takeover after it happened and prevents nothing. The failed control is the credential."},
+      {"id": "d", "text": "Block the network addresses the attacker came from", "misconception": "mitigation-technique-selection", "why": "A list of known bad addresses is endless and the attacker can use another. The weakness is still there for the next one."}
+    ]
+  },
+  {
+    "id": "mi2-106",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["decommissioning"],
+    "difficulty": 3,
+    "stem": "A retired reporting server was switched off and left in a rack. Six months later an attacker signed in to the network with the server's old service account, and a firewall rule still permitted traffic to its address. What was missed?",
+    "options": [
+      {"id": "a", "text": "The server should have been patched before it was shut down", "misconception": "hardening-vs-patching", "why": "A patch on a powered-off server changes nothing. The attack used leftover access, not a flaw in the server's software."},
+      {"id": "b", "text": "The server should have been moved to an isolated VLAN", "misconception": "mitigation-technique-selection", "why": "Isolating a server that is already off does not remove the account or the rule. Neither of them depended on the server being on."},
+      {"id": "c", "text": "The decommissioning left the account and the rule in place", "correct": true, "why": "Retiring a system includes removing its accounts, rules and records so that nothing still grants access to it."},
+      {"id": "d", "text": "Monitoring should have been enabled on the powered-off server", "misconception": "mitigation-technique-selection", "why": "A powered-off server produces no events to monitor. The access lived in the account and the firewall rule."}
+    ]
+  },
+  {
+    "id": "mi2-107",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["least-privilege", "permissions"],
+    "difficulty": 2,
+    "stem": "A contractor needs to read one quarterly report for the next two weeks. The finance share also holds payroll and tax files. Which access grant follows least privilege?",
+    "options": [
+      {"id": "a", "text": "Add the contractor to the finance group for the month", "misconception": "least-privilege-vs-permissions", "why": "Group membership gives everything the group can reach, including payroll and tax files the contractor does not need."},
+      {"id": "b", "text": "Copy the finance manager's access to the contractor's account", "misconception": "least-privilege-vs-permissions", "why": "The manager's access is far wider than one report, so copying it grants far more than the task needs."},
+      {"id": "c", "text": "Give read and write on the whole share, then remove it later", "misconception": "least-privilege-vs-permissions", "why": "Granting broad access now and relying on a later cleanup is the opposite of granting only what is needed."},
+      {"id": "d", "text": "Grant read on that one report, with an expiry in two weeks", "correct": true, "why": "The grant covers exactly the file and the action needed, and it ends when the need does."}
+    ]
+  },
+  {
+    "id": "mi2-108",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["monitoring"],
+    "difficulty": 3,
+    "stem": "Over three weeks an attacker guessed passwords against the VPN from addresses in many countries, mostly at night, until one worked. Nothing alerted anyone and an outside party found the breach. Which mitigation would have shortened detection?",
+    "options": [
+      {"id": "a", "text": "Require a longer minimum length for all VPN user passwords", "misconception": "detective-vs-preventive", "why": "A longer password may make guessing slower, but it is a preventive control and does not make anyone notice the attempts."},
+      {"id": "b", "text": "Alert on abnormal sign-ins in the authentication logs", "correct": true, "why": "A flood of failures from many countries is visible in the logs. An alert on it turns that record into early warning."},
+      {"id": "c", "text": "Turn on data loss prevention across the file servers", "misconception": "monitoring-capability-selection", "why": "That watches data leaving, not people signing in. It would not see the guessing against the VPN."},
+      {"id": "d", "text": "Encrypt the VPN connection with a stronger cipher suite", "misconception": "mitigation-technique-selection", "why": "The attacker signed in with a valid password, so the strength of the cipher did not matter and no one was alerted."}
+    ]
+  },
+  {
+    "id": "mi2-109",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["segmentation", "isolation"],
+    "difficulty": 4,
+    "stem": "A power utility's control network must send readings to the corporate network in one direction, continuously, so that planners can see them. Management proposes an air gap for the control network. Which design best mitigates the risk?",
+    "options": [
+      {"id": "a", "text": "Put both networks in one VLAN and restrict the corporate hosts", "misconception": "mitigation-technique-selection", "why": "Sharing a network gives corporate hosts a path to the controllers. The failure to avoid is too much reachability, and this keeps it."},
+      {"id": "b", "text": "Air gap the control network, with a permanent cable for readings", "misconception": "air-gap-vs-logical-segmentation", "why": "A permanent cable is a connection, so it is not an air gap. If data has to keep moving, the design is logical segmentation."},
+      {"id": "c", "text": "Segment the network behind a firewall permitting one flow", "correct": true, "why": "Segmentation with one permitted flow meets the requirement that data keep moving, and everything else is denied."},
+      {"id": "d", "text": "Install endpoint protection on every controller", "misconception": "specialised-system-constraints", "why": "Controllers that run a physical process usually cannot take an agent. The fitting control is isolation, not something installed on the device."}
+    ]
+  },
+  {
+    "id": "mi2-110",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["access-control-list", "permissions", "least-privilege"],
+    "difficulty": 3,
+    "stem": "A project folder's access list names 40 individual users. People who moved to other teams still have access, and someone must edit the list by hand for every joiner and leaver. Which change fixes the cause?",
+    "options": [
+      {"id": "a", "text": "Review the list every year and remove the old names", "misconception": "identity-lifecycle", "why": "A yearly review catches leavers late, and the manual editing that created the problem stays. It treats the symptom."},
+      {"id": "b", "text": "Make the folder read-only for every single user", "misconception": "least-privilege-vs-permissions", "why": "Least privilege means the access each role needs, not none. A read-only rule also stops people who must edit."},
+      {"id": "c", "text": "Move the folder to an encrypted storage volume", "misconception": "encryption-scope-levels", "why": "Encrypting the volume protects a stolen disk. The people who should not have access are authorized users of the share."},
+      {"id": "d", "text": "Grant access to groups that follow HR role changes", "correct": true, "why": "Permissions tied to groups follow role changes automatically, so leavers lose access when their role changes."}
+    ]
+  },
+  {
+    "id": "mi2-111",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["segmentation"],
+    "difficulty": 3,
+    "stem": "A retailer's card payment servers share a flat network with office laptops, so an audit would have to cover every device. The company wants to shrink what must meet the strictest controls and limit what a compromised laptop can reach. Which mitigation fits?",
+    "options": [
+      {"id": "a", "text": "Place the payment servers in their own tight segment", "correct": true, "why": "A separate segment limits what a laptop can reach and keeps the strict controls to the devices inside it."},
+      {"id": "b", "text": "Encrypt all internal traffic between office laptops", "misconception": "mitigation-technique-selection", "why": "Encryption protects data on the wire between laptops. It does not change which devices can reach the payment servers."},
+      {"id": "c", "text": "Install endpoint protection on the office laptops only", "misconception": "mitigation-technique-selection", "why": "An agent may stop some malware but does not limit reach, and every device would still be in scope."},
+      {"id": "d", "text": "Deploy a list of known bad addresses at the network edge", "misconception": "mitigation-technique-selection", "why": "An edge list of bad addresses does nothing about traffic between internal devices on a flat network."}
+    ]
+  },
+  {
+    "id": "mi2-112",
+    "type": "mcq-multi",
+    "objective": "2.5",
+    "topics": ["isolation", "segmentation"],
+    "difficulty": 3,
+    "stem": "Monitoring confirms that a file server is sending data to an unknown external address. The team wants to stop the transfer and keep evidence. Which TWO actions should it take first? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Move the server to a quarantine VLAN with no egress", "correct": true, "why": "Isolation cuts the path while the server stays running, so memory and logs are kept for analysis."},
+      {"id": "b", "text": "Power the server off to stop the transfer at once", "misconception": "isolate-vs-power-off", "why": "Powering off ends the transfer but loses volatile evidence such as memory. Disconnect, do not power off."},
+      {"id": "c", "text": "Reimage the server before collecting anything from it", "misconception": "ir-phase-order", "why": "Rebuilding comes after containment and after evidence is collected. Done first, it destroys what the investigation needs."},
+      {"id": "d", "text": "Block the server's outbound traffic at the firewall", "correct": true, "why": "A rule at the egress point stops the data leaving without touching the server, so the evidence stays intact."},
+      {"id": "e", "text": "Run a full antivirus scan and leave it online", "misconception": "segmentation-as-containment", "why": "Scanning is cleaning, one host at a time, while the transfer continues. Containment comes first."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "mi2-113",
+    "type": "mcq-multi",
+    "objective": "2.5",
+    "topics": ["default-password-changes", "disabling-ports-protocols"],
+    "difficulty": 3,
+    "stem": "A fleet of 60 network printers ships with the default administrator password, and with unused FTP, SMB and wireless direct services enabled. Which TWO mitigations remove these weaknesses? (Choose two.)",
+    "options": [
+      {"id": "a", "text": "Apply the latest firmware update to every printer", "misconception": "hardening-vs-patching", "why": "Firmware fixes flaws in the code, but it leaves the default password and the unused services in place. Patching fixes what you run, hardening reduces it."},
+      {"id": "b", "text": "Replace the default admin password on each printer", "correct": true, "why": "The factory password is published, so replacing it closes the easiest way in."},
+      {"id": "c", "text": "Install an endpoint protection agent on each printer", "misconception": "hardening-by-device-class", "why": "Printers are appliances that normally cannot run an agent. A device that cannot be changed that way needs another control."},
+      {"id": "d", "text": "Review printer logs for administrator logins monthly", "misconception": "mitigation-technique-selection", "why": "Reading logs after the fact prevents nothing, and the weaknesses would remain."},
+      {"id": "e", "text": "Disable the unused FTP, SMB and wireless services", "correct": true, "why": "A service that is off cannot be attacked. This reduces the attack surface."}
+    ],
+    "selectCount": 2
+  },
+  {
+    "id": "mi2-114",
+    "type": "mcq",
+    "objective": "2.5",
+    "topics": ["removal-of-unnecessary-software"],
+    "difficulty": 3,
+    "stem": "After a web server was breached, investigators found that the attacker compiled a tool on it using a compiler left from the build process, then used a debugger to read process memory. Neither is needed in production. Which mitigation would have denied the attacker these tools?",
+    "options": [
+      {"id": "a", "text": "Patch the compiler and debugger to current versions", "misconception": "hardening-vs-patching", "why": "A patched compiler still compiles. The problem is that the tools are present, not that they have flaws."},
+      {"id": "b", "text": "Remove the compiler and debugger from the image", "correct": true, "why": "Software that is not installed cannot be misused, and production has no need for build tools."},
+      {"id": "c", "text": "Add the tool names to a deny list on the server", "misconception": "allow-list-vs-deny-list", "why": "A list of banned names is easy to get around, for instance by renaming a binary. Removing the tools is what denies them."},
+      {"id": "d", "text": "Alert when the compiler or debugger is started", "misconception": "mitigation-technique-selection", "why": "An alert shows the misuse after it starts and stops nothing. The tools would remain available."}
+    ]
   }
 ]
