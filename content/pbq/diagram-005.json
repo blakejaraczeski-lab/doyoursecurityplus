@@ -8,7 +8,7 @@
   "difficulty": 5,
   "title": "Four authentication patterns, four different attacks",
   "targetSeconds": 660,
-  "scenario": "Overnight, four systems at Calderwood Group logged unusual authentication activity. The patterns look similar on a dashboard and are four different attacks, which is exactly how the exam tests this. Click each system to read what was collected, then answer the questions. Only one of these attacks actually succeeded.",
+  "scenario": "Overnight, four systems at Calderwood Group logged unusual authentication activity. The patterns look similar on a dashboard and are four different attacks. Click each system to read what was collected, then answer the questions. Only one of these attacks actually succeeded.",
   "config": {
     "nodes": [
       { "id": "inet", "label": "Internet", "type": "cloud", "zone": "external", "x": 50, "y": 6, "selectable": false },

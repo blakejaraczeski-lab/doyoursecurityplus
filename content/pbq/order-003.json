@@ -59,7 +59,7 @@
     { "id": "c4", "item": "backup", "points": 2, "misconception": "compensating-vs-corrective",
       "correctNote": "Backups repair after the event. Nothing about taking one prevents anything." },
     { "id": "c5", "item": "vlan", "points": 3, "misconception": "compensating-vs-corrective",
-      "correctNote": "The control you wanted, patching, is impossible, so isolation meets the objective another way. That substitution is what makes it compensating rather than merely preventive." },
+      "correctNote": "The control you wanted, patching, is impossible, so isolation meets the requirement another way. That substitution is what makes it compensating rather than merely preventive." },
     { "id": "c6", "item": "aup", "points": 2, "misconception": "control-category-vs-type",
       "correctNote": "A policy instructs people what to do. Directive in type, managerial in category." },
     { "id": "c7", "item": "lighting", "points": 2, "misconception": "deterrent-vs-preventive",

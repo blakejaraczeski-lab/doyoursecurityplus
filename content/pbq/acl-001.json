@@ -186,7 +186,7 @@
       },
       {
         "id": "t4",
-        "label": "Web server reaching an internal file share (attacker pivoting from a compromised DMZ host)",
+        "label": "Web server reaching an internal administrator workstation over SMB (attacker pivoting from a compromised DMZ host)",
         "packet": {
           "protocol": "tcp",
           "src": "203.0.113.10",

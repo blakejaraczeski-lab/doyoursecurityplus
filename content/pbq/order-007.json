@@ -9,7 +9,7 @@
   "difficulty": 4,
   "title": "Run the vulnerability management cycle",
   "targetSeconds": 420,
-  "scenario": "A scan has just completed against the production estate. Place the activities in the order a vulnerability management programme performs them. The order is not bureaucratic: two of these steps are routinely swapped in practice, and both swaps produce a programme that reports progress it has not made.",
+  "scenario": "A scan has just completed against the production estate. Place the activities in the order a vulnerability management program performs them. The order is not bureaucratic: two of these steps are routinely swapped in practice, and both swaps produce a program that reports progress it has not made.",
   "requirements": [
     "Place all seven activities.",
     "Think about what each step needs as its input. A step cannot run before the thing it consumes exists.",
@@ -19,13 +19,13 @@
     "mode": "sequence",
     "sequenceLabel": "Vulnerability management cycle",
     "items": [
-      { "id": "remediate", "label": "Remediate: patch, reconfigure, or apply a compensating control" },
+      { "id": "remediate", "label": "Remediate: carry it out by patching, reconfiguring, or applying a compensating control" },
       { "id": "identify", "label": "Identify: scan, and take in findings from other sources" },
       { "id": "report", "label": "Report: trend, outstanding exceptions, and what risk owners must decide" },
       { "id": "validate", "label": "Validate: rescan and verify the weakness is genuinely gone" },
-      { "id": "analyse", "label": "Analyse: confirm the finding is real and classify it" },
-      { "id": "prioritise", "label": "Prioritise: rank by severity, exposure, environment and tolerance" },
-      { "id": "assign", "label": "Assign: give each accepted finding an owner and a due date" }
+      { "id": "analyse", "label": "Analyze: confirm the finding is real and classify it" },
+      { "id": "prioritise", "label": "Prioritize: rank by severity, exposure, environment and tolerance" },
+      { "id": "assign", "label": "Respond: decide the treatment for each finding and who does it by when" }
     ]
   },
   "solution": {
@@ -37,13 +37,13 @@
       "correctNote": "Scanning is only one input. Penetration tests, bug bounty reports, threat feeds, package monitoring and audits all feed the same funnel, which is why the step is identification rather than scanning." },
     { "id": "s2", "item": "analyse", "label": "Analysis second", "points": 3,
       "misconception": "false-positive-vs-negative",
-      "correctNote": "Confirm the finding is real and classify what kind of weakness it is. Skipping this means prioritising false positives, which is how a backlog fills with work that was never needed." },
-    { "id": "s3", "item": "prioritise", "label": "Prioritisation third", "points": 4,
+      "correctNote": "Confirm the finding is real and classify what kind of weakness it is. Skipping this means prioritizing false positives, which is how a backlog fills with work that was never needed." },
+    { "id": "s3", "item": "prioritise", "label": "Prioritization third", "points": 4,
       "misconception": "vuln-prioritization-inputs",
-      "correctNote": "Rank using CVSS together with exposure, environmental variables, sector impact and risk tolerance. Ranking by base score alone sends you to a critical finding on an isolated host while the exposed one waits." },
-    { "id": "s4", "item": "assign", "label": "Assignment fourth", "points": 2,
+      "correctNote": "Rank using CVSS together with exposure, environmental variables, industry and organizational impact and risk tolerance. Ranking by base score alone sends you to a critical finding on an isolated host while the exposed one waits." },
+    { "id": "s4", "item": "assign", "label": "Response decided fourth", "points": 2,
       "misconception": "remediation-validation",
-      "correctNote": "An owner and a due date. A prioritised list with nobody named is a document, and exceptions are recorded here with an owner and an expiry rather than quietly skipped." },
+      "correctNote": "Decide the treatment for each finding and name an owner and a due date. A prioritized list with nobody named is a document, and exceptions are recorded here with an owner and an expiry rather than quietly skipped." },
     { "id": "s5", "item": "remediate", "label": "Remediation fifth", "points": 3,
       "misconception": "remediation-validation",
       "correctNote": "Patch where a patch exists, reconfigure where it does not, and apply compensating controls such as segmentation where neither is possible before the deadline." },

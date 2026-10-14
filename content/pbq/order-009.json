@@ -13,7 +13,7 @@
   "difficulty": 4,
   "title": "Choose the treatment for each risk",
   "targetSeconds": 420,
-  "scenario": "The risk committee has decided how to handle each item on the register. Drop each decision into the treatment it actually is. Two of the columns are forms of acceptance that the exam names separately: an exception expires, an exemption does not.",
+  "scenario": "The risk committee has decided how to handle each item on the register. Drop each decision into the treatment it actually is. Two of the columns are forms of acceptance that are named separately: an exception expires, an exemption does not.",
   "requirements": [
     "Every decision goes in exactly one column.",
     "Judge what was done to the risk, not what the decision was called in the meeting.",

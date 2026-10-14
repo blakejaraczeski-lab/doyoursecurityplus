@@ -89,7 +89,7 @@
       "correctNote": "WPA2-Personal allows offline cracking of a captured handshake, which WPA3's SAE removes entirely. Since you cannot have SAE here, a very long passphrase is the mitigation available: it does not remove the attack, it makes it impractical." },
     { "id": "st-scan-vlan", "field": "scanner_vlan", "label": "Scanner VLAN", "points": 3,
       "misconception": "compensating-vs-corrective",
-      "correctNote": "The control you want, patching or replacing the devices, is unavailable. Isolating them on their own VLAN meets the objective another way, which makes it a compensating control, and it should be recorded as an exception in the risk register." },
+      "correctNote": "The control you want, patching or replacing the devices, is unavailable. Isolating them on their own VLAN meets the requirement another way, which makes it a compensating control, and it should be recorded as an exception in the risk register." },
     { "id": "st-scan-isolation", "field": "scanner_client_isolation", "label": "Scanner client isolation", "points": 2,
       "misconception": "guest-network-isolation",
       "correctNote": "The VLAN separates the scanners from the rest of the network. Client isolation stops one compromised scanner reaching the other thirty-nine, which matters precisely because none of them can be patched." },

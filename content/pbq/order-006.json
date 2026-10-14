@@ -30,7 +30,7 @@
       { "id": "enclave", "label": "A key must stay protected while it is loaded and actively being used for signing" }
     ],
     "buckets": [
-      { "id": "tokenization", "label": "Tokenisation" },
+      { "id": "tokenization", "label": "Tokenization" },
       { "id": "hashing", "label": "Hashing" },
       { "id": "masking", "label": "Masking" },
       { "id": "encryption-rest", "label": "Encryption at rest" },
@@ -57,7 +57,7 @@
   },
   "subtasks": [
     { "id": "s1", "item": "pan-store", "label": "Card numbers in storage", "points": 3, "misconception": "data-states",
-      "correctNote": "Tokenisation. The real value is swapped for a surrogate with no mathematical relationship to it, and the mapping lives in a separate vault, so a database dump yields nothing. Refunds work because the token can be exchanged back by the vault." },
+      "correctNote": "Tokenization. The real value is swapped for a surrogate with no mathematical relationship to it, and the mapping lives in a separate vault, so a database dump yields nothing. Refunds work because the token can be exchanged back by the vault." },
     { "id": "s2", "item": "pw-store", "label": "Password storage", "points": 3, "misconception": "data-states",
       "correctNote": "Hashing. One way by design: you verify by hashing the attempt and comparing. If a scheme lets you recover the password, it was encryption, and that is the defect." },
     { "id": "s3", "item": "support-view", "label": "Partial visibility for support", "points": 3, "misconception": "data-states",
@@ -67,7 +67,7 @@
     { "id": "s5", "item": "api-call", "label": "Service to service traffic", "points": 2, "misconception": "data-states",
       "correctNote": "Data in transit. A shared segment means other hosts can see the frames, so the protection has to travel with the data." },
     { "id": "s6", "item": "test-data", "label": "Test environments", "points": 3, "misconception": "data-states",
-      "correctNote": "Tokenisation again, and it is the better answer than masking here because the test data must keep referential integrity across tables while containing no real customer." },
+      "correctNote": "Tokenization again, and it is the better answer than masking here because the test data must keep referential integrity across tables while containing no real customer." },
     { "id": "s7", "item": "hr-folder", "label": "Restricting a share", "points": 2, "misconception": "data-type-vs-classification",
       "correctNote": "Permission restrictions. Encryption does not answer 'who', it answers 'readable or not'. Access control answers 'who'." },
     { "id": "s8", "item": "eu-records", "label": "Processing location", "points": 3, "misconception": "data-type-vs-classification",

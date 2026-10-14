@@ -79,7 +79,7 @@
       { "id": "t11", "label": "A compromised server attempting RDP into the admin network",
         "packet": { "protocol": "tcp", "src": "10.50.30.40", "srcPort": "51011", "dst": "10.50.10.9", "dstPort": "3389" },
         "expect": "deny", "points": 3, "misconception": "screened-subnet-direction" },
-      { "id": "t12", "label": "Return traffic for the administrator's established SSH session to the jump server",
+      { "id": "t12", "label": "A reply from the jump server back to the administrator (the stateful firewall passes replies itself, so the rule list needs no rule for it)",
         "packet": { "protocol": "tcp", "src": "10.50.20.10", "srcPort": "22", "dst": "10.50.10.9", "dstPort": "51001" },
         "expect": "deny", "points": 3, "misconception": "stateful-return-traffic" }
     ],

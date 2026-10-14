@@ -64,7 +64,7 @@
     { "id": "s2", "item": "vish", "label": "Voice call lure", "points": 2, "misconception": "phishing-variants",
       "correctNote": "Vishing. A live caller pressuring someone for a code is still a message-based vector, delivered by voice." },
     { "id": "s3", "item": "im-link", "label": "Instant message lure", "points": 2, "misconception": "threat-vector-families",
-      "correctNote": "Instant messaging is its own message channel in the objectives, and a hijacked internal account removes the usual tells." },
+      "correctNote": "Instant messaging is a message-based vector in its own right, alongside email, SMS and voice, and a hijacked internal account removes the usual tells." },
     { "id": "s4", "item": "macro", "label": "Macro document", "points": 2, "misconception": "threat-vector-families",
       "correctNote": "File-based. The finding is about the file carrying executable content, not about how it was delivered." },
     { "id": "s5", "item": "svg", "label": "Image carrying script", "points": 3, "misconception": "threat-vector-families",
