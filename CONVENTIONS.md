@@ -16,8 +16,10 @@ pre-commit hook.
    correction, PBQ and glossary entry lives under `content/`, so adding
    material never means touching code. Enforced: `scripts/check_shape.py`
    fails on an `app/` import from outside `app/`; `scripts/format_content.py
-   --check` fails on an item or mentor file not in canonical shape. Manual: a
-   stem written as a string literal in `app/` would not be caught.
+   --check` fails on an item or mentor file not in canonical shape; and
+   `check_shape.py` fails when the opening 30 characters of any item stem or
+   PBQ scenario appear in `app/`. Manual: a paraphrased stem, or an option,
+   explanation or correction written into `app/`, would not be caught.
 
 3. **One implementation per idea across Python and JavaScript.** Grading and
    coverage exist once, in JavaScript, and `selftest.html` asserts them; a
@@ -51,7 +53,10 @@ pre-commit hook.
    `selftest.html` fails on inline styling in a template; `scripts/selftest.py`
    reads Chrome's accessibility tree and fails on any control under main
    without a name, on focus lost across a render, and on a state change that
-   is not announced. Manual: the glyph rule itself, checked against
+   is not announced; `check_materials.py` also fails on a rule that sets a
+   state colour with no border, outline or content beside it unless it is
+   listed in `CARRIERS` with the glyph or word that travels with it. Manual:
+   whether that listed cue is really in the markup, checked against
    `.claude/skills/study-ui/SKILL.md` before a screen ships.
 
 8. **Every number in the README comes from a script.** A count written by
