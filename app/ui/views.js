@@ -599,7 +599,7 @@ export function readinessView(App) {
          .map((o) => `<li>
             <span class="code">${esc(o.objective)}</span>
             <span class="what">${esc(o.title)}</span>
-            <span class="mastery s-${o.status}">${pct(o.mastery)}</span>
+            <span class="mastery s-${o.status}">${pct(o.mastery)} ${o.status}</span>
           </li>`)
          .join("")}</ol></div>`
     : ""}
@@ -615,7 +615,7 @@ export function readinessView(App) {
         <div class="quad q-warn"><b>${c.guessRight}</b><span>Guessed and right</span><small>Fragile: the score flatters you</small></div>
         <div class="quad"><b>${c.guessWrong}</b><span>Guessed and wrong</span><small>Honest gap, cheapest to fix</small></div>
       </div>
-      <p class="note">When you say you are sure you are wrong <b class="c-${tone}">${pct(c.overconfidence)}</b> of the time, and ${pct(c.fragile)} of your guesses land. Both numbers should fall as you get ready; the first one matters more.</p>
+      <p class="note">When you say you are sure you are wrong <b class="c-${tone}">${pct(c.overconfidence)}</b> of the time (${{ bad: "high", warn: "watch", good: "low" }[tone]}), and ${pct(c.fragile)} of your guesses land. Both numbers should fall as you get ready; the first one matters more.</p>
     </div>` : ""}
   ${roots.length ? `<div class="card tight flag">
       <h2 class="eyebrow">One cause under several misses</h2>
@@ -737,7 +737,7 @@ export function mockStartView(App) {
         <div class="row mt3"><button class="btn" data-action="mock-start" data-format="${k}">Start the ${esc(f.label.toLowerCase())}</button></div>`;
     })()}
     ${short ? `<p class="note">The bank holds ${graded} graded item${graded === 1 ? "" : "s"} and ${App.content.pbqs.length} PBQ${App.content.pbqs.length === 1 ? "" : "s"}, fewer than a full block wants, so a block runs with what exists and keeps the exam's minute per question.</p>` : ""}
-    <p class="note">Everything you miss is banked as a correction afterwards, exactly as it would be in a drill. A mock that does not feed the rest of the system is just a number.</p>
+    <p class="note">Every question you answer and miss is banked as a correction afterwards, exactly as it would be in a drill. A mock that does not feed the rest of the system is just a number.</p>
   </div>`;
 
   return `<h1>Mock exam</h1>
@@ -908,7 +908,7 @@ export function mockResultView(App) {
     <div class="spread top">
       <div>
         <div class="score-big c-${tone}">${r.scaled}</div>
-        <div class="faint">estimated scaled score &middot; pass line 750 &middot; ${pct(r.raw)} raw</div>
+        <div class="faint">${{ good: "above the line", warn: "near the line", bad: "below the line" }[tone]} &middot; estimated scaled score &middot; pass line 750 &middot; ${pct(r.raw)} raw</div>
       </div>
       <dl class="side-stats inline">
         <div class="stat"><dt>Time used</dt><dd>${Math.round(r.seconds / 60)}m of ${r.minutes}m</dd></div>

@@ -22,17 +22,15 @@ EXEMPT = {
 }
 
 CARRIERS = {
-    # GAP means the cue is only partly there; the app change needed is in the
-    # round 2 engine report. The lint cannot tell, so the word is the record.
-    ".nav .badge.hot": "GAP: the badge prints the due count, but 'more than 8 due' is hue alone",
-    ".stat dd.warn": "GAP: the figure is a number under its label; why it is amber (banked, exam within 14 days, streak lapsed, unanswered) is hue alone, except 'Exam date: not set', which says so",
-    ".stat dd.good": "GAP: the figure is a number under its label; why it is green (cleared, streak today, on pace) is hue alone",
+    ".nav .badge.hot": "styles.css prints a ! before the count (.nav .badge.hot::before)",
+    ".stat dd.warn": "styles.css prints a ! before the figure (.stat dd.warn::before)",
+    ".stat dd.good": "styles.css prints a check before the figure (.stat dd.good::before)",
     ".dot.saved": "SYNC_TEXT prints a status word beside the dot (main.js syncFootHtml)",
     ".dot.saving": "SYNC_TEXT prints a status word beside the dot (main.js syncFootHtml)",
     ".dot.offline, .dot.conflict": "SYNC_TEXT prints a status word beside the dot (main.js syncFootHtml)",
     ".c-good": "mock list and PBQ score print a number beside 'pass'/'below' or the pass line; the timer says last 5 or 15 min in words (main.js tickMock)",
-    ".c-warn": "mock timer says last 15 min in words; the score-big warn band (680-749) is hue alone, its number sits beside the pass line text",
-    ".c-bad": "mock timer says last 5 min in words; PBQ trace rows carry a check or cross mark in the first cell; the score-big bad band and the overconfidence percentage (views.js) are hue alone",
+    ".c-warn": "mock timer says last 15 min in words; the score-big bands print a word beside the number: above, near or below the line (views.js), strong, partial or weak (pbq.js)",
+    ".c-bad": "mock timer says last 5 min in words; PBQ trace rows carry a check or cross mark in the first cell; the score-big bands and the overconfidence percentage print a word (views.js, pbq.js)",
     ".exam-bar b": "bold sentence states it, and .exam-bar has its own 1px warn border",
     ".opt.correct .verdict": "the verdict is a check glyph (views.js verdict = &check;)",
     ".opt.wrong .verdict": "the verdict is a cross glyph (views.js verdict = &times;)",
@@ -54,9 +52,9 @@ CARRIERS = {
     ".s-shaky span": "the heat cell prints the status word and the percentage (views.js)",
     ".s-weak span": "the heat cell prints the status word and the percentage (views.js)",
     ".root-cause b": "bold text is the misconception label; the card has a .flag left border",
-    ".next-up .mastery.s-weak": "GAP: only the percentage is printed; the weak band is hue alone",
-    ".next-up .mastery.s-shaky": "GAP: only the percentage is printed; the shaky band is hue alone",
-    ".next-up .mastery.s-ok, .next-up .mastery.s-strong": "GAP: only the percentage is printed; the ok and strong bands are hue alone",
+    ".next-up .mastery.s-weak": "the mastery prints the status word after the percentage (views.js)",
+    ".next-up .mastery.s-shaky": "the mastery prints the status word after the percentage (views.js)",
+    ".next-up .mastery.s-ok, .next-up .mastery.s-strong": "the mastery prints the status word after the percentage (views.js)",
 }
 
 import re, sys, pathlib

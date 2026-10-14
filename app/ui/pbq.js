@@ -361,7 +361,7 @@ function gradedHtml(pbq, g) {
     <div class="spread">
       <div>
         <div class="score-big c-${tone}">${g.earned}<small>/${g.max}</small></div>
-        <div class="faint">${g.percent}% &middot; partial credit applied per subtask</div>
+        <div class="faint">${{ good: "strong", warn: "partial", bad: "weak" }[tone]} &middot; ${g.percent}% &middot; partial credit applied per subtask</div>
       </div>
       <div class="row"><button class="btn" data-action="pbq-continue">Continue</button>
         <span class="hint"><span class="kbd">&crarr;</span></span></div>

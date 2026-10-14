@@ -184,6 +184,7 @@ body.drilling .stem { font-size: var(--t-xl); line-height: 1.58; }
 }
 .nav[aria-current="page"] .badge { background: var(--accent); color: var(--on-accent); }
 .nav .badge.hot { background: var(--bad); color: var(--on-accent); }
+.nav .badge.hot::before { content: "! "; }
 
 .side-stats {
   margin-top: var(--s4); padding: var(--s3);
@@ -206,6 +207,8 @@ body.drilling .stem { font-size: var(--t-xl); line-height: 1.58; }
 .stat dd .u { font-size: var(--t-xs); color: var(--ink-faint); margin-left: 1px; }
 .stat dd.warn { color: var(--warn); }
 .stat dd.good { color: var(--good); }
+.stat dd.warn::before { content: "! "; }
+.stat dd.good::before { content: "\2713\00a0"; }
 
 .sidebar-foot {
   margin-top: auto; padding: var(--s3) var(--s2) 0; border-top: 1px solid var(--line);
