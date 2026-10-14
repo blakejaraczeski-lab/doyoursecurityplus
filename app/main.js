@@ -341,7 +341,9 @@ function tickMock() {
   if (!el || !["mock-run", "mock-review"].includes(App.screen)) return;
   const left = Math.max(0, Number(el.dataset.ends) - Date.now());
   const mm = Math.floor(left / 60000), ss = String(Math.floor((left % 60000) / 1000)).padStart(2, "0");
-  el.textContent = `${mm}:${ss} left`;
+  // The urgency is words as well as hue: colour alone would be lost on a reader who cannot see it.
+  const urgency = left < 5 * 60000 ? ", last 5 min" : left < 15 * 60000 ? ", last 15 min" : "";
+  el.textContent = `${mm}:${ss} left${urgency}`;
   el.className = `mono ${left < 5 * 60000 ? "c-bad" : left < 15 * 60000 ? "c-warn" : ""}`;
   if (left === 0) { finishMock(); render(); }
 }

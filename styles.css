@@ -456,8 +456,8 @@ abbr[title] {
   border-radius: 999px; padding: 2px var(--s3);
 }
 .pips { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: var(--s2); }
-.pips i { width: 7px; height: 7px; border-radius: 50%; background: var(--line-strong); display: block; }
-.pips i.on { background: var(--good); }
+.pips i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--line-strong); display: block; }
+.pips i.on { background: var(--good); border-color: var(--good); }
 
 details.refs { margin-top: var(--s4); }
 details.refs summary {
