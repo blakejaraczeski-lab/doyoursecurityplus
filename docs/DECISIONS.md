@@ -477,6 +477,23 @@ stays. The evidence for interleaved practice is stronger than anything in
 this model, and the model's blindness here is recorded in docs/ENGINE.md as
 a limit rather than corrected by quietly removing the switch.
 
+## A session leans toward the exam's domain weights
+
+The gain policy splits a domain's exam questions evenly over its objectives,
+so an item in a thin objective stands for more of the exam than one in a thick
+one. From a fresh state the first session therefore filled with the thin
+objectives, not the heavy domains: domain 5 got 12% of it against a 20%
+weight, and a test that allows 10 points was one item from failing, which it
+did as the bank grew. Each pick now also nudges the next toward the domains
+under their weight in that session, by up to twice the gap in share, floored
+at a quarter of the item's worth (`BALANCE` in `scheduler.js`, `balance` in
+`ablate`). The first session now reads 12/24/20/28/16 against 12/22/18/28/20,
+and the self test holds it to 6 points. Not priced: `scripts/replay.js` needs
+Node, which this machine does not have, so the cost in the model's own
+minutes is unmeasured; the interleaving entry above says what that kind of
+cost has meant before. The even split is still an assumption, and a thin
+objective is also a place the bank wants more items.
+
 ## A mock is chosen, then started, and can be ended two ways
 
 Pressing a block started it at once, so comparing two blocks dropped you

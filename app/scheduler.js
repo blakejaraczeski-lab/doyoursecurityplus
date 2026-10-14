@@ -168,6 +168,7 @@ function pickDueItems(state, content, n, now) {
  * `ablate` turns single behaviours of the gain policy back to the old ones, so
  * the replay can price each disagreement on its own. Empty in the app.
  *   interleave  no diminishing return per objective
+ *   balance     no nudge toward the exam's domain weights
  *   accuracy    every item's base rate is the same, ignoring difficulty and
  *               this person's accuracy on the objective
  *   quotas      a fixed share of the session for due reviews, the rest new
@@ -285,8 +286,25 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
     // first, and the session interleaves instead of drilling one drawer.
     const fromObjective = {};
     for (const q of queue) { const o = (q.item || q.pbq)?.objective; if (o) fromObjective[o] = (fromObjective[o] || 0) + 1; }
-    const worth = (x) => off.has("interleave") ? x.g : x.g * Math.pow(0.7, fromObjective[x.it.objective] || 0);
-    const take = (x) => { picked.push(x.it); fromObjective[x.it.objective] = (fromObjective[x.it.objective] || 0) + 1; };
+    // The model splits a domain's exam questions evenly over its objectives, so
+    // an item in a thin objective stands for more of the exam than one in a
+    // thick one, and a fresh session fills with the thin ones whatever their
+    // domain's weight. Each pick also nudges the next toward the domains that
+    // are under their exam weight in this session, by up to +-BALANCE of its
+    // worth: enough to bend the mix, not enough to outrank a due review.
+    const weightOf = Object.fromEntries(content.objectives.domains.map((d) => [d.id, d.weight]));
+    const fromDomain = {};
+    let inSession = 0;
+    const count = (o) => { if (!o) return; const d = content.domainOf[o]; fromDomain[d] = (fromDomain[d] || 0) + 1; inSession += 1; };
+    for (const q of queue) count((q.item || q.pbq)?.objective);
+    const balance = (x) => {
+      if (off.has("balance")) return 1;
+      const d = content.domainOf[x.it.objective];
+      const share = (fromDomain[d] || 0) / Math.max(1, inSession);
+      return Math.max(0.25, 1 + BALANCE * ((weightOf[d] ?? 0) - share));
+    };
+    const worth = (x) => (off.has("interleave") ? x.g : x.g * Math.pow(0.7, fromObjective[x.it.objective] || 0)) * balance(x);
+    const take = (x) => { picked.push(x.it); fromObjective[x.it.objective] = (fromObjective[x.it.objective] || 0) + 1; count(x.it.objective); };
     const picked = [];
     let left = pool;
     if (off.has("quotas")) {
@@ -345,6 +363,9 @@ export function buildQueue(state, content, { mode = "drill", size = 25, now = Da
 
   return keepPairsAdjacent(shuffle(queue)).slice(0, size);
 }
+
+/** How hard a session leans toward the exam's domain weights, as a share of an item's worth per unit of share. */
+const BALANCE = 2;
 
 /** Does this queue entry test misconception `mc`? */
 const entryTests = (e, mc) =>

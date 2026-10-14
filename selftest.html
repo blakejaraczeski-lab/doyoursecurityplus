@@ -519,10 +519,10 @@ say("<b>What the queue maximises: expected exam points per minute</b>");
     worst.push(Math.max(...Object.values(byObj)));
   }
   const total = Object.values(doms).reduce((a, b) => a + b, 0);
-  const off = content.objectives.domains.filter((d) => Math.abs((doms[d.id] || 0) / total - d.weight) > 0.1);
+  const off = content.objectives.domains.filter((d) => Math.abs((doms[d.id] || 0) / total - d.weight) > 0.06);
   check(Math.max(...worst) <= 5, `no objective takes more than 5 of 25 slots (most was ${Math.max(...worst)})`);
   check(off.length === 0,
-        `domain mix within 10 points of the exam weights: ${content.objectives.domains.map((d) => `${d.id}:${Math.round(100 * (doms[d.id] || 0) / total)}%/${Math.round(d.weight * 100)}`).join(" ")}`);
+        `domain mix within 6 points of the exam weights: ${content.objectives.domains.map((d) => `${d.id}:${Math.round(100 * (doms[d.id] || 0) / total)}%/${Math.round(d.weight * 100)}`).join(" ")}`);
 }
 
 say("");
