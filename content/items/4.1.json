@@ -35,7 +35,7 @@
     "difficulty": 4,
     "stem": "A vulnerability is published for the controllers running a water treatment plant. The vendor has no patch, the controllers cannot be taken offline, and they run a real-time operating system with no endpoint agent available. What is the appropriate response?",
     "options": [
-      {"id": "a", "text": "Apply compensating controls: segment the controllers, tightly restrict which hosts can reach them, and increase monitoring", "correct": true, "why": "When patching is unavailable and downtime is unacceptable, the remaining levers are reachability and visibility. This is the standard answer for operational technology and the exam tests it specifically."},
+      {"id": "a", "text": "Apply compensating controls: segment the controllers, tightly restrict which hosts can reach them, and increase monitoring", "correct": true, "why": "When patching is unavailable and downtime is unacceptable, the remaining levers are reachability and visibility. This is the standard answer for operational technology."},
       {"id": "b", "text": "Schedule emergency patching at the next maintenance window", "misconception": "hardening-by-device-class", "why": "There is no patch. Scheduling one that does not exist is the reflex the question is designed to catch."},
       {"id": "c", "text": "Install endpoint detection and response on the controllers", "misconception": "hardening-by-device-class", "why": "The stem states no agent is available, which is typical for a real-time OS where an agent would also threaten timing guarantees."},
       {"id": "d", "text": "Accept the risk with no further action, since exploitation requires local access", "misconception": "hardening-by-device-class", "why": "Nothing in the stem says that, and accepting without compensating controls is not risk acceptance, it is omission."}
@@ -359,9 +359,9 @@
     "objective": "4.1",
     "topics": ["wi-fi", "default-credentials"],
     "difficulty": 2,
-    "stem": "A newly deployed access point is configured with WPA3-Enterprise and EAP-TLS. A penetration tester nevertheless obtains network access within two hours without any certificate. What is the most likely cause?",
+    "stem": "A newly deployed access point carries the corporate SSID, configured with WPA3-Enterprise and EAP-TLS. A penetration tester nevertheless reaches the corporate VLAN within two hours without any certificate. The enterprise SSID itself was never attacked. What is the most likely cause?",
     "options": [
-      {"id": "a", "text": "WPS was left enabled, and its PIN was brute forced", "correct": true, "why": "The WPS PIN is validated in two independent halves, which collapses the search space. It provides a way onto the network that bypasses the configured authentication entirely."},
+      {"id": "a", "text": "A second SSID that shipped enabled on the same access point still used its default passphrase and was mapped to the corporate VLAN", "correct": true, "why": "EAP-TLS protects only the SSID it is configured on. A factory-enabled network on the same hardware, with a known default passphrase and a path to the same VLAN, gives access without any certificate, so every SSID on an access point must be inventoried and secured or disabled."},
       {"id": "b", "text": "The SSID was broadcast, allowing the tester to find and join the network", "misconception": "ssid-hiding-as-security", "why": "Finding a network is not joining it. Broadcasting the name does not bypass EAP-TLS."},
       {"id": "c", "text": "Protected Management Frames were set to required", "misconception": "pmf-and-deauth", "why": "PMF required is a hardening measure. It prevents deauthentication attacks, it does not grant access."},
       {"id": "d", "text": "The RADIUS shared secret was set to the IANA default", "misconception": "radius-vs-tacacs", "why": "There is no IANA default shared secret. The shared secret is chosen by the administrator, and a weak one would not give a tester access without a client certificate."}
@@ -373,7 +373,7 @@
     "objective": "4.1",
     "topics": ["wi-fi", "wireless-attacks"],
     "difficulty": 3,
-    "stem": "A network team is preparing an access point build standard. Which setting should be explicitly disabled on every corporate access point because it provides an authentication path around the configured security mode?",
+    "stem": "A network team is preparing an access point build standard for a corporate network. Which setting should be explicitly disabled on every access point?",
     "options": [
       {"id": "a", "text": "WPS", "correct": true, "why": "WPS is a parallel enrolment path that does not respect the WPA mode you configured above it. On a corporate build it is always off."},
       {"id": "b", "text": "Protected Management Frames", "misconception": "pmf-and-deauth", "why": "PMF should be required, not disabled. It authenticates management frames and blocks deauthentication attacks."},
@@ -403,7 +403,7 @@
     "difficulty": 3,
     "stem": "Which statement correctly describes the security improvement WPA3-Personal makes over WPA2-Personal?",
     "options": [
-      {"id": "a", "text": "SAE replaces the four-way handshake, so a captured exchange cannot be used for offline password guessing", "correct": true, "why": "This is the headline change, and it also provides forward secrecy."},
+      {"id": "a", "text": "SAE replaces the pre-shared key exchange, so a captured handshake cannot be used for offline password guessing", "correct": true, "why": "This is the headline change, and it also provides forward secrecy."},
       {"id": "b", "text": "It increases the pre-shared key length, making brute force computationally infeasible", "misconception": "wpa2-psk-vs-wpa3-sae", "why": "WPA3-Personal does not mandate a longer passphrase. The change is to the key agreement, not the key length."},
       {"id": "c", "text": "It moves authentication to a RADIUS server so users have individual credentials", "misconception": "wpa3-sae-vs-enterprise", "why": "That describes WPA3-Enterprise. Personal still uses a single shared credential."},
       {"id": "d", "text": "It encrypts the SSID so the network name cannot be discovered", "misconception": "ssid-hiding-as-security", "why": "The SSID is not encrypted under any WPA version, and concealing it would not be a security improvement."}

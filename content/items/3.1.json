@@ -91,7 +91,7 @@
     "difficulty": 3,
     "stem": "An organisation defines its entire cloud environment in version controlled templates that are applied automatically. What is the main security benefit?",
     "options": [
-      {"id": "a", "text": "Configuration is consistent, reviewable and reproducible, so drift and one-off mistakes are prevented", "correct": true, "why": "Infrastructure as code makes the environment auditable and repeatable, and changes go through review like any other code."},
+      {"id": "a", "text": "Configuration is consistent, reviewable and reproducible, so drift and one-off mistakes are reduced", "correct": true, "why": "Infrastructure as code makes the environment auditable and repeatable, and changes go through review like any other code."},
       {"id": "b", "text": "The cloud provider becomes responsible for the resulting configuration", "misconception": "cloud-responsibility-matrix", "why": "Configuration is the customer's responsibility in every service model. Automating it does not transfer it."},
       {"id": "c", "text": "It removes the need to patch the resulting systems", "misconception": "cloud-responsibility-matrix", "why": "It makes rebuilding patched systems easier. It does not remove the requirement."},
       {"id": "d", "text": "It provides isolation equivalent to an air gap", "misconception": "air-gap-vs-logical-segmentation", "why": "IaC describes how infrastructure is defined. It says nothing about network separation."}
@@ -107,7 +107,7 @@
     "options": [
       {"id": "a", "text": "Availability and safety come first, because an outage is a physical consequence rather than an inconvenience", "correct": true, "why": "Operational technology inverts the familiar ordering. A control system that stops can mean a process out of control, so measures that risk availability are weighed very differently."},
       {"id": "b", "text": "Confidentiality comes first, because process data is highly sensitive", "misconception": "specialised-system-constraints", "why": "Setpoints and sensor readings are rarely the crown jewels. Keeping the process running safely is."},
-      {"id": "c", "text": "The priorities are identical to corporate IT", "misconception": "specialised-system-constraints", "why": "They are not, which is why the objectives treat these systems separately."},
+      {"id": "c", "text": "The priorities are identical to corporate IT", "misconception": "specialised-system-constraints", "why": "They are not, which is why these systems are treated separately."},
       {"id": "d", "text": "Integrity is irrelevant because the data is only telemetry", "misconception": "specialised-system-constraints", "why": "Integrity is critical: falsified readings cause operators or logic to act wrongly on a physical process."}
     ]
   },
@@ -147,7 +147,7 @@
     "difficulty": 4,
     "stem": "An organisation consolidates security management of forty offices into one central platform. What does it gain, and what does it accept?",
     "options": [
-      {"id": "a", "text": "Consistent policy and a single view, at the cost of a larger blast radius if the centre is compromised or unavailable", "correct": true, "why": "Centralisation concentrates control and consequence together. The trade is real in both directions, which is why the exam asks what was accepted rather than which is better."},
+      {"id": "a", "text": "Consistent policy and a single view, at the cost of a larger blast radius if the centre is compromised or unavailable", "correct": true, "why": "Centralisation concentrates control and consequence together. The trade is real in both directions, which is why the useful question is what was accepted rather than which is better."},
       {"id": "b", "text": "Both better consistency and better resilience, with no meaningful trade-off", "misconception": "centralized-vs-decentralized", "why": "Resilience generally worsens: the centre becomes a single point of failure for all forty sites."},
       {"id": "c", "text": "Better resilience at the cost of consistency", "misconception": "centralized-vs-decentralized", "why": "Reversed. Consistency is what centralisation buys."},
       {"id": "d", "text": "Lower cost with no change to the security posture", "misconception": "architecture-tradeoffs", "why": "The posture changes substantially in both directions, whatever happens to cost."}

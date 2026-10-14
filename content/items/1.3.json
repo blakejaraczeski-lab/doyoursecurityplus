@@ -5,7 +5,7 @@
     "objective": "1.3",
     "topics": ["ownership", "stakeholders", "approval-process"],
     "difficulty": 3,
-    "stem": "A database administrator proposes a schema change to the billing database. The finance director relies on its reports, the application team maintains the service that reads it, and the IT service manager chairs the change advisory board. Who is the system owner's accountability in this change?",
+    "stem": "A database administrator proposes a schema change to the billing database. The finance director relies on its reports, the application team maintains the service that reads it, and the IT service manager chairs the change advisory board. What is the system owner's accountability in this change?",
     "options": [
       {"id": "a", "text": "Confirming the change is acceptable for the asset they are accountable for, independently of who implements or approves it", "correct": true, "why": "Ownership is accountability for the asset itself. The owner speaks for the system's purpose, its classification and its acceptable risk, whoever carries out the work."},
       {"id": "b", "text": "Implementing the change inside the maintenance window", "misconception": "change-roles", "why": "That is the implementer's job. An owner who implements their own change has removed the separation the process exists to create."},
@@ -36,7 +36,7 @@
     "stem": "A change updates a single line in a web server configuration file. The change is classed as low risk. The configuration only takes effect when the web service is restarted, and a payment integration holds long-lived sessions to that service. What is the correct reading of the impact?",
     "options": [
       {"id": "a", "text": "The restart causes real downtime for anything holding a session, so the dependent integration must be in scope regardless of the risk class", "correct": true, "why": "Risk and impact are separate judgements. A low risk change is unlikely to go wrong; it can still stop a dependent service dead while it takes effect."},
-      {"id": "b", "text": "The impact is negligible because only one line of configuration changed", "misconception": "change-technical-implications", "why": "Impact is measured by what stops and what depends on it, not by the size of the edit. This is the single most common error on this objective."},
+      {"id": "b", "text": "The impact is negligible because only one line of configuration changed", "misconception": "change-technical-implications", "why": "Impact is measured by what stops and what depends on it, not by the size of the edit. This is the most common error when judging impact."},
       {"id": "c", "text": "There is no downtime because the server itself is not rebooting", "misconception": "change-technical-implications", "why": "A service restart and an application restart both drop sessions without any host reboot. The machine staying up is not the same as the service staying up."},
       {"id": "d", "text": "The payment integration will reconnect automatically, so it is not a stakeholder", "misconception": "change-technical-implications", "why": "It may well reconnect, and it may also fail mid-transaction. A dependency you have not asked about is an assumption, not an analysis."}
     ]
@@ -91,7 +91,7 @@
     "difficulty": 3,
     "stem": "Six months after a firewall was replaced and the screened subnet was re-addressed, an incident response team loses two hours working from a network diagram that still shows the old topology. Which change management failure does this illustrate?",
     "options": [
-      {"id": "a", "text": "Diagrams were not updated as part of completing the change", "correct": true, "why": "The objectives place documentation inside change management for this reason. A diagram that disagrees with reality costs most at exactly the moment you can least afford it."},
+      {"id": "a", "text": "Diagrams were not updated as part of completing the change", "correct": true, "why": "Documentation belongs inside change management for this reason. A diagram that disagrees with reality costs most at exactly the moment you can least afford it."},
       {"id": "b", "text": "The change was implemented outside an approved maintenance window", "misconception": "change-documentation", "why": "Nothing in the scenario suggests that, and it would not have produced this outcome. The change worked; the record of it did not keep up."},
       {"id": "c", "text": "Impact analysis failed to identify the incident response team as a stakeholder", "misconception": "change-documentation", "why": "Tempting, but the team did not need consulting at the time. What they needed was the artefact to be correct afterwards."},
       {"id": "d", "text": "No backout plan was prepared for the firewall replacement", "misconception": "change-documentation", "why": "A backout covers the change going wrong. This change went right, and the documentation did not follow it."}

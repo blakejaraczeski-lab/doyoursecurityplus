@@ -49,7 +49,7 @@
     "difficulty": 2,
     "stem": "Which characteristic distinguishes a virus from a worm?",
     "options": [
-      {"id": "a", "text": "A virus needs a host file and user action; a worm propagates on its own", "correct": true, "why": "This single distinction is what the exam tests, and it drives the response: a worm requires network containment first."},
+      {"id": "a", "text": "A virus needs a host file and user action; a worm propagates on its own", "correct": true, "why": "This single distinction drives the response: a worm requires network containment first."},
       {"id": "b", "text": "A virus targets Windows while a worm targets Linux", "misconception": "worm-vs-virus", "why": "Neither is platform specific. The distinction is propagation, not operating system."},
       {"id": "c", "text": "A virus encrypts data while a worm exfiltrates it", "misconception": "worm-vs-virus", "why": "Those are payload behaviours. Either type can carry either payload."},
       {"id": "d", "text": "A virus hides from antivirus while a worm does not", "misconception": "trojan-vs-rootkit-vs-backdoor", "why": "Hiding from detection describes a rootkit, which is a separate category."}
@@ -164,7 +164,7 @@
       {"id": "a", "text": "Consumption shows capacity exhausted, such as a saturated link or filled storage; inaccessibility shows a healthy resource that users simply cannot reach", "correct": true, "why": "One is a capacity symptom you can measure, the other is a reachability symptom. A service running comfortably that nobody can connect to points at routing, access control or a deliberate block."},
       {"id": "b", "text": "Consumption is always deliberate; inaccessibility is always accidental", "misconception": "physical-and-environmental-attacks", "why": "Either can be deliberate or accidental. The distinction is the symptom, not the intent."},
       {"id": "c", "text": "Consumption affects networks and inaccessibility affects storage", "misconception": "physical-and-environmental-attacks", "why": "Both can affect any resource type."},
-      {"id": "d", "text": "They are the same indicator described at different layers", "misconception": "physical-and-environmental-attacks", "why": "The objectives list them separately because they point at different causes."}
+      {"id": "d", "text": "They are the same indicator described at different layers", "misconception": "physical-and-environmental-attacks", "why": "They are kept separate because they point at different causes."}
     ]
   },
   {
@@ -378,7 +378,7 @@
     "stem": "A wireless sweep discovers an access point inside the building broadcasting the corporate SSID, not managed by IT, with a stronger signal than the nearest legitimate access point. How is this best classified?",
     "options": [
       {"id": "a", "text": "An evil twin", "correct": true, "why": "It impersonates the legitimate SSID in order to attract client associations, which is what distinguishes an evil twin from a merely unauthorised access point."},
-      {"id": "b", "text": "A rogue access point only", "misconception": "evil-twin-vs-rogue-ap", "why": "It is a rogue access point, but the cloned SSID makes it specifically an evil twin, and the exam wants the more precise term."},
+      {"id": "b", "text": "A rogue access point only", "misconception": "evil-twin-vs-rogue-ap", "why": "It is a rogue access point, but the cloned SSID makes it specifically an evil twin, and the more precise term is the better answer."},
       {"id": "c", "text": "A misconfigured mesh extender", "misconception": "evil-twin-vs-rogue-ap", "why": "Nothing in the scenario suggests a sanctioned device. It is unmanaged and impersonating the corporate name."},
       {"id": "d", "text": "A jamming device", "misconception": "evil-twin-vs-rogue-ap", "why": "Jamming denies service with interference. This device is offering service in order to capture clients."}
     ]

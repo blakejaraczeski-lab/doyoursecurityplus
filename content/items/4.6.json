@@ -247,7 +247,7 @@
     "options": [
       {"id": "a", "text": "Yes. Vaulting controls distribution of the password; the account remains privileged at all times", "correct": true, "why": "Checkout and rotation give accountability and limit password sprawl. The entitlement itself is unchanged, so a stolen session or a checked-out credential still yields full rights."},
       {"id": "b", "text": "No. Rotating after each use means the privilege is effectively temporary", "misconception": "privileged-access-techniques", "why": "The password changes; the account's rights do not. Anyone holding a live session keeps everything."},
-      {"id": "c", "text": "No. Vaulting is the control the objectives name for standing privilege", "misconception": "privileged-access-techniques", "why": "Just-in-time permissions are that control. Vaulting is listed separately precisely because it solves a different problem."},
+      {"id": "c", "text": "No. Vaulting is the control designed to remove standing privilege", "misconception": "privileged-access-techniques", "why": "Just-in-time permissions are that control. Vaulting is a separate technique precisely because it solves a different problem."},
       {"id": "d", "text": "Yes, but only because the vault does not record sessions", "misconception": "privileged-access-techniques", "why": "Session recording is a useful feature and not the issue. The issue is permanent entitlement."}
     ]
   },

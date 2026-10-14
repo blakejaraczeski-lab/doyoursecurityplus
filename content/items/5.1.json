@@ -203,7 +203,7 @@
     "difficulty": 4,
     "stem": "A company with staff in three countries stores all employee records in a single cloud region. Which consideration most directly complicates this?",
     "options": [
-      {"id": "a", "text": "Jurisdictional scope: each country's requirements may govern its own residents' data regardless of where it is stored", "correct": true, "why": "Obligations follow the data subject and the processing, not only the server. This is why national and regional considerations are listed separately from the general regulatory heading."},
+      {"id": "a", "text": "Jurisdictional scope: each country's requirements may govern its own residents' data regardless of where it is stored", "correct": true, "why": "Obligations follow the data subject and the processing, not only the server. This is why national and regional considerations are considered separately from the general regulatory heading."},
       {"id": "b", "text": "Industry considerations, since employee data is subject to sector schemes", "misconception": "external-considerations", "why": "Employment records are not generally governed by sector schemes the way card or health data are."},
       {"id": "c", "text": "Nothing, provided the cloud region is in the company's home country", "misconception": "external-considerations", "why": "That is the assumption the question targets. Storing locally does not discharge another jurisdiction's claim over its residents' data."},
       {"id": "d", "text": "Only the strictest country's law applies, so compliance is simplified", "misconception": "external-considerations", "why": "Convenient and untrue. Requirements can conflict, which is the actual difficulty."}

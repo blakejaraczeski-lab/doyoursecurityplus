@@ -47,7 +47,7 @@
     "objective": "4.4",
     "topics": ["monitoring-applications", "monitoring-systems", "monitoring-infrastructure"],
     "difficulty": 3,
-    "stem": "The objectives distinguish monitoring of systems, applications and infrastructure. Which concern belongs specifically to application monitoring?",
+    "stem": "Monitoring can be aimed at systems, applications or infrastructure. Which concern belongs specifically to application monitoring?",
     "options": [
       {"id": "a", "text": "Transaction errors, authentication failures and unusual request patterns within the application itself", "correct": true, "why": "Application monitoring sees what the application does and what its users do inside it, which no layer beneath it can observe."},
       {"id": "b", "text": "CPU, memory and disk utilisation on the host", "misconception": "log-pipeline-stages", "why": "That is system monitoring: the operating system and its resources."},
@@ -175,7 +175,7 @@
     "objective": "4.4",
     "topics": ["alert-response-and-remediation-validation", "quarantine", "archiving"],
     "difficulty": 3,
-    "stem": "An endpoint tool confirms a malicious executable on a laptop. Which activity does the objectives list call this response?",
+    "stem": "An endpoint tool confirms a malicious executable on a laptop. Which alert response action is this?",
     "options": [
       {"id": "a", "text": "Quarantine", "correct": true, "why": "Isolating the confirmed malicious object or host is the named alert response action, and it buys time to investigate."},
       {"id": "b", "text": "Alert tuning", "misconception": "alert-tuning-vs-quarantine", "why": "Tuning adjusts which alerts fire. This alert was correct and needs acting on."},

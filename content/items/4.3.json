@@ -47,7 +47,7 @@
     "objective": "4.3",
     "topics": ["vulnerability-scan", "penetration-testing"],
     "difficulty": 3,
-    "stem": "A report states that a web server is 'probably vulnerable to CVE-2024-1086 based on the version banner', with no evidence the flaw was triggered. Which activity produced this?",
+    "stem": "A report states that a web server is 'probably vulnerable to CVE-2021-41773 based on the version banner', with no evidence the flaw was triggered. Which activity produced this?",
     "options": [
       {"id": "a", "text": "A vulnerability scan", "correct": true, "why": "Scanners infer from versions and responses rather than exploiting. 'Probably, based on the banner' is the signature of inference, and the reason false positives are routine."},
       {"id": "b", "text": "A penetration test", "misconception": "vuln-identification-sources", "why": "A penetration test proves exploitability by exploiting. The report would describe what the tester achieved, not what the version implies."},
@@ -91,7 +91,7 @@
     "difficulty": 3,
     "stem": "A security team learns that credentials belonging to its staff are being offered for sale on a criminal forum. Which source most directly provides this?",
     "options": [
-      {"id": "a", "text": "Dark web monitoring", "correct": true, "why": "The objectives name this separately because it looks where stolen access is traded, which is often the first sign that a breach already happened."},
+      {"id": "a", "text": "Dark web monitoring", "correct": true, "why": "It is a distinct source because it looks where stolen access is traded, which is often the first sign that a breach already happened."},
       {"id": "b", "text": "Open source intelligence", "misconception": "vuln-identification-sources", "why": "OSINT draws on publicly available sources. Criminal marketplaces are not public, which is the whole distinction."},
       {"id": "c", "text": "An information sharing and analysis centre", "misconception": "vuln-identification-sources", "why": "An ISAC circulates threat information among sector peers. It would carry the pattern, not your specific credentials."},
       {"id": "d", "text": "A proprietary threat feed of indicators of compromise", "misconception": "vuln-identification-sources", "why": "A feed delivers curated indicators such as addresses and hashes, not listings of your own staff accounts for sale."}
@@ -133,8 +133,8 @@
     "difficulty": 4,
     "stem": "Two findings arrive the same morning. Finding A: CVSS 9.8 on a lab server with no sensitive data, on an isolated segment with no inbound internet path. Finding B: CVSS 7.1 on the internet-facing payment gateway. Which should be remediated first, and why?",
     "options": [
-      {"id": "a", "text": "B, because environmental variables and exposure outrank the raw base score", "correct": true, "why": "CVSS base score describes the vulnerability in the abstract. Where the asset sits and what it holds are what turn severity into risk, and the exam tests exactly this inversion."},
-      {"id": "b", "text": "A, because 9.8 is critical and 7.1 is only high", "misconception": "vuln-prioritization-inputs", "why": "Ranking by the number alone ignores every input the objectives add beside it. A critical flaw on an unreachable host with nothing on it is not your first problem."},
+      {"id": "a", "text": "B, because environmental variables and exposure outrank the raw base score", "correct": true, "why": "CVSS base score describes the vulnerability in the abstract. Where the asset sits and what it holds are what turn severity into risk, and putting exposure ahead of the raw score is the point."},
+      {"id": "b", "text": "A, because 9.8 is critical and 7.1 is only high", "misconception": "vuln-prioritization-inputs", "why": "Ranking by the number alone ignores every other input that belongs beside it. A critical flaw on an unreachable host with nothing on it is not your first problem."},
       {"id": "c", "text": "A, because critical findings carry a shorter remediation deadline in policy", "misconception": "vuln-prioritization-inputs", "why": "Policy deadlines are usually set against adjusted risk, not raw base score. If yours is not, that is the defect the question is pointing at."},
       {"id": "d", "text": "Neither until both have been confirmed by a penetration test", "misconception": "remediation-validation", "why": "Waiting for a test before touching an exposed payment gateway converts a prioritisation problem into a delay."}
     ]
@@ -175,7 +175,7 @@
     "difficulty": 4,
     "stem": "After a patch is applied, the next scan no longer reports the finding. An engineer argues this is not sufficient evidence the vulnerability is gone. What is the strongest basis for that argument?",
     "options": [
-      {"id": "a", "text": "A rescan only shows the scanner no longer detects it, which a firewall rule or a changed banner can also produce", "correct": true, "why": "Rescanning and verification answer different questions. Suppressing detection is not the same as removing the condition, and this is the distinction the objectives draw."},
+      {"id": "a", "text": "A rescan only shows the scanner no longer detects it, which a firewall rule or a changed banner can also produce", "correct": true, "why": "Rescanning and verification answer different questions. Suppressing detection is not the same as removing the condition, and that is the distinction that matters."},
       {"id": "b", "text": "Scanners always produce false negatives after patching", "misconception": "remediation-validation", "why": "Too strong. The point is that a quiet scanner is weak evidence, not that it is always wrong."},
       {"id": "c", "text": "The patch must be approved through change management before it counts", "misconception": "remediation-validation", "why": "Process compliance matters but is a separate question from whether the weakness is technically gone."},
       {"id": "d", "text": "Only a penetration test can confirm remediation", "misconception": "vuln-identification-sources", "why": "Verification can be a targeted check of the specific condition. Commissioning a full test for every patch is neither necessary nor affordable."}
@@ -215,10 +215,10 @@
     "objective": "4.3",
     "topics": ["prioritize", "environmental-variables", "exposure-factor", "industry-organizational-impact", "risk-tolerance"],
     "difficulty": 4,
-    "stem": "Beyond the CVSS base score, which TWO inputs does the SY0-701 blueprint expect to shape how a vulnerability is prioritised? (Choose two.)",
+    "stem": "Beyond the CVSS base score, which TWO inputs shape how a vulnerability is prioritised? (Choose two.)",
     "options": [
       {"id": "a", "text": "Environmental variables, such as whether the asset is internet-facing or segmented", "correct": true, "why": "Where the asset sits changes reachability, and reachability is most of real risk."},
-      {"id": "b", "text": "Industry and organisational impact, such as regulated data or safety-critical function", "correct": true, "why": "The same flaw carries a different consequence in healthcare, payments or a utility, which is why the blueprint names it separately."},
+      {"id": "b", "text": "Industry and organisational impact, such as regulated data or safety-critical function", "correct": true, "why": "The same flaw carries a different consequence in healthcare, payments or a utility, which is why it is weighed separately from the base score."},
       {"id": "c", "text": "The number of findings the team closed last month", "misconception": "vuln-prioritization-inputs", "why": "Throughput is a programme metric. It says nothing about which finding matters most."},
       {"id": "d", "text": "Whether the finding came from a scan or a penetration test", "misconception": "vuln-identification-sources", "why": "The source affects confidence in the finding, not its intrinsic priority once confirmed."},
       {"id": "e", "text": "The alphabetical order of the affected hostnames", "misconception": "vuln-prioritization-inputs", "why": "Included as a reminder that an arbitrary ordering is still an ordering, and it is the one a backlog defaults to without deliberate prioritisation."}

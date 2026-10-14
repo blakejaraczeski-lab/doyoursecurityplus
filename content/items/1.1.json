@@ -164,7 +164,7 @@
     "stem": "A payment application is required to log every administrative action, but the vendor's software cannot write audit logs. The team places a network tap and records every administrative session to the application instead. Which control type is the session recording?",
     "options": [
       {"id": "a", "text": "Compensating: it stands in for the audit logging the application cannot provide", "correct": true, "why": "The stem says the required control could not be implemented and this one was put in its place. That makes it compensating, whatever its own mechanism."},
-      {"id": "b", "text": "Detective: a recording identifies what happened after the fact", "misconception": "compensating-vs-corrective", "why": "By mechanism it does detect, but the exam classifies a substitute for a required control as compensating. The stem spelled out the substitution."},
+      {"id": "b", "text": "Detective: a recording identifies what happened after the fact", "misconception": "compensating-vs-corrective", "why": "By mechanism it does detect, but a substitute for a required control is classified as compensating. The stem spelled out the substitution."},
       {"id": "c", "text": "Corrective: it fixes the application's missing capability", "misconception": "compensating-vs-corrective", "why": "Nothing was repaired and no incident happened. A control chosen in advance because the wanted one is impossible is compensating."},
       {"id": "d", "text": "Physical: a tap is a piece of hardware", "misconception": "control-category-vs-type", "why": "That is a category argument, and a weak one; the question asks for the type."}
     ]

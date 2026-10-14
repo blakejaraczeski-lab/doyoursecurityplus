@@ -262,7 +262,7 @@
     "stem": "Which TWO statements about resilience design are correct? (Choose two.)",
     "options": [
       {"id": "a", "text": "Redundant identical systems share every flaw those systems have, so diversity addresses a risk redundancy cannot", "correct": true, "why": "A common vulnerability across a fleet is a single point of failure however many instances exist."},
-      {"id": "b", "text": "Continuity of operations planning covers people and facilities, not only technology", "correct": true, "why": "The objectives split capacity planning across people, technology and infrastructure for exactly this reason."},
+      {"id": "b", "text": "Continuity of operations planning covers people and facilities, not only technology", "correct": true, "why": "Capacity planning is split across people, technology and infrastructure for exactly this reason."},
       {"id": "c", "text": "A multi-cloud design removes the risk of customer misconfiguration", "misconception": "diversity-and-multicloud", "why": "Your configuration errors replicate to every provider you deploy to."},
       {"id": "d", "text": "Snapshots stored on the production array are an adequate substitute for offsite backups", "misconception": "backup-parameters", "why": "They do not survive loss of the array, the site, or ransomware that can reach the storage."},
       {"id": "e", "text": "Platform diversity reduces operational complexity", "misconception": "diversity-and-multicloud", "why": "It increases it. More platforms means more expertise, patching and ways to misconfigure, which is the trade being made."}

@@ -9,7 +9,7 @@
     "options": [
       {"id": "a", "text": "125,000", "correct": true, "why": "SLE is 2,000,000 times 0.25, which is 500,000. ARO for once in four years is 0.25. ALE is 500,000 times 0.25, which is 125,000."},
       {"id": "b", "text": "500,000", "misconception": "sle-ale-aro", "why": "That is the SLE, the cost of one event. ALE is the annualised figure, so it must be multiplied by the ARO."},
-      {"id": "c", "text": "2,000,000", "misconception": "sle-ale-aro", "why": "That is the asset value. The exposure factor of 25% has not been applied."},
+      {"id": "c", "text": "1,500,000", "misconception": "sle-ale-aro", "why": "That is 2,000,000 times 0.75, the value that would survive the flood rather than the part destroyed. Even with the correct 25% it would be an SLE, not yet annualised."},
       {"id": "d", "text": "2,000,000", "misconception": "sle-ale-aro", "why": "Treating once in four years as an ARO of 4 rather than 0.25 inverts the rate and inflates the result enormously."}
     ]
   },
@@ -131,7 +131,7 @@
     "objective": "5.2",
     "topics": ["quantitative-risk-analysis", "qualitative-risk-analysis"],
     "difficulty": 3,
-    "stem": "A risk team produces a 5 by 5 matrix rating each risk's likelihood and impact as low, medium or high, based on workshops with subject matter experts. Which method is this?",
+    "stem": "A risk team produces a 3 by 3 matrix rating each risk's likelihood and impact as low, medium or high, based on workshops with subject matter experts. Which method is this?",
     "options": [
       {"id": "a", "text": "Qualitative", "correct": true, "why": "The output is descriptive categories derived from expert judgement rather than currency figures."},
       {"id": "b", "text": "Quantitative", "misconception": "qualitative-vs-quantitative", "why": "Quantitative analysis produces monetary values such as SLE and ALE. A rating scale is not a monetary value even when it uses numbers."},
@@ -219,7 +219,7 @@
     "difficulty": 3,
     "stem": "A cloud posture management tool evaluates every resource against policy as configurations change, raising findings automatically. Which assessment cadence does this represent?",
     "options": [
-      {"id": "a", "text": "Continuous", "correct": true, "why": "Always on and automated, with findings produced as state changes rather than at review points. This is what the objectives mean by continuous assessment."},
+      {"id": "a", "text": "Continuous", "correct": true, "why": "Always on and automated, with findings produced as state changes rather than at review points. This is what continuous assessment means."},
       {"id": "b", "text": "Recurring", "misconception": "risk-assessment-cadence", "why": "Recurring runs at defined intervals. The gap between runs is exactly what continuous assessment removes."},
       {"id": "c", "text": "Ad hoc", "misconception": "risk-assessment-cadence", "why": "Ad hoc is event-driven and unscheduled, commissioned by a person."},
       {"id": "d", "text": "One-time", "misconception": "risk-assessment-cadence", "why": "A one-time assessment has a defined end. This has none."}
@@ -234,7 +234,7 @@
     "stem": "A board states that it will accept materially higher security risk over the next eighteen months in order to reach a new market first. How should this be characterised?",
     "options": [
       {"id": "a", "text": "An expansionary risk appetite, set deliberately at board level", "correct": true, "why": "Appetite is a governance position about how much risk the organisation will take to meet its objectives. Expansionary means accepting more of it in pursuit of opportunity."},
-      {"id": "b", "text": "A governance failure, since appetite should always be conservative", "misconception": "risk-appetite-postures", "why": "Conservative suits regulated and safety-critical contexts. It is not universally correct, and the exam treats expansionary as a legitimate stated posture."},
+      {"id": "b", "text": "A governance failure, since appetite should always be conservative", "misconception": "risk-appetite-postures", "why": "Conservative suits regulated and safety-critical contexts. It is not universally correct, and expansionary is a legitimate stated posture."},
       {"id": "c", "text": "A risk tolerance decision", "misconception": "risk-appetite-vs-tolerance", "why": "Tolerance is the acceptable variation around the appetite in practice. This statement sets the appetite itself."},
       {"id": "d", "text": "Risk acceptance as a treatment strategy", "misconception": "risk-treatment-strategies", "why": "Acceptance applies to a specific identified risk. This is a standing posture across the whole programme."}
     ]
@@ -306,7 +306,7 @@
       {"id": "a", "text": "The register is the record of risks and their treatment; reporting puts the state of those risks in front of the people accountable for deciding about them", "correct": true, "why": "A register nobody reports from is an archive. Reporting is what converts recorded risk into a decision by an owner or a board."},
       {"id": "b", "text": "Reporting is the technical output of vulnerability scanning", "misconception": "risk-assessment-cadence", "why": "That is vulnerability reporting within 4.3. Risk reporting here operates at the programme level."},
       {"id": "c", "text": "The register is produced by reporting, not the other way round", "misconception": "risk-assessment-cadence", "why": "The register is maintained continuously; reports are drawn from it."},
-      {"id": "d", "text": "They are the same activity under two names", "misconception": "risk-assessment-cadence", "why": "The objectives list them separately because recording a risk and escalating it are different acts."}
+      {"id": "d", "text": "They are the same activity under two names", "misconception": "risk-assessment-cadence", "why": "They are kept separate because recording a risk and escalating it are different acts."}
     ]
   },
   {
@@ -319,7 +319,7 @@
     "options": [
       {"id": "a", "text": "12 is the risk tolerance, 15 is the risk threshold", "correct": true, "why": "Tolerance is the acceptable variation around the stated appetite; the threshold is the line that triggers a defined action. Appetite is the board's posture that both sit beneath."},
       {"id": "b", "text": "12 is the risk appetite, 15 is the risk tolerance", "misconception": "risk-appetite-vs-tolerance", "why": "Appetite is the stated posture, here described as neutral. It is not a numeric operating limit."},
-      {"id": "c", "text": "Both are expressions of risk appetite at different levels", "misconception": "risk-appetite-vs-tolerance", "why": "The objectives name three distinct terms, and the exam tests the ability to separate them."},
+      {"id": "c", "text": "Both are expressions of risk appetite at different levels", "misconception": "risk-appetite-vs-tolerance", "why": "Appetite, tolerance and threshold are three distinct terms, and the skill is separating them."},
       {"id": "d", "text": "12 is the exposure factor, 15 is the impact rating", "misconception": "likelihood-probability-impact", "why": "Neither is a quantitative loss input; both are governance limits."}
     ]
   },

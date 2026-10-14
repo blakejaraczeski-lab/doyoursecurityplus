@@ -78,7 +78,7 @@
     "stem": "A public web server in the screened subnet needs to query an internal database. Which rule best satisfies the requirement without weakening the zone design?",
     "options": [
       {"id": "a", "text": "permit tcp WEB-SRV any -> DB-SRV port 1433", "correct": true, "why": "One host, one destination, one port. The screened subnet is permitted exactly the one flow the application needs and nothing else."},
-      {"id": "b", "text": "permit tcp DMZ-NET any -> INTERNAL-NET any", "misconception": "screened-subnet-direction", "why": "This lets any compromised host in the screened subnet reach anything inside, which is the exact pivot the zone exists to prevent."},
+      {"id": "b", "text": "permit tcp SCREENED-NET any -> INTERNAL-NET any", "misconception": "screened-subnet-direction", "why": "This lets any compromised host in the screened subnet reach anything inside, which is the exact pivot the zone exists to prevent."},
       {"id": "c", "text": "permit tcp WEB-SRV any -> INTERNAL-NET port 1433", "misconception": "acl-overbroad-any", "why": "Closer, but it permits the web server to reach every internal host on 1433, not just the one database it needs."},
       {"id": "d", "text": "permit ip any any between the screened subnet and the internal network", "misconception": "screened-subnet-direction", "why": "This removes the boundary entirely and makes the screened subnet an extension of the internal network."}
     ]

@@ -49,9 +49,9 @@
     "difficulty": 4,
     "stem": "A team automates a fragile manual process with a large set of custom scripts written by one engineer who then leaves. Which named risks of automation does this illustrate?",
     "options": [
-      {"id": "a", "text": "Complexity, ongoing supportability and technical debt: the automation now needs maintaining by people who did not write it", "correct": true, "why": "The objectives list these as costs of automation precisely because undocumented bespoke tooling becomes a second system nobody understands, often less reliable than the process it replaced."},
+      {"id": "a", "text": "Complexity, ongoing supportability and technical debt: the automation now needs maintaining by people who did not write it", "correct": true, "why": "These count as costs of automation precisely because undocumented bespoke tooling becomes a second system nobody understands, often less reliable than the process it replaced."},
       {"id": "b", "text": "Only cost, since scripts are cheap to write", "misconception": "automation-benefits-vs-risks", "why": "The writing is cheap and the owning is not. Cost here means total cost over the lifetime."},
-      {"id": "c", "text": "A single point of failure in the network", "misconception": "automation-benefits-vs-risks", "why": "Single point of failure does appear in this objective, and it refers to the automation itself becoming one, not to network topology."},
+      {"id": "c", "text": "A single point of failure in the network", "misconception": "automation-benefits-vs-risks", "why": "Single point of failure is a genuine automation risk, and it refers to the automation itself becoming one, not to network topology."},
       {"id": "d", "text": "None: automation always reduces risk", "misconception": "automation-benefits-vs-risks", "why": "The objective explicitly lists its costs, which is why it asks about benefits and risks together."}
     ]
   },
@@ -63,7 +63,7 @@
     "difficulty": 4,
     "stem": "An organisation routes all provisioning, access changes and incident response actions through one orchestration platform. What risk does this introduce?",
     "options": [
-      {"id": "a", "text": "The platform becomes a single point of failure: its outage stops provisioning and response simultaneously, and its compromise grants all of those capabilities at once", "correct": true, "why": "Concentrating capability concentrates both the outage and the prize. The objectives name single point of failure as a cost of automation for exactly this reason."},
+      {"id": "a", "text": "The platform becomes a single point of failure: its outage stops provisioning and response simultaneously, and its compromise grants all of those capabilities at once", "correct": true, "why": "Concentrating capability concentrates both the outage and the prize. That is why single point of failure is counted as a cost of automation."},
       {"id": "b", "text": "Reaction time will increase", "misconception": "automation-benefits-vs-risks", "why": "Orchestration improves reaction time, which is one of its listed benefits."},
       {"id": "c", "text": "Employee retention will fall", "misconception": "automation-benefits-vs-risks", "why": "Retention is listed as a benefit: removing repetitive work tends to keep people, not drive them away."},
       {"id": "d", "text": "Baselines can no longer be enforced", "misconception": "automation-use-cases", "why": "Enforcing baselines is one of the things such a platform does well."}
@@ -75,10 +75,10 @@
     "objective": "4.7",
     "topics": ["employee-retention", "workforce-multiplier", "efficiency-time-saving"],
     "difficulty": 3,
-    "stem": "The objectives list employee retention as a benefit of automation. What is the reasoning?",
+    "stem": "Employee retention is often cited as a benefit of automation. What is the reasoning?",
     "options": [
       {"id": "a", "text": "Automating repetitive low-value work lets skilled staff spend time on work that uses their judgement, which is what keeps them", "correct": true, "why": "Burnout in security operations is driven heavily by volume of repetitive triage. Removing it is both a workforce multiplier and a retention measure."},
-      {"id": "b", "text": "Automation reduces headcount, so fewer people need retaining", "misconception": "automation-benefits-vs-risks", "why": "The objectives frame automation as a workforce multiplier, making existing staff more effective rather than replacing them."},
+      {"id": "b", "text": "Automation reduces headcount, so fewer people need retaining", "misconception": "automation-benefits-vs-risks", "why": "Automation is framed as a workforce multiplier, making existing staff more effective rather than replacing them."},
       {"id": "c", "text": "Automated systems do not require training", "misconception": "automation-benefits-vs-risks", "why": "They require different and often deeper skills to build and maintain."},
       {"id": "d", "text": "Retention improves because automation reduces salary costs", "misconception": "automation-benefits-vs-risks", "why": "Reducing pay is not a retention mechanism."}
     ]
@@ -117,12 +117,12 @@
     "objective": "4.7",
     "topics": ["cost-2", "complexity", "single-point-of-failure", "workforce-multiplier", "reaction-time"],
     "difficulty": 4,
-    "stem": "Which TWO are listed by the objectives as costs or risks of automation rather than benefits? (Choose two.)",
+    "stem": "Which TWO are costs or risks of automation rather than benefits? (Choose two.)",
     "options": [
       {"id": "a", "text": "Technical debt and ongoing supportability", "correct": true, "why": "Automation is software, and software has to be maintained by whoever inherits it."},
       {"id": "b", "text": "The automation platform becoming a single point of failure", "correct": true, "why": "Concentrating capability concentrates both outage impact and the value of compromising it."},
-      {"id": "c", "text": "Acting as a workforce multiplier", "misconception": "automation-benefits-vs-risks", "why": "A listed benefit: the same team covers more ground."},
-      {"id": "d", "text": "Improved reaction time", "misconception": "automation-benefits-vs-risks", "why": "A listed benefit, and often the main reason for doing it."},
+      {"id": "c", "text": "Acting as a workforce multiplier", "misconception": "automation-benefits-vs-risks", "why": "A recognised benefit: the same team covers more ground."},
+      {"id": "d", "text": "Improved reaction time", "misconception": "automation-benefits-vs-risks", "why": "A recognised benefit, and often the main reason for doing it."},
       {"id": "e", "text": "Enforcing baselines consistently", "misconception": "automation-use-cases", "why": "A use case and a benefit, not a cost."}
     ],
     "selectCount": 2
@@ -166,7 +166,7 @@
       {"id": "a", "text": "The orchestration platform becomes a single point of failure", "correct": true, "why": "When provisioning, access and response all route through one system, its outage or compromise is an outage or compromise of all of them."},
       {"id": "b", "text": "Response times increase", "misconception": "automation-benefits-vs-risks", "why": "Reaction time is one of automation's clearest benefits. It acts in seconds."},
       {"id": "c", "text": "Baselines become harder to enforce", "misconception": "automation-benefits-vs-risks", "why": "Enforcing baselines consistently is exactly what automation is good at."},
-      {"id": "d", "text": "Staff retention gets worse", "misconception": "automation-benefits-vs-risks", "why": "The objectives list employee retention as a benefit: removing repetitive work keeps people."}
+      {"id": "d", "text": "Staff retention gets worse", "misconception": "automation-benefits-vs-risks", "why": "Employee retention is a recognised benefit: removing repetitive work keeps people."}
     ]
   },
   {
@@ -189,9 +189,9 @@
     "objective": "4.7",
     "topics": ["workforce-multiplier", "efficiency-time-saving", "reaction-time"],
     "difficulty": 2,
-    "stem": "A small security team automates triage of low-severity alerts. Which benefit does the exam call this?",
+    "stem": "A small security team automates triage of low-severity alerts. Which benefit of automation does this describe?",
     "options": [
-      {"id": "a", "text": "A workforce multiplier", "correct": true, "why": "The same number of people cover more ground. The objectives name this explicitly alongside efficiency and reaction time."},
+      {"id": "a", "text": "A workforce multiplier", "correct": true, "why": "The same number of people cover more ground. It is a standard named benefit of automation, alongside efficiency and reaction time."},
       {"id": "b", "text": "Risk transference", "misconception": "automation-benefits-vs-risks", "why": "Transference moves financial impact to a third party, such as insurance. Nothing moved outside the organisation."},
       {"id": "c", "text": "A compensating control", "misconception": "compensating-vs-corrective", "why": "A compensating control substitutes for one you cannot implement. Automation here improves a control you already have."},
       {"id": "d", "text": "Defence in depth", "misconception": "automation-benefits-vs-risks", "why": "Layering independent controls is a different idea. This is throughput."}

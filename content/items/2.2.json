@@ -8,7 +8,7 @@
     "stem": "An employee receives a phone call from someone claiming to be from the IT service desk, asking them to read out the code that just arrived on their phone. What is this?",
     "options": [
       {"id": "a", "text": "Vishing", "correct": true, "why": "The channel is a voice call, which makes it vishing, and the goal is to defeat the second factor."},
-      {"id": "b", "text": "Phishing", "misconception": "phishing-variants", "why": "Technically part of the phishing family, and the exam wants the channel specific term when the channel is stated."},
+      {"id": "b", "text": "Phishing", "misconception": "phishing-variants", "why": "Technically part of the phishing family, and the channel specific term is the better answer when the channel is stated."},
       {"id": "c", "text": "Smishing", "misconception": "phishing-variants", "why": "Smishing arrives by SMS. The code arrived by SMS, the attack arrived by phone call."},
       {"id": "d", "text": "Whaling", "misconception": "phishing-variants", "why": "Whaling targets an executive. Nothing indicates the employee is one."}
     ]
@@ -77,7 +77,7 @@
     "difficulty": 3,
     "stem": "During a product recall, coordinated accounts post fabricated claims that a company's safety certificates were withdrawn. Share price falls and the support desk is overwhelmed. Nothing on the company network is touched. Which best describes what is being used against the company?",
     "options": [
-      {"id": "a", "text": "A misinformation and disinformation campaign", "correct": true, "why": "The objectives list this as a human vector in its own right. The asset under attack is trust, and no system has to be breached to damage it."},
+      {"id": "a", "text": "A misinformation and disinformation campaign", "correct": true, "why": "This is a human vector in its own right. The asset under attack is trust, and no system has to be breached to damage it."},
       {"id": "b", "text": "Brand impersonation", "misconception": "threat-vector-families", "why": "Brand impersonation means posing as the company. These accounts are speaking about the company, not pretending to be it."},
       {"id": "c", "text": "A denial of service attack", "misconception": "threat-vector-families", "why": "The support desk is overwhelmed by real people reacting to a story. No traffic is being directed at a service to exhaust it."},
       {"id": "d", "text": "Pretexting", "misconception": "phishing-variants", "why": "Pretexting builds a false scenario to extract something from a specific target. This is broadcast, and it asks nobody for anything."}
@@ -107,7 +107,7 @@
     "options": [
       {"id": "a", "text": "Unsupported system: a weakness that will never be patched", "correct": true, "why": "The stem rules out credentials and people and names an end-of-support system. That is the unsupported systems and applications vector."},
       {"id": "b", "text": "Default credentials", "misconception": "unsecure-network-vectors", "why": "The stem says no credential was guessed. Default credentials are a configuration the attacker logs in with; nothing was logged into here."},
-      {"id": "c", "text": "Vulnerable software with a patch available", "misconception": "threat-vector-families", "why": "A supported system with a patch waiting is vulnerable software. One whose vendor ended support can never be patched, which is why the exam lists it separately and why it is the worse case."},
+      {"id": "c", "text": "Vulnerable software with a patch available", "misconception": "threat-vector-families", "why": "A supported system with a patch waiting is vulnerable software. One whose vendor ended support can never be patched, which is why it is treated separately and is the worse case."},
       {"id": "d", "text": "Pretexting against the facilities team", "misconception": "phishing-variants", "why": "No one was tricked. Pretexting needs a person to believe a story."}
     ]
   },
@@ -131,12 +131,12 @@
     "objective": "2.2",
     "topics": ["vendors", "managed-service-providers", "suppliers"],
     "difficulty": 4,
-    "stem": "Three organisations are breached in the same week. In the first, a firmware update signed by the maker of their firewalls carried a backdoor. In the second, an attacker used a remote management tool's credentials to reach dozens of client networks at once. In the third, network cards bought for a new data centre arrived with modified firmware. Which supply chain vectors are these, in order?",
+    "stem": "Three organisations are breached in the same week. In the first, a firmware update signed by the maker of their firewalls carried a backdoor. In the second, an attacker used the remote administration credentials of a firm that runs IT for its clients, and so reached dozens of client networks at once. In the third, servers bought from an integrator arrived with modified firmware on network cards that the integrator had sourced from a separate manufacturer. Which supply chain vectors are these, in order?",
     "options": [
-      {"id": "a", "text": "Vendor, managed service provider, supplier", "correct": true, "why": "A product's own update is the vendor; standing remote access across many clients is an MSP; tampered components arriving upstream is a supplier."},
-      {"id": "b", "text": "Supplier, vendor, managed service provider", "misconception": "supply-chain-roles", "why": "The firewall maker sold a finished product, which makes them a vendor; the component maker is the supplier; the remote tool with standing access is the MSP."},
-      {"id": "c", "text": "Vendor, vendor, vendor", "misconception": "supply-chain-roles", "why": "The exam separates them because each is closed differently: vendor updates by validation, MSP access by least privilege and monitoring, supplier components by inspection before deployment."},
-      {"id": "d", "text": "Managed service provider, supplier, vendor", "misconception": "supply-chain-roles", "why": "A signed firmware update is the product vendor's, and the remote management tool reaching many clients at once is the signature of an MSP."}
+      {"id": "a", "text": "Vendor, managed service provider, supplier", "correct": true, "why": "A product's own update is the vendor; a firm running clients' IT with standing remote access is an MSP; a tampered component made by another firm and built into what was bought is the supplier."},
+      {"id": "b", "text": "Supplier, vendor, managed service provider", "misconception": "supply-chain-roles", "why": "The firewall maker sold a finished product, which makes them a vendor; the card manufacturer is the supplier; the firm running clients' IT with standing access is the MSP."},
+      {"id": "c", "text": "Vendor, vendor, vendor", "misconception": "supply-chain-roles", "why": "They are separate because each is closed differently: vendor updates by validation, MSP access by least privilege and monitoring, supplier components by inspection before deployment."},
+      {"id": "d", "text": "Managed service provider, supplier, vendor", "misconception": "supply-chain-roles", "why": "A signed firmware update is the product vendor's, and a firm running IT for many clients, with access to all their networks, is the signature of an MSP."}
     ]
   },
   {
@@ -150,7 +150,7 @@
       {"id": "a", "text": "SMS; smishing", "correct": true, "why": "A text message is the SMS vector, and phishing over SMS is smishing."},
       {"id": "b", "text": "Instant messaging; phishing", "misconception": "threat-vector-families", "why": "The stem names a text message. Instant messaging is a different message vector with a different name for the attack."},
       {"id": "c", "text": "Voice call; vishing", "misconception": "phishing-variants", "why": "Nobody called. Vishing is phishing by voice."},
-      {"id": "d", "text": "Email; phishing", "misconception": "phishing-variants", "why": "Phishing is defensible as the family, but the channel named is SMS, and the exam wants the precise term."}
+      {"id": "d", "text": "Email; phishing", "misconception": "phishing-variants", "why": "Phishing is defensible as the family, but the channel named is SMS, and the precise term is the better answer."}
     ]
   },
   {
@@ -187,12 +187,12 @@
     "objective": "2.2",
     "topics": ["image-based", "file-based", "email", "vulnerable-software"],
     "difficulty": 3,
-    "stem": "An attacker embeds a script inside an SVG image attached to an email. The script runs when the image is previewed. The question asks which vector carries the payload. Which is it?",
+    "stem": "An attacker hides a script inside an SVG image file saved on a shared team drive. When a colleague opens the image from the drive, the script runs. No message was sent and nothing physical crossed the boundary. Which vector does this use?",
     "options": [
-      {"id": "a", "text": "Image-based", "correct": true, "why": "The image is the carrier. Email delivered it, but the stem asks what carries the payload, and an image with executable content inside it is the image-based vector."},
-      {"id": "b", "text": "Email, because that is what arrived", "misconception": "threat-vector-families", "why": "Email is the delivery channel. When the stem asks what carries the payload rather than how it was delivered, it is asking for the file or image vector."},
+      {"id": "a", "text": "Image-based", "correct": true, "why": "With no message or physical channel in the scenario, the vector is the form the payload took: an image with executable content inside it is the image-based vector."},
+      {"id": "b", "text": "Email, because images are usually sent that way", "misconception": "threat-vector-families", "why": "Nothing was emailed. A channel is the vector only when the scenario names it, as a USB drive or a message would; here none is named, so the file type is."},
       {"id": "c", "text": "Vulnerable software, because the preview rendered it", "misconception": "threat-vector-families", "why": "Rendering an image is the software working as designed. Nothing was exploited; the content did the work."},
-      {"id": "d", "text": "Removable device", "misconception": "threat-vector-families", "why": "Nothing physical crossed the boundary. The image arrived over the network."}
+      {"id": "d", "text": "Removable device", "misconception": "threat-vector-families", "why": "Nothing physical crossed the boundary. The image was already on the shared drive."}
     ]
   },
   {

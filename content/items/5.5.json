@@ -150,7 +150,7 @@
       {"id": "a", "text": "An audit formally tests compliance against a defined standard and issues an opinion; an assessment evaluates posture more broadly and advises, without certifying", "correct": true, "why": "Audits produce an opinion against a specified standard with defined evidence. Assessments can be wider in scope and more useful for improvement, and they certify nothing."},
       {"id": "b", "text": "An assessment is performed by regulators and an audit by consultants", "misconception": "audit-vs-assessment", "why": "Either can be performed by either. The distinction is the nature of the work and its output."},
       {"id": "c", "text": "An audit is advisory and an assessment is binding", "misconception": "audit-vs-assessment", "why": "Reversed: the audit opinion is the formal output that others rely on."},
-      {"id": "d", "text": "They are the same, differing only in who commissions them", "misconception": "audit-vs-assessment", "why": "The objectives list both because the output and the level of formality differ."}
+      {"id": "d", "text": "They are the same, differing only in who commissions them", "misconception": "audit-vs-assessment", "why": "They are kept distinct because the output and the level of formality differ."}
     ]
   },
   {

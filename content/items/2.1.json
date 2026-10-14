@@ -21,7 +21,7 @@
     "difficulty": 4,
     "stem": "Attackers copy a customer database, then encrypt the production systems and demand payment both to restore access and to not publish the stolen records. Which motivation best describes the second demand?",
     "options": [
-      {"id": "a", "text": "Blackmail, used as a lever to secure financial gain", "correct": true, "why": "Double extortion: the threat to publish is leverage. The underlying motive is money, and the mechanism named by the objectives for that threat is blackmail."},
+      {"id": "a", "text": "Blackmail, used as a lever to secure financial gain", "correct": true, "why": "Double extortion: the threat to publish is leverage. The underlying motive is money, and the name for that threat is blackmail."},
       {"id": "b", "text": "Espionage, since data was exfiltrated", "misconception": "threat-actor-motivations", "why": "Espionage keeps the theft secret because the value is in continued access. Announcing it destroys that value."},
       {"id": "c", "text": "Service disruption", "misconception": "threat-actor-motivations", "why": "That describes the encryption half. The question asks about the threat to publish."},
       {"id": "d", "text": "Philosophical or political beliefs", "misconception": "threat-actor-motivations", "why": "No cause or message is involved; the demand is payment."}
@@ -35,7 +35,7 @@
     "difficulty": 4,
     "stem": "During an armed conflict, a neighbouring state's power distribution control systems are hit with destructive malware that wipes controllers. No ransom is demanded and nothing is stolen. Which motivation applies?",
     "options": [
-      {"id": "a", "text": "War, pursued through service disruption of critical infrastructure", "correct": true, "why": "The objectives list war as a motivation in its own right. The mechanism is service disruption, and the context of state conflict and critical national infrastructure is what distinguishes it."},
+      {"id": "a", "text": "War, pursued through service disruption of critical infrastructure", "correct": true, "why": "War is a motivation in its own right. The mechanism is service disruption, and the context of state conflict and critical national infrastructure is what distinguishes it."},
       {"id": "b", "text": "Disruption and chaos for its own sake", "misconception": "threat-actor-motivations", "why": "That motive has no strategic beneficiary. Here the conflict supplies an obvious one."},
       {"id": "c", "text": "Financial gain", "misconception": "threat-actor-motivations", "why": "No demand and no monetisation. Wiping controllers destroys value rather than extracting it."},
       {"id": "d", "text": "Revenge", "misconception": "threat-actor-motivations", "why": "Revenge targets a specific party over a personal grievance, not a state's infrastructure during a conflict."}
@@ -49,7 +49,7 @@
     "difficulty": 3,
     "stem": "A researcher discovers an authentication bypass in a public service, does not use it to access any data, and reports it privately to the vendor. Which motivation is this?",
     "options": [
-      {"id": "a", "text": "Ethical", "correct": true, "why": "The objectives list ethical as a motivation. The defining behaviour is reporting the flaw rather than exploiting it, whether or not permission was held in advance."},
+      {"id": "a", "text": "Ethical", "correct": true, "why": "Ethical is a motivation in its own right. The defining behaviour is reporting the flaw rather than exploiting it, whether or not permission was held in advance."},
       {"id": "b", "text": "Philosophical or political beliefs", "misconception": "threat-actor-motivations", "why": "That motive seeks to make a public point, typically through defacement or a leak."},
       {"id": "c", "text": "Financial gain, since a bounty may be paid", "misconception": "threat-actor-motivations", "why": "A bounty may follow and the stem describes a private report with no demand. Motivation is judged on the behaviour described."},
       {"id": "d", "text": "Revenge", "misconception": "threat-actor-motivations", "why": "No grievance or target relationship is described."}
@@ -77,7 +77,7 @@
     "difficulty": 4,
     "stem": "An intrusion uses two previously unknown vulnerabilities, custom tooling that matches no public sample, and maintains access for months without detection. Which two actor attributes does this most strongly evidence?",
     "options": [
-      {"id": "a", "text": "High resources and funding, and high sophistication or capability", "correct": true, "why": "Zero-days are expensive to acquire or develop, and custom tooling with long undetected persistence requires sustained skilled effort. These are the two attributes the objectives name."},
+      {"id": "a", "text": "High resources and funding, and high sophistication or capability", "correct": true, "why": "Zero-days are expensive to acquire or develop, and custom tooling with long undetected persistence requires sustained skilled effort. These are the two attributes that point to a highly capable actor."},
       {"id": "b", "text": "Internal position and high sophistication", "misconception": "threat-actor-attributes", "why": "Nothing indicates the actor is inside the organisation."},
       {"id": "c", "text": "Low resources and high motivation", "misconception": "threat-actor-attributes", "why": "Zero-days and bespoke tooling are the signature of significant funding, not of determination on a budget."},
       {"id": "d", "text": "High resources and a financial motivation", "misconception": "threat-actor-motivations", "why": "Resources are evidenced; motivation is not stated. The question asks about attributes, and inferring a motive here would be a guess."}

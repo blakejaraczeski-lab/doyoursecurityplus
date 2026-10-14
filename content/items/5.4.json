@@ -8,7 +8,7 @@
     "stem": "A company incorporated and hosted entirely in one country sells online to consumers in another, collecting their names and addresses. It has no office, staff or servers in the second country. Which statement is correct?",
     "options": [
       {"id": "a", "text": "The second country's privacy law may still bind it, because modern regimes commonly reach organisations processing residents' data regardless of physical presence", "correct": true, "why": "Extraterritorial reach is the norm in current privacy law. Obligation follows the data subject, not the company's registration."},
-      {"id": "b", "text": "Only the law of the country of incorporation applies", "misconception": "privacy-law-scope", "why": "This is the assumption the objective exists to correct. Where you are registered is rarely the test."},
+      {"id": "b", "text": "Only the law of the country of incorporation applies", "misconception": "privacy-law-scope", "why": "This is the assumption modern privacy law exists to correct. Where you are registered is rarely the test."},
       {"id": "c", "text": "No privacy law applies, since no processing occurs in the second country", "misconception": "privacy-law-scope", "why": "Processing residents' data triggers obligations in many regimes irrespective of where the servers sit."},
       {"id": "d", "text": "Both apply, so the company may choose whichever is less onerous", "misconception": "privacy-law-scope", "why": "Where several apply you meet the strictest obligation. Choosing the weakest is not available."}
     ]
@@ -61,7 +61,7 @@
     "objective": "5.4",
     "topics": ["automation", "internal-and-external-monitoring"],
     "difficulty": 3,
-    "stem": "Why do the objectives list automation as an element of effective compliance?",
+    "stem": "Why is automation considered an element of effective compliance?",
     "options": [
       {"id": "a", "text": "Continuous automated evidence collection makes compliance a steady state rather than a scramble in the weeks before each assessment", "correct": true, "why": "Manual evidence gathering means you only know your position at audit time. Automation turns that into a current position you can act on."},
       {"id": "b", "text": "Automation removes the need for internal monitoring", "misconception": "compliance-monitoring-and-attestation", "why": "It is how internal monitoring is performed at scale, not a replacement for it."},
@@ -194,7 +194,7 @@
       {"id": "a", "text": "The fine", "correct": true, "why": "Only the regulator imposes a fine, under its statutory powers."},
       {"id": "b", "text": "The lost renewals", "misconception": "compliance-consequences", "why": "A contractual consequence imposed by customers, not the regulator."},
       {"id": "c", "text": "The press criticism", "misconception": "compliance-consequences", "why": "Reputational damage. Real and often the largest cost, and nobody imposes it."},
-      {"id": "d", "text": "All three equally", "misconception": "compliance-consequences", "why": "The exam separates them by who imposes the penalty, because that decides who you must satisfy to resolve it."}
+      {"id": "d", "text": "All three equally", "misconception": "compliance-consequences", "why": "They are separated by who imposes the penalty, because that decides who you must satisfy to resolve it."}
     ]
   },
   {

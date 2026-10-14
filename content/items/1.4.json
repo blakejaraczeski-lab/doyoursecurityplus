@@ -161,9 +161,9 @@
     "difficulty": 4,
     "stem": "A colleague argues that a 2048-bit RSA key must be far stronger than a 256-bit AES key because the number is larger. What is the correct response?",
     "options": [
-      {"id": "a", "text": "Key lengths are only comparable within an algorithm family; 256-bit AES and 2048-bit RSA sit at broadly similar security levels", "correct": true, "why": "Symmetric and asymmetric keys resist different mathematics, so the bit counts are not on the same scale. This is why the numbers look so different for comparable strength."},
+      {"id": "a", "text": "Key lengths are only comparable within an algorithm family; 2048-bit RSA gives roughly the strength of a 112-bit symmetric key, well below AES-256", "correct": true, "why": "Symmetric and asymmetric keys resist different mathematics, so the bit counts are not on the same scale. RSA needs far longer keys for a given strength, and 2048-bit RSA is the weaker of the two here."},
       {"id": "b", "text": "They are correct; longer keys are always stronger regardless of algorithm", "misconception": "key-management-essentials", "why": "Comparing across families this way is exactly the error. A 2048-bit symmetric key would be absurd, not eight times better."},
-      {"id": "c", "text": "RSA is weaker because asymmetric algorithms are always weaker than symmetric ones", "misconception": "key-management-essentials", "why": "They solve different problems and are not ranked against each other. RSA is slower, not weaker."},
+      {"id": "c", "text": "RSA is weaker because asymmetric algorithms are always weaker than symmetric ones", "misconception": "key-management-essentials", "why": "Strength depends on the algorithm and key length together, not on the family. RSA-2048 does happen to be weaker than AES-256, but the rule that asymmetric is always weaker is false."},
       {"id": "d", "text": "Both are obsolete and only elliptic curve algorithms should be used", "misconception": "key-management-essentials", "why": "ECC achieves comparable strength with smaller keys, which is efficiency. AES-256 and RSA-2048 remain in standard use."}
     ]
   },
@@ -259,7 +259,7 @@
     "difficulty": 3,
     "stem": "An investigation finds that image files uploaded to a public gallery contained extracted customer records embedded in their pixel data. Which technique was used?",
     "options": [
-      {"id": "a", "text": "Steganography", "correct": true, "why": "Concealing a message inside another file so its existence is not apparent. It appears on the exam mostly in exfiltration scenarios, because it hides that anything is happening."},
+      {"id": "a", "text": "Steganography", "correct": true, "why": "Concealing a message inside another file so its existence is not apparent. It is most often seen in exfiltration scenarios, because it hides that anything is happening."},
       {"id": "b", "text": "Tokenisation", "misconception": "obfuscation-methods", "why": "Tokenisation replaces a value with a surrogate inside a system. It does not conceal data inside another file."},
       {"id": "c", "text": "Data masking", "misconception": "obfuscation-methods", "why": "Masking hides part of a value from a viewer. It is a presentation control, not a covert channel."},
       {"id": "d", "text": "Asymmetric encryption", "misconception": "obfuscation-methods", "why": "Encryption makes content unreadable but obvious. Steganography does the opposite: readable if found, but not apparent at all."}

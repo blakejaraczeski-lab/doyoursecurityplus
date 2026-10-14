@@ -61,9 +61,9 @@
     "objective": "2.5",
     "topics": ["monitoring", "patching", "endpoint-protection-installation"],
     "difficulty": 3,
-    "stem": "Which of the mitigation techniques listed in this objective is detective rather than preventive?",
+    "stem": "Which of these mitigation techniques is detective rather than preventive?",
     "options": [
-      {"id": "a", "text": "Monitoring", "correct": true, "why": "Monitoring reports that something happened. Every other technique in the objective acts to stop it, which is why a question asking how to prevent recurrence never answers with monitoring alone."},
+      {"id": "a", "text": "Monitoring", "correct": true, "why": "Monitoring reports that something happened. Every other technique listed here acts to stop it, which is why a question asking how to prevent recurrence never answers with monitoring alone."},
       {"id": "b", "text": "Segmentation", "misconception": "mitigation-technique-selection", "why": "Preventive: it stops traffic reaching places it should not."},
       {"id": "c", "text": "Patching", "misconception": "mitigation-technique-selection", "why": "Preventive: it removes the flaw before it can be used."},
       {"id": "d", "text": "Host-based intrusion prevention", "misconception": "mitigation-technique-selection", "why": "The word prevention is in the name. An IDS would detect; an IPS blocks."}
@@ -224,7 +224,7 @@
       {"id": "a", "text": "An allow list enumerates what may run and blocks everything else; a deny list enumerates what may not and permits everything else", "correct": true, "why": "The default is what separates them, and it is why only the allow list can make a promise about software nobody has catalogued."},
       {"id": "b", "text": "They are equivalent, differing only in how the list is written", "misconception": "allow-list-vs-deny-list", "why": "They have opposite defaults. One fails closed on the unknown, the other fails open."},
       {"id": "c", "text": "A deny list is stronger because it names the actual threats", "misconception": "allow-list-vs-deny-list", "why": "Naming threats means the list is only ever as current as the last update, and the set of bad software is unbounded."},
-      {"id": "d", "text": "An allow list requires less ongoing maintenance than a deny list", "misconception": "allow-list-vs-deny-list", "why": "Reversed. An allow list costs more up front and stabilises; a deny list needs endless updating and is always behind."}
+      {"id": "d", "text": "An allow list requires less up-front effort than a deny list", "misconception": "allow-list-vs-deny-list", "why": "Reversed. An allow list costs more up front, because every legitimate program must be catalogued. On a fixed-function system it then stays stable, while a deny list needs endless updating and is always behind."}
     ]
   },
   {

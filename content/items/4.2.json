@@ -8,7 +8,7 @@
     "stem": "An organisation's retention schedule requires customer transaction records to be kept for seven years. Records from twelve years ago are still held in production. What is the correct characterisation?",
     "options": [
       {"id": "a", "text": "A disposal failure: data held beyond its retention period is liability without benefit, still discoverable and still breachable", "correct": true, "why": "A retention schedule sets a ceiling as well as a floor. Keeping data past the ceiling adds exposure and adds nothing, which is why disposal is a named activity."},
-      {"id": "b", "text": "Good practice, since more history is always safer", "misconception": "retention-vs-disposal", "why": "The instinct the objective exists to correct. Every extra year is more data to lose and more to produce in discovery."},
+      {"id": "b", "text": "Good practice, since more history is always safer", "misconception": "retention-vs-disposal", "why": "This instinct is exactly what disposal rules exist to correct. Every extra year is more data to lose and more to produce in discovery."},
       {"id": "c", "text": "A legal hold, since the records are preserved", "misconception": "retention-vs-disposal", "why": "A hold is a deliberate instruction to preserve specific material for litigation. Forgetting to delete is not one."},
       {"id": "d", "text": "A classification error", "misconception": "data-type-vs-classification", "why": "Nothing suggests the records were classified wrongly; they were simply never disposed of."}
     ]
@@ -38,7 +38,7 @@
       {"id": "a", "text": "Without an owner nobody is accountable for patching, classification or approving changes, so those servers drift out of every other process", "correct": true, "why": "Ownership is the hook every other control hangs on. An unowned asset has nobody to chase, nobody to approve its changes and nobody answering for its state."},
       {"id": "b", "text": "The register cannot be exported for audit without complete fields", "misconception": "asset-lifecycle", "why": "A formatting concern. The substantive risk is that nothing happens to those servers."},
       {"id": "c", "text": "Unowned assets are automatically classified as public", "misconception": "data-type-vs-classification", "why": "No such default exists, and that would be a worse outcome than having no classification."},
-      {"id": "d", "text": "Ownership is only required for data, not for hardware", "misconception": "asset-lifecycle", "why": "The objectives name ownership across hardware, software and data."}
+      {"id": "d", "text": "Ownership is only required for data, not for hardware", "misconception": "asset-lifecycle", "why": "Ownership applies across hardware, software and data."}
     ]
   },
   {
@@ -75,7 +75,7 @@
     "objective": "4.2",
     "topics": ["acquisition-procurement-process", "ownership-2", "classification"],
     "difficulty": 4,
-    "stem": "Why do the objectives place acquisition and procurement inside asset management rather than treating it as a finance process?",
+    "stem": "Why is acquisition and procurement treated as part of asset management rather than as a purely finance process?",
     "options": [
       {"id": "a", "text": "Because the asset enters the inventory, gains an owner and a classification, and inherits security requirements at the point it is acquired", "correct": true, "why": "Procurement is where an asset becomes known. Anything bought outside it is shadow IT: unowned, uninventoried and outside every control that depends on the register."},
       {"id": "b", "text": "Because security must approve every purchase", "misconception": "asset-lifecycle", "why": "Overstates it. The point is that the asset is recorded and assigned, not that security holds a veto on spend."},

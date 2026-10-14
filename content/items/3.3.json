@@ -131,7 +131,7 @@
     "objective": "3.3",
     "topics": ["human-and-non-human-readable", "obfuscation", "masking"],
     "difficulty": 3,
-    "stem": "The objectives distinguish human-readable from non-human-readable data. Why does the distinction matter for protection decisions?",
+    "stem": "Data may be human-readable, such as a document, or non-human-readable, such as a binary record or serialised object. Why does the distinction matter for protection decisions?",
     "options": [
       {"id": "a", "text": "Non-human-readable data such as binary records or serialised objects still contains the same sensitive values and needs the same protection, even though a casual reader sees nothing", "correct": true, "why": "Unreadability to a person is not a control. A database file, a memory dump or a serialised blob holds the real values and is trivially parsed by anyone who wants them."},
       {"id": "b", "text": "Non-human-readable data is inherently protected by its format", "misconception": "obfuscation-methods", "why": "That is security by obscurity. Format is not encryption."},

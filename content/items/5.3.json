@@ -136,7 +136,7 @@
       {"id": "a", "text": "Treat the assessment as compromised by a conflict of interest and seek genuinely independent assurance", "correct": true, "why": "Independence is a precondition for the finding to mean anything. An assessor with a commercial stake in the outcome cannot provide it, whatever the report concludes."},
       {"id": "b", "text": "Accept it, since the consultancy is a third party and therefore independent", "misconception": "vendor-lifecycle-and-independence", "why": "Being a different legal entity is not independence. The test is whether they benefit from a particular result."},
       {"id": "c", "text": "Accept it if the findings are detailed and include negative observations", "misconception": "vendor-lifecycle-and-independence", "why": "A compromised assessor can include minor findings to appear credible. The conflict invalidates the process, not merely the tone."},
-      {"id": "d", "text": "Request evidence of the vendor's internal audits instead", "misconception": "vendor-lifecycle-and-independence", "why": "Weaker still: that is the vendor grading its own work, which is why it is listed separately from independent assessment."}
+      {"id": "d", "text": "Request evidence of the vendor's internal audits instead", "misconception": "vendor-lifecycle-and-independence", "why": "Weaker still: that is the vendor grading its own work, which is why it is treated as distinct from independent assessment."}
     ]
   },
   {
@@ -217,7 +217,7 @@
     "difficulty": 4,
     "stem": "Which TWO statements about third-party risk management are correct? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Due diligence informs the decision to engage; monitoring keeps the assessment current afterwards", "correct": true, "why": "They answer different questions at different points, which is why the objectives list both."},
+      {"id": "a", "text": "Due diligence informs the decision to engage; monitoring keeps the assessment current afterwards", "correct": true, "why": "They answer different questions at different points, which is why both are needed."},
       {"id": "b", "text": "An assessor with a financial interest in the vendor cannot provide independent assurance", "correct": true, "why": "Conflict of interest invalidates the process regardless of what the report says."},
       {"id": "c", "text": "A signed NDA demonstrates that a vendor's security controls are adequate", "misconception": "agreement-types", "why": "An NDA governs confidentiality of information shared. It asserts nothing about controls."},
       {"id": "d", "text": "Evidence of a vendor's internal audits is equivalent to an independent assessment", "misconception": "vendor-lifecycle-and-independence", "why": "Internal audit is the vendor's own function. Better than a questionnaire, not independent."},
