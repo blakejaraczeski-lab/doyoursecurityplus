@@ -1173,7 +1173,6 @@
     "source": "derived-from-recall",
     "sourceItem": "anki-1748019065406",
     "objective": "5.1",
-    "topics": ["confidentiality", "integrity", "availability"],
     "difficulty": 2,
     "stem": "Which term is being described?\n\n“A senior (executive) role with ultimate responsibility for maintaining the confidentiality, integrity, and availability of an information asset”",
     "options": [
@@ -1309,6 +1308,182 @@
       {"id": "b", "text": "Single Loss Expectancy", "correct": true, "definition": "The amount that would be lost in a single occurrence of a particular risk factor", "why": "Single Loss Expectancy is the term for this."},
       {"id": "c", "text": "Annualized Rate of Occurrence", "misconception": "sle-ale-aro", "definition": "In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur", "why": "That is Annualized Rate of Occurrence: In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur."},
       {"id": "d", "text": "Quantitative Risk Analysis", "misconception": "terminology-5-2", "definition": "A numerical method that is used to assess the probability and impact of risk and measure the impact", "why": "That is Quantitative Risk Analysis: A numerical method that is used to assess the probability and impact of risk and measure the impact."}
+    ]
+  },
+  {
+    "id": "d-key-exchange",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748010283159",
+    "objective": "1.4",
+    "topics": ["key-exchange"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“Any method by which cryptographic keys are transferred among users”",
+    "options": [
+      {"id": "a", "text": "Key Management System", "misconception": "key-management-essentials", "definition": "In PKI, procedures and tools that centralizes generation and storage of cryptographic keys", "why": "That is Key Management System: In PKI, procedures and tools that centralizes generation and storage of cryptographic keys."},
+      {"id": "b", "text": "Key Exchange", "correct": true, "definition": "Any method by which cryptographic keys are transferred among users", "why": "Key Exchange is the term for this."},
+      {"id": "c", "text": "Key Length", "misconception": "key-management-essentials", "definition": "Size of a cryptographic key in bits", "why": "That is Key Length: Size of a cryptographic key in bits."},
+      {"id": "d", "text": "Hardware Security Module", "misconception": "terminology-1-4", "definition": "An appliance for generating and storing cryptographic keys", "why": "That is Hardware Security Module: An appliance for generating and storing cryptographic keys."}
+    ]
+  },
+  {
+    "id": "d-hardware-security-module",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748010081501",
+    "objective": "1.4",
+    "topics": ["hardware-security-module"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“An appliance for generating and storing cryptographic keys”",
+    "options": [
+      {"id": "a", "text": "Trusted Platform Module", "misconception": "root-of-trust-hardware", "definition": "Specification for secure hardware-based storage of encryption keys, hashed passwords, and other user- and platform-identification information", "why": "That is Trusted Platform Module: Specification for secure hardware-based storage of encryption keys, hashed passwords, and other user- and platform-identification information."},
+      {"id": "b", "text": "Key Exchange", "misconception": "terminology-1-4", "definition": "Any method by which cryptographic keys are transferred among users", "why": "That is Key Exchange: Any method by which cryptographic keys are transferred among users."},
+      {"id": "c", "text": "Hardware Security Module", "correct": true, "definition": "An appliance for generating and storing cryptographic keys", "why": "Hardware Security Module is the term for this."},
+      {"id": "d", "text": "Key Management System", "misconception": "terminology-1-4", "definition": "In PKI, procedures and tools that centralizes generation and storage of cryptographic keys", "why": "That is Key Management System: In PKI, procedures and tools that centralizes generation and storage of cryptographic keys."}
+    ]
+  },
+  {
+    "id": "d-key-escrow",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748010116001",
+    "objective": "1.4",
+    "topics": ["key-escrow", "third-party-certificates"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“The storage of a backup key with a third party”",
+    "options": [
+      {"id": "a", "text": "Trusted Platform Module", "misconception": "terminology-1-4", "definition": "Specification for secure hardware-based storage of encryption keys, hashed passwords, and other user- and platform-identification information", "why": "That is Trusted Platform Module: Specification for secure hardware-based storage of encryption keys, hashed passwords, and other user- and platform-identification information."},
+      {"id": "b", "text": "Key Escrow", "correct": true, "definition": "The storage of a backup key with a third party", "why": "Key Escrow is the term for this."},
+      {"id": "c", "text": "Key Management System", "misconception": "key-management-essentials", "definition": "In PKI, procedures and tools that centralizes generation and storage of cryptographic keys", "why": "That is Key Management System: In PKI, procedures and tools that centralizes generation and storage of cryptographic keys."},
+      {"id": "d", "text": "Key Length", "misconception": "key-management-essentials", "definition": "Size of a cryptographic key in bits", "why": "That is Key Length: Size of a cryptographic key in bits."}
+    ]
+  },
+  {
+    "id": "d-key-length",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748009554636",
+    "objective": "1.4",
+    "topics": ["key-length"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“Size of a cryptographic key in bits”",
+    "options": [
+      {"id": "a", "text": "Hardware Security Module", "misconception": "terminology-1-4", "definition": "An appliance for generating and storing cryptographic keys", "why": "That is Hardware Security Module: An appliance for generating and storing cryptographic keys."},
+      {"id": "b", "text": "Key Exchange", "misconception": "key-management-essentials", "definition": "Any method by which cryptographic keys are transferred among users", "why": "That is Key Exchange: Any method by which cryptographic keys are transferred among users."},
+      {"id": "c", "text": "Key Length", "correct": true, "definition": "Size of a cryptographic key in bits", "why": "Key Length is the term for this."},
+      {"id": "d", "text": "Key Escrow", "misconception": "key-management-essentials", "definition": "The storage of a backup key with a third party", "why": "That is Key Escrow: The storage of a backup key with a third party."}
+    ]
+  },
+  {
+    "id": "d-resource-inaccessibility",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748018127384",
+    "objective": "2.4",
+    "topics": ["resource-inaccessibility"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“A potential indicator of malicious activity where a file or service resource that should be available is inaccessible”",
+    "options": [
+      {"id": "a", "text": "Resource Inaccessibility", "correct": true, "definition": "A potential indicator of malicious activity where a file or service resource that should be available is inaccessible", "why": "Resource Inaccessibility is the term for this."},
+      {"id": "b", "text": "Keylogger", "misconception": "terminology-2-4", "definition": "Malicious software or hardware that can record user keystrokes", "why": "That is Keylogger: Malicious software or hardware that can record user keystrokes."},
+      {"id": "c", "text": "Missing Logs", "misconception": "terminology-2-4", "definition": "A potential indicator of malicious activity where events or log files are deleted or tampered with", "why": "That is Missing Logs: A potential indicator of malicious activity where events or log files are deleted or tampered with."},
+      {"id": "d", "text": "Trojan", "misconception": "terminology-2-4", "definition": "A malicious software program hidden within an innocuous-seeming piece of software", "why": "That is Trojan: A malicious software program hidden within an innocuous-seeming piece of software."}
+    ]
+  },
+  {
+    "id": "d-missing-logs",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748018170815",
+    "objective": "2.4",
+    "topics": ["missing-logs"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“A potential indicator of malicious activity where events or log files are deleted or tampered with”",
+    "options": [
+      {"id": "a", "text": "Resource Inaccessibility", "misconception": "terminology-2-4", "definition": "A potential indicator of malicious activity where a file or service resource that should be available is inaccessible", "why": "That is Resource Inaccessibility: A potential indicator of malicious activity where a file or service resource that should be available is inaccessible."},
+      {"id": "b", "text": "Trojan", "misconception": "terminology-2-4", "definition": "A malicious software program hidden within an innocuous-seeming piece of software", "why": "That is Trojan: A malicious software program hidden within an innocuous-seeming piece of software."},
+      {"id": "c", "text": "Keylogger", "misconception": "terminology-2-4", "definition": "Malicious software or hardware that can record user keystrokes", "why": "That is Keylogger: Malicious software or hardware that can record user keystrokes."},
+      {"id": "d", "text": "Missing Logs", "correct": true, "definition": "A potential indicator of malicious activity where events or log files are deleted or tampered with", "why": "Missing Logs is the term for this."}
+    ]
+  },
+  {
+    "id": "d-spyware",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748017929777",
+    "objective": "2.4",
+    "topics": ["spyware"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“Software that records information about a PC and its users, often installed without the user's consent”",
+    "options": [
+      {"id": "a", "text": "Rootkit", "misconception": "terminology-2-4", "definition": "Class of malware that modifies system files, often at the kernel level, to conceal its presence", "why": "That is Rootkit: Class of malware that modifies system files, often at the kernel level, to conceal its presence."},
+      {"id": "b", "text": "Trojan", "misconception": "terminology-2-4", "definition": "A malicious software program hidden within an innocuous-seeming piece of software", "why": "That is Trojan: A malicious software program hidden within an innocuous-seeming piece of software."},
+      {"id": "c", "text": "Keylogger", "misconception": "spyware-vs-bloatware-vs-pup", "definition": "Malicious software or hardware that can record user keystrokes", "why": "That is Keylogger: Malicious software or hardware that can record user keystrokes."},
+      {"id": "d", "text": "Spyware", "correct": true, "definition": "Software that records information about a PC and its users, often installed without the user's consent", "why": "Spyware is the term for this."}
+    ]
+  },
+  {
+    "id": "d-trojan",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748017832966",
+    "objective": "2.4",
+    "topics": ["trojan"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“A malicious software program hidden within an innocuous-seeming piece of software”",
+    "options": [
+      {"id": "a", "text": "Resource Inaccessibility", "misconception": "terminology-2-4", "definition": "A potential indicator of malicious activity where a file or service resource that should be available is inaccessible", "why": "That is Resource Inaccessibility: A potential indicator of malicious activity where a file or service resource that should be available is inaccessible."},
+      {"id": "b", "text": "Trojan", "correct": true, "definition": "A malicious software program hidden within an innocuous-seeming piece of software", "why": "Trojan is the term for this."},
+      {"id": "c", "text": "Keylogger", "misconception": "terminology-2-4", "definition": "Malicious software or hardware that can record user keystrokes", "why": "That is Keylogger: Malicious software or hardware that can record user keystrokes."},
+      {"id": "d", "text": "Spyware", "misconception": "terminology-2-4", "definition": "Software that records information about a PC and its users, often installed without the user's consent", "why": "That is Spyware: Software that records information about a PC and its users, often installed without the user's consent."}
+    ]
+  },
+  {
+    "id": "d-keylogger",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748017935294",
+    "objective": "2.4",
+    "topics": ["keylogger"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“Malicious software or hardware that can record user keystrokes”",
+    "options": [
+      {"id": "a", "text": "Keylogger", "correct": true, "definition": "Malicious software or hardware that can record user keystrokes", "why": "Keylogger is the term for this."},
+      {"id": "b", "text": "Spyware", "misconception": "spyware-vs-bloatware-vs-pup", "definition": "Software that records information about a PC and its users, often installed without the user's consent", "why": "That is Spyware: Software that records information about a PC and its users, often installed without the user's consent."},
+      {"id": "c", "text": "Trojan", "misconception": "terminology-2-4", "definition": "A malicious software program hidden within an innocuous-seeming piece of software", "why": "That is Trojan: A malicious software program hidden within an innocuous-seeming piece of software."},
+      {"id": "d", "text": "Resource Inaccessibility", "misconception": "terminology-2-4", "definition": "A potential indicator of malicious activity where a file or service resource that should be available is inaccessible", "why": "That is Resource Inaccessibility: A potential indicator of malicious activity where a file or service resource that should be available is inaccessible."}
+    ]
+  },
+  {
+    "id": "d-annualized-rate-of-occurrence",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748019288928",
+    "objective": "5.2",
+    "topics": ["annualized-rate-of-occurrence", "probability", "likelihood", "annualized-loss-expectancy"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur”",
+    "options": [
+      {"id": "a", "text": "Risk Appetite", "misconception": "terminology-5-2", "definition": "A strategic assessment of what level of residual risk is tolerable for an organization", "why": "That is Risk Appetite: A strategic assessment of what level of residual risk is tolerable for an organization."},
+      {"id": "b", "text": "Risk Register", "misconception": "terminology-5-2", "definition": "A document highlighting the results of risk assessments in an easily comprehensible format", "why": "That is Risk Register: A document highlighting the results of risk assessments in an easily comprehensible format."},
+      {"id": "c", "text": "Annualized Rate of Occurrence", "correct": true, "definition": "In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur", "why": "Annualized Rate of Occurrence is the term for this."},
+      {"id": "d", "text": "Quantitative Risk Analysis", "misconception": "terminology-5-2", "definition": "A numerical method that is used to assess the probability and impact of risk and measure the impact", "why": "That is Quantitative Risk Analysis: A numerical method that is used to assess the probability and impact of risk and measure the impact."}
+    ]
+  },
+  {
+    "id": "d-quantitative-risk-analysis",
+    "type": "mcq",
+    "source": "derived-from-recall",
+    "sourceItem": "anki-1748019243880",
+    "objective": "5.2",
+    "topics": ["quantitative-risk-analysis", "probability", "impact"],
+    "difficulty": 2,
+    "stem": "Which term is being described?\n\n“A numerical method that is used to assess the probability and impact of risk and measure the impact”",
+    "options": [
+      {"id": "a", "text": "Quantitative Risk Analysis", "correct": true, "definition": "A numerical method that is used to assess the probability and impact of risk and measure the impact", "why": "Quantitative Risk Analysis is the term for this."},
+      {"id": "b", "text": "Annualized Rate of Occurrence", "misconception": "terminology-5-2", "definition": "In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur", "why": "That is Annualized Rate of Occurrence: In risk calculation, an expression of the probability/likelihood of a risk as the number of times per year a particular loss is expected to occur."},
+      {"id": "c", "text": "Risk Register", "misconception": "terminology-5-2", "definition": "A document highlighting the results of risk assessments in an easily comprehensible format", "why": "That is Risk Register: A document highlighting the results of risk assessments in an easily comprehensible format."},
+      {"id": "d", "text": "Risk Appetite", "misconception": "terminology-5-2", "definition": "A strategic assessment of what level of residual risk is tolerable for an organization", "why": "That is Risk Appetite: A strategic assessment of what level of residual risk is tolerable for an organization."}
     ]
   }
 ]

@@ -58,13 +58,13 @@ confidently wrong some of the time, with no way to tell which time.
 | | |
 |---|---|
 | Objectives | 5 domains, 28 objectives, 684 sub-topics from CompTIA's official objectives document, every one reached by a graded item |
-| Misconceptions | 180, each with diagnosis, contrast table, rule of thumb, what to look for in the stem, and why the wrong answer looked right |
-| Multiple choice | 638 original items, every distractor mapped to a misconception |
+| Misconceptions | 193, each with diagnosis, contrast table, rule of thumb, what to look for in the stem, and why the wrong answer looked right |
+| Multiple choice | 667 original items, every distractor mapped to a misconception |
 | Multiple select | 69 "choose two/three" items, scored all or nothing like the exam |
-| Derived discrimination | 82 generated from imported vocabulary: "which term is being described", with sibling terms as distractors |
-| Recall vocabulary | 546 imported cards, served only when one out-ranks a graded question, and never more than about 12% |
+| Derived discrimination | 93 generated from imported vocabulary: "which term is being described", with sibling terms as distractors |
+| Recall vocabulary | 6 imported cards, served only when one out-ranks a graded question, and never more than about 12% |
 | PBQs | 25 across 4 engines, graded per subtask with partial credit |
-| Glossary | 318 acronyms from CompTIA's own list, expanded inline wherever one appears in a question |
+| Glossary | 324 acronyms from CompTIA's own list, expanded inline wherever one appears in a question |
 | Prerequisite edges | 43 authored dependencies between misconceptions, so the queue can route backward |
 <!-- counts:end -->
 

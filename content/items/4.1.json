@@ -7,7 +7,7 @@
     "difficulty": 4,
     "stem": "An organisation adopted a CIS benchmark two years ago and applied it to every server at build time. An audit finds 40% of servers no longer match it. Which part of baseline management failed?",
     "options": [
-      {"id": "a", "text": "Maintaining the baseline: nothing detected or corrected configuration drift after deployment", "correct": true, "why": "Establishment and deployment both succeeded. Without drift detection and re-application, a baseline degrades from the day it is applied, which is why maintenance is named as its own activity."},
+      {"id": "a", "text": "Maintaining the baseline: nothing detected or corrected drift", "correct": true, "why": "Establishment and deployment both succeeded. Without drift detection and re-application, a baseline degrades from the day it is applied, which is why maintenance is named as its own activity."},
       {"id": "b", "text": "Establishing the baseline, because the benchmark chosen was unsuitable", "misconception": "baseline-lifecycle", "why": "Nothing suggests the benchmark was wrong. The servers matched it initially and then diverged."},
       {"id": "c", "text": "Deploying the baseline, because it was never applied to those servers", "misconception": "baseline-lifecycle", "why": "The stem says it was applied at build time. The divergence happened afterwards."},
       {"id": "d", "text": "Nothing failed: baselines are a point-in-time hardening exercise", "misconception": "baseline-lifecycle", "why": "That belief is the failure. A baseline is a continuous control, and this is precisely the outcome of treating it as a one-off."}
@@ -21,10 +21,10 @@
     "difficulty": 3,
     "stem": "A team downloads a vendor hardening guide and applies every setting to production without modification. Two business applications stop working. What should have happened first?",
     "options": [
-      {"id": "a", "text": "The baseline should have been established by adapting and testing the benchmark against the organisation's actual environment", "correct": true, "why": "Establishing means deciding the required configuration for your estate, which includes testing it. A benchmark is input to that decision, not the decision itself."},
+      {"id": "a", "text": "The benchmark should have been adapted and tested before deployment", "correct": true, "why": "Establishing the baseline means deciding the required configuration for your estate, which includes adapting and testing it against the organization's actual environment. A benchmark is input to that decision, not the decision itself."},
       {"id": "b", "text": "The guide should have been deployed to a wider set of systems simultaneously", "misconception": "baseline-lifecycle", "why": "Wider deployment of an untested configuration breaks more things, not fewer."},
-      {"id": "c", "text": "Drift detection should have been enabled before deployment", "misconception": "baseline-lifecycle", "why": "Drift detection reports divergence from the baseline. It would have happily confirmed the broken configuration was correctly applied."},
-      {"id": "d", "text": "The applications should have been added to an allow list", "misconception": "application-security-techniques", "why": "Allow lists govern which executables may run. They have no bearing on an OS configuration setting breaking an application."}
+      {"id": "c", "text": "Drift detection should have been enabled before the deployment began", "misconception": "baseline-lifecycle", "why": "Drift detection reports divergence from the baseline. It would have happily confirmed the broken configuration was correctly applied."},
+      {"id": "d", "text": "The applications should have been added to an allow list", "misconception": "baseline-lifecycle", "why": "Allow lists govern which executables may run. They have no bearing on an OS configuration setting breaking an application."}
     ]
   },
   {
@@ -35,9 +35,9 @@
     "difficulty": 4,
     "stem": "A vulnerability is published for the controllers running a water treatment plant. The vendor has no patch, the controllers cannot be taken offline, and they run a real-time operating system with no endpoint agent available. What is the appropriate response?",
     "options": [
-      {"id": "a", "text": "Apply compensating controls: segment the controllers, tightly restrict which hosts can reach them, and increase monitoring", "correct": true, "why": "When patching is unavailable and downtime is unacceptable, the remaining levers are reachability and visibility. This is the standard answer for operational technology."},
-      {"id": "b", "text": "Schedule emergency patching at the next maintenance window", "misconception": "hardening-by-device-class", "why": "There is no patch. Scheduling one that does not exist is the reflex the question is designed to catch."},
-      {"id": "c", "text": "Install endpoint detection and response on the controllers", "misconception": "hardening-by-device-class", "why": "The stem states no agent is available, which is typical for a real-time OS where an agent would also threaten timing guarantees."},
+      {"id": "a", "text": "Compensating controls: segment the controllers, restrict access and monitor", "correct": true, "why": "When patching is unavailable and downtime is unacceptable, the remaining levers are reachability and visibility: segment, tightly restrict which hosts can reach the controllers, and increase monitoring. This is the standard answer for operational technology."},
+      {"id": "b", "text": "Schedule emergency patching at the next available maintenance window", "misconception": "hardening-by-device-class", "why": "There is no patch. Scheduling one that does not exist is the reflex the question is designed to catch."},
+      {"id": "c", "text": "Install endpoint detection and response on each of the controllers", "misconception": "hardening-by-device-class", "why": "The stem states no agent is available, which is typical for a real-time OS where an agent would also threaten timing guarantees."},
       {"id": "d", "text": "Accept the risk with no further action, since exploitation requires local access", "misconception": "hardening-by-device-class", "why": "Nothing in the stem says that, and accepting without compensating controls is not risk acceptance, it is omission."}
     ]
   },
@@ -49,10 +49,10 @@
     "difficulty": 4,
     "stem": "Which set of measures most specifically hardens a network switch rather than a general-purpose server?",
     "options": [
-      {"id": "a", "text": "Disable unused ports, change default credentials, restrict management access to an out-of-band network, and turn off unneeded management services", "correct": true, "why": "Network device hardening centres on the management plane and on unused ports. Separating management from the data path is what keeps a compromised user segment away from the device itself."},
+      {"id": "a", "text": "Disable unused ports and move management to an out-of-band network", "correct": true, "why": "Network device hardening centers on the management plane and on unused ports, along with changing default credentials and turning off unneeded management services. Separating management from the data path is what keeps a compromised user segment away from the device itself."},
       {"id": "b", "text": "Install antivirus and endpoint detection, and apply monthly OS patches", "misconception": "hardening-by-device-class", "why": "That is the workstation and server answer. Switches run embedded firmware and do not host general-purpose endpoint agents."},
-      {"id": "c", "text": "Enforce full disk encryption and a screen lock timeout", "misconception": "hardening-by-device-class", "why": "Both are endpoint controls aimed at a stolen or unattended device."},
-      {"id": "d", "text": "Deploy mobile device management policies and enable remote wipe", "misconception": "mobile-deployment-models", "why": "MDM applies to phones and tablets, not to network infrastructure."}
+      {"id": "c", "text": "Enforce full disk encryption and a short screen lock timeout", "misconception": "hardening-by-device-class", "why": "Both are endpoint controls aimed at a stolen or unattended device."},
+      {"id": "d", "text": "Deploy mobile device management policies and enable remote wipe", "misconception": "hardening-by-device-class", "why": "MDM applies to phones and tablets, not to network infrastructure."}
     ]
   },
   {
@@ -63,10 +63,10 @@
     "difficulty": 4,
     "stem": "A cloud storage bucket holding customer exports was reachable from the internet with no authentication. The underlying platform was fully patched. What does hardening mean in this context?",
     "options": [
-      {"id": "a", "text": "Correcting identity and access configuration: no public exposure by default, least privilege on the resource policy, and logging enabled", "correct": true, "why": "In cloud infrastructure the attack surface is configuration and identity rather than unpatched software. There is no host here to harden in the traditional sense."},
+      {"id": "a", "text": "Fixing access configuration so nothing is publicly exposed", "correct": true, "why": "In cloud infrastructure the attack surface is configuration and identity rather than unpatched software: no public exposure by default, least privilege on the resource policy, and logging enabled. There is no host here to harden in the traditional sense."},
       {"id": "b", "text": "Applying the latest operating system patches to the storage service", "misconception": "hardening-by-device-class", "why": "The provider patches the service, and the stem says the platform was current. This is the shared responsibility line."},
       {"id": "c", "text": "Installing endpoint protection on the bucket", "misconception": "hardening-by-device-class", "why": "A storage bucket is not a host and cannot run an agent."},
-      {"id": "d", "text": "Enabling full disk encryption on the provider's storage arrays", "misconception": "encryption-scope-levels", "why": "Already done by the provider, and irrelevant: the data was being served to anyone who asked, decrypted."}
+      {"id": "d", "text": "Enabling full disk encryption on the provider's storage arrays", "misconception": "hardening-by-device-class", "why": "Already done by the provider, and irrelevant: the data was being served to anyone who asked, decrypted."}
     ]
   },
   {
@@ -77,9 +77,9 @@
     "difficulty": 3,
     "stem": "An organisation installs two hundred networked sensors that ship with a shared default password, no update mechanism, and a web console on port 80. Which measure gives the most risk reduction?",
     "options": [
-      {"id": "a", "text": "Place them on an isolated segment that only the management server can reach, and change the default credentials", "correct": true, "why": "Changing defaults removes the trivial path, and segmentation bounds what a compromised sensor can reach. With no update mechanism these are the only durable levers."},
-      {"id": "b", "text": "Enrol them in the patch management system", "misconception": "hardening-by-device-class", "why": "The stem says there is no update mechanism. This is the class of device where patching simply is not available."},
-      {"id": "c", "text": "Install host-based firewalls on each sensor", "misconception": "hardening-by-device-class", "why": "Embedded devices of this kind do not accept third-party software. The firewall has to be in the network."},
+      {"id": "a", "text": "Isolate them on a segment and change the default credentials", "correct": true, "why": "Changing defaults removes the trivial path, and an isolated segment that only the management server can reach bounds what a compromised sensor can touch. With no update mechanism these are the only durable levers."},
+      {"id": "b", "text": "Enroll them in the central patch management system", "misconception": "hardening-by-device-class", "why": "The stem says there is no update mechanism. This is the class of device where patching simply is not available."},
+      {"id": "c", "text": "Install host-based firewalls on each sensor individually", "misconception": "hardening-by-device-class", "why": "Embedded devices of this kind do not accept third-party software. The firewall has to be in the network."},
       {"id": "d", "text": "Require multifactor authentication on the sensors' web consoles", "misconception": "hardening-by-device-class", "why": "Desirable and almost never supported on hardware like this. Where it is unavailable, access restriction has to substitute."}
     ]
   },
@@ -91,10 +91,10 @@
     "difficulty": 4,
     "stem": "An employee resigns. The organisation needs to remove corporate email and documents from their phone but has no authority to erase family photographs. Which deployment model is in use?",
     "options": [
-      {"id": "a", "text": "BYOD, where the device is personally owned and only the corporate container can be wiped", "correct": true, "why": "Ownership sets the limit of authority. BYOD is why containerisation and selective wipe exist at all."},
+      {"id": "a", "text": "BYOD, so only the corporate container can be wiped", "correct": true, "why": "Ownership sets the limit of authority. The device is personally owned, so only the corporate container can be wiped. BYOD is why containerization and selective wipe exist at all."},
       {"id": "b", "text": "COPE, where the organisation owns the device and permits personal use", "misconception": "mobile-deployment-models", "why": "Under COPE the organisation owns the hardware and can wipe it entirely, so the constraint in the stem would not arise."},
       {"id": "c", "text": "CYOD, where the employee chose the device from an approved list", "misconception": "mobile-deployment-models", "why": "CYOD devices are corporate-owned. Choosing the model does not transfer ownership, which is the distinction most often missed."},
-      {"id": "d", "text": "A corporate-owned, business-only deployment", "misconception": "mobile-deployment-models", "why": "Business-only devices hold no personal data, so there would be nothing to preserve."}
+      {"id": "d", "text": "A corporate-owned, business-only deployment with no personal use", "misconception": "mobile-deployment-models", "why": "Business-only devices hold no personal data, so there would be nothing to preserve."}
     ]
   },
   {
@@ -105,10 +105,10 @@
     "difficulty": 3,
     "stem": "What distinguishes CYOD from COPE?",
     "options": [
-      {"id": "a", "text": "Who selects the hardware: both are corporate-owned, but CYOD lets the employee pick from an approved list", "correct": true, "why": "Ownership is identical. The only difference is choice, which is why the control the organisation holds is essentially the same in both."},
+      {"id": "a", "text": "Who chooses the device: both are corporate-owned", "correct": true, "why": "Ownership is identical. CYOD lets the employee pick from an approved list, and that choice is the only difference, which is why the control the organization holds is essentially the same in both."},
       {"id": "b", "text": "CYOD devices are owned by the employee, COPE devices by the organisation", "misconception": "mobile-deployment-models", "why": "Employee ownership is BYOD. CYOD is corporate-owned with employee choice."},
-      {"id": "c", "text": "COPE permits personal use and CYOD forbids it", "misconception": "mobile-deployment-models", "why": "Personal use is usually permitted under both. The split is procurement choice."},
-      {"id": "d", "text": "CYOD requires MDM enrolment and COPE does not", "misconception": "mobile-deployment-models", "why": "Both are corporate-owned and both are normally enrolled."}
+      {"id": "c", "text": "COPE permits personal use on the device and CYOD forbids it", "misconception": "mobile-deployment-models", "why": "Personal use is usually permitted under both. The split is procurement choice."},
+      {"id": "d", "text": "CYOD requires MDM enrollment for every device and COPE does not", "misconception": "mobile-deployment-models", "why": "Both are corporate-owned and both are normally enrolled."}
     ]
   },
   {
@@ -119,8 +119,8 @@
     "difficulty": 4,
     "stem": "A software vendor digitally signs each release. A customer verifies the signature before installing. What does a valid signature establish?",
     "options": [
-      {"id": "a", "text": "That the package came from that vendor and has not been altered since signing", "correct": true, "why": "Origin and integrity, and nothing beyond. It is the control against a tampered or substituted update, which is the supply chain scenario it usually appears in."},
-      {"id": "b", "text": "That the software contains no vulnerabilities", "misconception": "application-security-techniques", "why": "A signature says nothing about quality. Signed software with a critical flaw is still correctly signed."},
+      {"id": "a", "text": "That it came from that vendor and is unaltered since signing", "correct": true, "why": "Origin and integrity, and nothing beyond. It is the control against a tampered or substituted update, which is the supply chain scenario it usually appears in."},
+      {"id": "b", "text": "That the software contains no known vulnerabilities", "misconception": "application-security-techniques", "why": "A signature says nothing about quality. Signed software with a critical flaw is still correctly signed."},
       {"id": "c", "text": "That the software was reviewed by static code analysis", "misconception": "application-security-techniques", "why": "Signing happens at publication and makes no claim about the vendor's internal process."},
       {"id": "d", "text": "That the software will be confined if it misbehaves at runtime", "misconception": "application-security-techniques", "why": "That is sandboxing, which is a runtime containment control applied by the host."}
     ]
@@ -147,8 +147,8 @@
     "difficulty": 4,
     "stem": "A web application concatenates a user-supplied search term directly into a database query. Which control stops the resulting injection at the moment an attack is attempted?",
     "options": [
-      {"id": "a", "text": "Input validation, rejecting or neutralising data that does not conform before it reaches the query", "correct": true, "why": "Validation acts at runtime, on every request. Parameterised queries are the stronger structural fix, and of the options given, validation is the one operating at the moment of attack."},
-      {"id": "b", "text": "Static code analysis", "misconception": "application-security-techniques", "why": "It would very likely find this pattern in the source, which is valuable and happens before deployment. It blocks nothing at runtime."},
+      {"id": "a", "text": "Input validation before data reaches the query", "correct": true, "why": "Validation acts at runtime, on every request, rejecting or neutralizing data that does not conform. Parameterized queries are the stronger structural fix, and of the options given, validation is the one operating at the moment of attack. Static analysis finds it before release; validation stops it at runtime."},
+      {"id": "b", "text": "Static code analysis of the source", "misconception": "application-security-techniques", "why": "It would very likely find this pattern in the source, which is valuable and happens before deployment. It blocks nothing at runtime."},
       {"id": "c", "text": "Code signing the application package", "misconception": "application-security-techniques", "why": "Proves the application is the vendor's unmodified build, flaw included."},
       {"id": "d", "text": "Setting the Secure and HttpOnly flags on session cookies", "misconception": "application-security-techniques", "why": "Those protect the session cookie from interception and script access. They do nothing about a database query."}
     ]
@@ -161,8 +161,8 @@
     "difficulty": 4,
     "stem": "Which TWO statements about hardening are correct? (Choose two.)",
     "options": [
-      {"id": "a", "text": "For device classes that cannot be patched, segmentation and access restriction substitute for patching", "correct": true, "why": "Operational technology, embedded systems and real-time operating systems routinely cannot be patched, and compensating controls are the expected answer."},
-      {"id": "b", "text": "A baseline requires ongoing drift detection, or it describes a state that no longer exists", "correct": true, "why": "Maintenance is a named activity precisely because configuration diverges continuously after deployment."},
+      {"id": "a", "text": "Segmentation and access restriction substitute where patching is impossible", "correct": true, "why": "Operational technology, embedded systems and real-time operating systems routinely cannot be patched, and compensating controls are the expected answer."},
+      {"id": "b", "text": "A baseline needs ongoing drift detection, or it describes a past state", "correct": true, "why": "Maintenance is a named activity precisely because configuration diverges continuously after deployment. Without drift detection the baseline describes a state that no longer exists."},
       {"id": "c", "text": "Cloud infrastructure is hardened primarily by patching the underlying hosts", "misconception": "hardening-by-device-class", "why": "The provider patches those. Customer hardening in cloud is identity, policy and configuration."},
       {"id": "d", "text": "Network switches should be hardened by installing endpoint detection software", "misconception": "hardening-by-device-class", "why": "Switches run embedded firmware and do not host general-purpose agents."},
       {"id": "e", "text": "Once a benchmark is applied at build time, the system is hardened for its lifetime", "misconception": "baseline-lifecycle", "why": "This is the belief the maintenance stage exists to correct."}
@@ -177,9 +177,9 @@
     "difficulty": 3,
     "stem": "Field staff use corporate tablets over cellular rather than Wi-Fi. A manager argues no further protection is needed because cellular traffic does not touch public hotspots. What is the correct assessment?",
     "options": [
-      {"id": "a", "text": "Cellular avoids rogue access points but the traffic still crosses a carrier network, so the usual controls still apply", "correct": true, "why": "Changing the access medium removes one class of attack and leaves the device, the data on it and the transport beyond the carrier exactly as exposed. The device still needs MDM, encryption and a VPN or TLS."},
+      {"id": "a", "text": "Incorrect: it avoids rogue hotspots, but other controls still apply", "correct": true, "why": "Changing the access medium removes one class of attack and leaves the device, the data on it and the transport beyond the carrier exactly as exposed, since the traffic still crosses a carrier network. The device still needs MDM, encryption and a VPN or TLS."},
       {"id": "b", "text": "Correct: cellular connections are encrypted end to end to the destination", "misconception": "hardening-by-device-class", "why": "Cellular encrypts the radio link to the carrier. Beyond that it is ordinary internet traffic."},
-      {"id": "c", "text": "Correct, provided the tablets are corporate-owned", "misconception": "mobile-deployment-models", "why": "Ownership determines what you may enforce, not whether the transport is safe."},
+      {"id": "c", "text": "Correct, provided the tablets are corporate-owned rather than personal", "misconception": "mobile-deployment-models", "why": "Ownership determines what you may enforce, not whether the transport is safe."},
       {"id": "d", "text": "Incorrect, because cellular is inherently less secure than public Wi-Fi", "misconception": "hardening-by-device-class", "why": "Overcorrection. Cellular is generally the safer of the two; it is simply not a substitute for the other controls."}
     ]
   },
@@ -191,7 +191,7 @@
     "difficulty": 3,
     "stem": "Which set of measures is the characteristic hardening baseline for a corporate workstation?",
     "options": [
-      {"id": "a", "text": "Patch promptly, remove unneeded software and roles, enable host firewall and endpoint protection, disable unused local accounts, enforce disk encryption and screen lock", "correct": true, "why": "Workstations are the one class where the conventional answer applies in full: they are general purpose, patchable, agent-capable and centrally managed."},
+      {"id": "a", "text": "Prompt patching, endpoint protection, host firewall and disk encryption", "correct": true, "why": "Workstations are the one class where the conventional answer applies in full: they are general purpose, patchable, agent-capable and centrally managed. Removing unneeded software, disabling unused local accounts and enforcing screen lock complete the set."},
       {"id": "b", "text": "Segment it from the network and monitor passively, since patching is impractical", "misconception": "hardening-by-device-class", "why": "That is the answer for operational technology and embedded devices, where no patch exists. A workstation can be patched."},
       {"id": "c", "text": "Disable unused physical ports and restrict management to an out-of-band network", "misconception": "hardening-by-device-class", "why": "Network device hardening. A workstation has no management plane in that sense."},
       {"id": "d", "text": "Correct identity and resource policy so nothing is publicly exposed by default", "misconception": "hardening-by-device-class", "why": "Cloud infrastructure hardening, where the surface is configuration rather than a host."}
@@ -205,10 +205,10 @@
     "difficulty": 4,
     "stem": "Which Bluetooth configuration practice most reduces risk on corporate mobile devices?",
     "options": [
-      {"id": "a", "text": "Keep the device non-discoverable except while deliberately pairing, and remove pairings that are no longer needed", "correct": true, "why": "Discovery is the exposure window. A paired device retains trust indefinitely, so stale pairings are standing access nobody reviews."},
-      {"id": "b", "text": "Rely on the short range of Bluetooth as the control", "misconception": "hardening-by-device-class", "why": "Range is extendable with directional equipment, and in an office an attacker is already within range."},
+      {"id": "a", "text": "Keep it non-discoverable except while pairing, and remove stale pairings", "correct": true, "why": "Discovery is the exposure window, so stay hidden except while deliberately pairing. A paired device retains trust indefinitely, so stale pairings are standing access nobody reviews."},
+      {"id": "b", "text": "Rely on the short range of Bluetooth as the main control", "misconception": "hardening-by-device-class", "why": "Range is extendable with directional equipment, and in an office an attacker is already within range."},
       {"id": "c", "text": "Disable Wi-Fi so that Bluetooth is the only wireless interface", "misconception": "hardening-by-device-class", "why": "Reducing one interface by removing a different one leaves the described exposure untouched."},
-      {"id": "d", "text": "Enrol the device in MDM, which removes the need for Bluetooth configuration", "misconception": "mobile-deployment-models", "why": "MDM is how you enforce the setting. It is not a substitute for deciding what the setting should be."}
+      {"id": "d", "text": "Enrol the device in MDM, which removes the need for Bluetooth configuration", "misconception": "hardening-by-device-class", "why": "MDM is how you enforce the setting. It is not a substitute for deciding what the setting should be."}
     ]
   },
   {
@@ -219,10 +219,10 @@
     "difficulty": 4,
     "stem": "A secure baseline has been established and deployed across the estate. Which ongoing activity keeps it meaningful, and what does it detect?",
     "options": [
-      {"id": "a", "text": "Monitoring for configuration drift, detecting systems that have diverged from the baseline since deployment", "correct": true, "why": "Configuration diverges continuously through troubleshooting, local changes and new builds. Without drift monitoring the baseline describes a state that quietly stopped being true."},
+      {"id": "a", "text": "Drift monitoring, to find systems no longer matching the baseline", "correct": true, "why": "Configuration diverges continuously through troubleshooting, local changes and new builds. Without drift monitoring the baseline describes a state that quietly stopped being true."},
       {"id": "b", "text": "Re-establishing the baseline from the benchmark each quarter", "misconception": "baseline-lifecycle", "why": "Revisiting the benchmark is worthwhile occasionally. It does not tell you which systems currently match it."},
-      {"id": "c", "text": "Redeploying the baseline weekly regardless of state", "misconception": "baseline-lifecycle", "why": "Blind reapplication is disruptive and still leaves you unable to say what your estate looks like."},
-      {"id": "d", "text": "Vulnerability scanning, which covers configuration as well", "misconception": "baseline-lifecycle", "why": "Scanners find known flaws and some configuration issues. Compliance with your own baseline is a different question."}
+      {"id": "c", "text": "Redeploying the baseline weekly to every system regardless of state", "misconception": "baseline-lifecycle", "why": "Blind reapplication is disruptive and still leaves you unable to say what your estate looks like."},
+      {"id": "d", "text": "Vulnerability scanning, which covers configuration as well", "misconception": "baseline-lifecycle", "why": "A general vulnerability scan finds known flaws and some misconfigurations. Proving a host matches your own baseline needs a configuration compliance scan such as SCAP, which checks the benchmark setting by setting."}
     ]
   },
   {
@@ -234,9 +234,9 @@
     "stem": "An access point is being configured for WPA3-Enterprise. Which TWO are required for clients to authenticate at all? (Choose two.)",
     "options": [
       {"id": "a", "text": "A reachable RADIUS server", "correct": true, "why": "In Enterprise mode the access point only relays credentials. Without a RADIUS server nothing can make an authentication decision."},
-      {"id": "b", "text": "An EAP method configured on both the AP and the clients", "correct": true, "why": "802.1X carries EAP. Without an agreed method there is no authentication exchange to carry."},
+      {"id": "b", "text": "An EAP method both the AP and clients support", "correct": true, "why": "802.1X carries EAP. The method must be configured on both the access point and the clients, and without an agreed method there is no authentication exchange to carry."},
       {"id": "c", "text": "A pre-shared passphrase of at least 12 characters", "misconception": "wpa3-sae-vs-enterprise", "why": "A shared passphrase is WPA3-Personal. Enterprise authenticates each user individually and has no PSK."},
-      {"id": "d", "text": "SSID broadcast disabled", "misconception": "ssid-hiding-as-security", "why": "Hiding the SSID is obscurity and is irrelevant to whether authentication succeeds."},
+      {"id": "d", "text": "SSID broadcast disabled on the access point", "misconception": "ssid-hiding-as-security", "why": "Hiding the SSID is obscurity and is irrelevant to whether authentication succeeds."},
       {"id": "e", "text": "MAC filtering populated with every client address", "misconception": "ssid-hiding-as-security", "why": "MAC filtering is a separate, trivially bypassed control. It is not part of 802.1X."}
     ],
     "selectCount": 2
@@ -266,7 +266,7 @@
       {"id": "a", "text": "WPA3-Personal (SAE)", "correct": true, "why": "With no reachable RADIUS server, Enterprise cannot be operated. WPA3-Personal is the strongest mode this site can actually run."},
       {"id": "b", "text": "WPA3-Enterprise with EAP-TLS", "misconception": "wpa3-sae-vs-enterprise", "why": "Enterprise requires a reachable RADIUS server. The scenario states there is none, so this configuration cannot authenticate anyone."},
       {"id": "c", "text": "WPA2-Enterprise with PEAP", "misconception": "wpa3-sae-vs-enterprise", "why": "Same problem: 802.1X of any flavour needs an authentication server that this site does not have."},
-      {"id": "d", "text": "Open authentication with a captive portal", "misconception": "guest-network-isolation", "why": "A captive portal collects an acceptance click. It provides no encryption and no authentication of the wireless link."}
+      {"id": "d", "text": "Open authentication with a captive portal", "misconception": "wpa3-sae-vs-enterprise", "why": "A captive portal collects an acceptance click. It provides no encryption and no authentication of the wireless link."}
     ]
   },
   {
@@ -305,10 +305,10 @@
     "difficulty": 3,
     "stem": "A company wants 802.1X wireless but cannot issue certificates to its several hundred personally owned devices. Employees should authenticate with their existing directory credentials. Which EAP method fits?",
     "options": [
-      {"id": "a", "text": "PEAP-MSCHAPv2 with a certificate on the RADIUS server only", "correct": true, "why": "The server certificate builds the TLS tunnel, and the user's existing directory password authenticates them inside it. No client certificates are required."},
-      {"id": "b", "text": "EAP-TLS", "misconception": "eap-tls-vs-peap", "why": "EAP-TLS requires a certificate on every client. The scenario explicitly rules that out, so the strongest method is not the deployable one here."},
-      {"id": "c", "text": "EAP-MD5", "misconception": "eap-tls-vs-peap", "why": "EAP-MD5 provides no server authentication and no tunnel, and it is not permitted for wireless."},
-      {"id": "d", "text": "WPA3-Personal with a shared passphrase", "misconception": "wpa3-sae-vs-enterprise", "why": "This abandons 802.1X and per user identity entirely, which the requirement asked for."}
+      {"id": "a", "text": "PEAP-MSCHAPv2 with a server-side certificate", "correct": true, "why": "The certificate on the RADIUS server builds the TLS tunnel, and the user's existing directory password authenticates them inside it. No client certificates are required. Passwords in a tunnel: PEAP. Certificates on both ends: EAP-TLS."},
+      {"id": "b", "text": "EAP-TLS with certificates issued from an internal CA", "misconception": "eap-tls-vs-peap", "why": "EAP-TLS requires a certificate on every client. The scenario explicitly rules that out, so the strongest method is not the deployable one here."},
+      {"id": "c", "text": "EAP-MD5 using the existing directory passwords", "misconception": "eap-tls-vs-peap", "why": "EAP-MD5 provides no server authentication and no tunnel, and it is not permitted for wireless."},
+      {"id": "d", "text": "WPA3-Personal with a shared passphrase per office", "misconception": "wpa3-sae-vs-enterprise", "why": "This abandons 802.1X and per user identity entirely, which the requirement asked for."}
     ]
   },
   {
@@ -319,7 +319,7 @@
     "difficulty": 2,
     "stem": "During a wireless security review an auditor finds the corporate SSID is not broadcast and a MAC allow list is maintained on each access point. What should the auditor conclude?",
     "options": [
-      {"id": "a", "text": "Neither control provides meaningful security, and the MAC list adds ongoing administrative cost", "correct": true, "why": "The SSID still appears in client probe and association frames, and MAC addresses are trivially spoofed after a passive capture."},
+      {"id": "a", "text": "Neither control provides meaningful security, and the MAC list adds overhead", "correct": true, "why": "The SSID still appears in client probe and association frames, and MAC addresses are trivially spoofed after a passive capture. The MAC list also adds ongoing administrative cost. Hidden names and MAC lists are obscurity, not authentication."},
       {"id": "b", "text": "Both are effective preventive controls and should be extended to the guest network", "misconception": "ssid-hiding-as-security", "why": "Both are obscurity. Extending them multiplies the administrative burden without raising the bar for an attacker."},
       {"id": "c", "text": "Hiding the SSID is effective, but MAC filtering should be removed", "misconception": "ssid-hiding-as-security", "why": "Hiding the SSID is the weaker of the two, since clients broadcast the hidden name wherever they go."},
       {"id": "d", "text": "MAC filtering is effective because it enforces device level authorisation", "misconception": "ssid-hiding-as-security", "why": "A MAC address is an unauthenticated identifier that any attacker can set to a value they observed on the air."}
@@ -347,10 +347,10 @@
     "difficulty": 2,
     "stem": "An access point is being configured for 802.1X. Which destination port should be used for RADIUS authentication requests?",
     "options": [
-      {"id": "a", "text": "UDP 1812", "correct": true, "why": "1812 is the IANA assigned RADIUS authentication port. 1813 carries accounting."},
+      {"id": "a", "text": "UDP 1812", "correct": true, "why": "1812 is the IANA assigned RADIUS authentication port. 1813 carries accounting. Remember it as 1812 authenticates, 1813 accounts."},
       {"id": "b", "text": "UDP 1813", "misconception": "radius-vs-tacacs", "why": "1813 is RADIUS accounting, which records session data. Authentication requests sent here will not be answered."},
       {"id": "c", "text": "TCP 49", "misconception": "radius-vs-tacacs", "why": "TCP 49 is TACACS+, a different protocol used for device administration."},
-      {"id": "d", "text": "TCP 389", "misconception": "radius-vs-tacacs", "why": "389 is LDAP. The RADIUS server may query LDAP behind the scenes, but the access point speaks RADIUS."}
+      {"id": "d", "text": "TCP 389, to the directory server", "misconception": "radius-vs-tacacs", "why": "389 is LDAP. The RADIUS server may query LDAP behind the scenes, but the access point speaks RADIUS."}
     ]
   },
   {
@@ -403,7 +403,7 @@
     "difficulty": 3,
     "stem": "Which statement correctly describes the security improvement WPA3-Personal makes over WPA2-Personal?",
     "options": [
-      {"id": "a", "text": "SAE replaces the pre-shared key exchange, so a captured handshake cannot be used for offline password guessing", "correct": true, "why": "This is the headline change, and it also provides forward secrecy."},
+      {"id": "a", "text": "SAE replaces the PSK exchange, so a captured handshake cannot be cracked offline", "correct": true, "why": "This is the headline change, and it also provides forward secrecy. Every password guess now needs a live exchange with the access point. WPA2 handshakes crack offline, SAE exchanges do not."},
       {"id": "b", "text": "It increases the pre-shared key length, making brute force computationally infeasible", "misconception": "wpa2-psk-vs-wpa3-sae", "why": "WPA3-Personal does not mandate a longer passphrase. The change is to the key agreement, not the key length."},
       {"id": "c", "text": "It moves authentication to a RADIUS server so users have individual credentials", "misconception": "wpa3-sae-vs-enterprise", "why": "That describes WPA3-Enterprise. Personal still uses a single shared credential."},
       {"id": "d", "text": "It encrypts the SSID so the network name cannot be discovered", "misconception": "ssid-hiding-as-security", "why": "The SSID is not encrypted under any WPA version, and concealing it would not be a security improvement."}
@@ -418,9 +418,9 @@
     "stem": "Before installing access points across a new warehouse, which activity identifies where coverage will be weak and where interference already exists?",
     "options": [
       {"id": "a", "text": "A wireless site survey producing a heat map", "correct": true, "why": "A site survey measures actual signal propagation and existing interference in the physical space, and the heat map documents it."},
-      {"id": "b", "text": "A vulnerability scan of the access point management interfaces", "misconception": "ssid-hiding-as-security", "why": "A scan finds software weaknesses on devices that already exist. It says nothing about radio coverage in a building."},
-      {"id": "c", "text": "A penetration test of the wireless authentication", "misconception": "evil-twin-vs-rogue-ap", "why": "A penetration test evaluates whether security can be defeated, not where the signal reaches."},
-      {"id": "d", "text": "Reviewing RADIUS accounting logs from the nearest site", "misconception": "radius-vs-tacacs", "why": "Accounting logs describe sessions elsewhere, not propagation in this warehouse."}
+      {"id": "b", "text": "A vulnerability scan of the access point management interfaces", "misconception": "wireless-planning-vs-testing", "why": "A scan finds software weaknesses on devices that already exist. It says nothing about radio coverage in a building."},
+      {"id": "c", "text": "A penetration test of the wireless authentication", "misconception": "wireless-planning-vs-testing", "why": "A penetration test evaluates whether security can be defeated, not where the signal reaches."},
+      {"id": "d", "text": "Reviewing RADIUS accounting logs from the nearest site", "misconception": "wireless-planning-vs-testing", "why": "Accounting logs describe sessions elsewhere, not propagation in this warehouse."}
     ]
   },
   {
@@ -431,10 +431,10 @@
     "difficulty": 4,
     "stem": "An access point is configured for WPA3-Enterprise. No RADIUS server address has been entered. What is the result?",
     "options": [
-      {"id": "a", "text": "No client can authenticate, because there is nothing to validate credentials against", "correct": true, "why": "In Enterprise mode the access point is only an authenticator. It relays credentials to the RADIUS server, so without one there is no authentication decision."},
+      {"id": "a", "text": "No client can authenticate, since nothing validates the credentials", "correct": true, "why": "In Enterprise mode the access point is only an authenticator. It relays credentials to the RADIUS server, so without one there is no authentication decision. Enterprise without RADIUS means no decision and no access."},
       {"id": "b", "text": "Clients fall back to WPA3-Personal using the configured passphrase", "misconception": "wpa3-sae-vs-enterprise", "why": "There is no silent fallback between Enterprise and Personal. They are different authentication mechanisms."},
       {"id": "c", "text": "The access point validates credentials against its own local user database", "misconception": "wpa3-sae-vs-enterprise", "why": "Some devices offer a local RADIUS feature, but Enterprise mode by definition delegates the decision, and none is configured here."},
-      {"id": "d", "text": "Clients connect but are placed on the guest VLAN", "misconception": "guest-network-isolation", "why": "VLAN assignment happens after a successful authentication, which never occurs."}
+      {"id": "d", "text": "Clients connect but are placed on the guest VLAN by default", "misconception": "wpa3-sae-vs-enterprise", "why": "VLAN assignment happens after a successful authentication, which never occurs."}
     ]
   },
   {
@@ -445,10 +445,10 @@
     "difficulty": 3,
     "stem": "A configuration standard sets Protected Management Frames to 'optional' on all access points. What risk remains?",
     "options": [
-      {"id": "a", "text": "Clients that do not negotiate PMF can still be forced off the network with forged deauthentication frames", "correct": true, "why": "Optional means unprotected sessions are still permitted, so the attack remains available against any client that does not negotiate it."},
-      {"id": "b", "text": "None, because WPA encryption already protects all frames", "misconception": "pmf-and-deauth", "why": "WPA encrypts data frames. Management frames such as deauthentication are a separate category, which is exactly why 802.11w exists."},
-      {"id": "c", "text": "Clients will be unable to roam between access points", "misconception": "pmf-and-deauth", "why": "PMF does not prevent roaming. Setting it to required is standard on WPA3 networks."},
-      {"id": "d", "text": "The pre-shared key becomes recoverable from a capture", "misconception": "wpa2-psk-vs-wpa3-sae", "why": "Offline key recovery is a property of the WPA2 handshake, not of management frame protection."}
+      {"id": "a", "text": "Non-PMF clients can still be forced off by forged deauth frames", "correct": true, "why": "Optional means unprotected sessions are still permitted, so forged deauthentication remains available against any client that does not negotiate PMF. Optional protects only the clients that opt in, required protects everyone."},
+      {"id": "b", "text": "None, because WPA encryption already protects all frames on the air", "misconception": "pmf-and-deauth", "why": "WPA encrypts data frames. Management frames such as deauthentication are a separate category, which is exactly why 802.11w exists."},
+      {"id": "c", "text": "Clients will be unable to roam between access points in the building", "misconception": "pmf-and-deauth", "why": "PMF does not prevent roaming. Setting it to required is standard on WPA3 networks."},
+      {"id": "d", "text": "The pre-shared key becomes recoverable from a captured exchange", "misconception": "wpa2-psk-vs-wpa3-sae", "why": "Offline key recovery is a property of the WPA2 handshake, not of management frame protection."}
     ]
   }
 ]

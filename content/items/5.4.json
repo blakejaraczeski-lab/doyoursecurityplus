@@ -117,7 +117,7 @@
     "id": "g-004",
     "type": "mcq",
     "objective": "5.4",
-    "topics": ["controller-vs-processor", "processors", "data-subject"],
+    "topics": ["controller-vs-processor", "data-subject"],
     "difficulty": 3,
     "stem": "A payroll bureau processes a client's staff data as instructed. The bureau then starts using that same data, without the client's agreement, to build and sell salary benchmarking products. What is the bureau's role for that new use?",
     "options": [
@@ -131,7 +131,7 @@
     "id": "g-013",
     "type": "mcq",
     "objective": "5.4",
-    "topics": ["due-diligence", "due-diligence-care"],
+    "topics": ["due-diligence-care"],
     "difficulty": 3,
     "stem": "Before signing with a cloud provider, a company reviews the provider's independent audit reports, financial stability and subcontractor list. What is this activity?",
     "options": [
@@ -145,7 +145,7 @@
     "id": "g-014",
     "type": "mcq",
     "objective": "5.4",
-    "topics": ["due-diligence-care", "vendor-monitoring", "compliance-monitoring"],
+    "topics": ["due-diligence-care", "internal-and-external-monitoring"],
     "difficulty": 3,
     "stem": "A company reviews its vendor's SOC 2 report annually, checks quarterly that access is still appropriate, and tracks the vendor's security incidents throughout the contract. What does this demonstrate?",
     "options": [
@@ -201,7 +201,7 @@
     "id": "g-038",
     "type": "mcq",
     "objective": "5.4",
-    "topics": ["attestation-and-acknowledgement", "compliance-monitoring", "automation"],
+    "topics": ["attestation-and-acknowledgement", "internal-and-external-monitoring", "automation"],
     "difficulty": 3,
     "stem": "Staff must confirm each year that they have read and understood the acceptable use policy, and the confirmations must be evidenced to an auditor. What is this?",
     "options": [
@@ -229,7 +229,7 @@
     "id": "g-040",
     "type": "mcq",
     "objective": "5.4",
-    "topics": ["controller-vs-processor", "processors", "ownership"],
+    "topics": ["controller-vs-processor", "ownership-3"],
     "difficulty": 3,
     "stem": "A company uses a cloud email provider. A subject access request arrives. Who is accountable for answering it?",
     "options": [
@@ -243,7 +243,7 @@
     "id": "g-049",
     "type": "mcq",
     "objective": "5.4",
-    "topics": ["internal-compliance-reporting", "external-compliance-reporting", "compliance-monitoring", "automation"],
+    "topics": ["internal-compliance-reporting", "external-compliance-reporting", "internal-and-external-monitoring", "automation"],
     "difficulty": 3,
     "stem": "A compliance team produces a quarterly pack for the board and a separate annual submission to the regulator. How do these differ?",
     "options": [
@@ -428,5 +428,19 @@
       {"id": "e", "text": "Requesting references from three of a supplier's customers during selection", "misconception": "due-diligence-vs-due-care", "why": "A selection-stage investigation is due diligence."}
     ],
     "selectCount": 2
+  },
+  {
+    "id": "r5-024",
+    "type": "mcq",
+    "objective": "5.4",
+    "topics": ["data-subject", "right-to-be-forgotten"],
+    "difficulty": 2,
+    "stem": "A customer asks a company to delete the personal data it holds about them. In privacy law terms, who is the customer?",
+    "options": [
+      {"id": "a", "text": "The data controller", "misconception": "privacy-rights-and-roles", "why": "The controller decides why and how the data is processed. That is the company here."},
+      {"id": "b", "text": "The data processor", "misconception": "privacy-rights-and-roles", "why": "A processor handles data on behalf of the controller. The customer does neither."},
+      {"id": "c", "text": "The data custodian", "misconception": "privacy-rights-and-roles", "why": "A custodian looks after data on the owner's behalf. The customer is the person the data is about."},
+      {"id": "d", "text": "The data subject", "correct": true, "why": "The person the personal data identifies is the data subject, and this is the person who holds the deletion right."}
+    ]
   }
 ]

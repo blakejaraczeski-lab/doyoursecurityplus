@@ -31,7 +31,7 @@
     "id": "g-003",
     "type": "mcq",
     "objective": "5.1",
-    "topics": ["owners", "custodians-stewards", "classification"],
+    "topics": ["owners", "custodians-stewards"],
     "difficulty": 3,
     "stem": "Who is accountable for deciding the classification of the HR records and who may access them?",
     "options": [
@@ -285,7 +285,7 @@
     "id": "gv-014",
     "type": "mcq",
     "objective": "5.1",
-    "topics": ["procedures", "information-security-policies"],
+    "topics": ["information-security-policies"],
     "difficulty": 3,
     "stem": "A document sets out, step by step, how the service desk must reset a user's multifactor enrolment, including which identity checks to perform and in what order. Which governance document is this?",
     "options": [

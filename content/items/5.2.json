@@ -3,7 +3,7 @@
     "id": "c-025",
     "type": "mcq",
     "objective": "5.2",
-    "topics": ["single-loss-expectancy-sle", "annualized-loss-expectancy-ale", "annualized-rate-of-occurrence-aro", "exposure-factor"],
+    "topics": ["single-loss-expectancy", "annualized-loss-expectancy", "annualized-rate-of-occurrence", "exposure-factor-2"],
     "difficulty": 4,
     "stem": "A data centre is valued at 2,000,000. A flood would destroy 25% of it, and floods are expected once every four years. What is the ALE?",
     "options": [
@@ -17,7 +17,7 @@
     "id": "c-026",
     "type": "mcq",
     "objective": "5.2",
-    "topics": ["single-loss-expectancy-sle", "annualized-loss-expectancy-ale", "risk-management-strategies"],
+    "topics": ["single-loss-expectancy", "annualized-loss-expectancy"],
     "difficulty": 3,
     "stem": "A control costing 40,000 per year would eliminate a risk with an ALE of 25,000. What does quantitative analysis suggest?",
     "options": [
@@ -31,7 +31,7 @@
     "id": "c-027",
     "type": "mcq",
     "objective": "5.2",
-    "topics": ["recovery-point-objective-rpo", "recovery-time-objective-rto", "business-impact-analysis"],
+    "topics": ["recovery-point-objective", "recovery-time-objective", "business-impact-analysis"],
     "difficulty": 3,
     "stem": "A business impact analysis states that the order system may lose no more than 15 minutes of transactions. Which metric is this, and what does it drive?",
     "options": [
@@ -45,7 +45,7 @@
     "id": "c-028",
     "type": "mcq",
     "objective": "5.2",
-    "topics": ["mean-time-to-repair-mttr", "mean-time-between-failures-mtbf", "recovery-time-objective-rto"],
+    "topics": ["mean-time-to-repair", "mean-time-between-failures", "recovery-time-objective"],
     "difficulty": 3,
     "stem": "Which pair correctly separates a target the business sets from a metric the organisation observes?",
     "options": [
@@ -59,7 +59,7 @@
     "id": "c-029",
     "type": "mcq",
     "objective": "5.2",
-    "topics": ["risk-appetite", "risk-tolerance", "risk-threshold"],
+    "topics": ["risk-appetite", "risk-tolerance-2", "risk-threshold"],
     "difficulty": 2,
     "stem": "A board resolution states the organisation will pursue aggressive growth into new markets and accepts elevated risk in doing so. Which term does this describe?",
     "options": [
@@ -143,7 +143,7 @@
     "id": "g-012",
     "type": "mcq",
     "objective": "5.2",
-    "topics": ["quantitative-risk-analysis", "annualized-loss-expectancy-ale"],
+    "topics": ["quantitative-risk-analysis", "annualized-loss-expectancy"],
     "difficulty": 3,
     "stem": "Which situation makes quantitative risk analysis the better choice?",
     "options": [
@@ -157,7 +157,7 @@
     "id": "g-021",
     "type": "mcq",
     "objective": "5.2",
-    "topics": ["business-impact-analysis", "recovery-time-objective-rto", "risk-assessment"],
+    "topics": ["business-impact-analysis", "recovery-time-objective", "risk-assessment"],
     "difficulty": 3,
     "stem": "An exercise works through each business process, asking what it costs per hour of downtime and how quickly it must be restored. Which exercise is this?",
     "options": [
@@ -185,7 +185,7 @@
     "id": "m-010",
     "type": "mcq-multi",
     "objective": "5.2",
-    "topics": ["business-impact-analysis", "recovery-time-objective-rto", "recovery-point-objective-rpo"],
+    "topics": ["business-impact-analysis", "recovery-time-objective", "recovery-point-objective"],
     "difficulty": 3,
     "stem": "Which TWO outputs come from a business impact analysis rather than a risk assessment? (Choose two.)",
     "options": [
@@ -379,6 +379,258 @@
       {"id": "b", "text": "Risk transfer", "misconception": "risk-treatment-strategies", "why": "Transfer moves the financial consequence to another party, usually by insurance or contract. Nothing has been moved anywhere."},
       {"id": "c", "text": "An exemption", "correct": true, "why": "The departure is permanent by design: there is no remediation date and none is expected. Permanent and formally accepted is an exemption."},
       {"id": "d", "text": "Risk avoidance", "misconception": "risk-treatment-strategies", "why": "Avoidance means stopping the activity. The instrument stays in use for fifteen years."}
+    ]
+  },
+  {
+    "id": "r5-001",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["key-risk-indicators", "risk-threshold"],
+    "difficulty": 3,
+    "stem": "A security team wants early warning that patching risk is rising before any incident happens. It tracks the share of internet-facing servers more than 30 days behind on critical patches and raises an alert at 10 percent. What kind of measure is this?",
+    "options": [
+      {"id": "a", "text": "A key risk indicator", "correct": true, "why": "A key risk indicator is a metric that moves before a loss does. The share of servers behind on patches rises as exposure rises, and the 10 percent alert is the trigger."},
+      {"id": "b", "text": "A key performance indicator", "misconception": "kri-vs-kpi", "why": "A performance indicator says how well a team is doing its job. This one signals that exposure is growing, which is what a risk indicator does."},
+      {"id": "c", "text": "A recovery point objective", "misconception": "rto-vs-rpo", "why": "An RPO limits how much data can be lost. It says nothing about how exposed the servers are."},
+      {"id": "d", "text": "An annualized loss expectancy", "misconception": "sle-ale-aro", "why": "ALE is a yearly cost figure worked out from asset value and event rate. It is not a metric watched over time against an alert level."}
+    ]
+  },
+  {
+    "id": "r5-002",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["key-risk-indicators"],
+    "difficulty": 3,
+    "stem": "Which measure is the best key risk indicator for the risk that a departed employee keeps using their access?",
+    "options": [
+      {"id": "a", "text": "The percentage of staff who finished awareness training this quarter", "misconception": "kri-vs-kpi", "why": "Training completion shows whether a program ran. It does not say whether leavers still have access."},
+      {"id": "b", "text": "The number of accounts for former staff still active more than 7 days after they left", "correct": true, "why": "That count rises when offboarding slips, so it warns of the exact exposure before anyone misuses an account."},
+      {"id": "c", "text": "The average time the help desk takes to close a ticket", "misconception": "kri-vs-kpi", "why": "That measures service speed, a performance figure unrelated to leaver access."},
+      {"id": "d", "text": "The annual license cost of the identity management product", "misconception": "kri-vs-kpi", "why": "Cost is a budget figure. It stays the same whether or not leavers keep access."}
+    ]
+  },
+  {
+    "id": "r5-003",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-identification", "risk-assessment"],
+    "difficulty": 2,
+    "stem": "A workshop lists everything that could go wrong with a new payment app: card data theft, a supplier outage and a change in regulation. Nobody has scored any of them yet. Which step is this?",
+    "options": [
+      {"id": "a", "text": "Risk assessment", "misconception": "identification-vs-assessment", "why": "Assessment comes next and puts a likelihood and an impact on each risk. Nothing has been scored here."},
+      {"id": "b", "text": "Risk acceptance", "misconception": "risk-treatment-strategies", "why": "Acceptance is a response chosen after a risk has been assessed. No risk has been assessed here."},
+      {"id": "c", "text": "Risk identification", "correct": true, "why": "Finding and listing the risks is identification. It comes before scoring."},
+      {"id": "d", "text": "Risk reporting", "misconception": "identification-vs-assessment", "why": "Reporting tells decision makers about risks that are already identified and rated."}
+    ]
+  },
+  {
+    "id": "r5-004",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-assessment", "risk-identification"],
+    "difficulty": 3,
+    "stem": "Which activity belongs to risk assessment rather than to risk identification?",
+    "options": [
+      {"id": "a", "text": "Interviewing process owners about what could disrupt their work", "misconception": "identification-vs-assessment", "why": "Asking what could go wrong finds risks. That is identification."},
+      {"id": "b", "text": "Reading past incident reports for risks missing from the register", "misconception": "identification-vs-assessment", "why": "Mining history for new entries finds risks, so it is identification."},
+      {"id": "c", "text": "Brainstorming threats with the application team", "misconception": "identification-vs-assessment", "why": "A brainstorm produces a list of risks. Scoring them is a later step."},
+      {"id": "d", "text": "Scoring each listed risk by its likelihood and its impact", "correct": true, "why": "Putting a likelihood and an impact on a risk that is already listed is assessment."}
+    ]
+  },
+  {
+    "id": "r5-005",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-threshold", "risk-appetite"],
+    "difficulty": 3,
+    "stem": "A risk register entry says that once unpatched critical vulnerabilities pass 25 on production servers, the risk owner must escalate. What does the figure 25 represent?",
+    "options": [
+      {"id": "a", "text": "A risk threshold", "correct": true, "why": "A threshold is the specific trip wire in the register. When the measure crosses it, someone must act."},
+      {"id": "b", "text": "The organization's risk appetite", "misconception": "risk-appetite-vs-tolerance", "why": "Appetite is the broad stance the board takes on how much risk to pursue. It is not a single number written on one register entry."},
+      {"id": "c", "text": "A risk exemption", "misconception": "exception-vs-exemption", "why": "An exemption is a formal permission to stay outside a rule. It does not trigger action."},
+      {"id": "d", "text": "The annualized loss expectancy", "misconception": "sle-ale-aro", "why": "ALE is a yearly cost. A count of vulnerabilities that triggers escalation is not a cost."}
+    ]
+  },
+  {
+    "id": "r5-006",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["recovery-point-objective", "recovery-time-objective"],
+    "difficulty": 3,
+    "stem": "A database is backed up every night at 01:00. The business says it can lose at most 4 hours of data. The server fails at 17:00 and everything since 01:00 is gone. Which target was missed?",
+    "options": [
+      {"id": "a", "text": "The RTO, because restoring took too long", "misconception": "rto-vs-rpo", "why": "The RTO limits how long restoring may take. This scenario says nothing about restore time."},
+      {"id": "b", "text": "The RPO, with 16 hours of data lost against a limit of 4", "correct": true, "why": "The RPO limits how much data can be lost. From 01:00 to 17:00 is 16 hours, four times the limit."},
+      {"id": "c", "text": "The MTBF, because the server failed", "misconception": "rto-vs-rpo", "why": "MTBF is an average of observed time between failures. It is a measurement, not a target you can miss."},
+      {"id": "d", "text": "Neither, because the nightly backup completed", "misconception": "rto-vs-rpo", "why": "A completed backup does not meet an RPO. The RPO is about how old the newest recoverable copy is, and 16 hours is too old."}
+    ]
+  },
+  {
+    "id": "r5-007",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["recovery-time-objective"],
+    "difficulty": 3,
+    "stem": "An outage begins at 09:00 on Tuesday. The business impact analysis set a recovery time objective of 4 hours. Service returns at 15:30. By how much was the RTO missed?",
+    "options": [
+      {"id": "a", "text": "1 hour 30 minutes", "misconception": "rto-vs-rpo", "why": "That would mean service came back at 14:30. Count from 09:00 to 15:30, which is 6 hours 30 minutes."},
+      {"id": "b", "text": "6 hours 30 minutes", "misconception": "rto-vs-rpo", "why": "That is the whole outage. The RTO allowed 4 of those hours, so the miss is the part beyond it."},
+      {"id": "c", "text": "2 hours 30 minutes", "correct": true, "why": "Downtime ran 6 hours 30 minutes. Taking the 4 hour objective from that leaves 2 hours 30 minutes over."},
+      {"id": "d", "text": "It was not missed because service returned the same day", "misconception": "rto-vs-rpo", "why": "An RTO is a time limit on the outage, not a deadline within the day."}
+    ]
+  },
+  {
+    "id": "r5-008",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["mean-time-between-failures"],
+    "difficulty": 3,
+    "stem": "A vendor states an MTBF of 50,000 hours for a router. A manager says that guarantees each router will run 50,000 hours without failing. What is the best correction?",
+    "options": [
+      {"id": "a", "text": "MTBF is the time allowed to restore service after a failure", "misconception": "rto-vs-rpo", "why": "That describes a recovery time objective. MTBF is about how long units run between failures."},
+      {"id": "b", "text": "MTBF is the most data the business can lose", "misconception": "rto-vs-rpo", "why": "That describes a recovery point objective. MTBF has nothing to do with data loss."},
+      {"id": "c", "text": "The manager is right as long as the router is still under warranty", "misconception": "rto-vs-rpo", "why": "A warranty covers repair or replacement. It does not turn an average into a guarantee."},
+      {"id": "d", "text": "MTBF is an average across many units, so one router can fail far sooner or later", "correct": true, "why": "The figure predicts failure rates across a population. It promises nothing for a single device."}
+    ]
+  },
+  {
+    "id": "r5-009",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-reporting", "risk-register"],
+    "difficulty": 3,
+    "stem": "A risk owner must brief the executive team every quarter. Which content best supports the decisions the executives have to make?",
+    "options": [
+      {"id": "a", "text": "Each top risk with its rating against the threshold, its trend, its owner and its treatment status", "correct": true, "why": "That shows where exposure stands, which way it is moving and who is acting. Those are the facts a decision needs."},
+      {"id": "b", "text": "Every vulnerability scanner finding, in the order it was found", "misconception": "risk-reporting-audience", "why": "Raw findings bury the decision. Executives need the risks, not the scanner's full output."},
+      {"id": "c", "text": "Only the risks that have already caused an incident", "misconception": "risk-reporting-audience", "why": "Waiting for an incident defeats the purpose. Reporting should warn before tolerance is exceeded."},
+      {"id": "d", "text": "Packet captures that support each rating", "misconception": "risk-reporting-audience", "why": "Evidence belongs with the owner. Executives need conclusions and the choices open to them."}
+    ]
+  },
+  {
+    "id": "r5-010",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-reporting", "risk-threshold"],
+    "difficulty": 3,
+    "stem": "A quarterly risk report shows a rating moving toward its threshold, though nothing has gone wrong. Why include it?",
+    "options": [
+      {"id": "a", "text": "Regulators require every rating to be made public", "misconception": "risk-reporting-audience", "why": "Risk reports are normally internal. Publication is not the reason."},
+      {"id": "b", "text": "It lets decision makers act before the threshold is crossed", "correct": true, "why": "A rating that is trending the wrong way is the early warning. Reporting it gives time to treat the risk first."},
+      {"id": "c", "text": "It proves the security team is busy", "misconception": "risk-reporting-audience", "why": "Activity is not the purpose. The report exists to support decisions about risk."},
+      {"id": "d", "text": "Reports are only needed once an incident has happened", "misconception": "risk-reporting-audience", "why": "That is reactive. Risk reporting is recurring so exposure is seen before it becomes an incident."}
+    ]
+  },
+  {
+    "id": "r5-011",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["avoid"],
+    "difficulty": 2,
+    "stem": "After a review, a retailer stops selling in one country because its payment processing there cannot be made compliant. The activity that created the risk ends. Which response is this?",
+    "options": [
+      {"id": "a", "text": "Risk mitigation", "misconception": "risk-treatment-strategies", "why": "Mitigation keeps the activity and reduces the risk with controls. Here the activity itself is dropped."},
+      {"id": "b", "text": "Risk transfer", "misconception": "risk-treatment-strategies", "why": "Transfer shifts the financial effect to another party, for example with insurance. The retailer still carries the activity."},
+      {"id": "c", "text": "Risk avoidance", "correct": true, "why": "Ceasing the activity that creates the risk removes the exposure. That is avoidance."},
+      {"id": "d", "text": "Risk acceptance", "misconception": "risk-treatment-strategies", "why": "Acceptance means living with the risk. The retailer has removed it."}
+    ]
+  },
+  {
+    "id": "r5-012",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["accept", "avoid"],
+    "difficulty": 3,
+    "stem": "A manager signs a record keeping a legacy badge printer on the network. The record says the exposure is within appetite because replacing it would cost more than any realistic loss. Which response is this?",
+    "options": [
+      {"id": "a", "text": "Risk avoidance", "misconception": "risk-treatment-strategies", "why": "Avoiding would mean removing the printer or the activity. It stays."},
+      {"id": "b", "text": "Risk transfer", "misconception": "risk-treatment-strategies", "why": "Nothing here moves the loss to another party."},
+      {"id": "c", "text": "Risk mitigation", "misconception": "risk-treatment-strategies", "why": "No control is added to lower the risk. The printer is left as it is."},
+      {"id": "d", "text": "Risk acceptance", "correct": true, "why": "The risk is judged to be inside appetite and the owner signs for it. That is acceptance, and it must be documented."}
+    ]
+  },
+  {
+    "id": "r5-013",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-assessment"],
+    "difficulty": 3,
+    "stem": "A new site is rated High risk before any controls are installed. After multifactor authentication and monitoring go in, it is rated Medium. What is the Medium rating called?",
+    "options": [
+      {"id": "a", "text": "Residual risk", "correct": true, "why": "What remains after controls are applied is residual risk."},
+      {"id": "b", "text": "Inherent risk", "misconception": "inherent-vs-residual", "why": "Inherent risk is the level before controls. That is the High rating."},
+      {"id": "c", "text": "Risk appetite", "misconception": "risk-appetite-vs-tolerance", "why": "Appetite is how much risk the organization is willing to take. It is a stance, not a rating of a site."},
+      {"id": "d", "text": "Risk threshold", "misconception": "risk-appetite-vs-tolerance", "why": "A threshold is a trip wire for action. It is not the rating that remains after controls."}
+    ]
+  },
+  {
+    "id": "r5-014",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-assessment", "risk-register"],
+    "difficulty": 3,
+    "stem": "A contractor will run a new site that has no security controls yet. An analyst rates the exposure as it stands today. Which kind of risk is being rated?",
+    "options": [
+      {"id": "a", "text": "Residual risk", "misconception": "inherent-vs-residual", "why": "Residual risk is what remains after controls. There are none yet."},
+      {"id": "b", "text": "Inherent risk", "correct": true, "why": "Inherent risk is the level with no controls in place, which matches this site today."},
+      {"id": "c", "text": "Transferred risk", "misconception": "risk-treatment-strategies", "why": "Transferred risk has been moved to another party. Nothing has been moved."},
+      {"id": "d", "text": "Accepted risk", "misconception": "risk-treatment-strategies", "why": "Accepted risk is one the owner has chosen to live with. No decision has been made yet."}
+    ]
+  },
+  {
+    "id": "r5-015",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-owners", "risk-register"],
+    "difficulty": 2,
+    "stem": "A high rated entry in the risk register has had no named person against it for six months and nothing has been done. Which gap is this?",
+    "options": [
+      {"id": "a", "text": "No business impact analysis for the entry", "misconception": "risk-register-and-owner", "why": "A missing BIA would affect recovery planning. It does not explain why no one acts on the risk."},
+      {"id": "b", "text": "No recovery point objective for the entry", "misconception": "risk-register-and-owner", "why": "An RPO is a data loss limit for a system. It does not assign who handles a risk."},
+      {"id": "c", "text": "No accountable risk owner to develop and carry out a response", "correct": true, "why": "Each register entry needs an owner who answers for its treatment. Without one, nothing moves."},
+      {"id": "d", "text": "A risk appetite that is too high", "misconception": "risk-register-and-owner", "why": "A high appetite is a strategic stance. It does not leave an entry unowned."}
+    ]
+  },
+  {
+    "id": "r5-016",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["risk-register", "risk-owners"],
+    "difficulty": 2,
+    "stem": "A manager wants one place that lists each identified risk with its score, owner and chosen response, updated as controls change. Which document is this?",
+    "options": [
+      {"id": "a", "text": "A business impact analysis", "misconception": "bia-vs-risk-assessment", "why": "A BIA works out what an outage costs the business and how fast it must recover. It is not a running list of risks."},
+      {"id": "b", "text": "A service level agreement", "misconception": "risk-register-and-owner", "why": "An SLA is a contract with a provider. It does not track an organization's own risks."},
+      {"id": "c", "text": "An incident response plan", "misconception": "risk-register-and-owner", "why": "An incident response plan sets steps for handling events. It does not list risks and owners."},
+      {"id": "d", "text": "A risk register", "correct": true, "why": "A risk register records each risk with its rating, owner and treatment, and is kept current."}
+    ]
+  },
+  {
+    "id": "r5-017",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["qualitative-risk-analysis", "likelihood", "impact"],
+    "difficulty": 2,
+    "stem": "An analyst rates each risk Low, Medium or High for likelihood and for impact, then places it on a grid. Which approach is this?",
+    "options": [
+      {"id": "a", "text": "Qualitative risk analysis", "correct": true, "why": "Rating by descriptive levels and plotting them on a likelihood and impact matrix is qualitative analysis."},
+      {"id": "b", "text": "Quantitative risk analysis", "misconception": "qualitative-vs-quantitative", "why": "Quantitative analysis uses currency and rates, such as an SLE and an ARO. A Low to High grid uses no figures."},
+      {"id": "c", "text": "Business impact analysis", "misconception": "bia-vs-risk-assessment", "why": "A BIA measures the effect of losing a business function. It does not rate risks on a grid."},
+      {"id": "d", "text": "Annualized loss expectancy", "misconception": "sle-ale-aro", "why": "ALE is one number, the yearly expected loss. A grid of ratings is not that."}
+    ]
+  },
+  {
+    "id": "r5-018",
+    "type": "mcq",
+    "objective": "5.2",
+    "topics": ["exception", "mitigate"],
+    "difficulty": 3,
+    "stem": "An application cannot meet the password length standard until a vendor upgrade in six months. Management approves running it as is, adds extra monitoring and sets a review date. Which is this?",
+    "options": [
+      {"id": "a", "text": "A risk exemption", "misconception": "exception-vs-exemption", "why": "An exemption is open ended, for something that will not meet the rule. This one has a review date and a plan to close the gap."},
+      {"id": "b", "text": "A risk exception", "correct": true, "why": "A temporary departure from policy, with an alternate control and a review date, is an exception."},
+      {"id": "c", "text": "Risk avoidance", "misconception": "risk-treatment-strategies", "why": "Avoidance would stop using the application. It keeps running."},
+      {"id": "d", "text": "Risk transfer", "misconception": "risk-treatment-strategies", "why": "No party outside the organization takes on the loss."}
     ]
   }
 ]

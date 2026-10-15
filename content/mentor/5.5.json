@@ -3,7 +3,7 @@
     "id": "audit-vs-assessment",
     "label": "Internal audit vs external audit vs self-assessment vs attestation",
     "objective": "5.5",
-    "topics": ["internal-compliance-audit", "audit-committee", "self-assessments", "independent-third-party-audit", "regulatory-examination", "attestation"],
+    "topics": ["internal-compliance-audit", "audit-committee", "self-assessments", "independent-third-party-audit", "regulatory-examination", "attestation-2"],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You chose a review type without checking who performs it and how independent they must be.",
@@ -39,6 +39,27 @@
       "rule": "Known, partially known and unknown describe what the tester was told. Passive and active describe whether the target can see the tester.",
       "tell": "'Simulates an external attacker with no inside knowledge' is unknown environment. 'Without alerting the target or touching its systems' is passive reconnaissance.",
       "trap": "Unknown environment testing usually begins with passive reconnaissance, so the two appear together and get merged. They answer different questions."
+    }
+  },
+  {
+    "id": "pentest-activity-types",
+    "label": "Penetration test roles and reconnaissance",
+    "objective": "5.5",
+    "topics": ["passive-reconnaissance", "active-reconnaissance", "offensive", "defensive", "integrated"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You mixed up how information is gathered with which side of a test is acting.",
+      "contrast": [
+        ["", "Meaning", "Tell"],
+        ["Passive reconnaissance", "Gathering without touching the target", "Public records, job postings"],
+        ["Active reconnaissance", "Interacting with the target directly", "Port scans, probing"],
+        ["Offensive", "The attacking side", "Tries to get in"],
+        ["Defensive", "The defending side", "Tries to detect and block"],
+        ["Integrated", "Both sides working as one", "Lessons pass back and forth"]
+      ],
+      "rule": "Passive and active describe how data is collected. Offensive, defensive and integrated describe who is acting.",
+      "tell": "If any traffic reaches the target, it is active. If both teams work together throughout, it is integrated.",
+      "trap": "Offensive sounds like active, but they sit on different axes. A tester can be offensive and passive at the same time."
     }
   }
 ]

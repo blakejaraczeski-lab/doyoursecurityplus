@@ -21,10 +21,10 @@
     "difficulty": 3,
     "stem": "Why does an account lockout policy fail to stop password spraying?",
     "options": [
-      {"id": "a", "text": "The attack deliberately stays below the lockout threshold on every account", "correct": true, "why": "Spraying exists precisely to evade lockout. One or two attempts per account never reaches the limit, so MFA and impossible travel detection are the real answers."},
+      {"id": "a", "text": "The attack stays below the lockout threshold on every account", "correct": true, "why": "Spraying exists precisely to evade lockout. One or two attempts per account never reaches the limit, so MFA and impossible travel detection are the real answers. Remember: spraying tries one password across many accounts, so lockouts never trip."},
       {"id": "b", "text": "Lockout policies only apply to administrative accounts", "misconception": "spraying-vs-brute-force", "why": "Lockout applies to whatever accounts it is configured for, typically all of them."},
-      {"id": "c", "text": "Spraying uses valid credentials, so nothing fails", "misconception": "spraying-vs-brute-force", "why": "That describes credential stuffing with known-good pairs. Spraying is guessing, and most attempts fail."},
-      {"id": "d", "text": "Lockout counters reset only at midnight", "misconception": "spraying-vs-brute-force", "why": "Reset windows vary and are not the reason. The attack simply never reaches the threshold."}
+      {"id": "c", "text": "Spraying uses valid credentials, so nothing ever fails", "misconception": "spraying-vs-brute-force", "why": "That describes credential stuffing with known-good pairs. Spraying is guessing, and most attempts fail."},
+      {"id": "d", "text": "Lockout counters reset only at midnight each day", "misconception": "spraying-vs-brute-force", "why": "Reset windows vary and are not the reason. The attack simply never reaches the threshold."}
     ]
   },
   {
@@ -49,10 +49,10 @@
     "difficulty": 2,
     "stem": "Which characteristic distinguishes a virus from a worm?",
     "options": [
-      {"id": "a", "text": "A virus needs a host file and user action; a worm propagates on its own", "correct": true, "why": "This single distinction drives the response: a worm requires network containment first."},
-      {"id": "b", "text": "A virus targets Windows while a worm targets Linux", "misconception": "worm-vs-virus", "why": "Neither is platform specific. The distinction is propagation, not operating system."},
-      {"id": "c", "text": "A virus encrypts data while a worm exfiltrates it", "misconception": "worm-vs-virus", "why": "Those are payload behaviours. Either type can carry either payload."},
-      {"id": "d", "text": "A virus hides from antivirus while a worm does not", "misconception": "trojan-vs-rootkit-vs-backdoor", "why": "Hiding from detection describes a rootkit, which is a separate category."}
+      {"id": "a", "text": "A virus needs a host file and a user action; a worm spreads alone", "correct": true, "why": "This single distinction drives the response: a worm requires network containment first. Remember: a virus needs a host and a person; a worm spreads alone."},
+      {"id": "b", "text": "A virus targets Windows systems while a worm targets Linux systems", "misconception": "worm-vs-virus", "why": "Neither is platform specific. The distinction is propagation, not operating system."},
+      {"id": "c", "text": "A virus encrypts the data while a worm exfiltrates the data instead", "misconception": "worm-vs-virus", "why": "Those are payload behaviors. Either type can carry either payload."},
+      {"id": "d", "text": "A virus hides from antivirus tools while a worm does not hide at all", "misconception": "trojan-vs-rootkit-vs-backdoor", "why": "Hiding from detection describes a rootkit, which is a separate category."}
     ]
   },
   {
@@ -77,8 +77,8 @@
     "difficulty": 3,
     "stem": "Two weeks after a systems administrator was dismissed, a script ran on the payroll server and deleted records. Investigation shows it was scheduled months earlier to fire when that administrator's account no longer appeared in the HR feed. What is this?",
     "options": [
-      {"id": "a", "text": "A logic bomb", "correct": true, "why": "Malicious code lying dormant until a defined condition is met is a logic bomb, and the departure of the author is its classic trigger."},
-      {"id": "b", "text": "A backdoor", "misconception": "trojan-vs-rootkit-vs-backdoor", "why": "A backdoor provides ongoing unauthorised access. This code did not grant access, it waited and then destroyed data."},
+      {"id": "a", "text": "A logic bomb", "correct": true, "why": "Malicious code lying dormant until a defined condition is met is a logic bomb, and the departure of the author is its classic trigger. Remember: a logic bomb waits for a condition; a backdoor gives access."},
+      {"id": "b", "text": "A backdoor", "misconception": "trojan-vs-rootkit-vs-backdoor", "why": "A backdoor provides ongoing unauthorized access. This code did not grant access, it waited and then destroyed data."},
       {"id": "c", "text": "A rootkit", "misconception": "trojan-vs-rootkit-vs-backdoor", "why": "Nothing indicates concealment of the system's true state. The script was scheduled in the open."},
       {"id": "d", "text": "Ransomware", "misconception": "ransomware-pay", "why": "There is no encryption and no demand. The goal was destruction, not extortion."}
     ]
@@ -91,10 +91,10 @@
     "difficulty": 3,
     "stem": "A new laptop fleet arrives with vendor trial software, a hardware utility and a browser toolbar, all preinstalled by the manufacturer. None exfiltrates data. What is this, and why does it matter?",
     "options": [
-      {"id": "a", "text": "Bloatware: not malicious, but third-party software running with privilege that nobody in the organisation is patching", "correct": true, "why": "The security problem is attack surface, not surveillance. Removing it is part of establishing a secure baseline on a new build."},
-      {"id": "b", "text": "Spyware, because the organisation did not choose to install it", "misconception": "spyware-vs-bloatware-vs-pup", "why": "Spyware surveils and exfiltrates. The stem explicitly rules that out."},
+      {"id": "a", "text": "Bloatware: not malicious, but privileged third-party software nobody patches", "correct": true, "why": "The security problem is attack surface, not surveillance. Removing it is part of establishing a secure baseline on a new build. Remember: bloatware is unwanted but not malicious; spyware watches you."},
+      {"id": "b", "text": "Spyware, because the organization did not choose to install the software", "misconception": "spyware-vs-bloatware-vs-pup", "why": "Spyware surveils and exfiltrates. The stem explicitly rules that out."},
       {"id": "c", "text": "A trojan, since it arrived disguised inside a legitimate product", "misconception": "spyware-vs-bloatware-vs-pup", "why": "A trojan hides malicious function inside something wanted. Vendor bloatware is openly what it is, merely unwelcome."},
-      {"id": "d", "text": "Not a security concern, since it is vendor supplied", "misconception": "spyware-vs-bloatware-vs-pup", "why": "Vendor origin does not patch it. Unmaintained privileged software is exactly the surface baselines exist to reduce."}
+      {"id": "d", "text": "Not a security concern, since the software is supplied by the vendor", "misconception": "spyware-vs-bloatware-vs-pup", "why": "Vendor origin does not patch it. Unmaintained privileged software is exactly the surface baselines exist to reduce."}
     ]
   },
   {
@@ -105,10 +105,10 @@
     "difficulty": 4,
     "stem": "Staff credentials for several unrelated services are found for sale. Investigation shows a utility installed months ago has been recording keystrokes and sending them to an external host. Which classification fits best?",
     "options": [
-      {"id": "a", "text": "Spyware, specifically a keylogger, likely delivered by a trojan", "correct": true, "why": "Covert surveillance with exfiltration is spyware; capturing keystrokes names the variety; arriving inside something that looked useful names the delivery."},
-      {"id": "b", "text": "Bloatware, since it was an unwanted utility", "misconception": "spyware-vs-bloatware-vs-pup", "why": "Bloatware is unwanted and not hostile. Data leaving the organisation settles this."},
-      {"id": "c", "text": "A worm, because it spread to several services", "misconception": "worm-vs-virus", "why": "Nothing propagated. One host captured credentials used across several services."},
-      {"id": "d", "text": "A rootkit, because it persisted for months", "misconception": "trojan-vs-rootkit-vs-backdoor", "why": "A rootkit hides itself and other components, typically at or below the OS. Persistence alone does not make one."}
+      {"id": "a", "text": "Spyware, a keylogger, likely delivered by a trojan", "correct": true, "why": "Covert surveillance with exfiltration is spyware; capturing keystrokes names the variety; arriving inside something that looked useful names the delivery. Remember: a keylogger records keystrokes and is a kind of spyware."},
+      {"id": "b", "text": "Bloatware, since it was an unwanted utility the staff installed", "misconception": "spyware-vs-bloatware-vs-pup", "why": "Bloatware is unwanted and not hostile. Data leaving the organization settles this."},
+      {"id": "c", "text": "A worm, because it spread to several of the services at once", "misconception": "worm-vs-virus", "why": "Nothing propagated. One host captured credentials used across several services."},
+      {"id": "d", "text": "A rootkit, because it persisted unseen on the machines for months", "misconception": "trojan-vs-rootkit-vs-backdoor", "why": "A rootkit hides itself and other components, typically at or below the OS. Persistence alone does not make one."}
     ]
   },
   {
@@ -119,10 +119,10 @@
     "difficulty": 4,
     "stem": "Access logs show one employee's badge opening a door at head office while the employee is confirmed on site at a different location. No forced entry is evident. What is the likely attack?",
     "options": [
-      {"id": "a", "text": "RFID cloning: the badge was read at close range and reproduced", "correct": true, "why": "A credential used in two places at once, with no physical damage, is the signature. Proximity reading takes seconds in a lift or a queue."},
-      {"id": "b", "text": "Physical brute force", "misconception": "physical-and-environmental-attacks", "why": "That leaves damage, and the stem says there is none. The door opened legitimately as far as the reader was concerned."},
-      {"id": "c", "text": "Impossible travel", "misconception": "impossible-travel-indicators", "why": "Impossible travel describes authentication from geographically incompatible locations. The concept is analogous and the mechanism here is a duplicated physical credential."},
-      {"id": "d", "text": "An environmental attack", "misconception": "physical-and-environmental-attacks", "why": "Those target power, cooling or suppression, not access credentials."}
+      {"id": "a", "text": "RFID cloning: the badge was read at close range and copied", "correct": true, "why": "A credential used in two places at once, with no physical damage, is the signature. Proximity reading takes seconds in a lift or a queue."},
+      {"id": "b", "text": "Physical brute force against the door, with no forced entry", "misconception": "physical-and-environmental-attacks", "why": "That leaves damage, and the stem says there is none. The door opened legitimately as far as the reader was concerned."},
+      {"id": "c", "text": "Impossible travel, a sign of a stolen online account", "misconception": "impossible-travel-indicators", "why": "Impossible travel describes authentication from geographically incompatible locations. The concept is analogous and the mechanism here is a duplicated physical credential."},
+      {"id": "d", "text": "An environmental attack that interferes with the building systems", "misconception": "physical-and-environmental-attacks", "why": "Those target power, cooling or suppression, not access credentials."}
     ]
   },
   {
@@ -133,10 +133,10 @@
     "difficulty": 4,
     "stem": "An attacker with building access disables the cooling units serving a server room. Within an hour equipment begins shutting down on thermal protection. How is this classified?",
     "options": [
-      {"id": "a", "text": "An environmental attack, producing resource inaccessibility without touching the network", "correct": true, "why": "Environmental attacks target the conditions equipment needs rather than the equipment. The effect is a denial of service achieved entirely physically."},
-      {"id": "b", "text": "A distributed denial of service", "misconception": "physical-and-environmental-attacks", "why": "DDoS exhausts a resource using traffic from many sources. No traffic is involved."},
-      {"id": "c", "text": "Physical brute force", "misconception": "physical-and-environmental-attacks", "why": "That means forcing a physical barrier such as a door or cabinet."},
-      {"id": "d", "text": "Resource consumption", "misconception": "physical-and-environmental-attacks", "why": "Consumption means exhausting capacity such as bandwidth or connections. Here capacity is fine and the room is too hot."}
+      {"id": "a", "text": "An environmental attack: resource inaccessibility with no network traffic", "correct": true, "why": "Environmental attacks target the conditions equipment needs rather than the equipment. The effect is a denial of service achieved entirely physically."},
+      {"id": "b", "text": "A distributed denial of service against the server room network", "misconception": "physical-and-environmental-attacks", "why": "DDoS exhausts a resource using traffic from many sources. No traffic is involved."},
+      {"id": "c", "text": "Physical brute force against the door of the server room itself", "misconception": "physical-and-environmental-attacks", "why": "That means forcing a physical barrier such as a door or cabinet."},
+      {"id": "d", "text": "Resource consumption, in which capacity is exhausted by the traffic", "misconception": "physical-and-environmental-attacks", "why": "Consumption means exhausting capacity such as bandwidth or connections. Here capacity is fine and the room is too hot."}
     ]
   },
   {
@@ -147,10 +147,10 @@
     "difficulty": 4,
     "stem": "An application copies user-supplied input into a fixed-size buffer without checking length, allowing adjacent memory to be overwritten and execution redirected. Which attack is this, and what prevents it?",
     "options": [
-      {"id": "a", "text": "A buffer overflow, prevented by bounds checking in code and mitigated by protections such as ASLR and non-executable memory", "correct": true, "why": "The root cause is the missing length check. Platform mitigations raise the difficulty substantially and do not remove the defect."},
-      {"id": "b", "text": "SQL injection, prevented by parameterised queries", "misconception": "sqli-vs-xss", "why": "Injection attacks place attacker data into an interpreted statement. This one overruns memory."},
-      {"id": "c", "text": "A race condition, prevented by locking", "misconception": "race-condition-toctou", "why": "Race conditions turn on timing between check and use. Nothing here is about timing."},
-      {"id": "d", "text": "Privilege escalation, prevented by least privilege", "misconception": "app-attack-types", "why": "Escalation may be the outcome. The mechanism described is the overflow."}
+      {"id": "a", "text": "A buffer overflow, prevented by bounds checking and mitigated by ASLR", "correct": true, "why": "The root cause is the missing length check. Platform mitigations raise the difficulty substantially and do not remove the defect. Remember: unchecked input length overwrites adjacent memory: a buffer overflow."},
+      {"id": "b", "text": "SQL injection, prevented by parameterized queries in the application code", "misconception": "sqli-vs-xss", "why": "Injection attacks place attacker data into an interpreted statement. This one overruns memory."},
+      {"id": "c", "text": "A race condition, prevented by locking around the shared resource used", "misconception": "race-condition-toctou", "why": "Race conditions turn on timing between check and use. Nothing here is about timing."},
+      {"id": "d", "text": "Privilege escalation, prevented by least privilege on every account used", "misconception": "app-attack-types", "why": "Escalation may be the outcome. The mechanism described is the overflow."}
     ]
   },
   {
@@ -161,10 +161,10 @@
     "difficulty": 3,
     "stem": "Which indicator best distinguishes resource consumption from resource inaccessibility?",
     "options": [
-      {"id": "a", "text": "Consumption shows capacity exhausted, such as a saturated link or filled storage; inaccessibility shows a healthy resource that users simply cannot reach", "correct": true, "why": "One is a capacity symptom you can measure, the other is a reachability symptom. A service running comfortably that nobody can connect to points at routing, access control or a deliberate block."},
-      {"id": "b", "text": "Consumption is always deliberate; inaccessibility is always accidental", "misconception": "physical-and-environmental-attacks", "why": "Either can be deliberate or accidental. The distinction is the symptom, not the intent."},
-      {"id": "c", "text": "Consumption affects networks and inaccessibility affects storage", "misconception": "physical-and-environmental-attacks", "why": "Both can affect any resource type."},
-      {"id": "d", "text": "They are the same indicator described at different layers", "misconception": "physical-and-environmental-attacks", "why": "They are kept separate because they point at different causes."}
+      {"id": "a", "text": "Consumption shows exhausted capacity; inaccessibility shows a healthy resource nobody can reach", "correct": true, "why": "One is a capacity symptom you can measure, the other is a reachability symptom. A service running comfortably that nobody can connect to points at routing, access control or a deliberate block."},
+      {"id": "b", "text": "Consumption is always deliberate, and inaccessibility is always accidental in nature", "misconception": "physical-and-environmental-attacks", "why": "Either can be deliberate or accidental. The distinction is the symptom, not the intent."},
+      {"id": "c", "text": "Consumption affects only networks, and inaccessibility affects only storage systems", "misconception": "physical-and-environmental-attacks", "why": "Either symptom can hit a network, a disk or a service, so the resource type does not separate them. What separates them is exhausted capacity versus a healthy resource nobody can reach."},
+      {"id": "d", "text": "They are the same indicator, described at two different layers of the system", "misconception": "physical-and-environmental-attacks", "why": "They are kept separate because they point at different causes."}
     ]
   },
   {
@@ -251,10 +251,10 @@
     "difficulty": 3,
     "stem": "An attacker captures an authentication message and submits it unchanged 40 minutes later. The server accepts it. Which control would have prevented this?",
     "options": [
-      {"id": "a", "text": "Including a nonce or timestamp so each message is valid only once", "correct": true, "why": "Replay is defeated by making every authentication message unique and time bound, so a recording cannot be reused."},
-      {"id": "b", "text": "Increasing the password complexity requirement", "misconception": "on-path-vs-replay", "why": "The attacker never needed the password. They reused the authentication message itself."},
-      {"id": "c", "text": "Certificate pinning on the client", "misconception": "on-path-vs-replay", "why": "Pinning defends against on-path interception with a fraudulent certificate. It does not stop a captured message being replayed."},
-      {"id": "d", "text": "Rate limiting failed logins", "misconception": "on-path-vs-replay", "why": "The replayed attempt succeeds on the first try, so it never triggers a failure threshold."}
+      {"id": "a", "text": "A nonce or timestamp, so each message is valid only once", "correct": true, "why": "Replay is defeated by making every authentication message unique and time bound, so a recording cannot be reused. Remember: a nonce or timestamp makes a captured message useless the second time."},
+      {"id": "b", "text": "Increasing the password complexity requirement for the users", "misconception": "on-path-vs-replay", "why": "The attacker never needed the password. They reused the authentication message itself."},
+      {"id": "c", "text": "Certificate pinning on the client that makes the connection", "misconception": "on-path-vs-replay", "why": "Pinning defends against on-path interception with a fraudulent certificate. It does not stop a captured message being replayed."},
+      {"id": "d", "text": "Rate limiting failed logins on the authentication service", "misconception": "on-path-vs-replay", "why": "The replayed attempt succeeds on the first try, so it never triggers a failure threshold."}
     ]
   },
   {
@@ -293,10 +293,10 @@
     "difficulty": 3,
     "stem": "While investigating a suspected compromise, an analyst finds the security event log has no entries between 02:10 and 02:55, though the system was running. How should this be treated?",
     "options": [
-      {"id": "a", "text": "As an indicator of compromise, since something likely cleared or suppressed the log", "correct": true, "why": "Missing logs are evidence in themselves. Clearing logs is a standard anti-forensic step, and it is exactly why logs are forwarded off host."},
-      {"id": "b", "text": "As a benign gap, since nothing happened during that period", "misconception": "impossible-travel-indicators", "why": "A running system generates events. A silent window during a suspected compromise is the opposite of reassuring."},
-      {"id": "c", "text": "As out-of-cycle logging", "misconception": "impossible-travel-indicators", "why": "Out-of-cycle logging means events appearing at unusual times, not events being absent."},
-      {"id": "d", "text": "As a false positive from the SIEM", "misconception": "false-positive-vs-negative", "why": "The SIEM has not raised an incorrect alarm. The source data itself has a hole in it."}
+      {"id": "a", "text": "An indicator of compromise: the log was likely cleared or suppressed", "correct": true, "why": "Missing logs are evidence in themselves. Clearing logs is a standard anti-forensic step, and it is exactly why logs are forwarded off host."},
+      {"id": "b", "text": "A benign gap, since nothing happened on the system during that period", "misconception": "impossible-travel-indicators", "why": "A running system generates events. A silent window during a suspected compromise is the opposite of reassuring."},
+      {"id": "c", "text": "Out-of-cycle logging that the operating system does on its own", "misconception": "impossible-travel-indicators", "why": "Out-of-cycle logging means events appearing at unusual times, not events being absent."},
+      {"id": "d", "text": "A false positive from the SIEM that has misread the log source", "misconception": "false-positive-vs-negative", "why": "The SIEM has not raised an incorrect alarm. The source data itself has a hole in it."}
     ]
   },
   {
@@ -321,10 +321,10 @@
     "difficulty": 3,
     "stem": "A researcher produces two different PDF documents that share an identical MD5 digest. What does this demonstrate?",
     "options": [
-      {"id": "a", "text": "A hash collision, showing MD5 is unfit for integrity or signature use", "correct": true, "why": "Two distinct inputs producing the same digest breaks the guarantee that a matching hash means identical content."},
-      {"id": "b", "text": "A downgrade attack against the hashing algorithm", "misconception": "crypto-attacks", "why": "Downgrade attacks manipulate protocol negotiation. Nothing is being negotiated here."},
-      {"id": "c", "text": "That MD5 encryption has been broken", "misconception": "hashing-vs-encryption", "why": "MD5 is a hash function, not encryption. It has no key and nothing to decrypt."},
-      {"id": "d", "text": "A birthday attack, which is a different thing from a collision", "misconception": "crypto-attacks", "why": "The birthday attack is the technique used to find collisions efficiently. The result demonstrated here is the collision itself."}
+      {"id": "a", "text": "A hash collision, showing MD5 is unfit for integrity or signatures", "correct": true, "why": "Two distinct inputs producing the same digest breaks the guarantee that a matching hash means identical content."},
+      {"id": "b", "text": "A downgrade attack forcing the system onto a weaker hash algorithm", "misconception": "crypto-attacks", "why": "Downgrade attacks manipulate protocol negotiation. Nothing is being negotiated here."},
+      {"id": "c", "text": "That MD5 encryption has been broken and can now be decrypted", "misconception": "hashing-vs-encryption", "why": "MD5 is a hash function, not encryption. It has no key and nothing to decrypt."},
+      {"id": "d", "text": "A birthday attack against the hash function's output length", "misconception": "crypto-attacks", "why": "The birthday attack is the technique used to find collisions efficiently. The result demonstrated here is the collision itself."}
     ]
   },
   {
@@ -350,9 +350,9 @@
     "stem": "A logged-in user visits a malicious page, which silently causes their browser to submit a password change request to their banking site using their existing session. What is this?",
     "options": [
       {"id": "a", "text": "Cross site request forgery", "correct": true, "why": "The victim's own authenticated browser is tricked into issuing a request they never intended, and the bank sees it as legitimate."},
-      {"id": "b", "text": "Cross site scripting", "misconception": "app-attack-types", "why": "XSS executes attacker script within the vulnerable site's own origin. Here no script runs on the bank's site; the browser is simply made to send a request."},
-      {"id": "c", "text": "An on-path attack", "misconception": "on-path-vs-replay", "why": "The attacker never intercepts traffic. They rely entirely on the victim's browser and existing session."},
-      {"id": "d", "text": "Privilege escalation", "misconception": "app-attack-types", "why": "No additional rights are obtained. The attacker uses exactly the rights the victim already has."}
+      {"id": "b", "text": "Cross site scripting, injected in the page", "misconception": "app-attack-types", "why": "XSS executes attacker script within the vulnerable site's own origin. Here no script runs on the bank's site; the browser is simply made to send a request."},
+      {"id": "c", "text": "An on-path attack on the connection", "misconception": "on-path-vs-replay", "why": "The attacker never intercepts traffic. They rely entirely on the victim's browser and existing session."},
+      {"id": "d", "text": "Privilege escalation on the banking site", "misconception": "app-attack-types", "why": "No additional rights are obtained. The attacker uses exactly the rights the victim already has."}
     ]
   },
   {
@@ -363,10 +363,10 @@
     "difficulty": 3,
     "stem": "Users report being disconnected from the wireless network repeatedly. A capture shows a flood of deauthentication frames claiming to come from the access point, after which several clients associate to an access point advertising the same SSID from outside the building. Which two changes address this most directly?",
     "options": [
-      {"id": "a", "text": "Set Protected Management Frames to required and deploy wireless intrusion detection for duplicate SSIDs", "correct": true, "why": "PMF authenticates management frames, which stops forged deauthentication. Wireless IDS detects the impersonating access point, which is an evil twin."},
-      {"id": "b", "text": "Increase transmit power and rotate the passphrase", "misconception": "pmf-and-deauth", "why": "Signal strength is a race the attacker can win, and a passphrase change does nothing about unauthenticated management frames."},
-      {"id": "c", "text": "Disable SSID broadcast so the attacker cannot clone the name", "misconception": "ssid-hiding-as-security", "why": "Clients transmit the SSID in probe requests, so a hidden name is easy to learn and easy to clone."},
-      {"id": "d", "text": "Enable MAC filtering on the legitimate access point", "misconception": "ssid-hiding-as-security", "why": "The attack takes place on the attacker's access point, which will not enforce your filter list."}
+      {"id": "a", "text": "Require Protected Management Frames and add wireless intrusion detection", "correct": true, "why": "PMF authenticates management frames, which stops forged deauthentication. Wireless IDS detects the impersonating access point, which is an evil twin."},
+      {"id": "b", "text": "Increase transmit power and rotate the passphrase on the network", "misconception": "pmf-and-deauth", "why": "Signal strength is a race the attacker can win, and a passphrase change does nothing about unauthenticated management frames."},
+      {"id": "c", "text": "Disable SSID broadcast so the attacker cannot clone the network name", "misconception": "ssid-hiding-as-security", "why": "Clients transmit the SSID in probe requests, so a hidden name is easy to learn and easy to clone."},
+      {"id": "d", "text": "Enable MAC filtering on the legitimate access point to block clients", "misconception": "ssid-hiding-as-security", "why": "The attack takes place on the attacker's access point, which will not enforce your filter list."}
     ]
   },
   {
@@ -391,10 +391,10 @@
     "difficulty": 2,
     "stem": "An employee plugs a personal wireless router into a spare office network port so they can use their tablet. The router broadcasts its own SSID, not the corporate one. How should this be classified and what control prevents it?",
     "options": [
-      {"id": "a", "text": "A rogue access point, prevented by 802.1X port security or network access control on the wired ports", "correct": true, "why": "It is unauthorised but does not impersonate the corporate SSID, so it is a rogue access point rather than an evil twin. Authenticating the wired port stops an unknown device joining at all."},
-      {"id": "b", "text": "An evil twin, prevented by wireless intrusion detection", "misconception": "evil-twin-vs-rogue-ap", "why": "It advertises its own name, not a clone of the corporate SSID, so it does not meet the definition of an evil twin."},
-      {"id": "c", "text": "An on-path attack, prevented by enabling PMF", "misconception": "evil-twin-vs-rogue-ap", "why": "Nothing indicates the employee is intercepting traffic, and PMF protects wireless management frames rather than wired ports."},
-      {"id": "d", "text": "Shadow IT with no available technical control, addressed by policy alone", "misconception": "evil-twin-vs-rogue-ap", "why": "It is shadow IT, but there is a strong technical control: authenticate the wired port so an unknown device cannot connect."}
+      {"id": "a", "text": "A rogue access point, stopped by 802.1X or NAC on the wired ports", "correct": true, "why": "It is unauthorized but does not impersonate the corporate SSID, so it is a rogue access point rather than an evil twin. Authenticating the wired port stops an unknown device joining at all. Remember: a rogue AP is plugged in from inside; an evil twin copies a real network from outside."},
+      {"id": "b", "text": "An evil twin, prevented by wireless intrusion detection alone", "misconception": "evil-twin-vs-rogue-ap", "why": "It advertises its own name, not a clone of the corporate SSID, so it does not meet the definition of an evil twin."},
+      {"id": "c", "text": "An on-path attack, prevented by enabling PMF on the access points", "misconception": "evil-twin-vs-rogue-ap", "why": "Nothing indicates the employee is intercepting traffic, and PMF protects wireless management frames rather than wired ports."},
+      {"id": "d", "text": "Shadow IT with no technical control available, addressed by policy alone", "misconception": "evil-twin-vs-rogue-ap", "why": "It is shadow IT, but there is a strong technical control: authenticate the wired port so an unknown device cannot connect."}
     ]
   },
   {
@@ -405,7 +405,7 @@
     "difficulty": 4,
     "stem": "An attacker sends requests to thousands of open memcached servers with the victim's address forged as the source. Each 15 byte request produces a reply tens of thousands of times larger, all of which lands on the victim. Which statement is accurate?",
     "options": [
-      {"id": "a", "text": "It is both: reflected, because forged sources send the replies to the victim, and amplified, because each reply dwarfs its request", "correct": true, "why": "Reflection is about who appears to send the traffic, amplification is about how much comes back. This attack uses both, which is the common large-scale pattern."},
+      {"id": "a", "text": "Both: reflected, as forged sources send replies to the victim, and amplified, as replies dwarf requests", "correct": true, "why": "Reflection is about who appears to send the traffic, amplification is about how much comes back. This attack uses both, which is the common large-scale pattern. Remember: reflection hides the source; amplification multiplies the size."},
       {"id": "b", "text": "It is reflection only; amplification requires the attacker to control a botnet", "misconception": "ddos-amplified-vs-reflected", "why": "Amplification needs only a protocol whose reply is much larger than its request. No botnet is involved in that multiplication."},
       {"id": "c", "text": "It is amplification only; reflection requires the memcached servers to be compromised", "misconception": "ddos-amplified-vs-reflected", "why": "The servers are innocent and answering normally. Forging the source address is what reflects their replies onto the victim."},
       {"id": "d", "text": "It is an on-path attack, because the traffic passes through third-party servers", "misconception": "on-path-vs-replay", "why": "Nothing is intercepted or relayed between two parties. The third parties generate new traffic aimed at the victim."}

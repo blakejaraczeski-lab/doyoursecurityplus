@@ -24,7 +24,7 @@
       {"id": "a", "text": "Lessons learned", "correct": true, "why": "The final phase captures what happened, what worked, and what changes prevent a repeat. Skipping it means the same incident recurs."},
       {"id": "b", "text": "Containment", "misconception": "ir-phase-order", "why": "Containment happens during the incident, long before systems return to service."},
       {"id": "c", "text": "Preparation", "misconception": "ir-phase-order", "why": "Preparation precedes any incident. It is improved by lessons learned, but it is not the phase that follows recovery."},
-      {"id": "d", "text": "Detection", "misconception": "ir-phase-order", "why": "Detection begins the response. Nothing remains to detect for an incident that is closed."}
+      {"id": "d", "text": "Detection and analysis", "misconception": "ir-phase-order", "why": "Detection begins the response. Nothing remains to detect for an incident that is closed."}
     ]
   },
   {
@@ -35,7 +35,7 @@
     "difficulty": 3,
     "stem": "An analyst discovers a workstation communicating with a known command and control server. Legal has confirmed the incident will be pursued. What should the analyst do?",
     "options": [
-      {"id": "a", "text": "Disconnect the network cable and leave the system powered on", "correct": true, "why": "Disconnecting contains the host while keeping memory, running processes and network state intact for forensic acquisition."},
+      {"id": "a", "text": "Unplug the network cable and leave the system powered on", "correct": true, "why": "Disconnecting contains the host while keeping memory, running processes and network state intact for forensic acquisition."},
       {"id": "b", "text": "Shut the system down immediately to stop the communication", "misconception": "isolate-vs-power-off", "why": "Shutting down destroys everything in RAM, including the running malware, injected code and open connections. It contains and destroys evidence in one step."},
       {"id": "c", "text": "Leave it connected and continue monitoring indefinitely", "misconception": "isolate-vs-power-off", "why": "Evidence gathering does not justify letting an active compromise continue once it is confirmed."},
       {"id": "d", "text": "Reimage the workstation and return it to the user", "misconception": "clean-vs-reimage", "why": "Reimaging is the eventual remediation and it destroys all evidence. Legal has said the incident will be pursued."}
@@ -49,10 +49,10 @@
     "difficulty": 3,
     "stem": "A compromised server is isolated and still running. Which evidence should be collected first?",
     "options": [
-      {"id": "a", "text": "A memory image capturing running processes and network connections", "correct": true, "why": "Order of volatility: the most perishable evidence is collected first, and memory disappears the moment power is lost."},
+      {"id": "a", "text": "A memory image of the running server", "correct": true, "why": "Memory holds running processes and network connections. Order of volatility: the most perishable evidence is collected first, and memory disappears the moment power is lost."},
       {"id": "b", "text": "A forensic disk image of the system drive", "misconception": "order-of-volatility", "why": "Disk is persistent and will still be there after the memory capture. Taking it first risks losing memory to a crash or reboot."},
       {"id": "c", "text": "The SIEM's archived logs for the server", "misconception": "order-of-volatility", "why": "These are stored elsewhere and are the least volatile evidence in the list."},
-      {"id": "d", "text": "Last night's backup tape", "misconception": "order-of-volatility", "why": "Backups are the most durable evidence of all, and they predate the compromise."}
+      {"id": "d", "text": "Last night's backup tape of the server", "misconception": "order-of-volatility", "why": "Backups are the most durable evidence of all, and they predate the compromise."}
     ]
   },
   {
@@ -77,9 +77,9 @@
     "difficulty": 2,
     "stem": "A defence attorney argues that a seized hard drive may have been altered between seizure and analysis. Which control answers this challenge?",
     "options": [
-      {"id": "a", "text": "A documented chain of custody with hashes taken at each transfer", "correct": true, "why": "It records every person who held the item and when, and the hashes demonstrate the contents did not change."},
+      {"id": "a", "text": "A chain of custody log with transfer hashes", "correct": true, "why": "It records every person who held the item and when, and the hashes taken at each transfer demonstrate the contents did not change. Who held it, and proof it never changed."},
       {"id": "b", "text": "A legal hold issued at the time of seizure", "misconception": "chain-of-custody-vs-legal-hold", "why": "A hold prevents deletion. It says nothing about who handled the drive afterwards."},
-      {"id": "c", "text": "Full disk encryption on the seized drive", "misconception": "chain-of-custody-vs-legal-hold", "why": "Encryption protects confidentiality. It does not evidence integrity of handling."},
+      {"id": "c", "text": "Full disk encryption applied to the seized drive", "misconception": "chain-of-custody-vs-legal-hold", "why": "Encryption protects confidentiality. It does not evidence integrity of handling."},
       {"id": "d", "text": "An access control list on the evidence storage room", "misconception": "chain-of-custody-vs-legal-hold", "why": "Useful supporting control, but it does not produce the handling record the challenge demands."}
     ]
   },
@@ -91,10 +91,10 @@
     "difficulty": 3,
     "stem": "A workstation was compromised by malware that obtained SYSTEM privileges and installed an unknown persistence mechanism. What is the appropriate remediation?",
     "options": [
-      {"id": "a", "text": "Reimage from a known good image, then patch and reset the affected credentials", "correct": true, "why": "Once an attacker held full privilege, you cannot enumerate everything they changed. Rebuilding restores a trustworthy state, and the credentials must be reset or they simply return."},
+      {"id": "a", "text": "Reimage from a known good image, patch, reset credentials", "correct": true, "why": "Once an attacker held full privilege, you cannot enumerate everything they changed. Rebuilding restores a trustworthy state, and the credentials must be reset or they simply return."},
       {"id": "b", "text": "Run the endpoint removal tool and confirm a clean scan", "misconception": "clean-vs-reimage", "why": "A clean scan on a host that was fully compromised proves only that the scanner found nothing, which a capable attacker ensures."},
       {"id": "c", "text": "Restore the system from a snapshot taken last week", "misconception": "clean-vs-reimage", "why": "The snapshot may predate the compromise or may already contain it, and it restores the unpatched vulnerability either way."},
-      {"id": "d", "text": "Remove the malicious service and apply the patch", "misconception": "clean-vs-reimage", "why": "This addresses the persistence you found. The scenario says the mechanism is unknown, so you cannot be confident it is the only one."}
+      {"id": "d", "text": "Remove the malicious service you found and apply the patch", "misconception": "clean-vs-reimage", "why": "This addresses the persistence you found. The scenario says the mechanism is unknown, so you cannot be confident it is the only one."}
     ]
   },
   {
@@ -105,10 +105,10 @@
     "difficulty": 3,
     "stem": "Ransomware has encrypted a company's file shares. Backups run nightly to a network share mapped on the file server, and those backups are also encrypted. What was the design failure?",
     "options": [
-      {"id": "a", "text": "The backups were reachable from the system they protected, so the ransomware reached them too", "correct": true, "why": "Backups must be offline, immutable or otherwise out of reach of a compromised host, or they share its fate."},
-      {"id": "b", "text": "Backups were taken too infrequently", "misconception": "ransomware-pay", "why": "Frequency governs how much data is lost. It would not have helped here, because every copy was encrypted."},
+      {"id": "a", "text": "The backups sat within reach of the file server", "correct": true, "why": "The backups were reachable from the system they protected, so the ransomware reached them too. Backups must be offline, immutable or otherwise out of reach of a compromised host, or they share its fate."},
+      {"id": "b", "text": "Backups were taken too infrequently to be useful", "misconception": "ransomware-pay", "why": "Frequency governs how much data is lost. It would not have helped here, because every copy was encrypted."},
       {"id": "c", "text": "The company did not maintain a ransom payment reserve", "misconception": "ransomware-pay", "why": "Paying is never the exam's recovery plan, and it does not guarantee a working decryption key."},
-      {"id": "d", "text": "The backups were not encrypted at rest", "misconception": "ransomware-pay", "why": "Encrypting backups protects their confidentiality. It would not have prevented the ransomware from encrypting them again."}
+      {"id": "d", "text": "The backups were not encrypted at rest on the share", "misconception": "ransomware-pay", "why": "Encrypting backups protects their confidentiality. It would not have prevented the ransomware from encrypting them again."}
     ]
   },
   {
@@ -119,7 +119,7 @@
     "difficulty": 2,
     "stem": "After containing a ransomware incident, the organisation holds verified offline backups. What is the correct recovery sequence?",
     "options": [
-      {"id": "a", "text": "Rebuild the affected systems, close the vulnerability used, then restore data from the offline backup", "correct": true, "why": "Restoring onto a still vulnerable or still compromised system reinfects it. The hole is closed before data comes back."},
+      {"id": "a", "text": "Rebuild, close the vulnerability, then restore from the offline backup", "correct": true, "why": "Restoring onto a still vulnerable or still compromised system reinfects it. The hole is closed before data comes back. Rebuild, patch, then restore."},
       {"id": "b", "text": "Pay the ransom to obtain the decryption key, since it is faster than restoring", "misconception": "ransomware-pay", "why": "Payment is not a recovery control. It may be unlawful, it funds further attacks, and the key may not work."},
       {"id": "c", "text": "Restore the data immediately to minimise downtime, then patch", "misconception": "ir-phase-order", "why": "This restores into a compromised environment, which is how organisations get encrypted a second time during recovery."},
       {"id": "d", "text": "Decrypt in place with a public decryptor and leave the systems running", "misconception": "clean-vs-reimage", "why": "Even where a decryptor exists, the systems remain compromised and untrustworthy."}
@@ -161,10 +161,10 @@
     "difficulty": 3,
     "stem": "A responder must contain a compromised laptop while preserving evidence. Which action achieves both?",
     "options": [
-      {"id": "a", "text": "Disable its switch port or move it to a quarantine VLAN, leaving it powered on", "correct": true, "why": "The host is cut off from the network while memory, processes and connections stay intact for acquisition."},
+      {"id": "a", "text": "Move it to a quarantine VLAN and leave it powered on", "correct": true, "why": "The host is cut off from the network while memory, processes and connections stay intact for acquisition. Disabling its switch port works the same way. Cut the cable, keep the power."},
       {"id": "b", "text": "Perform a graceful shutdown so no data is corrupted", "misconception": "isolate-vs-power-off", "why": "A graceful shutdown is gentler on the file system and just as fatal to volatile evidence, and it may trigger anti-forensic cleanup."},
       {"id": "c", "text": "Pull the power cable to prevent any further writes", "misconception": "isolate-vs-power-off", "why": "This preserves disk state at the cost of every byte of memory evidence."},
-      {"id": "d", "text": "Run a full antivirus removal before anything else", "misconception": "ir-phase-order", "why": "Eradication before containment and before acquisition destroys the evidence and does not stop the spread."}
+      {"id": "d", "text": "Run a full antivirus removal before anything else is done", "misconception": "ir-phase-order", "why": "Eradication before containment and before acquisition destroys the evidence and does not stop the spread."}
     ]
   },
   {
@@ -178,7 +178,7 @@
       {"id": "a", "text": "Threat hunting", "correct": true, "why": "A hypothesis drawn from intelligence, investigated deliberately, with no alert involved. The point is to find what no existing rule would have caught."},
       {"id": "b", "text": "Detection", "misconception": "threat-hunting-vs-detection", "why": "Detection is rule, signature or baseline driven and begins when something fires. Nothing fired here."},
       {"id": "c", "text": "Analysis, as an incident response phase", "misconception": "threat-hunting-vs-detection", "why": "Analysis establishes scope and nature of a known incident. There is no incident yet."},
-      {"id": "d", "text": "A vulnerability scan", "misconception": "vuln-identification-sources", "why": "A scan enumerates weaknesses that exist. This searches for evidence that someone has already acted."}
+      {"id": "d", "text": "A vulnerability scan", "misconception": "threat-hunting-vs-detection", "why": "A scan enumerates weaknesses that exist. This searches for evidence that someone has already acted."}
     ]
   },
   {
@@ -189,10 +189,10 @@
     "difficulty": 4,
     "stem": "A threat hunt finds no compromise but reveals that a particular administrative technique would have gone entirely unlogged. What is the most valuable outcome?",
     "options": [
-      {"id": "a", "text": "Create the logging and detection rule, converting the gap into something monitoring will catch in future", "correct": true, "why": "A hunt that finds nothing is not a wasted hunt. Its usual product is a new detection, which is how hunting feeds back into monitoring."},
+      {"id": "a", "text": "Add logging and a detection rule for the technique", "correct": true, "why": "A hunt that finds nothing is not a wasted hunt. Its usual product is a new detection that converts the gap into something monitoring will catch in future, which is how hunting feeds back into monitoring."},
       {"id": "b", "text": "Conclude the environment is clean and close the hunt", "misconception": "threat-hunting-vs-detection", "why": "Finding nothing is weak evidence of absence and leaves the blind spot exactly where it was."},
-      {"id": "c", "text": "Open an incident so the gap is formally tracked", "misconception": "threat-hunting-vs-detection", "why": "No incident occurred. This is a control gap, handled through remediation rather than incident response."},
-      {"id": "d", "text": "Schedule a penetration test to confirm the gap", "misconception": "vuln-identification-sources", "why": "The gap is already confirmed. Paying to rediscover it delays the fix."}
+      {"id": "c", "text": "Open an incident so the logging gap is formally tracked", "misconception": "threat-hunting-vs-detection", "why": "No incident occurred. This is a control gap, handled through remediation rather than incident response."},
+      {"id": "d", "text": "Schedule a penetration test to confirm the gap exists", "misconception": "threat-hunting-vs-detection", "why": "The gap is already confirmed. Paying to rediscover it delays the fix."}
     ]
   },
   {
@@ -203,10 +203,10 @@
     "difficulty": 4,
     "stem": "After containment, a team restores forty workstations from backup and returns them to the network. Within two days the same malware reappears on several of them. What was most likely skipped?",
     "options": [
-      {"id": "a", "text": "Eradication: the cause was never fully removed, so recovery restored systems into an environment that still held it", "correct": true, "why": "Recovery follows eradication for this exact reason. Restoring while the root cause persists reproduces the incident, which is the single most common sequencing error."},
+      {"id": "a", "text": "Eradication: the cause was never fully removed", "correct": true, "why": "Recovery restored systems into an environment that still held the cause. Recovery follows eradication for this exact reason. Restoring while the root cause persists reproduces the incident, which is the single most common sequencing error."},
       {"id": "b", "text": "Recovery was performed incorrectly from the wrong backup set", "misconception": "ir-phase-order", "why": "Possible, and the pattern of several hosts reinfecting after return points to something still live in the environment."},
       {"id": "c", "text": "Lessons learned, which should precede recovery", "misconception": "ir-phase-order", "why": "Lessons learned is the final phase. It would not have prevented this."},
-      {"id": "d", "text": "Reporting to the regulator", "misconception": "incident-reporting-and-recovery", "why": "An obligation that may well exist and has no bearing on reinfection."}
+      {"id": "d", "text": "Reporting the incident to the regulator", "misconception": "incident-reporting-and-recovery", "why": "An obligation that may well exist and has no bearing on reinfection."}
     ]
   },
   {
@@ -217,8 +217,8 @@
     "difficulty": 4,
     "stem": "A breach involving personal data is confirmed on a Friday morning. The investigation will take at least three weeks. Legal asks about notification. What governs the timing?",
     "options": [
-      {"id": "a", "text": "Statutory deadlines generally run from becoming aware of the breach, not from completing the investigation, so notification cannot wait for the full picture", "correct": true, "why": "Regimes commonly require notification within a short window, often 72 hours, with details supplemented later. Waiting for certainty is how organisations miss it."},
-      {"id": "b", "text": "Notification is due once root cause analysis is complete", "misconception": "incident-reporting-and-recovery", "why": "That would let the clock depend on the investigation's length, which is why no regime defines it that way."},
+      {"id": "a", "text": "Legal deadlines generally run from awareness, not the investigation's end", "correct": true, "why": "The clock starts when you become aware of the breach, so notification cannot wait for the full picture. Regimes commonly require notification within a short window, often 72 hours, with details supplemented later. Waiting for certainty is how organizations miss it."},
+      {"id": "b", "text": "Notification is due once root cause analysis is complete and documented", "misconception": "incident-reporting-and-recovery", "why": "That would let the clock depend on the investigation's length, which is why no regime defines it that way."},
       {"id": "c", "text": "Notification is only required if the data is confirmed to have been misused", "misconception": "incident-reporting-and-recovery", "why": "The trigger is usually unauthorised access or disclosure, not evidence of downstream harm."},
       {"id": "d", "text": "There is no obligation while the incident remains contained internally", "misconception": "incident-reporting-and-recovery", "why": "Containment governs the technical response. It does not discharge a notification duty."}
     ]
@@ -232,7 +232,7 @@
     "stem": "An organisation gathers its response team and legal counsel around a table to talk through a ransomware scenario, deciding who would do what. No systems are touched. Which preparation activity is this?",
     "options": [
       {"id": "a", "text": "A tabletop exercise", "correct": true, "why": "Discussion-based, no tooling, focused on decisions, roles and gaps in the plan. It is the cheapest exercise and often the most revealing about who is unclear on their role."},
-      {"id": "b", "text": "A simulation", "misconception": "tabletop-vs-simulation", "why": "A simulation uses real tooling against an injected scenario. The stem says nothing is touched."},
+      {"id": "b", "text": "A simulation exercise", "misconception": "tabletop-vs-simulation", "why": "A simulation uses real tooling against an injected scenario. The stem says nothing is touched."},
       {"id": "c", "text": "A failover test", "misconception": "tabletop-vs-simulation", "why": "That actually moves production to the secondary site."},
       {"id": "d", "text": "Threat hunting", "misconception": "threat-hunting-vs-detection", "why": "Hunting searches live telemetry for evidence of an actual intruder."}
     ]
@@ -245,10 +245,10 @@
     "difficulty": 3,
     "stem": "Why does an incident response plan require training and exercises rather than only a written document?",
     "options": [
-      {"id": "a", "text": "Under pressure people execute what they have practised; an untested plan surfaces its gaps during the incident", "correct": true, "why": "Preparation is the first phase for this reason. Exercises find the missing contact, the unclear authority and the assumption nobody checked, while it is still cheap to find them."},
+      {"id": "a", "text": "An untested plan reveals its gaps during the real incident", "correct": true, "why": "Under pressure people execute what they have practiced. Preparation is the first phase for this reason. Exercises find the missing contact, the unclear authority and the assumption nobody checked, while it is still cheap to find them."},
       {"id": "b", "text": "Regulations require a specific number of exercises per year", "misconception": "incident-reporting-and-recovery", "why": "Some regimes do set expectations, and the reason the activity exists is competence rather than compliance."},
-      {"id": "c", "text": "Exercises replace the need for a documented plan", "misconception": "incident-reporting-and-recovery", "why": "They validate the plan. Without the document there is nothing to exercise against."},
-      {"id": "d", "text": "They provide the evidence needed for chain of custody", "misconception": "chain-of-custody-vs-legal-hold", "why": "Chain of custody documents handling of evidence during a real incident."}
+      {"id": "c", "text": "Exercises replace the need to maintain a documented plan", "misconception": "incident-reporting-and-recovery", "why": "They validate the plan. Without the document there is nothing to exercise against."},
+      {"id": "d", "text": "They provide the evidence needed for chain of custody", "misconception": "incident-reporting-and-recovery", "why": "Chain of custody documents handling of evidence during a real incident."}
     ]
   },
   {
@@ -259,10 +259,10 @@
     "difficulty": 4,
     "stem": "Containment and eradication are complete after a confirmed intrusion. Which TWO activities remain outstanding as named incident response activities? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Recovery: returning systems to normal service and confirming they are clean and functioning", "correct": true, "why": "Recovery follows eradication and is a distinct phase, including validation that service is genuinely restored."},
-      {"id": "b", "text": "Lessons learned: changing what allowed the incident so it is not repeated", "correct": true, "why": "The final phase, routinely skipped, and the only one that improves the odds next time."},
-      {"id": "c", "text": "Detection, since monitoring must be re-enabled", "misconception": "ir-phase-order", "why": "Detection precedes analysis and containment. It is not a closing activity."},
-      {"id": "d", "text": "Preparation, since the plan must be written", "misconception": "ir-phase-order", "why": "Preparation happens before any incident. Improvements to it arrive through lessons learned."},
+      {"id": "a", "text": "Recovery: restoring service and confirming systems are clean", "correct": true, "why": "Recovery follows eradication and is a distinct phase, including validation that service is genuinely restored."},
+      {"id": "b", "text": "Lessons learned: changing what allowed the incident", "correct": true, "why": "The final phase, routinely skipped, and the only one that improves the odds next time, so the incident is not repeated."},
+      {"id": "c", "text": "Detection, since monitoring must be re-enabled afterwards", "misconception": "ir-phase-order", "why": "Detection precedes analysis and containment. It is not a closing activity."},
+      {"id": "d", "text": "Preparation, since the response plan must now be written", "misconception": "ir-phase-order", "why": "Preparation happens before any incident. Improvements to it arrive through lessons learned."},
       {"id": "e", "text": "Threat hunting, which is the final phase of incident response", "misconception": "threat-hunting-vs-detection", "why": "Hunting is a proactive activity, not a phase in the response to a known incident."}
     ],
     "selectCount": 2
@@ -275,9 +275,9 @@
     "difficulty": 4,
     "stem": "A worm is spreading and legal has asked for a full forensic investigation. Which TWO actions belong to containment and preserve evidence? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Disconnect the affected hosts from the network, leaving them powered on", "correct": true, "why": "Stops the spread while memory, processes and connections survive for acquisition."},
-      {"id": "b", "text": "Block the worm's port between workstation subnets at the switch", "correct": true, "why": "Network segmentation stops lateral movement across every host at once, and touches no evidence."},
-      {"id": "c", "text": "Power off every affected host immediately", "misconception": "isolate-vs-power-off", "why": "Contains the spread and destroys every byte of volatile evidence, which legal has just asked for."},
+      {"id": "a", "text": "Disconnect the affected hosts but leave them powered on", "correct": true, "why": "Stops the spread while memory, processes and connections survive for acquisition."},
+      {"id": "b", "text": "Block the worm's port between subnets at the switch", "correct": true, "why": "Network segmentation stops lateral movement across every host at once, and touches no evidence."},
+      {"id": "c", "text": "Power off every affected host immediately to stop spread", "misconception": "isolate-vs-power-off", "why": "Contains the spread and destroys every byte of volatile evidence, which legal has just asked for."},
       {"id": "d", "text": "Reimage the affected hosts from a known good image", "misconception": "ir-phase-order", "why": "Reimaging is eradication, it comes later, and it destroys the evidence."},
       {"id": "e", "text": "Run a full antivirus scan on every workstation", "misconception": "segmentation-as-containment", "why": "Scanning is eradication one host at a time while the worm keeps reinfecting from neighbours."}
     ],

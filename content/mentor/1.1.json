@@ -126,5 +126,25 @@
       "tell": "'Policy', 'assessment', 'plan', 'documented procedure' point to managerial; 'training', 'patrol', 'review', 'performs', 'follows the procedure' point to operational.",
       "trap": "Training is about technical topics and is delivered by IT, so it reads as technical. It is people performing a process, which is operational. A procedure document is managerial; carrying it out is operational."
     }
+  },
+  {
+    "id": "technical-vs-operational-vs-physical",
+    "label": "Technical vs operational vs physical: a system, a person or a barrier",
+    "objective": "1.1",
+    "topics": ["technical-controls", "operational-controls", "physical-controls"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You put a control in the wrong category by looking at where it sits or what it protects instead of what carries it out. A system acting on its own is technical, people following a routine are operational, and a barrier you can touch is physical.",
+      "contrast": [
+        ["Control", "Category", "Why"],
+        ["Intrusion detection system", "Technical", "Software analyzing traffic; no person in the loop"],
+        ["Multifactor authentication system", "Technical", "A system enforcing the factor on its own"],
+        ["Quarterly phishing simulation with coaching", "Operational", "People run it and respond to the results"],
+        ["Locked cage around network equipment", "Physical", "A barrier you can touch"]
+      ],
+      "rule": "Ask who or what carries the control out. A system acting alone is technical, people doing a routine are operational, a physical barrier is physical.",
+      "tell": "Words like enforces, blocks, analyzes and detects point to technical. Words like reviews, patrols, coaches and runs point to operational. Doors, locks, cages and bollards are physical.",
+      "trap": "A technical control can protect a building and a physical one can protect data. The category follows what carries the control out, not what it protects."
+    }
   }
 ]

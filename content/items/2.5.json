@@ -35,10 +35,10 @@
     "difficulty": 4,
     "stem": "A phishing email compromises one workstation, and the attacker then reaches the finance file server, the domain controller and a database within an hour. Which mitigation most directly addresses the part that went wrong after the initial compromise?",
     "options": [
-      {"id": "a", "text": "Network segmentation, to limit what a compromised host can reach", "correct": true, "why": "The failure described is lateral movement, not the initial entry. Segmentation bounds the blast radius, which is precisely the problem the hour of free movement reveals."},
-      {"id": "b", "text": "Patching the workstation", "misconception": "mitigation-technique-selection", "why": "The entry was a phishing email, so a patch would not have prevented it, and it does nothing about the spread afterwards."},
-      {"id": "c", "text": "Monitoring to alert on unusual access", "misconception": "mitigation-technique-selection", "why": "Monitoring would have told you it was happening. The question asks what addresses the movement itself, and detection is not prevention."},
-      {"id": "d", "text": "Encryption of the data on the file server", "misconception": "mitigation-technique-selection", "why": "Transparent to an attacker using a valid session, and it does nothing to restrict reach."}
+      {"id": "a", "text": "Network segmentation, to limit where a compromised host can reach", "correct": true, "why": "The failure described is lateral movement, not the initial entry. Segmentation bounds the blast radius, which is precisely the problem the hour of free movement reveals."},
+      {"id": "b", "text": "Patching the workstation that the phishing email compromised", "misconception": "mitigation-technique-selection", "why": "The entry was a phishing email, so a patch would not have prevented it, and it does nothing about the spread afterwards."},
+      {"id": "c", "text": "Monitoring that alerts on unusual access to the file servers", "misconception": "mitigation-technique-selection", "why": "Monitoring would have told you it was happening. The question asks what addresses the movement itself, and detection is not prevention."},
+      {"id": "d", "text": "Encryption of the data held on the file server that was reached", "misconception": "mitigation-technique-selection", "why": "Transparent to an attacker using a valid session, and it does nothing to restrict reach."}
     ]
   },
   {
@@ -49,10 +49,10 @@
     "difficulty": 4,
     "stem": "A marketing intern can open the HR disciplinary folder. Investigation shows the folder's access list grants the whole Staff group read access. What is the immediate fix, and what principle was violated?",
     "options": [
-      {"id": "a", "text": "Correct the permissions on the folder; the principle violated is least privilege", "correct": true, "why": "The immediate action is configuration: narrow the access list to the HR group. Least privilege is the principle that should have governed the grant in the first place."},
-      {"id": "b", "text": "Apply least privilege to the folder as a setting", "misconception": "least-privilege-vs-permissions", "why": "Least privilege is a design principle, not a switch. It is the reason for the change rather than the change itself."},
-      {"id": "c", "text": "Encrypt the folder so only HR can read it", "misconception": "mitigation-technique-selection", "why": "Workable in some designs and far heavier than needed. The access list already exists and is simply wrong."},
-      {"id": "d", "text": "Enable monitoring on the folder to detect further access", "misconception": "mitigation-technique-selection", "why": "That tells you it keeps happening. It does not stop the intern opening the folder."}
+      {"id": "a", "text": "Correct the folder's permissions; least privilege was violated", "correct": true, "why": "The immediate action is configuration: narrow the access list to the HR group. Least privilege is the principle that should have governed the grant in the first place. Remember: least privilege is the principle; permissions are how you apply it."},
+      {"id": "b", "text": "Apply least privilege to the folder as a configuration setting", "misconception": "least-privilege-vs-permissions", "why": "Least privilege is a design principle, not a switch. It is the reason for the change rather than the change itself."},
+      {"id": "c", "text": "Encrypt the folder so that only the HR team can read the files in it", "misconception": "mitigation-technique-selection", "why": "Workable in some designs and far heavier than needed. The access list already exists and is simply wrong."},
+      {"id": "d", "text": "Enable monitoring on the folder to detect any further access to it", "misconception": "mitigation-technique-selection", "why": "That tells you it keeps happening. It does not stop the intern opening the folder."}
     ]
   },
   {
@@ -91,10 +91,10 @@
     "difficulty": 4,
     "stem": "A database server should only ever accept connections from two application servers, yet it currently accepts them from the entire user VLAN. Which mitigation applies most directly?",
     "options": [
-      {"id": "a", "text": "An access control list permitting only the two application servers to reach the database port", "correct": true, "why": "The failure is which traffic is permitted to reach a resource, which is exactly what an ACL governs. It is narrower and more precise than re-architecting segments."},
-      {"id": "b", "text": "Least privilege applied to the database accounts", "misconception": "least-privilege-vs-permissions", "why": "That governs what an authenticated user may do once connected. The problem here is who can reach the port at all."},
-      {"id": "c", "text": "Endpoint protection on the database server", "misconception": "mitigation-technique-selection", "why": "Aimed at malicious code executing on the host, not at which hosts may connect."},
-      {"id": "d", "text": "Encryption of the database connection", "misconception": "mitigation-technique-selection", "why": "Protects the traffic from interception. Everyone who should not reach it still can."}
+      {"id": "a", "text": "An ACL allowing only the two application servers to reach the database port", "correct": true, "why": "The failure is which traffic is permitted to reach a resource, which is exactly what an ACL governs. It is narrower and more precise than re-architecting segments. Remember: an ACL restricts who may reach a service by address and port."},
+      {"id": "b", "text": "Least privilege applied to the accounts that the database uses for logins", "misconception": "least-privilege-vs-permissions", "why": "That governs what an authenticated user may do once connected. The problem here is who can reach the port at all."},
+      {"id": "c", "text": "Endpoint protection installed on the database server itself, as the control", "misconception": "mitigation-technique-selection", "why": "Aimed at malicious code executing on the host, not at which hosts may connect."},
+      {"id": "d", "text": "Encryption of the connection to the database from the clients that use it", "misconception": "mitigation-technique-selection", "why": "Protects the traffic from interception. Everyone who should not reach it still can."}
     ]
   },
   {
@@ -105,10 +105,10 @@
     "difficulty": 4,
     "stem": "An application server runs software the vendor retired three years ago. It is still needed by one business process that is being replaced in eight months. Which combination is appropriate now?",
     "options": [
-      {"id": "a", "text": "Isolate it with strict access control and monitoring until it can be decommissioned on the planned date", "correct": true, "why": "No patch is coming, the system is still needed, and there is a known end date. Isolation plus a decommissioning plan is the expected pairing."},
-      {"id": "b", "text": "Patch it to the latest available version", "misconception": "mitigation-technique-selection", "why": "There are no further versions. The vendor retired it."},
-      {"id": "c", "text": "Decommission it immediately", "misconception": "mitigation-technique-selection", "why": "A business process still depends on it. Mitigation has to carry it to the replacement date rather than break the business today."},
-      {"id": "d", "text": "Install endpoint protection and consider the risk addressed", "misconception": "mitigation-technique-selection", "why": "Helpful and insufficient on its own. It does not reduce who can reach an unpatchable service."}
+      {"id": "a", "text": "Isolate it with strict access control and monitoring until it is retired", "correct": true, "why": "No patch is coming, the system is still needed, and there is a known end date. Isolation plus a decommissioning plan is the expected pairing."},
+      {"id": "b", "text": "Patch it to the latest available version of the retired software", "misconception": "mitigation-technique-selection", "why": "There are no further versions. The vendor retired it."},
+      {"id": "c", "text": "Decommission it immediately, before the replacement is ready for use", "misconception": "mitigation-technique-selection", "why": "A business process still depends on it. Mitigation has to carry it to the replacement date rather than break the business today."},
+      {"id": "d", "text": "Install endpoint protection and consider the risk fully addressed", "misconception": "mitigation-technique-selection", "why": "Helpful and insufficient on its own. It does not reduce who can reach an unpatchable service."}
     ]
   },
   {
@@ -119,10 +119,10 @@
     "difficulty": 3,
     "stem": "A finance workstation executes a malicious macro that drops and runs an unsigned binary. Which mitigation is designed to stop that chain on the host itself?",
     "options": [
-      {"id": "a", "text": "Endpoint protection installed on the workstation", "correct": true, "why": "Detecting and blocking malicious execution on the host is exactly its remit, including the behavioural chain of a document spawning a process."},
-      {"id": "b", "text": "A host-based firewall", "misconception": "mitigation-technique-selection", "why": "Controls which network connections the host accepts and makes. It does not inspect what executes locally."},
-      {"id": "c", "text": "Network segmentation", "misconception": "mitigation-technique-selection", "why": "Limits where the host can go afterwards. The binary still runs."},
-      {"id": "d", "text": "Encryption of the finance share", "misconception": "mitigation-technique-selection", "why": "Transparent to a process running as the logged-on user."}
+      {"id": "a", "text": "Endpoint protection installed on the workstation", "correct": true, "why": "Detecting and blocking malicious execution on the host is exactly its remit, including the behavioral chain of a document spawning a process."},
+      {"id": "b", "text": "A host-based firewall running on the workstation", "misconception": "mitigation-technique-selection", "why": "Controls which network connections the host accepts and makes. It does not inspect what executes locally."},
+      {"id": "c", "text": "Network segmentation between the user networks", "misconception": "mitigation-technique-selection", "why": "Limits where the host can go afterwards. The binary still runs."},
+      {"id": "d", "text": "Encryption of the finance share on the file server", "misconception": "mitigation-technique-selection", "why": "Transparent to a process running as the logged-on user."}
     ]
   },
   {
@@ -134,9 +134,9 @@
     "stem": "A service account used by a reporting tool holds domain administrator rights because that was simplest at install. Which TWO responses address this correctly? (Choose two.)",
     "options": [
       {"id": "a", "text": "Reduce the account's permissions to exactly what the reporting tool requires", "correct": true, "why": "The immediate configuration fix. Everything else is secondary while the account can do anything in the domain."},
-      {"id": "b", "text": "Adopt least privilege as the standard for service account provisioning, so this is not repeated", "correct": true, "why": "The principle that prevents the next one. Fixing one account without changing how accounts are granted guarantees a repeat."},
-      {"id": "c", "text": "Patch the reporting tool to its latest version", "misconception": "mitigation-technique-selection", "why": "Good practice and unrelated. The flaw is the rights granted, not the software version."},
-      {"id": "d", "text": "Encrypt the reporting tool's configuration file", "misconception": "mitigation-technique-selection", "why": "Protects a stored credential, and leaves the account's excessive rights exactly as they were."},
+      {"id": "b", "text": "Adopt least privilege for service account provisioning, so this is not repeated", "correct": true, "why": "The principle that prevents the next one. Fixing one account without changing how accounts are granted guarantees a repeat."},
+      {"id": "c", "text": "Patch the reporting tool to its latest version, which changes nothing about rights", "misconception": "mitigation-technique-selection", "why": "Good practice and unrelated. The flaw is the rights granted, not the software version."},
+      {"id": "d", "text": "Encrypt the reporting tool's configuration file, which leaves the account rights as they are", "misconception": "mitigation-technique-selection", "why": "Protects a stored credential, and leaves the account's excessive rights exactly as they were."},
       {"id": "e", "text": "Enable monitoring of the service account's activity and consider it resolved", "misconception": "mitigation-technique-selection", "why": "Monitoring is worth having alongside the fix. On its own it watches a problem rather than removing it."}
     ],
     "selectCount": 2
@@ -149,11 +149,11 @@
     "difficulty": 4,
     "stem": "A medical device runs an operating system the manufacturer will not patch and cannot be replaced this year. Which TWO are appropriate compensating controls? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Place the device on an isolated VLAN reachable only by the one server it must talk to", "correct": true, "why": "The control you wanted is unavailable, so network isolation meets the objective another way. That is what makes it compensating."},
-      {"id": "b", "text": "Monitor the segment and alert on any traffic outside the one permitted flow", "correct": true, "why": "Detection substitutes for the prevention you cannot deploy, and it is recorded against the documented exception."},
-      {"id": "c", "text": "Apply the latest vendor patch", "misconception": "zero-day-vs-unpatched", "why": "The scenario states there is none. This is the control that is unavailable, which is why a compensating one is needed."},
+      {"id": "a", "text": "Place the device on an isolated VLAN reachable only by the one server it needs", "correct": true, "why": "The control you wanted is unavailable, so network isolation meets the objective another way. That is what makes it compensating."},
+      {"id": "b", "text": "Monitor the segment and alert on any traffic outside that one permitted flow", "correct": true, "why": "Detection substitutes for the prevention you cannot deploy, and it is recorded against the documented exception."},
+      {"id": "c", "text": "Apply the latest vendor patch for the operating system on the device", "misconception": "zero-day-vs-unpatched", "why": "The scenario states there is none. This is the control that is unavailable, which is why a compensating one is needed."},
       {"id": "d", "text": "Accept the risk and record it in the register with no further action", "misconception": "risk-treatment-strategies", "why": "That is acceptance, not compensation. Acceptance leaves the exposure exactly as it was."},
-      {"id": "e", "text": "Install endpoint protection agents on the device", "misconception": "compensating-vs-corrective", "why": "An unpatchable legacy OS generally cannot run a current agent, which is part of why it needs isolating."}
+      {"id": "e", "text": "Install endpoint protection agents on the device itself, as on a laptop", "misconception": "compensating-vs-corrective", "why": "An unpatchable legacy OS generally cannot run a current agent, which is part of why it needs isolating."}
     ],
     "selectCount": 2
   },
@@ -179,10 +179,10 @@
     "difficulty": 3,
     "stem": "A server is fully patched. Which hardening steps still reduce its attack surface?",
     "options": [
-      {"id": "a", "text": "Removing unnecessary software, disabling unused services and changing default credentials", "correct": true, "why": "Patching fixes known flaws in what you run. Hardening reduces what you run and what it exposes, including tomorrow's flaw in software you did not need."},
-      {"id": "b", "text": "None; a fully patched host is hardened by definition", "misconception": "hardening-vs-patching", "why": "A fully patched host with default credentials and every service enabled is still trivially compromised. No patch fixes a default password."},
-      {"id": "c", "text": "Only installing additional monitoring", "misconception": "hardening-vs-patching", "why": "Monitoring detects. It removes no attack surface."},
-      {"id": "d", "text": "Increasing the patch cadence further", "misconception": "hardening-vs-patching", "why": "More of the thing already done, and it still does not touch unnecessary services or default credentials."}
+      {"id": "a", "text": "Remove unneeded software, disable unused services, change default credentials", "correct": true, "why": "Patching fixes known flaws in what you run. Hardening reduces what you run and what it exposes, including tomorrow's flaw in software you did not need. Remember: patching fixes known flaws; hardening shrinks the attack surface."},
+      {"id": "b", "text": "None; a fully patched host is hardened by definition, so nothing is left", "misconception": "hardening-vs-patching", "why": "A fully patched host with default credentials and every service enabled is still trivially compromised. No patch fixes a default password."},
+      {"id": "c", "text": "Only installing additional monitoring tools on the server for visibility", "misconception": "hardening-vs-patching", "why": "Monitoring detects. It removes no attack surface."},
+      {"id": "d", "text": "Increasing the patch cadence further, to a patch every single day", "misconception": "hardening-vs-patching", "why": "More of the thing already done, and it still does not touch unnecessary services or default credentials."}
     ]
   },
   {
@@ -191,12 +191,12 @@
     "objective": "2.5",
     "topics": ["host-based-intrusion-prevention-system-hips", "host-based-firewall", "installation-of-endpoint-protection"],
     "difficulty": 3,
-    "stem": "Which hardening measure blocks malicious behaviour on the host itself rather than filtering its network connections?",
+    "stem": "Which hardening measure blocks malicious behavior on the host itself rather than filtering its network connections?",
     "options": [
-      {"id": "a", "text": "A host based intrusion prevention system", "correct": true, "why": "HIPS watches activity on the host and blocks behaviour it judges malicious, which is a different layer from connection filtering."},
-      {"id": "b", "text": "A host based firewall", "misconception": "hardening-vs-patching", "why": "That is exactly the network connection filtering the question excludes."},
-      {"id": "c", "text": "Disabling unused ports", "misconception": "hardening-vs-patching", "why": "Also a network exposure measure, and a static one."},
-      {"id": "d", "text": "Network segmentation", "misconception": "segmentation-as-containment", "why": "Segmentation happens between hosts, not on one."}
+      {"id": "a", "text": "A host based intrusion prevention system", "correct": true, "why": "HIPS watches activity on the host and blocks behavior it judges malicious, which is a different layer from connection filtering."},
+      {"id": "b", "text": "A host based firewall that filters the connections", "misconception": "hardening-vs-patching", "why": "That is exactly the network connection filtering the question excludes."},
+      {"id": "c", "text": "Disabling unused ports on the network devices", "misconception": "hardening-vs-patching", "why": "Also a network exposure measure, and a static one."},
+      {"id": "d", "text": "Network segmentation to contain the traffic flows", "misconception": "segmentation-as-containment", "why": "Segmentation happens between hosts, not on one."}
     ]
   },
   {
@@ -209,7 +209,7 @@
     "options": [
       {"id": "a", "text": "Decommission it", "correct": true, "why": "Unused and unsupportable. Removing it eliminates the exposure entirely, which no control applied to a live host can match."},
       {"id": "b", "text": "Isolate it on its own segment and monitor it", "misconception": "hardening-vs-patching", "why": "The right answer when the business still needs the system. It does not, so compensating controls are unnecessary cost and residual risk."},
-      {"id": "c", "text": "Apply the latest available patches", "misconception": "hardening-vs-patching", "why": "There are none; support ended two years ago."},
+      {"id": "c", "text": "Apply the latest available patches", "misconception": "hardening-vs-patching", "why": "Support ended two years ago, so no patches exist to apply. Even a fully patched host would still be unused and exposed."},
       {"id": "d", "text": "Add a web application firewall in front of it", "misconception": "hardening-vs-patching", "why": "A compensating control for something you must keep running. You do not have to keep this running."}
     ]
   },
@@ -221,10 +221,10 @@
     "difficulty": 3,
     "stem": "Which statement correctly contrasts an application allow list with a deny list?",
     "options": [
-      {"id": "a", "text": "An allow list enumerates what may run and blocks everything else; a deny list enumerates what may not and permits everything else", "correct": true, "why": "The default is what separates them, and it is why only the allow list can make a promise about software nobody has catalogued."},
-      {"id": "b", "text": "They are equivalent, differing only in how the list is written", "misconception": "allow-list-vs-deny-list", "why": "They have opposite defaults. One fails closed on the unknown, the other fails open."},
-      {"id": "c", "text": "A deny list is stronger because it names the actual threats", "misconception": "allow-list-vs-deny-list", "why": "Naming threats means the list is only ever as current as the last update, and the set of bad software is unbounded."},
-      {"id": "d", "text": "An allow list requires less up-front effort than a deny list", "misconception": "allow-list-vs-deny-list", "why": "Reversed. An allow list costs more up front, because every legitimate program must be catalogued. On a fixed-function system it then stays stable, while a deny list needs endless updating and is always behind."}
+      {"id": "a", "text": "An allow list names what may run and blocks the rest; a deny list names what may not and permits the rest", "correct": true, "why": "The default is what separates them, and it is why only the allow list can make a promise about software nobody has catalogued. Remember: allow list means only these may run; deny list means anything but these."},
+      {"id": "b", "text": "They are equivalent, differing only in how the list is written down, with the same effect on the host", "misconception": "allow-list-vs-deny-list", "why": "They have opposite defaults. One fails closed on the unknown, the other fails open."},
+      {"id": "c", "text": "A deny list is stronger because it names the actual threats that are seen in the wild, and nothing else", "misconception": "allow-list-vs-deny-list", "why": "Naming threats means the list is only ever as current as the last update, and the set of bad software is unbounded."},
+      {"id": "d", "text": "An allow list requires less up-front effort than a deny list, since it names far fewer items to manage", "misconception": "allow-list-vs-deny-list", "why": "Reversed. An allow list costs more up front, because every legitimate program must be catalogued. On a fixed-function system it then stays stable, while a deny list needs endless updating and is always behind."}
     ]
   },
   {
@@ -235,10 +235,10 @@
     "difficulty": 3,
     "stem": "A hospital lobby kiosk runs a single browser in full screen. Nothing else must ever execute on it, including malware that has not been written yet, and the team wants the least ongoing maintenance. Which approach fits?",
     "options": [
-      {"id": "a", "text": "A deny list of known malicious executables, updated daily", "misconception": "allow-list-vs-deny-list", "why": "A deny list only blocks what is already named. Malware written tomorrow is not on today's list, and the daily updates are endless maintenance."},
-      {"id": "b", "text": "Antivirus with heuristic scanning enabled", "misconception": "allow-list-vs-deny-list", "why": "Heuristics raise the odds of catching new malware, but anything that slips past them still runs. Only default deny makes the promise in the stem."},
-      {"id": "c", "text": "A deny list of administrative tools such as command shells and scripting hosts", "misconception": "allow-list-vs-deny-list", "why": "Removing a few dangerous tools shrinks the attack surface, but every program not on that short list still runs freely."},
-      {"id": "d", "text": "An application allow list containing only the browser and the operating system components it needs", "correct": true, "why": "Everything not on the list is blocked by default, including software nobody has seen, and a single-purpose device has a short, stable list."}
+      {"id": "a", "text": "A deny list of known malicious executables, updated daily from the vendor's threat feed", "misconception": "allow-list-vs-deny-list", "why": "A deny list only blocks what is already named. Malware written tomorrow is not on today's list, and the daily updates are endless maintenance."},
+      {"id": "b", "text": "Antivirus with heuristic scanning enabled for the kiosk and its browser, updated daily", "misconception": "allow-list-vs-deny-list", "why": "Heuristics raise the odds of catching new malware, but anything that slips past them still runs. Only default deny makes the promise in the stem."},
+      {"id": "c", "text": "A deny list of administrative tools such as command shells and scripting hosts, updated", "misconception": "allow-list-vs-deny-list", "why": "Removing a few dangerous tools shrinks the attack surface, but every program not on that short list still runs freely."},
+      {"id": "d", "text": "An application allow list of only the browser and the operating system parts it needs", "correct": true, "why": "Everything not on the list is blocked by default, including software nobody has seen, and a single-purpose device has a short, stable list. Remember: for a fixed-purpose machine, allow only what it needs."}
     ]
   },
   {
@@ -249,10 +249,10 @@
     "difficulty": 4,
     "stem": "An auditor finds that every developer on a payroll system still holds production database administrator rights, granted when the system was built three years ago and never reviewed. Which principle should govern the remediation?",
     "options": [
-      {"id": "a", "text": "Permissions: set each developer's permissions to read only", "misconception": "least-privilege-vs-permissions", "why": "Permissions are the configuration you will change, not the principle that decides the target. Read only may itself be more than some developers need in production."},
-      {"id": "b", "text": "Access control lists: attach an ACL to the database", "misconception": "least-privilege-vs-permissions", "why": "An ACL is the structure the rights are recorded in. The database already has one; what it holds is the problem, and a principle decides what it should hold."},
-      {"id": "c", "text": "Encryption of the database, so developers cannot read the data", "misconception": "mitigation-technique-selection", "why": "Administrators of the database can typically manage its keys and its data. The problem is the access granted, not whether the data is encrypted."},
-      {"id": "d", "text": "Least privilege: each role receives only the access it needs, so the standing production rights are removed", "correct": true, "why": "The question asks for the principle that decides how much to grant. The fix will change permissions, but least privilege is what tells you what they should be."}
+      {"id": "a", "text": "Permissions: set each developer's permissions to read only on the database as needed", "misconception": "least-privilege-vs-permissions", "why": "Permissions are the configuration you will change, not the principle that decides the target. Read only may itself be more than some developers need in production."},
+      {"id": "b", "text": "Access control lists: attach an ACL to the database that names each developer there", "misconception": "least-privilege-vs-permissions", "why": "An ACL is the structure the rights are recorded in. The database already has one; what it holds is the problem, and a principle decides what it should hold."},
+      {"id": "c", "text": "Encryption of the database, so that the developers cannot read the data in it at all", "misconception": "mitigation-technique-selection", "why": "Administrators of the database can typically manage its keys and its data. The problem is the access granted, not whether the data is encrypted."},
+      {"id": "d", "text": "Least privilege: each role gets only the access it needs, so standing rights go", "correct": true, "why": "The question asks for the principle that decides how much to grant. The fix will change permissions, but least privilege is what tells you what they should be. Remember: least privilege means each role gets only the access it needs."}
     ]
   },
   {

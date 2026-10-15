@@ -44,7 +44,7 @@
     "id": "due-diligence-vs-due-care",
     "label": "Due diligence vs due care",
     "objective": "5.4",
-    "topics": ["due-diligence-care", "due-diligence", "vendor-monitoring", "conflict-of-interest"],
+    "topics": ["due-diligence-care"],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You used the two as synonyms. One is investigating, the other is acting.",
@@ -83,7 +83,7 @@
     "id": "privacy-rights-and-roles",
     "label": "Data subject rights, and who answers them",
     "objective": "5.4",
-    "topics": ["data-subject", "right-to-be-forgotten", "controller-vs-processor", "data-inventory-and-retention", "ownership"],
+    "topics": ["data-subject", "right-to-be-forgotten", "controller-vs-processor", "data-inventory-and-retention", "ownership-3"],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You answered a privacy question with a security control. Subject rights are an operational capability question: can you find the data, and who is accountable for answering.",

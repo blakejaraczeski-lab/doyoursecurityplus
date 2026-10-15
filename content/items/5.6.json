@@ -45,7 +45,7 @@
     "id": "aw-004",
     "type": "mcq",
     "objective": "5.6",
-    "topics": ["policy-handbooks", "user-guidance-and-training", "attestation-and-acknowledgement"],
+    "topics": ["policy-handbooks", "user-guidance-and-training"],
     "difficulty": 3,
     "stem": "Why do awareness programmes require staff to acknowledge policy handbooks rather than simply publishing them?",
     "options": [
@@ -201,7 +201,7 @@
     "id": "g-048",
     "type": "mcq",
     "objective": "5.6",
-    "topics": ["situational-awareness", "tailgating"],
+    "topics": ["situational-awareness", "social-engineering-awareness"],
     "difficulty": 3,
     "stem": "At a conference venue, a stranger follows a staff member through a badge-controlled door into the back office corridor. Which awareness topic covers the habit of noticing and challenging this?",
     "options": [
@@ -395,6 +395,20 @@
       {"id": "b", "text": "Click rates drop permanently and reporting rises", "misconception": "awareness-program-elements", "why": "Fear-based publication tends to suppress reporting, which is the signal that matters most."},
       {"id": "c", "text": "Nothing changes, because staff ignore simulations", "misconception": "awareness-program-elements", "why": "Staff notice a public list, and the effect on behavior is mostly negative."},
       {"id": "d", "text": "Attackers are deterred because the list is visible", "misconception": "awareness-topic-coverage", "why": "The list is internal and attackers are not deterred by it."}
+    ]
+  },
+  {
+    "id": "r5-029",
+    "type": "mcq",
+    "objective": "5.6",
+    "topics": ["social-engineering-awareness", "recognizing-a-phishing-attempt"],
+    "difficulty": 2,
+    "stem": "Staff receive an email linking to a page that looks exactly like the company's sign-in page and asks them to log in to see a shared file. The page only records what is typed. What is the attacker doing?",
+    "options": [
+      {"id": "a", "text": "Credential harvesting", "correct": true, "why": "Collecting usernames and passwords through a fake login page is credential harvesting."},
+      {"id": "b", "text": "Installing ransomware", "misconception": "awareness-topic-coverage", "why": "Nothing is installed here. The page only collects what people type."},
+      {"id": "c", "text": "Tailgating into the building", "misconception": "awareness-topic-coverage", "why": "Tailgating is following someone through a door. This is an email."},
+      {"id": "d", "text": "Denial of service", "misconception": "awareness-topic-coverage", "why": "The goal is stolen logins, not taking a service offline."}
     ]
   }
 ]

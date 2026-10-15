@@ -21,10 +21,10 @@
     "difficulty": 3,
     "stem": "Which outcome is the most dangerous for a detection system, and why?",
     "options": [
-      {"id": "a", "text": "A false negative, because a real attack goes unreported", "correct": true, "why": "Nobody is alerted and nobody investigates. The organisation believes it is safe while it is not."},
-      {"id": "b", "text": "A false positive, because analysts waste time", "misconception": "false-positive-vs-negative", "why": "Costly and corrosive through alert fatigue, and still not the outcome that lets an attacker operate undetected."},
+      {"id": "a", "text": "A false negative, because a real attack goes unreported", "correct": true, "why": "Nobody is alerted and nobody investigates. The organization believes it is safe while it is not. A false alarm costs time; a missed attack costs the breach."},
+      {"id": "b", "text": "A false positive, because analysts waste hours chasing it", "misconception": "false-positive-vs-negative", "why": "Costly and corrosive through alert fatigue, and still not the outcome that lets an attacker operate undetected."},
       {"id": "c", "text": "A true positive, because it means an attack succeeded", "misconception": "false-positive-vs-negative", "why": "A true positive means the system worked. Detection is not the same as compromise."},
-      {"id": "d", "text": "A true negative, because nothing is logged", "misconception": "false-positive-vs-negative", "why": "A true negative is correct silence when there is genuinely nothing to report."}
+      {"id": "d", "text": "A true negative, because nothing is logged or reviewed", "misconception": "false-positive-vs-negative", "why": "A true negative is correct silence when there is genuinely nothing to report."}
     ]
   },
   {
@@ -35,10 +35,10 @@
     "difficulty": 4,
     "stem": "A vulnerability on a production system cannot be patched before the next maintenance window six weeks away. Which compensating control reduces exposure most directly in the meantime?",
     "options": [
-      {"id": "a", "text": "Segmentation: restrict which hosts can reach the vulnerable service while the patch waits", "correct": true, "why": "Segmentation does not remove the flaw and it removes most of the reachability, which is what turns an exploitable vulnerability into a theoretical one for six weeks."},
-      {"id": "b", "text": "Record it as a false positive until the window arrives", "misconception": "false-positive-vs-negative", "why": "The finding is real. Mislabelling it removes it from the backlog rather than from the estate."},
-      {"id": "c", "text": "Rescan weekly to confirm it is still present", "misconception": "remediation-validation", "why": "Observation, not mitigation. You will watch it remain exploitable."},
-      {"id": "d", "text": "Raise the CVSS environmental score to reflect the risk", "misconception": "vuln-prioritization-inputs", "why": "Scoring describes the risk more accurately and changes nothing about exposure."}
+      {"id": "a", "text": "Segmentation so only hosts that need the service can reach it", "correct": true, "why": "Segmentation does not remove the flaw, and it removes most of the reachability while the patch waits, which is what turns an exploitable vulnerability into a theoretical one for six weeks. Cannot patch yet: cut who can reach it."},
+      {"id": "b", "text": "Record it as a false positive until the maintenance window arrives", "misconception": "false-positive-vs-negative", "why": "The finding is real. Mislabeling it removes it from the backlog rather than from the estate."},
+      {"id": "c", "text": "Rescan the system weekly to confirm the finding is still present", "misconception": "remediation-validation", "why": "Observation, not mitigation. You will watch it remain exploitable."},
+      {"id": "d", "text": "Raise the CVSS environmental score so it reflects the real risk", "misconception": "vuln-prioritization-inputs", "why": "Scoring describes the risk more accurately and changes nothing about exposure."}
     ]
   },
   {
@@ -50,9 +50,9 @@
     "stem": "A report states that a web server is 'probably vulnerable to CVE-2021-41773 based on the version banner', with no evidence the flaw was triggered. Which activity produced this?",
     "options": [
       {"id": "a", "text": "A vulnerability scan", "correct": true, "why": "Scanners infer from versions and responses rather than exploiting. 'Probably, based on the banner' is the signature of inference, and the reason false positives are routine."},
-      {"id": "b", "text": "A penetration test", "misconception": "vuln-identification-sources", "why": "A penetration test proves exploitability by exploiting. The report would describe what the tester achieved, not what the version implies."},
+      {"id": "b", "text": "An external penetration test", "misconception": "vuln-identification-sources", "why": "A penetration test proves exploitability by exploiting. The report would describe what the tester achieved, not what the version implies."},
       {"id": "c", "text": "Static code analysis", "misconception": "static-vs-dynamic-analysis", "why": "Static analysis reads source or binaries. This finding came from a network-facing banner, with no access to code."},
-      {"id": "d", "text": "Package monitoring", "misconception": "static-vs-dynamic-analysis", "why": "Package monitoring reads a declared dependency manifest. There is no manifest here, only a remote banner."}
+      {"id": "d", "text": "Software package monitoring", "misconception": "static-vs-dynamic-analysis", "why": "Package monitoring reads a declared dependency manifest. There is no manifest here, only a remote banner."}
     ]
   },
   {
@@ -136,7 +136,7 @@
       {"id": "a", "text": "B, because environmental variables and exposure outrank the raw base score", "correct": true, "why": "CVSS base score describes the vulnerability in the abstract. Where the asset sits and what it holds are what turn severity into risk, and putting exposure ahead of the raw score is the point."},
       {"id": "b", "text": "A, because 9.8 is critical and 7.1 is only high", "misconception": "vuln-prioritization-inputs", "why": "Ranking by the number alone ignores every other input that belongs beside it. A critical flaw on an unreachable host with nothing on it is not your first problem."},
       {"id": "c", "text": "A, because critical findings carry a shorter remediation deadline in policy", "misconception": "vuln-prioritization-inputs", "why": "Policy deadlines are usually set against adjusted risk, not raw base score. If yours is not, that is the defect the question is pointing at."},
-      {"id": "d", "text": "Neither until both have been confirmed by a penetration test", "misconception": "remediation-validation", "why": "Waiting for a test before touching an exposed payment gateway converts a prioritisation problem into a delay."}
+      {"id": "d", "text": "Neither until both have been confirmed by a penetration test", "misconception": "vuln-prioritization-inputs", "why": "Waiting for a test before touching an exposed payment gateway converts a prioritisation problem into a delay."}
     ]
   },
   {
@@ -175,10 +175,10 @@
     "difficulty": 4,
     "stem": "After a patch is applied, the next scan no longer reports the finding. An engineer argues this is not sufficient evidence the vulnerability is gone. What is the strongest basis for that argument?",
     "options": [
-      {"id": "a", "text": "A rescan only shows the scanner no longer detects it, which a firewall rule or a changed banner can also produce", "correct": true, "why": "Rescanning and verification answer different questions. Suppressing detection is not the same as removing the condition, and that is the distinction that matters."},
-      {"id": "b", "text": "Scanners always produce false negatives after patching", "misconception": "remediation-validation", "why": "Too strong. The point is that a quiet scanner is weak evidence, not that it is always wrong."},
+      {"id": "a", "text": "The rescan shows detection stopped, not that the flaw itself is gone", "correct": true, "why": "Rescanning and verification answer different questions. A firewall rule or a changed banner can also silence the scanner, and suppressing detection is not the same as removing the condition. Quiet scanner is not proof: verify the condition itself."},
+      {"id": "b", "text": "Scanners always produce false negatives on hosts after patching", "misconception": "remediation-validation", "why": "Too strong. The point is that a quiet scanner is weak evidence, not that it is always wrong."},
       {"id": "c", "text": "The patch must be approved through change management before it counts", "misconception": "remediation-validation", "why": "Process compliance matters but is a separate question from whether the weakness is technically gone."},
-      {"id": "d", "text": "Only a penetration test can confirm remediation", "misconception": "vuln-identification-sources", "why": "Verification can be a targeted check of the specific condition. Commissioning a full test for every patch is neither necessary nor affordable."}
+      {"id": "d", "text": "Only a full penetration test can confirm that remediation worked", "misconception": "remediation-validation", "why": "Verification can be a targeted check of the specific condition. Commissioning a full test for every patch is neither necessary nor affordable."}
     ]
   },
   {
@@ -189,10 +189,10 @@
     "difficulty": 3,
     "stem": "A vulnerability management programme produces monthly figures on open findings by severity, mean time to remediate, and findings past their due date. What is the primary purpose of this activity within the programme?",
     "options": [
-      {"id": "a", "text": "Reporting: giving risk owners the trend and the exceptions they must decide on", "correct": true, "why": "Reporting closes the loop upward. Counts alone are vanity; what makes it reporting is that it puts decisions in front of the people who own the risk."},
-      {"id": "b", "text": "Auditing the vulnerability management process", "misconception": "remediation-validation", "why": "An audit is an independent assessment of whether the process is followed. Producing your own metrics is not an audit of yourself."},
-      {"id": "c", "text": "Verification that remediations were effective", "misconception": "remediation-validation", "why": "Verification is a per-finding technical check, not an aggregate monthly figure."},
-      {"id": "d", "text": "Prioritising which findings to remediate next", "misconception": "vuln-prioritization-inputs", "why": "Prioritisation uses severity, exposure and environment per finding. Trend metrics inform the programme rather than ranking individual work."}
+      {"id": "a", "text": "Reporting risk trends and exceptions to the risk owners", "correct": true, "why": "Reporting closes the loop upward. Counts alone are vanity; what makes it reporting is that it puts the trend and the exceptions in front of the people who own the risk and must decide on them."},
+      {"id": "b", "text": "Auditing the vulnerability management process for compliance", "misconception": "remediation-validation", "why": "An audit is an independent assessment of whether the process is followed. Producing your own metrics is not an audit of yourself."},
+      {"id": "c", "text": "Verification that individual remediations were effective", "misconception": "remediation-validation", "why": "Verification is a per-finding technical check, not an aggregate monthly figure."},
+      {"id": "d", "text": "Prioritizing which findings the team should remediate next", "misconception": "vuln-prioritization-inputs", "why": "Prioritization uses severity, exposure and environment per finding. Trend metrics inform the program rather than ranking individual work."}
     ]
   },
   {
@@ -203,9 +203,9 @@
     "difficulty": 3,
     "stem": "CVE-2021-44228 and CVSS 10.0 appear in the same advisory. What is the relationship between the two identifiers?",
     "options": [
-      {"id": "a", "text": "The CVE names the specific vulnerability; the CVSS score rates how severe it is", "correct": true, "why": "CVE is an identifier from a catalogue so everyone means the same flaw. CVSS is a scoring system producing a number from metrics. One names, the other rates."},
+      {"id": "a", "text": "The CVE names the vulnerability; CVSS rates its severity", "correct": true, "why": "CVE is an identifier from a catalog so everyone means the same flaw. CVSS is a scoring system producing a number from metrics. One names, the other rates."},
       {"id": "b", "text": "The CVE is the severity rating and the CVSS is the catalogue entry", "misconception": "vuln-prioritization-inputs", "why": "Reversed. CVE carries no severity at all, which is precisely why CVSS exists alongside it."},
-      {"id": "c", "text": "Both are severity scores, maintained by different bodies", "misconception": "vuln-prioritization-inputs", "why": "CVE is an identifier and nothing more. It does not rank anything."},
+      {"id": "c", "text": "Both are severity scores, maintained by different standards bodies", "misconception": "vuln-prioritization-inputs", "why": "CVE is an identifier and nothing more. It does not rank anything."},
       {"id": "d", "text": "The CVE applies to software and the CVSS applies to hardware", "misconception": "vuln-prioritization-inputs", "why": "Neither is limited by target type. The split between them is naming versus scoring."}
     ]
   },
@@ -220,8 +220,8 @@
       {"id": "a", "text": "Environmental variables, such as whether the asset is internet-facing or segmented", "correct": true, "why": "Where the asset sits changes reachability, and reachability is most of real risk."},
       {"id": "b", "text": "Industry and organisational impact, such as regulated data or safety-critical function", "correct": true, "why": "The same flaw carries a different consequence in healthcare, payments or a utility, which is why it is weighed separately from the base score."},
       {"id": "c", "text": "The number of findings the team closed last month", "misconception": "vuln-prioritization-inputs", "why": "Throughput is a programme metric. It says nothing about which finding matters most."},
-      {"id": "d", "text": "Whether the finding came from a scan or a penetration test", "misconception": "vuln-identification-sources", "why": "The source affects confidence in the finding, not its intrinsic priority once confirmed."},
-      {"id": "e", "text": "The alphabetical order of the affected hostnames", "misconception": "vuln-prioritization-inputs", "why": "Included as a reminder that an arbitrary ordering is still an ordering, and it is the one a backlog defaults to without deliberate prioritisation."}
+      {"id": "d", "text": "Whether the finding came from a scan or a penetration test", "misconception": "vuln-prioritization-inputs", "why": "The source affects confidence in the finding, not its intrinsic priority once confirmed."},
+      {"id": "e", "text": "How long ago the vulnerability was publicly disclosed", "misconception": "vuln-prioritization-inputs", "why": "Age alone does not set priority. An old flaw on an isolated lab host can matter less than yesterday's on an exposed payment system; where the asset sits and what it holds decide the order."}
     ],
     "selectCount": 2
   },
@@ -233,10 +233,10 @@
     "difficulty": 3,
     "stem": "A regional hospital group wants early warning of attack campaigns specifically targeting healthcare providers, shared by other hospitals. Which source fits best?",
     "options": [
-      {"id": "a", "text": "An information sharing and analysis centre for the health sector", "correct": true, "why": "ISACs exist to circulate sector-specific threat information among peers, which is the only source here where the other members share the reporter's threat profile."},
-      {"id": "b", "text": "A proprietary commercial threat feed", "misconception": "vuln-identification-sources", "why": "Useful and timely, but curated by a vendor for a broad customer base rather than by peers facing the same sector-specific adversaries."},
+      {"id": "a", "text": "A healthcare information sharing and analysis center", "correct": true, "why": "ISACs exist to circulate sector-specific threat information among peers, which is the only source here where the other members share the reporter's threat profile. Same sector, shared warning: that is an ISAC."},
+      {"id": "b", "text": "A proprietary commercial threat intelligence feed", "misconception": "vuln-identification-sources", "why": "Useful and timely, but curated by a vendor for a broad customer base rather than by peers facing the same sector-specific adversaries."},
       {"id": "c", "text": "Open source intelligence gathered from public reporting", "misconception": "vuln-identification-sources", "why": "Free and broad, but by the time a campaign is publicly reported the early warning has usually passed."},
-      {"id": "d", "text": "Dark web monitoring", "misconception": "vuln-identification-sources", "why": "That surfaces data and access already being traded, which is late-stage rather than early warning of a campaign."}
+      {"id": "d", "text": "Dark web monitoring of criminal forums", "misconception": "vuln-identification-sources", "why": "That surfaces data and access already being traded, which is late-stage rather than early warning of a campaign."}
     ]
   }
 ]

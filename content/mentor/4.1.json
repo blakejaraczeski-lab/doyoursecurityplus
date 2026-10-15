@@ -240,5 +240,26 @@
       "tell": "'Guests must not be able to see or reach one another' is client isolation specifically, not VLAN assignment.",
       "trap": "Putting guests on their own VLAN feels like complete isolation and is the answer people give. Two guests on the same VLAN can still attack each other."
     }
+  },
+  {
+    "id": "wireless-planning-vs-testing",
+    "label": "Planning coverage vs testing security: site survey, vulnerability scan, penetration test, logs",
+    "objective": "4.1",
+    "topics": ["site-surveys", "heat-maps"],
+    "severity": "low",
+    "retireAfter": 1,
+    "mentor": {
+      "diagnosis": "You chose a security activity for a planning question. Coverage and interference are measured with radio, not with an attack or a log.",
+      "contrast": [
+        ["Activity", "Answers", "Used for"],
+        ["Wireless site survey and heat map", "Where is the signal weak, and where is interference", "Planning where access points go"],
+        ["Vulnerability scan", "Which known flaws a device has", "Hardening devices that already exist"],
+        ["Penetration test", "Whether the authentication can be broken", "Testing a configured network"],
+        ["RADIUS accounting logs", "Who connected, and when", "Investigation and audit"]
+      ],
+      "rule": "Before installing access points, measure the radio environment. A survey answers a placement question that no security test can.",
+      "tell": "'Before installing' and 'where coverage will be weak' are planning words. A security test needs something to test.",
+      "trap": "In a security course every wireless activity sounds like a security activity. Read what the stem wants to learn."
+    }
   }
 ]

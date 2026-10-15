@@ -7,8 +7,8 @@
     "difficulty": 3,
     "stem": "A web application concatenates a user supplied search term directly into a database query. What is the most effective fix?",
     "options": [
-      {"id": "a", "text": "Use parameterised queries so input is never treated as code", "correct": true, "why": "Parameterisation separates the query structure from the data, which removes the class of vulnerability rather than filtering symptoms."},
-      {"id": "b", "text": "Apply input validation to reject suspicious characters", "misconception": "sqli-vs-xss", "why": "Worth doing as defence in depth, and filters are routinely bypassed. Parameterisation is the structural fix."},
+      {"id": "a", "text": "Use parameterised queries so input is never treated as code", "correct": true, "why": "Parameterisation separates the query structure from the data, which removes the class of vulnerability rather than filtering symptoms. Remember: parameterize the query so data never becomes code."},
+      {"id": "b", "text": "Apply input validation to reject suspicious characters", "misconception": "sqli-vs-xss", "why": "Worth doing as defense in depth, and filters are routinely bypassed. Parameterisation is the structural fix."},
       {"id": "c", "text": "HTML encode the search term before displaying it", "misconception": "sqli-vs-xss", "why": "Output encoding defends against cross site scripting. It does nothing about the query sent to the database."},
       {"id": "d", "text": "Set the HttpOnly flag on the session cookie", "misconception": "sqli-vs-xss", "why": "HttpOnly limits the damage of cross site scripting. It is unrelated to SQL injection."}
     ]
@@ -21,10 +21,10 @@
     "difficulty": 3,
     "stem": "An attacker stores a script in a forum post. When other users view the thread, their session cookies are sent to the attacker's server. What is the attack, and who is the victim?",
     "options": [
-      {"id": "a", "text": "Stored cross site scripting; the victims are the other users viewing the page", "correct": true, "why": "The payload executes in each visitor's browser under the site's origin, which is why it can read their session."},
-      {"id": "b", "text": "SQL injection; the victim is the database", "misconception": "sqli-vs-xss", "why": "Nothing is being interpreted by the database. The payload runs in a browser."},
-      {"id": "c", "text": "Cross site request forgery; the victim is the forum server", "misconception": "sqli-vs-xss", "why": "CSRF makes a victim's browser perform an action, it does not execute attacker script to steal cookies."},
-      {"id": "d", "text": "Directory traversal; the victims are other users", "misconception": "sqli-vs-xss", "why": "Traversal reads files outside the intended path on the server. No script runs in anyone's browser."}
+      {"id": "a", "text": "Stored cross site scripting; the other users viewing the page are the victims", "correct": true, "why": "The payload executes in each visitor's browser under the site's origin, which is why it can read their session. Remember: SQL injection attacks the database; cross site scripting attacks other users' browsers."},
+      {"id": "b", "text": "SQL injection; the victim is the database holding the forum posts and accounts", "misconception": "sqli-vs-xss", "why": "Nothing is being interpreted by the database. The payload runs in a browser."},
+      {"id": "c", "text": "Cross site request forgery; the victim is the forum server that gets the requests", "misconception": "sqli-vs-xss", "why": "CSRF makes a victim's browser perform an action, it does not execute attacker script to steal cookies."},
+      {"id": "d", "text": "Directory traversal; the victims are the other users who view the forum thread", "misconception": "sqli-vs-xss", "why": "Traversal reads files outside the intended path on the server. No script runs in anyone's browser."}
     ]
   },
   {
@@ -49,10 +49,10 @@
     "difficulty": 3,
     "stem": "Which fix genuinely addresses a time-of-check to time-of-use vulnerability?",
     "options": [
-      {"id": "a", "text": "Make the check and the use a single atomic operation, or hold a lock across both", "correct": true, "why": "Only removing the window closes the flaw. Atomicity means no other process can intervene between verifying and acting."},
-      {"id": "b", "text": "Perform the validation a second time immediately before use", "misconception": "race-condition-toctou", "why": "This narrows the window and creates a new one. The gap still exists, just smaller."},
-      {"id": "c", "text": "Validate the input more strictly at the entry point", "misconception": "race-condition-toctou", "why": "Input validation is unrelated. The input was legitimate; the resource behind it changed."},
-      {"id": "d", "text": "Run the process with reduced privileges", "misconception": "race-condition-toctou", "why": "Sound defence in depth that limits the damage and leaves the race condition intact."}
+      {"id": "a", "text": "Make the check and use one atomic operation, or lock across both", "correct": true, "why": "Only removing the window closes the flaw. Atomicity means no other process can intervene between verifying and acting."},
+      {"id": "b", "text": "Perform the validation a second time immediately before the use", "misconception": "race-condition-toctou", "why": "This narrows the window and creates a new one. The gap still exists, just smaller."},
+      {"id": "c", "text": "Validate the input more strictly at the entry point of the program", "misconception": "race-condition-toctou", "why": "Input validation is unrelated. The input was legitimate; the resource behind it changed."},
+      {"id": "d", "text": "Run the process with reduced privileges so that it can do less harm", "misconception": "race-condition-toctou", "why": "Sound defense in depth that limits the damage and leaves the race condition intact."}
     ]
   },
   {
@@ -77,10 +77,10 @@
     "difficulty": 3,
     "stem": "A breach exploited a vulnerability for which the vendor released a patch four months earlier. The company had not applied it. How should this be described?",
     "options": [
-      {"id": "a", "text": "Exploitation of a known unpatched vulnerability, which is a vulnerability management failure", "correct": true, "why": "A fix existed and was not deployed. Naming it accurately matters, because the remediation is a patching process, not new detection technology."},
-      {"id": "b", "text": "A zero-day attack", "misconception": "zero-day-vs-unpatched", "why": "Zero-day means no patch exists. A patch had been available for four months."},
-      {"id": "c", "text": "A supply chain compromise", "misconception": "supply-chain-vectors", "why": "The vendor did its part by shipping a fix. Nothing arrived through a trusted channel."},
-      {"id": "d", "text": "An end of life vulnerability", "misconception": "zero-day-vs-unpatched", "why": "End of life means the vendor no longer issues patches. This vendor issued one."}
+      {"id": "a", "text": "A known unpatched vulnerability, a vulnerability management failure", "correct": true, "why": "A fix existed and was not deployed. Naming it accurately matters, because the remediation is a patching process, not new detection technology. Remember: a patch existed and was not applied, so it is a management failure, not a zero-day."},
+      {"id": "b", "text": "A zero-day attack, using a flaw the vendor has not yet fixed", "misconception": "zero-day-vs-unpatched", "why": "Zero-day means no patch exists. A patch had been available for four months."},
+      {"id": "c", "text": "A supply chain compromise arriving through a third party's software", "misconception": "supply-chain-vectors", "why": "The vendor did its part by shipping a fix. Nothing arrived through a trusted channel."},
+      {"id": "d", "text": "An end of life vulnerability in software the vendor no longer supports", "misconception": "zero-day-vs-unpatched", "why": "End of life means the vendor no longer issues patches. This vendor issued one."}
     ]
   },
   {
@@ -91,10 +91,10 @@
     "difficulty": 3,
     "stem": "A critical zero-day is disclosed for an internet facing application, with no patch available. What is the appropriate immediate response?",
     "options": [
-      {"id": "a", "text": "Apply compensating controls such as virtual patching, restricted access and enhanced monitoring", "correct": true, "why": "With no patch to deploy, the objective must be met another way until the vendor ships a fix."},
-      {"id": "b", "text": "Apply the vendor patch as soon as it is tested", "misconception": "zero-day-vs-unpatched", "why": "There is no patch. That is what makes it a zero-day."},
-      {"id": "c", "text": "Wait, since exploitation is unlikely before a patch exists", "misconception": "zero-day-vs-unpatched", "why": "Public disclosure of an internet facing flaw is followed by mass scanning within hours."},
-      {"id": "d", "text": "Reclassify the system as end of life", "misconception": "zero-day-vs-unpatched", "why": "The product is supported; the fix simply does not exist yet."}
+      {"id": "a", "text": "Apply compensating controls: virtual patching, restricted access, closer monitoring", "correct": true, "why": "With no patch to deploy, the objective must be met another way until the vendor ships a fix. Remember: zero-day means no patch yet, so compensate until one arrives."},
+      {"id": "b", "text": "Apply the vendor patch as soon as it is tested and approved for release", "misconception": "zero-day-vs-unpatched", "why": "There is no patch. That is what makes it a zero-day."},
+      {"id": "c", "text": "Wait, since exploitation is unlikely before a patch has been published for it", "misconception": "zero-day-vs-unpatched", "why": "Public disclosure of an internet facing flaw is followed by mass scanning within hours."},
+      {"id": "d", "text": "Reclassify the system as end of life so that the issue is out of scope", "misconception": "zero-day-vs-unpatched", "why": "The product is supported; the fix simply does not exist yet."}
     ]
   },
   {
@@ -105,10 +105,10 @@
     "difficulty": 2,
     "stem": "An MDM report flags a corporate phone whose operating system restrictions have been removed, giving the user privileged control of the device. What is this, and why does it matter most?",
     "options": [
-      {"id": "a", "text": "Jailbreaking, because it invalidates the platform security model every other control depends on", "correct": true, "why": "Once the OS restrictions are gone, containerisation, encryption enforcement and MDM policy can all be subverted."},
+      {"id": "a", "text": "Jailbreaking: it invalidates the platform security model other controls rely on", "correct": true, "why": "Once the OS restrictions are gone, containerization, encryption enforcement and MDM policy can all be subverted. Remember: jailbreaking removes the platform's protections; sideloading only skips the store."},
       {"id": "b", "text": "Sideloading, because apps can now be installed from outside the store", "misconception": "jailbreak-vs-sideload", "why": "Sideloading may follow, and the finding described is the removal of the OS restrictions themselves."},
-      {"id": "c", "text": "A supply chain compromise of the device", "misconception": "supply-chain-vectors", "why": "Nothing was tampered with before delivery. The user modified the device."},
-      {"id": "d", "text": "A zero-day in the mobile operating system", "misconception": "zero-day-vs-unpatched", "why": "Jailbreak tools often use known exploits, and either way the finding is the device's modified state."}
+      {"id": "c", "text": "A supply chain compromise of the device before it reached the user", "misconception": "supply-chain-vectors", "why": "Nothing was tampered with before delivery. The user modified the device."},
+      {"id": "d", "text": "A zero-day in the mobile operating system that the user exploited", "misconception": "zero-day-vs-unpatched", "why": "Jailbreak tools often use known exploits, and either way the finding is the device's modified state."}
     ]
   },
   {
@@ -161,10 +161,10 @@
     "difficulty": 4,
     "stem": "A cloud storage bucket holding customer exports is readable by anyone on the internet. The provider's platform is fully patched. What kind of vulnerability is this, and what fixes it?",
     "options": [
-      {"id": "a", "text": "Cloud-specific, arising from configuration and identity rather than software, and fixed by correcting the resource policy", "correct": true, "why": "The overwhelming majority of cloud incidents are customer misconfiguration. There is no patch to apply because nothing is unpatched."},
-      {"id": "b", "text": "An operating system vulnerability in the storage service, fixed by patching", "misconception": "vulnerability-by-layer", "why": "The provider maintains the service and the stem says it is current. Reaching for patching here is the instinct this topic exists to correct."},
-      {"id": "c", "text": "A firmware vulnerability in the provider's hardware", "misconception": "vulnerability-by-layer", "why": "Nothing about the scenario involves device firmware, and it would be the provider's responsibility regardless."},
-      {"id": "d", "text": "A zero-day, since no patch is available", "misconception": "zero-day-vs-unpatched", "why": "A zero-day is an unknown flaw with no patch yet. A permission you set incorrectly is neither unknown nor awaiting a fix."}
+      {"id": "a", "text": "Cloud-specific: a configuration and identity flaw, fixed by correcting the resource policy", "correct": true, "why": "The overwhelming majority of cloud incidents are customer misconfiguration. There is no patch to apply because nothing is unpatched."},
+      {"id": "b", "text": "An operating system vulnerability in the storage service, fixed by patching it", "misconception": "vulnerability-by-layer", "why": "The provider maintains the service and the stem says it is current. Reaching for patching here is the instinct this topic exists to correct."},
+      {"id": "c", "text": "A firmware vulnerability in the provider's hardware, fixed by the provider alone", "misconception": "vulnerability-by-layer", "why": "Nothing about the scenario involves device firmware, and it would be the provider's responsibility regardless."},
+      {"id": "d", "text": "A zero-day, since no patch is available for the storage service at present", "misconception": "zero-day-vs-unpatched", "why": "A zero-day is an unknown flaw with no patch yet. A permission you set incorrectly is neither unknown nor awaiting a fix."}
     ]
   },
   {
@@ -189,10 +189,10 @@
     "difficulty": 4,
     "stem": "A critical flaw is published for a product whose vendor ceased support two years ago. How should this be classified and handled?",
     "options": [
-      {"id": "a", "text": "An end-of-life vulnerability: no patch will ever exist, so the response is compensating controls or replacement", "correct": true, "why": "End of life is called out separately because it removes the usual remedy. Isolation, access restriction and monitoring carry the system until it is replaced."},
-      {"id": "b", "text": "A zero-day, because no patch is available", "misconception": "zero-day-vs-unpatched", "why": "A zero-day is unknown to the vendor with no patch yet available. Here the vendor is known and simply no longer producing patches."},
-      {"id": "c", "text": "An unpatched vulnerability, remediated by applying the latest update", "misconception": "zero-day-vs-unpatched", "why": "There is no latest update. That is the whole difficulty."},
-      {"id": "d", "text": "A configuration vulnerability, remediated by hardening alone", "misconception": "vulnerability-by-layer", "why": "Hardening reduces exposure and does not remove the flaw in the code, which is why isolation and a replacement plan are needed too."}
+      {"id": "a", "text": "An end-of-life vulnerability: no patch will ever exist, so compensate or replace", "correct": true, "why": "End of life is called out separately because it removes the usual remedy. Isolation, access restriction and monitoring carry the system until it is replaced. Remember: end of life means no patch will ever exist, so compensate or replace."},
+      {"id": "b", "text": "A zero-day, because no patch is available and the vendor knows about it", "misconception": "zero-day-vs-unpatched", "why": "A zero-day is unknown to the vendor with no patch yet available. Here the vendor is known and simply no longer producing patches."},
+      {"id": "c", "text": "An unpatched vulnerability, remediated by applying the latest update available", "misconception": "zero-day-vs-unpatched", "why": "There is no latest update. That is the whole difficulty."},
+      {"id": "d", "text": "A configuration vulnerability, remediated by hardening alone, with no other step", "misconception": "vulnerability-by-layer", "why": "Hardening reduces exposure and does not remove the flaw in the code, which is why isolation and a replacement plan are needed too."}
     ]
   },
   {
@@ -204,9 +204,9 @@
     "stem": "A vendor publishes a kernel update fixing a local privilege escalation flaw affecting all supported versions. Which vulnerability category does this fall into?",
     "options": [
       {"id": "a", "text": "Operating system based", "correct": true, "why": "The kernel is the operating system. The fix comes from the OS vendor and is applied through normal patch management."},
-      {"id": "b", "text": "Firmware", "misconception": "vulnerability-by-layer", "why": "Firmware sits below the OS in the device and is updated separately, usually far less often."},
+      {"id": "b", "text": "Firmware based, in device code", "misconception": "vulnerability-by-layer", "why": "Firmware sits below the OS in the device and is updated separately, usually far less often."},
       {"id": "c", "text": "Application based", "misconception": "vulnerability-by-layer", "why": "Applications run above the OS. A kernel flaw affects everything on the host."},
-      {"id": "d", "text": "Supply chain", "misconception": "vulnerability-by-layer", "why": "A flaw written by the vendor in its own code is an ordinary defect, not a supply chain compromise."}
+      {"id": "d", "text": "Supply chain based", "misconception": "vulnerability-by-layer", "why": "A flaw written by the vendor in its own code is an ordinary defect, not a supply chain compromise."}
     ]
   },
   {
@@ -219,9 +219,9 @@
     "options": [
       {"id": "a", "text": "End-of-life products, where the vendor no longer issues updates", "correct": true, "why": "No patch is coming, so the response is compensating controls and replacement planning."},
       {"id": "b", "text": "Cloud misconfiguration, such as an over-permissive resource policy", "correct": true, "why": "Nothing is unpatched. The fix is configuration, which is why patching is the wrong instinct in cloud."},
-      {"id": "c", "text": "An operating system kernel flaw", "misconception": "vulnerability-by-layer", "why": "Resolved by the OS vendor's patch."},
-      {"id": "d", "text": "A buffer overflow in a vendor application", "misconception": "vulnerability-by-layer", "why": "Fixed in code and delivered as an update."},
-      {"id": "e", "text": "A firmware flaw in a current, supported device", "misconception": "vulnerability-by-layer", "why": "Firmware updates are rarer and riskier to apply, and for a supported device one does exist."}
+      {"id": "c", "text": "An operating system kernel flaw in a supported version of the system", "misconception": "vulnerability-by-layer", "why": "A kernel flaw is fixed by the operating system vendor's patch, so patching resolves it."},
+      {"id": "d", "text": "A buffer overflow in a vendor application that has a fixed release", "misconception": "vulnerability-by-layer", "why": "A buffer overflow in a vendor application is fixed in code and shipped as an update, so patching resolves it."},
+      {"id": "e", "text": "A firmware flaw in a current, supported device that has an update", "misconception": "vulnerability-by-layer", "why": "Firmware updates are rarer and riskier to apply, and for a supported device one does exist."}
     ],
     "selectCount": 2
   },
@@ -233,10 +233,10 @@
     "difficulty": 2,
     "stem": "On an unmodified Android phone, a user allows their browser to install unknown apps and installs a game from a third-party website. Which statement is correct?",
     "options": [
-      {"id": "a", "text": "This is rooting, because a system setting was changed to allow it", "misconception": "jailbreak-vs-sideload", "why": "Allowing unknown sources is a supported setting. Rooting removes the operating system's restrictions to gain privileged control, which did not happen."},
-      {"id": "b", "text": "This is sideloading; the platform's security model is intact, but the app skipped the store's review", "correct": true, "why": "The operating system's restrictions are still enforced. What changed is where the app came from, which is the definition of sideloading."},
+      {"id": "a", "text": "This is rooting, because a system setting was changed to allow the install", "misconception": "jailbreak-vs-sideload", "why": "Allowing unknown sources is a supported setting. Rooting removes the operating system's restrictions to gain privileged control, which did not happen."},
+      {"id": "b", "text": "This is sideloading: the security model is intact, but the app skipped store review", "correct": true, "why": "The operating system's restrictions are still enforced. What changed is where the app came from, which is the definition of sideloading. Remember: sideloading changes where the app came from, not how the phone protects itself."},
       {"id": "c", "text": "This is jailbreaking, because the app came from outside the official store", "misconception": "jailbreak-vs-sideload", "why": "Installing from outside the store is sideloading. Jailbreaking changes the device's security model, and this device is unmodified."},
-      {"id": "d", "text": "Sideloading is impossible on Android without rooting first", "misconception": "jailbreak-vs-sideload", "why": "Android permits installing from other sources through a setting. No privileged access is needed."}
+      {"id": "d", "text": "Sideloading is impossible on Android without rooting the phone first", "misconception": "jailbreak-vs-sideload", "why": "Android permits installing from other sources through a setting. No privileged access is needed."}
     ]
   }
 ]

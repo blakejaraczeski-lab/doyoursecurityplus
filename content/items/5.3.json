@@ -3,7 +3,7 @@
     "id": "g-005",
     "type": "mcq",
     "objective": "5.3",
-    "topics": ["service-level-agreement-sla", "memorandum-of-understanding-mou"],
+    "topics": ["service-level-agreement", "memorandum-of-understanding"],
     "difficulty": 2,
     "stem": "A contract commits a provider to 99.95% monthly availability with service credits if it is missed. Which agreement is this?",
     "options": [
@@ -17,7 +17,7 @@
     "id": "g-006",
     "type": "mcq",
     "objective": "5.3",
-    "topics": ["master-service-agreement-msa", "work-order-wo-statement-of-work-sow"],
+    "topics": ["master-service-agreement", "work-order-statement-of-work"],
     "difficulty": 3,
     "stem": "An organisation signs one document covering payment terms, liability and confidentiality for all future work with a consultancy, then issues separate documents for each individual project. What are these two documents?",
     "options": [
@@ -31,7 +31,7 @@
     "id": "g-007",
     "type": "mcq",
     "objective": "5.3",
-    "topics": ["memorandum-of-understanding-mou", "memorandum-of-agreement-moa"],
+    "topics": ["memorandum-of-understanding", "memorandum-of-agreement"],
     "difficulty": 3,
     "stem": "Two public sector bodies document their shared intention to cooperate on a data sharing initiative. The document explicitly states it creates no legal obligations. What is it?",
     "options": [
@@ -59,7 +59,7 @@
     "id": "g-020",
     "type": "mcq",
     "objective": "5.3",
-    "topics": ["supply-chain-analysis", "vendor-monitoring", "suppliers"],
+    "topics": ["supply-chain-analysis", "vendor-monitoring"],
     "difficulty": 3,
     "stem": "Supply chain analysis shows that a critical SaaS vendor depends on a single small provider for authentication, and your organisation has no contract with that provider. Which response best addresses the exposure?",
     "options": [
@@ -73,7 +73,7 @@
     "id": "g-034",
     "type": "mcq",
     "objective": "5.3",
-    "topics": ["memorandum-of-understanding-mou", "service-level-agreement-sla", "master-service-agreement-msa"],
+    "topics": ["memorandum-of-understanding", "service-level-agreement", "master-service-agreement"],
     "difficulty": 3,
     "stem": "Two companies sign a document committing to four hour response on critical incidents, with service credits if it is missed. A separate document, signed first, sets the payment terms and liability covering all work between them. Name them in order.",
     "options": [
@@ -101,7 +101,7 @@
     "id": "g-036",
     "type": "mcq",
     "objective": "5.3",
-    "topics": ["supply-chain-analysis", "suppliers", "managed-service-providers-msps"],
+    "topics": ["supply-chain-analysis"],
     "difficulty": 4,
     "stem": "Your critical SaaS vendor subcontracts its storage to a provider you have no contract with. What is this exposure called, and which activity surfaces it?",
     "options": [
@@ -367,6 +367,76 @@
       {"id": "b", "text": "Credits compensate in part but do not remove the risk, so the customer needs other measures such as resilience or insurance", "correct": true, "why": "An SLA shifts only a small part of the loss. The customer still carries the residual risk and has to treat it separately."},
       {"id": "c", "text": "The SLA is unenforceable because credits are capped", "misconception": "agreement-types", "why": "Capped credits are common and enforceable. They just do not cover the full loss."},
       {"id": "d", "text": "A memorandum of understanding would give better protection", "misconception": "agreement-types", "why": "An MOU is not binding and offers less protection than an SLA."}
+    ]
+  },
+  {
+    "id": "r5-019",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["business-partners-agreement"],
+    "difficulty": 2,
+    "stem": "Two companies agree to bid together for contracts, share costs and profits, and be bound by that arrangement. Which agreement is this?",
+    "options": [
+      {"id": "a", "text": "A memorandum of understanding", "misconception": "agreement-types", "why": "An MOU records intent and is normally not binding. These parties are bound and share profits."},
+      {"id": "b", "text": "A non-disclosure agreement", "misconception": "agreement-types", "why": "An NDA covers confidentiality only. It does not set out sharing of costs and profits."},
+      {"id": "c", "text": "A business partners agreement", "correct": true, "why": "A BPA sets out how two firms work together, including shared costs and profits."},
+      {"id": "d", "text": "A service level agreement", "misconception": "agreement-types", "why": "An SLA sets measurable service levels from a provider. It is not a joint venture."}
+    ]
+  },
+  {
+    "id": "r5-020",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["work-order-statement-of-work", "master-service-agreement"],
+    "difficulty": 3,
+    "stem": "A master service agreement is already in place with a consultancy. For a three month migration, which document fixes the deliverables, milestones and price for that project alone?",
+    "options": [
+      {"id": "a", "text": "A new master service agreement", "misconception": "agreement-types", "why": "The MSA already covers the standing terms. Each project does not need its own."},
+      {"id": "b", "text": "A non-disclosure agreement", "misconception": "agreement-types", "why": "An NDA protects confidential information. It does not set deliverables or price."},
+      {"id": "c", "text": "A memorandum of understanding", "misconception": "agreement-types", "why": "An MOU records intent between parties. It is not the document that defines project deliverables."},
+      {"id": "d", "text": "A statement of work or work order", "correct": true, "why": "A SOW or work order defines one engagement under the MSA: what is delivered, when and for how much."}
+    ]
+  },
+  {
+    "id": "r5-021",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["conflict-of-interest"],
+    "difficulty": 2,
+    "stem": "A procurement lead's spouse owns the vendor shortlisted for a security contract. Which concern does this raise?",
+    "options": [
+      {"id": "a", "text": "A conflict of interest", "correct": true, "why": "A personal stake in the vendor can bias the choice. Independence of the decision is in doubt."},
+      {"id": "b", "text": "A gap in due diligence", "misconception": "vendor-lifecycle-and-independence", "why": "Due diligence is the checking of the vendor's controls and finances. The problem here is the buyer's independence."},
+      {"id": "c", "text": "A missing right to audit clause", "misconception": "vendor-lifecycle-and-independence", "why": "An audit clause lets the buyer inspect the vendor. It does not address a personal tie to it."},
+      {"id": "d", "text": "A supply chain dependency", "misconception": "vendor-lifecycle-and-independence", "why": "A dependency is about who the vendor relies on. The issue here is a relationship on the buyer's side."}
+    ]
+  },
+  {
+    "id": "r5-022",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["rules-of-engagement"],
+    "difficulty": 3,
+    "stem": "During an authorized test, a tester finds a server that is not on the agreed target list but looks easy to break into. What do the rules of engagement require?",
+    "options": [
+      {"id": "a", "text": "Test it, since it sits on the same network as the targets", "misconception": "rules-of-engagement-scope", "why": "Being on the same network does not put it in scope. Only listed systems are authorized."},
+      {"id": "b", "text": "Stop and ask the named contact before touching it", "correct": true, "why": "Scope is set in advance. Anything outside it needs approval first, so the tester raises it with the agreed contact."},
+      {"id": "c", "text": "Test it, but only outside business hours", "misconception": "rules-of-engagement-scope", "why": "Hours limit when approved work happens. They do not widen what is approved."},
+      {"id": "d", "text": "Exploit it once to prove the finding is real", "misconception": "rules-of-engagement-scope", "why": "Proof is not a reason to leave scope. Exploiting an unlisted system is unauthorized."}
+    ]
+  },
+  {
+    "id": "r5-023",
+    "type": "mcq",
+    "objective": "5.3",
+    "topics": ["rules-of-engagement"],
+    "difficulty": 2,
+    "stem": "Which item would you expect to find in the rules of engagement for a penetration test?",
+    "options": [
+      {"id": "a", "text": "Service credits owed for downtime", "misconception": "rules-of-engagement-scope", "why": "Service credits belong in an SLA."},
+      {"id": "b", "text": "The vendor's audited financial statements", "misconception": "rules-of-engagement-scope", "why": "Financial review is due diligence on a supplier. It does not govern a test."},
+      {"id": "c", "text": "The systems in scope, the testing hours and who to call if something breaks", "correct": true, "why": "Rules of engagement define the limits of the test and how to reach people if it causes trouble."},
+      {"id": "d", "text": "The annual loss expectancy for each asset", "misconception": "rules-of-engagement-scope", "why": "ALE is a risk figure. It does not set what a tester may do."}
     ]
   }
 ]

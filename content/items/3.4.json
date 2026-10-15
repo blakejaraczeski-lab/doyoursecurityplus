@@ -35,9 +35,9 @@
     "difficulty": 3,
     "stem": "A database must continue serving requests with its session state intact if one node fails. Which design meets this?",
     "options": [
-      {"id": "a", "text": "Clustering, so the nodes act as one logical system sharing state", "correct": true, "why": "Clustering is defined by shared state and workload takeover, which is what preserving sessions across a node failure requires."},
+      {"id": "a", "text": "Clustering the nodes so they share session state", "correct": true, "why": "Clustering is defined by shared state and workload takeover, so the nodes act as one logical system, which is what preserving sessions across a node failure requires. State must survive a node: cluster. Load must be spread: balance."},
       {"id": "b", "text": "A load balancer distributing connections across independent nodes", "misconception": "ha-vs-load-balancing-vs-clustering", "why": "Load balancing spreads requests and the nodes do not share state, so the sessions on the failed node are lost."},
-      {"id": "c", "text": "Replication to a standby copy", "misconception": "backup-methods", "why": "Replication keeps a second copy current. On its own it does not provide automatic takeover with live session state."},
+      {"id": "c", "text": "Replication of the database to a standby copy", "misconception": "backup-methods", "why": "Replication keeps a second copy current. On its own it does not provide automatic takeover with live session state."},
       {"id": "d", "text": "Nightly backups to a second data centre", "misconception": "backup-methods", "why": "Backups restore data eventually. They provide no continuity at all."}
     ]
   },
@@ -63,7 +63,7 @@
     "difficulty": 3,
     "stem": "A company replicates its file server continuously to a second data centre. Ransomware encrypts the primary. What happens?",
     "options": [
-      {"id": "a", "text": "The encrypted files replicate to the secondary, so both copies are unusable", "correct": true, "why": "Replication faithfully copies every change, including malicious ones. It protects against hardware and site failure, not against corruption."},
+      {"id": "a", "text": "The encrypted files replicate to the secondary as well", "correct": true, "why": "Replication faithfully copies every change, including malicious ones. It protects against hardware and site failure, not against corruption."},
       {"id": "b", "text": "The secondary is unaffected because replication is one way", "misconception": "backup-methods", "why": "One way is the direction of the copy, which is exactly why the encryption travels from primary to secondary."},
       {"id": "c", "text": "The secondary retains previous versions and can be rolled back", "misconception": "backup-methods", "why": "That is versioned backup or snapshot behaviour. Plain replication keeps only the current state."},
       {"id": "d", "text": "Replication halts automatically when corruption is detected", "misconception": "backup-methods", "why": "Replication does not evaluate whether changes are legitimate. It has no idea the file was encrypted rather than edited."}
@@ -77,10 +77,10 @@
     "difficulty": 3,
     "stem": "A transaction system must be recoverable to any moment, not just to the last backup. Which method supports this?",
     "options": [
-      {"id": "a", "text": "Journaling every change so the log can be replayed to a chosen point", "correct": true, "why": "A change journal allows point in time recovery at very fine granularity, which is how a near zero RPO is achieved."},
-      {"id": "b", "text": "Hourly snapshots", "misconception": "backup-methods", "why": "Snapshots give you the hourly points, and nothing between them."},
-      {"id": "c", "text": "Nightly full backups", "misconception": "backup-methods", "why": "That gives you one recovery point per day, which is an RPO of up to 24 hours."},
-      {"id": "d", "text": "Continuous replication to a standby", "misconception": "backup-methods", "why": "Replication gives you the current state at the standby. It does not let you choose an earlier moment."}
+      {"id": "a", "text": "Journaling every change for replay", "correct": true, "why": "A change journal allows point in time recovery at very fine granularity, because the log can be replayed to a chosen point, which is how a near zero RPO is achieved. Snapshots give points, a journal gives every moment between them."},
+      {"id": "b", "text": "Hourly snapshots of the database volume", "misconception": "backup-methods", "why": "Snapshots give you the hourly points, and nothing between them."},
+      {"id": "c", "text": "Nightly full backups kept for thirty days", "misconception": "backup-methods", "why": "That gives you one recovery point per day, which is an RPO of up to 24 hours."},
+      {"id": "d", "text": "Continuous replication to a standby server", "misconception": "backup-methods", "why": "Replication gives you the current state at the standby. It does not let you choose an earlier moment."}
     ]
   },
   {
@@ -119,7 +119,7 @@
     "difficulty": 3,
     "stem": "Which test provides the strongest evidence that the recovery site can genuinely carry production load?",
     "options": [
-      {"id": "a", "text": "A full failover test with production cut over to the recovery site", "correct": true, "why": "Only actually running production at the recovery site proves it can. Everything else is inference."},
+      {"id": "a", "text": "A full failover of production to the recovery site", "correct": true, "why": "Only actually running production at the recovery site proves it can. Everything else is inference."},
       {"id": "b", "text": "A tabletop exercise attended by all system owners", "misconception": "tabletop-vs-simulation", "why": "Discussion validates the plan on paper and proves nothing about the systems."},
       {"id": "c", "text": "A walkthrough of the runbooks with the operations team", "misconception": "tabletop-vs-simulation", "why": "A walkthrough checks the procedure is complete and correct, not that the infrastructure works."},
       {"id": "d", "text": "Reviewing the recovery site's capacity documentation", "misconception": "tabletop-vs-simulation", "why": "Documentation review is the weakest form of assurance available."}
@@ -134,10 +134,10 @@
     "stem": "A company's backups were encrypted by ransomware along with production. Which TWO design properties would have preserved a usable copy? (Choose two.)",
     "options": [
       {"id": "a", "text": "An offline copy the production systems cannot reach", "correct": true, "why": "Ransomware can only encrypt what the compromised host can write to. An air-gapped copy is out of reach."},
-      {"id": "b", "text": "Immutable storage where written objects cannot be altered for a retention period", "correct": true, "why": "Even with credentials, the attacker cannot overwrite an object under an immutability lock."},
+      {"id": "b", "text": "Immutable storage with a retention lock", "correct": true, "why": "Even with credentials, the attacker cannot overwrite an object under an immutability lock, because written objects cannot be altered until the retention period ends."},
       {"id": "c", "text": "Continuous replication to a second data centre", "misconception": "backup-methods", "why": "Replication copies the encryption as faithfully as it copies the data. It protects against site loss, not corruption."},
-      {"id": "d", "text": "Encrypting the backup files at rest", "misconception": "backup-methods", "why": "That protects their confidentiality. The ransomware encrypts them again regardless."},
-      {"id": "e", "text": "Running the backup job twice as often", "misconception": "backup-methods", "why": "More frequent copies to a reachable share means more encrypted copies."}
+      {"id": "d", "text": "Encrypting the backup files at rest with AES-256", "misconception": "backup-methods", "why": "That protects their confidentiality. The ransomware encrypts them again regardless."},
+      {"id": "e", "text": "Running the backup job twice as often to the same share", "misconception": "backup-methods", "why": "More frequent copies to a reachable share means more encrypted copies."}
     ],
     "selectCount": 2
   },
@@ -149,10 +149,10 @@
     "difficulty": 4,
     "stem": "A critical service runs on six identical load-balanced servers with the same operating system, same version and same configuration. A single vendor advisory takes all six offline simultaneously. Which design principle was missing?",
     "options": [
-      {"id": "a", "text": "Platform diversity, so a flaw common to one platform cannot affect every node at once", "correct": true, "why": "Redundancy protects against one instance failing independently. Six identical nodes share every flaw, so a common vulnerability is a single point of failure wearing a disguise."},
+      {"id": "a", "text": "Platform diversity across the nodes", "correct": true, "why": "Redundancy protects against one instance failing independently. Six identical nodes share every flaw, so a common vulnerability is a single point of failure wearing a disguise. Diversity means a flaw common to one platform cannot take every node at once."},
       {"id": "b", "text": "More redundancy: a seventh identical server", "misconception": "diversity-and-multicloud", "why": "A seventh copy of the same thing fails for the same reason at the same moment."},
       {"id": "c", "text": "Geographic dispersion across two sites", "misconception": "diversity-and-multicloud", "why": "That protects against a site-level event. A software flaw travels to the second site unchanged."},
-      {"id": "d", "text": "A warm recovery site", "misconception": "site-types-hot-warm-cold", "why": "A recovery site is for restoring after a disaster. It does not stop a fleet-wide flaw, and a warm site built identically inherits it."}
+      {"id": "d", "text": "A warm recovery site ready to take over", "misconception": "diversity-and-multicloud", "why": "A recovery site is for restoring after a disaster. It does not stop a fleet-wide flaw, and a warm site built identically inherits it."}
     ]
   },
   {
@@ -163,7 +163,7 @@
     "difficulty": 4,
     "stem": "An organisation moves to a multi-cloud design across two providers. Which risk does this address, and which does it not?",
     "options": [
-      {"id": "a", "text": "It addresses a single provider's outage or regional failure; it does not address the organisation's own misconfiguration, which can be replicated to both", "correct": true, "why": "Provider independence is the benefit. Your own identity and configuration mistakes travel with you, and most cloud incidents are customer misconfigurations."},
+      {"id": "a", "text": "It addresses a provider outage, not your own misconfiguration", "correct": true, "why": "Provider independence is the benefit, covering one provider's outage or regional failure. Your own identity and configuration mistakes travel with you and replicate to both, and most cloud incidents are customer misconfigurations. Two clouds still share one set of your mistakes."},
       {"id": "b", "text": "It addresses misconfiguration risk, because two providers validate each other", "misconception": "diversity-and-multicloud", "why": "Providers do not review your configuration. Nothing cross-checks the two deployments unless you build it."},
       {"id": "c", "text": "It addresses all availability risk, removing the need for backups", "misconception": "backup-parameters", "why": "Availability design does not replace backups. Deleted or corrupted data replicates to both providers promptly."},
       {"id": "d", "text": "It addresses nothing, since both providers run the same hardware", "misconception": "diversity-and-multicloud", "why": "Independent control planes, operations teams and failure domains are the point, whatever the hardware underneath."}
@@ -177,10 +177,10 @@
     "difficulty": 4,
     "stem": "A disaster recovery plan is tested successfully. During a real incident six months later it stalls because the only engineer who knows the failover procedure is on leave and unreachable. Which aspect of capacity planning failed?",
     "options": [
-      {"id": "a", "text": "People: there was no trained cover for a role the plan depended on", "correct": true, "why": "Capacity planning covers people as well as kit. A plan with a single point of human failure has not been planned for capacity, however well the technology performs."},
+      {"id": "a", "text": "People: no one else was trained for the role", "correct": true, "why": "Capacity planning covers people as well as kit. A plan with a single point of human failure has not been planned for capacity, however well the technology performs."},
       {"id": "b", "text": "Technology: the failover systems were insufficient", "misconception": "capacity-planning-dimensions", "why": "The stem says the test succeeded, so the technology was adequate."},
       {"id": "c", "text": "Infrastructure: power and cooling at the recovery site", "misconception": "capacity-planning-dimensions", "why": "Nothing indicates a facility constraint."},
-      {"id": "d", "text": "The plan should have been tested more frequently", "misconception": "tabletop-vs-simulation", "why": "More testing with the same single engineer reproduces the same dependency."}
+      {"id": "d", "text": "The plan should have been tested more frequently", "misconception": "capacity-planning-dimensions", "why": "More testing with the same single engineer reproduces the same dependency."}
     ]
   },
   {
@@ -194,7 +194,7 @@
       {"id": "a", "text": "Infrastructure capacity: power, cooling and space must carry the load the technology is sized for", "correct": true, "why": "Servers that cannot be powered or cooled are inventory. Infrastructure is named separately precisely because it is assessed separately and often forgotten."},
       {"id": "b", "text": "Technology capacity", "misconception": "capacity-planning-dimensions", "why": "The compute is correctly sized. The constraint sits beneath it."},
       {"id": "c", "text": "People capacity", "misconception": "capacity-planning-dimensions", "why": "No staffing constraint is described."},
-      {"id": "d", "text": "The site should be reclassified as cold rather than warm", "misconception": "site-types-hot-warm-cold", "why": "Site classification describes readiness of equipment and data, not whether the facility can power what is installed."}
+      {"id": "d", "text": "The site should be reclassified as cold rather than warm", "misconception": "capacity-planning-dimensions", "why": "Site classification describes readiness of equipment and data, not whether the facility can power what is installed."}
     ]
   },
   {
@@ -205,9 +205,9 @@
     "difficulty": 4,
     "stem": "A business states it can tolerate losing at most one hour of transactions. Backups currently run nightly at 23:00. What must change, and which metric is being expressed?",
     "options": [
-      {"id": "a", "text": "Backup frequency must increase to hourly or continuous; the stated tolerance is the recovery point objective", "correct": true, "why": "RPO is how much data loss is acceptable, and backup frequency is what sets it. A nightly schedule can lose up to twenty-four hours."},
+      {"id": "a", "text": "Back up at least hourly; the tolerance is the recovery point objective", "correct": true, "why": "RPO is how much data loss is acceptable, and backup frequency is what sets it, so backups must run hourly or continuously. A nightly schedule can lose up to twenty-four hours."},
       {"id": "b", "text": "Recovery speed must improve; the tolerance is the recovery time objective", "misconception": "backup-parameters", "why": "RTO is how long until service returns. The stem talks about lost transactions, which is data, so it is RPO."},
-      {"id": "c", "text": "Retention must be extended so older copies are available", "misconception": "backup-parameters", "why": "Retention is how far back you can go. It does not reduce the gap since the last copy."},
+      {"id": "c", "text": "Retention must be extended so older copies stay available for longer", "misconception": "backup-parameters", "why": "Retention is how far back you can go. It does not reduce the gap since the last copy."},
       {"id": "d", "text": "Backups must be encrypted to protect the lost transactions", "misconception": "backup-parameters", "why": "Encryption addresses disclosure. The requirement here is about how much work disappears."}
     ]
   },
@@ -219,10 +219,10 @@
     "difficulty": 3,
     "stem": "Offsite backup media are transported by a third-party courier to a storage facility. Which control most directly limits the impact if a cartridge is lost in transit?",
     "options": [
-      {"id": "a", "text": "Encrypting the backup media, with keys held separately from the media", "correct": true, "why": "Once media leaves your control, encryption is the remaining control. Keys travelling with the cartridge would defeat it, which is why separation is part of the answer."},
-      {"id": "b", "text": "Increasing backup frequency", "misconception": "backup-parameters", "why": "That reduces potential data loss and does nothing about a copy in someone else's hands."},
-      {"id": "c", "text": "Using a courier with better insurance", "misconception": "backup-parameters", "why": "Insurance transfers financial loss. It does not prevent disclosure or a notification obligation."},
-      {"id": "d", "text": "Keeping an additional onsite copy", "misconception": "backup-parameters", "why": "Helps availability, and the lost cartridge remains readable by whoever has it."}
+      {"id": "a", "text": "Encrypted media, with keys held separately", "correct": true, "why": "Once media leaves your control, encryption is the remaining control. Keys travelling with the cartridge would defeat it, which is why separation is part of the answer."},
+      {"id": "b", "text": "Increasing backup frequency to every few hours", "misconception": "backup-parameters", "why": "That reduces potential data loss and does nothing about a copy in someone else's hands."},
+      {"id": "c", "text": "Using a bonded courier with better insurance", "misconception": "backup-parameters", "why": "Insurance transfers financial loss. It does not prevent disclosure or a notification obligation."},
+      {"id": "d", "text": "Keeping an additional onsite copy of each set", "misconception": "backup-parameters", "why": "Helps availability, and the lost cartridge remains readable by whoever has it."}
     ]
   },
   {
@@ -233,10 +233,10 @@
     "difficulty": 4,
     "stem": "A team has run nightly backups for two years and has never performed a restore. What is the correct characterisation of their position?",
     "options": [
-      {"id": "a", "text": "They have an untested hypothesis: until a restore succeeds, there is no evidence the backups are usable or that recovery fits the RTO", "correct": true, "why": "Backup jobs reporting success routinely produce unreadable or incomplete sets. Recovery testing is the only thing that converts a backup into a control."},
+      {"id": "a", "text": "An untested hypothesis until a restore proves the backups work", "correct": true, "why": "Backup jobs reporting success routinely produce unreadable or incomplete sets. Until a restore succeeds, nothing shows the backups are usable or that recovery fits the RTO. Recovery testing is the only thing that converts a backup into a control."},
       {"id": "b", "text": "They are adequately protected, since the jobs report success", "misconception": "backup-parameters", "why": "A successful job means the software finished. It does not mean the output can be restored."},
       {"id": "c", "text": "They need snapshots in addition, which do not require testing", "misconception": "backup-parameters", "why": "Snapshots need testing too, and typically share storage with production, so they do not survive what takes the array or the site."},
-      {"id": "d", "text": "They should increase retention before testing anything", "misconception": "backup-parameters", "why": "Keeping more unverified copies for longer multiplies the hypothesis rather than testing it."}
+      {"id": "d", "text": "They should increase retention to a full year before testing anything", "misconception": "backup-parameters", "why": "Keeping more unverified copies for longer multiplies the hypothesis rather than testing it."}
     ]
   },
   {
@@ -261,11 +261,11 @@
     "difficulty": 4,
     "stem": "Which TWO statements about resilience design are correct? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Redundant identical systems share every flaw those systems have, so diversity addresses a risk redundancy cannot", "correct": true, "why": "A common vulnerability across a fleet is a single point of failure however many instances exist."},
+      {"id": "a", "text": "Diversity addresses a risk that identical redundant systems cannot", "correct": true, "why": "Identical redundant systems share every flaw those systems have. A common vulnerability across a fleet is a single point of failure however many instances exist."},
       {"id": "b", "text": "Continuity of operations planning covers people and facilities, not only technology", "correct": true, "why": "Capacity planning is split across people, technology and infrastructure for exactly this reason."},
       {"id": "c", "text": "A multi-cloud design removes the risk of customer misconfiguration", "misconception": "diversity-and-multicloud", "why": "Your configuration errors replicate to every provider you deploy to."},
       {"id": "d", "text": "Snapshots stored on the production array are an adequate substitute for offsite backups", "misconception": "backup-parameters", "why": "They do not survive loss of the array, the site, or ransomware that can reach the storage."},
-      {"id": "e", "text": "Platform diversity reduces operational complexity", "misconception": "diversity-and-multicloud", "why": "It increases it. More platforms means more expertise, patching and ways to misconfigure, which is the trade being made."}
+      {"id": "e", "text": "Platform diversity reduces operational complexity for the support team", "misconception": "diversity-and-multicloud", "why": "It increases it. More platforms means more expertise, patching and ways to misconfigure, which is the trade being made."}
     ],
     "selectCount": 2
   },
@@ -293,7 +293,7 @@
     "options": [
       {"id": "a", "text": "Infrastructure", "misconception": "capacity-planning-dimensions", "why": "Power, cooling, space and network were all adequate; the servers started. The shortfall was in what the software is licensed to do."},
       {"id": "b", "text": "People", "misconception": "capacity-planning-dimensions", "why": "Nobody was missing or untrained. The software itself refused to run."},
-      {"id": "c", "text": "The site should have been a hot site rather than a warm one", "misconception": "site-types-hot-warm-cold", "why": "A hot site with the same licensing gap would fail the same way. The type of site is not the problem."},
+      {"id": "c", "text": "The site should have been a hot site rather than a warm one", "misconception": "capacity-planning-dimensions", "why": "A hot site with the same licensing gap would fail the same way. The type of site is not the problem."},
       {"id": "d", "text": "Technology: the licences must cover the recovery site as well as the hardware", "correct": true, "why": "Licences are part of technology capacity. Servers that start but cannot run the software are not capacity."}
     ]
   },

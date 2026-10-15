@@ -7,7 +7,7 @@
     "difficulty": 2,
     "stem": "A vendor publishes a SHA-256 value next to a software download. What does it allow you to verify?",
     "options": [
-      {"id": "a", "text": "That the file you downloaded has not been altered", "correct": true, "why": "Hashing provides integrity. Recomputing the hash and comparing proves the bytes match what the vendor published."},
+      {"id": "a", "text": "That the file you downloaded has not been altered", "correct": true, "why": "Hashing provides integrity. Recomputing the hash and comparing proves the bytes match what the vendor published. Remember: a hash proves the bytes match; only a signature proves who made them."},
       {"id": "b", "text": "That the file is confidential in transit", "misconception": "hashing-vs-encryption", "why": "A hash provides no confidentiality. The file is readable by anyone who downloads it."},
       {"id": "c", "text": "That the vendor genuinely produced the file", "misconception": "digital-signature-properties", "why": "A published hash proves integrity against that published value. Proving who produced the file requires a digital signature."},
       {"id": "d", "text": "That the file can be restored if corrupted", "misconception": "hashing-vs-encryption", "why": "Hashing is one way. It detects corruption and cannot reverse it."}
@@ -19,12 +19,12 @@
     "objective": "1.4",
     "topics": ["hashing", "symmetric-encryption", "data-at-rest"],
     "difficulty": 3,
-    "stem": "An application must store customer national insurance numbers so that support staff can display the full value when a customer calls. Which protection is appropriate?",
+    "stem": "An application must store customer Social Security numbers so that support staff can display the full value when a customer calls. Which protection is appropriate?",
     "options": [
-      {"id": "a", "text": "Encryption, with strict access control on the decryption key", "correct": true, "why": "The value has to be recoverable, so it must be encryption rather than hashing."},
-      {"id": "b", "text": "Hashing with a per-record salt", "misconception": "hashing-vs-encryption", "why": "Hashing is one way. The value could never be displayed again, which the requirement demands."},
-      {"id": "c", "text": "Hashing with key stretching applied", "misconception": "hashing-vs-encryption", "why": "Key stretching makes the hash slower to attack and still leaves it irreversible."},
-      {"id": "d", "text": "A checksum stored alongside the record", "misconception": "hashing-vs-encryption", "why": "A checksum detects accidental change. It neither protects nor recovers the value."}
+      {"id": "a", "text": "Encryption, with strict access control on the key", "correct": true, "why": "The value has to be recoverable, so it must be encryption rather than hashing. Remember: if the full value must come back, use encryption, not a hash."},
+      {"id": "b", "text": "Hashing with a per-record salt, stored in place of the number", "misconception": "hashing-vs-encryption", "why": "Hashing is one way. The value could never be displayed again, which the requirement demands."},
+      {"id": "c", "text": "Hashing with key stretching applied before the value is stored", "misconception": "hashing-vs-encryption", "why": "Key stretching makes the hash slower to attack and still leaves it irreversible."},
+      {"id": "d", "text": "A checksum stored alongside the record to protect the number", "misconception": "hashing-vs-encryption", "why": "A checksum detects accidental change. It neither protects nor recovers the value."}
     ]
   },
   {
@@ -49,10 +49,10 @@
     "difficulty": 3,
     "stem": "An attacker has stolen a password database and is testing billions of candidate passwords per second against it. Which storage change most directly reduces the rate of successful cracking?",
     "options": [
-      {"id": "a", "text": "Key stretching with a deliberately slow algorithm such as Argon2 or bcrypt", "correct": true, "why": "Key stretching makes each individual guess computationally expensive, which collapses the number of guesses per second."},
-      {"id": "b", "text": "Adding a unique salt to each hash", "misconception": "salting-purpose", "why": "Salting is necessary and does not slow guessing. It removes precomputation and hash reuse, not speed."},
-      {"id": "c", "text": "Switching from SHA-1 to SHA-256", "misconception": "salting-purpose", "why": "Both are fast general purpose hashes, which is exactly the wrong property for password storage."},
-      {"id": "d", "text": "Encrypting the password column with AES-256", "misconception": "hashing-vs-encryption", "why": "This makes passwords recoverable, which they should not be, and moves the problem to protecting the key."}
+      {"id": "a", "text": "Key stretching with a deliberately slow algorithm such as Argon2", "correct": true, "why": "Key stretching makes each individual guess computationally expensive, which collapses the number of guesses per second. Remember: a slow hash costs the attacker time on every guess; a salt does not."},
+      {"id": "b", "text": "Adding a unique salt to each hash in the password table", "misconception": "salting-purpose", "why": "Salting is necessary and does not slow guessing. It removes precomputation and hash reuse, not speed."},
+      {"id": "c", "text": "Switching from SHA-1 to SHA-256 for every stored password", "misconception": "salting-purpose", "why": "Both are fast general purpose hashes, which is exactly the wrong property for password storage."},
+      {"id": "d", "text": "Encrypting the password column with AES-256 in the database", "misconception": "hashing-vs-encryption", "why": "This makes passwords recoverable, which they should not be, and moves the problem to protecting the key."}
     ]
   },
   {
@@ -77,7 +77,7 @@
     "difficulty": 2,
     "stem": "A certificate was revoked this morning, but a client still accepts it. The client is configured to use a CRL published daily. What explains this?",
     "options": [
-      {"id": "a", "text": "The current CRL predates the revocation, so the client has no way to know", "correct": true, "why": "A CRL is only as fresh as its last publication. This staleness is the main argument for OCSP."},
+      {"id": "a", "text": "The current CRL predates the revocation, so the client has no way to know", "correct": true, "why": "A CRL is only as fresh as its last publication. This staleness is the main argument for OCSP. Remember: a CRL is only as fresh as its last publication; OCSP asks live."},
       {"id": "b", "text": "CRLs list only expired certificates, not revoked ones", "misconception": "crl-vs-ocsp", "why": "A CRL lists revoked serial numbers. Expiry needs no list; the client reads the date on the certificate."},
       {"id": "c", "text": "The certificate must be revoked at the root as well as the issuing CA", "misconception": "crl-vs-ocsp", "why": "Revocation is published by the issuing CA. There is no separate root level revocation of an end entity certificate."},
       {"id": "d", "text": "OCSP stapling overrides the CRL and reports the certificate as valid", "misconception": "crl-vs-ocsp", "why": "Stapling is not in use here, and a stapled response reflects the CA's current view, which would show it revoked."}
@@ -91,10 +91,10 @@
     "difficulty": 3,
     "stem": "An executive digitally signs a contract and emails it. Which properties does the signature provide?",
     "options": [
-      {"id": "a", "text": "Integrity, authentication of the sender, and non-repudiation", "correct": true, "why": "The signature proves the document was not altered, that it came from the holder of the private key, and that they cannot later deny signing it."},
-      {"id": "b", "text": "Confidentiality, integrity and non-repudiation", "misconception": "digital-signature-properties", "why": "Signing does not conceal anything. The contract travels in plaintext and anyone intercepting it can read it."},
-      {"id": "c", "text": "Confidentiality and authentication only", "misconception": "digital-signature-properties", "why": "Neither half is right. There is no confidentiality, and integrity and non-repudiation are omitted."},
-      {"id": "d", "text": "Availability and integrity", "misconception": "digital-signature-properties", "why": "Signatures have nothing to do with availability."}
+      {"id": "a", "text": "Integrity, sender authentication and non-repudiation", "correct": true, "why": "The signature proves the document was not altered, that it came from the holder of the private key, and that they cannot later deny signing it."},
+      {"id": "b", "text": "Confidentiality, integrity and non-repudiation together", "misconception": "digital-signature-properties", "why": "Signing does not conceal anything. The contract travels in plaintext and anyone intercepting it can read it."},
+      {"id": "c", "text": "Confidentiality and authentication only, with no integrity", "misconception": "digital-signature-properties", "why": "Neither half is right. There is no confidentiality, and integrity and non-repudiation are omitted."},
+      {"id": "d", "text": "Availability and integrity, because the file arrives intact", "misconception": "digital-signature-properties", "why": "Signatures have nothing to do with availability."}
     ]
   },
   {
@@ -119,7 +119,7 @@
     "difficulty": 4,
     "stem": "A database administrator can query the customer table and read card numbers in full. Policy says only the payments application should ever see them. The server already uses full disk encryption. What addresses the requirement?",
     "options": [
-      {"id": "a", "text": "Record or column level encryption, so the field is only readable by holders of that key", "correct": true, "why": "The threat is an authorised database user, so protection must sit above the database's own access. Encrypting the column means the DBA sees ciphertext even on a successful query."},
+      {"id": "a", "text": "Record or column level encryption, so only key holders can read the field", "correct": true, "why": "The threat is an authorized database user, so protection must sit above the database's own access. Encrypting the column means the DBA sees ciphertext even on a successful query."},
       {"id": "b", "text": "Full disk encryption, which is already protecting the data at rest", "misconception": "encryption-scope-levels", "why": "Disk encryption is transparent once the machine is running. Every query returns plaintext, which is why it does nothing against a legitimate user."},
       {"id": "c", "text": "Transport encryption between the application and the database", "misconception": "encryption-scope-levels", "why": "That protects the wire. The DBA is reading the data at rest, not intercepting it."},
       {"id": "d", "text": "Partition encryption on the volume holding the database files", "misconception": "encryption-scope-levels", "why": "Same blind spot as full disk: transparent to anything running on the booted system."}
@@ -133,10 +133,10 @@
     "difficulty": 3,
     "stem": "A laptop is stolen from a parked car. It was powered off and used full disk encryption with the key sealed to the machine's TPM. What is the practical exposure?",
     "options": [
-      {"id": "a", "text": "Low: the disk is unreadable without the boot sequence succeeding and the user credential being supplied", "correct": true, "why": "This is the scenario full disk encryption is built for. The TPM only releases the key when boot measurements match, so moving the disk to another machine yields nothing."},
-      {"id": "b", "text": "High: the TPM stores the key in plaintext and can be read off the board", "misconception": "root-of-trust-hardware", "why": "A TPM is designed to resist exactly that, and it will not release a sealed key when the boot state differs."},
+      {"id": "a", "text": "Low: the disk is unreadable unless the boot succeeds and the user signs in", "correct": true, "why": "This is the scenario full disk encryption is built for. The TPM only releases the key when boot measurements match, so moving the disk to another machine yields nothing."},
+      {"id": "b", "text": "High: the TPM stores the key in plaintext and it can be read off the board", "misconception": "root-of-trust-hardware", "why": "A TPM is designed to resist exactly that, and it will not release a sealed key when the boot state differs."},
       {"id": "c", "text": "High: full disk encryption only protects files created after it was enabled", "misconception": "encryption-scope-levels", "why": "Enabling it encrypts the existing volume as well."},
-      {"id": "d", "text": "Low, but only because the data was also hashed at rest", "misconception": "obfuscation-methods", "why": "Hashing is one way and would make the data unusable. Nothing in the scenario involves hashing."}
+      {"id": "d", "text": "Low, but only because the data was also hashed at rest on the disk", "misconception": "obfuscation-methods", "why": "Hashing is one way and would make the data unusable. Nothing in the scenario involves hashing."}
     ]
   },
   {
@@ -149,7 +149,7 @@
     "options": [
       {"id": "a", "text": "Diffie-Hellman key exchange", "correct": true, "why": "Each side contributes a secret and they derive the same shared value without it ever crossing the wire. This is the problem asymmetric key exchange was invented to solve."},
       {"id": "b", "text": "Encrypting the symmetric key with AES and sending it", "misconception": "key-management-essentials", "why": "Circular: encrypting the key with a symmetric cipher requires a shared key you do not yet have."},
-      {"id": "c", "text": "Hashing the key with SHA-256 before transmission", "misconception": "obfuscation-methods", "why": "Hashing is irreversible, so the recipient could never obtain the key. Hashing is not a transport mechanism."},
+      {"id": "c", "text": "Hashing the key with SHA-256 before transmission", "misconception": "hashing-vs-encryption", "why": "Hashing is irreversible, so the recipient could never obtain the key. Hashing is not a transport mechanism."},
       {"id": "d", "text": "Sending the key over the same channel with a longer key length", "misconception": "key-management-essentials", "why": "Length does not help when the observer receives the key itself."}
     ]
   },
@@ -161,10 +161,10 @@
     "difficulty": 4,
     "stem": "A colleague argues that a 2048-bit RSA key must be far stronger than a 256-bit AES key because the number is larger. What is the correct response?",
     "options": [
-      {"id": "a", "text": "Key lengths are only comparable within an algorithm family; 2048-bit RSA gives roughly the strength of a 112-bit symmetric key, well below AES-256", "correct": true, "why": "Symmetric and asymmetric keys resist different mathematics, so the bit counts are not on the same scale. RSA needs far longer keys for a given strength, and 2048-bit RSA is the weaker of the two here."},
-      {"id": "b", "text": "They are correct; longer keys are always stronger regardless of algorithm", "misconception": "key-management-essentials", "why": "Comparing across families this way is exactly the error. A 2048-bit symmetric key would be absurd, not eight times better."},
+      {"id": "a", "text": "Key lengths compare only within a family; 2048-bit RSA is roughly a 112-bit symmetric key", "correct": true, "why": "Symmetric and asymmetric keys resist different mathematics, so the bit counts are not on the same scale. RSA needs far longer keys for a given strength, and 2048-bit RSA is the weaker of the two here."},
+      {"id": "b", "text": "They are correct; longer keys are always stronger whatever the algorithm used", "misconception": "key-management-essentials", "why": "Comparing across families this way is exactly the error. A 2048-bit symmetric key would be absurd, not eight times better."},
       {"id": "c", "text": "RSA is weaker because asymmetric algorithms are always weaker than symmetric ones", "misconception": "key-management-essentials", "why": "Strength depends on the algorithm and key length together, not on the family. RSA-2048 does happen to be weaker than AES-256, but the rule that asymmetric is always weaker is false."},
-      {"id": "d", "text": "Both are obsolete and only elliptic curve algorithms should be used", "misconception": "key-management-essentials", "why": "ECC achieves comparable strength with smaller keys, which is efficiency. AES-256 and RSA-2048 remain in standard use."}
+      {"id": "d", "text": "Both are obsolete and only elliptic curve algorithms should be used any more", "misconception": "key-management-essentials", "why": "ECC achieves comparable strength with smaller keys, which is efficiency. AES-256 and RSA-2048 remain in standard use."}
     ]
   },
   {
@@ -173,12 +173,12 @@
     "objective": "1.4",
     "topics": ["key-escrow", "key-management-system"],
     "difficulty": 3,
-    "stem": "An employee leaves abruptly and the organisation must read files they encrypted with a personal certificate. Which arrangement, if established beforehand, makes this possible?",
+    "stem": "An employee leaves abruptly and the organization must read files they encrypted with a personal certificate. Which arrangement, if established beforehand, makes this possible?",
     "options": [
-      {"id": "a", "text": "Key escrow, in which a copy of the key is held by a trusted third party or the organisation itself", "correct": true, "why": "Escrow exists for precisely this: recoverability when the key holder is unavailable. The trade is that the escrowed copy is another place the key can be stolen from."},
-      {"id": "b", "text": "Key stretching applied to the user's passphrase", "misconception": "key-management-essentials", "why": "Stretching makes a weak passphrase expensive to brute force. It does not give anyone else access."},
-      {"id": "c", "text": "A longer key length on the user's certificate", "misconception": "key-management-essentials", "why": "That makes recovery harder, not easier."},
-      {"id": "d", "text": "Publishing the user's certificate to a public directory", "misconception": "certificate-types-and-trust", "why": "A published certificate contains the public key. Decryption needs the private key, which is never published."}
+      {"id": "a", "text": "Key escrow: a copy of the key held by a trusted third party or the organization", "correct": true, "why": "Escrow exists for precisely this: recoverability when the key holder is unavailable. The trade is that the escrowed copy is another place the key can be stolen from."},
+      {"id": "b", "text": "Key stretching applied to the user's passphrase before the key is derived from it", "misconception": "key-management-essentials", "why": "Stretching makes a weak passphrase expensive to brute force. It does not give anyone else access."},
+      {"id": "c", "text": "A longer key length on the user's certificate so that it becomes harder to break", "misconception": "key-management-essentials", "why": "A longer key makes the encryption harder for everyone to break, including your own recovery team. Recovery needs a second copy of the key, and key length gives you none."},
+      {"id": "d", "text": "Publishing the user's certificate to a public directory so that anyone can find it", "misconception": "certificate-types-and-trust", "why": "A published certificate contains the public key. Decryption needs the private key, which is never published."}
     ]
   },
   {
@@ -203,10 +203,10 @@
     "difficulty": 4,
     "stem": "A workstation refuses to release its disk encryption key after someone changes the boot order and attaches an external boot device. Which component enforced this?",
     "options": [
-      {"id": "a", "text": "The TPM, which only unseals the key when boot measurements match the expected state", "correct": true, "why": "Measured boot is the TPM's core function. Sealing a key to a boot state means tampering with that state makes the key unavailable rather than merely detectable."},
-      {"id": "b", "text": "The HSM attached to the workstation", "misconception": "root-of-trust-hardware", "why": "Workstations do not carry HSMs; they are appliances serving many systems, used where the assurance justifies the cost."},
-      {"id": "c", "text": "The key management system refusing to issue the key", "misconception": "root-of-trust-hardware", "why": "A KMS handles lifecycle and policy, not local boot measurement on an individual machine."},
-      {"id": "d", "text": "Key escrow policy blocking recovery", "misconception": "key-management-essentials", "why": "Escrow is about who else holds a copy, not about boot integrity."}
+      {"id": "a", "text": "The TPM, which unseals the key only when boot measurements match", "correct": true, "why": "Measured boot is the TPM's core function. Sealing a key to a boot state means tampering with that state makes the key unavailable rather than merely detectable."},
+      {"id": "b", "text": "The HSM attached to the workstation, which refuses to release the key", "misconception": "root-of-trust-hardware", "why": "Workstations do not carry HSMs; they are appliances serving many systems, used where the assurance justifies the cost."},
+      {"id": "c", "text": "The key management system refusing to issue the key to this workstation", "misconception": "root-of-trust-hardware", "why": "A KMS handles lifecycle and policy, not local boot measurement on an individual machine."},
+      {"id": "d", "text": "The key escrow policy, which blocks recovery of the disk key", "misconception": "key-management-essentials", "why": "Escrow is about who else holds a copy, not about boot integrity."}
     ]
   },
   {
@@ -217,10 +217,10 @@
     "difficulty": 4,
     "stem": "An administrator needs a publicly trusted certificate for a new web server. Which sequence is correct?",
     "options": [
-      {"id": "a", "text": "Generate the key pair and CSR on the web server, send the CSR to the CA, install the returned certificate", "correct": true, "why": "The private key is generated where it will live and never travels. The CSR carries only the public key and the identity details to be vouched for."},
-      {"id": "b", "text": "Ask the CA to generate the key pair and email both halves to the administrator", "misconception": "certificate-types-and-trust", "why": "A private key sent by email has been exposed to every system that handled the message. The key should never leave the host that will use it."},
+      {"id": "a", "text": "Generate the key pair and CSR on the server, send the CSR to the CA, install the certificate", "correct": true, "why": "The private key is generated where it will live and never travels. The CSR carries only the public key and the identity details to be vouched for."},
+      {"id": "b", "text": "Ask the CA to generate the key pair and email both halves to the administrator for install", "misconception": "certificate-types-and-trust", "why": "A private key sent by email has been exposed to every system that handled the message. The key should never leave the host that will use it."},
       {"id": "c", "text": "Generate a self-signed certificate first, then submit it to the CA for counter-signing", "misconception": "certificate-types-and-trust", "why": "CAs sign certificate signing requests, not existing self-signed certificates."},
-      {"id": "d", "text": "Submit the private key in the CSR so the CA can verify key ownership", "misconception": "certificate-types-and-trust", "why": "A CSR contains the public key and is self-signed to prove possession of the private key. The private key itself is never included."}
+      {"id": "d", "text": "Submit the private key in the CSR so that the CA can verify key ownership for itself", "misconception": "certificate-types-and-trust", "why": "A CSR contains the public key and is self-signed to prove possession of the private key. The private key itself is never included."}
     ]
   },
   {
@@ -229,12 +229,12 @@
     "objective": "1.4",
     "topics": ["wildcard-certificates", "third-party-certificates"],
     "difficulty": 4,
-    "stem": "An organisation holds a wildcard certificate for *.example.com, deployed across eleven servers. Which statement is accurate?",
+    "stem": "An organization holds a wildcard certificate for *.example.com, deployed across eleven servers. Which statement is accurate?",
     "options": [
-      {"id": "a", "text": "It covers one subdomain level only, and a compromise of the single private key affects every server using it", "correct": true, "why": "Both halves are the trade. *.example.com matches shop.example.com but not a.b.example.com, and spreading one private key across eleven hosts means eleven chances to lose it once."},
-      {"id": "b", "text": "It covers all subdomains at any depth beneath example.com", "misconception": "certificate-types-and-trust", "why": "A wildcard matches a single label. Multi-level coverage needs additional names or separate certificates."},
-      {"id": "c", "text": "Each server receives its own distinct private key derived from the wildcard", "misconception": "certificate-types-and-trust", "why": "They share the same certificate and the same private key, which is the concentration of risk."},
-      {"id": "d", "text": "It also covers example.com itself without a separate entry", "misconception": "certificate-types-and-trust", "why": "The bare domain usually needs to be listed explicitly as a subject alternative name."}
+      {"id": "a", "text": "It covers one subdomain level, and one stolen key affects every server using it", "correct": true, "why": "Both halves are the trade. *.example.com matches shop.example.com but not a.b.example.com, and spreading one private key across eleven hosts means eleven chances to lose it once."},
+      {"id": "b", "text": "It covers all subdomains at any depth beneath example.com, however many levels deep", "misconception": "certificate-types-and-trust", "why": "A wildcard matches a single label. Multi-level coverage needs additional names or separate certificates."},
+      {"id": "c", "text": "Each server receives its own distinct private key derived from the wildcard certificate", "misconception": "certificate-types-and-trust", "why": "They share the same certificate and the same private key, which is the concentration of risk."},
+      {"id": "d", "text": "It also covers example.com itself without a separate entry for the bare domain name", "misconception": "certificate-types-and-trust", "why": "The bare domain usually needs to be listed explicitly as a subject alternative name."}
     ]
   },
   {
@@ -245,10 +245,10 @@
     "difficulty": 3,
     "stem": "An internal monitoring tool reachable only from the corporate LAN presents a self-signed certificate, and staff browsers show a warning. What is the most appropriate response?",
     "options": [
-      {"id": "a", "text": "Issue the certificate from the organisation's internal CA, whose root is already trusted by managed devices", "correct": true, "why": "An internal CA gives trust without a public certificate, and without training staff to click through warnings, which is the real damage of leaving it."},
-      {"id": "b", "text": "Instruct staff to accept the warning, since the service is internal", "misconception": "certificate-types-and-trust", "why": "It teaches people to dismiss exactly the warning that matters elsewhere, and on an internal network an on-path attacker is still possible."},
-      {"id": "c", "text": "Buy a publicly trusted certificate from a third-party CA", "misconception": "certificate-types-and-trust", "why": "Workable but unnecessary, and a public CA may not issue for an internal-only name."},
-      {"id": "d", "text": "Disable TLS on the service, since the warning is the only problem", "misconception": "certificate-types-and-trust", "why": "That removes the encryption rather than fixing the trust, leaving credentials in the clear."}
+      {"id": "a", "text": "Issue it from the organization's internal CA, whose root managed devices already trust", "correct": true, "why": "An internal CA gives trust without a public certificate, and without training staff to click through warnings, which is the real damage of leaving it."},
+      {"id": "b", "text": "Instruct staff to accept the warning, since the service is internal and only on the LAN", "misconception": "certificate-types-and-trust", "why": "It teaches people to dismiss exactly the warning that matters elsewhere, and on an internal network an on-path attacker is still possible."},
+      {"id": "c", "text": "Buy a publicly trusted certificate from a third-party CA for the internal tool's name", "misconception": "certificate-types-and-trust", "why": "Workable but unnecessary, and a public CA may not issue for an internal-only name."},
+      {"id": "d", "text": "Disable TLS on the service, since the warning is the only problem with the tool", "misconception": "certificate-types-and-trust", "why": "That removes the encryption rather than fixing the trust, leaving credentials in the clear."}
     ]
   },
   {
@@ -301,10 +301,10 @@
     "difficulty": 3,
     "stem": "Credentials are being captured by an attacker sniffing traffic on a shared network segment between an application server and its database. Which control addresses this?",
     "options": [
-      {"id": "a", "text": "Transport encryption on the connection between the two systems", "correct": true, "why": "The exposure is on the wire, so the protection must be on the wire. Encryption at rest on either end does nothing for traffic in flight."},
-      {"id": "b", "text": "Full disk encryption on both servers", "misconception": "encryption-scope-levels", "why": "Protects the disks if the machines are stolen while off. Irrelevant to traffic between them."},
-      {"id": "c", "text": "File level encryption of the database files", "misconception": "encryption-scope-levels", "why": "Protects the stored files. The data is decrypted before it is sent, which is where it is being captured."},
-      {"id": "d", "text": "Hashing the credentials before transmission", "misconception": "obfuscation-methods", "why": "A captured hash can often be replayed directly, and the receiving system still needs something it can verify against."}
+      {"id": "a", "text": "Transport encryption between the two systems", "correct": true, "why": "The exposure is on the wire, so the protection must be on the wire. Encryption at rest on either end does nothing for traffic in flight. Remember: protect data in transit with transport encryption, not disk encryption."},
+      {"id": "b", "text": "Full disk encryption on both of the servers involved", "misconception": "encryption-scope-levels", "why": "Protects the disks if the machines are stolen while off. Irrelevant to traffic between them."},
+      {"id": "c", "text": "File level encryption of the database files on disk", "misconception": "encryption-scope-levels", "why": "Protects the stored files. The data is decrypted before it is sent, which is where it is being captured."},
+      {"id": "d", "text": "Hashing the credentials before they are transmitted", "misconception": "obfuscation-methods", "why": "A captured hash can often be replayed directly, and the receiving system still needs something it can verify against."}
     ]
   },
   {
@@ -317,7 +317,7 @@
     "options": [
       {"id": "a", "text": "Defining rotation, revocation and destruction procedures for every key in use", "correct": true, "why": "Lifecycle management is the core of key management, and the part most often left undone until a key must be revoked in a hurry."},
       {"id": "b", "text": "Holding escrowed copies of keys so encrypted business data remains recoverable", "correct": true, "why": "A deliberate availability trade-off, managed through policy and custody, not a property of any algorithm."},
-      {"id": "c", "text": "Selecting AES-256 over 3DES", "misconception": "key-management-essentials", "why": "That is algorithm selection. It matters, and it is a different decision from how the resulting keys are handled."},
+      {"id": "c", "text": "Selecting AES-256 over 3DES for the bulk encryption of the data", "misconception": "key-management-essentials", "why": "That is algorithm selection. It matters, and it is a different decision from how the resulting keys are handled."},
       {"id": "d", "text": "Choosing elliptic curve over RSA for smaller keys at equivalent strength", "misconception": "key-management-essentials", "why": "Also algorithm selection, concerned with efficiency rather than custody."},
       {"id": "e", "text": "Using SHA-256 rather than MD5 for integrity checking", "misconception": "key-management-essentials", "why": "Primitive selection. No key is involved in a plain hash at all."}
     ],
@@ -331,10 +331,10 @@
     "difficulty": 4,
     "stem": "A retailer must keep card numbers usable for refunds but wants them absent from the transaction database entirely, so that a database compromise yields nothing of value. Which approach fits?",
     "options": [
-      {"id": "a", "text": "Tokenisation, storing surrogates with the real values held in a separate vault", "correct": true, "why": "The real value is not in the database at all, which is stronger than encrypting it there, and the vault can still return it when a refund requires it."},
-      {"id": "b", "text": "Transparent database encryption of the whole database", "misconception": "encryption-scope-levels", "why": "Transparent means any authorised query returns plaintext. It protects the files, not the contents from a working session."},
-      {"id": "c", "text": "Hashing the card numbers before storage", "misconception": "obfuscation-methods", "why": "Irreversible, so refunds become impossible. Card number space is also small enough to be brute forced from a hash."},
-      {"id": "d", "text": "Full disk encryption on the database server", "misconception": "encryption-scope-levels", "why": "Transparent once running, and the database still holds real card numbers."}
+      {"id": "a", "text": "Tokenization: surrogates stored, real values held in a separate vault", "correct": true, "why": "The real value is not in the database at all, which is stronger than encrypting it there, and the vault can still return it when a refund requires it. Remember: tokenization keeps the real value in a separate vault."},
+      {"id": "b", "text": "Transparent database encryption of the whole database engine", "misconception": "encryption-scope-levels", "why": "Transparent means any authorized query returns plaintext. It protects the files, not the contents from a working session."},
+      {"id": "c", "text": "Hashing the card numbers before storing them in the table", "misconception": "obfuscation-methods", "why": "Irreversible, so refunds become impossible. Card number space is also small enough to be brute forced from a hash."},
+      {"id": "d", "text": "Full disk encryption on the server that hosts the database", "misconception": "encryption-scope-levels", "why": "Transparent once running, and the database still holds real card numbers."}
     ]
   },
   {
@@ -345,10 +345,10 @@
     "difficulty": 4,
     "stem": "Why is it said that an entry written to a blockchain cannot be quietly altered later?",
     "options": [
-      {"id": "a", "text": "Each block includes a hash of the previous block, so changing an old entry changes every hash after it and the alteration is visible to everyone holding a copy", "correct": true, "why": "The property is tamper evidence, produced by chaining hashes and replicating the chain. It is detection by consensus, not a physical prohibition on editing bytes."},
-      {"id": "b", "text": "Entries are encrypted with a key that is destroyed after writing", "misconception": "blockchain-ledger-properties", "why": "A public ledger is readable by design. Destroying a key would also destroy access for the participants who need to verify it."},
-      {"id": "c", "text": "The storage medium is physically write-once", "misconception": "blockchain-ledger-properties", "why": "The chain runs on ordinary storage across ordinary machines. Nothing about the hardware prevents a write."},
-      {"id": "d", "text": "A central authority validates and locks each entry as it is written", "misconception": "blockchain-ledger-properties", "why": "Operating without a central authority is the defining characteristic. Validation comes from distributed consensus."}
+      {"id": "a", "text": "Each block holds the previous block's hash, so changing an old entry breaks every later hash", "correct": true, "why": "The property is tamper evidence, produced by chaining hashes and replicating the chain. It is detection by consensus, not a physical prohibition on editing bytes."},
+      {"id": "b", "text": "Entries are encrypted with a key that is destroyed immediately after the entry is written", "misconception": "blockchain-ledger-properties", "why": "A public ledger is readable by design. Destroying a key would also destroy access for the participants who need to verify it."},
+      {"id": "c", "text": "The storage medium is physically write-once, so nothing can be rewritten after the fact", "misconception": "blockchain-ledger-properties", "why": "The chain runs on ordinary storage across ordinary machines. Nothing about the hardware prevents a write."},
+      {"id": "d", "text": "A central authority validates and locks each entry as it is written to the ledger", "misconception": "blockchain-ledger-properties", "why": "Operating without a central authority is the defining characteristic. Validation comes from distributed consensus."}
     ]
   },
   {
@@ -389,10 +389,10 @@
     "difficulty": 3,
     "stem": "A browser needs to know whether a certificate was revoked minutes ago, and the site operator has not enabled stapling. Which mechanism gives the browser a live answer, and what does it cost?",
     "options": [
-      {"id": "a", "text": "OCSP: a query to the certificate authority for this one certificate, at the cost of a round trip and of telling the authority which site is being visited", "correct": true, "why": "OCSP is the live question. Its costs are the extra lookup and the privacy leak, which is the reason stapling exists."},
-      {"id": "b", "text": "A CRL, which is always current because the authority updates it instantly", "misconception": "crl-vs-ocsp", "why": "A CRL is published periodically, so it can be hours old. It is as stale as its last publication."},
-      {"id": "c", "text": "OCSP stapling, which the browser applies itself", "misconception": "crl-vs-ocsp", "why": "Stapling is done by the server, which attaches a recent signed response. The stem says the operator has not enabled it."},
-      {"id": "d", "text": "Certificate pinning, which reports revocation status", "misconception": "crl-vs-ocsp", "why": "Pinning restricts which certificates or keys are accepted for a site. It says nothing about revocation."}
+      {"id": "a", "text": "OCSP: a live query to the CA, which costs a round trip and reveals the site visited", "correct": true, "why": "OCSP is the live question. Its costs are the extra lookup and the privacy leak, which is the reason stapling exists."},
+      {"id": "b", "text": "A CRL, which is always current because the authority updates it instantly each time", "misconception": "crl-vs-ocsp", "why": "A CRL is published periodically, so it can be hours old. It is as stale as its last publication."},
+      {"id": "c", "text": "OCSP stapling, which the browser applies itself without any server involvement at all", "misconception": "crl-vs-ocsp", "why": "Stapling is done by the server, which attaches a recent signed response. The stem says the operator has not enabled it."},
+      {"id": "d", "text": "Certificate pinning, which reports the revocation status of each certificate it holds", "misconception": "crl-vs-ocsp", "why": "Pinning restricts which certificates or keys are accepted for a site. It says nothing about revocation."}
     ]
   },
   {
@@ -403,10 +403,10 @@
     "difficulty": 3,
     "stem": "A consortium proposes storing patients' medical histories on a public blockchain so that any hospital can read them and nobody can alter them. Which requirement does this design fail?",
     "options": [
-      {"id": "a", "text": "Confidentiality: anything written to an open public ledger can be read by anyone", "correct": true, "why": "Integrity and shared verification are what a public ledger is good at. Secrecy is the one thing it cannot offer, and medical records need it."},
+      {"id": "a", "text": "Confidentiality: an open public ledger can be read by anyone", "correct": true, "why": "Integrity and shared verification are what a public ledger is good at. Secrecy is the one thing it cannot offer, and medical records need it."},
       {"id": "b", "text": "Integrity, because any participant can edit earlier entries", "misconception": "blockchain-ledger-properties", "why": "Each block commits to the one before it by hash, so altering history is evident. Integrity is the ledger's strength."},
       {"id": "c", "text": "Availability, because the ledger is kept on a single server", "misconception": "blockchain-ledger-properties", "why": "A public ledger is replicated across many independent participants. Availability of the record is not the weakness."},
-      {"id": "d", "text": "Non-repudiation, because entries are not signed", "misconception": "blockchain-ledger-properties", "why": "Entries are signed by the key that authorised them, which is what gives a ledger non-repudiation."}
+      {"id": "d", "text": "Non-repudiation, because the entries are not signed by anyone", "misconception": "blockchain-ledger-properties", "why": "Entries are signed by the key that authorized them, which is what gives a ledger non-repudiation."}
     ]
   }
 ]

@@ -104,7 +104,7 @@
     "id": "data-roles",
     "label": "Data owner vs controller vs processor vs custodian or steward",
     "objective": "5.1",
-    "topics": ["owners", "controllers", "processors", "custodians-stewards", "data-subject", "controller-vs-processor"],
+    "topics": ["owners", "controllers", "processors", "custodians-stewards"],
     "severity": "high",
     "mentor": {
       "diagnosis": "You assigned the wrong role. These are separated by who decides, who acts on instructions, and who keeps the systems running.",

@@ -7,10 +7,10 @@
     "difficulty": 4,
     "stem": "A bank must process sensitive records on a cloud host such that even a privileged administrator of that host cannot read them during processing. Which protection is required?",
     "options": [
-      {"id": "a", "text": "A secure enclave or confidential computing environment", "correct": true, "why": "Data in use must be decrypted to be processed. A hardware enclave keeps it protected from the host OS and its administrators even then."},
-      {"id": "b", "text": "Full disk encryption on the host", "misconception": "data-states", "why": "That protects data at rest on a powered off disk. Once the system is running and the volume is mounted, an administrator reads it freely."},
-      {"id": "c", "text": "TLS 1.3 for all connections to the host", "misconception": "data-states", "why": "TLS protects data in transit. It ends at the host, where the data is decrypted."},
-      {"id": "d", "text": "Tokenising the records before storage", "misconception": "data-states", "why": "Useful, and the application still has to detokenise to process the real values, which returns you to the data in use problem."}
+      {"id": "a", "text": "A secure enclave or confidential computing", "correct": true, "why": "Data in use must be decrypted to be processed. A hardware enclave keeps it protected from the host OS and its administrators even then. In use means decrypted in memory, and only an enclave guards it there."},
+      {"id": "b", "text": "Full disk encryption on the host and its backups", "misconception": "data-states", "why": "That protects data at rest on a powered off disk. Once the system is running and the volume is mounted, an administrator reads it freely."},
+      {"id": "c", "text": "TLS 1.3 for all connections to and from the host", "misconception": "data-states", "why": "TLS protects data in transit. It ends at the host, where the data is decrypted."},
+      {"id": "d", "text": "Tokenizing the records before storage and processing", "misconception": "data-states", "why": "Useful, and the application still has to detokenize to process the real values, which returns you to the data in use problem."}
     ]
   },
   {
@@ -21,10 +21,10 @@
     "difficulty": 2,
     "stem": "A laptop is stolen from a car while powered off. Which control protected the data on it?",
     "options": [
-      {"id": "a", "text": "Full disk encryption, which protects data at rest", "correct": true, "why": "A powered off encrypted disk is unreadable without the key, which is exactly the data at rest scenario."},
-      {"id": "b", "text": "TLS on all the laptop's connections", "misconception": "data-states", "why": "TLS protects data in transit across a network. It is irrelevant to a disk in a thief's hands."},
-      {"id": "c", "text": "A secure enclave protecting data in use", "misconception": "data-states", "why": "Data in use means data loaded in memory during processing. The machine is off."},
-      {"id": "d", "text": "A host based firewall", "misconception": "data-states", "why": "A firewall filters network traffic. It does nothing for physical possession of the disk."}
+      {"id": "a", "text": "Full disk encryption, protecting data at rest", "correct": true, "why": "A powered off encrypted disk is unreadable without the key, which is exactly the data at rest scenario. Powered off and stolen: only disk encryption still stands."},
+      {"id": "b", "text": "TLS on all the laptop's network connections", "misconception": "data-states", "why": "TLS protects data in transit across a network. It is irrelevant to a disk in a thief's hands."},
+      {"id": "c", "text": "A secure enclave protecting data in use on the laptop", "misconception": "data-states", "why": "Data in use means data loaded in memory during processing. The machine is off."},
+      {"id": "d", "text": "A host based firewall blocking remote access", "misconception": "data-states", "why": "A firewall filters network traffic. It does nothing for physical possession of the disk."}
     ]
   },
   {
@@ -35,7 +35,7 @@
     "difficulty": 3,
     "stem": "A company holds payment card numbers. Asked to state the DATA TYPE, which answer is correct?",
     "options": [
-      {"id": "a", "text": "Regulated data", "correct": true, "why": "Card data is governed by external requirements, which makes its type regulated. Its classification would be a separate label such as restricted."},
+      {"id": "a", "text": "Regulated", "correct": true, "why": "Card data is governed by external requirements, which makes its type regulated. Its classification would be a separate label such as restricted. Type is what the data is; classification is how you handle it."},
       {"id": "b", "text": "Restricted", "misconception": "data-type-vs-classification", "why": "Restricted is a classification level, describing handling sensitivity. The question asked for the type."},
       {"id": "c", "text": "Confidential", "misconception": "data-type-vs-classification", "why": "Also a classification level, on the wrong axis for this question."},
       {"id": "d", "text": "Critical", "misconception": "data-type-vs-classification", "why": "Another classification level. All three of these distractors are on the classification axis."}
@@ -50,7 +50,7 @@
     "stem": "A beverage company's unpublished formula, protected by secrecy rather than by registration, is best described as which data type?",
     "options": [
       {"id": "a", "text": "A trade secret", "correct": true, "why": "Its value depends on it remaining unknown, and it is protected by keeping it secret rather than by a registered right."},
-      {"id": "b", "text": "Intellectual property protected by patent", "misconception": "data-type-vs-classification", "why": "A patent requires publication in exchange for a time limited monopoly, which is the opposite approach to a trade secret."},
+      {"id": "b", "text": "Intellectual property protected by patent", "misconception": "trade-secret-vs-patent", "why": "A patent requires publication in exchange for a time limited monopoly, which is the opposite approach to a trade secret."},
       {"id": "c", "text": "Regulated data", "misconception": "data-type-vs-classification", "why": "No external regulator governs a recipe. Regulated data means data whose handling is prescribed by law or standard."},
       {"id": "d", "text": "Confidential", "misconception": "data-type-vs-classification", "why": "That is the classification you would assign it, not the type of data it is."}
     ]
@@ -63,10 +63,10 @@
     "difficulty": 4,
     "stem": "A transport operator's published timetable data is openly available on its website. The operations team argues it should be classified critical. Is that consistent with classification practice?",
     "options": [
-      {"id": "a", "text": "Yes: critical describes the operational consequence of losing the data, which is independent of whether it is secret", "correct": true, "why": "Critical is about availability and business dependence, not confidentiality. Public data can absolutely be critical, which is why it does not sit on the same ladder as confidential and restricted."},
+      {"id": "a", "text": "Yes: critical reflects the impact of losing the data, not whether it is secret", "correct": true, "why": "Critical is about availability and business dependence, not confidentiality. Public data can absolutely be critical, which is why it does not sit on the same ladder as confidential and restricted."},
       {"id": "b", "text": "No: public and critical are contradictory, since critical implies restricted access", "misconception": "data-classification-levels", "why": "This is the error the question targets. Secrecy and criticality are different axes."},
-      {"id": "c", "text": "No: critical applies only to regulated data", "misconception": "data-classification-levels", "why": "Regulated describes what the data is and which regime governs it, not how much the business depends on it."},
-      {"id": "d", "text": "Yes, but only if the data is also classified confidential", "misconception": "data-classification-levels", "why": "No such dependency exists. The two classifications answer different questions."}
+      {"id": "c", "text": "No: the critical label applies only to regulated data sets", "misconception": "data-classification-levels", "why": "Regulated describes what the data is and which regime governs it, not how much the business depends on it."},
+      {"id": "d", "text": "Yes, but only if the data is also classified confidential or higher", "misconception": "data-classification-levels", "why": "No such dependency exists. The two classifications answer different questions."}
     ]
   },
   {
@@ -77,10 +77,10 @@
     "difficulty": 4,
     "stem": "A company protects a manufacturing process as a trade secret instead of patenting it. What has it accepted in exchange?",
     "options": [
-      {"id": "a", "text": "Protection lasts only while the process stays secret, so a leak or independent discovery ends it, with no registered right to fall back on", "correct": true, "why": "A trade secret has no registration and no term. Its value and its legal protection both depend on secrecy being maintained, which is the trade against a patent's published, time limited monopoly."},
-      {"id": "b", "text": "Protection expires after a fixed number of years, like a patent", "misconception": "data-type-vs-classification", "why": "A fixed term belongs to registered rights. A trade secret lasts as long as secrecy does."},
-      {"id": "c", "text": "The process must be published in return for legal protection", "misconception": "data-type-vs-classification", "why": "Publication is the price of a patent. A trade secret is protected by not publishing."},
-      {"id": "d", "text": "The process becomes regulated data and must be reported to a regulator", "misconception": "data-type-vs-classification", "why": "Trade secret status adds no reporting duty. Regulated data is defined by external rules governing its handling, which is a different axis."}
+      {"id": "a", "text": "Protection lasts only while secrecy holds, and a leak or discovery ends it", "correct": true, "why": "A trade secret has no registration and no term, so a leak or independent discovery leaves no registered right to fall back on. Its value and its legal protection both depend on secrecy being maintained, which is the trade against a patent's published, time limited monopoly. A patent is published and expires; a trade secret is hidden and lasts only as long as the secret."},
+      {"id": "b", "text": "Protection expires after a fixed number of years, just like a patent", "misconception": "trade-secret-vs-patent", "why": "A fixed term belongs to registered rights. A trade secret lasts as long as secrecy does."},
+      {"id": "c", "text": "The process must be published in full in return for legal protection", "misconception": "trade-secret-vs-patent", "why": "Publication is the price of a patent. A trade secret is protected by not publishing."},
+      {"id": "d", "text": "The process becomes regulated data and must be reported to a regulator annually", "misconception": "trade-secret-vs-patent", "why": "Trade secret status adds no reporting duty. Regulated data is defined by external rules governing its handling, which is a different axis."}
     ]
   },
   {
@@ -91,9 +91,9 @@
     "difficulty": 4,
     "stem": "A company is told that records about residents of a particular country must be stored and processed within that country's borders. What is this requirement an instance of, and what is the control that implements it?",
     "options": [
-      {"id": "a", "text": "Data sovereignty is the requirement; geographic restriction is the control that enforces it", "correct": true, "why": "Sovereignty is the legal obligation arising from where data sits. The restriction is the configuration you apply in response, typically by pinning storage and processing to a region."},
+      {"id": "a", "text": "Sovereignty is the requirement; geographic restriction enforces it", "correct": true, "why": "Data sovereignty is the legal obligation arising from where data sits. The restriction is the control you configure in response, typically by pinning storage and processing to a region. Sovereignty is the law; geographic restriction is the setting that obeys it."},
       {"id": "b", "text": "Geolocation is the requirement; data sovereignty is the control", "misconception": "sovereignty-and-geographic-controls", "why": "Reversed, and geolocation is neither. It is a measurement of where something is."},
-      {"id": "c", "text": "Both describe the same contractual obligation to a cloud provider", "misconception": "sovereignty-and-geographic-controls", "why": "Sovereignty arises from law, not from your contract. No agreement with a provider removes it."},
+      {"id": "c", "text": "Both describe the same contractual obligation owed to a cloud provider", "misconception": "sovereignty-and-geographic-controls", "why": "Sovereignty arises from law, not from your contract. No agreement with a provider removes it."},
       {"id": "d", "text": "It is a permission restriction, enforced through access control lists", "misconception": "sovereignty-and-geographic-controls", "why": "Permissions govern who may access. This requirement is about physical and jurisdictional location."}
     ]
   },
@@ -105,10 +105,10 @@
     "difficulty": 4,
     "stem": "An organisation blocks access to its admin portal from outside two countries, using IP-based location lookup. What is the main weakness of this control?",
     "options": [
-      {"id": "a", "text": "IP geolocation is an inference and is readily defeated by a VPN or proxy in a permitted country", "correct": true, "why": "Geolocation is evidence, not enforcement. It raises the effort required and should be one signal among several rather than the gate itself."},
+      {"id": "a", "text": "IP geolocation is an inference that a VPN or proxy readily defeats", "correct": true, "why": "A VPN or proxy in a permitted country makes any user appear local. Geolocation is evidence, not enforcement. It raises the effort required and should be one signal among several rather than the gate itself."},
       {"id": "b", "text": "Geographic restrictions are not permitted where data sovereignty rules apply", "misconception": "sovereignty-and-geographic-controls", "why": "Sovereignty rules generally push you toward such restrictions, not away from them."},
-      {"id": "c", "text": "It only works for data at rest, not for access control", "misconception": "data-states", "why": "It is applied to access attempts; data state is a separate concern."},
-      {"id": "d", "text": "It requires the data to be tokenised first", "misconception": "obfuscation-methods", "why": "No relationship between location controls and tokenisation."}
+      {"id": "c", "text": "It only works for data at rest, not for access control decisions", "misconception": "data-states", "why": "It is applied to access attempts; data state is a separate concern."},
+      {"id": "d", "text": "It requires the data to be tokenized before the location rule applies", "misconception": "obfuscation-methods", "why": "No relationship between location controls and tokenization."}
     ]
   },
   {
@@ -119,10 +119,10 @@
     "difficulty": 4,
     "stem": "An analytics process loads customer records into memory, decrypts them, and runs aggregation. Which data state is active, and what protects it?",
     "options": [
-      {"id": "a", "text": "Data in use, protected by memory isolation such as a secure enclave or confidential computing, plus access control on the process", "correct": true, "why": "Data in use is the third state and the one most often forgotten. Once decrypted into ordinary memory it is exposed to anything able to read that memory."},
-      {"id": "b", "text": "Data at rest, protected by full disk encryption", "misconception": "data-states", "why": "At rest means stored. The records have been loaded and decrypted, which is a different state."},
-      {"id": "c", "text": "Data in transit, protected by TLS", "misconception": "data-states", "why": "In transit means moving across a network. The processing here is local."},
-      {"id": "d", "text": "No state applies once data is decrypted", "misconception": "data-states", "why": "Decrypted and in memory is precisely the in-use state, and it is where several real attacks live."}
+      {"id": "a", "text": "Data in use, protected by memory isolation such as an enclave", "correct": true, "why": "Data in use is the third state and the one most often forgotten. Once decrypted into ordinary memory it is exposed to anything able to read that memory, so it needs a secure enclave or confidential computing plus access control on the process. Decrypted in memory means in use."},
+      {"id": "b", "text": "Data at rest, protected by full disk encryption on the server", "misconception": "data-states", "why": "At rest means stored. The records have been loaded and decrypted, which is a different state."},
+      {"id": "c", "text": "Data in transit, protected by TLS as the records are loaded", "misconception": "data-states", "why": "In transit means moving across a network. The processing here is local."},
+      {"id": "d", "text": "No state applies once data is decrypted and held only in memory", "misconception": "data-states", "why": "Decrypted and in memory is precisely the in-use state, and it is where several real attacks live."}
     ]
   },
   {
@@ -133,10 +133,10 @@
     "difficulty": 3,
     "stem": "Data may be human-readable, such as a document, or non-human-readable, such as a binary record or serialised object. Why does the distinction matter for protection decisions?",
     "options": [
-      {"id": "a", "text": "Non-human-readable data such as binary records or serialised objects still contains the same sensitive values and needs the same protection, even though a casual reader sees nothing", "correct": true, "why": "Unreadability to a person is not a control. A database file, a memory dump or a serialised blob holds the real values and is trivially parsed by anyone who wants them."},
-      {"id": "b", "text": "Non-human-readable data is inherently protected by its format", "misconception": "obfuscation-methods", "why": "That is security by obscurity. Format is not encryption."},
-      {"id": "c", "text": "Only human-readable data can be classified", "misconception": "data-type-vs-classification", "why": "Classification follows the content and its consequences, not its encoding."},
-      {"id": "d", "text": "Non-human-readable data cannot be masked", "misconception": "obfuscation-methods", "why": "Masking can be applied wherever the value is rendered or extracted."}
+      {"id": "a", "text": "Unreadable formats still hold the same values and need the same protection", "correct": true, "why": "Unreadability to a person is not a control, even though a casual reader sees nothing. A database file, a memory dump or a serialized blob holds the real values and is trivially parsed by anyone who wants them. Unreadable to people is not unreadable to attackers."},
+      {"id": "b", "text": "Non-human-readable data is inherently protected by its encoded format", "misconception": "obfuscation-methods", "why": "That is security by obscurity. Format is not encryption."},
+      {"id": "c", "text": "Only human-readable data can be classified under a labeling scheme", "misconception": "obfuscation-methods", "why": "Classification follows the content and its consequences, not its encoding."},
+      {"id": "d", "text": "Non-human-readable data cannot be masked, so masking policy does not apply to it", "misconception": "obfuscation-methods", "why": "Masking can be applied wherever the value is rendered or extracted."}
     ]
   },
   {
@@ -147,10 +147,10 @@
     "difficulty": 4,
     "stem": "A research dataset must be readable by one team, unreadable to all other staff including systems administrators, and must remain so if the storage array is removed from the building. Which combination meets all three requirements?",
     "options": [
-      {"id": "a", "text": "Encryption with keys held by that team, plus permission restrictions on the share", "correct": true, "why": "Permissions handle who, encryption handles readability including by administrators who can bypass permissions, and it continues to hold once the hardware leaves."},
-      {"id": "b", "text": "Permission restrictions alone", "misconception": "data-type-vs-classification", "why": "Administrators can typically grant themselves access, and permissions mean nothing once the array is somewhere else."},
-      {"id": "c", "text": "Network segmentation of the research subnet", "misconception": "data-type-vs-classification", "why": "Limits reachability over the network and does nothing about an administrator on the system or a stolen array."},
-      {"id": "d", "text": "Masking the dataset for non-research users", "misconception": "obfuscation-methods", "why": "Masking is a presentation control. The underlying values remain in storage."}
+      {"id": "a", "text": "Team-held encryption keys plus permission restrictions on the share", "correct": true, "why": "Permissions handle who, encryption handles readability including by administrators who can bypass permissions, and it continues to hold once the hardware leaves. Permissions say who; encryption holds even when permissions are bypassed or the disk walks out."},
+      {"id": "b", "text": "Permission restrictions alone, applied tightly to the share and its folders", "misconception": "controls-by-requirement", "why": "Administrators can typically grant themselves access, and permissions mean nothing once the array is somewhere else."},
+      {"id": "c", "text": "Network segmentation of the research subnet from other staff", "misconception": "controls-by-requirement", "why": "Limits reachability over the network and does nothing about an administrator on the system or a stolen array."},
+      {"id": "d", "text": "Masking the dataset for non-research users and administrators", "misconception": "obfuscation-methods", "why": "Masking is a presentation control. The underlying values remain in storage."}
     ]
   },
   {
@@ -161,10 +161,10 @@
     "difficulty": 4,
     "stem": "Staff home addresses and dates of birth are held in an HR system. Which description best fits this data?",
     "options": [
-      {"id": "a", "text": "Private personal data, and regulated, because data protection law governs its handling", "correct": true, "why": "Two orthogonal statements: private describes the audience and the individual it concerns, regulated describes that a legal regime applies. Both are true at once."},
+      {"id": "a", "text": "Private personal data, and regulated by data protection law", "correct": true, "why": "Two orthogonal statements: private describes the audience and the individual it concerns, regulated describes that a legal regime governs its handling. Both are true at once. Private says whose it is; regulated says a law applies."},
       {"id": "b", "text": "Public, since addresses can often be found in other sources", "misconception": "data-classification-levels", "why": "Availability elsewhere does not change your obligations for the copy you hold."},
-      {"id": "c", "text": "Trade secret, since the organisation keeps it confidential", "misconception": "data-type-vs-classification", "why": "A trade secret derives commercial value from being secret. Employee records do not."},
-      {"id": "d", "text": "Critical, because HR cannot operate without it", "misconception": "data-classification-levels", "why": "Arguable on availability grounds and not the best description of what the data is."}
+      {"id": "c", "text": "Trade secret, since the organization keeps it confidential and internal", "misconception": "data-type-vs-classification", "why": "A trade secret derives commercial value from being secret. Employee records do not."},
+      {"id": "d", "text": "Critical, because HR cannot operate payroll or staffing without it", "misconception": "data-classification-levels", "why": "Arguable on availability grounds and not the best description of what the data is."}
     ]
   },
   {
@@ -175,9 +175,9 @@
     "difficulty": 4,
     "stem": "Which TWO statements about protecting data are correct? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Data in use is exposed in memory in plaintext, which is what secure enclaves address", "correct": true, "why": "The third state, and the one most designs ignore. Encryption at rest and in transit leaves it untouched."},
-      {"id": "b", "text": "Data sovereignty arises from law and cannot be contracted away with a provider", "correct": true, "why": "Jurisdiction attaches to where data resides and is processed, regardless of commercial terms."},
-      {"id": "c", "text": "Classifying data as critical implies it must also be confidential", "misconception": "data-classification-levels", "why": "Criticality concerns availability. Public data can be critical."},
+      {"id": "a", "text": "Data in use sits in memory as plaintext, which secure enclaves address", "correct": true, "why": "The third state, and the one most designs ignore. Encryption at rest and in transit leaves it untouched. Decrypted in memory means in use."},
+      {"id": "b", "text": "Data sovereignty arises from law and cannot be contracted away", "correct": true, "why": "Jurisdiction attaches to where data resides and is processed, regardless of commercial terms with a provider. No contract can move the law."},
+      {"id": "c", "text": "Classifying data as critical implies it must also be classified confidential", "misconception": "data-classification-levels", "why": "Criticality concerns availability. Public data can be critical."},
       {"id": "d", "text": "Geolocation reliably enforces where data may be accessed from", "misconception": "sovereignty-and-geographic-controls", "why": "It is an inference, defeated by a VPN. It informs a control rather than being one."},
       {"id": "e", "text": "Non-human-readable formats do not require encryption", "misconception": "obfuscation-methods", "why": "Format is not protection. The values are still there and still parseable."}
     ],
@@ -194,7 +194,7 @@
       {"id": "a", "text": "Hashing the card number, so the analytics team holds a fixed-length value", "misconception": "hashing-vs-encryption", "why": "A hash cannot be reversed, so the payment system could never retrieve the number for a refund."},
       {"id": "b", "text": "Masking the card number, replacing all but the last four digits", "misconception": "obfuscation-methods", "why": "Masking hides digits in what is shown or stored. The original cannot be retrieved from a masked copy, so refunds would fail."},
       {"id": "c", "text": "Encrypting the card number with a key that the analytics team holds", "misconception": "key-management-essentials", "why": "The analytics team would be able to turn the ciphertext back into the real number, which is what the requirement forbids."},
-      {"id": "d", "text": "Tokenization: replace the number with a random token and keep the real one in a separate vault", "correct": true, "why": "A token has no mathematical relationship to the original. Only the vault can map it back, so analytics works with tokens and the payment system can still retrieve the real value."}
+      {"id": "d", "text": "Tokenization: swap in a random token and keep the real number in a vault", "correct": true, "why": "A token has no mathematical relationship to the original. Only the separate vault can map it back, so analytics works with tokens and the payment system can still retrieve the real value. Need it back later: token and vault, not hash or mask."}
     ]
   },
   {
@@ -205,9 +205,9 @@
     "difficulty": 3,
     "stem": "Support agents must see the last four digits of a card number to confirm a caller's identity, but never the full number. The database must keep the full number for billing. Which approach meets this?",
     "options": [
-      {"id": "a", "text": "Mask the number when it is displayed to agents, showing only the last four digits", "correct": true, "why": "Masking changes what is presented without changing what is stored, which is what the requirement asks."},
+      {"id": "a", "text": "Mask the number on agents' screens, showing only the last four digits", "correct": true, "why": "Masking changes what is presented without changing what is stored, which is what the requirement asks. Mask the view, keep the value."},
       {"id": "b", "text": "Hash the stored number, so that agents can compare it with what the caller says", "misconception": "hashing-vs-encryption", "why": "Hashing the stored number would remove the full number that billing needs, and agents could not see even the last four digits."},
-      {"id": "c", "text": "Enable full disk encryption on the database server", "misconception": "encryption-scope-levels", "why": "Full disk encryption protects a stopped or stolen server. It does nothing about what an authorized agent sees on screen."},
+      {"id": "c", "text": "Enable full disk encryption on the database server and its backups", "misconception": "encryption-scope-levels", "why": "Full disk encryption protects a stopped or stolen server. It does nothing about what an authorized agent sees on screen."},
       {"id": "d", "text": "Rename the field in the database so that agents do not recognize it", "misconception": "obfuscation-methods", "why": "Obscuring a label is not a control. Anyone who runs the query still sees the number."}
     ]
   },
@@ -220,7 +220,7 @@
     "stem": "A company encrypts its database storage and its backups. It replicates the database between two data centers over a leased line without encryption, reasoning that the line is private. A carrier technician later taps the line. Which data state was left exposed, and what addresses it?",
     "options": [
       {"id": "a", "text": "Data at rest, which is addressed by encrypting the leased line", "misconception": "data-states", "why": "The stored data was already encrypted. The exposure was while it moved between sites."},
-      {"id": "b", "text": "Data in transit, addressed by encrypting the replication traffic, for example with TLS or IPsec", "correct": true, "why": "Encryption at rest does nothing for data on the wire. A line owned by someone else is not controlled by the company, so the traffic itself needs protection."},
+      {"id": "b", "text": "Data in transit, addressed by encrypting the replication traffic", "correct": true, "why": "Encryption at rest does nothing for data on the wire. A line owned by someone else is not controlled by the company, so the traffic itself needs protection, for example with TLS or IPsec. Moving data needs its own encryption, private line or not."},
       {"id": "c", "text": "Data in use, which is addressed by moving the database into a secure enclave", "misconception": "data-states", "why": "Data in use is data being processed in memory. The exposure here was on a network link."},
       {"id": "d", "text": "Nothing was exposed, because the leased line is not part of the public internet", "misconception": "data-states", "why": "A private line is still a path owned and maintained by someone else. A person with access to it can read unencrypted traffic."}
     ]
@@ -234,7 +234,7 @@
     "stem": "A company uses four labels: public, private, confidential and restricted, in increasing order of harm if disclosed. Which assignment of these four documents is the most defensible: the published annual report, the internal staff phone directory, the salary bands held by HR, and the draft plan for acquiring a competitor known to five executives?",
     "options": [
       {"id": "a", "text": "Annual report is public, phone directory is private, salary bands are confidential and the acquisition plan is restricted", "correct": true, "why": "The audience and the harm both climb: open to all, for staff only, limited to HR, and limited to a few where disclosure would be most damaging."},
-      {"id": "b", "text": "Annual report is private, phone directory is public, salary bands are restricted and the acquisition plan is confidential", "misconception": "data-classification-levels", "why": "A published report is already public, and a staff directory is for staff only. The labels have been swapped."},
+      {"id": "b", "text": "Annual report is private, staff phone directory is public, salary bands are restricted and the acquisition plan is confidential", "misconception": "data-classification-levels", "why": "A published report is already public, and a staff directory is for staff only. The labels have been swapped."},
       {"id": "c", "text": "Annual report is public, phone directory is confidential, salary bands are private and the acquisition plan is restricted", "misconception": "data-classification-levels", "why": "A phone directory does not carry enough harm to be confidential, and salary data deserves more care than a directory."},
       {"id": "d", "text": "Every document is regulated, because each is described by a regulation as a data type", "misconception": "data-type-vs-classification", "why": "Regulated is a type that depends on law. Labels such as these are a handling level that the organization chooses."}
     ]
@@ -261,10 +261,10 @@
     "difficulty": 3,
     "stem": "A law firm exports case files for a trial. Two years from now it must show the court that the files are exactly as exported. Which action, taken at export, best supports this?",
     "options": [
-      {"id": "a", "text": "Encrypt the files and store the key with them", "misconception": "hashing-vs-encryption", "why": "Encryption keeps the contents secret, but an encrypted file that has been altered and re-encrypted would also open. It does not show that the contents are unchanged."},
+      {"id": "a", "text": "Encrypt the files and store the key with them for later checks", "misconception": "hashing-vs-encryption", "why": "Encryption keeps the contents secret, but an encrypted file that has been altered and re-encrypted would also open. It does not show that the contents are unchanged."},
       {"id": "b", "text": "Base64-encode the files so that they cannot be read by accident", "misconception": "obfuscation-methods", "why": "Base64 is an encoding that anyone can reverse. It neither protects the files nor proves they are unaltered."},
-      {"id": "c", "text": "Compute a cryptographic hash of each file and record the values separately from the files", "correct": true, "why": "A hash changes if any bit of the file changes, so a matching value later shows the content is unaltered. Storing it apart makes it harder to change both."},
-      {"id": "d", "text": "Mask the personal names in the files before storing them", "misconception": "obfuscation-methods", "why": "Masking changes the content. It would make the files differ from what was exported."}
+      {"id": "c", "text": "Record a cryptographic hash of each file, kept apart from it", "correct": true, "why": "A hash changes if any bit of the file changes, so a matching value later shows the content is unaltered. Storing it apart makes it harder to change both. Same hash later means same file."},
+      {"id": "d", "text": "Mask the personal names in the files before storing them offline", "misconception": "obfuscation-methods", "why": "Masking changes the content. It would make the files differ from what was exported."}
     ]
   },
   {
@@ -289,9 +289,9 @@
     "difficulty": 4,
     "stem": "A database of regulated records sits on its own network segment that only the application tier can reach. A developer who has administrator rights on the application server runs a query and reads the records. What gap does this show?",
     "options": [
-      {"id": "a", "text": "Segmentation was adequate, so the fault lies with full disk encryption, which should have blocked the read", "misconception": "encryption-scope-levels", "why": "Disk encryption does not stop an authorized path from reading. The data was served through a legitimate route."},
-      {"id": "b", "text": "Segmentation limits the network path, so permission restrictions are also needed for what an account may read", "correct": true, "why": "The segment controls who can reach the database. Least privilege on the accounts that can reach it decides what they may read."},
-      {"id": "c", "text": "The segment should have been an air gap, because an isolated network cannot be read by anyone on it", "misconception": "air-gap-vs-logical-segmentation", "why": "An air gap means no connection at all, and the application tier needs one. The gap is about permissions on a path that is needed."},
+      {"id": "a", "text": "Segmentation was adequate, so the fault lies with full disk encryption, which should have blocked the read", "misconception": "controls-by-requirement", "why": "Disk encryption does not stop an authorized path from reading. The data was served through a legitimate route."},
+      {"id": "b", "text": "Segmentation limits the path; permissions must also limit what an account may read", "correct": true, "why": "The segment controls who can reach the database. Least privilege on the accounts that can reach it decides what they may read. Segments decide who can reach it; permissions decide what they can read."},
+      {"id": "c", "text": "The segment should have been an air gap, because an isolated network cannot be read by anyone on it", "misconception": "controls-by-requirement", "why": "An air gap means no connection at all, and the application tier needs one. The gap is about permissions on a path that is needed."},
       {"id": "d", "text": "There is no gap: administrators are trusted to read any data on their servers", "misconception": "least-privilege-vs-permissions", "why": "Administrator rights on a server do not entitle anyone to read all regulated data. Access should be limited to what the job requires."}
     ]
   },
@@ -303,11 +303,11 @@
     "difficulty": 4,
     "stem": "Which TWO statements about masking, tokenization and hashing are correct? (Choose two.)",
     "options": [
-      {"id": "a", "text": "A token has no mathematical link to the original, which is recovered only by a vault lookup", "correct": true, "why": "That is what makes tokens useful where the real value must come back only through a controlled system."},
+      {"id": "a", "text": "A token has no mathematical link to the original; only a vault lookup recovers it", "correct": true, "why": "That is what makes tokens useful where the real value must come back only through a controlled system. A token is a random stand-in, and the vault holds the truth."},
       {"id": "b", "text": "A token is produced by encrypting the original, so anyone who holds the key can derive it", "misconception": "hashing-vs-encryption", "why": "That describes ciphertext. A token is not derived from the original by calculation."},
-      {"id": "c", "text": "Masking replaces part of a value, and the hidden part cannot be recovered from the masked copy", "correct": true, "why": "Masking hides content in what is shown or stored. Once masked, the original is not in that copy."},
+      {"id": "c", "text": "Masking hides part of a value, and the masked copy cannot restore it", "correct": true, "why": "Masking replaces content in what is shown or stored, so the hidden part cannot be recovered. Once masked, the original is not in that copy."},
       {"id": "d", "text": "Hashing is the right choice whenever the system must later return the original value", "misconception": "hashing-vs-encryption", "why": "A hash is one way. If the original must come back, hashing cannot supply it."},
-      {"id": "e", "text": "Masked values can be restored by anyone who holds the masking key", "misconception": "obfuscation-methods", "why": "Masking uses no key to restore. The original is gone from the masked copy."}
+      {"id": "e", "text": "Masked values can be restored later by anyone who holds the masking key", "misconception": "obfuscation-methods", "why": "Masking uses no key to restore. The original is gone from the masked copy."}
     ],
     "selectCount": 2
   },
@@ -319,11 +319,11 @@
     "difficulty": 3,
     "stem": "A draft merger agreement contains legal terms and the valuation of the target company. Which TWO terms describe the data TYPE? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Legal information", "correct": true, "why": "It is a contract and legal terms, which is a data type."},
-      {"id": "b", "text": "Restricted", "misconception": "data-type-vs-classification", "why": "Restricted is a classification, which is a handling level an organization assigns. It is not a type of data."},
-      {"id": "c", "text": "Financial information", "correct": true, "why": "It contains a valuation and deal terms, which is financial data."},
-      {"id": "d", "text": "Public", "misconception": "data-classification-levels", "why": "Public is also a classification, and a draft merger agreement would not be open to all."},
-      {"id": "e", "text": "Non-human-readable", "misconception": "data-type-vs-classification", "why": "Non-human-readable is a format term, and this draft is meant to be read by people, so it does not describe it. It also says nothing about what the data is."}
+      {"id": "a", "text": "Legal information", "correct": true, "why": "It is a contract and legal terms, which is a data type. Types say what the data is; labels such as restricted say how it is handled."},
+      {"id": "b", "text": "Restricted information", "misconception": "data-type-vs-classification", "why": "Restricted is a classification, which is a handling level an organization assigns. It is not a type of data."},
+      {"id": "c", "text": "Financial information", "correct": true, "why": "It contains a valuation and deal terms, which is financial data. A data type names the content, not who may see it or how it is stored."},
+      {"id": "d", "text": "Public information", "misconception": "data-classification-levels", "why": "Public is also a classification, and a draft merger agreement would not be open to all."},
+      {"id": "e", "text": "Non-human-readable data", "misconception": "data-type-vs-classification", "why": "Non-human-readable is a format term, and this draft is meant to be read by people, so it does not describe it. It also says nothing about what the data is."}
     ],
     "selectCount": 2
   },
@@ -335,9 +335,9 @@
     "difficulty": 4,
     "stem": "Analysts on bank laptops with full disk encryption enabled keep decrypted extracts on their local drives. Malware running in an analyst's logged-in session copies the extracts. Why did full disk encryption not help?",
     "options": [
-      {"id": "a", "text": "The encryption algorithm was too weak to resist the attacker who copied the files", "misconception": "key-management-essentials", "why": "Strength of the algorithm was not involved. The malware never had to break it."},
-      {"id": "b", "text": "Full disk encryption was not actually switched on for those particular laptops", "misconception": "encryption-scope-levels", "why": "The scenario says it was enabled. It worked as designed, which is the point."},
-      {"id": "c", "text": "Disk encryption is transparent to a process running as the logged-in user, so it only protects a stolen or powered-off device", "correct": true, "why": "Once the user has logged in, the system decrypts files for any process running as that user. Protecting data from such a process needs other controls."},
+      {"id": "a", "text": "The encryption algorithm was too weak to resist the attacker who copied the files", "misconception": "data-states", "why": "Strength of the algorithm was not involved. The malware never had to break it."},
+      {"id": "b", "text": "Full disk encryption was not actually switched on for those particular laptops", "misconception": "data-states", "why": "The scenario says it was enabled. It worked as designed, which is the point."},
+      {"id": "c", "text": "Once the user logs in, the disk is transparent to any process run as that user", "correct": true, "why": "Once the user has logged in, the system decrypts files for any process running as that user, so full disk encryption only protects a stolen or powered-off device. Protecting data from such a process needs other controls. Disk encryption guards the powered-off laptop, not the logged-in session."},
       {"id": "d", "text": "The extracts were data in transit, which disk encryption does not cover", "misconception": "data-states", "why": "The extracts were stored on the drive. They were at rest, and read by a process on the same machine."}
     ]
   },

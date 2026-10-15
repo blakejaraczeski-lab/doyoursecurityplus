@@ -49,7 +49,7 @@
     "difficulty": 2,
     "stem": "Which physical control is preventive rather than deterrent?",
     "options": [
-      {"id": "a", "text": "Bollards at the building entrance", "correct": true, "why": "A vehicle physically cannot pass them. The attacker's intent is irrelevant."},
+      {"id": "a", "text": "Bollards at the building entrance", "correct": true, "why": "A vehicle physically cannot pass them. The attacker's intent is irrelevant. Remember: deterrent persuades; preventive stops even someone who ignores it."},
       {"id": "b", "text": "Security lighting in the car park", "misconception": "deterrent-vs-preventive", "why": "Lighting makes an attacker feel exposed, which discourages. It stops nobody who proceeds anyway."},
       {"id": "c", "text": "A visible camera dome in the lobby", "misconception": "deterrent-vs-preventive", "why": "Visible cameras deter, and they detect. They do not prevent entry."},
       {"id": "d", "text": "A sign warning that trespassers will be prosecuted", "misconception": "deterrent-vs-preventive", "why": "Warning signs are the textbook deterrent."}
@@ -61,9 +61,9 @@
     "objective": "1.1",
     "topics": ["compensating", "exceptions-and-exemptions", "segmentation"],
     "difficulty": 3,
-    "stem": "A legacy manufacturing system cannot be patched because the vendor no longer exists and the software will not run on a supported OS. The organisation places it on an isolated VLAN with strict ACLs and enhanced monitoring. What kind of control is this?",
+    "stem": "A legacy manufacturing system cannot be patched because the vendor no longer exists and the software will not run on a supported OS. The organization places it on an isolated VLAN with strict ACLs and enhanced monitoring. What kind of control is this?",
     "options": [
-      {"id": "a", "text": "Compensating", "correct": true, "why": "The control you wanted, patching, is impossible, so another control is put in place to meet the objective by different means. It is documented as an exception in the risk register."},
+      {"id": "a", "text": "Compensating", "correct": true, "why": "The control you wanted, patching, is impossible, so another control is put in place to meet the objective by different means. It is documented as an exception in the risk register. Remember: compensating means a substitute for the control you could not have."},
       {"id": "b", "text": "Corrective", "misconception": "compensating-vs-corrective", "why": "Corrective controls repair after an incident. Nothing has happened here; this is chosen in advance."},
       {"id": "c", "text": "Detective", "misconception": "compensating-vs-corrective", "why": "The monitoring component is detective, but the isolation and ACLs are the substance, and the reason for the whole arrangement is substitution."},
       {"id": "d", "text": "Directive", "misconception": "control-category-vs-type", "why": "Directive controls instruct people what to do. This is a technical arrangement."}
@@ -107,10 +107,10 @@
     "difficulty": 3,
     "stem": "A SIEM rule raises an alert when the same user authenticates from two countries within an hour. Which control type is the rule?",
     "options": [
-      {"id": "a", "text": "Detective: it identifies the event after it has happened and raises it for action", "correct": true, "why": "An alert is the signature output of a detective control. Both logins already succeeded; the rule found out."},
-      {"id": "b", "text": "Preventive: the alert stops the second login", "misconception": "detective-vs-preventive", "why": "An alert stops nothing. Had the system refused the second login, that refusal would be preventive; raising it afterwards is detective."},
-      {"id": "c", "text": "Corrective: it returns the account to a safe state", "misconception": "detective-vs-preventive", "why": "Nothing was repaired. Disabling the account or forcing a reset after the alert would be corrective; the rule itself only reports."},
-      {"id": "d", "text": "Technical: it is implemented in software", "misconception": "control-category-vs-type", "why": "Technical is the category, and it is correct on that axis. The question asked for the type, which is what the control does about the event."}
+      {"id": "a", "text": "Detective: it finds the event after it has happened", "correct": true, "why": "An alert is the signature output of a detective control. Both logins already succeeded; the rule found out. Remember: an alert only tells you; it stops nothing, so it is detective."},
+      {"id": "b", "text": "Preventive: the alert stops the second login from happening", "misconception": "detective-vs-preventive", "why": "An alert stops nothing. Had the system refused the second login, that refusal would be preventive; raising it afterwards is detective."},
+      {"id": "c", "text": "Corrective: it returns the account to a safe state afterward", "misconception": "detective-vs-preventive", "why": "Nothing was repaired. Disabling the account or forcing a reset after the alert would be corrective; the rule itself only reports."},
+      {"id": "d", "text": "Technical: it is implemented in software, so that is its type", "misconception": "control-category-vs-type", "why": "Technical is the category, and it is correct on that axis. The question asked for the type, which is what the control does about the event."}
     ]
   },
   {
@@ -149,10 +149,10 @@
     "difficulty": 3,
     "stem": "Which control is operational rather than managerial or technical?",
     "options": [
-      {"id": "a", "text": "Security guards performing hourly patrols of the data centre", "correct": true, "why": "People performing a process on a schedule is the operational category."},
+      {"id": "a", "text": "Security guards performing hourly patrols of the data center", "correct": true, "why": "People performing a process on a schedule is the operational category."},
       {"id": "b", "text": "The annual risk assessment approved by the chief information security officer", "misconception": "managerial-vs-operational", "why": "A risk assessment is a governing decision document. That is managerial."},
       {"id": "c", "text": "The access control policy requiring multifactor authentication for administrators", "misconception": "managerial-vs-operational", "why": "A policy is managerial. It governs; it does not carry anything out."},
-      {"id": "d", "text": "The multifactor authentication system enforcing the second factor", "misconception": "managerial-vs-operational", "why": "A system enforcing with no person in the loop is technical."}
+      {"id": "d", "text": "The multifactor authentication system enforcing the second factor", "misconception": "technical-vs-operational-vs-physical", "why": "A system enforcing with no person in the loop is technical."}
     ]
   },
   {
@@ -163,10 +163,10 @@
     "difficulty": 4,
     "stem": "A payment application is required to log every administrative action, but the vendor's software cannot write audit logs. The team places a network tap and records every administrative session to the application instead. Which control type is the session recording?",
     "options": [
-      {"id": "a", "text": "Compensating: it stands in for the audit logging the application cannot provide", "correct": true, "why": "The stem says the required control could not be implemented and this one was put in its place. That makes it compensating, whatever its own mechanism."},
+      {"id": "a", "text": "Compensating: it stands in for the audit logging the app lacks", "correct": true, "why": "The stem says the required control could not be implemented and this one was put in its place. That makes it compensating, whatever its own mechanism. Remember: a substitute for a required control is compensating, whatever it does."},
       {"id": "b", "text": "Detective: a recording identifies what happened after the fact", "misconception": "compensating-vs-corrective", "why": "By mechanism it does detect, but a substitute for a required control is classified as compensating. The stem spelled out the substitution."},
       {"id": "c", "text": "Corrective: it fixes the application's missing capability", "misconception": "compensating-vs-corrective", "why": "Nothing was repaired and no incident happened. A control chosen in advance because the wanted one is impossible is compensating."},
-      {"id": "d", "text": "Physical: a tap is a piece of hardware", "misconception": "control-category-vs-type", "why": "That is a category argument, and a weak one; the question asks for the type."}
+      {"id": "d", "text": "Physical: a tap is a piece of hardware, so that is its type", "misconception": "control-category-vs-type", "why": "That is a category argument, and a weak one; the question asks for the type."}
     ]
   },
   {
@@ -192,7 +192,7 @@
     "difficulty": 2,
     "stem": "Which control is deterrent rather than directive?",
     "options": [
-      {"id": "a", "text": "A sign stating that the premises are patrolled by guard dogs", "correct": true, "why": "It is aimed at someone considering an intrusion and warns them off. That is a deterrent."},
+      {"id": "a", "text": "A sign stating that guard dogs patrol the premises", "correct": true, "why": "It is aimed at someone considering an intrusion and warns them off. That is a deterrent. Remember: directive tells the willing what to do; deterrent warns the hostile off."},
       {"id": "b", "text": "A sign instructing visitors to sign in at reception", "misconception": "directive-vs-deterrent", "why": "That sign gives an instruction to people who intend to comply. It is directive."},
       {"id": "c", "text": "Mandatory annual security awareness training", "misconception": "directive-vs-deterrent", "why": "Training tells people how to behave. Directive."},
       {"id": "d", "text": "A clean desk policy", "misconception": "directive-vs-deterrent", "why": "A policy instructs. It threatens nobody, so it is directive, not deterrent."}
@@ -222,7 +222,7 @@
     "options": [
       {"id": "a", "text": "A notice warning that trespassers will be prosecuted", "misconception": "directive-vs-deterrent", "why": "It announces a consequence to people who intend not to comply. That is deterrent."},
       {"id": "b", "text": "Floodlights around the perimeter", "misconception": "directive-vs-deterrent", "why": "Lighting discourages an intruder by making them feel exposed. Deterrent, not directive."},
-      {"id": "c", "text": "A procedure telling staff to escort visitors at all times", "correct": true, "why": "It instructs people who intend to comply on what to do. That is a directive control."},
+      {"id": "c", "text": "A procedure telling staff to escort visitors at all times", "correct": true, "why": "It instructs people who intend to comply on what to do. That is a directive control. Remember: an instruction to people who intend to comply is directive."},
       {"id": "d", "text": "A turnstile that admits one badge holder at a time", "misconception": "directive-vs-deterrent", "why": "It physically stops anyone without a badge, whatever their intent. Preventive."}
     ]
   },
@@ -277,7 +277,7 @@
     "stem": "A legacy appliance cannot support multi-factor authentication, but the security standard requires it for administrator logins. Which action is a compensating control?",
     "options": [
       {"id": "a", "text": "Sign an exception memo that accepts the risk until the appliance is eventually replaced", "misconception": "risk-treatment-strategies", "why": "A signed exception documents that the risk is accepted. It adds no protection, so it is risk acceptance and not a compensating control."},
-      {"id": "b", "text": "Route administrator access through a hardened jump host with per-session approval and recording", "correct": true, "why": "It substitutes for the missing control with other protection aimed at the same risk: who can reach the appliance and what they do."},
+      {"id": "b", "text": "Route administrator access through a hardened jump host with per-session approval and recording", "correct": true, "why": "It substitutes for the missing control with other protection aimed at the same risk: who can reach the appliance and what they do. Remember: compensating adds protection; an exception memo only accepts the risk."},
       {"id": "c", "text": "Email every administrator a reminder to choose strong passwords for their accounts", "misconception": "directive-vs-deterrent", "why": "A reminder is guidance for people who intend to comply. It does not give the appliance any protection in place of MFA."},
       {"id": "d", "text": "Show a login banner warning that all administrator activity may be reviewed later", "misconception": "deterrent-vs-preventive", "why": "A banner may discourage misuse, but it does not stop a stolen password from being used, so it does not stand in for MFA."}
     ]
@@ -319,7 +319,7 @@
     "stem": "The security team runs a simulated phishing campaign each quarter and sends follow-up coaching to employees who click. Which description fits the activity?",
     "options": [
       {"id": "a", "text": "Managerial category, because it is part of the security program", "misconception": "managerial-vs-operational", "why": "Managerial controls are decisions, policies and planning. Running the campaign is the activity that those decisions lead to."},
-      {"id": "b", "text": "Technical category, because it uses email software", "misconception": "managerial-vs-operational", "why": "Technical controls are carried out by a system acting on its own. Here people design the campaign and respond to the results."},
+      {"id": "b", "text": "Technical category, because it uses email software", "misconception": "technical-vs-operational-vs-physical", "why": "Technical controls are carried out by a system acting on its own. Here people design the campaign and respond to the results."},
       {"id": "c", "text": "Detective type, which is the same thing as a category", "misconception": "control-category-vs-type", "why": "Detective is a type. Category and type are separate questions, and the activity is described by its category here."},
       {"id": "d", "text": "Operational category, because people carry it out day to day", "correct": true, "why": "Operational controls are performed by people as an ongoing practice. Running the campaign and coaching is that kind of work."}
     ]
@@ -365,7 +365,7 @@
       {"id": "a", "text": "Bollards in front of the building entrance", "correct": true, "why": "They are solid objects that stop vehicles, so they are physical."},
       {"id": "b", "text": "A written visitor management policy", "misconception": "managerial-vs-operational", "why": "A policy is a managerial control. It sets the rules but is not itself a barrier."},
       {"id": "c", "text": "A locked cage around the network equipment", "correct": true, "why": "A lock and a cage are physical barriers around the equipment, which makes them physical controls."},
-      {"id": "d", "text": "A network intrusion detection system", "misconception": "managerial-vs-operational", "why": "An intrusion detection system is a technical control. It works on traffic, not on the building."},
+      {"id": "d", "text": "A network intrusion detection system", "misconception": "technical-vs-operational-vs-physical", "why": "An intrusion detection system is a technical control. It works on traffic, not on the building."},
       {"id": "e", "text": "Motion-activated lighting around the loading dock", "correct": true, "why": "Lighting is a physical measure that discourages and exposes intruders."}
     ],
     "selectCount": 3
@@ -435,7 +435,7 @@
     "stem": "The badge reader on the server room door fails and the vendor needs a week to repair it. Until then a guard checks each person's identity against an access list and signs them in. Which control type is the guard's check?",
     "options": [
       {"id": "a", "text": "Corrective", "misconception": "compensating-vs-corrective", "why": "Corrective controls repair the effects of an event. The guard does not fix the reader, they stand in for it while it is broken."},
-      {"id": "b", "text": "Compensating", "correct": true, "why": "It temporarily takes the place of the failed reader and aims at the same protection, which is why it is compensating."},
+      {"id": "b", "text": "Compensating", "correct": true, "why": "It temporarily takes the place of the failed reader and aims at the same protection, which is why it is compensating. Remember: compensating means a stand-in while the real control is down."},
       {"id": "c", "text": "Deterrent", "misconception": "deterrent-vs-preventive", "why": "A visible guard may discourage some people, but the guard is there to check identities and keep unauthorized people out."},
       {"id": "d", "text": "Detective", "misconception": "detective-vs-preventive", "why": "Signing people in leaves a record, but the check happens before entry and decides who goes through."}
     ]

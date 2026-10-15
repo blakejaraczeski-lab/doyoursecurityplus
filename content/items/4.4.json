@@ -7,10 +7,10 @@
     "difficulty": 4,
     "stem": "An analyst must establish that one account failed authentication on the VPN, then succeeded, then immediately accessed a file server and triggered an endpoint alert. The three sources store logs separately in different formats. Which capability makes this reconstruction practical?",
     "options": [
-      {"id": "a", "text": "Log aggregation into a SIEM, normalising events from all sources into one searchable, time-aligned store", "correct": true, "why": "Aggregation and normalisation are what make a cross-source timeline possible at all. Without them the analyst is manually reconciling three formats and three clocks."},
-      {"id": "b", "text": "Alert tuning on the endpoint platform", "misconception": "log-pipeline-stages", "why": "Tuning reduces noise from one source. It does not bring three sources together."},
-      {"id": "c", "text": "Archiving the logs to long-term storage", "misconception": "log-pipeline-stages", "why": "Archiving preserves data for retention. It does not normalise or correlate it."},
-      {"id": "d", "text": "Running a vulnerability scan across the three systems", "misconception": "vuln-identification-sources", "why": "A scan reports weaknesses that exist, not a sequence of events that happened."}
+      {"id": "a", "text": "Log aggregation into a SIEM, normalized into one timeline", "correct": true, "why": "Aggregation and normalization are what make a cross-source timeline possible at all: one searchable, time-aligned store. Without them the analyst is manually reconciling three formats and three clocks."},
+      {"id": "b", "text": "Alert tuning on the endpoint platform to sharpen its detections", "misconception": "log-pipeline-stages", "why": "Tuning reduces noise from one source. It does not bring three sources together."},
+      {"id": "c", "text": "Archiving the logs from all three sources to long-term storage", "misconception": "log-pipeline-stages", "why": "Archiving preserves data for retention. It does not normalize or correlate it."},
+      {"id": "d", "text": "Running a vulnerability scan across the three systems involved", "misconception": "monitoring-tool-selection", "why": "A scan reports weaknesses that exist, not a sequence of events that happened."}
     ]
   },
   {
@@ -21,10 +21,10 @@
     "difficulty": 4,
     "stem": "An organisation retains security logs for 30 days. Industry figures put its likely time to detect an intrusion at several months. What is the consequence?",
     "options": [
-      {"id": "a", "text": "By the time a breach is detected the evidence of how it began will already have been discarded", "correct": true, "why": "Retention has to exceed realistic detection time or the investigation starts after the record ends. This is why archiving is a named activity rather than housekeeping."},
+      {"id": "a", "text": "Evidence of how an intrusion began is gone before it is detected", "correct": true, "why": "Retention has to exceed realistic detection time or the investigation starts after the record ends. This is why archiving is a named activity rather than housekeeping. Keep logs longer than it takes to notice."},
       {"id": "b", "text": "None, provided the SIEM correlates events in real time", "misconception": "log-pipeline-stages", "why": "Real-time correlation catches what the rules recognise. Everything they missed is what you need the history for."},
-      {"id": "c", "text": "Detection will be faster because there is less data to search", "misconception": "log-pipeline-stages", "why": "Search performance is an engineering problem. Deleting evidence does not improve detection."},
-      {"id": "d", "text": "Alert tuning will compensate for the short retention", "misconception": "alert-tuning-vs-quarantine", "why": "Tuning changes which alerts fire now. It cannot recover data already deleted."}
+      {"id": "c", "text": "Detection will be faster because there is less log data to search", "misconception": "log-pipeline-stages", "why": "Search performance is an engineering problem. Deleting evidence does not improve detection."},
+      {"id": "d", "text": "Alert tuning will compensate for the shorter retention period", "misconception": "alert-tuning-vs-quarantine", "why": "Tuning changes which alerts fire now. It cannot recover data already deleted."}
     ]
   },
   {
@@ -35,10 +35,10 @@
     "difficulty": 4,
     "stem": "A network team needs to be notified immediately when a switch interface goes down or a device reboots unexpectedly. Which mechanism is designed for this?",
     "options": [
-      {"id": "a", "text": "SNMP traps sent by the device to the management station", "correct": true, "why": "A trap is the device pushing an unsolicited notification the moment a condition occurs, which is the difference from polling, where the manager asks on a schedule."},
-      {"id": "b", "text": "NetFlow records", "misconception": "monitoring-tool-selection", "why": "NetFlow describes traffic conversations: who talked to whom, how much, for how long. It says nothing about device health."},
-      {"id": "c", "text": "A vulnerability scanner", "misconception": "monitoring-tool-selection", "why": "Enumerates weaknesses on a schedule. It is not an event notification mechanism."},
-      {"id": "d", "text": "SCAP content", "misconception": "monitoring-tool-selection", "why": "SCAP standardises how configuration and vulnerability state is expressed for automated checking."}
+      {"id": "a", "text": "SNMP traps sent by the device", "correct": true, "why": "A trap is the device pushing an unsolicited notification the moment a condition occurs, which is the difference from polling, where the manager asks on a schedule."},
+      {"id": "b", "text": "NetFlow records from the switch", "misconception": "monitoring-tool-selection", "why": "NetFlow describes traffic conversations: who talked to whom, how much, for how long. It says nothing about device health."},
+      {"id": "c", "text": "A scheduled vulnerability scanner", "misconception": "monitoring-tool-selection", "why": "Enumerates weaknesses on a schedule. It is not an event notification mechanism."},
+      {"id": "d", "text": "SCAP content for the devices", "misconception": "monitoring-tool-selection", "why": "SCAP standardizes how configuration and vulnerability state is expressed for automated checking. It is not an event notification mechanism."}
     ]
   },
   {
@@ -49,10 +49,10 @@
     "difficulty": 3,
     "stem": "Monitoring can be aimed at systems, applications or infrastructure. Which concern belongs specifically to application monitoring?",
     "options": [
-      {"id": "a", "text": "Transaction errors, authentication failures and unusual request patterns within the application itself", "correct": true, "why": "Application monitoring sees what the application does and what its users do inside it, which no layer beneath it can observe."},
-      {"id": "b", "text": "CPU, memory and disk utilisation on the host", "misconception": "log-pipeline-stages", "why": "That is system monitoring: the operating system and its resources."},
-      {"id": "c", "text": "Switch interface errors and link saturation", "misconception": "log-pipeline-stages", "why": "Infrastructure monitoring, covering the network and facility layer."},
-      {"id": "d", "text": "Whether endpoint agents are installed and reporting", "misconception": "log-pipeline-stages", "why": "Agent health sits with system and endpoint monitoring."}
+      {"id": "a", "text": "Transaction errors and unusual requests within the application", "correct": true, "why": "Application monitoring sees what the application does and what its users do inside it, such as transaction errors and authentication failures, which no layer beneath it can observe. Inside the app's own logic: application monitoring."},
+      {"id": "b", "text": "CPU, memory and disk utilization on the host running the application", "misconception": "log-pipeline-stages", "why": "That is system monitoring: the operating system and its resources."},
+      {"id": "c", "text": "Switch interface errors and link saturation across the data center", "misconception": "log-pipeline-stages", "why": "Infrastructure monitoring, covering the network and facility layer."},
+      {"id": "d", "text": "Whether endpoint agents are installed and reporting on each server", "misconception": "log-pipeline-stages", "why": "Agent health sits with system and endpoint monitoring."}
     ]
   },
   {
@@ -63,10 +63,10 @@
     "difficulty": 4,
     "stem": "A security team must assess laptops that are frequently off the corporate network and rarely connected during scheduled scan windows. Which approach fits best?",
     "options": [
-      {"id": "a", "text": "Agent-based scanning, where the agent assesses locally and reports when connectivity allows", "correct": true, "why": "The agent travels with the device and does not depend on the asset being reachable at a particular moment, which is the whole trade-off against agentless."},
+      {"id": "a", "text": "Agent-based scanning that reports when online", "correct": true, "why": "The agent travels with the device, assesses locally and reports when connectivity allows, so it does not depend on the asset being reachable at a particular moment, which is the whole trade-off against agentless."},
       {"id": "b", "text": "Agentless network scanning on a tighter schedule", "misconception": "monitoring-tool-selection", "why": "More frequent scans still only see devices that happen to be connected. The laptops remain invisible."},
-      {"id": "c", "text": "SNMP polling of each laptop", "misconception": "monitoring-tool-selection", "why": "SNMP is for network and infrastructure device state and is not how endpoints are assessed for vulnerabilities."},
-      {"id": "d", "text": "Reviewing NetFlow for the laptops' traffic", "misconception": "monitoring-tool-selection", "why": "Flow data shows conversations, not patch or configuration state."}
+      {"id": "c", "text": "SNMP polling of each laptop while it is on site", "misconception": "monitoring-tool-selection", "why": "SNMP is for network and infrastructure device state and is not how endpoints are assessed for vulnerabilities."},
+      {"id": "d", "text": "Reviewing NetFlow records for the laptops' traffic", "misconception": "monitoring-tool-selection", "why": "Flow data shows conversations, not patch or configuration state."}
     ]
   },
   {
@@ -91,10 +91,10 @@
     "difficulty": 3,
     "stem": "A monthly report shows alert volumes, mean time to triage and the proportion of alerts closed as false positives. What is this reporting principally for?",
     "options": [
-      {"id": "a", "text": "Showing whether the monitoring capability itself is healthy and where tuning is needed", "correct": true, "why": "Reporting at this level measures the function rather than any one incident. A rising false positive rate is the signal that tuning is overdue."},
-      {"id": "b", "text": "Detecting active intrusions", "misconception": "log-pipeline-stages", "why": "Detection happens through alerting in near real time. A monthly summary is far too late for that."},
-      {"id": "c", "text": "Satisfying evidence requirements for chain of custody", "misconception": "chain-of-custody-vs-legal-hold", "why": "Chain of custody documents handling of specific evidence in an investigation."},
-      {"id": "d", "text": "Replacing the need for alert tuning", "misconception": "alert-tuning-vs-quarantine", "why": "It indicates that tuning is needed. It does not perform it."}
+      {"id": "a", "text": "Measuring whether the monitoring itself is healthy", "correct": true, "why": "Reporting at this level measures the function rather than any one incident, and shows where tuning is needed. A rising false positive rate is the signal that tuning is overdue. Monthly metrics grade the monitor, not the attacker."},
+      {"id": "b", "text": "Detecting active intrusions across the environment", "misconception": "log-pipeline-stages", "why": "Detection happens through alerting in near real time. A monthly summary is far too late for that."},
+      {"id": "c", "text": "Satisfying evidence requirements for chain of custody", "misconception": "log-pipeline-stages", "why": "Chain of custody documents handling of specific evidence in an investigation."},
+      {"id": "d", "text": "Replacing the need for ongoing alert tuning work", "misconception": "alert-tuning-vs-quarantine", "why": "It indicates that tuning is needed. It does not perform it."}
     ]
   },
   {
@@ -119,10 +119,10 @@
     "difficulty": 4,
     "stem": "Which TWO statements about a security monitoring pipeline are correct? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Correlation is what turns many events from different sources into a single actionable alert", "correct": true, "why": "Aggregation puts data in one place; correlation is the stage that produces meaning from it."},
-      {"id": "b", "text": "Retention must exceed realistic time to detect, or evidence is gone before the investigation starts", "correct": true, "why": "Archiving decisions directly bound what any future investigation can establish."},
+      {"id": "a", "text": "Correlation turns events from many sources into a single actionable alert", "correct": true, "why": "Aggregation puts data in one place; correlation is the stage that produces meaning from it. Aggregation collects, correlation connects."},
+      {"id": "b", "text": "Retention must outlast realistic detection time, or evidence is gone first", "correct": true, "why": "Archiving decisions directly bound what any future investigation can establish. Keep logs longer than it takes to notice."},
       {"id": "c", "text": "A high false positive rate is harmless because analysts can ignore those alerts", "misconception": "alert-tuning-vs-quarantine", "why": "It is the main cause of real alerts being missed, which is why tuning is a named activity."},
-      {"id": "d", "text": "Aggregation and correlation are two names for the same stage", "misconception": "log-pipeline-stages", "why": "One collects and normalises; the other applies rules across what was collected."},
+      {"id": "d", "text": "Aggregation and correlation are simply two names for the same pipeline stage", "misconception": "log-pipeline-stages", "why": "One collects and normalizes; the other applies rules across what was collected."},
       {"id": "e", "text": "Monthly reporting is the primary mechanism for detecting intrusions", "misconception": "log-pipeline-stages", "why": "Reporting measures the function over time. Detection is near real time."}
     ],
     "selectCount": 2
@@ -149,7 +149,7 @@
     "difficulty": 3,
     "stem": "An auditor asks for evidence that 400 servers match the agreed hardening benchmark. Which tool produces it?",
     "options": [
-      {"id": "a", "text": "A SCAP-based configuration scan against the benchmark", "correct": true, "why": "SCAP exists to express a benchmark in machine-readable form and report compliance against it, host by host."},
+      {"id": "a", "text": "A SCAP benchmark compliance scan", "correct": true, "why": "SCAP exists to express a benchmark in machine-readable form and report compliance against it, host by host."},
       {"id": "b", "text": "A SIEM correlation search", "misconception": "monitoring-tool-selection", "why": "A SIEM correlates events that happened. It does not evaluate a host's current configuration against a standard."},
       {"id": "c", "text": "NetFlow analysis", "misconception": "monitoring-tool-selection", "why": "Flow data describes traffic, not configuration."},
       {"id": "d", "text": "A packet capture on the server VLAN", "misconception": "monitoring-tool-selection", "why": "Traffic contents say nothing about whether a host is hardened."}
@@ -163,9 +163,9 @@
     "difficulty": 3,
     "stem": "Analysts receive 600 alerts a day, almost all benign, and have started closing them in bulk without reading. What is the correct response?",
     "options": [
-      {"id": "a", "text": "Alert tuning: raise thresholds and suppress known-good patterns", "correct": true, "why": "This is alert fatigue, and the cure is fewer, better alerts. An alert nobody reads provides no detection at all."},
+      {"id": "a", "text": "Alert tuning to suppress known-good patterns", "correct": true, "why": "This is alert fatigue, and the cure is fewer, better alerts: raise thresholds and suppress known-good patterns. An alert nobody reads provides no detection at all."},
       {"id": "b", "text": "Add more detection rules to improve coverage", "misconception": "alert-tuning-vs-quarantine", "why": "More alerts into a queue nobody reads makes the real one less likely to be seen, not more."},
-      {"id": "c", "text": "Quarantine the affected endpoints", "misconception": "alert-tuning-vs-quarantine", "why": "Quarantine is a containment action against one confirmed threat. There is no confirmed threat here, there is noise."},
+      {"id": "c", "text": "Quarantine the endpoints that raise the alerts", "misconception": "alert-tuning-vs-quarantine", "why": "Quarantine is a containment action against one confirmed threat. There is no confirmed threat here, there is noise."},
       {"id": "d", "text": "Discipline the analysts for closing alerts unread", "misconception": "alert-tuning-vs-quarantine", "why": "The behaviour is a rational response to an unworkable queue. The finding is the queue."}
     ]
   },
@@ -191,10 +191,10 @@
     "difficulty": 3,
     "stem": "A fleet includes appliances where no software may be installed. Which monitoring approach fits, and what is the trade?",
     "options": [
-      {"id": "a", "text": "Agentless, which needs no install but sees less and depends on reachable credentials or protocols", "correct": true, "why": "Agentless collection works where you cannot deploy software, at the cost of depth and of needing network access and credentials."},
-      {"id": "b", "text": "Agent based, because it gives richer data", "misconception": "monitoring-tool-selection", "why": "Richer, and the scenario says no software may be installed, which rules it out."},
-      {"id": "c", "text": "Neither; appliances cannot be monitored", "misconception": "monitoring-tool-selection", "why": "Agentless collection exists precisely for this case."},
-      {"id": "d", "text": "Install agents anyway and accept the support risk", "misconception": "monitoring-tool-selection", "why": "On a vendor appliance this usually voids support and may be technically impossible."}
+      {"id": "a", "text": "Agentless, trading depth of visibility for no install", "correct": true, "why": "Agentless collection works where you cannot deploy software, at the cost of depth and of needing network access and credentials or protocols that reach the device. No install allowed: agentless, with less depth."},
+      {"id": "b", "text": "Agent based, because it gives richer data from each device", "misconception": "monitoring-tool-selection", "why": "Richer, and the scenario says no software may be installed, which rules it out."},
+      {"id": "c", "text": "Neither, because appliances cannot be monitored at all", "misconception": "monitoring-tool-selection", "why": "Agentless collection exists precisely for this case."},
+      {"id": "d", "text": "Install agents anyway and accept the vendor support risk", "misconception": "monitoring-tool-selection", "why": "On a vendor appliance this usually voids support and may be technically impossible."}
     ]
   },
   {
@@ -219,8 +219,8 @@
     "difficulty": 4,
     "stem": "A rule fires 400 times a day and almost every alert is benign, so analysts have started ignoring it. What is the best fix?",
     "options": [
-      {"id": "a", "text": "Tune the rule to cut false positives while still catching real events", "correct": true, "why": "Tuning restores signal and keeps analysts trusting alerts."},
-      {"id": "b", "text": "Disable the rule", "misconception": "alert-tuning-vs-quarantine", "why": "Disabling removes detection entirely, trading noise for blindness."},
+      {"id": "a", "text": "Tune the rule to cut false positives", "correct": true, "why": "Tuning restores signal and keeps analysts trusting alerts, while the rule still catches the real events. Noisy rule, real events: tune it, do not disable it."},
+      {"id": "b", "text": "Disable the rule until the noise stops", "misconception": "alert-tuning-vs-quarantine", "why": "Disabling removes detection entirely, trading noise for blindness."},
       {"id": "c", "text": "Raise every alert to the highest priority", "misconception": "alert-tuning-vs-quarantine", "why": "Making all alerts urgent makes the noise worse."},
       {"id": "d", "text": "Quarantine the hosts that trigger it", "misconception": "alert-tuning-vs-quarantine", "why": "Quarantine is a response to confirmed malicious items. Benign alerts need tuning."}
     ]
@@ -247,10 +247,10 @@
     "difficulty": 4,
     "stem": "After patching a critical flaw on 200 servers, the team wants proof the vulnerability is gone. Which action provides it?",
     "options": [
-      {"id": "a", "text": "Rescan the servers and confirm the finding no longer appears", "correct": true, "why": "A rescan after remediation validates that the fix worked."},
+      {"id": "a", "text": "Rescan the servers to confirm the finding is gone", "correct": true, "why": "A rescan after remediation validates that the fix worked on all 200 servers. Patched is a claim; a clean rescan is the evidence."},
       {"id": "b", "text": "Close the ticket because the patch job reported success", "misconception": "remediation-validation", "why": "A deployment report shows the patch ran, not that the flaw is gone."},
-      {"id": "c", "text": "Review next month's dashboard", "misconception": "remediation-validation", "why": "A dashboard may not show the specific finding, and the wait leaves exposure."},
-      {"id": "d", "text": "Archive the original scan", "misconception": "log-pipeline-stages", "why": "Archiving keeps evidence of the old state and proves nothing about the fix."}
+      {"id": "c", "text": "Review next month's vulnerability dashboard", "misconception": "remediation-validation", "why": "A dashboard may not show the specific finding, and the wait leaves exposure."},
+      {"id": "d", "text": "Archive the original scan report as evidence", "misconception": "remediation-validation", "why": "Archiving keeps evidence of the old state and proves nothing about the fix."}
     ]
   }
 ]

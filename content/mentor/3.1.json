@@ -127,5 +127,49 @@
       "tell": "A stem asking what is gained or lost by consolidating management, or by letting regions run their own.",
       "trap": "Both are defensible and the exam's answer follows the stated requirement. A question emphasising consistent policy wants centralised; one emphasising survival of a regional outage wants decentralised."
     }
+  },
+  {
+    "id": "secrets-in-code",
+    "label": "A secret that has been in version control is exposed, however you tidy the repository",
+    "objective": "3.1",
+    "topics": ["infrastructure-as-code-iac"],
+    "severity": "high",
+    "retireAfter": 1,
+    "mentor": {
+      "diagnosis": "You treated a leaked secret as a storage problem. Once a key has been committed, anyone who could read the history has already had it.",
+      "contrast": [
+        ["Response", "What it changes", "Does it end the exposure"],
+        ["Make the repository private", "Who can read it from now on", "No, earlier readers and clones keep the key"],
+        ["Delete it from the latest commit", "The current file", "No, the history still holds it"],
+        ["Encrypt the repository at rest", "The disk on the host", "No, the key is plain text to anyone who is allowed in"],
+        ["Revoke and rotate the key", "The key itself", "Yes, the old value stops working"],
+        ["Move secrets to a secrets manager", "Where the next key lives", "Prevents a repeat"]
+      ],
+      "rule": "A secret that has been exposed is spent. Revoke and rotate it first, then change where secrets are kept so it cannot happen again.",
+      "tell": "'Has been in version control for months' or 'was visible in a template' means assume it was copied. Any answer that leaves the old key working is wrong.",
+      "trap": "Removing the file feels like a fix because the repository now looks clean. The history, the clones and the build logs still hold the key."
+    }
+  },
+  {
+    "id": "air-gap-attack-paths",
+    "label": "An air gapped system has no network path, so the attack arrives on something carried",
+    "objective": "3.1",
+    "topics": ["air-gapped", "removable-device", "physical-isolation"],
+    "severity": "medium",
+    "retireAfter": 1,
+    "mentor": {
+      "diagnosis": "You gave a network route into a system that, by definition, has none. Phishing, internet services and VPN credentials all need a connection.",
+      "contrast": [
+        ["Vector", "Needs a network path", "Works against a true air gap"],
+        ["Phishing email", "Yes, the operator's mail must arrive over a network", "No"],
+        ["Internet facing service", "Yes", "No"],
+        ["VPN credential", "Yes", "No"],
+        ["Removable media", "No, someone carries it across", "Yes"],
+        ["A quietly added bridge or link", "It creates the path", "Yes, and the system is no longer air gapped"]
+      ],
+      "rule": "With no connection, malware has to be carried in. Think removable media, a maintenance laptop or an insider before any remote vector.",
+      "tell": "'Genuinely air gapped' plus 'most likely vector' points at media, a person or a hidden link.",
+      "trap": "The word infected suggests the usual routes. Check each option for whether it needs a connection, and the network ones fall away."
+    }
   }
 ]

@@ -78,5 +78,45 @@
       "tell": "Laws naming a country point to sovereignty. Blocking access from certain regions points to geographic restriction. Determining where a login came from points to geolocation.",
       "trap": "Geolocation is evidence, not enforcement, and it is not reliable on its own. A VPN or a proxy defeats it, so geographic restriction built only on IP location is a weak control."
     }
+  },
+  {
+    "id": "controls-by-requirement",
+    "label": "Matching the control to the requirement: permissions, encryption, segmentation, masking",
+    "objective": "3.3",
+    "topics": ["permission-restrictions", "segmentation-2", "encryption-2"],
+    "severity": "high",
+    "mentor": {
+      "diagnosis": "You chose a control that covers a different requirement. Each protects against one thing and leaves the others open.",
+      "contrast": [
+        ["Control", "What it stops", "What it leaves open"],
+        ["Permission restrictions", "Accounts without a grant reading the data", "A stolen disk, and an administrator who can change permissions"],
+        ["Encryption with team-held keys", "Anyone without the key, including a stolen array and an administrator", "Anyone who holds the key"],
+        ["Network segmentation", "Hosts that cannot reach the network path", "Any account that can already reach the data"],
+        ["Masking", "Display of the real values to a viewer", "The stored data, which is unchanged"]
+      ],
+      "rule": "List the requirements one by one and tick each control against them. The answer is the combination that covers every line, not the one that sounds strongest.",
+      "tell": "Phrases such as 'including administrators' or 'if the storage is removed' name a requirement that permissions and segmentation cannot meet.",
+      "trap": "Segmentation and permissions feel like access control, so they get chosen for everything. They do nothing about what happens when the data leaves the environment."
+    }
+  },
+  {
+    "id": "trade-secret-vs-patent",
+    "label": "Trade secret vs patent: how long, how protected, what is given up",
+    "objective": "3.3",
+    "topics": ["trade-secret", "intellectual-property"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You gave a trade secret the properties of a patent. They protect an idea in opposite ways.",
+      "contrast": [
+        ["", "Trade secret", "Patent"],
+        ["Protection comes from", "Keeping it secret", "Registering it and publishing it"],
+        ["How long it lasts", "As long as it stays secret", "A fixed term, then it is public"],
+        ["What is given up", "Nothing is published, but a leak or independent discovery ends it", "Full disclosure of how it works"],
+        ["Who regulates the data", "Nobody, it is the owner's to protect", "The patent office"]
+      ],
+      "rule": "A trade secret has no expiry date and no registration. It lasts exactly as long as secrecy does.",
+      "tell": "'Protected by secrecy rather than by registration' is a trade secret. 'Fixed term' or 'published' is a patent.",
+      "trap": "Both are intellectual property, so the properties blur. Secrecy is the whole protection for one, and disclosure is the price of the other."
+    }
   }
 ]

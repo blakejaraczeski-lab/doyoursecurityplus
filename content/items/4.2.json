@@ -7,10 +7,10 @@
     "difficulty": 4,
     "stem": "An organisation's retention schedule requires customer transaction records to be kept for seven years. Records from twelve years ago are still held in production. What is the correct characterisation?",
     "options": [
-      {"id": "a", "text": "A disposal failure: data held beyond its retention period is liability without benefit, still discoverable and still breachable", "correct": true, "why": "A retention schedule sets a ceiling as well as a floor. Keeping data past the ceiling adds exposure and adds nothing, which is why disposal is a named activity."},
-      {"id": "b", "text": "Good practice, since more history is always safer", "misconception": "retention-vs-disposal", "why": "This instinct is exactly what disposal rules exist to correct. Every extra year is more data to lose and more to produce in discovery."},
-      {"id": "c", "text": "A legal hold, since the records are preserved", "misconception": "retention-vs-disposal", "why": "A hold is a deliberate instruction to preserve specific material for litigation. Forgetting to delete is not one."},
-      {"id": "d", "text": "A classification error", "misconception": "data-type-vs-classification", "why": "Nothing suggests the records were classified wrongly; they were simply never disposed of."}
+      {"id": "a", "text": "A disposal failure, not a retention success", "correct": true, "why": "A retention schedule sets a ceiling as well as a floor. Data held beyond its retention period is liability without benefit, still discoverable and still breachable, which is why disposal is a named activity."},
+      {"id": "b", "text": "Good practice, since keeping more history is always safer", "misconception": "retention-vs-disposal", "why": "This instinct is exactly what disposal rules exist to correct. Every extra year is more data to lose and more to produce in discovery."},
+      {"id": "c", "text": "A legal hold, since the records are still being preserved", "misconception": "retention-vs-disposal", "why": "A hold is a deliberate instruction to preserve specific material for litigation. Forgetting to delete is not one."},
+      {"id": "d", "text": "A classification error on the old records", "misconception": "retention-vs-disposal", "why": "Nothing suggests the records were classified wrongly; they were simply never disposed of."}
     ]
   },
   {
@@ -21,9 +21,9 @@
     "difficulty": 4,
     "stem": "Litigation begins. Automated deletion under the retention schedule would remove email relevant to the case next week. What must happen?",
     "options": [
-      {"id": "a", "text": "A legal hold must suspend the scheduled deletion for all relevant material", "correct": true, "why": "A hold overrides routine disposal. Letting automation delete relevant material once litigation is anticipated is spoliation, regardless of the schedule being followed."},
+      {"id": "a", "text": "A legal hold must suspend scheduled deletion of the relevant material", "correct": true, "why": "A hold overrides routine disposal. Letting automation delete relevant material once litigation is anticipated is spoliation, regardless of the schedule being followed."},
       {"id": "b", "text": "The retention schedule takes precedence, since it is documented policy", "misconception": "retention-vs-disposal", "why": "Preservation obligations override internal schedules. The schedule being documented does not excuse the destruction."},
-      {"id": "c", "text": "The material should be sanitised rather than deleted", "misconception": "sanitization-vs-destruction", "why": "Both destroy the evidence. The requirement is to keep it."},
+      {"id": "c", "text": "The material should be sanitized rather than simply deleted", "misconception": "sanitization-vs-destruction", "why": "Both destroy the evidence. The requirement is to keep it."},
       {"id": "d", "text": "The retention period should be permanently extended for all email", "misconception": "retention-vs-disposal", "why": "A hold is scoped to relevant material and lifted when the matter ends. Extending everything forever recreates the liability problem."}
     ]
   },
@@ -35,10 +35,10 @@
     "difficulty": 3,
     "stem": "An asset register lists four hundred servers, of which sixty have no named owner. Why does this matter beyond administrative tidiness?",
     "options": [
-      {"id": "a", "text": "Without an owner nobody is accountable for patching, classification or approving changes, so those servers drift out of every other process", "correct": true, "why": "Ownership is the hook every other control hangs on. An unowned asset has nobody to chase, nobody to approve its changes and nobody answering for its state."},
+      {"id": "a", "text": "Nobody is accountable for patching, classification or changes", "correct": true, "why": "Ownership is the hook every other control hangs on. An unowned asset has nobody to chase, nobody to approve its changes and nobody answering for its state, so it drifts out of every other process."},
       {"id": "b", "text": "The register cannot be exported for audit without complete fields", "misconception": "asset-lifecycle", "why": "A formatting concern. The substantive risk is that nothing happens to those servers."},
-      {"id": "c", "text": "Unowned assets are automatically classified as public", "misconception": "data-type-vs-classification", "why": "No such default exists, and that would be a worse outcome than having no classification."},
-      {"id": "d", "text": "Ownership is only required for data, not for hardware", "misconception": "asset-lifecycle", "why": "Ownership applies across hardware, software and data."}
+      {"id": "c", "text": "Unowned assets are automatically classified as public", "misconception": "asset-lifecycle", "why": "No such default exists, and that would be a worse outcome than having no classification."},
+      {"id": "d", "text": "Ownership is only required for data, not for hardware like servers", "misconception": "asset-lifecycle", "why": "Ownership applies across hardware, software and data."}
     ]
   },
   {
@@ -49,10 +49,10 @@
     "difficulty": 4,
     "stem": "A server was replaced two years ago. The replacement went live, but the original was left powered on and is still reachable, unpatched and unmonitored. Which activity was incomplete?",
     "options": [
-      {"id": "a", "text": "Decommissioning: retiring the asset means removing it from service, from the network and from the inventory, not just ceasing to use it", "correct": true, "why": "Decommissioning is an activity with steps. A host nobody uses and nobody patches is among the most attractive things on a network."},
-      {"id": "b", "text": "Sanitization of the server's media", "misconception": "sanitization-vs-destruction", "why": "That applies when the hardware leaves. The problem here is that it never left and is still running."},
-      {"id": "c", "text": "Classification of the data it held", "misconception": "data-type-vs-classification", "why": "Would not have changed the outcome; the host would still be live."},
-      {"id": "d", "text": "Certification of destruction", "misconception": "sanitization-vs-destruction", "why": "Certification evidences destruction that has happened. Nothing was destroyed."}
+      {"id": "a", "text": "Decommissioning of the original server", "correct": true, "why": "Decommissioning is an activity with steps: retiring an asset means removing it from service, from the network and from the inventory, not just ceasing to use it. A host nobody uses and nobody patches is among the most attractive things on a network."},
+      {"id": "b", "text": "Sanitization of the server's media before disposal", "misconception": "sanitization-vs-destruction", "why": "That applies when the hardware leaves. The problem here is that it never left and is still running."},
+      {"id": "c", "text": "Classification of the data the original server held", "misconception": "asset-lifecycle", "why": "Would not have changed the outcome; the host would still be live."},
+      {"id": "d", "text": "Certification of destruction for the old hardware", "misconception": "sanitization-vs-destruction", "why": "Certification evidences destruction that has happened. Nothing was destroyed."}
     ]
   },
   {
@@ -63,7 +63,7 @@
     "difficulty": 3,
     "stem": "A disposal vendor collects two hundred decommissioned drives and shreds them. What does the organisation still require to discharge its obligation?",
     "options": [
-      {"id": "a", "text": "A certificate of destruction identifying the specific media destroyed", "correct": true, "why": "Certification is the documented evidence. Without it you cannot demonstrate the obligation was met, and in an audit or a breach investigation an undocumented destruction is indistinguishable from none."},
+      {"id": "a", "text": "A certificate of destruction listing the specific media", "correct": true, "why": "Certification is the documented evidence. Without it you cannot demonstrate the obligation was met, and in an audit or a breach investigation an undocumented destruction is indistinguishable from none."},
       {"id": "b", "text": "Nothing further, since the drives are physically destroyed", "misconception": "retention-vs-disposal", "why": "Having done the work and being able to show it are different, and only one of them survives scrutiny."},
       {"id": "c", "text": "A sanitisation report, since shredding is a form of sanitisation", "misconception": "sanitization-vs-destruction", "why": "Sanitisation makes media reusable by removing data. Shredding is destruction, and the artefact is a destruction certificate."},
       {"id": "d", "text": "Confirmation that the drives were encrypted before collection", "misconception": "sanitization-vs-destruction", "why": "Sound practice and not the required evidence of disposal."}
@@ -77,10 +77,10 @@
     "difficulty": 4,
     "stem": "Why is acquisition and procurement treated as part of asset management rather than as a purely finance process?",
     "options": [
-      {"id": "a", "text": "Because the asset enters the inventory, gains an owner and a classification, and inherits security requirements at the point it is acquired", "correct": true, "why": "Procurement is where an asset becomes known. Anything bought outside it is shadow IT: unowned, uninventoried and outside every control that depends on the register."},
-      {"id": "b", "text": "Because security must approve every purchase", "misconception": "asset-lifecycle", "why": "Overstates it. The point is that the asset is recorded and assigned, not that security holds a veto on spend."},
-      {"id": "c", "text": "Because procurement sets the retention period for the data it will hold", "misconception": "retention-vs-disposal", "why": "Retention is driven by the data and its legal regime, not by how the hardware was bought."},
-      {"id": "d", "text": "Because acquisition is when sanitisation requirements are applied", "misconception": "sanitization-vs-destruction", "why": "Sanitisation happens at end of life."}
+      {"id": "a", "text": "Because an asset enters the inventory and gains an owner at that point", "correct": true, "why": "Procurement is where an asset becomes known: it gains an owner and a classification, and inherits security requirements. Anything bought outside it is shadow IT: unowned, uninventoried and outside every control that depends on the register."},
+      {"id": "b", "text": "Because security must approve every purchase before it is made", "misconception": "asset-lifecycle", "why": "Overstates it. The point is that the asset is recorded and assigned, not that security holds a veto on spend."},
+      {"id": "c", "text": "Because procurement sets the retention period for the data it will hold", "misconception": "asset-lifecycle", "why": "Retention is driven by the data and its legal regime, not by how the hardware was bought."},
+      {"id": "d", "text": "Because acquisition is when sanitisation requirements are applied", "misconception": "asset-lifecycle", "why": "Sanitisation happens at end of life."}
     ]
   },
   {
@@ -91,8 +91,8 @@
     "difficulty": 3,
     "stem": "What is the relationship between enumeration and inventory in asset management?",
     "options": [
-      {"id": "a", "text": "Enumeration is actively discovering what exists; the inventory is the maintained record, and the gap between them is what asset management works to close", "correct": true, "why": "Discovery finds reality, the inventory states what you believe. Devices present in enumeration and absent from inventory are exactly the unmanaged assets worth worrying about."},
-      {"id": "b", "text": "They are the same activity under two names", "misconception": "asset-lifecycle", "why": "One is an act of discovery, the other a record. They disagree constantly, which is the point of comparing them."},
+      {"id": "a", "text": "Enumeration discovers what exists; the inventory is the record", "correct": true, "why": "Discovery finds reality, the inventory states what you believe, and the gap between them is what asset management works to close. Devices present in enumeration and absent from inventory are exactly the unmanaged assets worth worrying about."},
+      {"id": "b", "text": "They are the same activity under two different names", "misconception": "asset-lifecycle", "why": "One is an act of discovery, the other a record. They disagree constantly, which is the point of comparing them."},
       {"id": "c", "text": "Enumeration applies to software and inventory to hardware", "misconception": "asset-lifecycle", "why": "Both apply across hardware, software and data."},
       {"id": "d", "text": "Inventory is produced by the procurement system and needs no enumeration", "misconception": "asset-lifecycle", "why": "Procurement captures what was bought through the process. Enumeration catches everything else."}
     ]
@@ -105,9 +105,9 @@
     "difficulty": 4,
     "stem": "Which TWO statements about data retention and disposal are correct? (Choose two.)",
     "options": [
-      {"id": "a", "text": "A retention schedule defines both a minimum keep period and a point at which data must be disposed of", "correct": true, "why": "A floor and a ceiling. Only treating it as a floor is what produces twelve-year-old records in production."},
+      {"id": "a", "text": "A retention schedule sets both a keep period and a disposal point", "correct": true, "why": "A floor and a ceiling: a minimum keep period and a point at which data must be disposed of. Only treating it as a floor is what produces twelve-year-old records in production."},
       {"id": "b", "text": "A legal hold suspends scheduled deletion for the material it covers", "correct": true, "why": "Preservation obligations override routine disposal, and automated deletion continuing during litigation is spoliation."},
-      {"id": "c", "text": "Keeping data indefinitely is the safest default", "misconception": "retention-vs-disposal", "why": "It is accumulating liability: more to breach, more to produce in discovery, more to secure."},
+      {"id": "c", "text": "Keeping data indefinitely is the safest default for compliance", "misconception": "retention-vs-disposal", "why": "It is accumulating liability: more to breach, more to produce in discovery, more to secure."},
       {"id": "d", "text": "Destruction and sanitisation are interchangeable terms", "misconception": "sanitization-vs-destruction", "why": "Sanitisation removes data so media can be reused; destruction makes the media unusable."},
       {"id": "e", "text": "Certification is optional where destruction was witnessed internally", "misconception": "retention-vs-disposal", "why": "The documented record is what demonstrates the obligation was met."}
     ],
@@ -121,9 +121,9 @@
     "difficulty": 3,
     "stem": "A vulnerability programme repeatedly misses hosts. Investigation finds devices in service that appear in no asset register. What is the root problem?",
     "options": [
-      {"id": "a", "text": "Asset inventory and tracking: you cannot scan or patch what you do not know exists", "correct": true, "why": "Asset management sits underneath vulnerability management. An incomplete inventory caps how good scanning can ever be."},
-      {"id": "b", "text": "The scanner's configuration", "misconception": "asset-lifecycle", "why": "The scanner covered what it was told about. The gap is what it was never told about."},
-      {"id": "c", "text": "Patch management cadence", "misconception": "asset-lifecycle", "why": "Cadence governs how fast known hosts are patched. These hosts are not known."},
+      {"id": "a", "text": "Asset inventory and tracking gaps", "correct": true, "why": "Asset management sits underneath vulnerability management. An incomplete inventory caps how good scanning can ever be. You cannot scan or patch what you do not know exists."},
+      {"id": "b", "text": "The scanner's configuration and plugin set", "misconception": "asset-lifecycle", "why": "The scanner covered what it was told about. The gap is what it was never told about."},
+      {"id": "c", "text": "The patch management cadence for servers", "misconception": "asset-lifecycle", "why": "Cadence governs how fast known hosts are patched. These hosts are not known."},
       {"id": "d", "text": "Insufficient network segmentation", "misconception": "asset-lifecycle", "why": "Segmentation limits movement. It neither finds nor registers unknown devices."}
     ]
   },
@@ -135,10 +135,10 @@
     "difficulty": 3,
     "stem": "Laptops coming off a three year lease must be returned to the leasing company. What is the correct disposal control?",
     "options": [
-      {"id": "a", "text": "Sanitization, with a certificate recording that it was done", "correct": true, "why": "The devices are being reused by someone else, so they must be wiped rather than destroyed, and the certificate is the evidence an auditor will ask for."},
-      {"id": "b", "text": "Physical destruction of the drives", "misconception": "sanitization-vs-destruction", "why": "Destroying drives in leased equipment you must return intact is both a contract problem and unnecessary."},
+      {"id": "a", "text": "Sanitization, backed by a certificate", "correct": true, "why": "The devices are being reused by someone else, so they must be wiped rather than destroyed, and the certificate recording it is the evidence an auditor will ask for. Reused by someone else: sanitize. Never reused: destroy."},
+      {"id": "b", "text": "Physical destruction of the drives before return", "misconception": "sanitization-vs-destruction", "why": "Destroying drives in leased equipment you must return intact is both a contract problem and unnecessary."},
       {"id": "c", "text": "Deleting the user profiles and reformatting", "misconception": "sanitization-vs-destruction", "why": "Formatting leaves data recoverable. It is not a sanitization method."},
-      {"id": "d", "text": "Degaussing each device", "misconception": "sanitization-vs-destruction", "why": "Degaussing destroys magnetic media and does nothing to an SSD, which stores no magnetic domains. It also destroys the drive you must return."}
+      {"id": "d", "text": "Degaussing each device before return", "misconception": "sanitization-vs-destruction", "why": "Degaussing destroys magnetic media and does nothing to an SSD, which stores no magnetic domains. It also destroys the drive you must return."}
     ]
   },
   {
@@ -149,10 +149,10 @@
     "difficulty": 3,
     "stem": "A dispute arises over whether a dataset may be shared with a partner, and nobody can say who decides. Which asset management practice was missing?",
     "options": [
-      {"id": "a", "text": "Assignment of ownership, with a classification attached", "correct": true, "why": "Every asset needs a named owner who is accountable for classification and access decisions. Without one, questions like this have no answer."},
+      {"id": "a", "text": "Assigning a named owner to the dataset", "correct": true, "why": "Every asset needs a named owner who is accountable for classification and access decisions, with a classification attached. Without one, questions like this have no answer. Who decides? The owner."},
       {"id": "b", "text": "Enumeration of the asset in the inventory", "misconception": "asset-lifecycle", "why": "Knowing it exists is necessary and does not say who decides about it."},
-      {"id": "c", "text": "A data retention schedule", "misconception": "asset-lifecycle", "why": "Retention governs how long it is kept, not who may share it."},
-      {"id": "d", "text": "Secure disposal procedures", "misconception": "asset-lifecycle", "why": "Disposal is the end of the lifecycle and is not in play."}
+      {"id": "c", "text": "A data retention schedule for the dataset", "misconception": "asset-lifecycle", "why": "Retention governs how long it is kept, not who may share it."},
+      {"id": "d", "text": "Secure disposal procedures for the dataset", "misconception": "asset-lifecycle", "why": "Disposal is the end of the lifecycle and is not in play."}
     ]
   },
   {
@@ -163,10 +163,10 @@
     "difficulty": 3,
     "stem": "At which point in the asset lifecycle should security requirements first be applied?",
     "options": [
-      {"id": "a", "text": "Acquisition and procurement, before the purchase is made", "correct": true, "why": "Requirements set before buying prevent acquiring something that can never meet policy. Afterwards you are negotiating with a contract already signed."},
+      {"id": "a", "text": "Acquisition and procurement, before purchase", "correct": true, "why": "Requirements set before the purchase is made prevent acquiring something that can never meet policy. Afterwards you are negotiating with a contract already signed. Security belongs in the purchase, not after it."},
       {"id": "b", "text": "At deployment, once the device is on the network", "misconception": "asset-lifecycle", "why": "By then you own something that may be incapable of meeting the standard."},
-      {"id": "c", "text": "At the first vulnerability scan", "misconception": "asset-lifecycle", "why": "Far too late, and scanning only reports what is already true."},
-      {"id": "d", "text": "At decommissioning", "misconception": "asset-lifecycle", "why": "That is the end of the lifecycle."}
+      {"id": "c", "text": "At the first vulnerability scan after deployment", "misconception": "asset-lifecycle", "why": "Far too late, and scanning only reports what is already true."},
+      {"id": "d", "text": "At decommissioning, when the device is retired", "misconception": "asset-lifecycle", "why": "That is the end of the lifecycle."}
     ]
   },
   {
@@ -178,7 +178,7 @@
     "stem": "A failed SSD held regulated data and cannot be wiped because it no longer responds. What is the correct disposal route?",
     "options": [
       {"id": "a", "text": "Physical destruction, with a certificate of destruction", "correct": true, "why": "Sanitization requires a working device. When the media has failed, destruction is the only route that guarantees the data is gone, and the certificate is the evidence."},
-      {"id": "b", "text": "Degaussing", "misconception": "sanitization-vs-destruction", "why": "Degaussing erases magnetic domains. An SSD stores charge in flash cells and is completely unaffected by it."},
+      {"id": "b", "text": "Degaussing the drive with an approved degausser", "misconception": "sanitization-vs-destruction", "why": "Degaussing erases magnetic domains. An SSD stores charge in flash cells and is completely unaffected by it."},
       {"id": "c", "text": "Overwriting every sector three times", "misconception": "sanitization-vs-destruction", "why": "Overwriting is a sanitization method and it needs a drive that responds to writes. This one does not."},
       {"id": "d", "text": "Returning it to the vendor under warranty without further action", "misconception": "sanitization-vs-destruction", "why": "That hands regulated data to a third party. Warranty returns of storage holding sensitive data normally need a destruction clause or a retain-the-drive agreement."}
     ]
@@ -205,10 +205,10 @@
     "difficulty": 3,
     "stem": "A network scan lists 1,150 live devices. The asset register lists 1,000. What is the right reading?",
     "options": [
-      {"id": "a", "text": "150 devices are unaccounted for and need to be identified and added or removed", "correct": true, "why": "Enumeration finds what is really there. Comparing it with the inventory exposes unmanaged or unrecorded assets."},
+      {"id": "a", "text": "150 devices are unaccounted for and need identifying", "correct": true, "why": "Enumeration finds what is really there. Comparing it with the inventory exposes unmanaged or unrecorded assets, which must be identified and then added to the register or removed."},
       {"id": "b", "text": "The register is correct and the scan is over-counting", "misconception": "asset-lifecycle", "why": "The register is a record and can go stale. A live scan is evidence of what exists."},
       {"id": "c", "text": "Nothing, because inventory and enumeration are the same activity", "misconception": "asset-lifecycle", "why": "Enumeration discovers assets; inventory is the maintained record. The gap between them is the finding."},
-      {"id": "d", "text": "The extra devices have been disposed of", "misconception": "retention-vs-disposal", "why": "A disposed device is no longer on the network. These are responding, so they are live."}
+      {"id": "d", "text": "The 150 extra devices are ones already disposed of", "misconception": "asset-lifecycle", "why": "A disposed device is no longer on the network. These are responding, so they are live."}
     ]
   },
   {
@@ -219,8 +219,8 @@
     "difficulty": 4,
     "stem": "A hospital will resell used laptops and wants the drives reused safely. Which approach fits, and what proves it was done?",
     "options": [
-      {"id": "a", "text": "Sanitize using an approved wipe method and keep the certificate of sanitization", "correct": true, "why": "Sanitization removes data so the media can be reused. The certificate is the audit evidence."},
-      {"id": "b", "text": "Shred the drives and keep the certificate", "misconception": "sanitization-vs-destruction", "why": "Shredding destroys the media, so nothing can be resold."},
+      {"id": "a", "text": "Sanitize with an approved wipe and keep the certificate", "correct": true, "why": "Sanitization removes data so the media can be reused. The certificate of sanitization is the audit evidence. Reuse means sanitize, no reuse means destroy."},
+      {"id": "b", "text": "Shred the drives and keep the certificate of destruction", "misconception": "sanitization-vs-destruction", "why": "Shredding destroys the media, so nothing can be resold."},
       {"id": "c", "text": "Delete the files and empty the recycle bin", "misconception": "sanitization-vs-destruction", "why": "Deletion removes only references. The data stays recoverable."},
       {"id": "d", "text": "Keep the drives in storage until the retention period ends", "misconception": "retention-vs-disposal", "why": "Retention concerns the records, not the media. The laptops are leaving, so the data must be removed."}
     ]
@@ -233,10 +233,10 @@
     "difficulty": 3,
     "stem": "A new SaaS product is adopted by one department. Months later security finds it holds customer data and has no named owner. Which lifecycle activity was most clearly skipped?",
     "options": [
-      {"id": "a", "text": "Assigning ownership and accountability when the asset was acquired", "correct": true, "why": "Ownership is set at acquisition so someone is responsible for the asset's risk and its disposal."},
-      {"id": "b", "text": "Disposal and decommissioning", "misconception": "asset-lifecycle", "why": "Disposal is the final stage. The product is still in use."},
-      {"id": "c", "text": "Data sanitization", "misconception": "sanitization-vs-destruction", "why": "Sanitization applies at end of life, not here."},
-      {"id": "d", "text": "Applying the retention schedule", "misconception": "retention-vs-disposal", "why": "Retention matters, but nobody can apply it until an owner exists."}
+      {"id": "a", "text": "Assigning ownership at acquisition", "correct": true, "why": "Ownership and accountability are set at acquisition so someone is responsible for the asset's risk and its disposal. No owner at purchase means nobody owns the risk later."},
+      {"id": "b", "text": "Disposal and decommissioning of the product", "misconception": "asset-lifecycle", "why": "Disposal is the final stage. The product is still in use."},
+      {"id": "c", "text": "Data sanitization of the customer records", "misconception": "asset-lifecycle", "why": "Sanitization applies at end of life, not here."},
+      {"id": "d", "text": "Applying the retention schedule to its data", "misconception": "asset-lifecycle", "why": "Retention matters, but nobody can apply it until an owner exists."}
     ]
   },
   {
@@ -248,7 +248,7 @@
     "stem": "A company is closing a cloud storage account that held regulated data in volumes it encrypted with its own keys. It cannot witness the provider destroy any disks. Which disposal approach fits?",
     "options": [
       {"id": "a", "text": "Ask the provider for a certificate that the disks were shredded", "misconception": "sanitization-vs-destruction", "why": "The provider's physical destruction cannot be witnessed or controlled by the customer."},
-      {"id": "b", "text": "Destroy the encryption keys so the data is unreadable, and record that it was done", "correct": true, "why": "Cryptographic erase sanitizes data the customer owns when the customer controls the keys. Keeping a record supports the proof."},
+      {"id": "b", "text": "Destroy the encryption keys, and record that it was done", "correct": true, "why": "Cryptographic erase sanitizes data the customer owns when the customer controls the keys, leaving the data unreadable. Keeping a record supports the proof. You cannot shred their disks, but you can destroy your keys."},
       {"id": "c", "text": "Delete the files, then delete the account and the storage volumes", "misconception": "sanitization-vs-destruction", "why": "Deleting removes pointers. Without more, the data can remain on disk."},
       {"id": "d", "text": "Degauss the cloud storage volumes with an approved degausser", "misconception": "sanitization-vs-destruction", "why": "Degaussing is a physical process for magnetic media. It cannot be done to a cloud volume."}
     ]
@@ -261,11 +261,11 @@
     "difficulty": 3,
     "stem": "A storage room holds retired magnetic hard drives and backup tapes that held confidential records. Which TWO methods fully remove the data? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Quick formatting each drive", "misconception": "sanitization-vs-destruction", "why": "A quick format rewrites the file system structures. The data remains readable with ordinary tools."},
-      {"id": "b", "text": "Degaussing the magnetic media with an approved degausser", "correct": true, "why": "A strong magnetic field destroys the recorded pattern on magnetic media, whether disk or tape."},
+      {"id": "a", "text": "Quick formatting each drive before storage", "misconception": "sanitization-vs-destruction", "why": "A quick format rewrites the file system structures. The data remains readable with ordinary tools."},
+      {"id": "b", "text": "Degaussing with an approved degausser", "correct": true, "why": "A strong magnetic field destroys the recorded pattern on magnetic media, whether disk or tape."},
       {"id": "c", "text": "Deleting the files and emptying the recycle bin", "misconception": "sanitization-vs-destruction", "why": "Deletion frees space and leaves the content behind."},
-      {"id": "d", "text": "Shredding or pulverizing the media with a destruction vendor", "correct": true, "why": "Physical destruction is the surest method when the media will never be reused."},
-      {"id": "e", "text": "Moving the drives to a locked cabinet", "misconception": "retention-vs-disposal", "why": "Storing them is not sanitizing them. The data is still on them."}
+      {"id": "d", "text": "Shredding or pulverizing the media", "correct": true, "why": "Physical destruction, done in house or by a destruction vendor, is the surest method when the media will never be reused. Never reused: destroy."},
+      {"id": "e", "text": "Moving the drives and tapes to a locked cabinet", "misconception": "retention-vs-disposal", "why": "Storing them is not sanitizing them. The data is still on them."}
     ],
     "selectCount": 2
   },
@@ -279,7 +279,7 @@
     "options": [
       {"id": "a", "text": "Both groups must be shredded, because any drive could still hold sensitive data", "misconception": "sanitization-vs-destruction", "why": "Over treating public media wastes money and loses reusable assets. Method follows what the media held."},
       {"id": "b", "text": "Classification stops applying once a drive has been powered off and removed", "misconception": "asset-lifecycle", "why": "Classification travels with the data on the media until it is properly sanitized or destroyed."},
-      {"id": "c", "text": "Method follows classification: kiosk drives can be wiped and reused, legal drives need destruction or a verified purge", "correct": true, "why": "The more sensitive the data, the stronger the method and the proof. Public media can be reused after a basic wipe."},
+      {"id": "c", "text": "Wipe and reuse the kiosk drives; destroy or purge the legal drives", "correct": true, "why": "Method follows classification. The more sensitive the data, the stronger the method and the proof: legal drives need destruction or a verified purge, while public media can be reused after a basic wipe."},
       {"id": "d", "text": "A single standard wipe is enough for both groups, as it is for any drive", "misconception": "sanitization-vs-destruction", "why": "A basic wipe fits the kiosk drives. It is not adequate for the most sensitive material."}
     ]
   },
@@ -293,7 +293,7 @@
     "options": [
       {"id": "a", "text": "Decommission the servers immediately because nobody owns them now", "misconception": "asset-lifecycle", "why": "Retiring assets because the owner left is not a decision. It would destroy live business data."},
       {"id": "b", "text": "Leave the record unchanged until the next scheduled annual audit review", "misconception": "asset-lifecycle", "why": "Without an owner nobody can approve access, patches or retirement in the meantime."},
-      {"id": "c", "text": "Assign a new owner accountable for the assets and data, and update the asset record", "correct": true, "why": "Every asset needs a named owner at all times. Ownership transfers with offboarding, before access and decisions are left orphaned."},
+      {"id": "c", "text": "Assign a new accountable owner and update the asset record", "correct": true, "why": "Every asset needs a named owner at all times. Ownership transfers with offboarding, before access and decisions are left orphaned."},
       {"id": "d", "text": "Make IT operations the owner of all the data held on them", "misconception": "data-roles", "why": "Operating a system is not owning the data. The business must decide who may use it."}
     ]
   },
@@ -305,11 +305,11 @@
     "difficulty": 3,
     "stem": "A server is being decommissioned. Which TWO actions belong in the process? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Sanitize or destroy its storage before it leaves the organization's control", "correct": true, "why": "Media is the last place data survives. Disposal is not complete until it is dealt with."},
+      {"id": "a", "text": "Sanitize or destroy its storage before it leaves your control", "correct": true, "why": "Media is the last place data survives. Disposal is not complete until it is dealt with."},
       {"id": "b", "text": "Leave its accounts and certificates active in case it is needed again", "misconception": "asset-lifecycle", "why": "A decommissioned asset's credentials are a standing risk. They should be revoked."},
-      {"id": "c", "text": "Remove it from monitoring and update the asset inventory to show it as retired", "correct": true, "why": "A retired asset that stays on the register hides gaps, and monitoring a machine that is gone creates noise."},
-      {"id": "d", "text": "Sell it with its drives in place so the buyer can reuse the data", "misconception": "sanitization-vs-destruction", "why": "Selling it with data on it is a disclosure."},
-      {"id": "e", "text": "Keep it powered on in a spare rack for a year", "misconception": "asset-lifecycle", "why": "An unmanaged powered asset is how a forgotten, unpatched machine appears."}
+      {"id": "c", "text": "Mark it retired in the inventory and remove it from monitoring", "correct": true, "why": "A retired asset that stays on the register hides gaps, and monitoring a machine that is gone creates noise. Retired means retired everywhere: register, monitoring and network."},
+      {"id": "d", "text": "Sell it with its drives in place after deleting the user accounts", "misconception": "sanitization-vs-destruction", "why": "Deleting accounts leaves the data on the drives. Selling it like that is a disclosure."},
+      {"id": "e", "text": "Keep it powered on in a spare rack for a year, just in case", "misconception": "asset-lifecycle", "why": "An unmanaged powered asset is how a forgotten, unpatched machine appears."}
     ],
     "selectCount": 2
   },
@@ -321,7 +321,7 @@
     "difficulty": 3,
     "stem": "An asset inventory shows that forty servers run an operating system whose vendor support ends in three months. What is the right use of this information?",
     "options": [
-      {"id": "a", "text": "Plan upgrades or replacement now, prioritized by each server's importance, before patches stop", "correct": true, "why": "Tracking lifecycle dates is a security use of inventory. It turns a future gap into a scheduled change."},
+      {"id": "a", "text": "Plan upgrades or replacement now, prioritized by importance", "correct": true, "why": "Tracking lifecycle dates is a security use of inventory. It turns a future gap into a scheduled change, made before patches stop and ordered by each server's importance."},
       {"id": "b", "text": "Wait until support has ended and then decide what to do about it", "misconception": "asset-lifecycle", "why": "By then the servers stop receiving patches. The warning period is the time to act."},
       {"id": "c", "text": "Assume the vendor will extend support for these servers at no cost", "misconception": "asset-lifecycle", "why": "Extensions are not guaranteed, and rarely free."},
       {"id": "d", "text": "Remove the servers from the inventory because they are old", "misconception": "asset-lifecycle", "why": "A system left running but not tracked is how an unpatched one becomes a surprise."}
@@ -337,8 +337,8 @@
     "options": [
       {"id": "a", "text": "The warranty period may be shorter than with an authorized partner", "misconception": "asset-lifecycle", "why": "It may be, but it is not the main security concern."},
       {"id": "b", "text": "There is no concern provided the devices power on and pass a basic test", "misconception": "asset-lifecycle", "why": "A device can work and still carry a modified firmware or counterfeit parts."},
-      {"id": "c", "text": "There is no concern if the invoice and warranty paperwork look genuine", "misconception": "asset-lifecycle", "why": "Price drives the choice, and security has to be considered at the same moment."},
-      {"id": "d", "text": "The devices may be counterfeit or tampered with, so buy from authorized channels and check provenance", "correct": true, "why": "A compromised device in the network is harder to find than one bought from a trusted source. Acquisition is where trust begins."}
+      {"id": "c", "text": "There is no concern if the invoice and warranty paperwork look genuine", "misconception": "asset-lifecycle", "why": "Paperwork is as easy to fake as the hardware. It does not prove where the devices came from or that they are untampered."},
+      {"id": "d", "text": "The devices may be counterfeit or tampered with", "correct": true, "why": "A compromised device in the network is harder to find than one bought from a trusted source, so buy from authorized channels and check provenance. Acquisition is where trust begins."}
     ]
   },
   {
@@ -349,7 +349,7 @@
     "difficulty": 4,
     "stem": "A destruction vendor's certificate states that 200 drives were shredded. The company's asset records show 212 drives retired for that collection. What is the right response?",
     "options": [
-      {"id": "a", "text": "Treat the twelve drives as unaccounted for: reconcile serial numbers with the manifest and certificate, and investigate custody", "correct": true, "why": "Evidence of destruction has to match the inventory serial for serial. A gap is a possible data loss until proven otherwise."},
+      {"id": "a", "text": "Treat the twelve drives as unaccounted for and investigate custody", "correct": true, "why": "Evidence of destruction has to match the inventory serial for serial, so reconcile serial numbers with the manifest and certificate. A gap is a possible data loss until proven otherwise."},
       {"id": "b", "text": "Accept the certificate, since the vendor is a certified destruction company", "misconception": "sanitization-vs-destruction", "why": "A certificate that does not match the records does not discharge the obligation, whoever issued it."},
       {"id": "c", "text": "Ask the vendor to reissue the certificate showing 212 drives and file it", "misconception": "sanitization-vs-destruction", "why": "Changing the paperwork does not show what happened to the other drives."},
       {"id": "d", "text": "Record the difference as a normal handling loss and close the collection", "misconception": "asset-lifecycle", "why": "Drives holding data are not an acceptable loss. They are potential exposure."}

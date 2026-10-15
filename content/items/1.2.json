@@ -49,9 +49,9 @@
     "difficulty": 3,
     "stem": "Which statement best captures the principle of Zero Trust?",
     "options": [
-      {"id": "a", "text": "No implicit trust is granted based on network location; every request is authenticated and authorised", "correct": true, "why": "Being inside the perimeter confers nothing. Each request is evaluated on identity, device posture and context."},
+      {"id": "a", "text": "No implicit trust from network location; every request is authenticated and authorized", "correct": true, "why": "Being inside the perimeter confers nothing. Each request is evaluated on identity, device posture and context. Remember: zero trust means never trust by location, always verify."},
       {"id": "b", "text": "All internal traffic is trusted once the user has authenticated at the perimeter", "misconception": "zero-trust-planes", "why": "That is the traditional perimeter model Zero Trust was designed to replace."},
-      {"id": "c", "text": "Encryption of all traffic removes the need for access decisions", "misconception": "zero-trust-planes", "why": "Encryption protects traffic in transit. It makes no access decision at all."},
+      {"id": "c", "text": "Encryption of all traffic removes the need for separate access decisions", "misconception": "zero-trust-planes", "why": "Encryption protects traffic in transit. It makes no access decision at all."},
       {"id": "d", "text": "Only the Policy Enforcement Point needs to verify identity", "misconception": "zero-trust-planes", "why": "The enforcement point acts on a decision made by the Policy Engine. It is not the thing deciding."}
     ]
   },
@@ -105,7 +105,7 @@
     "difficulty": 4,
     "stem": "A zero trust deployment places a component inline with application traffic so that it can permit or block each session. On which plane does this component sit, and what is it called?",
     "options": [
-      {"id": "a", "text": "The data plane, as the policy enforcement point", "correct": true, "why": "The data plane is where traffic actually flows, and the PEP is the gate within it. Decision making stays on the control plane."},
+      {"id": "a", "text": "The data plane, as the policy enforcement point", "correct": true, "why": "The data plane is where traffic actually flows, and the PEP is the gate within it. Decision making stays on the control plane. Remember: the enforcement point is in the traffic path, on the data plane."},
       {"id": "b", "text": "The control plane, as the policy engine", "misconception": "zero-trust-components", "why": "The engine decides and is not in the traffic path. Being inline with traffic is the defining property of the data plane."},
       {"id": "c", "text": "The control plane, as the policy administrator", "misconception": "zero-trust-components", "why": "The administrator conveys decisions and manages sessions from the control plane."},
       {"id": "d", "text": "The data plane, as an implicit trust zone", "misconception": "zero-trust-components", "why": "An implicit trust zone is a region where traffic is not inspected, which is what zero trust works to eliminate."}
@@ -117,12 +117,12 @@
     "objective": "1.2",
     "topics": ["adaptive-identity", "policy-driven-access-control", "threat-scope-reduction"],
     "difficulty": 4,
-    "stem": "A user who normally signs in from the office is challenged for an additional factor when connecting from an unrecognised device abroad. The policy itself did not change. Which zero trust concept is this?",
+    "stem": "A user who normally signs in from the office is challenged for an additional factor when connecting from an unrecognized device abroad. The policy itself did not change. Which zero trust concept is this?",
     "options": [
-      {"id": "a", "text": "Adaptive identity, adjusting the requirement from context and risk rather than applying a fixed rule", "correct": true, "why": "Adaptive identity feeds context such as device posture, location and behaviour into the decision, so the same user faces different requirements in different circumstances."},
-      {"id": "b", "text": "Threat scope reduction", "misconception": "zero-trust-components", "why": "That is about shrinking the blast radius, typically through segmentation and least privilege, rather than varying an authentication requirement."},
-      {"id": "c", "text": "An implicit trust zone", "misconception": "zero-trust-components", "why": "The opposite: an implicit trust zone is where access is granted without this kind of evaluation."},
-      {"id": "d", "text": "Policy enforcement at the data plane", "misconception": "zero-trust-components", "why": "Enforcement is where the decision is applied. The question is about how the decision was reached."}
+      {"id": "a", "text": "Adaptive identity: the requirement changes with context and risk", "correct": true, "why": "Adaptive identity feeds context such as device posture, location and behavior into the decision, so the same user faces different requirements in different circumstances. Remember: adaptive identity changes the requirement as the risk changes."},
+      {"id": "b", "text": "Threat scope reduction, which limits how far a compromise can spread", "misconception": "zero-trust-components", "why": "That is about shrinking the blast radius, typically through segmentation and least privilege, rather than varying an authentication requirement."},
+      {"id": "c", "text": "An implicit trust zone, where access is granted without evaluation", "misconception": "zero-trust-components", "why": "The opposite: an implicit trust zone is where access is granted without this kind of evaluation."},
+      {"id": "d", "text": "Policy enforcement at the data plane, where decisions are applied", "misconception": "zero-trust-components", "why": "Enforcement is where the decision is applied. The question is about how the decision was reached."}
     ]
   },
   {
@@ -133,9 +133,9 @@
     "difficulty": 4,
     "stem": "A nightly job on one server calls an API on another. Security asks for multifactor authentication on the calling account. Why is this the wrong control, and what fits instead?",
     "options": [
-      {"id": "a", "text": "No human is present to supply a second factor; system authentication uses certificates or short-lived credentials instead", "correct": true, "why": "Machine identity is a different problem. Mutual TLS, a managed identity or an ephemeral credential gives strong authentication without anyone being there at 02:00."},
-      {"id": "b", "text": "It is the right control, and the second factor should be sent to the server administrator", "misconception": "authenticating-people-vs-systems", "why": "That makes an unattended job depend on a person being awake, which guarantees either failure or a bypass."},
-      {"id": "c", "text": "MFA is unnecessary because internal traffic is already trusted", "misconception": "zero-trust-components", "why": "Implicit trust for internal traffic is exactly what zero trust removes. The objection is the absence of a human, not the location."},
+      {"id": "a", "text": "No human is there to give a second factor; use certificates or short-lived credentials", "correct": true, "why": "Machine identity is a different problem. Mutual TLS, a managed identity or an ephemeral credential gives strong authentication without anyone being there at 02:00."},
+      {"id": "b", "text": "It is the right control, and the second factor should go to the server administrator", "misconception": "authenticating-people-vs-systems", "why": "That makes an unattended job depend on a person being awake, which guarantees either failure or a bypass."},
+      {"id": "c", "text": "MFA is unnecessary because traffic inside the network is already trusted", "misconception": "zero-trust-components", "why": "Implicit trust for internal traffic is exactly what zero trust removes. The objection is the absence of a human, not the location."},
       {"id": "d", "text": "The job should run under a personal administrator account that already has MFA", "misconception": "authenticating-people-vs-systems", "why": "That ties a system process to an individual, breaks when they leave, and destroys attribution for both."}
     ]
   },
@@ -147,10 +147,10 @@
     "difficulty": 4,
     "stem": "A company plants a fake customer record containing a unique, monitored email address inside its production database. Months later that address receives marketing mail from an unrelated firm. Which technique was used, and what did it establish?",
     "options": [
-      {"id": "a", "text": "A honeytoken, establishing that this specific dataset was obtained and passed on", "correct": true, "why": "A honeytoken is a fake piece of data planted in real data. Because only that copy contained it, its appearance elsewhere identifies the source of the leak."},
-      {"id": "b", "text": "A honeyfile, establishing that someone browsed a restricted share", "misconception": "deception-technologies", "why": "A honeyfile is a bait file whose opening signals unauthorised browsing. Here the decoy is a record inside a database, not a file."},
-      {"id": "c", "text": "A honeypot, establishing that the database server was attacked", "misconception": "deception-technologies", "why": "A honeypot is a whole decoy system with no production role. This record lived inside a real production database."},
-      {"id": "d", "text": "A honeynet, establishing lateral movement across the environment", "misconception": "deception-technologies", "why": "A honeynet is a network of decoy systems used to study attacker behaviour at scale."}
+      {"id": "a", "text": "A honeytoken: this dataset was obtained and passed on", "correct": true, "why": "A honeytoken is a fake piece of data planted in real data. Because only that copy contained it, its appearance elsewhere identifies the source of the leak. Remember: a honeytoken is bait data; where it shows up tells you where data went."},
+      {"id": "b", "text": "A honeyfile: someone browsed a restricted share", "misconception": "deception-technologies", "why": "A honeyfile is a bait file whose opening signals unauthorized browsing. Here the decoy is a record inside a database, not a file."},
+      {"id": "c", "text": "A honeypot: the database server was attacked", "misconception": "deception-technologies", "why": "A honeypot is a whole decoy system with no production role. This record lived inside a real production database."},
+      {"id": "d", "text": "A honeynet: an attacker moved laterally across the environment", "misconception": "deception-technologies", "why": "A honeynet is a network of decoy systems used to study attacker behavior at scale."}
     ]
   },
   {
@@ -161,10 +161,10 @@
     "difficulty": 3,
     "stem": "Why does interaction with a honeypot produce so few false positives compared with a typical intrusion detection system?",
     "options": [
-      {"id": "a", "text": "The system has no production purpose, so no legitimate activity has any reason to touch it", "correct": true, "why": "The signal is the interaction itself. There is no benign baseline to separate out, which is why deception is valued for detecting intruders already inside."},
-      {"id": "b", "text": "Honeypots use signature matching tuned to known attacks", "misconception": "deception-technologies", "why": "They do not rely on recognising the attack. Any contact at all is the alert."},
+      {"id": "a", "text": "It has no production purpose, so legitimate activity never touches it", "correct": true, "why": "The signal is the interaction itself. There is no benign baseline to separate out, which is why deception is valued for detecting intruders already inside."},
+      {"id": "b", "text": "Honeypots use signature matching tuned to known attacks, so they rarely misfire", "misconception": "deception-technologies", "why": "They do not rely on recognizing the attack. Any contact at all is the alert."},
       {"id": "c", "text": "Honeypots are placed outside the firewall where only attackers can reach them", "misconception": "deception-technologies", "why": "Internal honeypots are common and valuable precisely for catching activity already inside the perimeter."},
-      {"id": "d", "text": "They are monitored by a security guard rather than automatically", "misconception": "physical-detection-sensors", "why": "Confusing a physical control with a network decoy."}
+      {"id": "d", "text": "They are watched by a security guard rather than by automated tooling", "misconception": "physical-detection-sensors", "why": "Confusing a physical control with a network decoy."}
     ]
   },
   {
@@ -175,10 +175,10 @@
     "difficulty": 4,
     "stem": "A data hall is kept close to human body temperature by its cooling design. Which motion detection technology is least suitable there, and why?",
     "options": [
-      {"id": "a", "text": "Infrared, because it relies on a thermal contrast between a body and its surroundings", "correct": true, "why": "Passive infrared detects heat difference. Remove the contrast and detection degrades badly, which is the detail these questions turn on."},
-      {"id": "b", "text": "Microwave, because metal racks reflect the signal", "misconception": "physical-detection-sensors", "why": "Microwave penetrates many materials and remains effective; reflections are a tuning problem rather than a disqualification."},
-      {"id": "c", "text": "Ultrasonic, because server fans are too loud", "misconception": "physical-detection-sensors", "why": "Ultrasonic works above audible frequencies and is not defeated by fan noise."},
-      {"id": "d", "text": "Pressure, because raised floors cannot carry sensors", "misconception": "physical-detection-sensors", "why": "Pressure sensing under flooring is viable. The stem's clue is temperature, which points at exactly one technology."}
+      {"id": "a", "text": "Infrared, because it needs a thermal contrast between body and room", "correct": true, "why": "Passive infrared detects heat difference. Remove the contrast and detection degrades badly, which is the detail these questions turn on. Remember: infrared sees heat contrast, so a body-warm room blinds it."},
+      {"id": "b", "text": "Microwave, because metal racks reflect the signal and confuse it", "misconception": "physical-detection-sensors", "why": "Microwave penetrates many materials and remains effective; reflections are a tuning problem rather than a disqualification."},
+      {"id": "c", "text": "Ultrasonic, because the noise of the server fans is too loud for it", "misconception": "physical-detection-sensors", "why": "Ultrasonic works above audible frequencies and is not defeated by fan noise."},
+      {"id": "d", "text": "Pressure, because raised floors cannot carry pressure sensors", "misconception": "physical-detection-sensors", "why": "Pressure sensing under flooring is viable. The stem's clue is temperature, which points at exactly one technology."}
     ]
   },
   {
@@ -190,8 +190,8 @@
     "stem": "Which physical control is primarily a deterrent that also makes other controls more effective, rather than preventing or detecting entry itself?",
     "options": [
       {"id": "a", "text": "Lighting", "correct": true, "why": "Light prevents nothing and detects nothing on its own. It removes the cover of darkness and makes surveillance and guards work, which is why it is classed as a deterrent."},
-      {"id": "b", "text": "Bollards", "misconception": "physical-detection-sensors", "why": "Bollards physically stop a vehicle. That is prevention, not deterrence."},
-      {"id": "c", "text": "An access control vestibule", "misconception": "physical-detection-sensors", "why": "Two interlocking doors physically prevent tailgating."},
+      {"id": "b", "text": "Bollards", "misconception": "deterrent-vs-preventive", "why": "Bollards physically stop a vehicle. That is prevention, not deterrence."},
+      {"id": "c", "text": "An access control vestibule", "misconception": "deterrent-vs-preventive", "why": "Two interlocking doors physically prevent tailgating."},
       {"id": "d", "text": "A pressure sensor", "misconception": "physical-detection-sensors", "why": "A detective control: it reports that something happened and stops nothing."}
     ]
   },
@@ -247,9 +247,9 @@
     "difficulty": 4,
     "stem": "Two services exchange data over mutual TLS. Each presents a certificate and validates the other's before any data flows. What is being authenticated, and by what means?",
     "options": [
-      {"id": "a", "text": "Systems authenticating to each other by proving possession of a private key", "correct": true, "why": "Mutual TLS is machine identity. Each side proves it holds the private key for a certificate the other trusts, with no human involved on either end."},
-      {"id": "b", "text": "People, because a human configured the certificates", "misconception": "authenticating-people-vs-systems", "why": "Someone provisioned them, which is enrolment. At the moment of authentication the parties are both machines."},
-      {"id": "c", "text": "Systems, using something you know in the form of a shared secret", "misconception": "authenticating-people-vs-systems", "why": "Certificates are possession of a private key, not a shared secret. No secret is exchanged at all."},
+      {"id": "a", "text": "Systems, by proving possession of a private key", "correct": true, "why": "Mutual TLS is machine identity. Each side proves it holds the private key for a certificate the other trusts, with no human involved on either end."},
+      {"id": "b", "text": "People, because a person configured the certificates", "misconception": "authenticating-people-vs-systems", "why": "Someone provisioned them, which is enrollment. At the moment of authentication the parties are both machines."},
+      {"id": "c", "text": "Systems, using something they know in the form of a shared secret", "misconception": "authenticating-people-vs-systems", "why": "Certificates are possession of a private key, not a shared secret. No secret is exchanged at all."},
       {"id": "d", "text": "Nothing is authenticated; TLS only provides encryption", "misconception": "authenticating-people-vs-systems", "why": "Ordinary TLS authenticates the server. Mutual TLS adds the client, which is the whole reason it is used between services."}
     ]
   },
@@ -259,12 +259,12 @@
     "objective": "1.2",
     "topics": ["gap-analysis"],
     "difficulty": 4,
-    "stem": "A consultant is asked to perform a gap analysis but the organisation has not adopted any framework, standard or target maturity level. What is the problem?",
+    "stem": "A consultant is asked to perform a gap analysis but the organization has not adopted any framework, standard or target maturity level. What is the problem?",
     "options": [
-      {"id": "a", "text": "Without a defined desired state there is no gap to measure, only a description of current practice", "correct": true, "why": "A gap is a distance between two points. Supply only the current state and the output is an observation exercise, however useful it may be."},
-      {"id": "b", "text": "There is no problem; a gap analysis establishes the desired state as its first output", "misconception": "gap-analysis-vs-assessment", "why": "Choosing a target is a governance decision made by the organisation. The analysis measures against it rather than inventing it."},
-      {"id": "c", "text": "A gap analysis requires an independent auditor, which a consultant cannot be", "misconception": "gap-analysis-vs-assessment", "why": "Independence is an audit requirement. Gap analysis is normally self-directed planning and often done with a consultant."},
-      {"id": "d", "text": "A risk assessment must always precede a gap analysis", "misconception": "gap-analysis-vs-assessment", "why": "They answer different questions and neither strictly requires the other."}
+      {"id": "a", "text": "Without a defined desired state there is no gap to measure, only current practice", "correct": true, "why": "A gap is a distance between two points. Supply only the current state and the output is an observation exercise, however useful it may be."},
+      {"id": "b", "text": "There is no problem; a gap analysis establishes the desired state as its first output", "misconception": "gap-analysis-vs-assessment", "why": "Choosing a target is a governance decision made by the organization. The analysis measures against it rather than inventing it."},
+      {"id": "c", "text": "A gap analysis requires an independent auditor, which a consultant cannot be at all", "misconception": "gap-analysis-vs-assessment", "why": "Independence is an audit requirement. Gap analysis is normally self-directed planning and often done with a consultant."},
+      {"id": "d", "text": "A risk assessment must always precede a gap analysis, however it is performed", "misconception": "gap-analysis-vs-assessment", "why": "They answer different questions and neither strictly requires the other."}
     ]
   },
   {
@@ -275,10 +275,10 @@
     "difficulty": 3,
     "stem": "Why does a zero trust design keep the component that decides access separate from the component that enforces it?",
     "options": [
-      {"id": "a", "text": "Decisions can be made and audited centrally from richer context, while enforcement stays in the traffic path and applies whatever it is told", "correct": true, "why": "Separating the decision from the enforcement lets policy be consistent and reviewable in one place, and keeps the enforcement point simple and fast where the traffic flows."},
+      {"id": "a", "text": "Decisions are made and audited centrally; enforcement just applies them", "correct": true, "why": "Separating the decision from the enforcement lets policy be consistent and reviewable in one place, and keeps the enforcement point simple and fast where the traffic flows. Remember: the control plane decides; the data plane enforces."},
       {"id": "b", "text": "So the enforcement point can grant implicit trust to traffic already inside", "misconception": "zero-trust-planes", "why": "Implicit trust zones are what zero trust works to remove. Nothing here grants them."},
-      {"id": "c", "text": "Because the engine must sit outside the organisation to be independent", "misconception": "zero-trust-planes", "why": "Location is not the point. The engine is commonly run by the organisation itself."},
-      {"id": "d", "text": "So that no component has to know who the subject is", "misconception": "zero-trust-planes", "why": "Identity is central. The subject's identity and context are exactly what the engine evaluates."}
+      {"id": "c", "text": "Because the engine must sit outside the organization to be independent", "misconception": "zero-trust-planes", "why": "Location is not the point. The engine is commonly run by the organization itself."},
+      {"id": "d", "text": "So that no component has to know who the subject is at all", "misconception": "zero-trust-planes", "why": "Identity is central. The subject's identity and context are exactly what the engine evaluates."}
     ]
   },
   {
@@ -301,11 +301,11 @@
     "objective": "1.2",
     "topics": ["honeyfile", "honeytoken", "honeypot", "honeynet"],
     "difficulty": 3,
-    "stem": "An organisation places a file named Board_salaries_2026.xlsx on a file share nobody uses, with an alert on any attempt to open it. Which technique is this, and what does an alert mean?",
+    "stem": "An organization places a file named Board_salaries_2026.xlsx on a file share nobody uses, with an alert on any attempt to open it. Which technique is this, and what does an alert mean?",
     "options": [
       {"id": "a", "text": "A honeytoken; the data has been sold to a third party", "misconception": "deception-technologies", "why": "A honeytoken is a fake record or credential that reveals where data went when it surfaces elsewhere. This alert fires on opening the file, inside the network."},
       {"id": "b", "text": "A honeypot; the file server is being exploited", "misconception": "deception-technologies", "why": "A honeypot is a whole decoy system. The share is real; only the file is bait."},
-      {"id": "c", "text": "A honeyfile; someone is browsing where they have no reason to be", "correct": true, "why": "A bait file that nothing legitimate should open. Any access is suspicious by definition, which is why it alerts so cleanly."},
+      {"id": "c", "text": "A honeyfile; someone is browsing where they have no reason to be", "correct": true, "why": "A bait file that nothing legitimate should open. Any access is suspicious by definition, which is why it alerts so cleanly. Remember: a honeyfile is a bait file; any open is suspicious."},
       {"id": "d", "text": "A honeynet; an attacker is moving laterally between decoy hosts", "misconception": "deception-technologies", "why": "A honeynet is a network of decoy systems. There is one bait file here, not a decoy network."}
     ]
   },

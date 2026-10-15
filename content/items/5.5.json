@@ -17,7 +17,7 @@
     "id": "g-016",
     "type": "mcq",
     "objective": "5.5",
-    "topics": ["attestation", "regulatory-examination", "self-assessments"],
+    "topics": ["attestation-2", "regulatory-examination", "self-assessments"],
     "difficulty": 2,
     "stem": "A regulator conducts a mandatory review of a bank's security controls and issues formal findings. What is this?",
     "options": [
@@ -101,7 +101,7 @@
     "id": "g-044",
     "type": "mcq",
     "objective": "5.5",
-    "topics": ["rules-of-engagement", "right-to-audit-clause", "work-order-wo-statement-of-work-sow"],
+    "topics": ["offensive"],
     "difficulty": 4,
     "stem": "Before a penetration test begins, which document states what the tester may and may not touch, the hours they may test, and who to contact if something breaks?",
     "options": [
@@ -115,7 +115,7 @@
     "id": "fg-005",
     "type": "mcq",
     "objective": "5.5",
-    "topics": ["attestation-2", "internal-audit", "self-assessments"],
+    "topics": ["attestation-2", "internal-compliance-audit", "self-assessments"],
     "difficulty": 4,
     "stem": "A supplier provides a signed statement from its chief information security officer confirming that stated controls operated throughout the year. How much assurance does this carry compared with an independent audit?",
     "options": [
@@ -129,7 +129,7 @@
     "id": "fg-006",
     "type": "mcq",
     "objective": "5.5",
-    "topics": ["audit-committee", "internal-audit"],
+    "topics": ["audit-committee", "internal-compliance-audit"],
     "difficulty": 4,
     "stem": "Why does an audit committee typically sit at board level and receive internal audit reports directly rather than through management?",
     "options": [
@@ -143,7 +143,7 @@
     "id": "fg-007",
     "type": "mcq",
     "objective": "5.5",
-    "topics": ["external-assessment", "external-audit", "independent-assessments"],
+    "topics": ["external-assessment", "independent-third-party-audit"],
     "difficulty": 4,
     "stem": "What distinguishes an external assessment from an external audit?",
     "options": [
@@ -157,7 +157,7 @@
     "id": "fg-008",
     "type": "mcq",
     "objective": "5.5",
-    "topics": ["self-assessments", "attestation-2", "internal-audit", "external-audit"],
+    "topics": ["self-assessments", "attestation-2", "internal-compliance-audit", "independent-third-party-audit"],
     "difficulty": 4,
     "stem": "Rank these from weakest to strongest assurance: external audit, self-assessment, attestation by a named officer, internal audit.",
     "options": [
@@ -171,7 +171,7 @@
     "id": "fg-009",
     "type": "mcq-multi",
     "objective": "5.5",
-    "topics": ["audit-committee", "external-assessment", "attestation-2", "penetration-testing-2"],
+    "topics": ["audit-committee", "external-assessment", "attestation-2"],
     "difficulty": 4,
     "stem": "Which TWO statements about audits and assessments are correct? (Choose two.)",
     "options": [
@@ -201,7 +201,7 @@
     "id": "au2-102",
     "type": "mcq",
     "objective": "5.5",
-    "topics": ["physical-penetration-testing", "rules-of-engagement"],
+    "topics": ["physical-penetration-testing"],
     "difficulty": 4,
     "stem": "A physical penetration tester is stopped by a guard in a restricted corridor after tailgating through a badge door. Which document should the tester be carrying to resolve this safely?",
     "options": [
@@ -381,6 +381,62 @@
       {"id": "b", "text": "That the provider's own internal audit team produced it", "misconception": "audit-vs-assessment", "why": "Internal production is the opposite of what makes the report independent."},
       {"id": "c", "text": "That it comes with a signed CEO attestation in place of audit findings", "misconception": "compliance-monitoring-and-attestation", "why": "An attestation is a statement. It does not replace findings examined by an independent party."},
       {"id": "d", "text": "That it lists no exceptions at all, since any exception makes it unusable", "misconception": "audit-vs-assessment", "why": "Exceptions are normal. What matters is whether any of them touch the services the customer relies on."}
+    ]
+  },
+  {
+    "id": "r5-025",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["passive-reconnaissance"],
+    "difficulty": 2,
+    "stem": "A tester reads the target's job postings, public DNS records and social media without sending any traffic to its systems. Which kind of reconnaissance is this?",
+    "options": [
+      {"id": "a", "text": "Passive reconnaissance", "correct": true, "why": "Gathering from public sources without interacting with the target is passive."},
+      {"id": "b", "text": "Active reconnaissance", "misconception": "pentest-activity-types", "why": "Active reconnaissance touches the target's systems directly. Nothing here does."},
+      {"id": "c", "text": "Integrated testing", "misconception": "pentest-activity-types", "why": "Integrated testing joins offensive and defensive work. It says nothing about how information was gathered."},
+      {"id": "d", "text": "Defensive testing", "misconception": "pentest-activity-types", "why": "Defensive testing is the defenders' side of an exercise, not a way of collecting information."}
+    ]
+  },
+  {
+    "id": "r5-026",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["active-reconnaissance"],
+    "difficulty": 2,
+    "stem": "A tester runs a port scan against the target's whole address range. Which kind of reconnaissance is this?",
+    "options": [
+      {"id": "a", "text": "Passive reconnaissance", "misconception": "pentest-activity-types", "why": "Passive work never sends traffic to the target. A scan does."},
+      {"id": "b", "text": "Active reconnaissance", "correct": true, "why": "Probing the target's systems directly, as a scan does, is active, and it can be noticed."},
+      {"id": "c", "text": "Offensive testing only", "misconception": "pentest-activity-types", "why": "Offensive describes the attacking side. Active and passive describe how information is gathered."},
+      {"id": "d", "text": "Physical testing", "misconception": "pentest-activity-types", "why": "Physical testing is about buildings and people. A port scan is a network activity."}
+    ]
+  },
+  {
+    "id": "r5-027",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["integrated", "offensive", "defensive"],
+    "difficulty": 3,
+    "stem": "A penetration test brings the attackers and the defenders together, so the two sides work as one team and lessons pass between them throughout. What is this called?",
+    "options": [
+      {"id": "a", "text": "Offensive penetration testing", "misconception": "pentest-activity-types", "why": "Offensive is the attacking side alone."},
+      {"id": "b", "text": "Defensive penetration testing", "misconception": "pentest-activity-types", "why": "Defensive is the defending side alone."},
+      {"id": "c", "text": "Integrated penetration testing", "correct": true, "why": "Integrated testing combines the offensive and defensive sides into one approach."},
+      {"id": "d", "text": "Passive reconnaissance", "misconception": "pentest-activity-types", "why": "That is a way of gathering information, not a team arrangement."}
+    ]
+  },
+  {
+    "id": "r5-028",
+    "type": "mcq",
+    "objective": "5.5",
+    "topics": ["defensive", "offensive"],
+    "difficulty": 2,
+    "stem": "In a penetration test exercise, which team tries to detect and block the testers' activity?",
+    "options": [
+      {"id": "a", "text": "The offensive team", "misconception": "pentest-activity-types", "why": "The offensive team is the one doing the attacking."},
+      {"id": "b", "text": "The attestation team", "misconception": "pentest-activity-types", "why": "Attestation is a statement that controls are in place. It is not a role in a test."},
+      {"id": "c", "text": "The audit committee", "misconception": "pentest-activity-types", "why": "An audit committee oversees audit reports at board level. It does not sit in the exercise."},
+      {"id": "d", "text": "The defensive team", "correct": true, "why": "The defenders watch for and respond to the attack. That is the defensive role."}
     ]
   }
 ]

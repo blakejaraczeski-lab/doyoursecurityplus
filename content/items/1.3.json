@@ -7,8 +7,8 @@
     "difficulty": 3,
     "stem": "A database administrator proposes a schema change to the billing database. The finance director relies on its reports, the application team maintains the service that reads it, and the IT service manager chairs the change advisory board. What is the system owner's accountability in this change?",
     "options": [
-      {"id": "a", "text": "Confirming the change is acceptable for the asset they are accountable for, independently of who implements or approves it", "correct": true, "why": "Ownership is accountability for the asset itself. The owner speaks for the system's purpose, its classification and its acceptable risk, whoever carries out the work."},
-      {"id": "b", "text": "Implementing the change inside the maintenance window", "misconception": "change-roles", "why": "That is the implementer's job. An owner who implements their own change has removed the separation the process exists to create."},
+      {"id": "a", "text": "Confirming the change suits the asset they are accountable for", "correct": true, "why": "Ownership is accountability for the asset itself. The owner speaks for the system's purpose, its classification and its acceptable risk, whoever carries out the work. Remember: the owner answers for the asset; the approver signs off on the change."},
+      {"id": "b", "text": "Implementing the change inside the maintenance window itself", "misconception": "change-roles", "why": "That is the implementer's job. An owner who implements their own change has removed the separation the process exists to create."},
       {"id": "c", "text": "Chairing the change advisory board and granting final approval", "misconception": "change-roles", "why": "Approval is a separate role, usually CAB or a defined delegate. An owner approving their own request is the conflict the board is there to prevent."},
       {"id": "d", "text": "Being consulted as an affected party and informed of the outcome", "misconception": "change-roles", "why": "That describes a stakeholder. The finance director is a stakeholder here; the owner carries accountability rather than interest."}
     ]
@@ -21,7 +21,7 @@
     "difficulty": 2,
     "stem": "A change will restart an authentication service for roughly two minutes. Three teams run applications that depend on it. In change management terms, what are those three teams?",
     "options": [
-      {"id": "a", "text": "Stakeholders, who must be consulted before the change and informed of the window", "correct": true, "why": "A stakeholder is anyone the change affects. Identifying them is the output of impact analysis, and missing one is how a routine change becomes an unannounced outage."},
+      {"id": "a", "text": "Stakeholders, consulted before the change and informed of the window", "correct": true, "why": "A stakeholder is anyone the change affects. Identifying them is the output of impact analysis, and missing one is how a routine change becomes an unannounced outage. Remember: stakeholders are affected by the change; the owner is accountable for the asset."},
       {"id": "b", "text": "Owners, because their applications stop working during the restart", "misconception": "change-roles", "why": "They own their own applications, not the authentication service being changed. Being affected does not transfer ownership of the thing being altered."},
       {"id": "c", "text": "Approvers, since the change cannot proceed without their agreement", "misconception": "change-roles", "why": "Consultation is not a veto. Approval sits with the defined approver, who weighs the stakeholder input and decides."},
       {"id": "d", "text": "Implementers, because they must restart their applications afterwards", "misconception": "change-roles", "why": "They may have work to do, but the implementer is the party executing this change, not everyone reacting to it."}
@@ -35,10 +35,10 @@
     "difficulty": 4,
     "stem": "A change updates a single line in a web server configuration file. The change is classed as low risk. The configuration only takes effect when the web service is restarted, and a payment integration holds long-lived sessions to that service. What is the correct reading of the impact?",
     "options": [
-      {"id": "a", "text": "The restart causes real downtime for anything holding a session, so the dependent integration must be in scope regardless of the risk class", "correct": true, "why": "Risk and impact are separate judgements. A low risk change is unlikely to go wrong; it can still stop a dependent service dead while it takes effect."},
-      {"id": "b", "text": "The impact is negligible because only one line of configuration changed", "misconception": "change-technical-implications", "why": "Impact is measured by what stops and what depends on it, not by the size of the edit. This is the most common error when judging impact."},
-      {"id": "c", "text": "There is no downtime because the server itself is not rebooting", "misconception": "change-technical-implications", "why": "A service restart and an application restart both drop sessions without any host reboot. The machine staying up is not the same as the service staying up."},
-      {"id": "d", "text": "The payment integration will reconnect automatically, so it is not a stakeholder", "misconception": "change-technical-implications", "why": "It may well reconnect, and it may also fail mid-transaction. A dependency you have not asked about is an assumption, not an analysis."}
+      {"id": "a", "text": "The restart causes downtime, so the dependent integration is in scope whatever the risk class", "correct": true, "why": "Risk and impact are separate judgments. A low risk change is unlikely to go wrong; it can still stop a dependent service dead while it takes effect."},
+      {"id": "b", "text": "The impact is negligible because only one line of configuration changed in the file", "misconception": "change-technical-implications", "why": "Impact is measured by what stops and what depends on it, not by the size of the edit. This is the most common error when judging impact."},
+      {"id": "c", "text": "There is no downtime because the server itself is not being rebooted at any point", "misconception": "change-technical-implications", "why": "A service restart and an application restart both drop sessions without any host reboot. The machine staying up is not the same as the service staying up."},
+      {"id": "d", "text": "The payment integration will reconnect automatically, so it is not a stakeholder here", "misconception": "change-technical-implications", "why": "It may well reconnect, and it may also fail mid-transaction. A dependency you have not asked about is an assumption, not an analysis."}
     ]
   },
   {
@@ -49,10 +49,10 @@
     "difficulty": 4,
     "stem": "A required operating system update must be applied to a server that also runs a legacy application. The vendor went out of business in 2019, there is no test environment, and no one currently employed has ever reinstalled it. Which element of change management most directly addresses this?",
     "options": [
-      {"id": "a", "text": "A verified backout plan, because with no vendor and no test results the ability to return to the last known good state is the only real control", "correct": true, "why": "When you cannot prove it will work beforehand, the control that remains is proving you can undo it. Verified means the restore has actually been tested, not merely written down."},
-      {"id": "b", "text": "A longer maintenance window, so there is time to fix problems as they appear", "misconception": "change-technical-implications", "why": "Time does not substitute for a recovery path. Improvising a repair on an unsupported application inside a window is how a change becomes a multi-day incident."},
-      {"id": "c", "text": "Stakeholder notification, so affected users know the application may break", "misconception": "change-roles", "why": "Necessary, but it manages expectations rather than risk. Telling people it might break is not a plan for when it does."},
-      {"id": "d", "text": "Recording the legacy application on the deny list so it cannot be updated", "misconception": "change-technical-implications", "why": "Allow and deny lists govern what software may run, not which changes may proceed. The OS update is still required for the host."}
+      {"id": "a", "text": "A verified backout plan: with no vendor or tests, being able to undo is the control", "correct": true, "why": "When you cannot prove it will work beforehand, the control that remains is proving you can undo it. Verified means the restore has actually been tested, not merely written down."},
+      {"id": "b", "text": "A longer maintenance window, so there is time to fix problems as they appear in the change", "misconception": "change-technical-implications", "why": "Time does not substitute for a recovery path. Improvising a repair on an unsupported application inside a window is how a change becomes a multi-day incident."},
+      {"id": "c", "text": "Stakeholder notification, so that affected users know the application may well break", "misconception": "change-roles", "why": "Necessary, but it manages expectations rather than risk. Telling people it might break is not a plan for when it does."},
+      {"id": "d", "text": "Recording the legacy application on the deny list so that it can never be updated at all", "misconception": "change-technical-implications", "why": "Allow and deny lists govern what software may run, not which changes may proceed. The OS update is still required for the host."}
     ]
   },
   {
@@ -63,10 +63,10 @@
     "difficulty": 3,
     "stem": "During an approved window to replace a failed disk, the engineer notices the server's firmware is several versions behind and updates it as well, since the system is already offline. The firmware update succeeds. What is the problem?",
     "options": [
-      {"id": "a", "text": "The firmware update was a restricted activity: it was outside the approved scope and was never impact-assessed or approved", "correct": true, "why": "Approval covers a specific scope. Anything outside it is unauthorised regardless of outcome, because nobody assessed it, nobody can predict its interactions, and the backout plan does not cover it."},
-      {"id": "b", "text": "There is no problem, because the work was inside an approved maintenance window and succeeded", "misconception": "change-technical-implications", "why": "The window authorises a time, not an activity. Success is luck here, and the next time the extra work fails there is no plan for it."},
-      {"id": "c", "text": "The engineer should have updated the firmware first, then replaced the disk", "misconception": "change-technical-implications", "why": "Ordering is irrelevant. The firmware update was not authorised in either position."},
-      {"id": "d", "text": "The change should have been classed as standard rather than normal", "misconception": "change-roles", "why": "A standard change is pre-approved because it is routine and well understood. Adding unassessed firmware work is the opposite of that."}
+      {"id": "a", "text": "The firmware update was outside the approved scope and was never assessed or approved", "correct": true, "why": "Approval covers a specific scope. Anything outside it is unauthorized regardless of outcome, because nobody assessed it, nobody can predict its interactions, and the backout plan does not cover it."},
+      {"id": "b", "text": "There is no problem, because the work was inside an approved window and succeeded", "misconception": "change-technical-implications", "why": "The window authorizes a time, not an activity. Success is luck here, and the next time the extra work fails there is no plan for it."},
+      {"id": "c", "text": "The engineer should have updated the firmware first, then replaced the disk", "misconception": "change-technical-implications", "why": "Ordering is irrelevant. The firmware update was not authorized in either position."},
+      {"id": "d", "text": "The change should have been classed as standard rather than normal", "misconception": "change-management-elements", "why": "A standard change is pre-approved because it is routine and well understood. Adding unassessed firmware work is the opposite of that."}
     ]
   },
   {
@@ -75,12 +75,12 @@
     "objective": "1.3",
     "topics": ["standard-operating-procedure", "approval-process", "allow-lists-deny-lists"],
     "difficulty": 3,
-    "stem": "An organisation applies monthly workstation patches the same way every month, with a documented procedure, known impact and an established backout. It wants to stop routing each month through the full approval cycle. What is the appropriate mechanism?",
+    "stem": "An organization applies monthly workstation patches the same way every month, with a documented procedure, known impact and an established backout. It wants to stop routing each month through the full approval cycle. What is the appropriate mechanism?",
     "options": [
-      {"id": "a", "text": "Define it as a standard change governed by a standard operating procedure, pre-approved on the condition it stays within that procedure", "correct": true, "why": "Standard changes exist exactly for repeatable, well understood, low risk work. The pre-approval is conditional: step outside the SOP and it is a normal change again."},
-      {"id": "b", "text": "Skip change management for patching, since patching reduces risk rather than adding it", "misconception": "change-documentation", "why": "Patches cause outages routinely. Nothing is exempt from change control for being well intentioned."},
-      {"id": "c", "text": "Add the patch management tool to the application allow list", "misconception": "change-technical-implications", "why": "An allow list governs which software may execute on a host. It has no bearing on whether a change is authorised."},
-      {"id": "d", "text": "Have the implementer approve their own changes once a procedure exists", "misconception": "change-roles", "why": "That removes the separation of duties. A standard change is pre-approved by the board, which is not the same as the engineer approving themselves."}
+      {"id": "a", "text": "Make it a standard change under a standard operating procedure, pre-approved within that procedure", "correct": true, "why": "Standard changes exist exactly for repeatable, well understood, low risk work. The pre-approval is conditional: step outside the SOP and it is a normal change again."},
+      {"id": "b", "text": "Skip change management for patching, since patching reduces risk rather than adding to it", "misconception": "change-documentation", "why": "Patches cause outages routinely. Nothing is exempt from change control for being well intentioned."},
+      {"id": "c", "text": "Add the patch management tool to the application allow list so that it may always run", "misconception": "change-technical-implications", "why": "An allow list governs which software may execute on a host. It has no bearing on whether a change is authorized."},
+      {"id": "d", "text": "Have the implementer approve their own changes once a documented procedure exists", "misconception": "change-roles", "why": "That removes the separation of duties. A standard change is pre-approved by the board, which is not the same as the engineer approving themselves."}
     ]
   },
   {
@@ -105,10 +105,10 @@
     "difficulty": 3,
     "stem": "A team keeps infrastructure configuration in a version control system, with every change committed and reviewed before it is applied. Beyond collaboration, what is the primary security benefit?",
     "options": [
-      {"id": "a", "text": "It gives an auditable record of what changed and by whom, and makes the backout plan a known good commit rather than an improvisation", "correct": true, "why": "Version control turns rollback from a memory exercise into a checkout, and turns 'who changed this' from an investigation into a query."},
-      {"id": "b", "text": "It prevents unauthorised changes from being applied to production", "misconception": "change-documentation", "why": "It records and reviews changes; it does not by itself stop someone editing a box directly. That enforcement comes from access control and drift detection."},
-      {"id": "c", "text": "It removes the need for a separate approval process", "misconception": "change-roles", "why": "A pull request review can carry the approval, but the approval still has to happen and still has to be someone other than the author."},
-      {"id": "d", "text": "It guarantees the configuration in production matches the repository", "misconception": "change-documentation", "why": "Only if something enforces it. Without drift detection the repository can describe a system that no longer exists."}
+      {"id": "a", "text": "An auditable record of who changed what, and a backout that is a known good commit", "correct": true, "why": "Version control turns rollback from a memory exercise into a checkout, and turns 'who changed this' from an investigation into a query."},
+      {"id": "b", "text": "It prevents unauthorized changes from ever being applied to the production systems", "misconception": "change-documentation", "why": "It records and reviews changes; it does not by itself stop someone editing a box directly. That enforcement comes from access control and drift detection."},
+      {"id": "c", "text": "It removes the need for a separate approval process for changes to the configuration", "misconception": "change-roles", "why": "A pull request review can carry the approval, but the approval still has to happen and still has to be someone other than the author."},
+      {"id": "d", "text": "It guarantees the configuration in production matches the repository at all times", "misconception": "change-documentation", "why": "Only if something enforces it. Without drift detection the repository can describe a system that no longer exists."}
     ]
   },
   {
@@ -117,9 +117,9 @@
     "objective": "1.3",
     "topics": ["updating-policies-procedures", "stakeholders", "standard-operating-procedure"],
     "difficulty": 2,
-    "stem": "A change moves the organisation from VPN-based remote access to a zero trust broker. The technology is deployed and working. Staff continue to follow the old remote access procedure and raise tickets when it fails. What was missed?",
+    "stem": "A change moves the organization from VPN-based remote access to a zero trust broker. The technology is deployed and working. Staff continue to follow the old remote access procedure and raise tickets when it fails. What was missed?",
     "options": [
-      {"id": "a", "text": "Policies and procedures were not updated to match the new system", "correct": true, "why": "When a change alters how people are supposed to work, the written procedure is part of the change. Leaving it stale guarantees the help desk absorbs the difference."},
+      {"id": "a", "text": "Policies and procedures were not updated for the new system", "correct": true, "why": "When a change alters how people are supposed to work, the written procedure is part of the change. Leaving it stale guarantees the help desk absorbs the difference."},
       {"id": "b", "text": "The change lacked a maintenance window", "misconception": "change-documentation", "why": "The deployment itself succeeded. The gap is downstream of implementation."},
       {"id": "c", "text": "Version control was not applied to the broker configuration", "misconception": "change-documentation", "why": "Good practice, but it would not have told a single user which procedure to follow."},
       {"id": "d", "text": "The old VPN should have been left running indefinitely", "misconception": "change-technical-implications", "why": "Running both keeps the weaker path open, which defeats the purpose of the change."}
@@ -133,11 +133,11 @@
     "difficulty": 4,
     "stem": "A change request proposes upgrading the central LDAP directory. Which TWO items belong in the impact analysis specifically because of technical implications rather than process? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Every application that authenticates against the directory and would fail during the restart", "correct": true, "why": "Dependencies are the core technical implication: the directory's outage becomes an outage everywhere that trusts it."},
-      {"id": "b", "text": "A legacy application known to use an LDAP bind method the new version removes", "correct": true, "why": "Legacy applications are called out separately because they often depend on behaviour the upgrade drops, and there is rarely a vendor to ask."},
-      {"id": "c", "text": "Which member of the change advisory board will chair the review", "misconception": "change-roles", "why": "That is process and governance, not a technical implication of the change."},
-      {"id": "d", "text": "Whether the change request was submitted on the correct form", "misconception": "change-roles", "why": "Administrative compliance, with no bearing on what the change will disturb."},
-      {"id": "e", "text": "The date the network diagram was last reviewed", "misconception": "change-documentation", "why": "Diagrams matter, but updating them is a completion activity rather than an implication to assess beforehand."}
+      {"id": "a", "text": "Every application that authenticates against the directory and fails during the restart", "correct": true, "why": "Dependencies are the core technical implication: the directory's outage becomes an outage everywhere that trusts it."},
+      {"id": "b", "text": "A legacy application known to use an LDAP bind the new version removes", "correct": true, "why": "Legacy applications are called out separately because they often depend on behavior the upgrade drops, and there is rarely a vendor to ask."},
+      {"id": "c", "text": "Which member of the change advisory board will chair the review meeting", "misconception": "change-roles", "why": "That is process and governance, not a technical implication of the change."},
+      {"id": "d", "text": "Whether the change request was submitted on the correct form for review", "misconception": "change-roles", "why": "Administrative compliance, with no bearing on what the change will disturb."},
+      {"id": "e", "text": "The date on which the network diagram was last reviewed by the team", "misconception": "change-documentation", "why": "Diagrams matter, but updating them is a completion activity rather than an implication to assess beforehand."}
     ],
     "selectCount": 2
   },
@@ -164,9 +164,9 @@
     "stem": "An engineer applied an urgent patch to the payments platform at 11am on the busiest trading day of the quarter, causing a 20 minute outage. The patch itself worked correctly. Which element failed?",
     "options": [
       {"id": "a", "text": "The maintenance window", "correct": true, "why": "The change was technically sound and was applied at a time the business could not absorb the disruption."},
-      {"id": "b", "text": "The backout plan", "misconception": "change-management-elements", "why": "There was nothing to back out. The patch succeeded; the timing was the failure."},
-      {"id": "c", "text": "Testing", "misconception": "change-management-elements", "why": "The patch worked correctly, so testing is not implicated."},
-      {"id": "d", "text": "Version control", "misconception": "change-management-elements", "why": "Version control tracks what changed. It does not govern when changes are applied."}
+      {"id": "b", "text": "The backout plan for the patch", "misconception": "change-management-elements", "why": "There was nothing to back out. The patch succeeded; the timing was the failure."},
+      {"id": "c", "text": "Testing of the patch", "misconception": "change-management-elements", "why": "The patch worked correctly, so testing is not implicated."},
+      {"id": "d", "text": "Version control of the patch", "misconception": "change-management-elements", "why": "Version control tracks what changed. It does not govern when changes are applied."}
     ]
   },
   {
@@ -194,7 +194,7 @@
       {"id": "a", "text": "Skip the change process, because an active exploit overrides it and a record can be written next week", "misconception": "change-management-elements", "why": "An emergency does not remove the need for control. An unrecorded change to the gateway is exactly the kind that nobody can reverse or explain afterwards."},
       {"id": "b", "text": "Wait for the scheduled meeting, because only the full board may approve any change to a production security device", "misconception": "change-roles", "why": "Most processes provide an expedited path for this. Five days of known exploitation is a larger risk than the change, and a rigid rule here would be the process causing harm."},
       {"id": "c", "text": "Let the engineer who will apply the patch approve it, since they understand the system best", "misconception": "change-roles", "why": "Approval by the implementer removes the separation the process exists to create, even when time is short."},
-      {"id": "d", "text": "Use the emergency change path: a named delegate approves, analysis and backout are still done, and the board reviews it afterward", "correct": true, "why": "Speed changes who approves and how quickly, not whether analysis and a way back exist. The after-the-fact review keeps the board informed and accountable."}
+      {"id": "d", "text": "Use the emergency path: a delegate approves, analysis and backout stay, the board reviews later", "correct": true, "why": "Speed changes who approves and how quickly, not whether analysis and a way back exist. The after-the-fact review keeps the board informed and accountable."}
     ]
   },
   {
@@ -236,7 +236,7 @@
     "stem": "A change needs about three hours of downtime to complete and validate. The only agreed window is Sunday 02:00 to 04:00. The engineer proposes starting at 02:00 and finishing by 05:00, because nobody uses the system overnight. The backout takes ninety minutes. What is the best response?",
     "options": [
       {"id": "a", "text": "Proceed as proposed, because downtime outside business hours does not need stakeholder agreement", "misconception": "change-management-elements", "why": "The window is an agreement with the stakeholders, not only a time with low traffic. Overrunning it breaks that agreement and may collide with other jobs."},
-      {"id": "b", "text": "Do not start as planned: size the window for the change, validation and backout, or agree an extension with stakeholders", "correct": true, "why": "A window sized only for the happy path leaves no time to reverse a failure before users return. Size it for the worst case that must still end cleanly."},
+      {"id": "b", "text": "Do not start as planned: size the window for change, validation and backout, or agree an extension", "correct": true, "why": "A window sized only for the happy path leaves no time to reverse a failure before users return. Size it for the worst case that must still end cleanly."},
       {"id": "c", "text": "Proceed, and request approval for the overrun afterwards if the change takes longer than expected", "misconception": "change-roles", "why": "Approval after the fact is not approval. It leaves the stakeholders to discover the outage and removes the choice to refuse it."},
       {"id": "d", "text": "Proceed, but skip validation to fit in the window and validate after users return", "misconception": "change-technical-implications", "why": "Skipping validation removes the only check that tells the engineer whether to back out. It trades a planned outage for an unplanned one."}
     ]
@@ -251,7 +251,7 @@
     "options": [
       {"id": "a", "text": "Both options cause the same downtime, so the choice does not matter to the impact analysis", "misconception": "change-technical-implications", "why": "The scope of an interruption is part of the impact. Restarting the service stops every application it hosts, not just the one being changed."},
       {"id": "b", "text": "Restarting the application is always acceptable without a window, because an application restart is not downtime", "misconception": "change-technical-implications", "why": "An application restart is still downtime for that application's users and for anything holding sessions to it. It is narrower, not free."},
-      {"id": "c", "text": "Restarting the application affects one application, restarting the service affects all twelve, so the narrower restart is preferred", "correct": true, "why": "Impact analysis should name what is interrupted. The smaller scope reduces who must be consulted and how long the window needs to be."},
+      {"id": "c", "text": "A restart of the application hits one application; a restart of the service hits all twelve, so prefer the narrower", "correct": true, "why": "Impact analysis should name what is interrupted. The smaller scope reduces who must be consulted and how long the window needs to be."},
       {"id": "d", "text": "Restarting the service is safer, because a clean restart of everything removes any unexpected state", "misconception": "change-technical-implications", "why": "More restarted is more impact, not more safety. Eleven unrelated applications would be interrupted for a change that did not concern them."}
     ]
   },
@@ -263,10 +263,10 @@
     "difficulty": 4,
     "stem": "Firewall configuration is kept in a repository and deployed from it each night. An engineer fixes an urgent fault by editing the live firewall directly, which opens a port. The next night's deployment overwrites the edit and the fault returns. Which practice would have prevented the problem?",
     "options": [
-      {"id": "a", "text": "Make the repository the only route for changes, and alert on drift between a device and the repository", "correct": true, "why": "A change made outside the repository is invisible to the process that owns the configuration. Making the repository the only route, with drift detection, closes the gap."},
-      {"id": "b", "text": "Stopping the automated deployment so that only manual changes reach the device", "misconception": "automation-benefits-vs-risks", "why": "Automation was not the cause. A manual-only process is the one that allows an edit nobody else can see."},
-      {"id": "c", "text": "Updating the network diagram after each emergency edit to the firewall", "misconception": "change-documentation", "why": "A diagram describes the network, but it does not control what is deployed. It would document the drift, not prevent it."},
-      {"id": "d", "text": "Adding the engineer to the approving group, so that urgent edits are pre-approved", "misconception": "change-roles", "why": "Pre-approval of the person does not put the change in the repository, so the overwrite would happen anyway. It also weakens separation of roles."}
+      {"id": "a", "text": "Make the repository the only route for changes, and alert on drift from it", "correct": true, "why": "A change made outside the repository is invisible to the process that owns the configuration. Making the repository the only route, with drift detection, closes the gap."},
+      {"id": "b", "text": "Stop the automated deployment so that only manual changes reach the device", "misconception": "automation-benefits-vs-risks", "why": "Automation was not the cause. A manual-only process is the one that allows an edit nobody else can see."},
+      {"id": "c", "text": "Update the network diagram after each emergency edit made to the firewall", "misconception": "change-documentation", "why": "A diagram describes the network, but it does not control what is deployed. It would document the drift, not prevent it."},
+      {"id": "d", "text": "Add the engineer to the approving group, so that urgent edits are pre-approved", "misconception": "change-roles", "why": "Pre-approval of the person does not put the change in the repository, so the overwrite would happen anyway. It also weakens separation of roles."}
     ]
   },
   {
@@ -278,7 +278,7 @@
     "stem": "On the same day the change manager receives two requests: add a vendor's remote support tool to the endpoint application allow list for 3,000 laptops, and add a newly reported malicious domain to the web proxy deny list. Which statement best describes how they should be handled?",
     "options": [
       {"id": "a", "text": "Both should receive the same full review, because every list entry changes a production security control", "misconception": "change-management-elements", "why": "Treating a routine blocking entry like an expansion of what may run is how a process becomes too slow to use, and people then bypass it."},
-      {"id": "b", "text": "The allow list request needs closer review because it widens what may run; the deny list entry can follow a standard procedure", "correct": true, "why": "Adding to an allow list expands exposure and compatibility risk. Blocking a known-bad domain narrows it, so it suits a standard change with a record."},
+      {"id": "b", "text": "Typically the allow list request deserves closer review because it widens what may run; the deny list entry can follow a standard procedure", "correct": true, "why": "Adding to an allow list expands exposure and compatibility risk. Blocking a known-bad domain narrows it, so it suits a standard change with a record."},
       {"id": "c", "text": "Neither needs a change record, because lists are data rather than configuration", "misconception": "change-technical-implications", "why": "A list entry decides what runs or is reachable. A wrong entry can break an application or open a path, so it is a change."},
       {"id": "d", "text": "The deny list request needs the closer review, because blocking can cut off users, and allow lists only ever make things safer", "misconception": "allow-list-vs-deny-list", "why": "An allow list is a restriction on the default, but each entry is an exception to it and widens what is permitted."}
     ]
@@ -291,10 +291,10 @@
     "difficulty": 5,
     "stem": "A change was approved four months ago, but its schedule slipped. Since then another approved change replaced the load balancer in front of the target system. The engineer wants to proceed tonight under the original approval, saying nothing in the request has changed. What is the right action?",
     "options": [
-      {"id": "a", "text": "Proceed, because an approved change stays approved until the change record is closed", "misconception": "change-management-elements", "why": "Approval is given for the system as it was assessed. When the system has changed, the analysis the approval rested on may no longer hold."},
-      {"id": "b", "text": "Proceed, and notify the stakeholders so that they are informed of the new date", "misconception": "change-roles", "why": "Stakeholders are consulted and informed, but they do not approve. Telling them does not renew an approval whose basis has moved."},
-      {"id": "c", "text": "Return it for a refreshed impact analysis that includes the new load balancer, and have the approver confirm before work starts", "correct": true, "why": "The load balancer changed the dependencies. A fresh analysis and a new approval keep the sequence of analysis, approval, then implementation."},
-      {"id": "d", "text": "Ask the system owner to confirm verbally that the old approval still stands", "misconception": "change-roles", "why": "The owner is accountable for the asset but is not the approving authority. A verbal confirmation also leaves no record."}
+      {"id": "a", "text": "Proceed, because an approved change stays approved until the change record is closed out", "misconception": "change-management-elements", "why": "Approval is given for the system as it was assessed. When the system has changed, the analysis the approval rested on may no longer hold."},
+      {"id": "b", "text": "Proceed, and notify the stakeholders so that they are informed of the new date for the work", "misconception": "change-roles", "why": "Stakeholders are consulted and informed, but they do not approve. Telling them does not renew an approval whose basis has moved."},
+      {"id": "c", "text": "Return it for a refreshed impact analysis including the new load balancer, with approver confirmation", "correct": true, "why": "The load balancer changed the dependencies. A fresh analysis and a new approval keep the sequence of analysis, approval, then implementation."},
+      {"id": "d", "text": "Ask the system owner to confirm verbally that the old approval still stands for this change", "misconception": "change-roles", "why": "The owner is accountable for the asset but is not the approving authority. A verbal confirmation also leaves no record."}
     ]
   },
   {
@@ -308,7 +308,7 @@
       {"id": "a", "text": "The backout plan, because the second change should have been reversed", "misconception": "change-management-elements", "why": "A backout may well have been available, but the failure was not that a change could not be undone. It was that nobody saw the two interacting."},
       {"id": "b", "text": "The standard operating procedure, because the certificate renewal should have been a standard change", "misconception": "change-management-elements", "why": "A standard change would have skipped analysis altogether, which makes it less likely that the interaction is noticed."},
       {"id": "c", "text": "The stakeholder notification, because the application team was not told about either change", "misconception": "change-roles", "why": "Telling people helps them prepare, but it would not have exposed the dependency between two changes."},
-      {"id": "d", "text": "The impact analysis, because it examined each change alone and ignored dependencies between changes in the same window", "correct": true, "why": "Dependencies include other changes. A combined view of the change calendar for the window would have shown that one change alters what the other relies on."}
+      {"id": "d", "text": "The impact analysis, because it examined each change alone and ignored dependencies between them", "correct": true, "why": "Dependencies include other changes. A combined view of the change calendar for the window would have shown that one change alters what the other relies on."}
     ]
   },
   {
@@ -319,10 +319,10 @@
     "difficulty": 4,
     "stem": "A change disables TLS 1.0 on all internal servers to meet a new standard. Lab test results show every modern application working. A finance application written years ago, which the vendor no longer supports, is not in the lab and is known to require TLS 1.0. What is the best next step?",
     "options": [
-      {"id": "a", "text": "Proceed, because the test results show success and the standard requires the change", "misconception": "change-management-elements", "why": "The test results say nothing about an application that was not tested. The standard sets the goal but does not remove the need to know what will break."},
-      {"id": "b", "text": "Treat the legacy application as a known dependency, then test it or agree a recorded, time-limited exception before approving", "correct": true, "why": "A legacy system that cannot be updated is a known dependency that testing missed. It must be assessed and either protected or excepted in a way that is recorded."},
+      {"id": "a", "text": "Proceed, because the test results show success and the standard requires the change to be made", "misconception": "change-management-elements", "why": "The test results say nothing about an application that was not tested. The standard sets the goal but does not remove the need to know what will break."},
+      {"id": "b", "text": "Treat the legacy application as a known dependency; test it or agree a recorded, time-limited exception first", "correct": true, "why": "A legacy system that cannot be updated is a known dependency that testing missed. It must be assessed and either protected or excepted in a way that is recorded."},
       {"id": "c", "text": "Disable TLS 1.0 only on the servers the finance application does not use, and do not record the reason", "misconception": "change-documentation", "why": "Leaving it hidden means the exposure continues with no record, and the standard is silently not met."},
-      {"id": "d", "text": "Ask the finance team to approve the change, since they are the affected stakeholders", "misconception": "change-roles", "why": "Stakeholders are consulted, but their agreement does not tell anyone whether the application will work, and it does not create the missing test."}
+      {"id": "d", "text": "Ask the finance team to approve the change, since they are the affected stakeholders in this case", "misconception": "change-roles", "why": "Stakeholders are consulted, but their agreement does not tell anyone whether the application will work, and it does not create the missing test."}
     ]
   },
   {

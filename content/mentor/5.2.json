@@ -3,7 +3,7 @@
     "id": "sle-ale-aro",
     "label": "SLE, ARO and ALE",
     "objective": "5.2",
-    "topics": ["single-loss-expectancy-sle", "annualized-loss-expectancy-ale", "annualized-rate-of-occurrence-aro", "exposure-factor", "quantitative-risk-analysis"],
+    "topics": ["single-loss-expectancy", "annualized-loss-expectancy", "annualized-rate-of-occurrence", "exposure-factor-2", "quantitative-risk-analysis"],
     "severity": "high",
     "mentor": {
       "diagnosis": "You mixed up the per incident figure with the yearly figure, or forgot the exposure factor.",
@@ -24,7 +24,7 @@
     "id": "rto-vs-rpo",
     "label": "RTO vs RPO vs MTTR vs MTBF",
     "objective": "5.2",
-    "topics": ["recovery-time-objective-rto", "recovery-point-objective-rpo", "mean-time-to-repair-mttr", "mean-time-between-failures-mtbf", "business-impact-analysis"],
+    "topics": ["recovery-time-objective", "recovery-point-objective", "mean-time-to-repair", "mean-time-between-failures", "business-impact-analysis"],
     "severity": "high",
     "mentor": {
       "diagnosis": "You read one of these as another. Two are targets you choose, two are measurements you observe.",
@@ -44,7 +44,7 @@
     "id": "risk-appetite-vs-tolerance",
     "label": "Risk appetite vs risk tolerance vs risk threshold",
     "objective": "5.2",
-    "topics": ["risk-appetite", "risk-tolerance", "risk-threshold", "risk-register"],
+    "topics": ["risk-appetite", "risk-tolerance-2", "risk-threshold", "risk-register"],
     "severity": "low",
     "mentor": {
       "diagnosis": "You used appetite and tolerance as synonyms. Appetite is strategic and broad, tolerance is the acceptable variance around it.",
@@ -63,7 +63,7 @@
     "id": "risk-treatment-strategies",
     "label": "Transfer vs accept vs avoid vs mitigate",
     "objective": "5.2",
-    "topics": ["transfer", "accept", "avoid", "mitigate", "exemption", "exception", "insurance"],
+    "topics": ["transfer", "accept", "avoid", "mitigate", "exemption", "exception"],
     "severity": "high",
     "mentor": {
       "diagnosis": "You named a treatment that does not match what the organisation actually did with the risk.",
@@ -104,7 +104,7 @@
     "id": "bia-vs-risk-assessment",
     "label": "Business impact analysis vs risk assessment",
     "objective": "5.2",
-    "topics": ["business-impact-analysis", "risk-identification", "risk-assessment", "recovery-time-objective-rto", "recovery-point-objective-rpo"],
+    "topics": ["business-impact-analysis", "risk-identification", "risk-assessment", "recovery-time-objective", "recovery-point-objective"],
     "severity": "medium",
     "mentor": {
       "diagnosis": "You confused the exercise that identifies threats with the one that measures what disruption costs.",
@@ -197,6 +197,103 @@
       "rule": "Risk is likelihood combined with impact. Qualitative work uses words and a matrix; quantitative work uses numbers and produces SLE, ARO and ALE. Exposure factor only exists on the quantitative side.",
       "tell": "A scale of high, medium and low points to qualitative. A percentage of asset value or a figure per year points to quantitative.",
       "trap": "Qualitative analysis is often treated as the inferior version. It is the right method when reliable numbers do not exist, and inventing numbers to look rigorous is the worse error."
+    }
+  },
+  {
+    "id": "kri-vs-kpi",
+    "label": "Key risk indicator vs key performance indicator",
+    "objective": "5.2",
+    "topics": ["key-risk-indicators", "risk-threshold"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated a measure of how well a team performs as a measure of how exposed the organization is.",
+      "contrast": [
+        ["", "Key risk indicator", "Key performance indicator"],
+        ["Asks", "Is exposure rising?", "Is the work being done well?"],
+        ["Moves", "Before a loss, as a warning", "As output or speed changes"],
+        ["Example", "Accounts of leavers still active after 7 days", "Tickets closed per week"],
+        ["Used with", "An alert level or threshold", "A target"]
+      ],
+      "rule": "A key risk indicator is a number that rises or falls as a specific risk grows, watched against an alert level.",
+      "tell": "If a stem says early warning, trending, or before an incident, it describes a key risk indicator.",
+      "trap": "Training completion and ticket speed sound like security measures. They describe effort, not exposure."
+    }
+  },
+  {
+    "id": "identification-vs-assessment",
+    "label": "Risk identification vs risk assessment",
+    "objective": "5.2",
+    "topics": ["risk-identification", "risk-assessment"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You blurred finding a risk with scoring it. They are two separate steps, done in order.",
+      "contrast": [
+        ["", "Identification", "Assessment"],
+        ["Question", "What could go wrong?", "How likely, and how bad?"],
+        ["Output", "A list of risks", "A rating on each risk"],
+        ["Methods", "Workshops, interviews, incident history", "Likelihood and impact, or SLE and ARO"],
+        ["Comes", "First", "Second"]
+      ],
+      "rule": "Identification produces the list. Assessment puts a score on each entry. Nothing can be scored before it is listed.",
+      "tell": "If nobody has scored anything yet, the step is identification. If a likelihood or an impact is being chosen, it is assessment.",
+      "trap": "Interviewing owners and reading old incidents feel like analysis, but they only add entries to the list."
+    }
+  },
+  {
+    "id": "inherent-vs-residual",
+    "label": "Inherent risk vs residual risk",
+    "objective": "5.2",
+    "topics": ["risk-assessment", "risk-appetite"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You swapped the risk before controls with the risk after them.",
+      "contrast": [
+        ["", "Inherent risk", "Residual risk"],
+        ["When", "Before any control", "After controls are applied"],
+        ["Size", "Usually the higher figure", "Usually the lower figure"],
+        ["Compared with", "Shows what the controls are worth", "Appetite, to decide if more is needed"]
+      ],
+      "rule": "Inherent is raw exposure with no controls. Residual is what is left once controls are working.",
+      "tell": "Words like before controls or no controls yet point to inherent. After the controls went in points to residual.",
+      "trap": "Residual risk is never zero. It is the figure the owner accepts, treats further, or escalates."
+    }
+  },
+  {
+    "id": "risk-register-and-owner",
+    "label": "The risk register and the risk owner",
+    "objective": "5.2",
+    "topics": ["risk-register", "risk-owners"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You reached for a different document, or a different cause, when the point was the register and who answers for each entry.",
+      "contrast": [
+        ["", "Risk register", "Risk owner"],
+        ["What it is", "The living list of risks with rating and response", "The person accountable for one risk"],
+        ["Holds", "Score, owner, treatment, status", "The duty to develop and carry out the response"],
+        ["Failure", "Out of date, so nobody trusts it", "Unnamed, so nothing happens"]
+      ],
+      "rule": "Every register entry has a named owner. An entry with no owner is not being managed.",
+      "tell": "A stem about a list with scores and owners is the register. A stem about stalled action points to a missing owner.",
+      "trap": "A business impact analysis and an incident response plan are real documents, but neither tracks risks and who handles them."
+    }
+  },
+  {
+    "id": "risk-reporting-audience",
+    "label": "What risk reporting is for",
+    "objective": "5.2",
+    "topics": ["risk-reporting", "risk-threshold"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You chose detail or timing that does not help a decision maker act.",
+      "contrast": [
+        ["", "Useful report", "Not useful"],
+        ["Content", "Top risks, rating against threshold, trend, owner, status", "Raw scanner output or packet captures"],
+        ["Timing", "Recurring, so a rising rating is seen early", "Only after an incident"],
+        ["Reader", "Someone who must decide", "Someone who must wade through evidence"]
+      ],
+      "rule": "Report conclusions and trends to the people who decide. Keep the evidence with the owner.",
+      "tell": "If the reader is an executive, the right answer is a short view of rating, direction, owner and what is being done.",
+      "trap": "More detail feels more thorough. For a decision maker it hides the one fact that matters."
     }
   }
 ]

@@ -63,9 +63,9 @@
     "difficulty": 4,
     "stem": "A SOC dashboard shows a spike in failed authentications at 03:00 four days ago. The analyst wants the individual attempts: usernames, source addresses and exact times. What should they do?",
     "options": [
-      {"id": "a", "text": "Query the underlying raw log data, since the dashboard shows an aggregate over a rolling window", "correct": true, "why": "A dashboard is a view, not a source. Aggregation is what makes it readable and also what removes the per-event detail an investigation needs."},
+      {"id": "a", "text": "Query the raw log data the dashboard is built on", "correct": true, "why": "A dashboard is a view, not a source: it shows an aggregate over a rolling window. Aggregation is what makes it readable and also what removes the per-event detail an investigation needs."},
       {"id": "b", "text": "Export the dashboard panel, which contains the source events", "misconception": "investigation-derived-sources", "why": "Exporting a chart gives you the chart. The counts behind a bar are not the events behind the counts."},
-      {"id": "c", "text": "Re-run the scheduled automated report for that day", "misconception": "investigation-derived-sources", "why": "A report is another summary. It may confirm the spike and still will not name the accounts."},
+      {"id": "c", "text": "Re-run the scheduled automated report covering that day", "misconception": "investigation-derived-sources", "why": "A report is another summary. It may confirm the spike and still will not name the accounts."},
       {"id": "d", "text": "Run a vulnerability scan against the affected authentication server", "misconception": "investigation-derived-sources", "why": "That describes weaknesses that exist now. It says nothing about what happened four days ago."}
     ]
   },
@@ -77,10 +77,10 @@
     "difficulty": 3,
     "stem": "During an investigation a team retrieves a vulnerability scan report produced three weeks before the breach. What does this evidence actually establish?",
     "options": [
-      {"id": "a", "text": "That the exploited weakness existed and was known about beforehand, which speaks to the organisation's response rather than to the attacker's actions", "correct": true, "why": "A scan is a point-in-time statement of what was possible. It is powerful for root cause and accountability, and it is not a record of the event."},
+      {"id": "a", "text": "That the weakness was present and known before the breach", "correct": true, "why": "A scan is a point-in-time statement of what was possible. It speaks to the organization's response rather than to the attacker's actions: powerful for root cause and accountability, and not a record of the event. Scans show exposure; logs show events."},
       {"id": "b", "text": "That the attacker used this specific vulnerability to gain access", "misconception": "investigation-derived-sources", "why": "The scan cannot connect a listed weakness to an actual intrusion. That requires logs showing the exploitation."},
-      {"id": "c", "text": "The time at which the compromise began", "misconception": "investigation-derived-sources", "why": "A scan has no view of attacker activity, so it cannot bound a timeline."},
-      {"id": "d", "text": "Which accounts the attacker used after gaining access", "misconception": "log-source-selection", "why": "That comes from OS security logs and application logs, not from a scan."}
+      {"id": "c", "text": "The time at which the attacker's compromise of the host began", "misconception": "investigation-derived-sources", "why": "A scan has no view of attacker activity, so it cannot bound a timeline."},
+      {"id": "d", "text": "Which accounts the attacker used after first gaining access", "misconception": "log-source-selection", "why": "That comes from OS security logs and application logs, not from a scan."}
     ]
   },
   {
@@ -91,10 +91,10 @@
     "difficulty": 4,
     "stem": "An analyst wants to know how much data left the network to a suspicious address over the past month, and when. No packet capture was running. What is the best available source?",
     "options": [
-      {"id": "a", "text": "Network flow records, which hold the metadata: endpoints, volume, and timing without content", "correct": true, "why": "Flow data is the standard answer for historical 'who talked to whom and how much'. It is small enough to retain for months, which is exactly why it survives when captures do not."},
+      {"id": "a", "text": "Network flow records for that period", "correct": true, "why": "Flow data is the standard answer for historical 'who talked to whom and how much': endpoints, volume and timing without content. It is small enough to retain for months, which is exactly why it survives when captures do not."},
       {"id": "b", "text": "Retrospective packet capture from the span port", "misconception": "log-source-selection", "why": "Captures exist only if they were running at the time. You cannot capture the past."},
-      {"id": "c", "text": "Endpoint logs from every workstation", "misconception": "log-source-selection", "why": "Possible in principle and impractical across a month and an estate, and it misses anything without an agent."},
-      {"id": "d", "text": "The SOC dashboard's egress panel", "misconception": "investigation-derived-sources", "why": "A dashboard will likely not retain a month, and its aggregation hides the per-destination detail."}
+      {"id": "c", "text": "Endpoint logs from every workstation in the estate", "misconception": "log-source-selection", "why": "Possible in principle and impractical across a month and an estate, and it misses anything without an agent."},
+      {"id": "d", "text": "The SOC dashboard's egress traffic panel", "misconception": "investigation-derived-sources", "why": "A dashboard will likely not retain a month, and its aggregation hides the per-destination detail."}
     ]
   },
   {
@@ -105,11 +105,11 @@
     "difficulty": 4,
     "stem": "A process on a workstation wrote a file to a user profile and then established an outbound connection. Which TWO sources together best evidence that sequence? (Choose two.)",
     "options": [
-      {"id": "a", "text": "Endpoint detection logs showing process lineage, the file write and the connection attempt", "correct": true, "why": "EDR is built to tie a process to its own file and network activity, which is the only place the sequence exists as one story."},
-      {"id": "b", "text": "Firewall logs confirming whether that outbound connection was permitted", "correct": true, "why": "The endpoint shows the attempt; the firewall shows the verdict. Together they establish both intent and outcome."},
-      {"id": "c", "text": "The SOC dashboard's malware panel for that day", "misconception": "investigation-derived-sources", "why": "An aggregate view, useful for noticing and useless for reconstructing a single host's sequence."},
-      {"id": "d", "text": "Application logs from the organisation's ERP system", "misconception": "log-source-selection", "why": "Unrelated to this host's process and file activity."},
-      {"id": "e", "text": "A vulnerability scan of the workstation", "misconception": "investigation-derived-sources", "why": "Describes what was possible on the host, not what the process actually did."}
+      {"id": "a", "text": "EDR logs tying the process to its file write and connection", "correct": true, "why": "EDR is built to tie a process to its own file and network activity, which is the only place the sequence exists as one story."},
+      {"id": "b", "text": "Firewall logs showing whether that connection was permitted", "correct": true, "why": "The endpoint shows the attempt; the firewall shows the verdict. Together they establish both intent and outcome."},
+      {"id": "c", "text": "The SOC dashboard's malware panel covering that whole day", "misconception": "investigation-derived-sources", "why": "An aggregate view, useful for noticing and useless for reconstructing a single host's sequence."},
+      {"id": "d", "text": "Application logs from the organization's ERP system for that user", "misconception": "log-source-selection", "why": "Unrelated to this host's process and file activity."},
+      {"id": "e", "text": "A vulnerability scan of the workstation taken that same week", "misconception": "investigation-derived-sources", "why": "Describes what was possible on the host, not what the process actually did."}
     ],
     "selectCount": 2
   },
@@ -121,11 +121,11 @@
     "difficulty": 5,
     "stem": "Reviewing a suspected intrusion, which THREE findings are indicators of compromise rather than ordinary operations? (Choose three.)",
     "options": [
-      {"id": "a", "text": "A security log with no entries for a 45 minute window while the host was running", "correct": true, "why": "A running host generates events. A gap is positive evidence something removed them."},
-      {"id": "b", "text": "A signed Microsoft binary loading a DLL from a user's AppData directory", "correct": true, "why": "Legitimate binaries do not normally load code from a user profile. This is the classic living-off-the-land pattern."},
-      {"id": "c", "text": "Outbound connections to one host on a fixed 60 second interval for nine days", "correct": true, "why": "Machine-regular timing to a single destination is beaconing, not human browsing."},
-      {"id": "d", "text": "A server showing sustained high CPU and slow response", "misconception": "compromised-vs-affected", "why": "A symptom of load. It is as likely to be a victim of the incident as a participant in it."},
-      {"id": "e", "text": "An antivirus full scan completing with zero detections", "misconception": "edr-vs-antivirus", "why": "A clean signature scan proves nothing when the technique has no signature. It is not itself an indicator."}
+      {"id": "a", "text": "A 45 minute gap in the security log while the host was running", "correct": true, "why": "A running host generates events. A gap is positive evidence something removed them."},
+      {"id": "b", "text": "A signed Microsoft binary loading a DLL from a user's AppData", "correct": true, "why": "Legitimate binaries do not normally load code from a user profile. This is the classic living-off-the-land pattern."},
+      {"id": "c", "text": "Outbound connections to one host every 60 seconds for nine days", "correct": true, "why": "Machine-regular timing to a single destination is beaconing, not human browsing."},
+      {"id": "d", "text": "A server showing sustained high CPU and slow response times all week", "misconception": "compromised-vs-affected", "why": "A symptom of load. It is as likely to be a victim of the incident as a participant in it."},
+      {"id": "e", "text": "An antivirus full scan completing with zero detections on the host", "misconception": "edr-vs-antivirus", "why": "A clean signature scan proves nothing when the technique has no signature. It is not itself an indicator."}
     ],
     "selectCount": 3
   },
@@ -153,7 +153,7 @@
     "options": [
       {"id": "a", "text": "The server is compromised; the file share is affected", "correct": true, "why": "Resident malware and persistence are evidence of compromise. The share only shows the effects of someone else's actions."},
       {"id": "b", "text": "Both are compromised because both appear in the incident", "misconception": "compromised-vs-affected", "why": "Appearing in the timeline is not evidence of compromise. Rebuilding hosts with no malicious artefacts wastes effort and hides the real scope."},
-      {"id": "c", "text": "Neither is compromised until a vulnerability scan is run", "misconception": "investigation-derived-sources", "why": "A scan reports weaknesses, not intrusions. The artefacts already found on the server are the evidence."},
+      {"id": "c", "text": "Neither is compromised until a vulnerability scan is run", "misconception": "compromised-vs-affected", "why": "A scan reports weaknesses, not intrusions. The artefacts already found on the server are the evidence."},
       {"id": "d", "text": "Only the file share is compromised because its data was changed", "misconception": "compromised-vs-affected", "why": "Changed data is an effect. The share was the victim; the foothold is on the server."}
     ]
   },
@@ -180,7 +180,7 @@
     "stem": "A dashboard shows authentication failures peaked at 03:00. An investigator must prove which source address was responsible and for which accounts. What is the correct next step?",
     "options": [
       {"id": "a", "text": "Pull the underlying authentication logs for that window", "correct": true, "why": "Dashboards and reports summarise. Per-event evidence such as source address and account comes from the underlying logs."},
-      {"id": "b", "text": "Screenshot the dashboard as the evidence", "misconception": "investigation-derived-sources", "why": "A chart is derived from data and cannot show individual source addresses or accounts. It is a pointer, not proof."},
+      {"id": "b", "text": "Screenshot the dashboard panel and keep it as the evidence", "misconception": "investigation-derived-sources", "why": "A chart is derived from data and cannot show individual source addresses or accounts. It is a pointer, not proof."},
       {"id": "c", "text": "Rescan the authentication server for vulnerabilities", "misconception": "investigation-derived-sources", "why": "A scan finds weaknesses now. It does not explain what happened at 03:00."},
       {"id": "d", "text": "Treat every host that logged a failure as compromised", "misconception": "compromised-vs-affected", "why": "Failed attempts show a host was targeted, not that it was breached."}
     ]
@@ -209,7 +209,7 @@
     "options": [
       {"id": "a", "text": "That the attack succeeded, because an IDS only raises an alert on traffic that actually reached its target", "misconception": "log-source-selection", "why": "A passive sensor sees a copy of the traffic. It alerts on a signature match whether or not the server accepted the request."},
       {"id": "b", "text": "That the attack was blocked, because a signature match always stops the traffic before it reaches the server", "misconception": "ids-vs-ips-placement", "why": "Blocking is what an in-line IPS does. A passive IDS on a mirror port detects and records only."},
-      {"id": "c", "text": "That a matching exploit attempt crossed the network; whether it worked has to be checked in the server's own logs", "correct": true, "why": "A detection event is evidence of an attempt. The outcome is shown by the systems that received it."},
+      {"id": "c", "text": "That a matching exploit attempt crossed the network; the server's own logs show if it worked", "correct": true, "why": "A detection event is evidence of an attempt. The outcome is shown by the systems that received it. Passive sensor: it saw the attack, it did not stop it."},
       {"id": "d", "text": "Nothing yet, because signature alerts can be ignored until a second sensor has confirmed them", "misconception": "log-source-selection", "why": "A signature match is evidence to be followed up, not discarded, and it gives a time and target to search on."}
     ]
   },
@@ -221,7 +221,7 @@
     "difficulty": 3,
     "stem": "Investigators hold a full packet capture of a suspected exfiltration session. The traffic is TLS encrypted and they do not have the keys. What can they still establish from the capture?",
     "options": [
-      {"id": "a", "text": "The endpoints, timing, packet sizes and volume, which show where, when and how much data moved, but not what it was", "correct": true, "why": "Encryption protects the payload, not the addressing or the pattern of the conversation."},
+      {"id": "a", "text": "The endpoints, timing, packet sizes and volume: where, when and how much, not what", "correct": true, "why": "Encryption protects the payload, not the addressing or the pattern of the conversation. Encrypted hides the what, not the who, when or how much."},
       {"id": "b", "text": "The exact files that were sent, by reassembling the packets in the capture back into whole files", "misconception": "log-source-selection", "why": "Reassembly recovers only ciphertext without the keys."},
       {"id": "c", "text": "Which user account performed the transfer, from the identity carried in the packets", "misconception": "log-source-selection", "why": "Packets carry addresses, not accounts. Identity comes from endpoint, application or authentication logs."},
       {"id": "d", "text": "Nothing at all, because a capture of encrypted traffic cannot be used as evidence", "misconception": "log-source-selection", "why": "The capture remains valid evidence of the connection and its size and timing, even though the content is unreadable."}
@@ -236,7 +236,7 @@
     "stem": "An analyst merges firewall and endpoint logs and finds that the endpoint records a malicious download seven minutes before the firewall allowed that connection, which cannot be true. Both sources are in the same time zone, and every other event the two have in common shows the same seven minute gap. What should be dealt with before drawing any conclusion?",
     "options": [
       {"id": "a", "text": "The firewall's rule log, which should be ignored altogether because its timing is clearly wrong", "misconception": "log-source-selection", "why": "Discarding a source on one inconsistency throws away evidence and does not explain it."},
-      {"id": "b", "text": "Unsynchronized clocks, so the timestamps need to be normalized to a common time source before the logs are correlated", "correct": true, "why": "A fixed offset between sources points to clock drift. Correlation depends on consistent time, so it must be corrected for first."},
+      {"id": "b", "text": "Unsynchronized clocks, so normalize the timestamps to a common source before correlating", "correct": true, "why": "A fixed offset between sources points to clock drift. Correlation depends on consistent time, so it must be corrected for first."},
       {"id": "c", "text": "Tampering with the endpoint log by the attacker, so the endpoint data should be discarded", "misconception": "compromised-vs-affected", "why": "Tampering is possible, but a consistent seven minute offset is more simply explained by clocks. Conclusions should wait until the offset is checked."},
       {"id": "d", "text": "A slow download that finished seven minutes after the firewall made its decision", "misconception": "log-source-selection", "why": "The stem says the endpoint recorded the event before the firewall allowed the connection, which a slow download cannot explain."}
     ]
@@ -252,7 +252,7 @@
       {"id": "a", "text": "Treat the scan results as proof that the other hosts running the same software were also exploited by the attacker", "misconception": "compromised-vs-affected", "why": "A scan shows exposure, not exploitation. Finding the same weakness elsewhere makes those hosts at risk, not compromised."},
       {"id": "b", "text": "Use the scan results to show what the attacker actually did on the web server after exploiting it", "misconception": "investigation-derived-sources", "why": "A scan describes the state of the system. What was done on it is shown by logs."},
       {"id": "c", "text": "Skip scanning altogether, because only logs have any value in an investigation", "misconception": "investigation-derived-sources", "why": "Scan data answers a different question, where else the weakness exists, and is valuable for scoping."},
-      {"id": "d", "text": "Rerun scans for every host with the same software to find other exposed systems, then check their logs", "correct": true, "why": "The scan scopes the exposure and the logs establish whether any of it was used."}
+      {"id": "d", "text": "Rerun scans for every host with the same software to find other exposed systems, then check their logs", "correct": true, "why": "The scan scopes the exposure and the logs establish whether any of it was used. Scans find where else it could happen; logs show where it did."}
     ]
   },
   {
@@ -263,11 +263,11 @@
     "difficulty": 3,
     "stem": "An investigator is using a SOC dashboard to understand an incident. Which TWO limitations must be allowed for? (Choose two.)",
     "options": [
-      {"id": "a", "text": "It cannot be used to notice unusual activity", "misconception": "investigation-derived-sources", "why": "Noticing trends and anomalies is exactly what dashboards are good for."},
-      {"id": "b", "text": "It shows aggregated, summarized data, so individual events must be retrieved from the underlying logs", "correct": true, "why": "The panels hide the detail. Evidence about particular events lives in the logs the dashboard is built on."},
-      {"id": "c", "text": "It stores a complete copy of every raw event", "misconception": "investigation-derived-sources", "why": "Dashboards display the results of queries. They are not the system of record for the raw data."},
-      {"id": "d", "text": "It shows only what its queries and rules were built to show, so nothing on the screen does not mean nothing happened", "correct": true, "why": "An absent pattern may only mean that no one built a panel for it."},
-      {"id": "e", "text": "Its figures are accepted as the original evidence without the logs", "misconception": "investigation-derived-sources", "why": "A derived view is not the original evidence, and what it shows has to be traceable to the logs."}
+      {"id": "a", "text": "It cannot be used to notice unusual activity or emerging trends", "misconception": "investigation-derived-sources", "why": "Noticing trends and anomalies is exactly what dashboards are good for."},
+      {"id": "b", "text": "Its panels are aggregates, so single events must come from the logs", "correct": true, "why": "The panels hide the detail. Evidence about particular events lives in the logs the dashboard is built on."},
+      {"id": "c", "text": "It keeps a complete copy of every raw event behind its panels", "misconception": "investigation-derived-sources", "why": "Dashboards display the results of queries. They are not the system of record for the raw data."},
+      {"id": "d", "text": "It shows only what its queries look for, so a quiet panel proves nothing", "correct": true, "why": "An absent pattern may only mean that no one built a panel for it. Nothing on the screen does not mean nothing happened."},
+      {"id": "e", "text": "Its figures can be accepted as the original evidence, without checking logs", "misconception": "investigation-derived-sources", "why": "A derived view is not the original evidence, and what it shows has to be traceable to the logs."}
     ],
     "selectCount": 2
   },
@@ -279,11 +279,11 @@
     "difficulty": 4,
     "stem": "An analyst believes an attacker moved from a compromised workstation to a file server over RDP at 01:20. Which TWO sources best evidence that movement? (Choose two.)",
     "options": [
-      {"id": "a", "text": "The file server's OS security logs showing a remote logon, the account used and the source address", "correct": true, "why": "The receiving system records who logged on, how and from where. It is the strongest evidence of the movement."},
-      {"id": "b", "text": "The vulnerability scan of the file server from last month", "misconception": "investigation-derived-sources", "why": "A scan shows what was possible then, not what happened at 01:20."},
-      {"id": "c", "text": "Network or flow records showing the RDP connection between the two hosts at that time", "correct": true, "why": "An independent record of the connection, with source, destination, port and time, corroborates the host log."},
-      {"id": "d", "text": "The SOC dashboard's count of logons per day", "misconception": "investigation-derived-sources", "why": "A daily total cannot show an individual connection at a particular minute."},
-      {"id": "e", "text": "Application logs from the HR system", "misconception": "log-source-selection", "why": "Unrelated to the movement between these two hosts."}
+      {"id": "a", "text": "The file server's security log of the remote logon and source", "correct": true, "why": "The receiving system records who logged on, with which account, how and from where. It is the strongest evidence of the movement."},
+      {"id": "b", "text": "The vulnerability scan of the file server taken last month", "misconception": "investigation-derived-sources", "why": "A scan shows what was possible then, not what happened at 01:20."},
+      {"id": "c", "text": "Flow records of the RDP connection between the hosts at 01:20", "correct": true, "why": "An independent record of the connection, with source, destination, port and time, corroborates the host log."},
+      {"id": "d", "text": "The SOC dashboard's daily count of logons across all the servers", "misconception": "investigation-derived-sources", "why": "A daily total cannot show an individual connection at a particular minute."},
+      {"id": "e", "text": "Application logs from the HR system covering the same night", "misconception": "log-source-selection", "why": "Unrelated to the movement between these two hosts."}
     ],
     "selectCount": 2
   },
@@ -323,7 +323,7 @@
     "difficulty": 3,
     "stem": "An investigator needs to know which user ran privileged commands with sudo on a Linux server, and when. Which source holds that?",
     "options": [
-      {"id": "a", "text": "The Linux authentication log, such as /var/log/auth.log or /var/log/secure", "correct": true, "why": "It records authentication and privilege elevation events with the user and the time. It is the operating system's own security record."},
+      {"id": "a", "text": "The Linux auth log, such as /var/log/auth.log or /var/log/secure", "correct": true, "why": "It records authentication and privilege elevation events with the user and the time. It is the operating system's own security record."},
       {"id": "b", "text": "The Windows Security event log on the domain controller for the network", "misconception": "log-source-selection", "why": "That records Windows logons and directory events. A Linux server's sudo use is logged on the Linux host."},
       {"id": "c", "text": "Firewall logs for the subnet where the server sits", "misconception": "log-source-selection", "why": "A firewall sees connections between hosts, not commands run locally."},
       {"id": "d", "text": "IDS alerts for the server's IP address over the day", "misconception": "log-source-selection", "why": "IDS alerts reflect traffic signatures. Local commands do not cross the network."}
@@ -338,10 +338,10 @@
     "stem": "Analysis must prove that 3 GB of finance files left a file server at 02:00 for an external address, which files they were, and which process on the server sent them. Which THREE sources together best establish this? (Choose three.)",
     "options": [
       {"id": "a", "text": "A vulnerability scan of the file server from the previous week", "misconception": "investigation-derived-sources", "why": "It shows weaknesses that existed, not what was sent."},
-      {"id": "b", "text": "Firewall or flow logs showing the volume and destination of the outbound connection", "correct": true, "why": "They give the amount, the destination and the time, from a point the compromised server does not control."},
-      {"id": "c", "text": "File server access logs showing which files were read in the minutes before", "correct": true, "why": "Object access auditing on the server is the record of which files were touched."},
+      {"id": "b", "text": "Firewall or flow logs showing the outbound volume and destination", "correct": true, "why": "They give the amount, the destination and the time, from a point the compromised server does not control."},
+      {"id": "c", "text": "File server access logs showing which files were read just before", "correct": true, "why": "Object access auditing on the server is the record of which files were touched in the minutes before the transfer."},
       {"id": "d", "text": "The SOC dashboard panel showing total outbound traffic for the day", "misconception": "investigation-derived-sources", "why": "A daily aggregate cannot attribute 3 GB to one host, file set or process."},
-      {"id": "e", "text": "Endpoint logs from the server showing the sending process and its parent", "correct": true, "why": "Process telemetry ties the transfer to a specific program and how it was started."}
+      {"id": "e", "text": "Server endpoint logs showing the sending process and its parent", "correct": true, "why": "Process telemetry ties the transfer to a specific program and how it was started."}
     ],
     "selectCount": 3
   },
@@ -356,7 +356,7 @@
       {"id": "a", "text": "The server is compromised, because 600 attempts from one address prove that at least one succeeded", "misconception": "compromised-vs-affected", "why": "Blocked attempts are evidence of targeting, not of success."},
       {"id": "b", "text": "No further work is needed, because a blocked attempt tells the analyst nothing at all about the server", "misconception": "compromised-vs-affected", "why": "The activity is worth checking, since attackers vary their approach and one variant may not match a signature."},
       {"id": "c", "text": "Rebuild the server immediately, because it was the target of a sustained attack from outside", "misconception": "compromised-vs-affected", "why": "Being the target does not make a host compromised. Rebuilding on this evidence is premature."},
-      {"id": "d", "text": "It was targeted and the attempts were blocked, so it is affected but not shown to be compromised; check its own logs", "correct": true, "why": "The IPS shows attempts and outcomes at its position. The server's own logs show whether anything got past it."}
+      {"id": "d", "text": "It was targeted and the attempts blocked: affected, not shown compromised; check its logs", "correct": true, "why": "The IPS shows attempts and outcomes at its position. The server's own logs show whether anything got past it. Targeted is not compromised."}
     ]
   }
 ]

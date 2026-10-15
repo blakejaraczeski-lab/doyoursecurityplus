@@ -3,7 +3,7 @@
     "id": "agreement-types",
     "label": "SLA vs MOU vs MOA vs MSA vs SOW vs NDA vs BPA",
     "objective": "5.3",
-    "topics": ["service-level-agreement-sla", "memorandum-of-understanding-mou", "memorandum-of-agreement-moa", "master-service-agreement-msa", "work-order-wo-statement-of-work-sow", "non-disclosure-agreement-nda", "business-partners-agreement-bpa"],
+    "topics": ["service-level-agreement", "memorandum-of-understanding", "memorandum-of-agreement", "master-service-agreement", "work-order-statement-of-work", "non-disclosure-agreement", "business-partners-agreement"],
     "severity": "high",
     "mentor": {
       "diagnosis": "You matched on a vague sense of 'contract' rather than on what each document actually fixes.",
@@ -64,6 +64,25 @@
       "rule": "Due diligence is a decision about entering a relationship. Monitoring is how you notice it has changed. A vendor assessed once at signing is a vendor you know nothing current about.",
       "tell": "A supplier breached years into a relationship points to monitoring. A supplier being selected points to due diligence.",
       "trap": "A conflict of interest invalidates the assessment regardless of its findings. An assessor paid by the vendor, or one who also sells them remediation, is not independent, and the exam expects you to notice that before reading the conclusion."
+    }
+  },
+  {
+    "id": "rules-of-engagement-scope",
+    "label": "Rules of engagement and scope",
+    "objective": "5.3",
+    "topics": ["rules-of-engagement"],
+    "severity": "medium",
+    "mentor": {
+      "diagnosis": "You treated reachability or timing as permission. Only what the rules of engagement list is authorized.",
+      "contrast": [
+        ["", "In the rules of engagement", "Not in them"],
+        ["Targets", "Systems named in scope", "Anything else on the same network"],
+        ["Hours", "When testing may happen", "A reason to widen scope"],
+        ["Contacts", "Who to call if something breaks", "A reason to carry on alone"]
+      ],
+      "rule": "If a system is not listed, it is not authorized. Stop and ask the named contact.",
+      "tell": "A tester who finds something interesting outside scope reports it and waits. They do not test it.",
+      "trap": "Proving the finding is real feels responsible. Without authorization it is an unauthorized attack."
     }
   }
 ]

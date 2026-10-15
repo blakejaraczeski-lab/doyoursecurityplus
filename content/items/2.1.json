@@ -21,10 +21,10 @@
     "difficulty": 4,
     "stem": "Attackers copy a customer database, then encrypt the production systems and demand payment both to restore access and to not publish the stolen records. Which motivation best describes the second demand?",
     "options": [
-      {"id": "a", "text": "Blackmail, used as a lever to secure financial gain", "correct": true, "why": "Double extortion: the threat to publish is leverage. The underlying motive is money, and the name for that threat is blackmail."},
-      {"id": "b", "text": "Espionage, since data was exfiltrated", "misconception": "threat-actor-motivations", "why": "Espionage keeps the theft secret because the value is in continued access. Announcing it destroys that value."},
-      {"id": "c", "text": "Service disruption", "misconception": "threat-actor-motivations", "why": "That describes the encryption half. The question asks about the threat to publish."},
-      {"id": "d", "text": "Philosophical or political beliefs", "misconception": "threat-actor-motivations", "why": "No cause or message is involved; the demand is payment."}
+      {"id": "a", "text": "Blackmail, used as a lever to gain money", "correct": true, "why": "Double extortion: the threat to publish is leverage. The underlying motive is money, and the name for that threat is blackmail."},
+      {"id": "b", "text": "Espionage, since data was exfiltrated and kept", "misconception": "threat-actor-motivations", "why": "Espionage keeps the theft secret because the value is in continued access. Announcing it destroys that value."},
+      {"id": "c", "text": "Service disruption, since the systems were encrypted", "misconception": "threat-actor-motivations", "why": "That describes the encryption half. The question asks about the threat to publish."},
+      {"id": "d", "text": "Philosophical or political beliefs of the attackers", "misconception": "threat-actor-motivations", "why": "No cause or message is involved; the demand is payment."}
     ]
   },
   {
@@ -33,12 +33,12 @@
     "objective": "2.1",
     "topics": ["service-disruption", "war", "disruption-chaos"],
     "difficulty": 4,
-    "stem": "During an armed conflict, a neighbouring state's power distribution control systems are hit with destructive malware that wipes controllers. No ransom is demanded and nothing is stolen. Which motivation applies?",
+    "stem": "During an armed conflict, a neighboring state's power distribution control systems are hit with destructive malware that wipes controllers. No ransom is demanded and nothing is stolen. Which motivation applies?",
     "options": [
-      {"id": "a", "text": "War, pursued through service disruption of critical infrastructure", "correct": true, "why": "War is a motivation in its own right. The mechanism is service disruption, and the context of state conflict and critical national infrastructure is what distinguishes it."},
-      {"id": "b", "text": "Disruption and chaos for its own sake", "misconception": "threat-actor-motivations", "why": "That motive has no strategic beneficiary. Here the conflict supplies an obvious one."},
-      {"id": "c", "text": "Financial gain", "misconception": "threat-actor-motivations", "why": "No demand and no monetisation. Wiping controllers destroys value rather than extracting it."},
-      {"id": "d", "text": "Revenge", "misconception": "threat-actor-motivations", "why": "Revenge targets a specific party over a personal grievance, not a state's infrastructure during a conflict."}
+      {"id": "a", "text": "War, carried out as service disruption of infrastructure", "correct": true, "why": "War is a motivation in its own right. The mechanism is service disruption, and the context of state conflict and critical national infrastructure is what distinguishes it. Remember: during war, disruption of infrastructure is a state objective."},
+      {"id": "b", "text": "Disruption and chaos for their own sake, with no wider goal", "misconception": "threat-actor-motivations", "why": "That motive has no strategic beneficiary. Here the conflict supplies an obvious one."},
+      {"id": "c", "text": "Financial gain from selling the access or from extortion", "misconception": "threat-actor-motivations", "why": "No demand and no monetisation. Wiping controllers destroys value rather than extracting it."},
+      {"id": "d", "text": "Revenge against a state that is said to have wronged them", "misconception": "threat-actor-motivations", "why": "Revenge targets a specific party over a personal grievance, not a state's infrastructure during a conflict."}
     ]
   },
   {
@@ -63,10 +63,10 @@
     "difficulty": 3,
     "stem": "Which attribute distinguishes an insider threat from an external attacker who has stolen valid credentials?",
     "options": [
-      {"id": "a", "text": "The insider is legitimately inside the organisation and holds authorised access as part of their role", "correct": true, "why": "Internal versus external is about the actor's relationship to the organisation, not about whether they currently hold working credentials. An outsider with stolen credentials remains external."},
-      {"id": "b", "text": "The insider always acts maliciously", "misconception": "threat-actor-attributes", "why": "Insider threat includes negligence and coercion. Intent is a separate axis from position."},
-      {"id": "c", "text": "The insider has greater technical sophistication", "misconception": "threat-actor-attributes", "why": "Sophistication is its own attribute and varies independently. Many insiders have none."},
-      {"id": "d", "text": "The insider operates from inside the network perimeter", "misconception": "threat-actor-attributes", "why": "Insiders often work remotely, and attackers routinely reach inside the perimeter. Location is not the distinction."}
+      {"id": "a", "text": "The insider legitimately holds authorized access as part of their role", "correct": true, "why": "Internal versus external is about the actor's relationship to the organization, not about whether they currently hold working credentials. An outsider with stolen credentials remains external. Remember: an insider holds legitimate access; an outsider has to get it."},
+      {"id": "b", "text": "The insider always acts maliciously, whereas an outsider never does", "misconception": "threat-actor-attributes", "why": "Insider threat includes negligence and coercion. Intent is a separate axis from position."},
+      {"id": "c", "text": "The insider has greater technical sophistication than any outsider", "misconception": "threat-actor-attributes", "why": "Sophistication is its own attribute and varies independently. Many insiders have none."},
+      {"id": "d", "text": "The insider operates from inside the network perimeter, while outsiders never do", "misconception": "threat-actor-attributes", "why": "Insiders often work remotely, and attackers routinely reach inside the perimeter. Location is not the distinction."}
     ]
   },
   {
@@ -77,10 +77,10 @@
     "difficulty": 4,
     "stem": "An intrusion uses two previously unknown vulnerabilities, custom tooling that matches no public sample, and maintains access for months without detection. Which two actor attributes does this most strongly evidence?",
     "options": [
-      {"id": "a", "text": "High resources and funding, and high sophistication or capability", "correct": true, "why": "Zero-days are expensive to acquire or develop, and custom tooling with long undetected persistence requires sustained skilled effort. These are the two attributes that point to a highly capable actor."},
-      {"id": "b", "text": "Internal position and high sophistication", "misconception": "threat-actor-attributes", "why": "Nothing indicates the actor is inside the organisation."},
-      {"id": "c", "text": "Low resources and high motivation", "misconception": "threat-actor-attributes", "why": "Zero-days and bespoke tooling are the signature of significant funding, not of determination on a budget."},
-      {"id": "d", "text": "High resources and a financial motivation", "misconception": "threat-actor-motivations", "why": "Resources are evidenced; motivation is not stated. The question asks about attributes, and inferring a motive here would be a guess."}
+      {"id": "a", "text": "High resources and funding, and high sophistication", "correct": true, "why": "Zero-days are expensive to acquire or develop, and custom tooling with long undetected persistence requires sustained skilled effort. These are the two attributes that point to a highly capable actor."},
+      {"id": "b", "text": "Internal position and high sophistication of the attacker", "misconception": "threat-actor-attributes", "why": "Nothing indicates the actor is inside the organization."},
+      {"id": "c", "text": "Low resources and high motivation to cause some damage", "misconception": "threat-actor-attributes", "why": "Zero-days and bespoke tooling are the signature of significant funding, not of determination on a budget."},
+      {"id": "d", "text": "High resources and a financial motivation to make money", "misconception": "threat-actor-motivations", "why": "Resources are evidenced; motivation is not stated. The question asks about attributes, and inferring a motive here would be a guess."}
     ]
   },
   {
@@ -103,7 +103,7 @@
     "objective": "2.1",
     "topics": ["disruption-chaos", "service-disruption", "philosophical-political-beliefs"],
     "difficulty": 4,
-    "stem": "A group defaces several unrelated small business websites with crude graphics, makes no demand, steals nothing, and publicises the results for attention. Which motivation fits best?",
+    "stem": "A group defaces several unrelated small business websites with crude graphics, makes no demand, steals nothing, and publicizes the results for attention. No victim or service was singled out; the sites were simply easy to reach. Which motivation fits best?",
     "options": [
       {"id": "a", "text": "Disruption or chaos, including notoriety", "correct": true, "why": "No beneficiary, no demand, no coherent cause, and unrelated targets chosen for availability rather than meaning. Attention is the return."},
       {"id": "b", "text": "Philosophical or political beliefs", "misconception": "threat-actor-motivations", "why": "That motive carries a message and chooses targets connected to the cause. Unrelated small businesses and crude graphics indicate neither."},
@@ -161,10 +161,10 @@
     "difficulty": 3,
     "stem": "A departing engineer downloads the full customer database on their last afternoon, going directly to the one share containing it. Which characteristic most identifies this actor type?",
     "options": [
-      {"id": "a", "text": "Legitimate access and knowledge of exactly where the valuable data sits", "correct": true, "why": "An insider does not need to intrude or discover anything. That is precisely what makes insiders so difficult to detect with perimeter controls."},
-      {"id": "b", "text": "Advanced tooling and zero-day capability", "misconception": "threat-actor-attributes", "why": "That describes a nation-state. An insider needs no exploit because they already have credentials."},
-      {"id": "c", "text": "Large financial backing", "misconception": "threat-actor-attributes", "why": "Resources describe organised crime and nation-states. An insider's advantage is access, not funding."},
-      {"id": "d", "text": "A desire for public attention", "misconception": "threat-actor-attributes", "why": "That is hacktivist behaviour. This actor is acting quietly on their way out."}
+      {"id": "a", "text": "Legitimate access and knowing where the valuable data sits", "correct": true, "why": "An insider does not need to intrude or discover anything. That is precisely what makes insiders so difficult to detect with perimeter controls. Remember: an insider knows where the data is and already has the access."},
+      {"id": "b", "text": "Advanced tooling and zero-day capability for the attack", "misconception": "threat-actor-attributes", "why": "That describes a nation-state. An insider needs no exploit because they already have credentials."},
+      {"id": "c", "text": "Large financial backing from a sponsor behind the attack", "misconception": "threat-actor-attributes", "why": "Resources describe organized crime and nation-states. An insider's advantage is access, not funding."},
+      {"id": "d", "text": "A desire for public attention to the breach once exposed", "misconception": "threat-actor-attributes", "why": "That is hacktivist behavior. This actor is acting quietly on their way out."}
     ]
   },
   {
@@ -189,7 +189,7 @@
     "difficulty": 4,
     "stem": "An intrusion shows access bought from a broker of stolen credentials, widely available commodity tools, and a ransom negotiation handled in a staffed chat service. The group left within a day of payment and has hit forty unrelated companies this quarter. Which statement best describes the actor?",
     "options": [
-      {"id": "a", "text": "Organized crime: well funded and organized, using commodity tools, motivated by financial gain", "correct": true, "why": "A division of labour, repeated unrelated victims, and a payment-driven exit are the signs of a business. It is organized without being highly sophisticated."},
+      {"id": "a", "text": "Organized crime: funded, organized, using commodity tools, driven by financial gain", "correct": true, "why": "A division of labour, repeated unrelated victims, and a payment-driven exit are the signs of a business. It is organized without being highly sophisticated."},
       {"id": "b", "text": "A nation-state actor, because the operation is well resourced and well organized", "misconception": "threat-actor-attributes", "why": "Resources and organization are shared by several actors. Motivation separates them: a state pursues strategic goals and persistence, not a quick exit after payment."},
       {"id": "c", "text": "A hacktivist group, because its activity is publicized and coordinated", "misconception": "threat-actor-motivations", "why": "Hacktivists act for a cause and rarely seek payment. Forty unrelated victims and a negotiated price point to profit."},
       {"id": "d", "text": "An insider threat, because the attackers used valid credentials", "misconception": "threat-actor-attributes", "why": "Valid credentials bought from a broker do not make the actor an insider. The attacker remained external throughout."}
@@ -203,10 +203,10 @@
     "difficulty": 4,
     "stem": "A product team, frustrated by procurement delays, builds a cloud test environment on a personal credit card. It holds copies of production data and is reachable from the internet with default credentials. An external attacker later finds it. Which description of the original exposure is best?",
     "options": [
-      {"id": "a", "text": "An insider threat motivated by revenge against the procurement team", "misconception": "threat-actor-motivations", "why": "No malice is described. The team wanted to work faster. Revenge would need a grievance expressed as damage."},
-      {"id": "b", "text": "Shadow IT: unmanaged systems built by well-meaning staff, outside the organization's security visibility", "correct": true, "why": "Shadow IT is the use of systems the organization does not know about or control. The risk comes from the lack of oversight, not from hostile intent."},
-      {"id": "c", "text": "A hacktivist, because the attacker targeted a company with a public profile", "misconception": "terminology-2-1", "why": "The attacker is not described as having a cause. The exposure existed because of an unmanaged system, whoever found it."},
-      {"id": "d", "text": "An unskilled attacker, because default credentials were used to get in", "misconception": "threat-actor-attributes", "why": "The attacker may or may not be skilled. The weakness that made the intrusion easy was created internally by the team."}
+      {"id": "a", "text": "An insider threat motivated by revenge against the procurement team and its delays", "misconception": "threat-actor-motivations", "why": "No malice is described. The team wanted to work faster. Revenge would need a grievance expressed as damage."},
+      {"id": "b", "text": "Shadow IT: unmanaged systems built by well-meaning staff outside security's view", "correct": true, "why": "Shadow IT is the use of systems the organization does not know about or control. The risk comes from the lack of oversight, not from hostile intent."},
+      {"id": "c", "text": "A hacktivist, because the attacker targeted a company with a high public profile", "misconception": "terminology-2-1", "why": "The attacker is not described as having a cause. The exposure existed because of an unmanaged system, whoever found it."},
+      {"id": "d", "text": "An unskilled attacker, because default credentials were used to get in to the system", "misconception": "threat-actor-attributes", "why": "The attacker may or may not be skilled. The weakness that made the intrusion easy was created internally by the team."}
     ]
   },
   {
@@ -217,7 +217,7 @@
     "difficulty": 4,
     "stem": "A group breaks into an energy company, copies internal emails that show lobbying against emissions rules, and gives them to journalists. It demands nothing, sells nothing and says publicly that it acted to expose the company. Which actor and motivation fit best?",
     "options": [
-      {"id": "a", "text": "A hacktivist, driven by political beliefs, exposing the company rather than profiting", "correct": true, "why": "The target was chosen for what it represents, the data was released and not sold, and the stated aim is a cause. That matches a hacktivist."},
+      {"id": "a", "text": "A hacktivist, driven by political beliefs, exposing the company rather than profiting", "correct": true, "why": "The target was chosen for what it represents, the data was released and not sold, and the stated aim is a cause. That matches a hacktivist. Remember: a hacktivist exposes for a cause; a spy takes quietly; a criminal sells."},
       {"id": "b", "text": "A nation-state actor engaged in espionage on the energy sector", "misconception": "threat-actor-motivations", "why": "Espionage means taking information quietly for the benefit of the actor. Handing it to journalists is the opposite."},
       {"id": "c", "text": "An ethical hacker, because the group acted in the public interest", "misconception": "threat-actor-motivations", "why": "Ethical describes authorized testing and responsible disclosure. A group that breaks in without permission and publishes is not that."},
       {"id": "d", "text": "Organized crime using blackmail, because the emails could embarrass the company", "misconception": "threat-actor-motivations", "why": "Blackmail needs a demand with a way to avoid disclosure. Here the data was released and nothing was asked for."}
@@ -261,10 +261,10 @@
     "difficulty": 3,
     "stem": "Over six months, thirty unrelated companies report that their customer databases were copied. No systems were encrypted and no demand was made. The same records then appear for sale on an underground marketplace. Which motivation best describes the attackers?",
     "options": [
-      {"id": "a", "text": "Espionage, because the data was taken quietly and kept for a long time", "misconception": "threat-actor-motivations", "why": "Espionage serves a state or a rival seeking strategic information. Selling records to anyone who pays is commerce."},
-      {"id": "b", "text": "Revenge against the companies, because customer data was exposed", "misconception": "threat-actor-motivations", "why": "Nothing links the thirty victims by a grievance. Unrelated targets and a marketplace listing point to profit."},
-      {"id": "c", "text": "Disruption or chaos, because the breach harmed many organizations", "misconception": "threat-actor-motivations", "why": "Harm was a side effect. Disruption would show in damaged systems or publicity, and here the attackers took care to stay quiet and sell."},
-      {"id": "d", "text": "Financial gain through data theft, typical of organized crime selling stolen records", "correct": true, "why": "Theft of data that has market value and is then sold shows a profit motive. No ransom is needed when the data itself is the product."}
+      {"id": "a", "text": "Espionage, because the data was taken quietly and kept for a long time afterward", "misconception": "threat-actor-motivations", "why": "Espionage serves a state or a rival seeking strategic information. Selling records to anyone who pays is commerce."},
+      {"id": "b", "text": "Revenge against the companies, because their customer data was exposed publicly", "misconception": "threat-actor-motivations", "why": "Nothing links the thirty victims by a grievance. Unrelated targets and a marketplace listing point to profit."},
+      {"id": "c", "text": "Disruption or chaos, because the breach harmed many different organizations at once", "misconception": "threat-actor-motivations", "why": "Harm was a side effect. Disruption would show in damaged systems or publicity, and here the attackers took care to stay quiet and sell."},
+      {"id": "d", "text": "Financial gain from data theft, typical of organized crime selling records", "correct": true, "why": "Theft of data that has market value and is then sold shows a profit motive. No ransom is needed when the data itself is the product."}
     ]
   },
   {
@@ -320,7 +320,7 @@
     "stem": "A report says a well-funded group buys zero-day exploits from brokers and rents global infrastructure, but its only goal is extorting payment from companies. A colleague concludes that anything this well funded must be a nation-state. What is the flaw in the conclusion?",
     "options": [
       {"id": "a", "text": "There is none: funding level is the best way to tell a nation-state from other actors", "misconception": "threat-actor-attributes", "why": "Funding is one attribute, and several actors can have a lot of it. It cannot separate one from another on its own."},
-      {"id": "b", "text": "Capability is an attribute, but motivation decides the type: extortion for payment is organized crime", "correct": true, "why": "Funding describes what an actor can do. The goal, here profit by extortion, describes who they are likely to be."},
+      {"id": "b", "text": "Capability is an attribute, but motivation decides the type: extortion points to organized crime", "correct": true, "why": "Funding describes what an actor can do. The goal, here profit by extortion, describes who they are likely to be. Remember: capability describes an actor; motivation decides its type."},
       {"id": "c", "text": "Organized crime cannot buy zero-day exploits, so the report must be wrong", "misconception": "threat-actor-attributes", "why": "Criminal groups can and do buy them. High capability is not exclusive to states."},
       {"id": "d", "text": "Only an insider can be both well funded and motivated by payment", "misconception": "threat-actor-attributes", "why": "Insiders are defined by their access, not by funding. Nothing in the report suggests anyone inside the victim."}
     ]

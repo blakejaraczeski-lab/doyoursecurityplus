@@ -21,10 +21,10 @@
     "difficulty": 3,
     "stem": "Customer records stored in a SaaS CRM were exposed because a sharing permission was set to 'anyone with the link'. Who is responsible?",
     "options": [
-      {"id": "a", "text": "The customer, because configuration and access are never transferred to the provider", "correct": true, "why": "Data, identity and configuration remain the customer's responsibility in every service model, SaaS included."},
+      {"id": "a", "text": "The customer, because it chose the sharing setting", "correct": true, "why": "Data, identity and configuration remain the customer's responsibility in every service model, SaaS included, and are never transferred to the provider. Whoever sets the setting owns the setting."},
       {"id": "b", "text": "The provider, because in SaaS they manage the entire stack", "misconception": "cloud-responsibility-matrix", "why": "They manage the application, the runtime and the infrastructure. They do not choose your sharing settings."},
       {"id": "c", "text": "The provider, because the exposure was through their application's feature", "misconception": "cloud-responsibility-matrix", "why": "The feature worked as designed. The customer configured it to share publicly."},
-      {"id": "d", "text": "Neither, since no system was breached", "misconception": "cloud-responsibility-matrix", "why": "A data exposure is a security incident whether or not anything was technically compromised."}
+      {"id": "d", "text": "Neither, since no system was breached and no attacker was involved", "misconception": "cloud-responsibility-matrix", "why": "A data exposure is a security incident whether or not anything was technically compromised."}
     ]
   },
   {
@@ -49,9 +49,9 @@
     "difficulty": 3,
     "stem": "An attacker breaks out of a guest virtual machine and executes code on the hypervisor. What is this called, and why does it matter so much?",
     "options": [
-      {"id": "a", "text": "VM escape, because it exposes every other guest on that host", "correct": true, "why": "The hypervisor is the isolation boundary for all guests. Compromising it collapses the separation between every tenant on the machine."},
+      {"id": "a", "text": "VM escape, because it exposes every other guest on that host", "correct": true, "why": "The hypervisor is the isolation boundary for all guests. Compromising it collapses the separation between every tenant on the machine. Escape the guest, own the host, reach every tenant."},
       {"id": "b", "text": "Resource reuse, because memory is shared between guests", "misconception": "containers-vs-virtualization", "why": "Resource reuse is when data lingers in memory or storage reallocated to another tenant. That is a leak, not a breakout."},
-      {"id": "c", "text": "Container escape, because the kernel is shared", "misconception": "containers-vs-virtualization", "why": "Container escape breaks out to a shared host kernel. Virtual machines do not share a kernel."},
+      {"id": "c", "text": "Container escape, because the kernel is shared between guests", "misconception": "containers-vs-virtualization", "why": "Container escape breaks out to a shared host kernel. Virtual machines do not share a kernel."},
       {"id": "d", "text": "Privilege escalation, confined to the affected guest", "misconception": "containers-vs-virtualization", "why": "The defining feature is that it is not confined to the guest. It reaches the host."}
     ]
   },
@@ -63,10 +63,10 @@
     "difficulty": 3,
     "stem": "An engineering team states that their SCADA network is air gapped. An audit finds a single firewalled link to the corporate network used for historian data. How should this be assessed?",
     "options": [
-      {"id": "a", "text": "It is not air gapped; it is logically segmented and should be described and defended as such", "correct": true, "why": "An air gap means no connection exists. One firewalled link is a controlled path, and treating it as an air gap leads to weaker controls than a connected network requires."},
+      {"id": "a", "text": "Not air gapped: it is logically segmented and must be defended as such", "correct": true, "why": "An air gap means no connection exists. One firewalled link is a controlled path, and treating it as an air gap leads to weaker controls than a connected network requires. Any link, however filtered, ends the air gap."},
       {"id": "b", "text": "It remains air gapped, because the link is firewalled", "misconception": "air-gap-vs-logical-segmentation", "why": "A firewall filters a connection. It does not remove one."},
-      {"id": "c", "text": "It is physically isolated, since the SCADA hardware is separate", "misconception": "air-gap-vs-logical-segmentation", "why": "Separate hardware with a network link between them is not isolation."},
-      {"id": "d", "text": "It is microsegmented", "misconception": "air-gap-vs-logical-segmentation", "why": "Microsegmentation applies policy per workload. One perimeter link between two networks is not that."}
+      {"id": "c", "text": "It is physically isolated, since the SCADA hardware is separate from corporate", "misconception": "air-gap-vs-logical-segmentation", "why": "Separate hardware with a network link between them is not isolation."},
+      {"id": "d", "text": "It is microsegmented, because a firewall polices the only link", "misconception": "air-gap-vs-logical-segmentation", "why": "Microsegmentation applies policy per workload. One perimeter link between two networks is not that."}
     ]
   },
   {
@@ -78,9 +78,9 @@
     "stem": "A genuinely air gapped system was infected with malware. What is the most likely vector?",
     "options": [
       {"id": "a", "text": "Removable media carried across the gap", "correct": true, "why": "With no network path, data still has to move somehow, and USB media is the classic route into an air gapped environment."},
-      {"id": "b", "text": "A phishing email opened by an operator", "misconception": "air-gap-vs-logical-segmentation", "why": "An air gapped system has no mail connectivity, which is what the gap means."},
-      {"id": "c", "text": "Exploitation of an internet facing service", "misconception": "air-gap-vs-logical-segmentation", "why": "There is no internet facing service. If there were, it would not be air gapped."},
-      {"id": "d", "text": "A compromised VPN credential", "misconception": "air-gap-vs-logical-segmentation", "why": "A VPN is a network path, which an air gapped system by definition does not have."}
+      {"id": "b", "text": "A phishing email opened by an operator", "misconception": "air-gap-attack-paths", "why": "An air gapped system has no mail connectivity, which is what the gap means."},
+      {"id": "c", "text": "Exploitation of an internet facing service", "misconception": "air-gap-attack-paths", "why": "There is no internet facing service. If there were, it would not be air gapped."},
+      {"id": "d", "text": "A compromised VPN credential", "misconception": "air-gap-attack-paths", "why": "A VPN is a network path, which an air gapped system by definition does not have."}
     ]
   },
   {
@@ -91,10 +91,10 @@
     "difficulty": 3,
     "stem": "An organisation defines its entire cloud environment in version controlled templates that are applied automatically. What is the main security benefit?",
     "options": [
-      {"id": "a", "text": "Configuration is consistent, reviewable and reproducible, so drift and one-off mistakes are reduced", "correct": true, "why": "Infrastructure as code makes the environment auditable and repeatable, and changes go through review like any other code."},
+      {"id": "a", "text": "Configuration is consistent and reviewable, so drift and one-off errors drop", "correct": true, "why": "Infrastructure as code makes the environment auditable and reproducible, and changes go through review like any other code. Defined in code, reviewed like code, rebuilt the same every time."},
       {"id": "b", "text": "The cloud provider becomes responsible for the resulting configuration", "misconception": "cloud-responsibility-matrix", "why": "Configuration is the customer's responsibility in every service model. Automating it does not transfer it."},
-      {"id": "c", "text": "It removes the need to patch the resulting systems", "misconception": "cloud-responsibility-matrix", "why": "It makes rebuilding patched systems easier. It does not remove the requirement."},
-      {"id": "d", "text": "It provides isolation equivalent to an air gap", "misconception": "air-gap-vs-logical-segmentation", "why": "IaC describes how infrastructure is defined. It says nothing about network separation."}
+      {"id": "c", "text": "It removes the need to patch, because the systems are rebuilt from the templates", "misconception": "cloud-responsibility-matrix", "why": "It makes rebuilding patched systems easier. It does not remove the requirement."},
+      {"id": "d", "text": "It provides isolation equivalent to an air gap between environments", "misconception": "air-gap-vs-logical-segmentation", "why": "IaC describes how infrastructure is defined. It says nothing about network separation."}
     ]
   },
   {
@@ -105,10 +105,10 @@
     "difficulty": 4,
     "stem": "In a SCADA environment controlling a water treatment process, how do the usual security priorities change?",
     "options": [
-      {"id": "a", "text": "Availability and safety come first, because an outage is a physical consequence rather than an inconvenience", "correct": true, "why": "Operational technology inverts the familiar ordering. A control system that stops can mean a process out of control, so measures that risk availability are weighed very differently."},
+      {"id": "a", "text": "Availability and safety come first, as outages cause physical harm", "correct": true, "why": "Operational technology inverts the familiar ordering. A control system that stops can mean a process out of control, so measures that risk availability are weighed very differently. In OT, keep it running safely before keeping it secret."},
       {"id": "b", "text": "Confidentiality comes first, because process data is highly sensitive", "misconception": "specialised-system-constraints", "why": "Setpoints and sensor readings are rarely the crown jewels. Keeping the process running safely is."},
-      {"id": "c", "text": "The priorities are identical to corporate IT", "misconception": "specialised-system-constraints", "why": "They are not, which is why these systems are treated separately."},
-      {"id": "d", "text": "Integrity is irrelevant because the data is only telemetry", "misconception": "specialised-system-constraints", "why": "Integrity is critical: falsified readings cause operators or logic to act wrongly on a physical process."}
+      {"id": "c", "text": "The priorities are identical to corporate IT, with confidentiality first", "misconception": "specialised-system-constraints", "why": "They are not, which is why these systems are treated separately."},
+      {"id": "d", "text": "Integrity is irrelevant because the data is only telemetry from sensors", "misconception": "specialised-system-constraints", "why": "Integrity is critical: falsified readings cause operators or logic to act wrongly on a physical process."}
     ]
   },
   {
@@ -119,9 +119,9 @@
     "difficulty": 4,
     "stem": "A proposal is made to install an endpoint detection agent on controllers running a real-time operating system. Why is this likely to be rejected?",
     "options": [
-      {"id": "a", "text": "A real-time system guarantees deterministic timing; an agent consuming unpredictable CPU can cause the system to miss deadlines, which is a functional failure", "correct": true, "why": "Determinism is a requirement, not a preference. Added latency is a fault in a way it never is on a general-purpose host, which is why these systems are protected from the network instead."},
-      {"id": "b", "text": "Real-time systems have no network connectivity to monitor", "misconception": "specialised-system-constraints", "why": "Many are networked, which is precisely why they need protecting."},
-      {"id": "c", "text": "Endpoint agents cannot detect threats on embedded platforms", "misconception": "specialised-system-constraints", "why": "The obstacle is the effect on timing and the usual absence of a supported build, not detection capability in principle."},
+      {"id": "a", "text": "Agent CPU use is unpredictable and can make the controller miss deadlines", "correct": true, "why": "A real-time system guarantees deterministic timing, and a missed deadline is a functional failure. Determinism is a requirement, not a preference. Added latency is a fault in a way it never is on a general-purpose host, which is why these systems are protected from the network instead. Real-time means on time, every time: anything that steals cycles is a fault."},
+      {"id": "b", "text": "Real-time systems have no network connectivity for an agent to monitor", "misconception": "specialised-system-constraints", "why": "Many are networked, which is precisely why they need protecting."},
+      {"id": "c", "text": "Endpoint agents cannot reliably detect threats on embedded real-time platforms", "misconception": "specialised-system-constraints", "why": "The obstacle is the effect on timing and the usual absence of a supported build, not detection capability in principle."},
       {"id": "d", "text": "The agent would violate the vendor's data protection obligations", "misconception": "specialised-system-constraints", "why": "Vendor certification is an obstacle for different reasons: changing the configuration can void support."}
     ]
   },
@@ -133,10 +133,10 @@
     "difficulty": 3,
     "stem": "What architectural characteristic do IoT devices, embedded systems and industrial controllers most commonly share that shapes how they must be secured?",
     "options": [
-      {"id": "a", "text": "Limited or absent update mechanisms and very long service lives, so they outlive vendor support", "correct": true, "why": "A controller installed for twenty years will spend most of that unsupported. The design has to assume the device will not be fixed, which pushes everything onto network controls."},
-      {"id": "b", "text": "They all run full general-purpose operating systems", "misconception": "specialised-system-constraints", "why": "Most run minimal or real-time systems with no capacity for conventional tooling."},
-      {"id": "c", "text": "They are always air gapped", "misconception": "air-gap-vs-logical-segmentation", "why": "Rarely true in practice, and assuming it is the reason many of these environments are reachable."},
-      {"id": "d", "text": "They hold little data, so compromise has limited impact", "misconception": "specialised-system-constraints", "why": "Impact is physical: they control processes. The data they hold is not the measure."}
+      {"id": "a", "text": "Limited updates and long service lives that outlive vendor support", "correct": true, "why": "A controller installed for twenty years will spend most of that unsupported, often with no update mechanism at all. The design has to assume the device will not be fixed, which pushes everything onto network controls. Built to last, rarely patched: defend the network around it."},
+      {"id": "b", "text": "They all run full general-purpose operating systems that accept agents", "misconception": "specialised-system-constraints", "why": "Most run minimal or real-time systems with no capacity for conventional tooling."},
+      {"id": "c", "text": "They are always air gapped from other networks by design", "misconception": "specialised-system-constraints", "why": "Rarely true in practice, and assuming it is the reason many of these environments are reachable."},
+      {"id": "d", "text": "They hold little data, so a compromise has limited real-world impact", "misconception": "specialised-system-constraints", "why": "Impact is physical: they control processes. The data they hold is not the measure."}
     ]
   },
   {
@@ -147,10 +147,10 @@
     "difficulty": 4,
     "stem": "An organisation consolidates security management of forty offices into one central platform. What does it gain, and what does it accept?",
     "options": [
-      {"id": "a", "text": "Consistent policy and a single view, at the cost of a larger blast radius if the centre is compromised or unavailable", "correct": true, "why": "Centralisation concentrates control and consequence together. The trade is real in both directions, which is why the useful question is what was accepted rather than which is better."},
+      {"id": "a", "text": "Consistent policy and one view, but a larger blast radius at the center", "correct": true, "why": "Centralization concentrates control and consequence together, so the center is a single target if it is compromised or unavailable. The trade is real in both directions, which is why the useful question is what was accepted rather than which is better."},
       {"id": "b", "text": "Both better consistency and better resilience, with no meaningful trade-off", "misconception": "centralized-vs-decentralized", "why": "Resilience generally worsens: the centre becomes a single point of failure for all forty sites."},
-      {"id": "c", "text": "Better resilience at the cost of consistency", "misconception": "centralized-vs-decentralized", "why": "Reversed. Consistency is what centralisation buys."},
-      {"id": "d", "text": "Lower cost with no change to the security posture", "misconception": "architecture-tradeoffs", "why": "The posture changes substantially in both directions, whatever happens to cost."}
+      {"id": "c", "text": "Better resilience at the cost of consistency across the forty offices", "misconception": "centralized-vs-decentralized", "why": "Reversed. Consistency is what centralisation buys."},
+      {"id": "d", "text": "Lower cost with no change to the security posture of any office", "misconception": "architecture-tradeoffs", "why": "The posture changes substantially in both directions, whatever happens to cost."}
     ]
   },
   {
@@ -161,10 +161,10 @@
     "difficulty": 4,
     "stem": "A team must stand up a new service in three weeks with minimal capital expenditure, accepting higher running costs later. Which architectural property is being prioritised?",
     "options": [
-      {"id": "a", "text": "Ease of deployment, traded against long-run operating cost", "correct": true, "why": "Speed to stand up is being bought, and the stem states the price: higher ongoing cost. That is the shape of every architecture trade-off question."},
-      {"id": "b", "text": "Ease of recovery", "misconception": "architecture-tradeoffs", "why": "That concerns how quickly you restore after failure, which the stem does not mention."},
-      {"id": "c", "text": "Responsiveness", "misconception": "architecture-tradeoffs", "why": "Latency to the user, which is also not in the stem."},
-      {"id": "d", "text": "Risk transference", "misconception": "architecture-tradeoffs", "why": "Moving risk to a provider may be a side effect, and the stated requirement is time and capital."}
+      {"id": "a", "text": "Ease of deployment, traded against later running cost", "correct": true, "why": "Speed to stand up is being bought, and the stem states the price: higher ongoing cost. That is the shape of every architecture trade-off question."},
+      {"id": "b", "text": "Ease of recovery, so the service can be restored quickly after failure", "misconception": "architecture-tradeoffs", "why": "That concerns how quickly you restore after failure, which the stem does not mention."},
+      {"id": "c", "text": "Responsiveness, so users see lower latency from day one", "misconception": "architecture-tradeoffs", "why": "Latency to the user, which is also not in the stem."},
+      {"id": "d", "text": "Risk transference, moving operating risk onto the provider", "misconception": "architecture-tradeoffs", "why": "Moving risk to a provider may be a side effect, and the stated requirement is time and capital."}
     ]
   },
   {
@@ -175,10 +175,10 @@
     "difficulty": 4,
     "stem": "Two designs are compared. A: stateless containers rebuilt from images in minutes. B: a long-lived stateful server restored from backup over several hours. Which property distinguishes them, and why does it matter for security?",
     "options": [
-      {"id": "a", "text": "Ease of recovery; a design you can rebuild quickly makes reimaging after compromise cheap, so the secure response stops being the expensive one", "correct": true, "why": "Recovery cost shapes behaviour. When rebuilding takes minutes, nobody argues for cleaning a compromised host in place."},
-      {"id": "b", "text": "Scalability, since containers scale more easily", "misconception": "architecture-tradeoffs", "why": "True and not what the stem contrasts, which is restoration time."},
-      {"id": "c", "text": "Responsiveness, since containers start faster", "misconception": "architecture-tradeoffs", "why": "Responsiveness is latency in serving requests, not time to restore."},
-      {"id": "d", "text": "Cost, since containers are cheaper to run", "misconception": "architecture-tradeoffs", "why": "Not stated, and not the distinction being drawn."}
+      {"id": "a", "text": "Ease of recovery, since fast rebuilds make reimaging after compromise cheap", "correct": true, "why": "Recovery cost shapes behavior. When rebuilding takes minutes, nobody argues for cleaning a compromised host in place. Cheap rebuilds mean the secure response stops being the expensive one."},
+      {"id": "b", "text": "Scalability, since stateless containers scale out more easily under heavy load", "misconception": "architecture-tradeoffs", "why": "True and not what the stem contrasts, which is restoration time."},
+      {"id": "c", "text": "Responsiveness, since containers start faster and serve requests sooner", "misconception": "architecture-tradeoffs", "why": "Responsiveness is latency in serving requests, not time to restore."},
+      {"id": "d", "text": "Cost, since containers are cheaper to run than a long-lived server", "misconception": "architecture-tradeoffs", "why": "Not stated, and not the distinction being drawn."}
     ]
   },
   {
@@ -189,10 +189,10 @@
     "difficulty": 4,
     "stem": "A company moves its payroll system to a managed SaaS provider, citing risk transference. A breach later exposes employee records. What has actually transferred?",
     "options": [
-      {"id": "a", "text": "Operational responsibility and some financial consequence; the accountability to employees and regulators remains with the company", "correct": true, "why": "You can contract away work and some liability. The obligation to notify, and the reputational and regulatory exposure, stay where the data subjects' relationship is."},
-      {"id": "b", "text": "Full accountability, since the provider now controls the system", "misconception": "architecture-tradeoffs", "why": "Accountability cannot be purchased away. The company remains the controller of its employees' data."},
+      {"id": "a", "text": "Operations and some liability; accountability stays with the company", "correct": true, "why": "You can contract away work and some liability. The obligation to notify, and the reputational and regulatory exposure to employees and regulators, stay where the data subjects' relationship is. Outsource the work, keep the accountability."},
+      {"id": "b", "text": "Full accountability, since the provider now controls the system and data", "misconception": "architecture-tradeoffs", "why": "Accountability cannot be purchased away. The company remains the controller of its employees' data."},
       {"id": "c", "text": "Nothing: risk transference is not possible in cloud arrangements", "misconception": "architecture-tradeoffs", "why": "Overcorrection. Real operational risk and contractual liability do move."},
-      {"id": "d", "text": "Only the cost of running the system", "misconception": "architecture-tradeoffs", "why": "Genuine operational risk transfers too, which is a legitimate reason to do it."}
+      {"id": "d", "text": "Only the cost of running and maintaining the payroll system", "misconception": "architecture-tradeoffs", "why": "Genuine operational risk transfers too, which is a legitimate reason to do it."}
     ]
   },
   {
@@ -203,10 +203,10 @@
     "difficulty": 4,
     "stem": "Which TWO statements about specialised and distributed architectures are correct? (Choose two.)",
     "options": [
-      {"id": "a", "text": "In operational technology, availability and safety typically outrank confidentiality", "correct": true, "why": "An outage in a physical process is a safety event, which reorders the usual priorities."},
-      {"id": "b", "text": "Centralising management concentrates both control and the consequences of failure", "correct": true, "why": "The same property that delivers consistency makes the centre a single point of failure."},
+      {"id": "a", "text": "In OT, availability and safety typically outrank confidentiality", "correct": true, "why": "In operational technology, an outage in a physical process is a safety event, which reorders the usual priorities. Keep it running safely before keeping it secret."},
+      {"id": "b", "text": "Centralizing management concentrates control and the impact of failure", "correct": true, "why": "The same property that delivers consistency makes the center a single point of failure. Centralize the control, centralize the blast radius."},
       {"id": "c", "text": "Endpoint agents are the primary control for real-time controllers", "misconception": "specialised-system-constraints", "why": "They threaten the timing guarantees these systems exist to provide; network isolation is the usual answer."},
-      {"id": "d", "text": "Decentralised architectures are inherently more secure", "misconception": "centralized-vs-decentralized", "why": "They contain failures better and drift more. Neither is inherently more secure."},
+      {"id": "d", "text": "Decentralized architectures are inherently more secure than central ones", "misconception": "centralized-vs-decentralized", "why": "They contain failures better and drift more. Neither is inherently more secure."},
       {"id": "e", "text": "Moving to a managed service transfers accountability for a breach", "misconception": "architecture-tradeoffs", "why": "Responsibility and some liability move; accountability to regulators and data subjects does not."}
     ],
     "selectCount": 2
@@ -219,9 +219,9 @@
     "difficulty": 4,
     "stem": "A retailer lets each of its 200 stores manage its own firewall rules locally. Which outcome should the security team expect?",
     "options": [
-      {"id": "a", "text": "A compromise at one store tends to stay at that store, but rules drift apart and the central team loses visibility", "correct": true, "why": "Decentralising buys containment and pays in consistency and visibility. Both halves of that trade show up here."},
-      {"id": "b", "text": "Consistency improves, because each store knows its own needs best", "misconception": "centralized-vs-decentralized", "why": "Two hundred independent rule sets drift by default. Consistency is what centralisation buys, and it has been given up."},
-      {"id": "c", "text": "The blast radius of a single compromise grows", "misconception": "centralized-vs-decentralized", "why": "Blast radius grows when control is concentrated. Here a compromised store's firewall reaches only that store."},
+      {"id": "a", "text": "Compromise stays local, but rules drift and visibility is lost", "correct": true, "why": "A compromise at one store tends to stay there, while rules drift apart and the central team loses sight of them. Decentralizing buys containment and pays in consistency and visibility. Both halves of that trade show up here."},
+      {"id": "b", "text": "Consistency improves, because each store tunes rules to its own needs", "misconception": "centralized-vs-decentralized", "why": "Two hundred independent rule sets drift by default. Consistency is what centralisation buys, and it has been given up."},
+      {"id": "c", "text": "The blast radius of a single compromise grows across every store", "misconception": "centralized-vs-decentralized", "why": "Blast radius grows when control is concentrated. Here a compromised store's firewall reaches only that store."},
       {"id": "d", "text": "Visibility improves, because more administrators are watching", "misconception": "centralized-vs-decentralized", "why": "Each administrator sees one store. Nobody sees the whole picture, which is the visibility gap decentralisation creates."}
     ]
   },
@@ -233,10 +233,10 @@
     "difficulty": 3,
     "stem": "A team moves an order-processing API from virtual machines to a serverless function platform. The provider now runs the servers, the operating system and the language runtime. Which task is still the customer's?",
     "options": [
-      {"id": "a", "text": "Patching the operating system that the functions run on", "misconception": "cloud-responsibility-matrix", "why": "The provider owns the operating system and runtime in a serverless model. That is the point of the model."},
+      {"id": "a", "text": "Patching the operating system and runtime that the functions run on", "misconception": "cloud-responsibility-matrix", "why": "The provider owns the operating system and runtime in a serverless model. That is the point of the model."},
       {"id": "b", "text": "Hardening the hypervisor that separates one customer's functions from another's", "misconception": "cloud-responsibility-matrix", "why": "Isolation between tenants sits in the provider's layers and is never the customer's to harden."},
-      {"id": "c", "text": "Validating input in the function code and granting each function only the permissions it needs", "correct": true, "why": "Code, data and identity stay with the customer in every service model. A function with an over-broad role is a customer misconfiguration."},
-      {"id": "d", "text": "Installing an endpoint agent in every function instance", "misconception": "cloud-responsibility-matrix", "why": "Function instances are short lived and not yours to install on. Control moves to code, permissions and logging."}
+      {"id": "c", "text": "Validating input in the code and giving each function least privilege", "correct": true, "why": "Code, data and identity stay with the customer in every service model. A function with an over-broad role is a customer misconfiguration."},
+      {"id": "d", "text": "Installing an endpoint agent in every function instance it launches", "misconception": "cloud-responsibility-matrix", "why": "Function instances are short lived and not yours to install on. Control moves to code, permissions and logging."}
     ]
   },
   {
@@ -247,9 +247,9 @@
     "difficulty": 4,
     "stem": "A security review of an infrastructure as code repository finds a cloud access key written into a deployment template that has been in version control for eight months. Which response addresses the actual exposure?",
     "options": [
-      {"id": "a", "text": "Make the repository private and leave the key in place", "misconception": "architecture-tradeoffs", "why": "Anyone who ever cloned or forked it, and every past commit, still holds the key. Restricting access now does not undo past exposure."},
-      {"id": "b", "text": "Delete the key from the latest commit and push the change", "misconception": "architecture-tradeoffs", "why": "The key remains in earlier commits and every existing clone."},
-      {"id": "c", "text": "Encrypt the repository at rest on the hosting server", "misconception": "architecture-tradeoffs", "why": "Encryption at rest does not stop an authorized reader or a clone from seeing the key."},
+      {"id": "a", "text": "Make the repository private and leave the key in place", "misconception": "secrets-in-code", "why": "Anyone who ever cloned or forked it, and every past commit, still holds the key. Restricting access now does not undo past exposure."},
+      {"id": "b", "text": "Delete the key from the latest commit and push the change to main", "misconception": "secrets-in-code", "why": "The key remains in earlier commits and every existing clone."},
+      {"id": "c", "text": "Encrypt the repository at rest on the hosting server and its backups", "misconception": "secrets-in-code", "why": "Encryption at rest does not stop an authorized reader or a clone from seeing the key."},
       {"id": "d", "text": "Revoke and rotate the key, and store secrets in a secrets manager", "correct": true, "why": "A secret in version history must be treated as disclosed. Rotation closes the exposure and a secrets manager keeps it from returning."}
     ]
   },
@@ -262,10 +262,10 @@
     "stem": "A platform team runs forty containers per host on shared hosts. Which TWO statements about the security of this design are correct? (Choose two.)",
     "options": [
       {"id": "a", "text": "Each container runs its own kernel, so a kernel flaw affects only that container", "misconception": "containers-vs-virtualization", "why": "Containers share the host kernel. That sharing is what makes them light, and it is why a kernel flaw is shared exposure."},
-      {"id": "b", "text": "A kernel vulnerability on the host can expose every container on that host", "correct": true, "why": "One shared kernel is one shared point of failure for the containers on it."},
+      {"id": "b", "text": "A kernel vulnerability on the host can expose every container on that host", "correct": true, "why": "One shared kernel is one shared point of failure for the containers on it. Unlike a VM, a container has no kernel of its own to absorb the flaw."},
       {"id": "c", "text": "A container escape is the same risk as a VM escape because both break out of a guest", "misconception": "containers-vs-virtualization", "why": "The boundary differs. An escape from a container lands on a shared kernel. A VM escape has to defeat the hypervisor."},
-      {"id": "d", "text": "Pulling images only from a trusted registry, pinned to a known version and scanned before use, reduces the risk of a poisoned base image", "correct": true, "why": "Image provenance and scanning address the supply side of containers, which a runtime control cannot fix later."},
-      {"id": "e", "text": "Containers remove the need to patch, because they are rebuilt", "misconception": "architecture-tradeoffs", "why": "Rebuilding from an unpatched image ships the same flaw again. The image has to be patched and rebuilt."}
+      {"id": "d", "text": "Using only pinned, scanned images from a trusted registry limits poisoned images", "correct": true, "why": "Image provenance and scanning address the supply side of containers, which a runtime control cannot fix later. Pinning to a known version stops the base image changing underneath you. Trust the image before you run it."},
+      {"id": "e", "text": "Containers remove the need to patch, because they are rebuilt", "misconception": "containers-vs-virtualization", "why": "Rebuilding from an unpatched image ships the same flaw again. The image has to be patched and rebuilt."}
     ],
     "selectCount": 2
   },
@@ -277,10 +277,10 @@
     "difficulty": 3,
     "stem": "A network team replaces box by box switch configuration with a software defined networking controller that sets forwarding policy for every switch. What is the main new security concern?",
     "options": [
-      {"id": "a", "text": "Anyone who compromises the controller can change forwarding for the whole network at once", "correct": true, "why": "The controller concentrates the control plane. That brings consistency and it brings a single high value target."},
+      {"id": "a", "text": "Compromising the controller lets an attacker change forwarding network wide", "correct": true, "why": "The controller concentrates the control plane for every switch at once. That brings consistency and it brings a single high value target. Own the controller, own every switch."},
       {"id": "b", "text": "A compromise is limited to the one VLAN the controller sits in", "misconception": "air-gap-vs-logical-segmentation", "why": "The controller does not live inside a VLAN. It programs all of them, which is what makes it valuable."},
       {"id": "c", "text": "The switches keep forwarding on their own rules, so the controller is not a risk", "misconception": "centralized-vs-decentralized", "why": "Switches follow the policy the controller gives them. A malicious policy is as binding as a good one."},
-      {"id": "d", "text": "The only risk is losing management logs", "misconception": "architecture-tradeoffs", "why": "Logs matter, but the larger risk is the loss of control over the forwarding path."}
+      {"id": "d", "text": "The only risk is losing the management logs the controller keeps", "misconception": "centralized-vs-decentralized", "why": "Logs matter, but the larger risk is the loss of control over the forwarding path."}
     ]
   },
   {
@@ -293,8 +293,8 @@
     "options": [
       {"id": "a", "text": "The cloud provider should have blocked the access under the responsibility matrix", "misconception": "cloud-responsibility-matrix", "why": "The provider secures its platform. The identity trust the customer built between the two sides is the customer's."},
       {"id": "b", "text": "The age and condition of the on-premises hardware and its firmware", "misconception": "architecture-tradeoffs", "why": "Hardware age is not what carried the attacker across."},
-      {"id": "c", "text": "Network latency and bandwidth between the two environments", "misconception": "architecture-tradeoffs", "why": "Latency affects performance, not who is trusted."},
-      {"id": "d", "text": "Shared identity trust: the estate is only as strong as its weakest side, so both need the same rigor", "correct": true, "why": "Federation extends one side's compromise into the other. Hybrid design needs consistent controls and visibility across the boundary."}
+      {"id": "c", "text": "Network latency and bandwidth between the two connected environments", "misconception": "architecture-tradeoffs", "why": "Latency affects performance, not who is trusted."},
+      {"id": "d", "text": "Shared identity trust: the estate is only as strong as its weaker side", "correct": true, "why": "Federation extends one side's compromise into the other, so both sides need the same rigor. Hybrid design needs consistent controls and visibility across the boundary. Federated trust means one compromise, two estates."}
     ]
   },
   {
@@ -307,7 +307,7 @@
     "options": [
       {"id": "a", "text": "Install the newest operating system patch from a different vendor on the controller", "misconception": "specialised-system-constraints", "why": "A patch not built for the controller can break the real-time behavior it exists to provide."},
       {"id": "b", "text": "Install an endpoint detection agent on the controller to watch for exploitation", "misconception": "specialised-system-constraints", "why": "Agents threaten timing guarantees and are often unsupported on these devices."},
-      {"id": "c", "text": "Segment it behind a firewall that allows only the traffic it needs, and monitor that boundary", "correct": true, "why": "When a device cannot be patched, compensating controls around it carry the risk: isolation, strict allow rules and monitoring."},
+      {"id": "c", "text": "Segment it behind a firewall that allows only needed traffic, and monitor it", "correct": true, "why": "When a device cannot be patched, compensating controls around it carry the risk: isolation, strict allow rules and monitoring of that boundary. Cannot patch it? Wall it off and watch the wall."},
       {"id": "d", "text": "Take the controller offline immediately and replace it with a new model this week", "misconception": "specialised-system-constraints", "why": "It ignores the operating constraint. A safe interim control comes first and replacement is scheduled for the outage."}
     ]
   },
@@ -319,9 +319,9 @@
     "difficulty": 4,
     "stem": "A monolithic application is split into forty microservices that call one another over internal APIs. What should the security review expect?",
     "options": [
-      {"id": "a", "text": "A larger attack surface: more endpoints to authenticate and more service to service traffic to control", "correct": true, "why": "Many small services mean many more interfaces and much more east west traffic to protect."},
+      {"id": "a", "text": "A larger attack surface: more endpoints to authenticate and more internal traffic", "correct": true, "why": "Many small services mean many more interfaces and much more east west, service to service traffic to protect. More services, more doors to guard."},
       {"id": "b", "text": "A smaller attack surface, because each individual service does less and is simpler", "misconception": "architecture-tradeoffs", "why": "Each service does less, but there are far more entry points in total."},
-      {"id": "c", "text": "No change to the attack surface, because traffic inside the network is trusted by default", "misconception": "air-gap-vs-logical-segmentation", "why": "Internal traffic is where lateral movement happens. Trusting it by default is the weakness."},
+      {"id": "c", "text": "No change to the attack surface, because traffic inside the network is trusted by default", "misconception": "architecture-tradeoffs", "why": "Internal traffic is where lateral movement happens. Trusting it by default is the weakness."},
       {"id": "d", "text": "Reduced need for perimeter controls, because the services run as separate processes", "misconception": "containers-vs-virtualization", "why": "Process separation does not authenticate callers. A compromised service can still reach its neighbours."}
     ]
   },
@@ -347,10 +347,10 @@
     "difficulty": 3,
     "stem": "Project teams create virtual machines freely. A review finds more than a hundred that nobody owns, many unpatched. What is this problem called and what addresses it?",
     "options": [
-      {"id": "a", "text": "VM escape, addressed by patching the hypervisor", "misconception": "containers-vs-virtualization", "why": "Escape is an attack from inside a guest. This problem is unmanaged guests, not an attack."},
-      {"id": "b", "text": "VM sprawl, addressed by ownership, an inventory and a defined lifecycle for every machine", "correct": true, "why": "Easy creation without tracking leaves forgotten, unpatched systems. Lifecycle management is the control."},
-      {"id": "c", "text": "Resource exhaustion, addressed by buying more hosts", "misconception": "architecture-tradeoffs", "why": "Capacity is not the issue. Unowned machines are."},
-      {"id": "d", "text": "A container breakout, addressed by moving to a different runtime", "misconception": "containers-vs-virtualization", "why": "These are virtual machines, and nothing was broken out of."}
+      {"id": "a", "text": "VM escape, addressed by patching the hypervisor on every host", "misconception": "containers-vs-virtualization", "why": "Escape is an attack from inside a guest. This problem is unmanaged guests, not an attack."},
+      {"id": "b", "text": "VM sprawl, addressed by ownership, inventory and lifecycle management", "correct": true, "why": "Easy creation without tracking leaves forgotten, unpatched systems. Lifecycle management is the control. Every VM needs an owner, an inventory entry and an end date."},
+      {"id": "c", "text": "Resource exhaustion, addressed by buying more hosts for the cluster", "misconception": "architecture-tradeoffs", "why": "Capacity is not the issue. Unowned machines are."},
+      {"id": "d", "text": "A container breakout, addressed by moving the workloads to a different runtime", "misconception": "containers-vs-virtualization", "why": "These are virtual machines, and nothing was broken out of."}
     ]
   },
   {
@@ -363,7 +363,7 @@
     "options": [
       {"id": "a", "text": "The application code and the access controls inside it", "correct": true, "why": "Under PaaS the customer supplies and secures the application and its access model."},
       {"id": "b", "text": "Patching the operating system of the underlying hosts", "misconception": "cloud-responsibility-matrix", "why": "The provider manages the platform's operating system under PaaS."},
-      {"id": "c", "text": "The data the application stores and who may reach it", "correct": true, "why": "Data and identity remain the customer's in every service model."},
+      {"id": "c", "text": "The data the application stores and who may reach it", "correct": true, "why": "Data and identity remain the customer's in every service model. The provider hosts the data; the customer decides who may reach it."},
       {"id": "d", "text": "Patching the language runtime and web server the platform provides", "misconception": "cloud-responsibility-matrix", "why": "The platform manages its own runtime and server. The customer stays out of those layers."},
       {"id": "e", "text": "Physical security of the data center", "misconception": "cloud-responsibility-matrix", "why": "This is always the provider's in a public cloud."}
     ],
