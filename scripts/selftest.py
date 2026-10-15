@@ -202,7 +202,7 @@ class Browser:
     def __init__(self, chrome, profile_dir):
         self.dev = free_port()
         self.proc = subprocess.Popen(
-            [chrome, "--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
+            [chrome, "--headless=new", "--disable-gpu", "--disable-extensions", "--no-first-run", "--no-default-browser-check",
              f"--user-data-dir={profile_dir}", f"--remote-debugging-port={self.dev}", "about:blank"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )

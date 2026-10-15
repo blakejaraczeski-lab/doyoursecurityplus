@@ -4,6 +4,7 @@ import * as sync from "./sync.js";
 import * as reviews from "./reviews.js";
 import { App, renderApp, save, tickTimer, tickSync } from "./app.js";
 import { esc, setGlossary } from "./ui/common.js";
+import { shortcutSheetHtml } from "./ui/chrome.js";
 import * as drill from "./screens/drill.js";
 import * as pbq from "./screens/pbq.js";
 import * as lab from "./screens/lab.js";
@@ -19,7 +20,7 @@ function sectionScreen(s) {
   return s;
 }
 
-// `?` shows every acronym's expansion in place. A per-browser convenience, so
+// `X` shows every acronym's expansion in place. A per-browser convenience, so
 // it lives in localStorage and the page works without it.
 let glossOpen = false;
 try { glossOpen = localStorage.getItem("dysp.gloss") === "1"; } catch {}
@@ -28,6 +29,13 @@ function toggleGloss() {
   try { localStorage.setItem("dysp.gloss", glossOpen ? "1" : "0"); } catch {}
   document.body.classList.toggle("gloss-open", glossOpen);
 }
+
+// `?` opens the shortcut sheet: a native dialog, so focus is trapped inside it,
+// Escape closes it, and focus goes back to the control that had it.
+const keysDialog = document.getElementById("keys");
+keysDialog.innerHTML = shortcutSheetHtml();
+keysDialog.addEventListener("click", (e) => { if (e.target === keysDialog) keysDialog.close(); });
+const toggleKeys = () => (keysDialog.open ? keysDialog.close() : keysDialog.showModal());
 
 // The one-second tick: the PBQ clock, the mock clock and the sync dot.
 setInterval(() => { tickTimer(); mock.tickMock(); tickSync(); }, 1000);
@@ -38,6 +46,7 @@ setInterval(() => { tickTimer(); mock.tickMock(); tickSync(); }, 1000);
 const ACTIONS = {
   nav: (el) => { App.screen = sectionScreen(el.dataset.section); App.expanded = null; },
   reload: () => location.reload(),
+  "keys-open": () => { toggleKeys(); return false; },   // false: nothing to redraw, and a redraw would take focus back from the sheet
   ...drill.actions,
   ...pbq.actions,
   ...lab.actions,
@@ -54,6 +63,7 @@ document.addEventListener("click", (e) => {
   const fn = ACTIONS[el.dataset.action];
   if (!fn) return;
   const r = fn(el);
+  if (r === false) return;
   if (r instanceof Promise) r.then(renderApp); else renderApp();
 });
 
@@ -63,13 +73,35 @@ document.addEventListener("change", (e) => {
   settings.change(t);
 });
 
+// A new question puts focus on its first option, so an Enter or Space meant for
+// the question before it (held, or mashed) would answer this one before it has
+// been read. A press on an option that follows another press by under 200 ms is
+// swallowed, and swallowing keeps the window open, so a held or mashed key never
+// gets through while a deliberate press after a pause always does. Only real
+// key presses are held back; a script's synthetic event activates nothing.
+const MASH_MS = 200;
+let lastPress = 0, swallowed = false;
+function mashed(e) {
+  if (!e.isTrusted || (e.key !== "Enter" && e.key !== " ")) return false;
+  const now = Date.now(), soon = now - lastPress < MASH_MS;
+  const onOption = document.activeElement?.classList?.contains("opt");
+  // The press that moves on from an answered question starts the window.
+  if (soon || (!onOption && App.screen === "drill-run" && App.answer)) lastPress = now;
+  return soon && onOption;
+}
+document.addEventListener("keyup", (e) => { if (swallowed) { e.preventDefault(); swallowed = false; } });
+
 document.addEventListener("keydown", (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
+  // With the sheet open nothing behind it answers a key; `?` closes it, Escape already does.
+  if (keysDialog.open) { if (e.key === "?") { e.preventDefault(); keysDialog.close(); } return; }
   const active = document.activeElement;
   const tag = active?.tagName;
   if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+  if (mashed(e)) { e.preventDefault(); swallowed = true; return; }
 
-  if (e.key === "?") { e.preventDefault(); toggleGloss(); return; }
+  if (e.key === "?") { e.preventDefault(); toggleKeys(); return; }
+  if (e.key.toLowerCase() === "x" && !e.repeat) { toggleGloss(); return; }
 
   // A focused diagram host opens on Enter or Space, as it would on a click.
   const node = active?.closest?.("[data-node]");

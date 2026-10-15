@@ -73,7 +73,14 @@ export function save() {
 const focusKey = (el) =>
   el && el !== document.body && el.id !== "main" ? `${el.tagName}|${el.id || ""}|${JSON.stringify(el.dataset)}` : null;
 
-function restoreFocus(key) {
+function restoreFocus(key, fresh) {
+  // A new question: the first option is where the next keystroke belongs. Only
+  // an unanswered question has options to land on; a recall card or a PBQ
+  // falls through to the usual rules below.
+  if (fresh && !document.querySelector(".verdict-banner")) {
+    const first = document.querySelector("#main .opt:not([disabled])");
+    if (first) { first.focus({ preventScroll: true }); return; }
+  }
   // Nothing had focus (a key pressed on the page itself): put it where the
   // next Tab makes sense, the verdict if one just landed, else the screen.
   if (!key) {
@@ -106,6 +113,16 @@ export function announce(text) {
   setTimeout(() => { el.textContent = text; }, 30);
 }
 
+// What is in front of you, so a render can tell a new question or screen from
+// the same one drawn again (a toggle, a tick, an answer).
+let shownView = null;
+function viewKey() {
+  const at = App.screen === "drill-run" ? App.queue[App.idx]
+    : App.screen === "mock-run" ? App.mock?.items[App.mock.idx]
+    : App.screen === "lab-run" ? { pbq: App.lab } : null;
+  return [App.screen, App.screen === "mock-run" ? App.mock?.idx : App.idx, at?.item?.id || at?.pbq?.id || at?.pbq || ""].join("|");
+}
+
 export function renderApp() {
   const root = document.getElementById("app");
   const had = focusKey(document.activeElement);
@@ -118,7 +135,13 @@ export function renderApp() {
 
   root.innerHTML = sidebarHtml(App) + `<main id="main" tabindex="-1">${SCREENS[App.screen](App)}</main>`;
   shownSync = sync.getStatus();
-  restoreFocus(had);
+  // A new question or screen starts at the top; the same one drawn again keeps
+  // its scroll. The first render of the page is not a change of view.
+  const view = viewKey();
+  const fresh = shownView !== null && view !== shownView;
+  shownView = view;
+  if (fresh) window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  restoreFocus(had, fresh);
   tickTimer();
 }
 

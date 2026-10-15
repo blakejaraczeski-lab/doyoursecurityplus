@@ -26,6 +26,12 @@ state against this before shipping it.
 
 **Contrast and size.** Body text 4.5:1 minimum against its own background, large
 text 3:1. `--ink-faint` is the floor and already at the limit, so nothing lighter.
+`scripts/check_materials.py` computes every text and `--on-accent` pair from the
+tokens in both themes and fails under 4.5:1. The dark theme's filled surfaces
+(accent, good, bad, warn) are pale, so `--on-accent` is dark ink there and white
+in the light theme; never write `#fff` on a fill. A screen recedes by tone (a
+lighter token step), never by `opacity`, which multiplies every label below the
+floor.
 Body is 16px: `--t-md` is the base and nothing below `--t-sm` carries meaning the
 reader must take in.
 
@@ -36,8 +42,12 @@ screen reader should not pay for it. Section labels use `<h2 class="eyebrow">`,
 which keeps the small-caps look without inventing an `h3` under an `h1`.
 
 **Focus.** Every interactive element shows `:focus-visible`. The drill screen is
-fully keyboard operable: A-F answer, G marks a guess, Enter continues, 1-4 grade
-a recall card, `?` toggles acronym expansions on every screen. On a PBQ, Enter
+fully keyboard operable: A-J answer, G marks a guess, S skips, Enter continues,
+1-4 grade a recall card. `?` opens the shortcut sheet (a native `<dialog>` in
+`index.html`, filled from `SHORTCUTS` in `app/ui/chrome.js`) and `X` toggles
+acronym expansions, on every screen. A new key is added to that list in the same
+change. A new question or screen starts at the top of the page, and a new
+question puts focus on its first option (`renderApp`). On a PBQ, Enter
 submits and then continues; on the click-to-place PBQs a letter holds a chip
 and a digit places it in that position or bucket, with the letters and digits
 drawn on the controls; a focused diagram host opens on Enter or Space. The ACL
@@ -51,7 +61,8 @@ change; it never decorates.
 
 **Targets.** Anything hit repeatedly is at least 44px tall and full width in its
 column. Answer options are 56px; nav rows, primary buttons, form controls and the
-guess toggle are 44px.
+guess toggle are 44px (the guess toggle is in `css/drill.css` and measured 33px
+when last checked: its owner fixes it, not this file).
 
 Two documented exemptions, both deliberate, both re-checked when touched:
 `.btn.small` (32px) for controls hit occasionally rather than every question, and
@@ -66,8 +77,11 @@ that PBQ. Neither surface is tapped on a phone.
   card variant per screen.
 - The mentor correction is the payoff of the whole app. It is visually distinct
   from ordinary cards and the rule of thumb is isolated inside it.
-- Chrome recedes during a drill. The sidebar dims, the column narrows and
-  centres. Nothing competes with the question.
+- Chrome recedes during a drill. The sidebar loses its panel and its labels drop
+  to `--ink-faint`, and the column narrows and centres. Nothing competes with the
+  question. Every section's column is centred in the space beside the sidebar.
+- The sidebar informs and never scolds: no warning glyph or colour for a streak,
+  a rest day or a date not yet set.
 - Numbers that matter are mono and large. Numbers that do not are `.faint`.
 
 ## Before you ship a screen

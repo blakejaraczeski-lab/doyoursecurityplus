@@ -149,3 +149,34 @@ export async function health() {
     return res.ok ? res.json() : null;
   } catch { return null; }
 }
+
+/**
+ * Ask the server for a safety copy of the data directory now. Never throws:
+ * { ok: true, backup } (backup is null when there was nothing to copy),
+ * { ok: false, unreachable: true } when the server cannot be asked, or
+ * { ok: false, error } when it answered that the copy could not be written.
+ */
+export async function takeBackup(label) {
+  try {
+    const res = await fetch("/api/backups", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ label }),
+    });
+    const body = await res.json().catch(() => ({}));
+    return res.ok ? { ok: true, backup: body.backup } : { ok: false, error: body.error || `status ${res.status}` };
+  } catch { return { ok: false, unreachable: true }; }
+}
+
+/**
+ * Erase the durable copy: the state, the log and the snapshots. The server
+ * writes a safety backup first and refuses to erase without one. Never throws;
+ * same result shape as takeBackup, with backupsDir on success.
+ */
+export async function eraseAll() {
+  try {
+    const res = await fetch("/api/progress?confirm=erase", { method: "DELETE" });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) return { ok: false, error: body.error || `status ${res.status}` };
+    version = 0;   // the server now holds nothing, so the next save is the first
+    return { ok: true, backup: body.backup, backupsDir: body.backupsDir };
+  } catch { return { ok: false, unreachable: true }; }
+}

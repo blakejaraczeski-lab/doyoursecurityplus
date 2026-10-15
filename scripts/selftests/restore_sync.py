@@ -32,6 +32,8 @@ def scenario_restore_and_sync(rep, tmp, browser):
           document.querySelector('[data-action=nav][data-section=settings]').click();
           document.querySelector('[data-action=import]').click();
         })(%s)""" % json.dumps(backup))
+        tab.wait_for("document.querySelector('[data-action=import-confirm]')")   # picking a file shows a summary; confirming replaces
+        tab.evaluate("document.querySelector('[data-action=import-confirm]').click()")
         landed = poll(lambda: mc in (on_disk(data).get("misconceptions") or {}), 8)
         rep.check(landed and "kept" not in on_disk(data)["misconceptions"],
                   "importing an old export replaces the server's saved document with it", f"({sorted(on_disk(data)['misconceptions'])})")

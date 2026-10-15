@@ -23,8 +23,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 import serve   # noqa: E402  the one place that knows where the data lives and how it is written
 
-BACKUPS = pathlib.Path(os.environ.get("DYSP_BACKUPS", pathlib.Path.home() / ".doyoursecurityplus-backups"))
-MEMBERS = ("state.json", "reviews.jsonl", "snapshots")
+BACKUPS = serve.BACKUPS_DIR
+MEMBERS = serve.BACKUP_MEMBERS
 
 
 def summary(state, rows, snaps):
@@ -37,19 +37,12 @@ def summary(state, rows, snaps):
 
 def backup(to=BACKUPS, label=""):
     """One tarball, named by the second and never over an existing one: a
-    safety copy taken while restoring must not land on the archive being read."""
-    to.mkdir(parents=True, exist_ok=True)
-    stem = f"dysp-{time.strftime('%Y%m%d-%H%M%S')}{'-' + label if label else ''}"
-    out = to / f"{stem}.tar.gz"
-    n = 1
-    while out.exists():
-        n += 1
-        out = to / f"{stem}-{n}.tar.gz"
-    with tarfile.open(out, "w:gz") as tar:
-        for name in MEMBERS:
-            p = serve.DATA_DIR / name
-            if p.exists():
-                tar.add(p, arcname=name)
+    safety copy taken while restoring must not land on the archive being read.
+    The archive itself is written by the server's own writer."""
+    out = serve._backup_tarball(to, label)
+    if out is None:
+        print(f"nothing to back up in {serve.DATA_DIR}")
+        return None
     snaps = len(list(serve.SNAP_DIR.glob("state-*.json"))) if serve.SNAP_DIR.exists() else 0
     print(f"backed up {serve.DATA_DIR}: {summary(serve._read_state(), serve._count_reviews(), snaps)}")
     print(f"{out.stat().st_size:,} bytes -> {out}")
@@ -106,7 +99,7 @@ def restore(path, yes=False):
     state = serve._read_state()
     state["updatedAt"] = int(time.time() * 1000)
     serve._write_state(state)
-    print(f"\nrestored {path.name} into {serve.DATA_DIR}; the previous data is in {safety.name}")
+    print(f"\nrestored {path.name} into {serve.DATA_DIR}; the previous data is in {safety.name if safety else '(there was none)'}")
     print("Reload any open doyoursecurityplus tab. One that is not reloaded is refused on its next save.")
     return 0
 

@@ -6,7 +6,9 @@
 <title>doyoursecurityplus</title>
 <link rel="stylesheet" href="fonts/plex.css">
 <link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/drill.css">
+<link rel="stylesheet" href="css/drill-session.css">
+<link rel="stylesheet" href="css/drill-question.css">
+<link rel="stylesheet" href="css/drill-feedback.css">
 <link rel="stylesheet" href="css/mentor.css">
 <link rel="stylesheet" href="css/lab.css">
 <link rel="stylesheet" href="css/acl.css">
@@ -14,12 +16,14 @@
 <link rel="stylesheet" href="css/order.css">
 <link rel="stylesheet" href="css/mock.css">
 <link rel="stylesheet" href="css/readiness.css">
+<link rel="stylesheet" href="css/bank.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-<div id="app" class="booting">Loading content...
-  <p class="faint">If this does not change, the page is not being served over http: run <span class="mono">python3 serve.py</span> and open the address it prints.</p></div>
+<dialog id="keys" class="sheet" aria-labelledby="keys-title"></dialog>
+<div id="app" class="booting">Loading
+  <p class="faint">If this does not change, the page was opened as a file. Run <span class="mono">python3 serve.py</span> and open the address it prints.</p></div>
 <script type="module" src="app/main.js"></script>
 </body>
 </html>

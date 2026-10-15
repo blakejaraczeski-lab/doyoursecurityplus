@@ -1,0 +1,21 @@
+/* Drill feedback: the verdict banner under an answered question. */
+
+.verdict-banner {
+  display: flex; gap: var(--s3); align-items: flex-start;
+  border-radius: var(--r2); padding: var(--s4); margin-bottom: var(--s4);
+  border: 1px solid var(--line); background: var(--panel);
+}
+.verdict-banner.yes { border-color: var(--good); background: var(--good-soft); }
+.verdict-banner.no,
+.verdict-banner.bad { border-color: var(--bad);  background: var(--bad-soft); }
+.verdict-banner.warn { border-color: var(--warn); background: var(--warn-soft); }
+.verdict-banner .mark {
+  flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%;
+  display: grid; place-items: center; color: var(--on-accent); font: 700 var(--t-sm)/1 var(--sans);
+}
+.verdict-banner.yes .mark { background: var(--good); }
+.verdict-banner.no .mark, .verdict-banner.bad .mark { background: var(--bad); }
+.verdict-banner.warn .mark { background: var(--warn); }
+.verdict-banner b { display: block; margin-bottom: 2px; }
+.verdict-banner p { margin: 0; color: var(--ink-dim); }
+.verdict-banner p + p { margin-top: var(--s2); }

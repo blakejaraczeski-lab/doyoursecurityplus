@@ -14,6 +14,9 @@ Serves the app, and holds the study data durably on disk as two resources:
                  when the browser already holds this version. A new file needs
                  no manifest, and a boot is one request for content.
   /api/health    what the Settings screen shows about the durable copy.
+  /api/progress  DELETE erases the state, the log and the snapshots, after a
+                 safety backup; if the backup cannot be written nothing is erased.
+  /api/backups   POST writes a safety backup of the data directory now.
 
 Why the server owns the data
 ----------------------------
@@ -24,7 +27,7 @@ storage, it is a cache. So the browser keeps using localStorage for speed and
 mirrors every change here a moment later. Every state write also lands in a
 timestamped snapshot, so a bad import or an accidental reset is recoverable.
 """
-import errno, http.server, json, os, sys, functools, gzip, hashlib, logging, logging.handlers, threading, time
+import errno, http.server, json, os, re, shutil, sys, functools, gzip, hashlib, logging, logging.handlers, tarfile, threading, time
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qs
 
@@ -35,6 +38,19 @@ STATE_FILE = DATA_DIR / "state.json"
 REVIEWS_FILE = DATA_DIR / "reviews.jsonl"
 SNAP_DIR = DATA_DIR / "snapshots"
 KEEP_SNAPSHOTS = 40
+# Backups live outside the data directory. A run on a named data directory
+# (DYSP_DATA) that names no backup directory keeps them beside it, so nothing
+# that tests or tries the server on a scratch directory writes into the real
+# ~/.doyoursecurityplus-backups.
+if os.environ.get("DYSP_BACKUPS"):
+    BACKUPS_DIR = Path(os.environ["DYSP_BACKUPS"])
+elif os.environ.get("DYSP_DATA"):
+    BACKUPS_DIR = DATA_DIR.with_name(DATA_DIR.name + "-backups")
+else:
+    BACKUPS_DIR = Path.home() / ".doyoursecurityplus-backups"
+BACKUP_MEMBERS = ("state.json", "reviews.jsonl", "snapshots")
+KEEP_SAFETY = 10   # safety backups kept, oldest dropped; a backup the person asked for is never dropped
+SAFETY_LABELS = ("before-reset", "before-import")
 MAX_BODY = 24 * 1024 * 1024
 
 _lock = threading.Lock()
@@ -96,6 +112,56 @@ def _write_state(state):
     os.replace(snap_tmp, snap)
     for old in sorted(SNAP_DIR.glob("state-*.json"))[:-KEEP_SNAPSHOTS]:
         old.unlink(missing_ok=True)
+
+
+def _backup_tarball(to=None, label=""):
+    """One dated tarball of the data directory, named by the second and never
+    over an existing one. Written whole under a temporary name, then checked
+    by reading it back, so a half written archive never looks like a backup.
+    Returns its path, or None when there is nothing to back up. The caller holds _lock."""
+    to = Path(to) if to else BACKUPS_DIR
+    present = [n for n in BACKUP_MEMBERS if (DATA_DIR / n).exists()]
+    if not present:
+        return None
+    to.mkdir(parents=True, exist_ok=True)
+    stem = f"dysp-{time.strftime('%Y%m%d-%H%M%S')}{'-' + label if label else ''}"
+    out = to / f"{stem}.tar.gz"
+    n = 1
+    while out.exists():
+        n += 1
+        out = to / f"{stem}-{n}.tar.gz"
+    tmp = out.with_name(out.name + ".tmp")
+    try:
+        with tarfile.open(tmp, "w:gz") as tar:
+            for name in present:
+                tar.add(DATA_DIR / name, arcname=name)
+        with tarfile.open(tmp) as tar:
+            held = {m.name.split("/")[0] for m in tar.getmembers()}
+        if held != set(present):
+            raise OSError("the backup does not hold what it should")
+        os.replace(tmp, out)
+    finally:
+        tmp.unlink(missing_ok=True)
+    return out
+
+
+def _prune_safety_backups():
+    mine = sorted((p for p in BACKUPS_DIR.glob("dysp-*.tar.gz") if any(f"-{l}" in p.name for l in SAFETY_LABELS)),
+                  key=lambda p: (p.stat().st_mtime_ns, p.name))
+    for old in mine[:-KEEP_SAFETY]:
+        old.unlink(missing_ok=True)
+
+
+def _erase_progress():
+    """The state document, the log and the snapshots. Only after a safety backup."""
+    for p in (STATE_FILE, STATE_FILE.with_suffix(".json.tmp"), REVIEWS_FILE):
+        p.unlink(missing_ok=True)
+    shutil.rmtree(SNAP_DIR, ignore_errors=True)
+
+
+def _newest_backup():
+    found = sorted(BACKUPS_DIR.glob("dysp-*.tar.gz"), key=lambda p: (p.stat().st_mtime_ns, p.name)) if BACKUPS_DIR.exists() else []
+    return found[-1] if found else None
 
 
 # --- content bundle ----------------------------------------------------------
@@ -229,8 +295,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def _json(self, code, obj):
         body = json.dumps(obj).encode()
+        zipped = len(body) > 1024 and "gzip" in self.headers.get("Accept-Encoding", "")
+        if zipped:
+            body = gzip.compress(body, 5)
         self.send_response(code)
         self.send_header("Content-Type", "application/json")
+        self.send_header("Vary", "Accept-Encoding")
+        if zipped:
+            self.send_header("Content-Encoding", "gzip")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
@@ -264,7 +336,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self._json(200, {"state": state, "updatedAt": state.get("updatedAt", 0)})
 
         if url.path == "/api/reviews":
-            since = int((parse_qs(url.query).get("since") or ["0"])[0] or 0)
+            try:
+                since = int((parse_qs(url.query).get("since") or ["0"])[0] or 0)
+            except ValueError:
+                return self._json(400, {"error": "since must be a whole number of milliseconds"})
             with _lock:
                 rows = _read_reviews(since)
             return self._json(200, {"reviews": rows})
@@ -274,11 +349,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 state = _read_state()
                 snaps = sorted(SNAP_DIR.glob("state-*.json")) if SNAP_DIR.exists() else []
                 summary = _summary(state)
+                newest = _newest_backup()
             return self._json(200, {
                 "ok": True,
                 "stateFile": str(STATE_FILE),
                 "snapshots": len(snaps),
                 "newestSnapshot": snaps[-1].name if snaps else None,
+                "backupsDir": str(BACKUPS_DIR),
+                "lastBackup": newest.name if newest else None,
+                "lastBackupAt": int(newest.stat().st_mtime * 1000) if newest else None,
                 **summary,
             })
 
@@ -359,11 +438,24 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         return self._json(200, {"ok": True, "updatedAt": incoming.get("updatedAt"), **summary})
 
     def do_POST(self):
-        if urlsplit(self.path).path != "/api/reviews":
+        path = urlsplit(self.path).path
+        if path not in ("/api/reviews", "/api/backups"):
             return self._json(404, {"error": "not found"})
         incoming, err = self._body()
         if err:
             return self._json(*err)
+        if path == "/api/backups":
+            label = incoming.get("label") if isinstance(incoming, dict) else None
+            if label not in SAFETY_LABELS:
+                return self._json(400, {"error": f"label must be one of {', '.join(SAFETY_LABELS)}"})
+            with _lock:
+                try:
+                    saved = _backup_tarball(label=label)
+                    _prune_safety_backups()
+                except OSError as e:
+                    LOG.warning(f"safety backup failed: {e}")
+                    return self._json(500, {"error": "could not write the safety backup"})
+            return self._json(200, {"ok": True, "backup": saved.name if saved else None})
         rows = incoming if isinstance(incoming, list) else [incoming]
         if not rows or not all(_valid_row(r) for r in rows):
             return self._json(400, {"error": "each row needs a numeric at and a kind"})
@@ -371,6 +463,25 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             landed = _append_reviews(rows)
             total = _count_reviews()
         return self._json(200, {"ok": True, "appended": landed, "total": total})
+
+    def do_DELETE(self):
+        url = urlsplit(self.path)
+        if url.path != "/api/progress":
+            return self._json(404, {"error": "not found"})
+        if parse_qs(url.query).get("confirm") != ["erase"]:
+            return self._json(400, {"error": "erasing progress needs confirm=erase"})
+        with _lock:
+            # The safety backup comes first and gates the erase: if it cannot
+            # be written, nothing is touched.
+            try:
+                saved = _backup_tarball(label="before-reset")
+                _prune_safety_backups()
+            except OSError as e:
+                LOG.warning(f"reset refused, safety backup failed: {e}")
+                return self._json(500, {"error": "could not write the safety backup, so nothing was erased"})
+            _erase_progress()
+        LOG.info(f"progress erased; safety backup {saved.name if saved else 'not needed, nothing was saved'}")
+        return self._json(200, {"ok": True, "backup": saved.name if saved else None, "backupsDir": str(BACKUPS_DIR)})
 
     def log_message(self, fmt, *args):
         msg = fmt % args

@@ -15,12 +15,15 @@ const KEY = SCRATCH ? "dysp.scratch.reviews" : "dysp.v1.outbox";
 const WINDOW_MS = 30 * 86400000;
 const DEBOUNCE_MS = 1500;
 const SCRATCH_CAP = 2000;
+const SILENT_AFTER = 40;    // answers before the guess control's silence means anything
+const SILENT_BELOW = 0.05;  // a guess share under this is silence
 
 let recent = [];   // rows inside the window, oldest first
 let session = null; // the start of the study session in progress; every row carries it as `s`
 let outbox = [];   // rows the server has not accepted yet
 let timer = null;
 let inFlight = false;
+let flying = null;  // the request in flight, so a caller can wait for it
 
 const readKey = () => { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { return []; } };
 const writeKey = () => { try { localStorage.setItem(KEY, JSON.stringify(SCRATCH ? outbox.slice(-SCRATCH_CAP) : outbox)); } catch {} };
@@ -90,18 +93,76 @@ function schedule() {
 /** Send the outbox now. Safe to call on visibilitychange: the body is small. */
 export async function flush() {
   clearTimeout(timer);
-  if (SCRATCH || inFlight || !outbox.length) return;
+  if (SCRATCH || !outbox.length) return;
+  if (inFlight) return flying;
   const batch = outbox.slice();
   inFlight = true;
-  try {
-    const res = await fetch(ENDPOINT, {
-      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(batch), keepalive: batch.length < 50,
-    });
-    if (res.ok) { outbox = outbox.slice(batch.length); writeKey(); }
-  } catch {} finally {
-    inFlight = false;
-    if (outbox.length) schedule();
+  flying = (async () => {
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(batch), keepalive: batch.length < 50,
+      });
+      if (res.ok) { outbox = outbox.slice(batch.length); writeKey(); }
+    } catch {} finally {
+      inFlight = false;
+      if (outbox.length) schedule();
+    }
+  })();
+  return flying;
+}
+
+/** Rows this browser holds that the server has not accepted yet. */
+export const unsent = () => outbox.length;
+
+/** Stop sending and wait for any request already on its way, before something erases the log. */
+export async function quiesce() {
+  clearTimeout(timer);
+  await flying;
+}
+
+/** The log is gone from the server: forget it here too, including what was waiting to be sent. */
+export function clear() {
+  clearTimeout(timer);
+  recent = [];
+  outbox = [];
+  session = null;
+  writeKey();
+}
+
+// The server's own key for a row (serve.py _row_key): an exact copy is one row.
+const rowKey = (r) => JSON.stringify(Object.fromEntries(Object.entries(r).sort(([a], [b]) => (a < b ? -1 : 1))));
+
+/**
+ * Take rows from an export. Rows this browser already holds are skipped; the
+ * server skips the ones it holds too. Returns how many were new here.
+ */
+export function adopt(rows, now = Date.now()) {
+  const held = new Set([...recent, ...outbox].map(rowKey));
+  const fresh = rows.filter((r) => !held.has(rowKey(r)));
+  if (!fresh.length) return 0;
+  outbox.push(...fresh);
+  recent = [...recent, ...fresh.filter((r) => inWindow(r, now))].sort((a, b) => a.at - b.at);
+  writeKey();
+  return fresh.length;
+}
+
+/**
+ * Every row the server holds, not just the recent window, for an export, plus
+ * what is still waiting to be sent. complete is false when the server could not
+ * be asked: the rows are then only what this browser has.
+ */
+export async function everything() {
+  let held = [], complete = false;
+  if (!SCRATCH) {
+    try {
+      const res = await fetch(`${ENDPOINT}?since=0`, { cache: "no-store" });
+      if (res.ok) { held = (await res.json()).reviews || []; complete = true; }
+    } catch {}
   }
+  const out = complete ? held : [...recent];
+  const have = new Set(out.map(rowKey));
+  for (const r of outbox) if (!have.has(rowKey(r))) { out.push(r); have.add(rowKey(r)); }
+  return { rows: out.sort((a, b) => a.at - b.at), complete };
 }
 
 const MAX_ANSWER_MS = 5 * 60e3;   // a tab left open is not five hours of study
@@ -163,9 +224,16 @@ export function calibrationOf(list) {
   }
   const sure = sureRight + sureWrong;
   const guess = guessRight + guessWrong;
+  const guessShare = sure + guess ? guess / (sure + guess) : 0;
   return {
     sureRight, sureWrong, guessRight, guessWrong,
     answered: sure + guess,
+    guessShare,
+    // Silence is not confidence. A learner who never marks a guess is logged
+    // "sure" on every answer, so past 40 answers with almost no guesses the
+    // sure-and-wrong rate cannot tell a held belief from a blank. A reader
+    // should say so rather than show that rate as a finding.
+    silent: sure + guess >= SILENT_AFTER && guessShare < SILENT_BELOW,
     overconfidence: sure ? sureWrong / sure : 0,   // claimed sure, got it wrong
     fragile: guess ? guessRight / guess : 0,       // guessed, got it right
   };

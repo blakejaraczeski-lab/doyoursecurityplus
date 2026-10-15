@@ -1,0 +1,12 @@
+/* The mentor bank: filter chips, one open correction, cleared corrections as proof. */
+.bank-filters { display: flex; flex-direction: column; gap: var(--s2); margin-bottom: var(--s4); }
+.bank-chip { max-width: 100%; text-align: left; }
+.bank-chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+
+/* An open correction is one card, flagged on the left like the row it replaced. */
+.bank-open { border-left: 3px solid var(--line); padding-left: var(--s3); margin-bottom: var(--s4); }
+.bank-open.due { border-left-color: var(--bad); }
+.bank-open .card.mentor { margin-top: var(--s3); }
+
+.bank-cleared h3 { font-size: var(--t-sm); margin: var(--s4) 0 var(--s2); color: var(--ink-dim); }
+.bank-group .bank-open { margin-top: var(--s3); }

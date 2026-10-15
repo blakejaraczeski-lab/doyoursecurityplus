@@ -32,9 +32,22 @@ function goalRing(done, goal) {
 }
 
 
+/**
+ * The streak line. It is information, never an alarm: a lapsed streak shows the
+ * best one rather than a warning on a zero, and a rest day (the streak intact
+ * but not extended today) says so. `restDay` and `best` come from
+ * store.streakStatus; a record without them still reads.
+ */
+export function streakStat(st) {
+  const days = (n) => `${n}<span class="u">d</span>`;
+  if (!st.current && st.best) return { label: "Best streak", value: days(st.best), tone: "" };
+  if (st.restDay && !st.studiedToday) return { label: "Streak, rest day", value: days(st.current), tone: "" };
+  return { label: "Streak", value: days(st.current || 0), tone: st.studiedToday ? "good" : "" };
+}
+
 export function sidebarHtml(App) {
   const due = mentor.due(App.state, App.content).length;
-  const st = store.streakStatus(App.state);
+  const streak = streakStat(store.streakStatus(App.state));
   const done = reviews.today();
   const goal = App.state.profile.dailyReviewGoal || 40;
   const days = App.state.profile.examDate ? mentor.daysUntilExam(App.state) : null;
@@ -63,14 +76,16 @@ export function sidebarHtml(App) {
     <div class="side-stats">
       ${goalRing(done, goal)}
       <dl class="stat-rows">
-        ${stat("Streak", `${st.current}<span class="u">d</span>`,
-               st.studiedToday ? "good" : st.alive ? "" : "warn")}
+        ${stat(streak.label, streak.value, streak.tone)}
         ${days != null
           ? stat("To exam", `${days}<span class="u">d</span>`, days <= 14 ? "warn" : "")
-          : stat("Exam date", "not set", "warn")}
+          : stat("Exam date", "not set")}
       </dl>
     </div>
-    <div class="sidebar-foot" id="sync-foot">${syncFootHtml()}</div>
+    <div class="sidebar-foot">
+      <span class="sync" id="sync-foot">${syncFootHtml()}</span>
+      <button class="keys-open" data-action="keys-open" aria-label="Keyboard shortcuts"><span class="kbd">?</span></button>
+    </div>
   </aside>`;
 }
 
@@ -85,4 +100,36 @@ const SYNC_TEXT = {
 export function syncFootHtml() {
   const [cls, text] = SYNC_TEXT[sync.getStatus()] || SYNC_TEXT.unknown;
   return `<span class="dot ${cls}"></span><span>${esc(text)}</span>`;
+}
+
+// Every key the app answers to, by where it works. The sheet is the one list a
+// learner can open (`?`), so a key added to a screen is added here too.
+const SHORTCUTS = [
+  ["Anywhere", [
+    ["?", "Show or hide this sheet"],
+    ["X", "Spell out every acronym in place; press again to put them back"],
+    ["Esc", "Close this sheet"],
+  ]],
+  ["A question", [
+    ["A to J", "Pick that option; on a choose-two, check or uncheck it"],
+    ["Enter", "Submit a choose-two once you have picked them all, or move on after an answer"],
+    ["G", "Mark your answer as a guess, before you answer"],
+    ["S", "Skip; it comes back on its own schedule"],
+  ]],
+  ["A recall card", [
+    ["Space", "Reveal the answer"],
+    ["1 to 4", "Grade it: again, hard, good, easy"],
+  ]],
+  ["A lab", [
+    ["Enter", "Submit your answer, then move on"],
+    ["A to J", "Pick up a chip in the ordering and sorting labs"],
+    ["1 to 9", "Put the chip you are holding in that position or column"],
+  ]],
+];
+
+export function shortcutSheetHtml() {
+  const groups = SHORTCUTS.map(([title, rows]) => `<h3 class="eyebrow">${esc(title)}</h3>
+    <dl class="keys">${rows.map(([k, what]) => `<dt><span class="kbd">${esc(k)}</span></dt><dd>${esc(what)}</dd>`).join("")}</dl>`).join("");
+  return `<div class="sheet-body"><h2 id="keys-title" tabindex="-1" autofocus>Keyboard shortcuts</h2>${groups}
+    <form method="dialog"><button class="btn">Close</button></form></div>`;
 }

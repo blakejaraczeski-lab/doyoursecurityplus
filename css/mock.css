@@ -28,3 +28,42 @@
 .end-choices { display: grid; grid-template-columns: auto 1fr; gap: var(--s3) var(--s4); align-items: center; margin: var(--s3) 0 0; }
 .end-choices dd { margin: 0; }
 @media (max-width: 560px) { .end-choices { grid-template-columns: 1fr; } }
+
+/* The exam's action row stays on screen: Back, Next, Flag and Review are in reach on a tall PBQ. */
+.mock-actions {
+  position: sticky; bottom: 0; z-index: 4;
+  display: flex; justify-content: space-between; align-items: center; gap: var(--s3); flex-wrap: wrap;
+  background: var(--bg); border-top: 1px solid var(--line);
+  margin: var(--s5) calc(var(--s7) * -1) calc(var(--s7) * -1);
+  padding: var(--s3) var(--s7);
+}
+@media (max-width: 900px) { .mock-actions { margin: var(--s5) calc(var(--s4) * -1) calc(var(--s4) * -1); padding: var(--s3) var(--s4); } }
+
+/* The result's review: every question, a miss or blank open to its reasons. */
+.rev-list { display: grid; gap: var(--s2); }
+.rev-item { border: 1px solid var(--line); border-radius: var(--r2); background: var(--panel-2); }
+.rev-item > summary {
+  display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap;
+  padding: var(--s3) var(--s4); cursor: pointer; list-style: none; min-height: 44px;
+}
+.rev-item > summary::-webkit-details-marker { display: none; }
+.rev-item[data-state=miss] { border-color: var(--bad); border-width: 2px; }
+.rev-item[data-state=blank] { border-style: dashed; }
+.rev-state { font: 650 var(--t-xs)/1 var(--sans); text-transform: uppercase; letter-spacing: .06em; min-width: 7rem; }
+.rev-q { font: 600 var(--t-sm)/1 var(--mono); color: var(--ink-dim); }
+.rev-title { flex: 1 1 14rem; min-width: 0; }
+.rev-body { padding: 0 var(--s4) var(--s4); display: grid; gap: var(--s2); }
+.rev-body .stem { font-size: var(--t-md); margin-bottom: var(--s2); }
+.rev-opt {
+  display: grid; grid-template-columns: 1.4rem 1fr; gap: var(--s3);
+  padding: var(--s3); border: 1px solid var(--line); border-radius: var(--r2);
+  color: var(--ink-dim);
+}
+.rev-opt.correct { border-color: var(--good); background: var(--good-soft); border-width: 2px; color: var(--ink); }
+.rev-opt.picked-wrong { border-color: var(--bad); background: var(--bad-soft); border-width: 2px; }
+.rev-glyph { font: 700 var(--t-lg)/1.2 var(--sans); }
+.rev-label { font: 650 var(--t-xs)/1 var(--sans); text-transform: uppercase; letter-spacing: .06em; margin-left: var(--s2); }
+.rev-why { margin: var(--s1) 0 0; font-size: var(--t-sm); }
+.rev-opt.correct .rev-why { color: var(--ink); }
+.rev-group > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+.rev-group[open] > summary { margin-bottom: var(--s3); }

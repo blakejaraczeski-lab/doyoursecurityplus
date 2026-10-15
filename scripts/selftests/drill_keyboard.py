@@ -156,7 +156,7 @@ def scenario_keyboard(rep, tmp, browser):
         # The mock: a chosen option is pressed, the review grid speaks its states.
         tab.evaluate("App.lab = null; document.querySelector('[data-action=nav][data-section=mock]').click();"
                      "document.querySelector('[data-action=mock-select][data-format=short]').click(); document.querySelector('[data-action=mock-start]').click();"
-                     "App.mock.idx = App.mock.items.findIndex((e) => e.kind === 'item');"
+                     "App.mock.idx = App.mock.items.findIndex((e) => e.kind === 'item' && e.item.type === 'mcq');"
                      "document.querySelector('[data-action=nav][data-section=mock]').click()")
         focus("[data-action=mock-answer][data-opt=a]")
         enter()

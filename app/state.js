@@ -40,6 +40,15 @@ const dayBefore = (iso) => {
   return today(d);
 };
 
+// Whole calendar days from one date to another, noon to noon so a clock change
+// never turns two days into one or three.
+const daysBetween = (fromIso, toIso) =>
+  Math.round((new Date(`${toIso}T12:00:00`) - new Date(`${fromIso}T12:00:00`)) / 86400000);
+
+// A short break does not end a streak: studying again within this many days of
+// the last study day carries it on. A longer gap starts a new one; the best stays.
+const REST_DAYS = 3;
+
 /**
  * Record that studying happened today and recompute the streak.
  * Called on every review; cheap and idempotent within a day.
@@ -49,24 +58,33 @@ export function touchStreak(state, now = new Date()) {
   const s = (state.streak ||= structuredClone(DEFAULT_STATE.streak));
   if (s.lastStudied === t) return s;
 
-  s.current = s.lastStudied === dayBefore(t) ? (s.current || 0) + 1 : 1;
+  const gap = s.lastStudied ? daysBetween(s.lastStudied, t) : Infinity;
+  s.current = gap >= 1 && gap <= REST_DAYS ? (s.current || 0) + 1 : 1;
   s.best = Math.max(s.best || 0, s.current);
   s.lastStudied = t;
   s.days = [...new Set([...(s.days || []), t])].slice(-120);
   return s;
 }
 
-/** Is the streak still alive, or was the last session before yesterday? */
+/**
+ * Where the streak stands. It stays intact for REST_DAYS after the last study
+ * day, so a day or two away is a rest and not a loss: restDay is true then, the
+ * streak still counts and today has not extended it. Past that it reads 0, and
+ * best is kept.
+ */
 export function streakStatus(state, now = new Date()) {
   const s = state.streak || {};
   const t = today(now);
-  if (!s.lastStudied) return { current: 0, best: s.best || 0, studiedToday: false, alive: false };
-  const alive = s.lastStudied === t || s.lastStudied === dayBefore(t);
+  if (!s.lastStudied) return { current: 0, best: s.best || 0, studiedToday: false, alive: false, restDay: false };
+  const gap = daysBetween(s.lastStudied, t);
+  const alive = gap >= 0 && gap <= REST_DAYS;
+  const studiedToday = s.lastStudied === t;
   return {
     current: alive ? s.current || 0 : 0,
     best: s.best || 0,
-    studiedToday: s.lastStudied === t,
+    studiedToday,
     alive,
+    restDay: alive && !studiedToday,
   };
 }
 
@@ -147,19 +165,53 @@ export function applyItemReview(state, itemId, grade, now = Date.now()) {
   return rec;
 }
 
-export const exportState = (state) => JSON.stringify(state, null, 2);
+// An export is the whole record: the state document and every answer in the log.
+const EXPORT_FORMAT = "doyoursecurityplus-export";
+const validRow = (r) => r && typeof r === "object" && typeof r.at === "number" && typeof r.kind === "string";
 
+export const exportState = (state, rows = []) =>
+  JSON.stringify({ format: EXPORT_FORMAT, version: 3, exportedAt: Date.now(), state, reviews: rows });
+
+/**
+ * Read an export. Takes the current file ({format, state, reviews}) and the
+ * older one, which was the bare state document. Returns the migrated state,
+ * the log rows it carries and how many rows were not rows.
+ */
 export function importState(json) {
-  const parsed = JSON.parse(json);
-  if (!parsed || typeof parsed !== "object" || !("misconceptions" in parsed)) {
+  let parsed;
+  try { parsed = JSON.parse(json); } catch { parsed = null; }
+  const doc = parsed && typeof parsed === "object" && parsed.format === EXPORT_FORMAT ? parsed.state : parsed;
+  if (!doc || typeof doc !== "object" || !("misconceptions" in doc)) {
     throw new Error("That file is not a doyoursecurityplus progress export");
   }
-  return migrate(parsed);
+  const all = parsed.format === EXPORT_FORMAT && Array.isArray(parsed.reviews) ? parsed.reviews : [];
+  const rows = all.filter(validRow);
+  return { state: migrate(doc), rows, skipped: all.length - rows.length };
 }
 
 export function resetState() {
   localStorage.removeItem(KEY);
   return structuredClone(DEFAULT_STATE);
+}
+
+const EXAM_MAX_MONTHS = 18;
+
+/**
+ * Why an exam date cannot be used, or null. An empty date is allowed: it clears
+ * the date. Today is allowed (the exam is today); the past and a date more than
+ * 18 months out are typos far more often than plans.
+ */
+export function examDateProblem(value, now = new Date()) {
+  if (!value) return null;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || Number.isNaN(Date.parse(`${value}T12:00:00`))) {
+    return "That is not a date. Use the date picker.";
+  }
+  const t = today(now);
+  if (value < t) return "That date has already passed. Pick today or a later day.";
+  const limit = new Date(now);
+  limit.setMonth(limit.getMonth() + EXAM_MAX_MONTHS);
+  if (value > today(limit)) return `That is more than ${EXAM_MAX_MONTHS} months away. Pick a nearer date.`;
+  return null;
 }
 
 /**

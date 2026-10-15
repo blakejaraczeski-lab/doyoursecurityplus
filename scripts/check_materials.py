@@ -93,6 +93,39 @@ for m in re.finditer(r"([^{}]+)\{([^{}]*)\}", body):
 for sel in sorted(set(CARRIERS) - seen):
     fails.append(f"CARRIERS lists a rule that is not colour-only any more: {sel}")
 
+# Contrast, from the tokens themselves. Text on every surface it is drawn on
+# reaches 4.5:1 in both themes, and the ink on a filled accent, good, bad or
+# warn surface (--on-accent) does too. The dark palette is the usual casualty:
+# a light fill under white ink fails, so the dark block sets dark ink.
+def _tokens(block):
+    return {k: v.lower() for k, v in re.findall(r"(--[\w-]+)\s*:\s*(#[0-9a-fA-F]{6})\b", block)}
+
+def _lum(hexv):
+    c = [int(hexv[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    c = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+def _ratio(a, b):
+    hi, lo = sorted((_lum(a), _lum(b)), reverse=True)
+    return (hi + 0.05) / (lo + 0.05)
+
+_raw = re.sub(r"/\*.*?\*/", "", (ROOT / "css" / "base.css").read_text(), flags=re.S)
+_blocks = re.findall(r":root\s*\{([^}]*)\}", _raw)
+if len(_blocks) >= 2:
+    light = _tokens(_blocks[0])
+    themes = {"light": light, "dark": {**light, **_tokens(_blocks[1])}}
+    SURFACES = ("--bg", "--panel", "--panel-2", "--panel-3")
+    SOFT = {"--accent": "--accent-soft", "--good": "--good-soft", "--bad": "--bad-soft", "--warn": "--warn-soft"}
+    for theme, t in themes.items():
+        pairs = [("--on-accent", f) for f in ("--accent", "--good", "--bad", "--warn")]
+        pairs += [(ink, s) for ink in ("--ink", "--ink-dim", "--ink-faint") for s in SURFACES + tuple(SOFT.values())]
+        pairs += [(fg, s) for fg, soft in SOFT.items() for s in ("--panel", soft)]
+        for fg, bg in pairs:
+            if fg in t and bg in t and _ratio(t[fg], t[bg]) < 4.5:
+                fails.append(f"contrast {_ratio(t[fg], t[bg]):.2f}:1 under 4.5 in {theme}: {fg} on {bg}")
+else:
+    fails.append("contrast: expected the light and dark :root token blocks in css/base.css")
+
 # Motion stays under 150 ms: every duration in a transition or animation, and
 # the --dur token itself, wherever it is declared.
 for i, line in enumerate(css.splitlines(), 1):

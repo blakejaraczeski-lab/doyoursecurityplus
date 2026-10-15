@@ -47,11 +47,13 @@ const probe = Object.keys(content.misconceptions).find((id) => {
 });
 const items = mentor.itemsFor(probe, content, { misconceptions: {} }).mcqs;
 mentor.bank(s2, probe, items[0].id);
-mentor.pass(s2, probe, items[1].id, content);
+const t = Date.now();
+mentor.pass(s2, probe, items[1].id, content, t);
 const afterOne = s2.misconceptions[probe].retired;
-mentor.pass(s2, probe, items[1].id, content); // same item again, must not count
+mentor.pass(s2, probe, items[1].id, content, t); // same item again, must not count
 const afterRepeat = s2.misconceptions[probe].retired;
-mentor.pass(s2, probe, items[0].id, content); // a genuinely different item
+// A genuinely different item, once the relearn step has passed: the two passes are never back to back.
+mentor.pass(s2, probe, items[0].id, content, s2.misconceptions[probe].countAfter);
 const afterTwo = s2.misconceptions[probe].retired;
 check(!afterOne, `one clean pass does not retire "${probe}"`);
 check(!afterRepeat, `repeating the same item does not count toward retirement`);

@@ -1,0 +1,39 @@
+/* Drill session: the session bar, the exam-date bar, the contrast and repair banners. */
+
+/* ---------- session header ----------------------------------------------- */
+.session-bar {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--bg);
+  margin: calc(var(--s6) * -1) calc(var(--s7) * -1) var(--s5);
+  padding: var(--s3) var(--s7);
+  border-bottom: 1px solid var(--line);
+}
+.session-bar .meta {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: var(--s4); font-size: var(--t-sm); color: var(--ink-dim); margin-bottom: var(--s2);
+}
+.session-bar .meta b { color: var(--ink); font-weight: 620; }
+
+/* The one setting every interval depends on. Sits above the question until
+   it is set, then disappears. */
+.exam-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
+  flex-wrap: wrap; padding: var(--s3) var(--s4); margin-bottom: var(--s4);
+  border: 1px solid var(--warn); background: var(--warn-soft); border-radius: var(--r2);
+  font-size: var(--t-sm); color: var(--ink-dim);
+}
+.exam-bar b { color: var(--warn); }
+.exam-bar label { max-width: var(--measure); }
+
+.drill-banner {
+  display: grid; gap: 2px; padding: var(--s3) var(--s4); margin-bottom: var(--s4);
+  border-radius: var(--r2); background: var(--accent-soft);
+  border: 1px solid var(--accent); font-size: var(--t-sm);
+}
+.drill-banner b { color: var(--accent); }
+.drill-banner.repair { background: var(--warn-soft); border-color: var(--warn); }
+.drill-banner.repair b { color: var(--warn); }
+
+@media (max-width: 900px) {
+  .session-bar { margin: calc(var(--s4) * -1) calc(var(--s4) * -1) var(--s4); padding: var(--s3) var(--s4); }
+}

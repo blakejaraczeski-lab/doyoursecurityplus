@@ -6,7 +6,9 @@
 <title>doyoursecurityplus self test</title>
 <link rel="stylesheet" href="fonts/plex.css">
 <link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/drill.css">
+<link rel="stylesheet" href="css/drill-session.css">
+<link rel="stylesheet" href="css/drill-question.css">
+<link rel="stylesheet" href="css/drill-feedback.css">
 <link rel="stylesheet" href="css/mentor.css">
 <link rel="stylesheet" href="css/lab.css">
 <link rel="stylesheet" href="css/acl.css">
@@ -14,6 +16,7 @@
 <link rel="stylesheet" href="css/order.css">
 <link rel="stylesheet" href="css/mock.css">
 <link rel="stylesheet" href="css/readiness.css">
+<link rel="stylesheet" href="css/bank.css">
 <style>
   body { padding: 2rem; }
   main { max-width: 900px; }
@@ -151,8 +154,8 @@ say("<b>Templates carry no inline styling</b>");
 say('  <span class="dim">a style attribute may set custom properties (data), never colour or spacing</span>');
 // Every module that holds markup or handlers. A new module under app/ui/ or
 // app/screens/ is added here, or the two checks below do not see it.
-const SCREEN_FILES = ["bank", "drill", "lab", "mock", "pbq", "settings"].map((n) => `app/screens/${n}.js`);
-const VIEW_FILES = ["bank", "chrome", "common", "drill", "lab", "mock", "pbq", "readiness", "settings"].map((n) => `app/ui/${n}.js`);
+const SCREEN_FILES = ["bank", "drill", "drill-answer", "drill-flow", "lab", "mock", "mock-store", "pbq", "pbq-acl", "pbq-diagram", "pbq-order", "pbq-wireless", "settings", "sheet"].map((n) => `app/screens/${n}.js`);
+const VIEW_FILES = ["bank", "chrome", "common", "drill", "drill-feedback", "drill-question", "drill-session", "lab", "mock", "mock-result", "pbq", "pbq-acl", "pbq-common", "pbq-diagram", "pbq-order", "pbq-wireless", "readiness", "settings"].map((n) => `app/ui/${n}.js`);
 const APP_FILES = ["app/main.js", "app/app.js", ...VIEW_FILES, ...SCREEN_FILES];
 for (const f of APP_FILES) {
   const src = await fetch(`./${f}`, { cache: "no-store" }).then((x) => x.text());
